@@ -3,6 +3,10 @@
 
 This is the submission repository for the [Re**Science** journal](https://github.com/ReScience/ReScience/wiki).
 
+### Minimal change
+
+Testing submission pull request
+
 
 ### How to submit an article ?
 

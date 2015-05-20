@@ -26,20 +26,26 @@ This is the submission repository for the [Re**Science** journal](https://github
    $ git push origin BRANCH-NAME
    ```
 
-5. Make your modifications (code & article) and commit them
+5. Set upstream branch
+
+   ```
+   $ git push --set-upstream origin BRANCH-NAME
+   ```
+
+6. Make your modifications (code & article) and commit them
 
    ```
    $ git commit -a -m "Some comment"
    ```
 
-6. Push your modifications on github
+7. Push your modifications on github
 
    ```
    $ git push
    ```
 
-6. Issue a Pull Request to this repository from the github interface
+8. Issue a Pull Request to this repository from the github interface
 
-7. Read and reply any editor or reviewers comments and requests
+9. Read and reply any editor or reviewers comments and requests
 
-8. You're done (accepted or rejected)
+10. You're done (accepted or rejected)

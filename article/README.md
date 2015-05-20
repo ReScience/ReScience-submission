@@ -1,7 +1,3 @@
-### ReScience submission repository
-
-This is the submission repository for the [Re**Science** journal](https://github.com/ReScience/ReScience/wiki).
-
 ### How to build the PDF ?
 
 In a console, type:

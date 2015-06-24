@@ -56,13 +56,13 @@ experiments over 120 trials that would be too slow for regular python.
 # Methods
 
 We used the description of the model in the original article as well as the
-sources of the model (requested from author) that are made of hundred files and
-6,000 lines of Delphi for the main source. We've been unable to compile this
-original implementation but we're able to run the provided Windows executable.
-We found some factual errors in the original article that have been corrected
-in this implementation. We provide below the formal description of the model
-according to the proposition of Nordlie et al. [@nordlie:2009] for reproducible
-descriptions of neuronal network models.
+sources of the model (requested from author) that are made of a hundred files
+and 6,000 lines of Delphi for the main source. We've been unable to compile
+this original implementation but we're able to run the provided Windows
+executable. We found some factual errors in the original article that have
+been corrected in this implementation. We provide below the formal description
+of the model according to the proposition of Nordlie et al. [@nordlie:2009]
+for reproducible descriptions of neuronal network models.
 
 Table              Description
 ------------------ ------------------------------------------------------------------
@@ -214,13 +214,13 @@ original article [@guthrie:2013].
 We first reproduce the activity in the cortical populations during a single
 trial, prior to learning. Noise has a great influence on the overall dynamic
 and it is not possible to exactly reproduce figure 4 in the original article
-without precise information on the underlying random generator
-(seed). Consequently, we can only report a qualitatively equivalent figure
-where the most critical feature is the bifurcation in cognitive and motor
-activities after stimulus onset. Since no learning has occured yet, it is also
-possible to have the motor decision to occur before the cognitive decision.
-Figure 1 shows an example of a decision dynamic with an oscillatory regime
-between time t=0 and time t=500ms that is characteristic of the model.
+without precise information on the underlying random generator(seed).
+Consequently, we can only report a qualitatively equivalent figure where the
+most critical feature is the bifurcation in cognitive and motor activities
+after stimulus onset. Since no learning has occured yet, it is also possible
+to have the motor decision to occur before the cognitive decision. Figure 1
+shows an example of a decision dynamic with an oscillatory regime between
+time t=0 and time t=500ms that is characteristic of the model.
 
 ![**Activity in the cortical population during a single trial of action selection.**
   This is the reproduction of figure 4 of the original article.](../code/figure-1.pdf)
@@ -238,7 +238,7 @@ to enforce it.
 # Conclusion
 
 We were able to reproduce original results, confirming the correctness of the
-original implementation of the model.
+results of the original implementation of the model.
 
 
 # References

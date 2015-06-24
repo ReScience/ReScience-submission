@@ -206,7 +206,7 @@ Table: Environment
 
 
 # Results
-
+    
 We did not reproduce all analysis of the original article but concentrate our
 efforts on the main results which are illustrated on figures 4 & 5 in the
 original article [@guthrie:2013].

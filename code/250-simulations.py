@@ -251,4 +251,4 @@ plt.ylim(0,1.0)
 plt.xlim(1,120)
 plt.savefig("figure-2.pdf")
 plt.show()
-sys.exit()
+

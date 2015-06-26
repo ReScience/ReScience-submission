@@ -62,7 +62,7 @@ cues_cog = np.array([0,1,2,3])
 cues_value = np.ones(4) * 0.5
 cues_reward = np.array([3.0,2.0,1.0,0.0])/3.0
 
-def set_trial():
+def start_trial():
     global cues_mot, cues_cog, cues_values, cues_reward
 
     np.random.shuffle(cues_cog)
@@ -81,7 +81,12 @@ def set_trial():
     CTX.ass.Iext[c1*4+m1] = v + np.random.normal(0,v*noise)
     CTX.ass.Iext[c2*4+m2] = v + np.random.normal(0,v*noise)
 
+def stop_trial():
+    CTX.mot.Iext = 0
+    CTX.cog.Iext = 0
+    CTX.ass.Iext = 0
 
+    
 def iterate(dt):
     global connections, structures
 
@@ -108,8 +113,11 @@ for j in range(1):
     reset()
     for i in xrange(0,500):
         iterate(dt)
-    set_trial()
-    for i in xrange(500,3000):
+    start_trial()
+    for i in xrange(500,2500):
+        iterate(dt)
+    stop_trial()
+    for i in xrange(2500,3000):
         iterate(dt)
 
 

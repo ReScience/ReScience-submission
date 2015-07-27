@@ -84,22 +84,22 @@ Recordings         Firing rate & performances
 Table: Model description following [@nordlie:2009] prescription.
 
 
-Name                 Elements          Size           Threshold Noise Initial state
--------------------- ----------------- -------------- --------- ----- -------------
-Cortex motor         Linear neuron     $1 \times 4$   -3        1.0%  0.0
-Cortex cognitive     Linear neuron     $4 \times 1$   -3        1.0%  0.0
-Cortex associative   Linear neuron     $4 \times 4$   -3        1.0%  0.0
-Striatum motor       Sigmoidal neuron  $1 \times 4$   0         0.1%  0.0
-Striatum cognitive   Sigmoidal neuron  $4 \times 1$   0         0.1%  0.0
-Striatum associative Sigmoidal neuron  $4 \times 4$   0         0.1%  0.0
-GPi motor            Linear neuron     $1 \times 4$   +10       3.0%  0.0
-GPi cognitive        Linear neuron     $4 \times 1$   +10       3.0%  0.0
-STN motor            Linear neuron     $1 \times 4$   -10       0.1%  0.0
-STN cognitive        Linear neuron     $4 \times 1$   -10       0.1%  0.0
-Thalamus motor       Linear neuron     $1 \times 4$   -40       0.1%  0.0
-Thalamus cognitive   Linear neuron     $4 \times 1$   -40       0.1%  0.0
-Values ($V_i$)       Scalar            $4$            --        --    0.5
--------------------- ----------------- -------------- --------- ----- -------------
+Name                 Elements          Size           Threshold Noise Initial state $\tau$
+-------------------- ----------------- -------------- --------- ----- ------------- ------
+Cortex motor         Linear neuron     $1 \times 4$   -3        1.0%  0.0           10
+Cortex cognitive     Linear neuron     $4 \times 1$   -3        1.0%  0.0           10
+Cortex associative   Linear neuron     $4 \times 4$   -3        1.0%  0.0           10
+Striatum motor       Sigmoidal neuron  $1 \times 4$   0         0.1%  0.0           10
+Striatum cognitive   Sigmoidal neuron  $4 \times 1$   0         0.1%  0.0           10
+Striatum associative Sigmoidal neuron  $4 \times 4$   0         0.1%  0.0           10
+GPi motor            Linear neuron     $1 \times 4$   +10       3.0%  0.0           10
+GPi cognitive        Linear neuron     $4 \times 1$   +10       3.0%  0.0           10
+STN motor            Linear neuron     $1 \times 4$   -10       0.1%  0.0           10
+STN cognitive        Linear neuron     $4 \times 1$   -10       0.1%  0.0           10
+Thalamus motor       Linear neuron     $1 \times 4$   -40       0.1%  0.0           10
+Thalamus cognitive   Linear neuron     $4 \times 1$   -40       0.1%  0.0           10
+Values ($V_i$)       Scalar            $4$            --        --    0.5           -
+-------------------- ----------------- -------------- --------- ----- ------------- ------
 
 Table: Populations
 
@@ -223,7 +223,7 @@ shows an example of a decision dynamic with an oscillatory regime between
 time t=0 and time t=500ms that is characteristic of the model.
 
 ![**Activity in the cortical population during a single trial of action selection.**
-  This is the reproduction of figure 4 of the original article.](../code/figure-1.pdf)
+  This is the reproduction of figure 4 in the original article.](../code/figure-1.pdf)
 
 We also test learning capacity of the model by reproducing the same procedure
 as in the original article (250 experiments, 120 trials) but we used a modified

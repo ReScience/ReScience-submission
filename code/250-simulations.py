@@ -167,7 +167,7 @@ def learn(time, cues_cog, cues_mot, debug=True):
 
 
 
-if 0:
+if 1:
     R = np.load("250-simulations.npy")
 
 else:
@@ -241,13 +241,13 @@ ax.xaxis.set_tick_params(direction="in")
 
 X = 1+np.arange(120)
 plt.plot(X, P.mean(axis=0), c='b', lw=2)
-plt.plot(X, P.mean(axis=0)+P.var(axis=0), c='b',lw=.5)
-plt.plot(X, P.mean(axis=0)-P.var(axis=0), c='b',lw=.5)
-plt.fill_between(X, P.mean(axis=0)+P.var(axis=0),
-                    P.mean(axis=0)-P.var(axis=0), color='b', alpha=.1)
+plt.plot(X, P.mean(axis=0)+P.std(axis=0), c='b',lw=.5)
+plt.plot(X, P.mean(axis=0)-P.std(axis=0), c='b',lw=.5)
+plt.fill_between(X, P.mean(axis=0)+P.std(axis=0),
+                    P.mean(axis=0)-P.std(axis=0), color='b', alpha=.1)
 plt.xlabel("Trial number", fontsize=16)
 plt.ylabel("Performance", fontsize=16)
-plt.ylim(0,1.0)
+plt.ylim(0,1.3)
 plt.xlim(1,120)
 plt.savefig("figure-2.pdf")
 plt.show()

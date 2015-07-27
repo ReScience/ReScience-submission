@@ -18,14 +18,14 @@ Address:
 Contact:
   - Nicolas.Rougier@inria.fr
 Editor:
-  - Name Surname
+  - Tiziano Zito
 Reviewer:
-  - Name Surname
-  - Name Surname
+  - Benoît Girard
+  - Mehdi Khamassi
 Publication:
-  received:  Sep, 1, 2015
-  accepted:  Sep, 1, 2015
-  published: Sep, 1, 2015
+  received:  Jun 9, 2015
+  accepted:  Aug 15, 2015
+  published: Sep 25, 2015
   volume:    "**1**"
   issue:     "**1**"
   date:      Sep 2015
@@ -49,20 +49,48 @@ We propose a reference implementation of [@guthrie:2013] that introduces an
 action selection mechanism in cortico-basal ganglia loops based on a
 competition between the positive feedback, direct pathway through the striatum
 and the negative feedback, hyperdirect pathway through the subthalamic nucleus.
-The reference implementation has been coded in python for ease of reading and
-cython for performances because the main result includes a batch of 250
-experiments over 120 trials that would be too slow for regular python.
+The original implementation was made in Delphi (Object Pascal) whose sources
+are available on request to any of the author of the original article. We have
+used these sources to disambiguate ambiguous and missing information in the
+original article. The reference implementation we propose has been coded in
+Python for ease of reading and Cython for performances because the main result
+includes a batch of 250 experiments over 120 trials that would be too slow for
+regular Python scripts.
 
 # Methods
 
 We used the description of the model in the original article as well as the
 sources of the model (requested from author) that are made of a hundred files
-and 6,000 lines of Delphi for the main source. We've been unable to compile
-this original implementation but we're able to run the provided Windows
-executable. We found some factual errors in the original article that have
-been corrected in this implementation. We provide below the formal description
-of the model according to the proposition of Nordlie et al. [@nordlie:2009]
-for reproducible descriptions of neuronal network models.
+and 6,000 lines of Delphi for the main source. We have been unable to compile
+this original implementation but we were able to run the provided Windows
+executable. We found some factual errors in the original article that have been
+corrected in this implementation. The initialization of weights are defined in
+two different parts of the paper. First on page 3030 (second column) *"Weights
+were initialized to a Gaussian distribution with a mean of 0.5 and a SD
+of 0.005 at the start of each simulation..."*, then on page 3031 in the caption
+of figure 4, *"All synaptic weights were initialized to 0.5"*. It happened that
+both definitions are right but do not address the same projections.
+Cortico-striatal synaptic weights use Gaussian distribution while all other
+weights are set to 0.5. Furthermore, the Boltzmann equation given in the
+original paper uses a ``.`` instead of ``+`` between first term and second term.
+
+\ 
+
+One notable modification in our implementation is the reinforcement learning
+rule that has been greatly simplified. Original authors have been using quite a
+complex algorithm for ensuring that *"corticostriatal weights are bounded by a
+sigmoidal transfer function to represent physical constraints on synaptic
+growth with an absolute maximum of 0.75 and an absolute minimum
+of 0.25."*. This algorithm is not described in the article, but from sources,
+it appears that it is based on the estimation of the weight gradient along the
+sigmoid. We use instead a more Oja-inspired expression given in the *Synapse*
+table.
+
+\ 
+
+We provide below the formal description of the model according to the
+proposition of Nordlie et al. [@nordlie:2009] for reproducible descriptions of
+neuronal network models.
 
 Table              Description
 ------------------ ------------------------------------------------------------------
@@ -145,6 +173,7 @@ Sigmoidal neuron
 Type               Rate model
 Membrane Potential $\tau dV/dt = -V + I_{syn} + I_{ext} - h$
                    $U = V_{min} - (V_{max}-V_{min}) / \left(1+e^{\frac{V_h - V}{V_c}}\right)$
+                   $V_{min} = 1$, $V_{max} = 20$, $V_{h} = 16$, $V_{c} = 3$
 ------------------ --------------------------------------------------------------------------
 
 Table: Neuron Model (2)
@@ -207,9 +236,11 @@ Table: Environment
 
 # Results
     
-We did not reproduce all analysis of the original article but concentrate our
+We did not reproduce all analyses of the original article but concentrated our
 efforts on the main results which are illustrated on figures 4 & 5 in the
 original article [@guthrie:2013].
+
+\ 
 
 We first reproduce the activity in the cortical populations during a single
 trial, prior to learning. Noise has a great influence on the overall dynamic
@@ -232,13 +263,14 @@ rule used a sigmodial transfer function but no actual details were given on how
 to enforce it.
 
 ![**Learning time course over 120 trials, averaged over 250 simulations.**
-  The blue filled area indicates the variance of the mean performance.](../code/figure-2.pdf)
+  The blue filled area indicates the standard devisation of the mean performance.](../code/figure-2.pdf)
 
 
 # Conclusion
 
-We were able to reproduce original results, confirming the correctness of the
-results of the original implementation of the model.
+After some minor corrections and modifications of the original description of
+the model, we were able to reproduce the original results, confirming the
+correctness of the original implementation of the model.
 
 
 # References

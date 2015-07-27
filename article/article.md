@@ -24,8 +24,8 @@ Reviewer:
   - Mehdi Khamassi
 Publication:
   received:  Jun 9, 2015
-  accepted:  Aug 15, 2015
-  published: Sep 25, 2015
+  accepted:  
+  published: 
   volume:    "**1**"
   issue:     "**1**"
   date:      Sep 2015
@@ -83,8 +83,7 @@ sigmoidal transfer function to represent physical constraints on synaptic
 growth with an absolute maximum of 0.75 and an absolute minimum
 of 0.25."*. This algorithm is not described in the article, but from sources,
 it appears that it is based on the estimation of the weight gradient along the
-sigmoid. We use instead a more Oja-inspired expression given in the *Synapse*
-table.
+sigmoid. We use instead an Oja-like rule given in the *Synapse* table.
 
 \ 
 
@@ -256,7 +255,9 @@ time t=0 and time t=500ms that is characteristic of the model.
 ![**Activity in the cortical population during a single trial of action selection.**
   This is the reproduction of figure 4 in the original article.](../code/figure-1.pdf)
 
-We also test learning capacity of the model by reproducing the same procedure
+\ 
+
+We also tested the learning capacity of the model by reproducing the same procedure
 as in the original article (250 experiments, 120 trials) but we used a modified
 and simpler learning rule (see Plasiticity table) since the original learning
 rule used a sigmodial transfer function but no actual details were given on how

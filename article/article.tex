@@ -306,13 +306,12 @@ The following transformation steps were used:
 \end{enumerate}
 
 The method for selecting the zeros to remove was unclear. In order to
-reproduce this step, we removed the same data asin the original study,
+reproduce this step, we removed the same data as in the original study,
 by matching to the transformed data with zeros removed in the Ecology
 Letters supplement Excel file mentioned above. All remaining
 transformation steps were performed independently of this dataset. Our
 reproduction of the transformed data closely matched the published
-transformed data. \emph{This could result from us performing the
-interpolation before the zero removal. Should correct this.}
+transformed data.
 
 The data received directly from Stephen Ellner was interpolated, but
 without zeros removed. Our interpolated data, without zeros removed,
@@ -323,35 +322,18 @@ abundances}\label{correlations-among-species-abundances}
 
 Correlations among species abundances presented in Table 1 of the
 original article closely matched our reproduced correlations, calculated
-from the transformed data with zeros removed.
+from the transformed data with zeros removed (figure
+\ref{fig:corr_comp}). Deviations between the original and reproduced
+correlations are relatively small (less than 0.072 units) and
+infrequent. \textbf{These may have resulted from us removing zeros after
+interpolation. Maybe we should check this.}
 
-\begin{longtable}[c]{@{}lcccccccccc@{}}
-\caption{\label{tbl:table}Table caption }\tabularnewline
-\toprule
-& Bact & Harp & Ostr & N & P & Pico & Nano & Roti & Prot &
-Cala\tabularnewline
-\midrule
-\endfirsthead
-\toprule
-& Bact & Harp & Ostr & N & P & Pico & Nano & Roti & Prot &
-Cala\tabularnewline
-\midrule
-\endhead
-Bact & & 0.03 & -0.24 *** & 0.05 & 0.18 *** & 0.03 & -0.17 *** & 0.3 ***
-& -0.17 * & 0.22 ***\tabularnewline
-Harp & & & 0.21 *** & -0.11 * & 0.03 & -0.09 & -0.06 & -0.05 & 0.14 &
-0.01\tabularnewline
-Ostr & & & & -0.16 ** & -0.06 & -0.06 & 0 & -0.05 & 0.18 * &
-0.04\tabularnewline
-N & & & & & 0.08 * & 0 & -0.02 & -0.04 & 0.03 & 0.04\tabularnewline
-P & & & & & & -0.04 & 0.03 & 0.1 * & -0.02 & -0.08\tabularnewline
-Pico & & & & & & & -0.17 *** & -0.03 & -0.21 * & 0.28 ***\tabularnewline
-Nano & & & & & & & & -0.19 *** & 0.13 & -0.14 *\tabularnewline
-Roti & & & & & & & & & -0.02 & -0.1 *\tabularnewline
-Prot & & & & & & & & & & NA NA\tabularnewline
-Cala & & & & & & & & & &\tabularnewline
-\bottomrule
-\end{longtable}
+\begin{figure}[htbp]
+\centering
+\includegraphics{figures/correlation_comparison.pdf}
+\caption{\label{fig:corr_comp}Comparison of calculated correlations
+among species abundances in the original article and this reproduction.}
+\end{figure}
 
 \subsection{Spectral analyses}\label{spectral-analyses}
 

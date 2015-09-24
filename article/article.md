@@ -79,37 +79,21 @@ The following transformation steps were used:
 4. Detrending of five of the time series.
 5. Rescaling to zero mean and unit standard deviation.
 
-The method for selecting the zeros to remove was unclear. In order to reproduce this step, we removed the same data asin the original study, by matching to the transformed data with zeros removed in the Ecology Letters supplement Excel file mentioned above. All remaining transformation steps were performed independently of this dataset. Our reproduction of the transformed data closely matched the published transformed data. *This could result from us performing the interpolation before the zero removal. Should correct this.*
+The method for selecting the zeros to remove was unclear. In order to reproduce this step, we removed the same data as in the original study, by matching to the transformed data with zeros removed in the Ecology Letters supplement Excel file mentioned above. All remaining transformation steps were performed independently of this dataset. Our reproduction of the transformed data closely matched the published transformed data.
 
 The data received directly from Stephen Ellner was interpolated, but without zeros removed. Our interpolated data, without zeros removed, matched closely this data.
 
 ## Correlations among species abundances
 
-Correlations among species abundances presented in Table 1 of the original article closely matched our reproduced correlations, calculated from the transformed data with zeros removed (figure @tbl:table1). 
+Correlations among species abundances presented in Table 1 of the original article closely matched our reproduced correlations, calculated from the transformed data with zeros removed (figure @fig:corr_comp). Deviations between the original and reproduced correlations are relatively small (less than 0.072 units) and infrequent. **These may have resulted from us removing zeros after interpolation. Maybe we should check this.**
 
+![Comparison of calculated correlations among species abundances in the original article and this reproduction.](figures/correlation_comparison.pdf) {#fig:corr_comp}
 
-
-|     | Bact | Harp |   Ostr    |    N     |    P     | Pico  |   Nano    |   Roti    |  Prot   |   Cala   |
-|:----|:----:|:----:|:---------:|:--------:|:--------:|:-----:|:---------:|:---------:|:-------:|:--------:|
-|Bact |      | 0.03 | -0.24 *** |   0.05   | 0.18 *** | 0.03  | -0.17 *** |  0.3 ***  | -0.17 * | 0.22 *** |
-|Harp |      |      | 0.21 ***  | -0.11 *  |   0.03   | -0.09 |   -0.06   |   -0.05   |  0.14   |   0.01   |
-|Ostr |      |      |           | -0.16 ** |  -0.06   | -0.06 |     0     |   -0.05   | 0.18 *  |   0.04   |
-|N    |      |      |           |          |  0.08 *  |   0   |   -0.02   |   -0.04   |  0.03   |   0.04   |
-|P    |      |      |           |          |          | -0.04 |   0.03    |   0.1 *   |  -0.02  |  -0.08   |
-|Pico |      |      |           |          |          |       | -0.17 *** |   -0.03   | -0.21 * | 0.28 *** |
-|Nano |      |      |           |          |          |       |           | -0.19 *** |  0.13   | -0.14 *  |
-|Roti |      |      |           |          |          |       |           |           |  -0.02  |  -0.1 *  |
-|Prot |      |      |           |          |          |       |           |           |         |  NA NA   |
-|Cala |      |      |           |          |          |       |           |           |         |          |
-
-Table: Correlations among transformed species abundances, after zero removal and transformation. Significant correlations are indicated as follows: *: P<0.05; **: P<0.01; ***: P<0.001. Note that we did not correct significance tests for multiple comparisons, as was done in the original article. {#tbl:table1}
-
+Highlighted in the text of the original paper were: negative correlations of picophytoplankton with protozoa, and of nanophytoplankton both with rotifers and calanoid copepods, positive correlation of picophytoplankton with calanoid copepods, negative correlation between bacteria and ostracods, and positive correlation between bacteria and phosphorus. All of these correlations were reproduced.
 
 ## Spectral analyses
 
-
-
-
+Spectral analyses in the original paper were presented graphically in figures S3 (raw spectrograms) and S4 (Welch periodograms). These graphs were, apparently, visually inspected to reveal: "fluctuations covered a range of different periodicities", and "picophytoplankton, rotifers and calanoid copepods seemed to fluctuate predominantly with a periodicity of about 30 days." It is unclear how these conclusions were derived from figures S3 and S4 of the original article. Our reproduced spectra (not shown here, but code provided) were not quantitatively identical to the spectra in the original article.
 
 
 ## Lyapunov exponents by direct method

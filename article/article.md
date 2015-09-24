@@ -51,11 +51,9 @@ An attempt was made to reproduce the majority of the results in the original art
 
 ## The data
 
-The data are available as an Excel file supplement to [an Ecology Letters publication](http://onlinelibrary.wiley.com/doi/10.1111/j.1461-0248.2009.01391.x/abstract) @Beninca2009. The Excel file contains several datasheets. Two are particularly important, as they are the source of the raw data (one contains original species abundances, the one with the nutrient concentrations). We saved these two datasheets as comma separated value text files. In the code associated with this reproduction, these data files are read from the associated github repository.
+The data are available as an Excel file supplement to [an Ecology Letters publication](http://onlinelibrary.wiley.com/doi/10.1111/j.1461-0248.2009.01391.x/abstract) @Beninca2009. The Excel file contains several datasheets. Two were particularly important, as they are the source of the raw data (one contains original species abundances, the one with the nutrient concentrations). We saved these two datasheets as comma separated value (csv) text files. In the code associated with this reproduction, these data files are read from the associated github repository.
 
-Another datasheet in the Ecology Letters supplement contains transformed variables, though this was not used in this reproduction, as we reproduced the described transformations and applied them to the raw data.
-
-We also received some data direct from Steve Ellner, see below for details. 
+Another datasheet in the Ecology Letters supplement contains transformed variables (we also saved this as csv file, in order to use it in this reproduction). We also received a dataset direct from Steve Ellner, see below for details. 
 
 ## Reproduction environment
 
@@ -73,13 +71,44 @@ The raw data show populations dynamics at least very similar to those in figure 
 
 ## Data transformation
 
-Did our transformation give data matching the data we received from Ellner, and that in the Ecology Letters supplement?
+The following transformation steps were used:
+
+1. Time series shortened to remove long sequences of zeros. 
+2. Interpolation to create equally spaced observations in time series.
+3. Fourth root transformation.
+4. Detrending of five of the time series.
+5. Rescaling to zero mean and unit standard deviation.
+
+The method for selecting the zeros to remove was unclear. In order to reproduce this step, we removed the same data asin the original study, by matching to the transformed data with zeros removed in the Ecology Letters supplement Excel file mentioned above. All remaining transformation steps were performed independently of this dataset. Our reproduction of the transformed data closely matched the published transformed data. *This could result from us performing the interpolation before the zero removal. Should correct this.*
+
+The data received directly from Stephen Ellner was interpolated, but without zeros removed. Our interpolated data, without zeros removed, matched closely this data.
+
+## Correlations among species abundances
+
+Correlations among species abundances presented in Table 1 of the original article closely matched our reproduced correlations, calculated from the transformed data with zeros removed (figure @tbl:table1). 
+
+
+
+|     | Bact | Harp |   Ostr    |    N     |    P     | Pico  |   Nano    |   Roti    |  Prot   |   Cala   |
+|:----|:----:|:----:|:---------:|:--------:|:--------:|:-----:|:---------:|:---------:|:-------:|:--------:|
+|Bact |      | 0.03 | -0.24 *** |   0.05   | 0.18 *** | 0.03  | -0.17 *** |  0.3 ***  | -0.17 * | 0.22 *** |
+|Harp |      |      | 0.21 ***  | -0.11 *  |   0.03   | -0.09 |   -0.06   |   -0.05   |  0.14   |   0.01   |
+|Ostr |      |      |           | -0.16 ** |  -0.06   | -0.06 |     0     |   -0.05   | 0.18 *  |   0.04   |
+|N    |      |      |           |          |  0.08 *  |   0   |   -0.02   |   -0.04   |  0.03   |   0.04   |
+|P    |      |      |           |          |          | -0.04 |   0.03    |   0.1 *   |  -0.02  |  -0.08   |
+|Pico |      |      |           |          |          |       | -0.17 *** |   -0.03   | -0.21 * | 0.28 *** |
+|Nano |      |      |           |          |          |       |           | -0.19 *** |  0.13   | -0.14 *  |
+|Roti |      |      |           |          |          |       |           |           |  -0.02  |  -0.1 *  |
+|Prot |      |      |           |          |          |       |           |           |         |  NA NA   |
+|Cala |      |      |           |          |          |       |           |           |         |          |
+
+Table: Correlations among transformed species abundances, after zero removal and transformation. Significant correlations are indicated as follows: *: P<0.05; **: P<0.01; ***: P<0.001. Note that we did not correct significance tests for multiple comparisons, as was done in the original article. {#tbl:table1}
+
 
 ## Spectral analyses
 
 
 
-## Correlations among species abundances
 
 
 

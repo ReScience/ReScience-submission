@@ -239,45 +239,39 @@ Supplement to the Nature paper}, and communications with Elisa Benincà
 and Stephen Ellner. The latter provided code used to produce results in
 the original paper, and its use in this reproduction is indicated below.
 
+\subsection{Scope of the reproduction}\label{scope-of-the-reproduction}
+
+An attempt was made to reproduce the majority of the results in the
+original article. Instances where we did not attempt to reproduce a
+result are detailed below.
+
 \subsection{The data}\label{the-data}
 
 The data are available as an Excel file supplement to
 \href{http://onlinelibrary.wiley.com/doi/10.1111/j.1461-0248.2009.01391.x/abstract}{an
 Ecology Letters publication} \textcite{Beninca2009}. The Excel file
-contains several datasheets. Two are particularly important, as they are
-the source of the raw data (one contains original species abundances,
-the one with the nutrient concentrations). We saved these two datasheets
-as comma separated value text files. In the code associated with this
-reproduction, these data files are read from the associated github
-repository.
+contains several datasheets. Two were particularly important, as they
+are the source of the raw data (one contains original species
+abundances, the one with the nutrient concentrations). We saved these
+two datasheets as comma separated value (csv) text files. In the code
+associated with this reproduction, these data files are read from the
+associated github repository.
 
 Another datasheet in the Ecology Letters supplement contains transformed
-variables, though this was not used in this reproduction, as we
-reproduced the described transformations and applied them to the raw
-data.
-
-We also received some data direct from Steve Ellner, see below for
-details.
+variables (we also saved this as csv file, in order to use it in this
+reproduction). We also received a dataset direct from Steve Ellner, see
+below for details.
 
 \subsection{Reproduction environment}\label{reproduction-environment}
 
 The R language and environment for statistical computing and graphics
-was used to make the reproduction. Additional R packages required are:
+was used to make the reproduction. Additional R packages required are
+specified in the code associated with this reproduction.
 
-\begin{verbatim}
-library(tidyr)
-library(dplyr)
-library(lubridate)
-library(stringr)
-library(ggplot2)
-library(RCurl)
-library(pracma)
-library(oce)
-library(tseriesChaos)
-library(reshape2)
-library(mgcv)
-library(repmis)
-\end{verbatim}
+The code for this reproduction resides in an R markdown document, as
+well as a source file containing some required functions. Some of the
+code takes several minutes to run, so an intermediate data file is
+provided with results from this code.
 
 \section{Results}\label{results}
 
@@ -294,13 +288,72 @@ figure 1b-g of the original publication (figure \ref{fig:dynamics}).
 
 \subsection{Data transformation}\label{data-transformation}
 
-Did our transformation give data matching the data we received from
-Ellner, and that in the Ecology Letters supplement?
+The following transformation steps were used:
 
-\subsection{Spectral analyses}\label{spectral-analyses}
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Time series shortened to remove long sequences of zeros.
+\item
+  Interpolation to create equally spaced observations in time series.
+\item
+  Fourth root transformation.
+\item
+  Detrending of five of the time series.
+\item
+  Rescaling to zero mean and unit standard deviation.
+\end{enumerate}
+
+The method for selecting the zeros to remove was unclear. In order to
+reproduce this step, we removed the same data asin the original study,
+by matching to the transformed data with zeros removed in the Ecology
+Letters supplement Excel file mentioned above. All remaining
+transformation steps were performed independently of this dataset. Our
+reproduction of the transformed data closely matched the published
+transformed data. \emph{This could result from us performing the
+interpolation before the zero removal. Should correct this.}
+
+The data received directly from Stephen Ellner was interpolated, but
+without zeros removed. Our interpolated data, without zeros removed,
+matched closely this data.
 
 \subsection{Correlations among species
 abundances}\label{correlations-among-species-abundances}
+
+Correlations among species abundances presented in Table 1 of the
+original article closely matched our reproduced correlations, calculated
+from the transformed data with zeros removed.
+
+\begin{longtable}[c]{@{}lcccccccccc@{}}
+\caption{\label{tbl:table}Table caption }\tabularnewline
+\toprule
+& Bact & Harp & Ostr & N & P & Pico & Nano & Roti & Prot &
+Cala\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+& Bact & Harp & Ostr & N & P & Pico & Nano & Roti & Prot &
+Cala\tabularnewline
+\midrule
+\endhead
+Bact & & 0.03 & -0.24 *** & 0.05 & 0.18 *** & 0.03 & -0.17 *** & 0.3 ***
+& -0.17 * & 0.22 ***\tabularnewline
+Harp & & & 0.21 *** & -0.11 * & 0.03 & -0.09 & -0.06 & -0.05 & 0.14 &
+0.01\tabularnewline
+Ostr & & & & -0.16 ** & -0.06 & -0.06 & 0 & -0.05 & 0.18 * &
+0.04\tabularnewline
+N & & & & & 0.08 * & 0 & -0.02 & -0.04 & 0.03 & 0.04\tabularnewline
+P & & & & & & -0.04 & 0.03 & 0.1 * & -0.02 & -0.08\tabularnewline
+Pico & & & & & & & -0.17 *** & -0.03 & -0.21 * & 0.28 ***\tabularnewline
+Nano & & & & & & & & -0.19 *** & 0.13 & -0.14 *\tabularnewline
+Roti & & & & & & & & & -0.02 & -0.1 *\tabularnewline
+Prot & & & & & & & & & & NA NA\tabularnewline
+Cala & & & & & & & & & &\tabularnewline
+\bottomrule
+\end{longtable}
+
+\subsection{Spectral analyses}\label{spectral-analyses}
 
 \subsection{Lyapunov exponents by direct
 method}\label{lyapunov-exponents-by-direct-method}

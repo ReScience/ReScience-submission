@@ -38,7 +38,7 @@ Bibliography:
 
 # Introduction
 
-The original paper describes analyses of fluctuations in the abundance of organisms in a plankton community derived from the Baltic Sea, housed in a laboratory environment. The length of the time series (samples every few days for 2,300 days) allowed for analyses revealing that the observed dynamics exhibited characteristics consistent with chaos produced by species interactions. The article concludes that stability is not required for persistence of complex food webs, and that long-term prediction of abundances may be fundamentally impossible. The demonstration of chaotic dynamics and limited forecast horizons (sensu @Petchey2015) are important in the field of ecology, since the ability to predict dynamics is an open question with considerable applied importance @Petchey2015 @Mouquet2015.
+The original paper describes analyses of fluctuations in the abundance of organisms in a plankton community derived from the Baltic Sea, housed in a laboratory environment. The length of the time series (samples every few days for 2,300 days) allowed for analyses revealing that the observed dynamics exhibited characteristics consistent with chaos produced by non-linear species interactions. The article concludes that stability is not required for persistence of complex food webs, and that long-term prediction of abundances may be fundamentally impossible. The demonstration of chaotic dynamics and limited forecast horizons (sensu @Petchey2015) are important in the field of ecology, since the ability to predict dynamics is an open question with considerable applied importance @Petchey2015 @Mouquet2015.
 
 
 # Methods
@@ -53,7 +53,9 @@ An attempt was made to reproduce the majority of the results in the original art
 
 The data are available as an Excel file supplement to [an Ecology Letters publication](http://onlinelibrary.wiley.com/doi/10.1111/j.1461-0248.2009.01391.x/abstract) @Beninca2009. The Excel file contains several datasheets. Two were particularly important, as they are the source of the raw data (one contains original species abundances, the one with the nutrient concentrations). We saved these two datasheets as comma separated value (csv) text files. In the code associated with this reproduction, these data files are read from the associated github repository.
 
-Another datasheet in the Ecology Letters supplement contains transformed variables (we also saved this as csv file, in order to use it in this reproduction). We also received a dataset direct from Steve Ellner, see below for details. 
+Another datasheet in the Ecology Letters supplement contains transformed variables (we also saved this as csv file, in order to use it in this reproduction). We also received a dataset direct from Steve Ellner, see below for details.
+
+The original species abundance data contained errors (e.g., a few numerica values had a comma in place of a period as the decimal separator) that suggested that this was not the exact version of the dataset used in the original article, or that this was the exact dataset, but with errors corrected.
 
 ## Reproduction environment
 
@@ -121,7 +123,9 @@ The article stated: "For short-term forecasts of only a few days, most species h
 
 # Conclusion
 
-Although we were not able to make a quantitatively accurate reproduction of all results of the original article, the qualitative results were largely identical. Quantitative differences may have resulted from difference in algorithms used. For example,the original used the [Tisean software](http://www.mpipks-dresden.mpg.de/~tisean/) to calculate Lyapunov exponents. As this was available from CRAN [until mid 2014](http://cran.r-project.org/web/packages/RTisean/index.html) and since it is a bit less well integrated with R, we instead use the tseriesChaos package @tseriesChaos, which in any case was largely inspired by the TISEAN project. There may also have been some difference in data used for specific analyses, e.g., data with zeros removed or not, as it was not always possible to be sure the reproduction used exactly the same data.
+Although we were not able to make a quantitatively accurate reproduction of all results of the original article, the qualitative results were largely identical. Quantitative differences may have resulted from difference in algorithms used. For example,the original used the [Tisean software](http://www.mpipks-dresden.mpg.de/~tisean/) to calculate Lyapunov exponents. As this was available from CRAN [until mid 2014](http://cran.r-project.org/web/packages/RTisean/index.html) and since it is a bit less well integrated with R, we instead use the tseriesChaos package @tseriesChaos, which in any case was largely inspired by the TISEAN project. There may also have been some difference in data used for specific analyses, e.g., data with zeros removed or not, as it was not always possible to be totally sure the reproduction used exactly the same data.
+
+In conclusion, this reproduction supports the general scientific conclusions of the original article, but also shows how difficult can be an accurate quantitative reproduction, even in the presence of the extensive methodological details provided alongside the original article.
 
 # Acknowledgements
 

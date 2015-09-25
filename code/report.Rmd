@@ -43,7 +43,7 @@ devtools::session_info()
 
 The datasets for this reproduction are read from this github repository:
 ```{r}
-repo <- "https://raw.githubusercontent.com/opetchey/RREEBES/Beninca_development/Beninca_etal_2008_Nature"
+repo <- "https://raw.githubusercontent.com/opetchey/ReScience-submission/beninca_dev"
 ```
 
 

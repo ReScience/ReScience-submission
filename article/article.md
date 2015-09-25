@@ -65,9 +65,9 @@ The code for this reproduction resides in an R markdown document, as well as a s
 
 ## Population dynamics
 
-The raw data show populations dynamics at least very similar to those in figure 1b-g of the original publication (figure @fig:dynamics).
+The reproduced populations dynamics were at least very similar to those in figure 1b-g of the original publication (figure @fig:dynamics). Note that we plot fourth root transformed values, rather than raw abundances with a y-axis break, as in the original article.
 
-![Observed population dynamics.](figures/unnamed-chunk-21-1) {#fig:dynamics}
+![Observed population dynamics.](figures/dynamics.pdf) {#fig:dynamics}
 
 ## Data transformation
 
@@ -85,7 +85,7 @@ The data received directly from Stephen Ellner was interpolated, but without zer
 
 ## Correlations among species abundances
 
-Correlations among species abundances presented in Table 1 of the original article closely matched our reproduced correlations, calculated from the transformed data with zeros removed (figure @fig:corr_comp). Deviations between the original and reproduced correlations are relatively small (less than 0.072 units) and infrequent. **These may have resulted from us removing zeros after interpolation. Maybe we should check this.**
+Correlations among species abundances presented in Table 1 of the original article closely matched our reproduced correlations, calculated from the transformed data with zeros removed (figure @fig:corr_comp). Deviations between the original and reproduced correlations are relatively small (less than 0.072 units) and infrequent. 
 
 ![Comparison of calculated correlations among species abundances in the original article and this reproduction.](figures/correlation_comparison.pdf) {#fig:corr_comp}
 
@@ -98,44 +98,30 @@ Spectral analyses in the original paper were presented graphically in figures S3
 
 ## Lyapunov exponents by direct method
 
+Reproduced divergence rates (figure @fig:divergence) and comparison of the original and reproduced Lyapunov exponents (figure @fig:LE_comparison). The original article states: "the distance between initially nearby trajectories increased over time, and reached a plateau after about 20–30 days". The reproduced results appear not inconsistent with this statement, except for one group of species (Harpacticoids). The original article also stated that the analyses "yielded significantly positive Lyapunov exponents of strikingly similar value for all species (Fig. 3; mean exponent = 0.057 per day, s.d. = 0.005 per day, n = 9)". Reproduced exponents had very similar mean value, but had about four times greater standard deviation (mean = 0.055 and s.d. = 0.019).
+
+![Reproduced divergence rates and Lyapunov exponents (figure 3 in the original article).](figures/unnamed-chunk-50-1.pdf) {#fig:divergence}
+
+![Comparison of Lyapunov exponents in the original article and this reproduction.](figures/LE_comparison.pdf) {#fig:LE_comparison}
 
 
 ## Lyapunov exponents by indirect method
 
+The original paper reported global Lyapunov exponent calculated via two modelling approaches (neural network and generalised additive models [GAMs]). Only the GAM approach was reproduced, with the assistance of code donated by Stephen Ellner. The original article obtained
+a global Lyapunov exponent of λ=0.08 day-1. The reproduced value was 0.04. We did not reproduce the bootstrapping used to give confidence intervals around this estimate.
 
 
 ## Predictability decay
 
-Only done for non-linear models (the original article also does this for linear models).
+The article stated: "For short-term forecasts of only a few days, most species had a high predictability of R2 = 0.70 – 0.90 (Fig. 2). However, the predictability of the species was much reduced when prediction times were extended to 15–30days." The reproduced predictabilities, which were calculated from the GAMs, were consistent with these qualitative statements, though were quantitatively different (@fig:prediction_distance). We did not reproduce the predictability estimates for linear models.
 
+![Predictability (correlation between predicted and observed abundances) and prediction distance (days) (figure 2 in the original article).](figures/prediction_distance.pdf) {#fig:prediction_distance}
 
 
 
 # Conclusion
 
-Conclusion, at the very minimum, should indicate very clearly if you were able
-to replicate original results. If it was not possible but you found the reason
-why (error in the original results), you should exlain it.
-
-
-Heading 1                          Heading 2
----------- ----------- ----------- ----------- ----------- -----------
-cell1 row1 cell2 row 1 cell3 row 1 cell4 row 1 cell5 row 1 cell6 row 1
-cell1 row2 cell2 row 2 cell3 row 2 cell4 row 2 cell5 row 2 cell6 row 2
-cell1 row3 cell2 row 3 cell3 row 3 cell4 row 3 cell5 row 3 cell6 row 3
----------- ----------- ----------- ----------- ----------- -----------
-
-Table: Table caption {#tbl:table}
-
-A reference to table @tbl:table.
-A reference to figure @fig:logo.
-A reference to equation @eq:1.
-A reference to citation @markdown.
-
-![Figure caption](rescience-logo.pdf) {#fig:logo}
-
-$$ A = \sqrt{\frac{B}{C}} $$ {#eq:1}
-
+Although we were not able to make a quantitatively accurate reproduction of all results of the original article, the qualitative results were largely identical. Quantitative differences may have resulted from difference in algorithms used. For example,the original used the [Tisean software](http://www.mpipks-dresden.mpg.de/~tisean/) to calculate Lyapunov exponents. As this was available from CRAN [until mid 2014](http://cran.r-project.org/web/packages/RTisean/index.html) and since it is a bit less well integrated with R, we instead use the tseriesChaos package @tseriesChaos, which in any case was largely inspired by the TISEAN project. There may also have been some difference in data used for specific analyses, e.g., data with zeros removed or not, as it was not always possible to be sure the reproduction used exactly the same data.
 
 # Acknowledgements
 

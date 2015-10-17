@@ -1,19 +1,13 @@
 ---
-Title: "This is the title"
+Title: "Least-cost modelling on irregular landscape graphs"
 Author:
-  - name: Name Surname
+  - name: Joseph Stachelek
     affiliation: 1
-  - name: Name Surname,
-    affiliation: 2, 3
 Address:
   - code:    1
-    address: Affiliation Dept/Program/Center, Institution Name, City, State, Country
-  - code:    2
-    address: Affiliation Dept/Program/Center, Institution Name, City, State, Country
-  - code:    3
-    address: Affiliation Dept/Program/Center, Institution Name, City, State, Country
+    address: South Florida Water Management District, West Palm Beach, Florida, USA
 Contact:
-  - corresponding-author@mail.com
+  - jstachel@sfwmd.gov
 Editor:
   - Name Surname
 Reviewer:
@@ -32,9 +26,9 @@ Repository:
   data:      
   notebook:  
 Reproduction:
-  - "Original article (title, authors, journal, doi)"
+  - Least-cost modelling on irregular landscape graphs, T. Etherington, Landscape Ecology, 2012
 Bibliography:
-  your_article_name.bib
+  article.bib
 
 ---
 

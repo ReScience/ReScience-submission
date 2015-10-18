@@ -34,27 +34,11 @@ Bibliography:
 
 # Introduction
 
-The introduction should introduce the original paper and put it in context
-(e.g. is it an important paper in the domain ?). You must also specify if there
-was an implementation available somewhere and provide a link to it if relevant
-(and in such a case, you have to specify if the proposed replication is based
-on this original implementation). You should also introduce your implementation
-by listing language, tools, libraries, etc. and motivate choices if relevant.
+We propose a reference implementation of [@etherington2012least] that introduces a method for generating accumulated cost surfaces using irregular landscape graphs. According to the original article, irregular landscape graphs allow for faster processing speeds and avoid directional bias relative to regular landscape graphs. The original implementation was made in Python whose sources are available upon request to the author of the original article. The reference implementation we propose has been coded in R because of the strength of existing libraries for generating accumulated cost surfaces using regular landscape graphs [@gdistance]. 
 
 # Methods
 
-The methods section should explain how you replicated the original results:
-
-* did you use paper description
-* did you contact authors ?
-* did you use original sources ?
-* did you modify some parts ?
-* etc.
-
-If relevevant in your domain, you should also provide a new standardized
-description of the work.
-
-
+We used the description of the model as well as the source code of the original implementation (requested from the author) as the basis for the following reference implementation. The original article contrasted the processsing speeds and directional bias of accumulated cost surfaces generated with irregular landscape graphs relative to regular landscape graphs. We attempted to follow the structure, style, and order-of-operations of the original with a few exceptions. For example, we use the same underlying algorithm for computing the initial Delaunay triangulations [@barber1996quickhull] that form the basis of irregular landscape graph construction. One notable difference in the reference implementation relative to the original is that we have used matrix operations from the gdistance package [@gdistance] rather than nested loops to contruct regular landscape graphs. 
 # Results
 
 Results should be compared with original results and you have to explain why

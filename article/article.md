@@ -38,12 +38,12 @@ Bibliography:
 
 # Introduction
 
-The original paper describes analyses of fluctuations in the abundance of organisms in a plankton community derived from the Baltic Sea, housed in a laboratory environment. The length of the time series (samples every few days for 2,300 days) allowed for analyses revealing that the observed dynamics exhibited characteristics consistent with chaos produced by non-linear species interactions. The article concludes that stability is not required for persistence of complex food webs, and that long-term prediction of abundances may be fundamentally impossible. The demonstration of chaotic dynamics and limited forecast horizons (sensu @Petchey2015) are important in the field of ecology, since the ability to predict dynamics is an open question with considerable applied importance @Petchey2015 @Mouquet2015.
+The original paper describes analyses of fluctuations in the abundance of organisms in a plankton community derived from the Baltic Sea, housed in a laboratory environment. The length of the time series (samples every few days for 2,300 days) allowed for analyses revealing that the observed dynamics exhibited characteristics consistent with chaos produced by non-linear species interactions. The article concludes that stability is not required for persistence of complex food webs, and that long-term prediction of abundances may be fundamentally impossible. The demonstration of chaotic dynamics and limited forecast horizons (sensu @Petchey2015) is important in the field of ecology, since the ability to predict dynamics is an open question with considerable applied importance @Petchey2015 @Mouquet2015.
 
 
 # Methods
 
-This reproduction started with the raw data (source given below) and used information from the original paper, the supplementary information [the Supplement to the Nature paper](http://www.nature.com/nature/journal/v451/n7180/extref/nature06512-s1.pdf), and communications with Elisa Benincà and Stephen Ellner. The latter provided code used to produce results in the original paper, and its use in this reproduction is indicated below.
+This reproduction started with the raw data (source given below) and used information from the original paper, the supplementary information [the Supplement to the Nature paper](http://www.nature.com/nature/journal/v451/n7180/extref/nature06512-s1.pdf), and communications with Elisa Benincà, who provided for comparison digitised data from the original article, and Stephen Ellner, who provided code and data used to produce results in the original paper. Use of this data and code in this reproduction is indicated below.
 
 ## Scope of the reproduction
 
@@ -91,7 +91,7 @@ Correlations among species abundances presented in Table 1 of the original artic
 
 ![Comparison of calculated correlations among species abundances in the original article and this reproduction.](figures/correlation_comparison.pdf) {#fig:corr_comp}
 
-Highlighted in the text of the original paper were: negative correlations of picophytoplankton with protozoa, and of nanophytoplankton both with rotifers and calanoid copepods, positive correlation of picophytoplankton with calanoid copepods, negative correlation between bacteria and ostracods, and positive correlation between bacteria and phosphorus. All of these correlations were reproduced.
+Highlighted in the text of the original paper were: negative correlations of picophytoplankton with protozoa, and of nanophytoplankton both with rotifers and calanoid copepods, positive correlation of picophytoplankton with calanoid copepods, negative correlation between bacteria and ostracods, and positive correlation between bacteria and phosphorus. All of these correlations were qualitatively reproduced.
 
 ## Spectral analyses
 
@@ -100,7 +100,7 @@ Spectral analyses in the original paper were presented graphically in figures S3
 
 ## Lyapunov exponents by direct method
 
-Reproduced divergence rates (figure @fig:divergence) and comparison of the original and reproduced Lyapunov exponents (figure @fig:LE_comparison). The original article states: "the distance between initially nearby trajectories increased over time, and reached a plateau after about 20–30 days". The reproduced results appear not inconsistent with this statement, except for one group of species (Harpacticoids). The original article also stated that the analyses "yielded significantly positive Lyapunov exponents of strikingly similar value for all species (Fig. 3; mean exponent = 0.057 per day, s.d. = 0.005 per day, n = 9)". Reproduced exponents had very similar mean value, but had about four times greater standard deviation (mean = 0.055 and s.d. = 0.019).
+Reproduced divergence rates (figure @fig:divergence) and Lyapunov exponents (figure @fig:LE_comparison) were somewhat different from those in the original article.. The original article states: "the distance between initially nearby trajectories increased over time, and reached a plateau after about 20–30 days". The reproduced results appear not inconsistent with this statement, except for one group of species (Harpacticoids). The original article also stated that the analyses "yielded significantly positive Lyapunov exponents of strikingly similar value for all species (Fig. 3; mean exponent = 0.057 per day, s.d. = 0.005 per day, n = 9)". Reproduced exponents had very similar mean value, but had about four times greater standard deviation (mean = 0.055 and s.d. = 0.019).
 
 ![Reproduced divergence rates and Lyapunov exponents (figure 3 in the original article).](figures/div_rate.pdf) {#fig:divergence}
 
@@ -117,9 +117,8 @@ a global Lyapunov exponent of λ=0.08 day-1. The reproduced value was 0.04. We d
 
 The article stated: "For short-term forecasts of only a few days, most species had a high predictability of R2 = 0.70 – 0.90 (Fig. 2). However, the predictability of the species was much reduced when prediction times were extended to 15–30days." The reproduced predictabilities, which were calculated from the GAMs, were consistent with these qualitative statements, though were quantitatively different (@fig:prediction_distance). We did not reproduce the predictability estimates for linear models.
 
-![Predictability (correlation between predicted and observed abundances) and prediction distance (days) (figure 2 in the original article).](figures/prediction_distance.pdf) {#fig:prediction_distance}
+![Predictability (correlation between predicted and observed abundances) and prediction distance (days) (figure 2 in the original article). Reproducted data in red, and data from original publication in black.](figures/prediction_distance.pdf) {#fig:prediction_distance}
 
-**Add to the previous figure the data from the original article: "fig5.r-squared.csv".**
 
 # Conclusion
 

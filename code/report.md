@@ -1315,4 +1315,43 @@ ggplot(cors.long, aes(x=Prediction_distance*3.75, y=Correlation)) + xlab("Predic
 
 ![](report_files/figure-html/unnamed-chunk-62-2.png) 
 
+
+
+
+```r
+original_preds <- read.csv(text=getURL(paste0(repo,"/data/original_rsquared.csv")), skip=0, header=T)
+opw <- gather(original_preds, Species, r_squared, 2:25)
+opw <- separate(opw, Species, c("Species", "Model"))
+
+name.mapping <- data.frame(Species=c("cyclo", "roti", "cala", "pico", "nano",
+                                   "dia", "P", "N", "bact", "ostra", "harpa",
+                                   "proto"),
+                           Variable=c("Cyclopoids", "Rotifers", "Calanoid.copepods",
+                                  "Picophytoplankton", "Nanophytoplankton",
+                                  "Filamentous.diatoms", "Soluble.reactive.phosphorus",
+                                  "Total.dissolved.inorganic.nitrogen", "Bacteria",
+                                  "Ostracods", "Harpacticoids", "Protozoa"))
+opw <- full_join(opw, name.mapping)
+```
+
+```
+## Joining by: "Species"
+```
+
+```
+## Warning in outer_join_impl(x, y, by$x, by$y): joining factor and character
+## vector, coercing into character vector
+```
+
+```r
+ggplot(cors.long, aes(x=Prediction_distance*3.75, y=Correlation)) +
+  xlab("Prediction time (days)") +
+  geom_point(col="red") +
+  facet_wrap(~Variable, ncol=3 ) +
+  geom_point(data=filter(opw, Model=="nonlinear"),
+             aes(x=prediction_time, y=r_squared))
+```
+
+![](report_files/figure-html/unnamed-chunk-63-1.png) 
+
 Quite different patterns from in figure 2 of the nature paper. There is relatively little information in the paper or supplement about how figure 2 data was produced, so difficult to pin down the difference without asking authors.

@@ -866,24 +866,16 @@ names(cors.long) <- c("Prediction_distance", "Variable", "Correlation")
 
 And plot our version of figure 2:
 ```{r}
-cors.long$Variable <- factor(cors.long$Variable, sort(levels(cors.long$Variable)))
-ggplot(cors.long, aes(x=Prediction_distance*3.75, y=Correlation)) + xlab("Prediction time (days)") +
-  geom_point() +
-  facet_wrap(~Variable, ncol=3 )
 
 cors.long$Variable <- factor(cors.long$Variable, c("Cyclopoids", "Rotifers", "Calanoid.copepods", "Picophytoplankton",
                              "Nanophytoplankton", "Filamentous.diatoms", "Soluble.reactive.phosphorus",
                              "Total.dissolved.inorganic.nitrogen", "Bacteria", "Ostracods", "Harpacticoids",
                              "Protozoa"))
-ggplot(cors.long, aes(x=Prediction_distance*3.75, y=Correlation)) + xlab("Prediction time (days)") +
-  geom_point(col="red", size=3) +
-  facet_wrap(~Variable, ncol=3 )
+# ggplot(cors.long, aes(x=Prediction_distance*3.75, y=Correlation)) + xlab("Prediction time (days)") +
+#   geom_point(col="red", size=3) +
+#   facet_wrap(~Variable, ncol=3 )
 
-```
-
-
-
-```{r}
+## read in the data of the original article that came direct from Elisa
 original_preds <- read.csv(text=getURL(paste0(repo,"/data/original_rsquared.csv")), skip=0, header=T)
 opw <- gather(original_preds, Species, r_squared, 2:25)
 opw <- separate(opw, Species, c("Species", "Model"))

@@ -9,8 +9,16 @@
 \usepackage{hyperref}
 \hypersetup{breaklinks=true,
             bookmarks=true,
-            pdfauthor={},
-            pdftitle={},
+            pdfauthor=
+{
+      Owen Petchey,
+      Marco Plebani,
+      Frank Pennekamp,
+  },
+            pdftitle=
+{
+[Re] Chaos in a long-term experiment with a plankton community
+},
             colorlinks=true,
             citecolor=blue,
             urlcolor=blue,
@@ -222,9 +230,9 @@ of organisms in a plankton community derived from the Baltic Sea, housed
 in a laboratory environment. The length of the time series (samples
 every few days for 2,300 days) allowed for analyses revealing that the
 observed dynamics exhibited characteristics consistent with chaos
-produced by species interactions. The article concludes that stability
-is not required for persistence of complex food webs, and that long-term
-prediction of abundances may be fundamentally impossible. The
+produced by non-linear species interactions. The article concludes that
+stability is not required for persistence of complex food webs, and that
+long-term prediction of abundances may be fundamentally impossible. The
 demonstration of chaotic dynamics and limited forecast horizons (sensu
 \textcite{Petchey2015}) are important in the field of ecology, since the
 ability to predict dynamics is an open question with considerable
@@ -262,6 +270,12 @@ variables (we also saved this as csv file, in order to use it in this
 reproduction). We also received a dataset direct from Steve Ellner, see
 below for details.
 
+The original species abundance data contained errors (e.g., a few
+numerica values had a comma in place of a period as the decimal
+separator) that suggested that this was not the exact version of the
+dataset used in the original article, or that this was the exact
+dataset, but with errors corrected.
+
 \subsection{Reproduction environment}\label{reproduction-environment}
 
 The R language and environment for statistical computing and graphics
@@ -284,7 +298,7 @@ abundances with a y-axis break, as in the original article.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics{figures/dynamics.pdf}
+\includegraphics{figures/obs_pop_dyn.pdf}
 \caption{\label{fig:dynamics}Observed population dynamics.}
 \end{figure}
 
@@ -374,7 +388,7 @@ mean value, but had about four times greater standard deviation (mean =
 
 \begin{figure}[htbp]
 \centering
-\includegraphics{figures/unnamed-chunk-50-1.pdf}
+\includegraphics{figures/div_rate.pdf}
 \caption{\label{fig:divergence}Reproduced divergence rates and Lyapunov
 exponents (figure 3 in the original article).}
 \end{figure}
@@ -382,8 +396,9 @@ exponents (figure 3 in the original article).}
 \begin{figure}[htbp]
 \centering
 \includegraphics{figures/LE_comparison.pdf}
-\caption{\label{fig:LE_comparison}Comparison of Lyapunov exponents in
-the original article and this reproduction.}
+\caption{\label{fig:LE_comparison}Comparison of Lyapunov exponents,
+estimated by direct method, in the original article and this
+reproduction.}
 \end{figure}
 
 \subsection{Lyapunov exponents by indirect
@@ -420,17 +435,28 @@ between predicted and observed abundances) and prediction distance
 
 Although we were not able to make a quantitatively accurate reproduction
 of all results of the original article, the qualitative results were
-largely identical. Quantitative differences may have resulted from
+largely identical. For example, all Lyapunov exponents estimated by
+direct method are positive, as in the original article, consistent with
+chaotic dynamics. Quantitative differences may have resulted from
 difference in algorithms used. For example,the original used the
 \href{http://www.mpipks-dresden.mpg.de/~tisean/}{Tisean software} to
 calculate Lyapunov exponents. As this was available from CRAN
 \href{http://cran.r-project.org/web/packages/RTisean/index.html}{until
 mid 2014} and since it is a bit less well integrated with R, we instead
 use the tseriesChaos package \textcite{tseriesChaos}, which in any case
-was largely inspired by the TISEAN project. There may also have been
-some difference in data used for specific analyses, e.g., data with
-zeros removed or not, as it was not always possible to be sure the
-reproduction used exactly the same data.
+was largely inspired by the TISEAN project. In addition, there may have
+been some difference in algorithm parameters, as not all parameters
+required by the functions we used were reported in the original ms.
+There may also have been some difference in data used for specific
+analyses, e.g., data with zeros removed or not, as it was not always
+possible to be totally sure the reproduction used exactly the same data
+as the original article.
+
+In conclusion, this reproduction supports the general scientific
+conclusions of the original article, but also shows how difficult can be
+an accurate quantitative reproduction, even in the presence of the
+extensive methodological details provided alongside the original
+article.
 
 \section{Acknowledgements}\label{acknowledgements}
 

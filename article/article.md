@@ -69,7 +69,7 @@ The code for this reproduction resides in an R markdown document, as well as a s
 
 The reproduced populations dynamics were at least very similar to those in figure 1b-g of the original publication (figure @fig:dynamics). Note that we plot fourth root transformed values, rather than raw abundances with a y-axis break, as in the original article.
 
-![Observed population dynamics.](figures/dynamics.pdf) {#fig:dynamics}
+![Observed population dynamics.](figures/obs_pop_dyn.pdf) {#fig:dynamics}
 
 ## Data transformation
 
@@ -102,7 +102,7 @@ Spectral analyses in the original paper were presented graphically in figures S3
 
 Reproduced divergence rates (figure @fig:divergence) and comparison of the original and reproduced Lyapunov exponents (figure @fig:LE_comparison). The original article states: "the distance between initially nearby trajectories increased over time, and reached a plateau after about 20–30 days". The reproduced results appear not inconsistent with this statement, except for one group of species (Harpacticoids). The original article also stated that the analyses "yielded significantly positive Lyapunov exponents of strikingly similar value for all species (Fig. 3; mean exponent = 0.057 per day, s.d. = 0.005 per day, n = 9)". Reproduced exponents had very similar mean value, but had about four times greater standard deviation (mean = 0.055 and s.d. = 0.019).
 
-![Reproduced divergence rates and Lyapunov exponents (figure 3 in the original article).](figures/unnamed-chunk-50-1.pdf) {#fig:divergence}
+![Reproduced divergence rates and Lyapunov exponents (figure 3 in the original article).](figures/div_rate.pdf) {#fig:divergence}
 
 ![Comparison of Lyapunov exponents, estimated by direct method, in the original article and this reproduction.](figures/LE_comparison.pdf) {#fig:LE_comparison}
 
@@ -119,7 +119,7 @@ The article stated: "For short-term forecasts of only a few days, most species h
 
 ![Predictability (correlation between predicted and observed abundances) and prediction distance (days) (figure 2 in the original article).](figures/prediction_distance.pdf) {#fig:prediction_distance}
 
-
+**Add to the previous figure the data from the original article: "fig5.r-squared.csv".**
 
 # Conclusion
 

@@ -716,7 +716,7 @@ Then plot the graphs with LE:
 ```{r}
 LEs <- mutate(LEs, days=20, Difference=-0.5)
 g1 <- ggplot(diverg, aes(x=days, y=Difference)) + geom_point() + facet_wrap(~Species) +
-  geom_text(data=LEs, aes(label=round(le,3)), group=NULL)
+  geom_text(data=LEs, aes(x=60, y=-2.5, label=round(le,3)), group=NULL)
 g1
 ```
 
@@ -878,11 +878,25 @@ names(cors.long) <- c("Prediction_distance", "Variable", "Correlation")
 And plot our version of figure 2:
 
 ```{r}
-
-
+levels(cors.long$Variable)
 ggplot(cors.long, aes(x=Prediction_distance*3.75, y=Correlation)) + xlab("Prediction time (days)") +
   geom_point() +
-  facet_wrap(~Variable, scales="free_y" )
+  facet_wrap(~Variable, scales="free_y", ncol=3 )
+
+cors.long$Variable <- factor(cors.long$Variable, sort(levels(cors.long$Variable)))
+ggplot(cors.long, aes(x=Prediction_distance*3.75, y=Correlation)) + xlab("Prediction time (days)") +
+  geom_point() +
+  facet_wrap(~Variable, ncol=3 )
+
+cors.long$Variable <- factor(cors.long$Variable, c("Cyclopoids", "Rotifers", "Calanoid.copepods", "Picophytoplankton",
+                             "Nanophytoplankton", "Filamentous.diatoms", "Soluble.reactive.phosphorus",
+                             "Total.dissolved.inorganic.nitrogen", "Bacteria", "Ostracods", "Harpacticoids",
+                             "Protozoa"))
+ggplot(cors.long, aes(x=Prediction_distance*3.75, y=Correlation)) + xlab("Prediction time (days)") +
+  geom_point(col="red", size=3) +
+  facet_wrap(~Variable, ncol=3 )
+
+
 ```
 
 First pass working. Need to double check everything. Quite different patterns from in figure 2 of the nature paper. There is relatively little information in the paper or supplement about how figure 2 data was produced, so difficult to pin down the difference without asking authors.

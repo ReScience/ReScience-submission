@@ -44,24 +44,24 @@ We used the description of the model as well as the source code of the original 
 
 # Results
 
-First, we reproduced the basic output of Figures 3 and 4 using model inputs obtained from the author of the original article. We tested a range of different algorithms for producing Delaunay triangulations before settling on the same underlying algorithm as the original [@quickhull].
-
 ![Node-edge selection ensures that all relevant landscape features are retained in the accumulated cost surface. Note that the triangulation in the second panel incudes Null data nodes. These are trimmed prior to construction of the final graph.](node-edge_selection.png) {#fig:nodeselection}
+
+First, we reproduced the basic output of Figures 3 and 4 using model inputs obtained from the author of the original article. We tested a range of different algorithms for producing Delaunay triangulations before settling on the same underlying algorithm as the original [@quickhull].
 
 ![Accumlated cost surface construction begins by traversing the graph from the starting-node (open circle) to the remaining points in the landscape graph. In the final step, missing nodes are imputed according to a nearest neighbor selection.](irl-construction.png) {#fig:irlconstruction}
 
-Next, we reproduced the performance comparisons in Figure 7. Our findings suggest a more nuanced interpretation of the relative performance of the two methods. Although initial construction was much faster for regular landscape graphs, at a sufficiently high number of starting nodes the initial performance penalty afforded to irregular landscape graphs was outweighed by the decrease in per starting-node processing time. We attribute these findings to the fact that the simple structure of regular landscape graphs is amenable to matrix operations and that irregular landscape graphs have a lower number of nodes and edges.
+Next, we reproduced the performance comparisons in Figure 7. Our findings suggest a more nuanced interpretation of the relative performance of the two methods. Although initial construction was much faster for regular landscape graphs, at a sufficiently high number of starting nodes the initial performance penalty afforded to irregular landscape graphs was outweighed by the decrease in per starting-node processing time. We attribute these findings to the fact that the simple structure of regular landscape graphs is amenable to matrix operations and that irregular landscape graphs have a lower number node/edge features.
 
-![Performance comparisons](processing-speed.png) {#fig:performance}
+![Performance comparisons between regular and irregular landscape graphs. Note that for only two source cells, the performance benefit realized by the irregular landscape graph was outweighed by a higher initialization cost.](processing-speed.png) {#fig:performance}
 
 Profiling of the reference implementation code revealed that the bulk of the processing time required to construct irregular landscape graphs was spent on Delaunay triangulation. Note that our reference implementation uses compiled Fortran code [@quickhull] to implement Delaunay triangulations and compiled C code from the igraph package [@igraph] to construct graphs and calculate accumulated cost distances. 
 
-Finally, we reproduced the directional bias tests in Figure 8. As in the original article, we found that regular graphs produced directionally-biased cost surfaces. However, we were able to correct for these biases using the `gdistance::geoCorrection` function.
+Finally, we reproduced the directional bias tests in Figure 8. As in the original article, we found that regular graphs produced directionally-biased cost surfaces. However, we were able to correct for these biases using the `gdistance::geoCorrection` function. This correction involves scaling graph edge weights by the diagonal distance between grid cells. 
 
-![Directional Bias](figure-7.png) {#fig:directionalbias}
+![Comparison of directional bias between irregular, regular, and corrected-regular landscape graphs](figure-7.png) {#fig:directionalbias}
 
 # Conclusion
 
-We were able to replicate the finding of the original article that irregular landscape graphs provide a performance benefit relative to regular landscape graphs but this was true only under certain conditions. We found that although irregular landscape graphs suffer a high initialization cost relative to regular landscape graphs they have a lower individual (per-unit) starting-node processing time. Potential users of irregular landscape graphs should consider initialization and performance trade-offs prior to implementation. We were also able to replicate the finding that regular graphs produce directionally biased accumlated cost surfaces. However, we found that it is possible to correct for this bias.
+We were able to replicate the finding of the original article that irregular landscape graphs provide a performance benefit relative to regular landscape graphs but this was true only under certain conditions. We found that although irregular landscape graphs suffer a high initialization cost relative to regular landscape graphs they have a lower individual (per-unit) starting-node processing time. Potential users of irregular landscape graphs should consider initialization and performance trade-offs prior to implementation.
 
 # References

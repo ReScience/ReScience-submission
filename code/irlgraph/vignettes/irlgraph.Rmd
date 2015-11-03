@@ -18,7 +18,7 @@ This vignette describes the `irlgraph` package which provides functions to gener
 
 Currently the `irlgraph` package can only be installed by compiling from source. One easy way to compile `R` packages is to use the `devtools` package [@devtools]. Eventually, `irlgraph` may be submitted to CRAN where compiled binaries would be made available ( [http://cran.r-project.org](http://cran.r-project.org)).
 
-```{r echo=TRUE, eval=FALSE}
+```{r install-irlgraph, echo=TRUE, eval=FALSE}
 devtools::install_github("jsta/irlgraph", build_vignettes = TRUE)
 ```
 
@@ -42,7 +42,7 @@ The following code block loads the cost raster from @etherington2012 and calls t
 
 &nbsp;
 
-```{r eval=TRUE, fig.align='right', fig.height=4, fig.width=6}
+```{r coord-id, eval=TRUE, fig.align='right', fig.height=4, fig.width=6, cache=TRUE, autodep=TRUE, dev='png'}
 library(irlgraph)
 library(raster, quietly = TRUE)
 
@@ -97,7 +97,7 @@ points(xyFromCell(costsurf, graph$graincells),
 
 The underlying graph can be visualized with the following call to the `plot` command. This preliminary graph includes edge connections to null cell nodes. Note that these nodes and any edge connections to these cells are stripped in the code underlying the `irl_graph` function before the final graph is constructed.
 
-```{r eval=TRUE, fig.align='left', fig.height=3.2, fig.width=3.2}
+```{r print-mesh, eval=TRUE, fig.align='left', fig.height=3.2, fig.width=3.2, dev='png'}
 par(mar=c(2,0,0,0))
 geometry::trimesh(graph$tri$tri, graph$allcoords)
 points(graph$allcoords)
@@ -107,7 +107,7 @@ points(graph$allcoords)
 
 Partial accumlated cost surfaces can be generated from an irregular landscape graph by specifying a starting node to the `snode` or `scoord` arguments of the `acc_path` function. 
 
-```{r eval=TRUE, fig.align='right', fig.height=4, fig.width=6}
+```{r acc_cost, eval=TRUE, fig.align='right', fig.height=4, fig.width=6, dev='png',cache=TRUE,dependson='coord-id'}
 result<-acc_path(graph = graph, scoord = c(10.5, 10.5),
   costsurf = costsurf)
 
@@ -120,7 +120,7 @@ points(10.5, 10.5)
 
 These partial surfaces can be converted to complete accumulated cost surfaces by using the `impute_na` function to perform nearest neighbor interpolation.
 
-```{r eval=TRUE, fig.align='right', fig.height=4, fig.width=6}
+```{r impute_na, eval=TRUE, fig.align='right', fig.height=4, fig.width=6, dev='png'}
 result <- impute_na(result, costsurf, graph)
 
 par(mar=c(0,0,3,0))
@@ -134,19 +134,130 @@ points(10.5, 10.5)
 
 One advantage of using irregular landscape (IRL) graphs to generate accumulated cost surfaces is the reduction in processing times relative to regular landscape (RL) graphs. IRL graphs have less edge connections between nodes because they are formed from a delaunay triangulation rather than being fully diagonal. Apart from differences in edge density, it is difficult to compare the speed of the two approaches. Differences in programming language, implementation (compiled vs interpreted code), and style (looping vs vectorized code) can dramatically affect processing times and mask reliable estimation of processing speed. In the code chunk that follows, it appears that RL graphs are faster than IRL graphs for a single starting node. However, IRL graphs are faster when there are many (dozens) of starting nodes. IRL graphs afford greater increases in processing speed when greater numbers of starting nodes are calculated. 
 
-```{r eval=TRUE, fig.align='left', fig.height=3.2, fig.width=4.6}
+```{r processing_speed_1, eval=TRUE, fig.align='left', fig.height=3.2, fig.width=4.6, dev='png'}
 
 #110 nodes
 #coordmat <- matrix(c(rbind(seq(0.5, 38.5, 0.5), 0.5),
 #  rbind(0.5, seq(0.5, 16.5, 0.5))), byrow = TRUE, ncol = 2)
 
-#10 nodes
- coordmat <- matrix(c(rbind(seq(0.5, 2.5, 0.5), 0.5),
-   rbind(0.5, seq(0.5, 2.5, 0.5))), byrow = TRUE, ncol = 2)
+# #10 nodes
+#  coordmat <- matrix(c(rbind(seq(0.5, 2.5, 0.5), 0.5),
+#    rbind(0.5, seq(0.5, 2.5, 0.5))), byrow = TRUE, ncol = 2)
 
 #2 nodes
-# coordmat <- matrix(c(rbind(seq(0.5, 2.5, 0.5), 0.5),
-#   rbind(0.5, seq(0.5, 2.5, 0.5))), byrow = TRUE, ncol = 2)[1:2,]
+ coordmat <- matrix(c(rbind(seq(0.5, 2.5, 0.5), 0.5),
+   rbind(0.5, seq(0.5, 2.5, 0.5))), byrow = TRUE, ncol = 2)[1:2,]
+
+  dm <- c("40", "60", "80", "100")
+  
+  read_dm <- function(x){
+    as.matrix(read.delim(system.file(file.path(
+    "extdata/etherington20120code/", paste0("cost-surface", x,
+    "x", x, ".txt")), package = "irlgraph"), skip = 6,
+    na.strings = "-9999.0", header = FALSE, sep = "\t"))
+  }
+  
+  dm <- lapply(dm, function(x) read_dm(x))
+  
+  make_costsurf <- function(x){
+    costsurf <- raster::raster(nrows=dim(x)[1],ncols=dim(x)[2],
+    resolution=1,xmn=0, xmx = dim(x)[1], ymn = 0, ymx = dim(x)[2])
+    costsurf[] <- x
+    costsurf
+  }
+  
+  costsurfs <- lapply(dm, function(x) make_costsurf(x))
+  
+  times <- lapply(1:length(dm),
+    function(x) system.time(irl_acc(dm[[x]],
+    poicoords = matrix(c(10.5, 10.5), ncol = 2),
+    grainprop = 0.25, costsurf = costsurfs[[x]],
+    scoord = coordmat, cutoff = 0.2)))
+  
+  fulltimes <- lapply(1:length(dm), function (x) 
+    system.time(irl_acc(dm[[x]], poicoords = matrix(c(10.5, 10.5),
+    ncol = 2), costsurf = costsurfs[[x]], scoord = coordmat, 
+    irregular = FALSE, warn = FALSE)))
+  
+  regtimes <- lapply(costsurfs,
+    function(x) system.time(gdist_acc(x, scoord = coordmat)))
+  
+  times <- matrix(unlist(times), ncol = 5, byrow = TRUE)[,3]
+  fulltimes <- matrix(unlist(fulltimes), ncol = 5,
+    byrow = TRUE)[,3]
+  regtimes <- matrix(unlist(regtimes), ncol = 5, byrow = TRUE)[,3]
+  
+  count_vertedge <- function(graph, nullcells = TRUE){
+    #a triangulation is not fully diagonal...
+    #vcount includes nodes with no connections (null cells)
+    if(nullcells == TRUE){
+    (igraph::vcount(graph$graph) - length(graph$nullcells)) * igraph::ecount(graph$graph) 
+    }else{
+      igraph::vcount(graph$graph) * igraph::ecount(graph$graph) 
+    }
+  }
+  
+  vertxedges <- lapply(dm, function(x) count_vertedge(irl_graph(x,
+    grainprop = 0.25, cutoff = 0.2)))
+  
+  fullvertxedges <- lapply(dm,
+    function(x) count_vertedge(irl_graph(x,
+    irregular = FALSE), nullcells = FALSE))
+  
+  regvertxedges <- lapply(costsurfs,
+    function(x) count_vertedge(gdist_acc(x,
+    scoord = matrix(c(10.5, 10.5), ncol = 2,
+    byrow = TRUE))[[1]], nullcells = FALSE))
+  
+  par(mar=c(4,4,2,2))#501x360
+  plot(cbind(unlist(fullvertxedges), fulltimes),
+    ylim = c(0.08, 60), xlim = c(0, 1.4e+09), log = "y",
+    ylab = "Processing Times (s)",
+    xlab = "Landscape graph vertices x edges", 
+    main = paste0(nrow(coordmat), " starting nodes"))
+  points(cbind(vertxedges, times), col = "red")
+  points(cbind(regvertxedges, regtimes), col = "grey")
+  
+  df <- data.frame(vertxedges = unlist(vertxedges), times,
+    fullvertxedges = unlist(fullvertxedges), fulltimes,
+    regvertxedges = unlist(regvertxedges), regtimes)
+  
+  fit <- nls(times ~ b * vertxedges^power, data = df,
+    start = list(b = 0.001, power = 0.3))
+  fullfit <- nls(fulltimes ~ b * fullvertxedges^power,
+    data = df, start = list(b = 0.001, power = 0.3))
+  regfit <- nls(regtimes ~ b * regvertxedges^power,
+    data = df, start = list(b = 0.001, power = 0.3),
+    control = list(maxiter = 500))
+  
+  s <- seq(0, max(df$vertxedges), 1e+07)
+  fs <- seq(0, max(df$fullvertxedges), 1e+07)
+  rs <- seq(0, max(df$regvertxedges), 1e+07)
+  
+  lines(s, predict(fit, list(vertxedges = s)), col = "red")
+  lines(fs, predict(fullfit, list(fullvertxedges = fs)),
+    col = "black")
+  lines(rs, predict(regfit, list(regvertxedges = rs)),
+    col = "grey")
+  
+  legend("bottomright", legend = c("full","irregular", "regular"),
+  col = c("black", "red", "grey"), pch = 1)
+
+```
+
+```{r processing_speed_2, eval=TRUE, fig.align='left', fig.height=3.2, fig.width=4.6, dev='png'}
+
+#110 nodes
+#coordmat <- matrix(c(rbind(seq(0.5, 38.5, 0.5), 0.5),
+#  rbind(0.5, seq(0.5, 16.5, 0.5))), byrow = TRUE, ncol = 2)
+
+# #10 nodes
+  coordmat <- matrix(c(rbind(seq(0.5, 2.5, 0.5), 0.5),
+    rbind(0.5, seq(0.5, 2.5, 0.5))), byrow = TRUE, ncol = 2)
+
+#2 nodes
+#  coordmat <- matrix(c(rbind(seq(0.5, 2.5, 0.5), 0.5),
+#    rbind(0.5, seq(0.5, 2.5, 0.5))), byrow = TRUE, ncol = 2)[1:2,]
 
   dm <- c("40", "60", "80", "100")
   
@@ -247,7 +358,7 @@ One advantage of using irregular landscape (IRL) graphs to generate accumulated 
 
 ##Directional Bias
 
-```{r eval=TRUE, fig.align='left', fig.height=3.2, fig.width=6.4}
+```{r directional_bias, eval=TRUE, fig.align='left', fig.height=2.9, fig.width=6.4, dev='png'}
 library(raster)
 library(ggplot2)
 
@@ -320,9 +431,5 @@ gg <- gg + theme_opts
 
 gg
 ```
-
-
-
-
 
 #References

@@ -42,7 +42,7 @@ The following code block loads the cost raster from @etherington2012 and calls t
 
 &nbsp;
 
-```{r coord-id, eval=TRUE, fig.align='right', fig.height=4, fig.width=6, cache=TRUE, autodep=TRUE, dev='png'}
+```{r coord-id, eval=TRUE, fig.align='right', fig.height=4, fig.width=6, cache=TRUE, autodep=TRUE, dev='png',dpi=100}
 library(irlgraph)
 library(raster, quietly = TRUE)
 
@@ -97,7 +97,7 @@ points(xyFromCell(costsurf, graph$graincells),
 
 The underlying graph can be visualized with the following call to the `plot` command. This preliminary graph includes edge connections to null cell nodes. Note that these nodes and any edge connections to these cells are stripped in the code underlying the `irl_graph` function before the final graph is constructed.
 
-```{r print-mesh, eval=TRUE, fig.align='left', fig.height=3.2, fig.width=3.2, dev='png'}
+```{r print-mesh, eval=TRUE, fig.align='left', fig.height=3.2, fig.width=3.2, dev='png',dpi=100}
 par(mar=c(2,0,0,0))
 geometry::trimesh(graph$tri$tri, graph$allcoords)
 points(graph$allcoords)
@@ -107,7 +107,7 @@ points(graph$allcoords)
 
 Partial accumlated cost surfaces can be generated from an irregular landscape graph by specifying a starting node to the `snode` or `scoord` arguments of the `acc_path` function. 
 
-```{r acc_cost, eval=TRUE, fig.align='right', fig.height=4, fig.width=6, dev='png',cache=TRUE,dependson='coord-id'}
+```{r acc_cost, eval=TRUE, fig.align='right', fig.height=4, fig.width=6, dev='png',cache=TRUE,dependson='coord-id',dpi=100}
 result<-acc_path(graph = graph, scoord = c(10.5, 10.5),
   costsurf = costsurf)
 
@@ -120,7 +120,7 @@ points(10.5, 10.5)
 
 These partial surfaces can be converted to complete accumulated cost surfaces by using the `impute_na` function to perform nearest neighbor interpolation.
 
-```{r impute_na, eval=TRUE, fig.align='right', fig.height=4, fig.width=6, dev='png'}
+```{r impute_na, eval=TRUE, fig.align='right', fig.height=4, fig.width=6, dev='png',dpi=100}
 result <- impute_na(result, costsurf, graph)
 
 par(mar=c(0,0,3,0))
@@ -134,7 +134,7 @@ points(10.5, 10.5)
 
 One advantage of using irregular landscape (IRL) graphs to generate accumulated cost surfaces is the reduction in processing times relative to regular landscape (RL) graphs. IRL graphs have less edge connections between nodes because they are formed from a delaunay triangulation rather than being fully diagonal. Apart from differences in edge density, it is difficult to compare the speed of the two approaches. Differences in programming language, implementation (compiled vs interpreted code), and style (looping vs vectorized code) can dramatically affect processing times and mask reliable estimation of processing speed. In the code chunk that follows, it appears that RL graphs are faster than IRL graphs for a single starting node. However, IRL graphs are faster when there are many (dozens) of starting nodes. IRL graphs afford greater increases in processing speed when greater numbers of starting nodes are calculated. 
 
-```{r processing_speed_1, eval=TRUE, fig.align='left', fig.height=3.2, fig.width=4.6, dev='png'}
+```{r processing_speed_1, eval=TRUE, fig.align='left', fig.height=3.2, fig.width=4.6, dev='png',dpi=100}
 
 #110 nodes
 #coordmat <- matrix(c(rbind(seq(0.5, 38.5, 0.5), 0.5),
@@ -245,7 +245,7 @@ One advantage of using irregular landscape (IRL) graphs to generate accumulated 
 
 ```
 
-```{r processing_speed_2, eval=TRUE, fig.align='left', fig.height=3.2, fig.width=4.6, dev='png'}
+```{r processing_speed_2, eval=TRUE, fig.align='left', fig.height=3.2, fig.width=4.6, dev='png', dpi=100}
 
 #110 nodes
 #coordmat <- matrix(c(rbind(seq(0.5, 38.5, 0.5), 0.5),
@@ -358,7 +358,7 @@ One advantage of using irregular landscape (IRL) graphs to generate accumulated 
 
 ##Directional Bias
 
-```{r directional_bias, eval=TRUE, fig.align='left', fig.height=2.9, fig.width=6.4, dev='png'}
+```{r directional_bias, eval=TRUE, fig.align='left', fig.height=4.0, fig.width=10.4, dev='png', dpi=100}
 library(raster)
 library(ggplot2)
 

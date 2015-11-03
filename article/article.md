@@ -58,7 +58,7 @@ Profiling of the reference implementation code revealed that the bulk of the pro
 
 Finally, we reproduced the directional bias tests in Figure 8. As in the original article, we found that regular graphs produced directionally-biased cost surfaces. However, we were able to correct for these biases using the `gdistance::geoCorrection` function. This correction involves scaling graph edge weights by the diagonal distance between grid cells. 
 
-![Comparison of directional bias between irregular, regular, and corrected-regular landscape graphs](directional_bias-1.png) {#fig:directionalbias}
+![Comparison of directional bias between irregular, regular, and corrected-regular landscape graphs.](directional_bias-1.png) {#fig:directionalbias}
 
 # Conclusion
 

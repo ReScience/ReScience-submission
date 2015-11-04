@@ -54,7 +54,7 @@ Next, I reproduced the performance comparisons in Figure 7 (Figure @fig:performa
 
 ![Performance comparisons between regular and irregular landscape graphs. Note that for only two source cells, the performance benefit realized by the irregular landscape graph was outweighed by a higher initialization cost.](processing-speed.png) {#fig:performance}
 
-Profiling of the reference implementation code revealed that the bulk of the processing time required to construct irregular landscape graphs was spent on Delaunay triangulation. Note that our reference implementation uses compiled Fortran code [@quickhull] to implement Delaunay triangulations and compiled C code from the igraph package [@igraph] to construct graphs and calculate accumulated cost distances. 
+Profiling of the reference implementation code revealed that the bulk of the processing time required to construct irregular landscape graphs was spent on Delaunay triangulation. Note that the proposed reference implementation uses compiled Fortran code [@quickhull] to implement Delaunay triangulations and compiled C code from the igraph package [@igraph] to construct graphs and calculate accumulated cost distances. 
 
 Finally, I reproduced the directional bias tests in Figure 8 (Figure @fig:directionalbias). As in the original article, I found that regular graphs produced directionally-biased cost surfaces. However, I was able to correct for these biases by scaling graph edge weights according to the diagonal distance between grid cells (see the `gdistance::geoCorrection` function [@gdistance]).
 

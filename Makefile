@@ -1,6 +1,6 @@
 
-update_code:
-	rsync -av --exclude=.git --exclude='*.Rproj' --exclude='eth2012code' --exclude='.Rbuildignore' --exclude='.gitignore' --exclude='irlgraph_cache' --exclude='irlgraph_files' /home/jose/R/scripts/irlgraph code/
+#update_code:
+#	rsync -av --exclude=.git --exclude='*.Rproj' --exclude='eth2012code' --exclude='.Rbuildignore' --exclude='.gitignore' --exclude='irlgraph_cache' --exclude='irlgraph_files' -- exclude='irlgraph.pdf' /home/jose/R/scripts/irlgraph code/
 
 code/irlgraph/vignettes/irlgraph.pdf: code/irlgraph/vignettes/irlgraph.Rmd
 	Rscript -e 'rmarkdown::render("code/irlgraph/vignettes/irlgraph.Rmd")'

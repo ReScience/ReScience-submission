@@ -120,11 +120,12 @@ points(10.5, 10.5)
 
 These partial surfaces can be converted to complete accumulated cost surfaces by using the `impute_na` function to perform nearest neighbor interpolation.
 
-```{r impute_na, eval=TRUE, fig.align='right', fig.height=4, fig.width=6, dev='png',dpi=100}
-result <- impute_na(result, costsurf, graph)
+```{r impute_na, eval=TRUE, fig.align='right', fig.height=4, fig.width=6, dev='png', dpi=100}
+library(methods)
+result <- irlgraph::impute_na(result, costsurf, graph)
 
 par(mar=c(0,0,3,0))
-plot(result, box = FALSE, axes = FALSE,
+sp::plot(result, box = FALSE, axes = FALSE,
   legend.args = list(text = "Acc. Cost"),
   col = rev(viridis::viridis(255)))
 points(10.5, 10.5)
@@ -135,7 +136,7 @@ points(10.5, 10.5)
 One advantage of using irregular landscape (IRL) graphs to generate accumulated cost surfaces is the reduction in processing times relative to regular landscape (RL) graphs. IRL graphs have less edge connections between nodes because they are formed from a delaunay triangulation rather than being fully diagonal. Apart from differences in edge density, it is difficult to compare the speed of the two approaches. Differences in programming language, implementation (compiled vs interpreted code), and style (looping vs vectorized code) can dramatically affect processing times and mask reliable estimation of processing speed. In the code chunk that follows, it appears that RL graphs are faster than IRL graphs for a single starting node. However, IRL graphs are faster when there are many (dozens) of starting nodes. IRL graphs afford greater increases in processing speed when greater numbers of starting nodes are calculated. 
 
 ```{r processing_speed_1, eval=TRUE, fig.align='left', fig.height=3.2, fig.width=4.6, dev='png',dpi=100}
-
+library(methods)
 #110 nodes
 #coordmat <- matrix(c(rbind(seq(0.5, 38.5, 0.5), 0.5),
 #  rbind(0.5, seq(0.5, 16.5, 0.5))), byrow = TRUE, ncol = 2)
@@ -169,18 +170,18 @@ One advantage of using irregular landscape (IRL) graphs to generate accumulated 
   costsurfs <- lapply(dm, function(x) make_costsurf(x))
   
   times <- lapply(1:length(dm),
-    function(x) system.time(irl_acc(dm[[x]],
+    function(x) system.time(irlgraph::irl_acc(dm[[x]],
     poicoords = matrix(c(10.5, 10.5), ncol = 2),
     grainprop = 0.25, costsurf = costsurfs[[x]],
     scoord = coordmat, cutoff = 0.2)))
   
   fulltimes <- lapply(1:length(dm), function (x) 
-    system.time(irl_acc(dm[[x]], poicoords = matrix(c(10.5, 10.5),
+    system.time(irlgraph::irl_acc(dm[[x]], poicoords = matrix(c(10.5, 10.5),
     ncol = 2), costsurf = costsurfs[[x]], scoord = coordmat, 
     irregular = FALSE, warn = FALSE)))
   
   regtimes <- lapply(costsurfs,
-    function(x) system.time(gdist_acc(x, scoord = coordmat)))
+    function(x) system.time(irlgraph::gdist_acc(x, scoord = coordmat)))
   
   times <- matrix(unlist(times), ncol = 5, byrow = TRUE)[,3]
   fulltimes <- matrix(unlist(fulltimes), ncol = 5,
@@ -197,15 +198,15 @@ One advantage of using irregular landscape (IRL) graphs to generate accumulated 
     }
   }
   
-  vertxedges <- lapply(dm, function(x) count_vertedge(irl_graph(x,
+  vertxedges <- lapply(dm, function(x) count_vertedge(irlgraph::irl_graph(x,
     grainprop = 0.25, cutoff = 0.2)))
   
   fullvertxedges <- lapply(dm,
-    function(x) count_vertedge(irl_graph(x,
+    function(x) count_vertedge(irlgraph::irl_graph(x,
     irregular = FALSE), nullcells = FALSE))
   
   regvertxedges <- lapply(costsurfs,
-    function(x) count_vertedge(gdist_acc(x,
+    function(x) count_vertedge(irlgraph::gdist_acc(x,
     scoord = matrix(c(10.5, 10.5), ncol = 2,
     byrow = TRUE))[[1]], nullcells = FALSE))
   
@@ -280,18 +281,18 @@ One advantage of using irregular landscape (IRL) graphs to generate accumulated 
   costsurfs <- lapply(dm, function(x) make_costsurf(x))
   
   times <- lapply(1:length(dm),
-    function(x) system.time(irl_acc(dm[[x]],
+    function(x) system.time(irlgraph::irl_acc(dm[[x]],
     poicoords = matrix(c(10.5, 10.5), ncol = 2),
     grainprop = 0.25, costsurf = costsurfs[[x]],
     scoord = coordmat, cutoff = 0.2)))
   
   fulltimes <- lapply(1:length(dm), function (x) 
-    system.time(irl_acc(dm[[x]], poicoords = matrix(c(10.5, 10.5),
+    system.time(irlgraph::irl_acc(dm[[x]], poicoords = matrix(c(10.5, 10.5),
     ncol = 2), costsurf = costsurfs[[x]], scoord = coordmat, 
     irregular = FALSE, warn = FALSE)))
   
   regtimes <- lapply(costsurfs,
-    function(x) system.time(gdist_acc(x, scoord = coordmat)))
+    function(x) system.time(irlgraph::gdist_acc(x, scoord = coordmat)))
   
   times <- matrix(unlist(times), ncol = 5, byrow = TRUE)[,3]
   fulltimes <- matrix(unlist(fulltimes), ncol = 5,
@@ -308,15 +309,15 @@ One advantage of using irregular landscape (IRL) graphs to generate accumulated 
     }
   }
   
-  vertxedges <- lapply(dm, function(x) count_vertedge(irl_graph(x,
+  vertxedges <- lapply(dm, function(x) count_vertedge(irlgraph::irl_graph(x,
     grainprop = 0.25, cutoff = 0.2)))
   
   fullvertxedges <- lapply(dm,
-    function(x) count_vertedge(irl_graph(x,
+    function(x) count_vertedge(irlgraph::irl_graph(x,
     irregular = FALSE), nullcells = FALSE))
   
   regvertxedges <- lapply(costsurfs,
-    function(x) count_vertedge(gdist_acc(x,
+    function(x) count_vertedge(irlgraph::gdist_acc(x,
     scoord = matrix(c(10.5, 10.5), ncol = 2,
     byrow = TRUE))[[1]], nullcells = FALSE))
   
@@ -369,7 +370,7 @@ raster::projection(costsurfs[[2]]) <- ""
 midcoord <- matrix(c(30.5, 30.5), ncol = 2)
 
 irl <- raster::stack(sapply(1:10,
-function(x) irl_acc(dm[[2]], poicoords = midcoord,
+function(x) irlgraph::irl_acc(dm[[2]], poicoords = midcoord,
   grainprop = 0.45, costsurf = costsurfs[[2]],
   scoord = midcoord, cutoff = 0.4)))
 
@@ -378,13 +379,13 @@ irl <- raster::reclassify(irl, matrix(c(20, Inf, NA)))
 irl.df <- data.frame(raster::rasterToPoints(irl))
 irl.df$type <- "Irregular"
 
-rl <- gdist_acc(costsurf = costsurfs[[2]],
+rl <- irlgraph::gdist_acc(costsurf = costsurfs[[2]],
   scoord = midcoord, geocorrect = FALSE)[[1]]$result
 rl <- raster::reclassify(rl, matrix(c(10, Inf, NA)))
 rl.df <- data.frame(raster::rasterToPoints(rl))
 rl.df$type <- "Regular"
 
-rl_c <- gdist_acc(costsurf = costsurfs[[2]],
+rl_c <- irlgraph::gdist_acc(costsurf = costsurfs[[2]],
   scoord = midcoord, geocorrect = TRUE)[[1]]$result
 rl_c <- raster::reclassify(rl_c, matrix(c(20, Inf, NA)))
 rl.df_c <- data.frame(raster::rasterToPoints(rl_c))

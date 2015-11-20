@@ -7,5 +7,5 @@ Maintainer: Joseph Stachelek <jstachel@sfwmd.gov>
 Description: Generate accumulated cost surfaces with irregular landscape graphs following Etherington 2012.
 License: GPL
 Imports: igraph, Matrix, sp, raster, spatstat, gdistance, geometry
-Suggests: knitr, viridis, ggplot2, plyr, rgeos
+Suggests: knitr, viridis, ggplot2, plyr, rgeos, maptools
 VignetteBuilder: knitr

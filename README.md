@@ -1,56 +1,57 @@
 
-### ReScience submission repository
+\[Re\] Least-cost modelling on irregular landscape graphs, J. Stachelek, Re**Science**, 2015.
+  
+**A reference implementation of** *Least-cost modelling on irregular landscape graphs*, T. Etherington, 27, 2012.
 
-This is the submission repository for the [Re**Science** journal](https://rescience.github.io).
+**Keywords**: Least-cost path, Delaunay triangulation, Graph Theory
 
+##Prequisites 
+ * git
+ * R
+ * GNU make
+ * Tex
+ * pandoc + pandoc-crossref
 
-### How to submit an article ?
+##PDF Build Instructions (tested on Ubuntu 14.04 and 15.10)
+In a console, type:
 
+```
+$ sudo apt-get install git
+```
 
-1. Create a [github](https://github.com) account
+###devtools + dependencies
+```
+$ sudo apt-get install libcurl4-gnutls-dev
+$ sudo apt-get install libxml2-dev
+$ sudo apt-get install libssl-dev
+$ Rscript -e "install.packages('devtools')"
+```
 
-2. [Fork](https://help.github.com/articles/fork-a-repo/) the [ReScience submission](https://github.com/ReScience/ReScience-submission) repository
+###irlgraph + dependencies
+```
+$ sudo apt-get install libgeos-dev
+$ Rscript -e "install_github('jsta/irlgraph', dependencies = TRUE')"
+```
 
-3. Clone this new repository into your desktop environment
+###pandoc + dependencies
+```
+$ Rscript -e "install.packages('rmarkdown')"
+$ sudo apt-get install texlive texlive-latex-extra texlive-xetex texlive-fonts-extra texlive-bibtex-extra biber
+$ sudo wget https://github.com/jgm/pandoc/releases/download/1.15.2/pandoc-1.15.2-1-amd64.deb
+$ sudo dpkg -i pandoc-1.15.2-1-amd64.deb
+$ cabal update
+$ cabal install pandoc-crossref
+```
 
-   ```
-   $ git clone https://github.com/YOUR-USERNAME/ReScience-submission
-   ```
+###imagemagick
+```
+$ sudo apt-get install imagemagick
+```
 
-4. Create a branch (the branch name should be author names separated with dashes)
-
-   ```
-   $ git checkout -b AUTHOR1-AUTHOR2
-   ```
-
-
-5. Add your code & article (see [author guidelines](https://rescience.github.io/write)) and commit your changes:
-
-   ```
-   $ git commit -a -m "Some comment"
-   ```
-
-
-6. [Push](https://help.github.com/articles/pushing-to-a-remote/) to github
-
-   ```
-   $ git push origin AUTHOR1-AUTHOR2
-   ```
-
-7. Issue a [pull request](https://help.github.com/articles/using-pull-requests/) (PR) to Re**Science** with title "Review Request" and insert the following text in the description:
-
-  ```
-  **AUTHOR**
-
-  Dear @ReScience/editors,
-
-  I request a review for the reproduction of the following paper:
-
-  * References of the paper holding results you're replicating
-
-  I believed the original results have been faithfully reproduced as explained in the accompanying article.
-  ```
-
-8. Assign the PR to an editor from the [editorial board](https://rescience.github.io/board)
-
-9. Answer questions and requests made in the PR conversation page.
+###checkout source and build
+```
+$ git clone https://github.com/jsta/ReScience-submission.git
+$ cd ReScience-submission
+$ git checkout STACHELEK
+$ make all
+```

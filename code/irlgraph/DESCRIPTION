@@ -1,11 +1,26 @@
 Package: irlgraph
 Title: Generate Accumulated Cost Surfaces with Irregular Landscape Graphs
 Version: 0.6
-Date: 2015-09-14
+Date: 2015-12-30
 Author: Joseph Stachelek
 Maintainer: Joseph Stachelek <jstachel@sfwmd.gov>
-Description: Generate accumulated cost surfaces with irregular landscape graphs following Etherington 2012.
+Description: Generate accumulated cost surfaces with irregular landscape graphs
+    following Etherington 2012.
 License: GPL
-Imports: igraph, Matrix, sp, raster, spatstat, gdistance, geometry
-Suggests: knitr, viridis, ggplot2, plyr, rgeos, maptools
+Imports:
+    igraph,
+    Matrix,
+    sp,
+    raster,
+    spatstat,
+    gdistance,
+    geometry
+Suggests:
+    knitr,
+    viridis,
+    ggplot2,
+    plyr,
+    rgeos,
+    maptools
 VignetteBuilder: knitr
+RoxygenNote: 5.0.1

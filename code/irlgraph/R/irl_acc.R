@@ -1,16 +1,17 @@
 #'@name irl_acc
 #'@title Generate an accumulated cost surface from an irregular landscape graph
+#'@description Wraps the irl_graph, acc_path, and irl_acc functions
 #'@export
-#'@param dm matrix cost raster
-#'@param poicoords matrix
-#'@param grainprop numeric proportion of cells to be included as "grain cells".
-#'@param cutoff numeric between 0 and 1. Determines the threshold at which a cell is determined "very important".
-#'@param costsurf Raster cost surface
-#'@param scoord matrix specifying starting coordinates. Must be 2 columns.
+#'@param dm matrix 2d cost values
+#'@param poicoords matrix 2 column point-of-interest coordinates
+#'@param grainprop numeric proportion of cells to be included as "grain cells"
+#'@param cutoff numeric between 0 and 1. Determines the threshold at which a cell is determined "very important"
+#'@param costsurf raster cost surface
+#'@param scoord matrix matrix 2 column starting coordinates
 #'@param snode numeric starting node
-#'@param irregular logical
-#'@param warn logical
-#'@description This high level function allows for generation of an accumulated cost surface from a single function call. 
+#'@param irregular logical skip irregular node subsetting routine?
+#'@param warn logical print warnings?
+#'@description This high level function allows for generation of an accumulated cost surface from a single function call
 #'@examples \dontrun{
 #'set.seed(123) #make reproducible
 #'

@@ -1,10 +1,10 @@
 #'@name gdist_acc
 #'@title Generate an accumulated cost surface using a regular landscape graph and the gdistance transition class
-#'@param costsurf Raster
-#'@param scoord matrix 2 column
+#'@description The igraph package is used to contruct a regular landscape graph and calculate the accumulated cost of movement from each starting coordinate to points in a cost raster. 
+#'@param costsurf Raster cost surface
+#'@param scoord matrix 2 column starting coordinate
 #'@param snode numeric starting node number
 #'@param geocorrect logical use gdistance::geoCorrection() on transition matrix?
-#'@details need to add ability to call gdistance::geoCorrection
 #'@importFrom gdistance transition transitionMatrix
 #'@importFrom igraph graph.adjacency shortest.paths E
 #'@importFrom Matrix cBind rBind
@@ -54,12 +54,12 @@ gdist_acc <- function(costsurf, scoord = NULL, snode = NULL, geocorrect = TRUE){
     mtrans <- Matrix::cBind(mtrans,rep(0, nrow(mtrans)))
     
     startNode <- nrow(mtrans) #extra node to serve as origin
-    adjP <- cbind(rep(startNode, times=length(snode)), snode)
+    adjP <- cbind(rep(startNode, times = length(snode)), snode)
     mtrans[adjP] <- Inf
     adjacencyGraph <- igraph::graph.adjacency(mtrans, mode="directed", weighted=TRUE)
     
     igraph::E(adjacencyGraph)$weight <- 1/igraph::E(adjacencyGraph)$weight		
-    shortestPaths <- igraph::shortest.paths(adjacencyGraph, v=startNode)[-startNode]
+    shortestPaths <- igraph::shortest.paths(adjacencyGraph, v = startNode)[-startNode]
     
     result <- as(costsurf, "RasterLayer")
     result <- raster::setValues(result, shortestPaths)	

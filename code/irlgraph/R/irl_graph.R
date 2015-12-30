@@ -1,39 +1,42 @@
 #'@name irl_graph
 #'@title Generate an irregular landscape graph
-#'@param dm matrix cost raster
-#'@param poicoords matrix
-#'@param grainprop numeric
-#'@param cutoff numeric
-#'@param irregular logical
+#'@description Subset the nodes in a matrix of cost values based on user defined point-of-interest coordinates, a user-defined importance cutoff, and a randomly selected proportion of non-null cells. Generate a graph object from this subset using delaunay triangulation.
+#'@param dm matrix of 2d cost values
+#'@param poicoords matrix 2 column point-of-interest coordinates
+#'@param grainprop numeric proportion of cells selected as grain cells
+#'@param cutoff numeric user-defined importance cutoff
+#'@param irregular logical skip irregular node subsetting routine?
 #'@import sp
 #'@importFrom Matrix Matrix
 #'@importFrom igraph graph.adjacency E
 #'@importFrom raster raster extract boundaries cellFromCol cellFromRow cellFromXY xyFromCell
 #'@importFrom geometry delaunayn
 #'@export
-#'@examples
+#'@examples \dontrun{
 #'
-#'dm<-matrix(c( 1,  1,  1,  1,  1,
+#'dm <- matrix(
+#'c(1,  1,  1,  1,  1,
 #'  NA, NA, NA, NA, 1, 
-#'  1,  1,  1,  1,  1,  
-#'  1,  1,  1,  1,  1,  
+#'  1,  1,  1,  1,  1,
+#'  1,  1,  1,  1,  1,
 #'  1,  1,  1,  1,  1
 #'  ), ncol = 5, byrow = TRUE)
-#'
+#'  
 #'sp::plot(raster::raster(dm))
-#'raster::text(raster::raster(dm), which(raster::raster(dm)[] == 1))    
+#'raster::text(raster::raster(dm), which(raster::raster(dm)[] == 1))
 #'
 #'graph <- irl_graph(dm)
 #'plot(graph$graph)
 #'geometry::trimesh(graph$tri$tri, graph$allcoords)
+#'}
 
 irl_graph <- function(dm, poicoords = NA, grainprop = 0.25, cutoff = 0, irregular = TRUE){
-  csurf <- raster::raster(nrows=dim(dm)[1], ncols=dim(dm)[2], resolution=1, xmn=0, xmx = dim(dm)[1], ymn = 0, ymx = dim(dm)[2])
+  csurf <- raster::raster(nrows = dim(dm)[1], ncols = dim(dm)[2], resolution = 1, xmn = 0, xmx = dim(dm)[1], ymn = 0, ymx = dim(dm)[2])
   csurf[] <- dm
   
   get_cells <- function(dm, grainprop, poicoords, cutoff = 0){
     
-    csurf <- raster::raster(nrows=dim(dm)[1], ncols=dim(dm)[2], resolution=1, xmn=0, xmx = dim(dm)[1], ymn = 0, ymx = dim(dm)[2])
+    csurf <- raster::raster(nrows = dim(dm)[1], ncols = dim(dm)[2], resolution = 1, xmn = 0, xmx = dim(dm)[1], ymn = 0, ymx = dim(dm)[2])
     csurf[] <- dm
     
     xmax <- dim(csurf)[1]
@@ -41,7 +44,7 @@ irl_graph <- function(dm, poicoords = NA, grainprop = 0.25, cutoff = 0, irregula
     
     allcells <- raster::rasterToPoints(is.na(csurf))
     nullcells <- which(is.na(raster::extract(csurf,allcells[,1:2])))
-    limitcells <- c(raster::cellFromRow(csurf,c(1,ymax)),raster::cellFromCol(csurf,c(1,xmax)))
+    limitcells <- c(raster::cellFromRow(csurf, c(1, ymax)), raster::cellFromCol(csurf, c(1, xmax)))
     limitcells <- limitcells[!(limitcells %in% nullcells)]
     limitcells <- c(limitcells,which(raster::extract(raster::boundaries(csurf),allcells[,1:2]) == 1))
     limitcells <- limitcells[!duplicated(limitcells)]
@@ -53,7 +56,7 @@ irl_graph <- function(dm, poicoords = NA, grainprop = 0.25, cutoff = 0, irregula
     vipcells <- vipcells[!(vipcells %in% nullcells)]
     
     uncells <- raster::cellFromXY(csurf, allcells)[!raster::cellFromXY(csurf, allcells) %in% c(nullcells, vipcells, limitcells)]
-    #set.seed(123)
+    
     graincells <- sample(uncells, length(uncells) * grainprop)
     
     poicells<-NULL
@@ -70,7 +73,7 @@ irl_graph <- function(dm, poicoords = NA, grainprop = 0.25, cutoff = 0, irregula
   
   cells <- get_cells(dm = dm, poicoords = poicoords, grainprop = grainprop, cutoff = cutoff)
   
-  #'cells' contains all the cells in the following block
+  #cells contains all the cells in the following block
   poicells <- cells$poicells
   limitcells <- cells$limitcells
   vipcells <- cells$vipcells
@@ -96,7 +99,6 @@ irl_graph <- function(dm, poicoords = NA, grainprop = 0.25, cutoff = 0, irregula
     #deldir::deldir(cellcoords[,1], cellcoords[,2], suppressMsge = TRUE)
     
     tri <- geometry::delaunayn(cellcoords)
-    #tri <- geometry::delaunayn(allcoords)
     #trimesh(tri, allcoords)
     
     nodes <- rbind(tri[,-1], tri[,-2], tri[,-3])

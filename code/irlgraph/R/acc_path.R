@@ -1,10 +1,11 @@
 #'@name acc_path
 #'@title Generate a shortest path raster from a specific graph node or set of graph coordinates
+#'@description The shortest.paths function from the igraph package is applied to an igraph object and the results are coerced to a raster object.
 #'@export
 #'@importFrom igraph shortest.paths
 #'@param graph igraph object
-#'@param snode numeric node number
-#'@param scoord numeric coordinates of length 2
+#'@param snode numeric starting node number
+#'@param scoord matrix 2 column starting coordinate
 #'@param costsurf RasterLayer cost surface
 
 acc_path <- function(graph, costsurf, snode = NULL, scoord = NULL){
@@ -25,5 +26,6 @@ acc_path <- function(graph, costsurf, snode = NULL, scoord = NULL){
   result <- as(costsurf, "RasterLayer")
   result[] <- NA
   result[] <- spaths
+  
   result
 }

@@ -26,7 +26,7 @@ $ sudo apt-get install git
 $ sudo apt-get install libcurl4-gnutls-dev
 $ sudo apt-get install libxml2-dev
 $ sudo apt-get install libssl-dev
-$ sudo Rscript -e "install.packages('devtools', repos = 'https://cran.rstudio.com)"
+$ sudo Rscript -e "install.packages('devtools', repos = 'https://cran.rstudio.com')"
 ```
 
 ###irlgraph + dependencies
@@ -37,7 +37,7 @@ $ sudo Rscript -e "devtools::install_github('jsta/irlgraph', dependencies = TRUE
 
 ###pandoc + dependencies
 ```
-$ sudo Rscript -e "install.packages('rmarkdown', repos = 'https://cran.rstudio.com)"
+$ sudo Rscript -e "install.packages('rmarkdown', repos = 'https://cran.rstudio.com')"
 $ sudo apt-get install texlive texlive-latex-extra texlive-xetex texlive-fonts-extra
 $ sudo apt-get install texlive-bibtex-extra biber
 $ sudo wget https://github.com/jgm/pandoc/releases/download/1.15.2/pandoc-1.15.2-1-amd64.deb

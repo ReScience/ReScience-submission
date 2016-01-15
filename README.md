@@ -5,14 +5,14 @@
 
 **Keywords**: Least-cost path, Delaunay triangulation, Graph Theory
 
-##Prequisites 
+##PDF Build Instructions (tested on Ubuntu 14.04 and 15.10)
+###Prequisites 
  * git
  * R
  * GNU make
  * Tex
  * pandoc + pandoc-crossref
 
-##PDF Build Instructions (tested on Ubuntu 14.04 and 15.10)
 In a console, type:
 
 ```
@@ -58,4 +58,15 @@ $ git clone https://github.com/jsta/ReScience-submission.git
 $ cd ReScience-submission
 $ git checkout STACHELEK
 $ make all
+```
+
+##Docker Build Instructions
+###Prequisites 
+ * docker
+
+In a console, type:
+
+```
+$ docker pull jsta/irlgraph-test
+$ docker cp $(docker create jsta/irlgraph-test):ReScience-submission/article/article.pdf .
 ```

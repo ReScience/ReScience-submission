@@ -20,4 +20,5 @@ all: build_article
 clean:
 	rm -rf code/irlgraph/vignettes/irlgraph_cache
 	rm -rf code/irlgraph/vignettes/irlgraph_files
+	rm code/irlgraph/vignettes/irlgraph.pdf
 	

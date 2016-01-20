@@ -256,20 +256,31 @@ The parameters are as follows :
 
 \begin{longtable}[c]{@{}lll@{}}
 \toprule
-Name & Description & Value\tabularnewline
+\begin{minipage}[b]{0.20\columnwidth}\raggedright\strut
+Name
+\strut\end{minipage} &
+\begin{minipage}[b]{0.45\columnwidth}\raggedright\strut
+Description
+\strut\end{minipage} &
+\begin{minipage}[b]{0.27\columnwidth}\raggedright\strut
+Value
+\strut\end{minipage}\tabularnewline
 \midrule
 \endhead
-\(\sigma\) & Updating rate of the average reward & 0.02\tabularnewline
-\(\eta\) & Variance of evolution noise & 0.0001\tabularnewline
-\(P_n\) & Variance of observation noise & 0.05\tabularnewline
-\(\beta\) & Rate of exploration & 1.0\tabularnewline
-\(\rho\) & Update rate of the reward function & 0.1\tabularnewline
-\(\gamma\) & Discount factor & 0.95\tabularnewline
-\(\tau\) & Time step of graph exploration & 0.08\tabularnewline
-depth & Depth of search in graph exploration & 3\tabularnewline
-\(\phi\) & Update rate of the transition function & 0.5\tabularnewline
-init cov & Initialisaton of covariance matrice & 1.0\tabularnewline
-\(\kappa\) & Unscentered transform parameters & 0.1\tabularnewline
+\begin{minipage}[t]{0.20\columnwidth}\raggedright\strut
+\(\sigma\) \(\eta\) \(P_n\) \(\beta\) \(\rho\) \(\gamma\) \(\tau\) depth
+\(\phi\) init cov \(\kappa\)
+\strut\end{minipage} &
+\begin{minipage}[t]{0.45\columnwidth}\raggedright\strut
+Updating rate of the average reward Variance of evolution noise Variance
+of observation noise Rate of exploration Update rate of the reward
+function Discount factor Time step of graph exploration Depth of search
+in graph exploration Update rate of the transition function
+Initialisaton of covariance matrice Unscentered transform parameters
+\strut\end{minipage} &
+\begin{minipage}[t]{0.27\columnwidth}\raggedright\strut
+0.02 0.0001 0.05 1.0 0.1 0.95 0.08 3 0.5 1.0 0.1
+\strut\end{minipage}\tabularnewline
 \bottomrule
 \end{longtable}
 

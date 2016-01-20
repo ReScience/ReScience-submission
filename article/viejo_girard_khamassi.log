@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012/Debian) (format=xelatex 2013.5.16)  6 JAN 2016 18:15
+This is XeTeX, Version 3.1415926-2.4-0.9998 (TeX Live 2012/Debian) (format=xelatex 2013.5.16)  20 JAN 2016 11:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1222,7 +1222,7 @@ File: english.lbx 2015/10/21 v3.1 biblatex localization (PK/JW/AB)
 \@quotelevel=\count413
 \@quotereset=\count414
 
-No file viejo_girard_khamassi.aux.
+(./viejo_girard_khamassi.aux)
 \openout1 = `viejo_girard_khamassi.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 171.
@@ -1245,7 +1245,7 @@ LaTeX Font Info:    Checking defaults for EU1/lmr/m/n on input line 171.
 LaTeX Font Info:    ... okay on input line 171.
 LaTeX Font Info:    Checking defaults for T3/cmr/m/n on input line 171.
 LaTeX Font Info:    Try loading font information for T3+cmr on input line 171.
-(/usr/share/texmf/tex/latex/tipa/t3cmr.fd
+ (/usr/share/texmf/tex/latex/tipa/t3cmr.fd
 File: t3cmr.fd 2001/12/31 TIPA font definitions
 )
 LaTeX Font Info:    ... okay on input line 171.
@@ -1265,12 +1265,11 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 171.
 LaTeX Info: Redefining \pageref on input line 171.
 LaTeX Info: Redefining \nameref on input line 171.
+
+(./viejo_girard_khamassi.out) (./viejo_girard_khamassi.out)
 \@outlinefile=\write7
 \openout7 = `viejo_girard_khamassi.out'.
 
-
-
-Package hyperref Warning: Rerun to get /PageLabels entry.
 
 ABD: EveryShipout initializing macros ABD: EverySelectfont initializing macros
 LaTeX Info: Redefining \selectfont on input line 171.
@@ -1353,11 +1352,12 @@ Package biblatex Info: Automatic encoding selection.
 \openout6 = `viejo_girard_khamassi.bcf'.
 
 Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file 'viejo_girard_khamassi.bbl' not found.
+Package biblatex Info: ... file 'viejo_girard_khamassi.bbl' found.
 
-No file viejo_girard_khamassi.bbl.
+(./viejo_girard_khamassi.bbl)
 Package biblatex Info: Reference section=0 on input line 171.
 Package biblatex Info: Reference segment=0 on input line 171.
+
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
 *geometry* verbose mode - [ preamble ] result:
@@ -1423,24 +1423,13 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 212.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 224.
-
-LaTeX Warning: Citation 'keramati' on page 1 undefined on input line 229.
-
-
-LaTeX Warning: Citation 'geist' on page 1 undefined on input line 233.
-
-
-LaTeX Warning: Citation 'geist' on page 1 undefined on input line 243.
-
-
-Package longtable Warning: Column widths have changed
-(longtable)                in table 1 on input line 274.
-
 File: rescience-logo.pdf Graphic file (type QTm)
 <use  "rescience-logo.pdf" > [1
 
 ]
-Overfull \hbox (100.21481pt too wide) in paragraph at lines 510--511
+File: rescience-logo.pdf Graphic file (type QTm)
+ <use  "rescience-logo.pdf" > [2]
+Overfull \hbox (100.21481pt too wide) in paragraph at lines 521--522
 []$\OML/cmm/m/it/10 Q\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 s[]; a[]\OT1/cmr/m/n/10 
 ) = [](\OML/cmm/m/it/10 s[]; a[]\OT1/cmr/m/n/10 ) + \OML/cmm/m/it/10 ^^M [] p[]
 \OT1/cmr/m/n/10 (\OMS/cmsy/m/n/10 f\OML/cmm/m/it/10 s; a\OMS/cmsy/m/n/10 g ! \O
@@ -1449,53 +1438,38 @@ cmm/m/it/10 s[]; b\OT1/cmr/m/n/10 )[]$
  []
 
 File: rescience-logo.pdf Graphic file (type QTm)
-<use  "rescience-logo.pdf" > [2]
-
-LaTeX Warning: Reference `fig:figure1' on page 3 undefined on input line 668.
-
-File: rescience-logo.pdf Graphic file (type QTm)
 <use  "rescience-logo.pdf" > [3]
 File: ../code/fig.pdf Graphic file (type QTm)
  <use  "../code/fig.pdf" >
+LaTeX Font Info:    Font shape `EU1/lmss/m/it' in size <9> not available
+(Font)              Font shape `EU1/lmss/m/sl' tried instead on input line 711.
 
-LaTeX Warning: Empty bibliography on input line 700.
-
-
-Package longtable Warning: Table widths have changed. Rerun LaTeX.
-
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 702.
 File: rescience-logo.pdf Graphic file (type QTm)
+
 <use  "rescience-logo.pdf" > [4]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 702.
- (./viejo_girard_khamassi.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 702.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 702.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 713.
+File: rescience-logo.pdf Graphic file (type QTm)
+ <use  "rescience-logo.pdf" > [5]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 713.
+
+(./viejo_girard_khamassi.aux)
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 713.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 713.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
-
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
-Package biblatex Warning: Please (re)run Biber on the file:
-(biblatex)                viejo_girard_khamassi
-(biblatex)                and rerun LaTeX afterwards.
 
 Package logreq Info: Writing requests to 'viejo_girard_khamassi.run.xml'.
 \openout1 = `viejo_girard_khamassi.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 37848 strings out of 494011
- 708609 string characters out of 3153095
- 1074926 words of memory out of 3000000
- 40651 multiletter control sequences out of 15000+200000
- 7832 words of font info for 50 fonts, out of 3000000 for 9000
+ 37874 strings out of 494011
+ 709174 string characters out of 3153095
+ 1074931 words of memory out of 3000000
+ 40667 multiletter control sequences out of 15000+200000
+ 7840 words of font info for 51 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
- 55i,16n,73p,803b,733s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 55i,16n,73p,803b,1110s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on viejo_girard_khamassi.pdf (4 pages).
+Output written on viejo_girard_khamassi.pdf (5 pages).

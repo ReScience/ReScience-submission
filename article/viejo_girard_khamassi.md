@@ -57,6 +57,7 @@ As this notation ($R(S_1, EM)$) is not defined in the rest of the article, we as
 
 The parameters are as follows :
 
+------------------ ----------------------------------------- -------------------------
 Name               Description                               Value
 ------------------ ----------------------------------------- -------------------------
 $\sigma$           Updating rate of the average reward       0.02

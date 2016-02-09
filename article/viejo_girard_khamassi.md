@@ -41,7 +41,7 @@ Bibliography:
 This study is a reference implementation of @keramati that proposed an arbitration mechanism between a goal-directed strategy and a habitual strategy,
 used to model the behavior of rats in instrumental conditionning tasks. 
 The habitual strategy is the Kalman Q-Learning from @geist. 
-We replicate the results of the first task i.e. the devaluation experiment with two states and two actions.
+We replicate the results of the first task, i.e. the devaluation experiment with two states and two actions.
 The implementation is in python with numpy, scipy and matplotlib library. 
 The authors couldn't provide the original implementation and we are not aware of others implementations elsewhere.
 
@@ -57,7 +57,7 @@ As this notation ($R(S_1, EM)$) is not defined in the rest of the article, we as
 
 The parameters are as follows :
 
------------------- ----------------------------------------- -------------------------
+
 Name               Description                               Value
 ------------------ ----------------------------------------- -------------------------
 $\sigma$           Updating rate of the average reward       0.02
@@ -69,106 +69,118 @@ $\gamma$           Discount factor                           0.95
 $\tau$             Time step of graph exploration            0.08
 depth              Depth of search in graph exploration      3
 $\phi$             Update rate of the transition function    0.5
-init cov           Initialisaton of covariance matrice       1.0
+init cov           Initialisation of covariance matrice       1.0
 $\kappa$           Unscentered transform parameters          0.1
 ------------------ ----------------------------------------- -------------------------
 
 We describe the algorithm of our implementation in details. 
 The process of action selection and reward update are separated for clarity.
 
->> Initialization
+> **Initialization**
 
->>> $$Q(s, a)^{Goal-Directed} = \{ 0, \ldots \}$$
+>> $Q(s, a)^{Goal-Directed} = \{ 0, \ldots \}$
 
->>> $$Q(s, a)^{Habitual} = \{ 0, \dots \}$$
+>> $Q(s, a)^{Habitual} = \{ 0, \dots \}$
 
->>> $$
-\Sigma = \left(
+>> $\#$ Covariance matrix
+
+>> $\Sigma = \left(
     \begin{array}{*4{c}}
     cov \times \eta &  0 &  \ldots & 0 \\
      0 &  cov \times \eta &  \ldots & \vdots \\
     \vdots &  \ldots &  \ddots & 0 \\
      0 &  \ldots &  0 & cov \times \eta \\     
-  \end{array}\right)
-$$
+  \end{array}\right)$
 
->>> $R(S1, EM) = 1$
+>> $R(S1, EM) = 1$ $\#$ Reward value
 
->>> $\bar{R} = 0$
+>> $\bar{R} = 0$ $\#$ Reward rate
 
->>> $\hat{R}(s,a) = \{0,\ldots\}$
+>> $\hat{R}(s,a) = \{0,\ldots\}$ $\#$ Reward function 
 
->> Main Loop
+> **Main Loop**
 
->>> $\textbf{FOR}\ i = 1:T$
+>> $\textbf{FOR}\ i = 1:T$
 
->>>> $s_t = S_0$
+>>> $s_t = S_0$ $\#$ Initial state
 
->>>> $\textbf{IF}\ i = T_{devaluation}$
+>>> $\textbf{IF}\ i = T_{devaluation}$ $\#$ Moderate / Extensive training
 
->>>>> $R(S1, EM) = 0$
+>>>> $R(S1, EM) = 0$
 
->>>>> $\hat{R}(S1, EM) = -1$
+>>>> $\hat{R}(S1, EM) = -1$
 
->>>> $\textbf{WHILE}\ s_t \neq S1 \bigwedge a_t \neq EM$
+>>> $\textbf{WHILE}\ s_t \neq S1 \bigwedge a_t \neq EM$
 
->>>>> $a_t = \textbf{Selection}(s_t)$
+>>>> $a_t = \textbf{Selection}(s_t)$
 
->>>>> $r_t = R(s_t,a_t)$
+>>>> $r_t = R(s_t,a_t)$
 
->>>>> $s_{t+1} = transition(s_t, a_t)$
+>>>> $s_{t+1} = transition(s_t, a_t)$
 
->>>>> $\textbf{Update}(s_t,a_t, s_{t+1}, r_t)$
+>>>> $\textbf{Update}(s_t,a_t, s_{t+1}, r_t)$
 
->> Selection 
+> **Selection** 
 
->>> $\{a_1,\ldots,ai,\ldots\} \leftarrow sort(Q(s_t,a_i))$
+>> $\#$ Sort the Q-values in descending order
 
->>> $VPI(s_t, a_1) = (Q(s_t,a_2)^{H}-Q(s_t,a_1)^{H})P(Q(s_t,a_1)^{H}<Q(s_t,a_2)^{H}) + \frac{\sigma(s_t,a_t)}{\sqrt{2\pi}} e^{-\frac{(Q(s_t,a_2)^H - Q(s_t,a_1)^H)^2}{2\sigma(s_t,a_t)^2}}$
+>> $\{a_1,\ldots,ai,\ldots\} \leftarrow sort(Q(s_t,a_i))$
 
->>> $VPI(s_t, a_i) = (Q(s_t,a_i)^{H}-Q(s_t,a_1)^{H})P(Q(s_t,a_i)^{H}>Q(s_t,a_1)^{H}) + \frac{\sigma(s_t,a_t)}{\sqrt{2\pi}} e^{-\frac{(Q(s_t,a_1)^H - Q(s_t,a_i)^H)^2}{2\sigma(s_t,a_t)^2}}$
+>> $\#$ VPI : Value of Precise Information
 
->>> $\textbf{FOR}\ i \in \{a_1, a_2,\ldots, a_i, \ldots\}$
+>> $VPI(s_t, a_1) = (Q(s_t,a_2)^{H}-Q(s_t,a_1)^{H})P(Q(s_t,a_1)^{H}<Q(s_t,a_2)^{H})+ \frac{\sigma(s_t,a_t)}{\sqrt{2\pi}} e^{-\frac{(Q(s_t,a_2)^H - Q(s_t,a_1)^H)^2}{2\sigma(s_t,a_t)^2}}$
 
->>>> $\textbf{IF}\ VPI(s_t, a_i) \geq \tau \bar{R}$
+>> $VPI(s_t, a_i) = (Q(s_t,a_i)^{H}-Q(s_t,a_1)^{H})P(Q(s_t,a_i)^{H}>Q(s_t,a_1)^{H}) + \frac{\sigma(s_t,a_t)}{\sqrt{2\pi}} e^{-\frac{(Q(s_t,a_1)^H - Q(s_t,a_i)^H)^2}{2\sigma(s_t,a_t)^2}}$
 
->>>>> $Q(s_t,a_i) = \hat{R}(s_t,a_i) + \gamma \sum\limits_{s'}p_{T}(\{s,a\}\rightarrow s') \max\limits_{b \in A} Q(s',b)^{Goal-directed}$
+>> $\textbf{FOR}\ i \in \{a_1, a_2,\ldots, a_i, \ldots\}$
 
->>>> $\textbf{ELSE}$
+>>> $\textbf{IF}\ VPI(s_t, a_i) \geq \tau \bar{R}$
 
->>>>> $Q(s_t,a_i) = Q(s_t,a_i)^{Habitual}$
+>>>> $\#$ Q-Value from Goal-directed system is evaluated
 
->>> $a_t \leftarrow \textit{SoftMax}(Q(s_t,a), \beta)$
+>>>> $Q(s_t,a_i) = \hat{R}(s_t,a_i) + \gamma \sum\limits_{s'}p_{T}(\{s,a\}\rightarrow s') \max\limits_{b \in A} Q(s',b)^{Goal-directed}$
 
->> Update
+>>> $\textbf{ELSE}$
 
->>> $\bar{R} = (1-\sigma) \bar{R} + \sigma r_t$
+>>>> $\#$ Q-Value from Habitual system is retrieved
 
->>> $\hat{R}(s_t,a_t) =(1 - \rho) \hat{R} + \rho r_t$
+>>>> $Q(s_t,a_i) = Q(s_t,a_i)^{Habitual}$
 
->>> $p_{T}(s_t, a_t, s_{t+1}) = (1 - \phi) p_{T}(s_t, a_t, s_{t+1}) + \phi$
+>> $a_t \leftarrow \textit{SoftMax}(Q(s_t,a), \beta)$
 
->>> Specific to Kalman Q-Learning
+> **Update**
 
->>> $\Theta = \{ \theta_j, 0 \geq j \geq 2|S.A|\}$
+>> $\bar{R} = (1-\sigma) \bar{R} + \sigma r_t$ $\#$ Reward Rate
 
->>> $\check{W} = \{ w_j, 0 \geq j \geq 2|S.A| \}$
+>> $\hat{R}(s_t,a_t) =(1 - \rho) \hat{R} + \rho r_t$ $\#$ Reward function
 
->>> $\check{R} = \{ \check{r}_j = \theta_j(s_t,a_t) - \gamma \max\limits_{b \in A} \theta_j(s_{t+1},b),\ 0 \geq j \geq 2|S.A|\}$
+>> $p_{T}(s_t, a_t, s_{t+1}) = (1 - \phi) p_{T}(s_t, a_t, s_{t+1}) + \phi$ $\#$ Probability of transition
 
->>> $r_{predicted} = \sum\limits_{j=0}^{2|S.A|} w_j \check{r}_j$
+>> Specific to Kalman Q-Learning
 
->>> $P_{\theta_j \check{r}_j} = \sum\limits_{j=0}^{2|S.A|} w_j (\theta_j - Q^{Habitual}_t)(\check{r}_j - r_{predicted})$
+>> $\#$ Sigma-points sampling
 
->>> $P_{\check{r}_j} = \sum\limits_{j=0}^{2|S.A|} w_j (\check{r}_j - r_{predicted})^2 + P_n$
+>> $\Theta = \{ \theta_j, 0 \geq j \geq 2|S.A|\}$ 
 
->>> $K_t = P_{\theta_j \check{r}_j} P_{\check{r}_j}^{-1}$
+>> $\check{W} = \{ w_j, 0 \geq j \geq 2|S.A| \}$
 
->>> $\delta_t = r_t - r_{predicted}$
+>> $\check{R} = \{ \check{r}_j = \theta_j(s_t,a_t) - \gamma \max\limits_{b \in A} \theta_j(s_{t+1},b),\ 0 \geq j \geq 2|S.A|\}$
 
->>> $Q_{t+1}^{Habitual} = Q_{t}^{H} + K_t \delta_t$
+>> $r_{predicted} = \sum\limits_{j=0}^{2|S.A|} w_j \check{r}_j$
 
->>> $P_{t+1}^{H} = P_{t}^{H} - K_t P_{\Sigma_t} K_t^T$
+>> $\#$ Covariance computation
+
+>> $P_{\theta_j \check{r}_j} = \sum\limits_{j=0}^{2|S.A|} w_j (\theta_j - Q^{Habitual}_t)(\check{r}_j - r_{predicted})$
+
+>> $P_{\check{r}_j} = \sum\limits_{j=0}^{2|S.A|} w_j (\check{r}_j - r_{predicted})^2 + P_n$
+
+>> $K_t = P_{\theta_j \check{r}_j} P_{\check{r}_j}^{-1}$ $\#$ Kalman gain
+
+>> $\delta_t = r_t - r_{predicted}$ $\#$ Reward-prediction error
+
+>> $Q_{t+1}^{Habitual} = Q_{t}^{H} + K_t \delta_t$
+
+>> $P_{t+1}^{H} = P_{t}^{H} - K_t P_{\Sigma_t} K_t^T$
 
 # Results
 

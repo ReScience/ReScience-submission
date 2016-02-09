@@ -11,13 +11,18 @@
 # Speed/accuracy trade-off between the habitual and the goal-directed processes.
 # M. Keramati, A. Dezfouli, P. Piray. Plos Comp Bio, 7(5), 2011
 # -------------------------------------------------------------------------
-
+from __future__ import print_function
+try:
+	import xrange as range # Overrides range in Python2, does nothing in Python 3
+except Exception:
+	pass
 import numpy as np
 from fonctions import *
 from models import *
 from matplotlib import *
 from pylab import *
 import sys
+
 
 # -------------------------------------------------------------------------
 # PARAMETERS + INITIALIZATION
@@ -67,7 +72,7 @@ for i in xrange(nb_blocs):
 		selection.initialize()
 		state = 's0'
 		rewards[0][rewards[('s1','em')]] = 1.0
-		print exp, nb_trials, deval_time
+		print(exp, nb_trials, deval_time)
 		for j in xrange(nb_trials):
 			#Setting Reward
 			if j == deval_time:
@@ -94,14 +99,6 @@ meandata = {i:{j:np.mean(data[i][j], 0) for j in ['vpi', 'r', 'p']} for i in ['m
 # -----------------------------------
 # Plot
 # -----------------------------------
-params = {'backend':'pdf',
-		  'axes.labelsize':10,
-		  'text.fontsize':10,
-		  'legend.fontsize':10,
-		  'xtick.labelsize':8,
-		  'ytick.labelsize':8,
-		  'text.usetex':False}
-
 dashes = ['--', '-.', '-']
 colors = ['black', 'grey']
 

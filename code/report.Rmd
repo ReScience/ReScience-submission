@@ -65,6 +65,7 @@ library(tseriesChaos)
 library(reshape2)
 library(mgcv)
 library(repmis)
+library(magrittr)
 
 spp.abund <- read.csv(text=getURL(paste0(repo,"/data/species_abundances_original.csv")), skip=7, header=T)
 
@@ -79,13 +80,14 @@ The Protozoa variable contains some numbers with comman as the decimal separator
 spp.abund$Protozoa <- as.numeric(str_replace(spp.abund$Protozoa, ",", "."))
 ```
 
-Format the dates as dates
+Format the dates as dates.
 
 ```{r}
 spp.abund$Date <- dmy(spp.abund$Date)
+# y123 <- year(spp.abund$Date) %% 100
+# year(spp.abund$Date) <- 1900 + y123
+# rm(y123)
 ```
-
-Ooops... R assumes the experiment was done in the 21st century. Shouldn't matter too much.
 
 Check dates match the Day.number (should give true):
 ```{r}
@@ -101,16 +103,16 @@ which(duplicated(spp.abund$Date))
 Original dataset contains a duplicated date: 28/10/1996 (row 709 and 710 in excel sheet). Lets change the date in row 709 to 26/10/1996, which will put it half way between the two surrounding dates:
 
 ```{r}
-which(spp.abund$Date==ymd("2096-10-28 UTC"))
-spp.abund$Date[701] <- ymd("2096-10-26 UTC")
+which(spp.abund$Date==ymd("1996-10-28 UTC"))
+spp.abund$Date[701] <- ymd("1996-10-26 UTC")
 ```
 
-Check dates match the Day.number (should give true):
+Check dates match the Day.number (should give false, as we changed a date):
 ```{r}
 sum(spp.abund$Day.number == 1+as.numeric((spp.abund$Date - spp.abund$Date[1]) / 24 / 60 / 60)) == length(spp.abund$Date)
 ```
 
-Fix the Day.number problem:
+Recalculate the Day.number variable from the dates:
 ```{r}
 spp.abund$Day.number <- 1+as.numeric((spp.abund$Date - spp.abund$Date[1]) / 24 / 60 / 60)
 ```
@@ -141,14 +143,17 @@ Now put the two datasets together
 all.data <- rbind(spp.abund, nuts)
 ```
 
-Now select only the date range used in the Nature paper. From the supplment *The analysis in Benincà et al. (Nature 2008) covered all data from 16/06/1991 until 20/10/1997*. (Remembering dates in the R dataframes are 2090s.)
+Now select only the date range used in the Nature paper. From the supplment *The analysis in Benincà et al. (Nature 2008) covered all data from 16/06/1991 until 20/10/1997*. 
 ```{r}
-all.data <- filter(all.data, Date>=dmy("15/06/2091") & Date<=dmy("21/10/2097"))
+all.data <- filter(all.data, Date>=dmy("15/06/1991") & Date<=dmy("21/10/1997"))
 
 #all.data[all.data$Date==dmy("16/06/2091"),]
 #all.data[all.data$Date==dmy("20/10/2097"),]
 
 ```
+
+
+
 
 # Reproducing figure 1b through 1g
 
@@ -242,15 +247,53 @@ g1 <- ggplot(aes(x=as.numeric(Day.number), y=value^0.25, col=variable), data=all
 g1
 ```
 
+
+
+
 # Data transformation
 
 Now we need to work with transformed data. Details of the transformation, copied from the Supplmentary information are in indented quote style in the following sections... looks like this:
 
 > 3. Transformation of the time series. We transformed the original time series, shown in Fig. 1b-g of the main text, to obtain stationary time series with equidistant data and homogeneous units of measurement. The transformation steps are illustrated for the bacteria (Fig. S1).
 
-Aside: The ELE supplement contains the raw data and the transformed data, in separate data sheets. I (Owen) also got the interpolated data from Stephen Ellner directly.
+The ELE supplement contains the raw data and the transformed data, in separate data sheets. I (Owen) also got the interpolated data from Stephen Ellner directly.
 
-## Interpolation
+
+## Removal of long sequences of zeros
+
+> The time series of cyclopoid copepods, protozoa, filamentous diatoms, harpacticoid copepods and ostracods contained long sequences of zero values. This does not imply that these species were absent from the food web during these periods, but that their concentrations were below the detection limit. Time series dominated by many zeros can bias the statistical analysis. Therefore, these time series were shortened to remove long sequences of zero values, before the data transformation.
+
+The exact method for identifying the "long sequences of zeros" was not given. However, the transformed data with zeros removed was provided, and from this we can get the day range of the retained data:
+
+```{r}
+tr <- read.csv(text=getURL(paste0(repo,"/data/transformed_data_Nature2008.csv")),
+               skip=7, na.string="")
+
+#head(tr)
+
+tr <- tr[,-14:-24] ## remove bad columns
+tr <- tr[-693:-694,] ## remove last two rows (contain summary stats)
+tr <- gather(tr, key="Species", value="Abundance", 2:13)
+levels(tr$Species)[levels(tr$Species)=="Calanoids"] <- "Calanoid.copepods"
+levels(tr$Species)[levels(tr$Species)=="Total.Dissolved.Inorganic.Nitrogen"] <- "Total.dissolved.inorganic.nitrogen"
+names(tr)[2] <- "variable"
+names(tr)[1] <- "Day.number"
+tr$Day.number <- as.numeric(as.character(tr$Day.number))
+## get day range
+min.max.day <- group_by(tr, variable) %>%
+  summarise(min.day=min(Day.number[!is.na(Abundance)]), max.day=max(Day.number[!is.na(Abundance)]))
+```
+
+Now we create a trimmed version of our data:
+
+```{r}
+trimmed_raw <- full_join(all.data, min.max.day)
+trimmed_raw <- filter(trimmed_raw, Day.number>min.day & Day.number<max.day)
+```
+
+
+
+## Interpolation (zeros trimmed)
 
 > First, the time series were interpolated using cubic hermite interpolation, to obtain data with equidistant time intervals of 3.35 days (Fig. S1a).
 
@@ -266,67 +309,65 @@ xout <- seq(343.35, 2658, by=3.35)
 
 Perform the interpolation:
 ```{r}
-all.data1 <- na.omit(all.data)
-mt <- plyr::dlply(all.data1,
-                  "variable",
-                  function(xx) pracma::interp1(x=xx$Day.number,
-                                               y=xx$value,
-                                               xi=xout,
-                                               method="cubic"))
-## Aside: the duplicated date that was previously fixed was only discovered by a warning message
-## given by the pracma::interp1 function!
 
-mt <- as.data.frame(mt)
-mt <- cbind(Day.number=xout, mt)
-mt <- gather(mt, variable, value, 2:13)
+# make a function to do the interpolation
+# next two lines make variables for testing
+#x <- trimmed_raw %>% filter(variable=="Cyclopoids") %$% Day.number
+#y <- trimmed_raw %>% filter(variable=="Cyclopoids") %$% value
+Interpolate <- function(x, y) {
+  xout.inner <- xout[xout>=min(x) & xout<=max(x)]
+  res <- pracma::interp1(x=as.numeric(x),
+                  y=as.numeric(y),
+                  xi=xout.inner,
+                  method="cubic")
+  res.df <- data.frame(Day.number=xout.inner,
+                       value=res)
+}
+
+# run the function and tidy the data
+# (somewhat ashamed of this code...)
+
+# remove NAs before interpolation, so they don't cause problems
+trimmed_raw <- na.omit(trimmed_raw)
+res <- group_by(trimmed_raw, variable) %>%
+  do(le=Interpolate(.$Day.number, .$value))
+for(p in 1:nrow(res)){
+    temp <- data.frame(variable=res[p,1],
+                       res[p,2][[1]])
+    if(p==1)
+      trimmed_interp <- temp
+    if(p>1)
+      trimmed_interp <- rbind(trimmed_interp, temp)
+  }
+  
+#mt <- as.data.frame(mt)
+#mt <- cbind(Day.number=xout, mt)
+#mt <- gather(mt, variable, value, 2:13)
 ```
 
-Check this against the data direct from Steve:
 
-```{r}
-
-from.steve <- read.csv(text=getURL(paste0(repo,"/data/interp_short_allsystem_newnames.csv")), header=T)
-
-from.steve <- gather(from.steve, Species, Abundance, 2:13)
-
-names(from.steve) <- c("Day.number", "variable", "value")
-
-g1 <- ggplot(mt, aes(x=as.numeric(Day.number), y=value)) +
-  facet_wrap(~variable, ncol=2, scales="free_y") +
-  geom_line(size=0.5, col="black") +
-  scale_colour_manual(values = species.colour.mapping)
-g2 <- geom_line(data=from.steve, aes(x=Day.number, y=value), col="red")
-g1 + g2
-
-```
-
-Looks very good.
-
-
-## Fourth root transform
+## Fourth root transform  (zeros trimmed)
 
 > Next, because the original time series showed many sharp spikes, the time series were rescaled using a fourth-root power transformation (Fig. S1b). The sharp spikes bias "direct method" estimates of the Lyapunov exponent, because nearby pairs of reconstructed state vectors mostly occurred in the troughs between spikes. The average rate of subsequent trajectory divergence from these pairs is therefore an estimate of the local Lyapunov exponent in the troughs, which may be very different from the global Lyapunov exponent. By making spikes and troughs more nearly symmetric, the power transformation resulted in a much more even spread of nearby state vector pairs across the full range of the data for all functional groups in the food web. The transformation is also useful for fitting nonlinear models of the deterministic skeleton (used for nonlinear predictability and indirect method estimates of the Lyapunov exponent), which was done by least squares and therefore is most efficient when error variances are stabilized. Fourth-root transformation is intermediate between the square-root transformation that would approximately stabilize the measurement error variance in count data from random subsamples, and the log transformation that is usually recommended for stabilizing process noise variance due to stochastic variation in birth and death rates.
 
 ```{r}
-mt$fr.value <- mt$value^0.25
+trimmed_interp$fr.value <- trimmed_interp$value^0.25
 ```
 
 
-## Detrend
+## Detrend  (zeros trimmed)
 
 > The time series were then detrended using a Gaussian kernel with a bandwidth of 300 days (red line in Fig. S1b), to obtain stationary time series. Most species did not show long-term trends, except for the bacteria, detritivores (ostracods and harpacticoid copepods), dissolved inorganic nitrogen and soluble reactive phosphorus. One possible explanation for these trends in the microbial loop could be the slow accumulation of refractory organic material in the mesocosm, but we have not measured this component.
 
 
-
-
 ```{r}
-ww.td <- filter(mt, variable=="Total.dissolved.inorganic.nitrogen" |
+ww.td <- filter(trimmed_interp, variable=="Total.dissolved.inorganic.nitrogen" |
                   variable=="Soluble.reactive.phosphorus" |
                   variable=="Bacteria" |
                   variable=="Ostracods" |
                   variable=="Harpacticoids")
 ## and to not detrend
-ww.ntd <- filter(mt, variable!="Total.dissolved.inorganic.nitrogen" &
+ww.ntd <- filter(trimmed_interp, variable!="Total.dissolved.inorganic.nitrogen" &
                   variable!="Soluble.reactive.phosphorus" &
                   variable!="Bacteria" &
                   variable!="Ostracods" &
@@ -349,44 +390,7 @@ detrended <- rbind(ww1, ww2)
 ```
 
 
-
-## Zero removal
-
-> The time series of cyclopoid copepods, protozoa, filamentous diatoms, harpacticoid copepods and ostracods contained long sequences of zero values. This does not imply that these species were absent from the food web during these periods, but that their concentrations were below the detection limit. Time series dominated by many zeros can bias the statistical analysis. Therefore, these time series were shortened to remove long sequences of zero values, before the data transformation. The transformed data of all species in the food web are shown in Figure S2.
-
-Since the method for this was not given, we do it by getting the trimmed day range from the fully transformed data in the ELE supplement.
-
-```{r, echo=FALSE}
-
-tr <- read.csv(text=getURL(paste0(repo,"/data/transformed_data_Nature2008.csv")),
-               skip=7, na.string="")
-
-#head(tr)
-
-tr <- tr[,-14:-24] ## remove bad columns
-tr <- tr[-693:-694,] ## remove last two rows (contain summary stats)
-tr <- gather(tr, key="Species", value="Abundance", 2:13)
-levels(tr$Species)[levels(tr$Species)=="Calanoids"] <- "Calanoid.copepods"
-levels(tr$Species)[levels(tr$Species)=="Total.Dissolved.Inorganic.Nitrogen"] <- "Total.dissolved.inorganic.nitrogen"
-names(tr)[2] <- "variable"
-names(tr)[1] <- "Day.number"
-tr$Day.number <- as.numeric(as.character(tr$Day.number))
-## get day range
-min.max.day <- group_by(tr, variable) %>%
-  summarise(min.day=min(Day.number[!is.na(Abundance)]), max.day=max(Day.number[!is.na(Abundance)]))
-
-```
-
-Now we create a trimmed version of our data:
-
-```{r}
-trimmed_detrended <- full_join(detrended, min.max.day)
-trimmed_detrended <- filter(trimmed_detrended, Day.number>min.day & Day.number<max.day)
-```
-
-
-
-## Rescale
+## Rescale (zeros trimmed)
 
 > Finally, the time series were linearly rescaled to have zero mean and a standard deviation of 1 (Fig. S1c).
 
@@ -394,104 +398,82 @@ trimmed_detrended <- filter(trimmed_detrended, Day.number>min.day & Day.number<m
 
 ```{r}
 ## standardise
-scaled_trimmed_final <- group_by(trimmed_detrended, variable) %>%
+scaled_trimmed_final <- group_by(detrended, variable) %>%
   mutate(stand.y=as.numeric(scale(dt.value)))
 summarise(scaled_trimmed_final, mean=mean(stand.y), sd=sd(stand.y))
 
 ## or don't standardise
-final <- detrended
-final$y <- final$dt.value
-summarise(final, mean=mean(y), sd=sd(y))
+#final <- detrended
+#final$y <- final$dt.value
+#summarise(final, mean=mean(y), sd=sd(y))
 ```
 
 ```{r}
-glimpse(final)
+#glimpse(scaled_trimmed_final)
 ```
 
 
+## Compare the zeros removed transformed
 
 
-## Figure S1 (visualising the transformation)
-
-Choose a species to plot:
-```{r}
-soi <- "Bacteria"
-```
-
-Raw and interpolated data:
-
-```{r}
-g1 <- ggplot(filter(all.data, variable==soi), aes(x=Day.number, y=value)) +
-  facet_wrap(~variable, ncol=2, scales="free_y") +
-  geom_point(size=1, col="black") + geom_line(size=0.1) +
-  scale_colour_manual(values = species.colour.mapping) + ggtitle("Raw and interpolated data")
-g2 <- geom_line(data=filter(final, variable==soi), aes(x=Day.number, y=value), size=0.25, col="blue")
-g1 + g2
-```
-
-Fourth root transformed with trend:
-
-```{r}
-g1 <- ggplot(filter(final, variable==soi), aes(x=Day.number, y=fr.value)) +
-  facet_wrap(~variable, ncol=2, scales="free_y") +
-  geom_point(size=0.5, col="black") + geom_line(size=0.1) +
-  scale_colour_manual(values = species.colour.mapping) + ggtitle("Quarter power trans. and trend")
-g2 <- geom_line(data=filter(final, variable==soi), aes(x=Day.number, y=trend), size=0.25, col="blue")
-g1 + g2
-```
-
-Detrended and normalised:
-
-```{r}
-g1 <- ggplot(filter(final, variable==soi), aes(x=Day.number, y=y)) +
-  facet_wrap(~variable, ncol=2, scales="free_y") +
-  geom_point(size=0.5, col="black") + geom_line(size=0.1) +
-  scale_colour_manual(values = species.colour.mapping) + ggtitle("Detrended and normalised")
-g1
-```
-
-## Compare the data made above to published data
-
-Now take a look at the transformed data provided in the ELE Supplement, in the data sheet *transformed_data_Nature2008*.
-
-First note that the data in the ELE supplement include a data point at day 2658.1, whereas the data above finish at 2654.85. This is because the real data end at 2658, and the interpolation method above doesn't want to create data outside the range of the original data.
-
-The graph isn't produced here, as there is a mismatch in days abundances were interpolated to. Should fix this...
 
 
 ```{r, echo=FALSE, eval=T}
 
+tr$Day.number <- as.character(tr$Day.number)
+scaled_trimmed_final$Day.number <- as.character(scaled_trimmed_final$Day.number)
+
 ## Days are not matching at present, so the following doesn't work with the merge
 
-two.datasets <- full_join(tr, scaled_trimmed_final)
+two.datasets <- inner_join(tr, scaled_trimmed_final)
+two.datasets$Day.number <- as.numeric(two.datasets$Day.number)
+
 #head(two.datasets)
 #match(tr$Day.number, final$Day.number)
 
 
 #ggplot(two.datasets, aes(x=Abundance, y=stand.y)) + geom_point()
 
-ggplot(filter(two.datasets), aes(x=as.numeric(Day.number), y=stand.y)) +
-  geom_path() +
-  facet_wrap(~variable) +
-  geom_line(aes(y=Abundance), col="red")
+# ggplot(filter(two.datasets), aes(x=as.numeric(Day.number), y=stand.y)) +
+#   geom_path() +
+#   facet_wrap(~variable) +
+#   geom_line(aes(y=Abundance), col="red")
+
+# ggplot(filter(two.datasets, variable=="Soluble.reactive.phosphorus"), aes(x=as.numeric(Day.number), y=stand.y)) +
+#   geom_path() +
+#   facet_wrap(~variable) +
+#   geom_line(aes(y=Abundance), col="red")
+
 
 #ggplot(two.datasets, aes(x=as.numeric(Day.number), y=stand.y)) + geom_line() +
 #  facet_wrap(~variable) +
 #  geom_line(aes(y=Abundance), col="red")
 
+#unique(two.datasets$variable)
+
+two.datasets$variable <- plyr::revalue(two.datasets$variable,
+                                 c(Soluble.reactive.phosphorus="P",
+                                   Total.dissolved.inorganic.nitrogen="N"))
+
 ggplot(two.datasets, aes(x=Abundance, y=stand.y)) + geom_point() +
-  facet_wrap(~variable) 
-
-
+  facet_wrap(~variable) +
+  geom_abline(slope=1, intercept = 0, colour="red") +
+  xlab("Values from published data") +
+  ylab("Reproduced values")
 
 ```
 
-Looks OK, but suggests / shows that that data in the ELE supplement were standardised after removal of the zeros.
+Looks pretty good, unclear why N and P are less well reproduced than others.
+
+
+```{r}
+final <- scaled_trimmed_final
+final$y <- final$stand.y
+```
 
 
 
 # Spectral analyses
-
 
 ```{r}
 
@@ -500,7 +482,7 @@ spectra <- final %>% group_by(variable) %>% do(spectra = spectrum(ts(data=.$y, e
 spec <- spectra %>% do(data.frame(spec = .$spec[[2]], freq = .$spec[[1]], group = .[[1]]))
 
 ggplot(spec, aes(y=spec, x=1/freq, group=group)) + geom_line() + facet_wrap(~group, scales="free_y") + scale_x_log10() + 
-coord_cartesian(ylim=c(0,40), xlim=c(10,240))
+coord_cartesian(ylim=c(0,50), xlim=c(10,240))
 
 freq.est <- spec %>% group_by(group) %>% mutate(max_spec = max(spec), freq = freq)
 freq.est <- subset(freq.est, max_spec==spec, select=c(freq,group))
@@ -532,7 +514,7 @@ Create dataset with zeros removed for this table (note that this is probably not
 ```{r}
 
 #final_nozeros <- final[final$value!=0,]
-final_nozeros <- scaled_trimmed_final
+final_nozeros <- final
 
 #
 #final_nozeros <- final_nozeros[final_nozeros$variable!="Cyclopoids" & final_nozeros$variable!="Filamentous.diatoms",c("Day.number","variable","stand.y")]
@@ -629,7 +611,7 @@ original.cors <- read.csv(text=getURL(paste0(repo,"/data/table1_original_article
 original.cors <- as.matrix(original.cors)
 
 qplot(x=as.vector(original.cors), y=as.vector(cor.coefs), ylim = c(-0.4,0.4), xlim=c(-0.4, 0.4),
-      xlab="Correlations in original article", ylab="Correlations calculated in this reproduction") + geom_abline(intercept=0,slope=1)
+      xlab="Correlations in original article", ylab="Correlations calculated in this reproduction") + geom_abline(intercept=0,slope=1, colour="red")
 
 max(as.vector(original.cors) - as.vector(cor.coefs), na.rm=T)
 ```
@@ -705,8 +687,17 @@ LEs <- group_by(diverg.short, Species) %>%
 Then plot the graphs with LE:
 ```{r}
 LEs <- mutate(LEs, days=20, Difference=-0.5)
-g1 <- ggplot(diverg, aes(x=days, y=Difference)) + geom_point() + facet_wrap(~Species) +
-  geom_text(data=LEs, aes(x=60, y=-2.5, label=round(le,3)), group=NULL)
+
+diverg$Species_short <- plyr::revalue(diverg$Species,
+                                 c(Soluble.reactive.phosphorus="P",
+                                   Total.dissolved.inorganic.nitrogen="N"))
+LEs$Species_short <- plyr::revalue(LEs$Species,
+                                 c(Soluble.reactive.phosphorus="P",
+                                   Total.dissolved.inorganic.nitrogen="N"))
+
+
+g1 <- ggplot(diverg, aes(x=days, y=Difference)) + geom_point() + facet_wrap(~Species_short) +
+  geom_text(data=LEs, aes(x=60, y=0, label=round(le,3)))
 g1
 ```
 
@@ -725,8 +716,219 @@ ggplot(both_LEs, aes(x=LE, y=le)) + geom_point() + xlim(0.02, 0.09) + ylim(0.02,
 ```
 
 
+Get the mean and standard deviation of the original and reproduced Lyapunov exponents
+
+```{r}
+mean(original.LEs$LE)
+sd(original.LEs$LE)
+
+mean(LEs$le)
+sd(LEs$le)
+
+```
+
+
 
 # Lyapunov exponents by indirect method
+
+It seems that this must have been done on data without zeros removed...
+
+## Interpolation (zeros retained)
+
+> First, the time series were interpolated using cubic hermite interpolation, to obtain data with equidistant time intervals of 3.35 days (Fig. S1a).
+
+Make a sequence of times at which to interpolate. 
+
+```{r}
+#aggregate(Day.number ~ variable, all.data, min)
+#aggregate(Day.number ~ variable, all.data, max)
+#xout <- seq(343.35, 2657.2, by=3.35)
+xout <- seq(343.35, 2658, by=3.35)
+#range(xout)
+```
+
+Perform the interpolation:
+```{r}
+all.data <- na.omit(all.data)
+mt <- plyr::dlply(all.data,
+                  "variable",
+                  function(xx) pracma::interp1(x=xx$Day.number,
+                                               y=xx$value,
+                                               xi=xout,
+                                               method="cubic"))
+## Aside: the duplicated date that was previously fixed was only discovered by a warning message
+## given by the pracma::interp1 function!
+
+mt <- as.data.frame(mt)
+mt <- cbind(Day.number=xout, mt)
+mt <- gather(mt, variable, value, 2:13)
+```
+
+Check this against the data direct from Steve:
+
+```{r}
+
+from.steve <- read.csv(text=getURL(paste0(repo,"/data/interp_short_allsystem_newnames.csv")), header=T)
+
+from.steve <- gather(from.steve, Species, Abundance, 2:13)
+
+names(from.steve) <- c("Day.number", "variable", "value")
+from.steve$value_steve <- from.steve$value 
+from.steve <- select(from.steve, -value)
+
+## correcting an offset in the two datasets Day numbers
+from.steve$Day.number <- from.steve$Day.number + 1.65 + 3.35
+
+mt$Day.number <- as.character(mt$Day.number)
+from.steve$Day.number <- as.character(from.steve$Day.number)
+ff <- inner_join(mt, from.steve)
+mt$Day.number <- as.numeric(mt$Day.number)
+from.steve$Day.number <- as.numeric(from.steve$Day.number)
+ff$Day.number <- as.numeric(ff$Day.number)
+
+g1 <- ggplot(mt, aes(x=as.numeric(Day.number), y=sqrt(value))) +
+  facet_wrap(~variable, ncol=2, scales="free_y") +
+  geom_line(size=0.5, col="black") +
+  scale_colour_manual(values = species.colour.mapping)
+g2 <- geom_line(data=from.steve, aes(x=Day.number, y=sqrt(value_steve)), col="red")
+g1 + g2
+
+
+mt$Day.number <- as.character(mt$Day.number)
+from.steve$Day.number <- as.character(from.steve$Day.number)
+ff <- inner_join(mt, from.steve)
+mt$Day.number <- as.numeric(mt$Day.number)
+from.steve$Day.number <- as.numeric(from.steve$Day.number)
+ff$Day.number <- as.numeric(ff$Day.number)
+
+str(ff)
+
+ff$difference <- ff$value - ff$value_steve
+qplot(log10(ff$difference))
+
+qplot(data=ff, x=log10(value_steve), y=log10(value)) +
+  xlab("Values from Ellner (log 10 transformed)") +
+  ylab("Reproduced values (log 10 transformed)") +
+  geom_abline(intercept=0, slope=1, colour="red")
+
+```
+
+Looks very good.
+
+
+## Fourth root transform (zeros retained)
+
+> Next, because the original time series showed many sharp spikes, the time series were rescaled using a fourth-root power transformation (Fig. S1b). The sharp spikes bias "direct method" estimates of the Lyapunov exponent, because nearby pairs of reconstructed state vectors mostly occurred in the troughs between spikes. The average rate of subsequent trajectory divergence from these pairs is therefore an estimate of the local Lyapunov exponent in the troughs, which may be very different from the global Lyapunov exponent. By making spikes and troughs more nearly symmetric, the power transformation resulted in a much more even spread of nearby state vector pairs across the full range of the data for all functional groups in the food web. The transformation is also useful for fitting nonlinear models of the deterministic skeleton (used for nonlinear predictability and indirect method estimates of the Lyapunov exponent), which was done by least squares and therefore is most efficient when error variances are stabilized. Fourth-root transformation is intermediate between the square-root transformation that would approximately stabilize the measurement error variance in count data from random subsamples, and the log transformation that is usually recommended for stabilizing process noise variance due to stochastic variation in birth and death rates.
+
+```{r}
+mt$fr.value <- mt$value^0.25
+```
+
+
+## Detrend (zeros retained)
+
+> The time series were then detrended using a Gaussian kernel with a bandwidth of 300 days (red line in Fig. S1b), to obtain stationary time series. Most species did not show long-term trends, except for the bacteria, detritivores (ostracods and harpacticoid copepods), dissolved inorganic nitrogen and soluble reactive phosphorus. One possible explanation for these trends in the microbial loop could be the slow accumulation of refractory organic material in the mesocosm, but we have not measured this component.
+
+
+
+
+```{r}
+ww.td <- filter(mt, variable=="Total.dissolved.inorganic.nitrogen" |
+                  variable=="Soluble.reactive.phosphorus" |
+                  variable=="Bacteria" |
+                  variable=="Ostracods" |
+                  variable=="Harpacticoids")
+## and to not detrend
+ww.ntd <- filter(mt, variable!="Total.dissolved.inorganic.nitrogen" &
+                  variable!="Soluble.reactive.phosphorus" &
+                  variable!="Bacteria" &
+                  variable!="Ostracods" &
+                  variable!="Harpacticoids")
+## detrend:
+ww1 <- group_by(ww.td, variable) %>%
+  mutate(trend=ksmooth(Day.number,fr.value,bandwidth=300,kernel="normal")$y)
+ww1$dt.value <- ww1$fr.value-ww1$trend
+#ww1 <- select(ww1, trend)
+
+## don't detrend
+ww2 <- ww.ntd
+ww2$trend <- 0
+
+ww2$dt.value <- ww2$fr.value
+
+## rejoin
+detrended <- rbind(ww1, ww2)
+
+```
+
+
+
+
+
+## Rescale (zeros retained)
+
+> Finally, the time series were linearly rescaled to have zero mean and a standard deviation of 1 (Fig. S1c).
+
+(Note that this standardisation is not done in the code sent by Stephen. Probably shouldn't make a difference in the GAMs?)
+
+```{r}
+## standardise
+scaled_trimmed_final <- group_by(trimmed_detrended, variable) %>%
+  mutate(stand.y=as.numeric(scale(dt.value)))
+summarise(scaled_trimmed_final, mean=mean(stand.y), sd=sd(stand.y))
+
+## or don't standardise
+final <- detrended
+final$y <- final$dt.value
+summarise(final, mean=mean(y), sd=sd(y))
+```
+
+```{r}
+glimpse(final)
+```
+
+
+
+
+## Figure S1 (visualising the transformation)
+
+Choose a species to plot:
+```{r}
+soi <- "Bacteria"
+```
+
+Raw and interpolated data:
+
+```{r}
+g1 <- ggplot(filter(all.data, variable==soi), aes(x=Day.number, y=value)) +
+  facet_wrap(~variable, ncol=2, scales="free_y") +
+  geom_point(size=1, col="black") + geom_line(size=0.1) +
+  scale_colour_manual(values = species.colour.mapping) + ggtitle("Raw and interpolated data")
+g2 <- geom_line(data=filter(final, variable==soi), aes(x=Day.number, y=value), size=0.25, col="blue")
+g1 + g2
+```
+
+Fourth root transformed with trend:
+
+```{r}
+g1 <- ggplot(filter(final, variable==soi), aes(x=Day.number, y=fr.value)) +
+  facet_wrap(~variable, ncol=2, scales="free_y") +
+  geom_point(size=0.5, col="black") + geom_line(size=0.1) +
+  scale_colour_manual(values = species.colour.mapping) + ggtitle("Quarter power trans. and trend")
+g2 <- geom_line(data=filter(final, variable==soi), aes(x=Day.number, y=trend), size=0.25, col="blue")
+g1 + g2
+```
+
+Detrended and normalised:
+
+```{r}
+g1 <- ggplot(filter(final, variable==soi), aes(x=Day.number, y=y)) +
+  facet_wrap(~variable, ncol=2, scales="free_y") +
+  geom_point(size=0.5, col="black") + geom_line(size=0.1) +
+  scale_colour_manual(values = species.colour.mapping) + ggtitle("Detrended and normalised")
+g1
+```
+
 
 The functions used in the code below are based on code received from Stephen Ellner. The modifications have been tested, and produce the same results as Ellner's original code.
 
@@ -753,7 +955,7 @@ e=as.numeric(row.names(X)) > start.longer; X=X[e,];
 e=as.numeric(row.names(X)) < 2654; X=X[e,]; 
 ```
 
-Load and run the functions, or read in from data file (default option, for which you will need to change the path to the data file.)
+Load and run the functions, or read in from data file.
 
 ```{r}
 # read script lines from website

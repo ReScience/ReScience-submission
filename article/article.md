@@ -51,39 +51,41 @@ An attempt was made to reproduce the majority of the results in the original art
 
 ## The data
 
-The data are available as an Excel file supplement to [an Ecology Letters publication](http://onlinelibrary.wiley.com/doi/10.1111/j.1461-0248.2009.01391.x/abstract) @Beninca2009. The Excel file contains several datasheets. Two were particularly important, as they are the source of the raw data (one contains original species abundances, the one with the nutrient concentrations). We saved these two datasheets as comma separated value (csv) text files. In the code associated with this reproduction, these data files are read from the associated github repository.
+The data are available as an Excel file supplement to [an Ecology Letters publication](http://onlinelibrary.wiley.com/doi/10.1111/j.1461-0248.2009.01391.x/abstract) @Beninca2009. The Excel file contains several datasheets. Two were particularly important, as they were the source of the raw data (one contains original species abundances, the other the nutrient concentrations). We saved these two datasheets, without any alteration, as comma separated value (csv) text files. In the code associated with this reproduction, these data files are read from the associated github repository.
 
-Another datasheet in the Ecology Letters supplement contains transformed variables (we also saved this as csv file, in order to use it in this reproduction). We also received a dataset direct from Steve Ellner, see below for details.
+Another datasheet (we also saved this as csv file, in order to use it in this reproduction). We also received a dataset direct from Steve Ellner, see below for details.
 
-The original species abundance data contained errors (e.g., a few numerica values had a comma in place of a period as the decimal separator) that suggested that this was not the exact version of the dataset used in the original article, or that this was the exact dataset, but with errors corrected.
+The original species abundance data contained errors (i.e., a few numeric values had a comma in place of a period as the decimal separator, and a duplicated date). 
+
+The original abundance dataset contains a duplicated date: 28/10/1996 (row 709 and 710 in excel sheet). We changed this (in R) to 26/10/1996, making the observation occur half way between the two surrounding dates. The original Protozoa variable in the original dataset contains some numbers with a comma (instead of period) as the decimal separator; these were changed to periods.
 
 ## Reproduction environment
 
 The R language and environment for statistical computing and graphics was used to make the reproduction. Additional R packages required are specified in the code associated with this reproduction.
 
-The code for this reproduction resides in an R markdown document, as well as a source file containing some required functions. Some of the code takes several minutes to run, so an intermediate data file is provided with results from this code.
+The code for making the analyses and figures presented in this reproduction resides in an R markdown document, as well as a source file containing some required functions. Some of the code takes several minutes to run, so an intermediate data file is provided with results from this code.
 
 # Results
 
 ## Population dynamics
 
-The reproduced populations dynamics were at least very similar to those in figure 1b-g of the original publication (figure @fig:dynamics). Note that we plot fourth root transformed values, rather than raw abundances with a y-axis break, as in the original article.
+The reproduced populations dynamics were very similar to those in figure 1b-g of the original publication (figure @fig:dynamics). As most analyses were performed on fourth root transformed values, we plot these, rather than raw abundances with a y-axis break as in the original article.
 
 ![Observed population dynamics.](figures/obs_pop_dyn.pdf) {#fig:dynamics}
 
-## Data transformation
+## Data transformations
 
-The following transformation steps were used:
+The original publication states that long sequences of zeros were removed from time series prior to transformation and further analysis. We removed zeros by matching the removals to those in the transformed version of the data in the published Excel file mentioned above. Transformation steps were:
 
-1. Time series shortened to remove long sequences of zeros. 
-2. Interpolation to create equally spaced observations in time series.
-3. Fourth root transformation.
-4. Detrending of five of the time series.
-5. Rescaling to zero mean and unit standard deviation.
+1. Interpolation to create equally spaced observations in time series.
+2. Fourth root transformation.
+3. Detrending of five of the time series.
+4. Rescaling to zero mean and unit standard deviation.
 
-The method for selecting the zeros to remove was unclear. In order to reproduce this step, we removed the same data as in the original study, by matching to the transformed data with zeros removed in the Ecology Letters supplement Excel file mentioned above. All remaining transformation steps were performed independently of this dataset. Our reproduction of the transformed data closely matched the published transformed data.
+The reproduced transformed data closely matched the published transformed data (figure @fig:trans_comp1).
 
-The data received directly from Stephen Ellner was interpolated, but without zeros removed. Our interpolated data, without zeros removed, matched closely this data.
+![Comparison of published transformed data with reproduced transformed data. The red line is the 1:1 line.](figures/zero_rem_trans_comparison.pdf) {#fig:trans_comp1}
+
 
 ## Correlations among species abundances
 
@@ -95,19 +97,23 @@ Highlighted in the text of the original paper were: negative correlations of pic
 
 ## Spectral analyses
 
-Spectral analyses in the original paper were presented graphically in figures S3 (raw spectrograms) and S4 (Welch periodograms). These graphs were, apparently, visually inspected to reveal: "fluctuations covered a range of different periodicities", and "picophytoplankton, rotifers and calanoid copepods seemed to fluctuate predominantly with a periodicity of about 30 days." It is unclear how these conclusions were derived from figures S3 and S4 of the original article. Our reproduced spectra (not shown here, but code provided) were not quantitatively identical to the spectra in the original article.
+Spectral analyses in the original paper were presented graphically in figures S3 (raw spectrograms) and S4 (Welch periodograms). These graphs were, apparently, visually inspected to reveal: "fluctuations covered a range of different periodicities", and "picophytoplankton, rotifers and calanoid copepods seemed to fluctuate predominantly with a periodicity of about 30 days." It is unclear how these conclusions were derived from figures S3 and S4 of the original article. Our reproduced spectra (not shown here, but code provided) were a reasonably close match to the spectra in the original article.
 
 
 ## Lyapunov exponents by direct method
 
-Reproduced divergence rates (figure @fig:divergence) and Lyapunov exponents (figure @fig:LE_comparison) were somewhat different from those in the original article.. The original article states: "the distance between initially nearby trajectories increased over time, and reached a plateau after about 20–30 days". The reproduced results appear not inconsistent with this statement, except for one group of species (Harpacticoids). The original article also stated that the analyses "yielded significantly positive Lyapunov exponents of strikingly similar value for all species (Fig. 3; mean exponent = 0.057 per day, s.d. = 0.005 per day, n = 9)". Reproduced exponents had very similar mean value, but had about four times greater standard deviation (mean = 0.055 and s.d. = 0.019).
+Reproduced divergence rates (figure @fig:divergence) and Lyapunov exponents (figure @fig:LE_comparison) were somewhat different from those in the original article.. The original article states: "the distance between initially nearby trajectories increased over time, and reached a plateau after about 20–30 days". The reproduced results appear not inconsistent with this statement, except for one group of species (Harpacticoids). The original article also stated that the analyses "yielded significantly positive Lyapunov exponents of strikingly similar value for all species (Fig. 3; mean exponent = 0.057 per day, s.d. = 0.005 per day, n = 9)". Reproduced exponents had very similar mean value, but had much larger standard deviation (mean = 0.057 and s.d. = 0.014).
 
 ![Reproduced divergence rates and Lyapunov exponents (figure 3 in the original article).](figures/div_rate.pdf) {#fig:divergence}
 
-![Comparison of Lyapunov exponents, estimated by direct method, in the original article and this reproduction.](figures/LE_comparison.pdf) {#fig:LE_comparison}
+![Comparison of original and reproduced directly estimated Lyapunov exponents.](figures/LE_comparison.pdf) {#fig:LE_comparison}
 
 
 ## Lyapunov exponents by indirect method
+
+The data received directly from Stephen Ellner (file 'interp_short_allsystem_newnames.csv' in the reproduction repository) was interpolated, but without zeros removed. The reproduced interpolated data, without zeros removed, matched closely this data (figure @fig:trans_comp2). 
+
+![Comparison of interpolated data provided by Ellner with reproduced interpolated data (no removal of zeros). The red line is the 1:1 line.](figures/repro_ellner_comp.pdf) {#fig:trans_comp2}
 
 The original paper reported global Lyapunov exponent calculated via two modelling approaches (neural network and generalised additive models [GAMs]). Only the GAM approach was reproduced, with the assistance of code donated by Stephen Ellner. The original article obtained
 a global Lyapunov exponent of λ=0.08 day-1. The reproduced value was 0.04. We did not reproduce the bootstrapping used to give confidence intervals around this estimate.
@@ -115,20 +121,22 @@ a global Lyapunov exponent of λ=0.08 day-1. The reproduced value was 0.04. We d
 
 ## Predictability decay
 
-The article stated: "For short-term forecasts of only a few days, most species had a high predictability of R2 = 0.70 – 0.90 (Fig. 2). However, the predictability of the species was much reduced when prediction times were extended to 15–30days." The reproduced predictabilities, which were calculated from the GAMs, were consistent with these qualitative statements, though were quantitatively different (@fig:prediction_distance) (original data plotted in this figure came directly from Elisa Benincà). We did not reproduce the predictability estimates for linear models.
+The article stated: "For short-term forecasts of only a few days, most species had a high predictability of R2 = 0.70 – 0.90 (Fig. 2). However, the predictability of the species was much reduced when prediction times were extended to 15–30days." The reproduced predictabilities, which were calculated from the GAMs, were consistent with these qualitative statements, though were quantitatively different (@fig:prediction_distance). We did not reproduce the predictability estimates for linear models.
 
 ![Predictability (correlation between predicted and observed abundances) and prediction distance (days) (figure 2 in the original article). Reproducted data in red, and data from original publication in black.](figures/prediction_distance.pdf) {#fig:prediction_distance}
 
 
 # Conclusion
 
-Although we were not able to make a quantitatively accurate reproduction of all results of the original article, the qualitative results were largely identical. For example, all Lyapunov exponents estimated by direct method are positive, as in the original article, consistent with chaotic dynamics. Quantitative differences may have resulted from difference in algorithms used. For example,the original used the [Tisean software](http://www.mpipks-dresden.mpg.de/~tisean/) to calculate Lyapunov exponents. As this was available from CRAN [until mid 2014](http://cran.r-project.org/web/packages/RTisean/index.html) and since it is a bit less well integrated with R, we instead use the tseriesChaos package @tseriesChaos, which in any case was largely inspired by the TISEAN project. In addition, there may have been some difference in algorithm parameters, as not all parameters required by the functions we used were reported in the original ms. There may also have been some difference in data used for specific analyses, e.g., data with zeros removed or not, as it was not always possible to be totally sure the reproduction used exactly the same data as the original article.
+The reproduced results were qualitatively identical to those in the original article. For example, all Lyapunov exponents estimated by direct method were positive, as in the original article, consistent with chaotic dynamics. Quantitative differences may have resulted from difference in algorithms used. For example,the original used the [Tisean software](http://www.mpipks-dresden.mpg.de/~tisean/) to calculate Lyapunov exponents. As this was available from CRAN [until mid 2014](http://cran.r-project.org/web/packages/RTisean/index.html) and since it is a bit less well integrated with R, we instead use the tseriesChaos package @tseriesChaos, which in any case was largely inspired by the TISEAN project. In addition, there may have been some difference in algorithm parameters, as not all parameters required by the functions we used were reported in the original ms.
+
+Considerable quantitative difference in predictability decay (@fig:prediction_distance) remain unexplained.
 
 In conclusion, this reproduction supports the general scientific conclusions of the original article, but also shows how difficult can be an accurate quantitative reproduction, even in the presence of the extensive methodological details provided alongside the original article.
 
 # Acknowledgements
 
-This reproduction was made as part of the Reproducible Research in Ecology, Evolution, Behaviour, and Environmental Studies (RREEBES) Course, lead by Owen Petchey at the University of Zurich. More information about the course [here](https://github.com/opetchey/RREEBES/blob/master/README.md) on github.
+This reproduction was made as part of the Reproducible Research in Ecology, Evolution, Behaviour, and Environmental Studies (RREEBES) Course, lead by Owen Petchey at the University of Zurich. More information about the course [here](https://github.com/opetchey/RREEBES/blob/master/README.md) on github. Many thanks to Elisa Benincà and Steve Ellner for assistance, and to Steve for providing unpublished data and code.
 
 
 # References

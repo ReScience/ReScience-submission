@@ -564,7 +564,7 @@ original.cors <- read.csv(text=getURL(paste0(repo,"/data/table1_original_article
 original.cors <- as.matrix(original.cors)
 
 qplot(x=as.vector(original.cors), y=as.vector(cor.coefs), ylim = c(-0.4,0.4), xlim=c(-0.4, 0.4),
-      xlab="Correlations in original article", ylab="Correlations calculated in this reproduction") + geom_abline(intercept=0,slope=1, colour="red")
+      xlab="Correlations in original article", ylab="Correlations calculated\nin this reproduction") + geom_abline(intercept=0,slope=1, colour="red")
 ```
 
 
@@ -654,8 +654,13 @@ Compare graphically with original LEs
 ## read in LE values given in original publication
 original.LEs <- read.csv(text=getURL(paste0(repo,"/data/original_direct_LEs.csv")), skip=0, header=T)
 both_LEs <- full_join(original.LEs, LEs) # merge the reproduced and original values
-ggplot(both_LEs, aes(x=LE, y=le)) + geom_point() + xlim(0.02, 0.09) + ylim(0.02, 0.09) + geom_abline(intercept=0, slope=1) +
-  xlab("Lyapunov exponent from original article") + ylab("Reproduced Lyapunov exponent")
+ggplot(both_LEs, aes(x=LE, y=le)) +
+  geom_point() +
+  xlim(0.02, 0.09) +
+  ylim(0.02, 0.09) +
+  geom_abline(intercept=0, slope=1, colour="red") +
+  xlab("Lyapunov exponent from original article") + 
+  ylab("Reproduced Lyapunov exponent")
 ```
 
 Get the mean and standard deviation of the original and reproduced Lyapunov exponents
@@ -725,7 +730,7 @@ g1 <- ggplot(mt, aes(x=as.numeric(Day.number), y=sqrt(value))) +
   facet_wrap(~variable, ncol=2, scales="free_y") +
   geom_line(size=0.5, col="black") +
   scale_colour_manual(values = species.colour.mapping)
-g2 <- geom_line(data=from.steve, aes(x=Day.number, y=sqrt(value_steve)), col="red")
+g2 <- geom_line(data=from.steve, aes(x=Day.number, y=sqrt(value_steve)), colour="red")
 g1 + g2
 
 
@@ -740,8 +745,8 @@ ff$Day.number <- as.numeric(ff$Day.number)
 #ff$difference <- ff$value - ff$value_steve
 #qplot(log10(ff$difference))
 qplot(data=ff, x=log10(value_steve), y=log10(value)) +
-  xlab("Values from Ellner (log 10 transformed)") +
-  ylab("Reproduced values (log 10 transformed)") +
+  xlab("Values from Ellner\n(log 10 transformed)") +
+  ylab("Reproduced values\n(log 10 transformed)") +
   geom_abline(intercept=0, slope=1, colour="red")
 
 ```

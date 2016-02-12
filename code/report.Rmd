@@ -896,7 +896,7 @@ script <- getURL(paste0(repo,"/code/indirect_method_functions.R"), ssl.verifypee
 # parase lines and evealuate in the global environement
 eval(parse(text = script))
 
-## don't run this as it takes a while
+## don't run this unless you have some time (it takes a while)
 LE <- Get_GLE_Beninca(X)
 save(LE, file="~/Desktop/GLE_estimate.Rdata")
 

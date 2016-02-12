@@ -131,7 +131,7 @@ The article stated: "For short-term forecasts of only a few days, most species h
 
 The reproduced results were qualitatively identical to those in the original article. For example, all Lyapunov exponents estimated by direct method were positive, as in the original article, consistent with chaotic dynamics. Quantitative differences may have resulted from difference in algorithms used. For example,the original used the [Tisean software](http://www.mpipks-dresden.mpg.de/~tisean/) to calculate Lyapunov exponents. As this was available from CRAN [until mid 2014](http://cran.r-project.org/web/packages/RTisean/index.html) and since it is a bit less well integrated with R, we instead use the tseriesChaos package @tseriesChaos, which in any case was largely inspired by the TISEAN project. In addition, there may have been some difference in algorithm parameters, as not all parameters required by the functions we used were reported in the original ms.
 
-Considerable quantitative difference in predictability decay (@fig:prediction_distance) remain unexplained.
+Considerable quantitative difference in predictability decay (@fig:prediction_distance) remain unexplained, though could result from original analyses using neural networks, and the reproduction using GAMs.
 
 In conclusion, this reproduction supports the general scientific conclusions of the original article, but also shows how difficult can be an accurate quantitative reproduction, even in the presence of the extensive methodological details provided alongside the original article.
 

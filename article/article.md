@@ -106,8 +106,9 @@ Reproduced divergence rates (figure @fig:divergence) and Lyapunov exponents (fig
 
 ![Reproduced divergence rates and Lyapunov exponents (figure 3 in the original article).](figures/div_rate.pdf) {#fig:divergence}
 
+<div style="width:400px; height=400px">
 ![Comparison of original and reproduced directly estimated Lyapunov exponents.](figures/LE_comparison.pdf) {#fig:LE_comparison}
-
+</div>
 
 ## Lyapunov exponents by indirect method
 

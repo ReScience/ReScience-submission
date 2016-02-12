@@ -897,11 +897,11 @@ script <- getURL(paste0(repo,"/code/indirect_method_functions.R"), ssl.verifypee
 eval(parse(text = script))
 
 ## don't run this unless you have some time (it takes a while)
-LE <- Get_GLE_Beninca(X)
-save(LE, file="~/Desktop/GLE_estimate.Rdata")
+#LE <- Get_GLE_Beninca(X)
+#save(LE, file="~/Desktop/GLE_estimate.Rdata")
 
 ## load the already saved data from github (this can take some time depending on the internet connection)
-#source_data(paste0(repo, "/data/GLE_estimate.Rdata?raw=True"))
+source_data(paste0(repo, "/data/GLE_estimate.Rdata?raw=True"))
 
 LE[[1]]
 ```

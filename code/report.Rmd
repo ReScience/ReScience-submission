@@ -624,8 +624,8 @@ diverg$days <- diverg$days*3.35
 
 Next calculate the Lyapunov exponents, noting that 6 or 7 points were used in the regressions in the Nature report
 ```{r}
-diverg$Difference[is.na(diverg$Difference)] <- 0
-diverg$Difference[is.infinite(diverg$Difference)] <- 0
+#diverg$Difference[is.na(diverg$Difference)] <- 0
+diverg$Difference[is.infinite(diverg$Difference)] <- NA
 diverg.short <- filter(diverg, days<24) ## 24 is about 6 steps, after initial gap
 LEs <- group_by(diverg.short, Species) %>%
   summarise(le=coef(lm(Difference[1:6] ~ days[1:6]))[2])

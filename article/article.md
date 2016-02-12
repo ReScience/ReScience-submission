@@ -53,19 +53,13 @@ An attempt was made to reproduce the majority of the results in the original art
 
 ## The data
 
-The data are available as an Excel file supplement to [an Ecology Letters publication](http://onlinelibrary.wiley.com/doi/10.1111/j.1461-0248.2009.01391.x/abstract) @Beninca2009. The Excel file contains several datasheets. Two were particularly important, as they were the source of the raw data (one contains original species abundances, the other the nutrient concentrations). We saved these two datasheets, without any alteration, as comma separated value (csv) text files. In the code associated with this reproduction, these data files are read from the associated github repository.
-
-Another datasheet (we also saved this as csv file, in order to use it in this reproduction). We also received a dataset direct from Steve Ellner, see below for details.
-
-The original species abundance data contained errors (i.e., a few numeric values had a comma in place of a period as the decimal separator, and a duplicated date). 
+The data are available as an Excel file supplement to [an Ecology Letters publication](http://onlinelibrary.wiley.com/doi/10.1111/j.1461-0248.2009.01391.x/abstract) @Beninca2009. The Excel file contains several datasheets. Two were particularly important, as they were the source of the raw data (one contains original species abundances, the other the nutrient concentrations). We saved these two datasheets, without any alteration, as comma separated value (csv) text files. In the code associated with this reproduction, these data files are read from the associated github repository. Another datasheet contained transformed data (we also saved this as csv file, in order to use it in this reproduction). We also received a dataset direct from Steve Ellner, see below for details.
 
 The original abundance dataset contains a duplicated date: 28/10/1996 (row 709 and 710 in excel sheet). We changed this (in R) to 26/10/1996, making the observation occur half way between the two surrounding dates. The original Protozoa variable in the original dataset contains some numbers with a comma (instead of period) as the decimal separator; these were changed to periods.
 
 ## Reproduction environment
 
-The R language and environment for statistical computing and graphics was used to make the reproduction. Additional R packages required are specified in the code associated with this reproduction.
-
-The code for making the analyses and figures presented in this reproduction resides in an R markdown document, as well as a source file containing some required functions. Some of the code takes several minutes to run, so an intermediate data file is provided with results from this code.
+The R language and environment for statistical computing and graphics was used to make the reproduction. Additional R packages required are specified in the code associated with this reproduction. The code for making the analyses and figures presented in this reproduction resides in an R markdown document, as well as a source file containing some required functions. Some of the code takes several minutes to run, so an intermediate data file is provided with results from this code.
 
 # Results
 
@@ -95,16 +89,16 @@ Correlations among species abundances presented in Table 1 of the original artic
 
 ![Comparison of calculated correlations among species abundances in the original article and this reproduction.](figures/correlation_comparison.pdf) {#fig:corr_comp}
 
-Highlighted in the text of the original paper were: negative correlations of picophytoplankton with protozoa, and of nanophytoplankton both with rotifers and calanoid copepods, positive correlation of picophytoplankton with calanoid copepods, negative correlation between bacteria and ostracods, and positive correlation between bacteria and phosphorus. All of these correlations were qualitatively reproduced.
+Highlighted in the text of the original paper were: negative correlations of picophytoplankton with protozoa, and of nanophytoplankton both with rotifers and calanoid copepods, positive correlation of picophytoplankton with calanoid copepods, negative correlation between bacteria and ostracods, and positive correlation between bacteria and phosphorus. All of these correlations were at least qualitatively reproduced.
 
 ## Spectral analyses
 
-Spectral analyses in the original paper were presented graphically in figures S3 (raw spectrograms) and S4 (Welch periodograms). These graphs were, apparently, visually inspected to reveal: "fluctuations covered a range of different periodicities", and "picophytoplankton, rotifers and calanoid copepods seemed to fluctuate predominantly with a periodicity of about 30 days." It is unclear how these conclusions were derived from figures S3 and S4 of the original article. Our reproduced spectra (not shown here, but code provided) were a reasonably close match to the spectra in the original article.
+Spectral analyses in the original paper were presented graphically in figures S3 (raw spectrograms) and S4 (Welch periodograms). The original article states: "fluctuations covered a range of different periodicities", and "picophytoplankton, rotifers and calanoid copepods seemed to fluctuate predominantly with a periodicity of about 30 days." Our reproduced spectra (not shown here, but code provided) were a reasonably close match to the spectra in the original article.
 
 
 ## Lyapunov exponents by direct method
 
-Reproduced divergence rates (figure @fig:divergence) and Lyapunov exponents (figure @fig:LE_comparison) were somewhat different from those in the original article.. The original article states: "the distance between initially nearby trajectories increased over time, and reached a plateau after about 20–30 days". The reproduced results appear not inconsistent with this statement, except for one group of species (Harpacticoids). The original article also stated that the analyses "yielded significantly positive Lyapunov exponents of strikingly similar value for all species (Fig. 3; mean exponent = 0.057 per day, s.d. = 0.005 per day, n = 9)". Reproduced exponents had very similar mean value, but had much larger standard deviation (mean = 0.060 and s.d. = 0.014).
+Reproduced divergence rates (figure @fig:divergence) and therefore Lyapunov exponents (figure @fig:LE_comparison) were somewhat different from those in the original article. The original article states: "the distance between initially nearby trajectories increased over time, and reached a plateau after about 20–30 days". The reproduced results are consistent with this statement. The original article also stated that the analyses "yielded significantly positive Lyapunov exponents of strikingly similar value for all species (Fig. 3; mean exponent = 0.057 per day, s.d. = 0.005 per day, n = 9)". Reproduced exponents had very similar mean value, but had larger standard deviation (mean = 0.060 and s.d. = 0.014).
 
 ![Reproduced divergence rates and Lyapunov exponents (figure 3 in the original article).](figures/div_rate.pdf) {#fig:divergence}
 
@@ -118,7 +112,7 @@ The data received directly from Stephen Ellner (file 'interp_short_allsystem_new
 
 ![Comparison of interpolated data provided by Ellner with reproduced interpolated data (no removal of zeros). The red line is the 1:1 line.](figures/repro_ellner_comp.pdf) {#fig:trans_comp2}
 
-The original paper reported global Lyapunov exponent calculated via two modelling approaches (neural network and generalised additive models [GAMs]). Only the GAM approach was reproduced, with the assistance of code donated by Stephen Ellner. The original article obtained
+The original paper reported a global Lyapunov exponent calculated via two modelling approaches (neural network and generalised additive models [GAMs]). Only the GAM approach was reproduced, with the assistance of code donated by Stephen Ellner. The original article obtained
 a global Lyapunov exponent of λ=0.08 day-1. The reproduced value was 0.04. We did not reproduce the bootstrapping used to give confidence intervals around this estimate.
 
 
@@ -131,7 +125,7 @@ The article stated: "For short-term forecasts of only a few days, most species h
 
 # Conclusion
 
-The reproduced results were qualitatively identical to those in the original article. For example, all Lyapunov exponents estimated by direct method were positive, as in the original article, consistent with chaotic dynamics. Quantitative differences may have resulted from difference in algorithms used. For example,the original used the [Tisean software](http://www.mpipks-dresden.mpg.de/~tisean/) to calculate Lyapunov exponents. As this was available from CRAN [until mid 2014](http://cran.r-project.org/web/packages/RTisean/index.html) and since it is a bit less well integrated with R, we instead use the tseriesChaos package @tseriesChaos, which in any case was largely inspired by the TISEAN project. In addition, there may have been some difference in algorithm parameters, as not all parameters required by the functions we used were reported in the original ms.
+The reproduced results were qualitatively identical to those in the original article, and therefore support the conclusion of chaotic dynamics produced by non-linear species interactions. For example, all Lyapunov exponents estimated by direct method were positive, as in the original article, consistent with chaotic dynamics. Quantitative differences may have resulted from difference in algorithms used. For example,the original used the [Tisean software](http://www.mpipks-dresden.mpg.de/~tisean/) to calculate Lyapunov exponents. As this was available from CRAN [until mid 2014](http://cran.r-project.org/web/packages/RTisean/index.html) and since it is a bit less well integrated with R, we instead use the tseriesChaos package @tseriesChaos, which in any case was largely inspired by the TISEAN project. In addition, there may have been some difference in algorithm parameters, as not all parameters required by the functions we used were reported in the original ms.
 
 Considerable quantitative difference in predictability decay (@fig:prediction_distance) remain unexplained, though could result from original analyses using neural networks, and the reproduction using GAMs.
 

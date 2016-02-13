@@ -15,12 +15,15 @@
 In a console, type:
 
 ```
+$ echo deb https://cran.rstudio.com/bin/linux/ubuntu trusty/ >> /etc/apt/sources.list
+$ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9  
 $ sudo apt-get update
 $ sudo apt-get -y install r-base
 $ sudo apt-get install git
 ```
 
 ###devtools + dependencies
+
 ```
 $ sudo apt-get install libcurl4-gnutls-dev
 $ sudo apt-get install libxml2-dev
@@ -39,6 +42,7 @@ $ sudo Rscript -e "devtools::install_github('jsta/irlgraph', dependencies = TRUE
 $ sudo Rscript -e "install.packages('rmarkdown', repos = 'https://cran.rstudio.com')"
 $ sudo wget https://github.com/jgm/pandoc/releases/download/1.15.2/pandoc-1.15.2-1-amd64.deb
 $ sudo dpkg -i pandoc-1.15.2-1-amd64.deb
+$ sudo apt-get install texlive texlive-latex-extra
 ```
 
 ###imagemagick
@@ -68,7 +72,7 @@ $ docker cp $(docker create jsta/irlgraph-test):ReScience-submission/article/art
 ##PDF Build Instructions
 
 ```
-$ sudo apt-get install texlive texlive-latex-extra texlive-xetex texlive-fonts-extra
+$ sudo apt-get install texlive-xetex texlive-fonts-extra
 $ sudo apt-get install texlive-bibtex-extra biber
 $ sudo apt-get install cabal-install
 $ cabal update

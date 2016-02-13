@@ -1,4 +1,3 @@
-#not installed texlive-fonts-extra 
 
 FROM achubaty/r-spatial-base
 

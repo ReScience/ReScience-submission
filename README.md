@@ -5,13 +5,12 @@
 
 **Keywords**: Least-cost path, Delaunay triangulation, Graph Theory
 
-##PDF Build Instructions (tested on Ubuntu 14.04 and 15.10)
+##Figure Build Instructions (tested on Ubuntu 14.04 and 15.10)
 ###Prequisites 
  * git
  * R
  * GNU make
- * Tex
- * pandoc + pandoc-crossref
+ * pandoc
 
 In a console, type:
 
@@ -38,13 +37,8 @@ $ sudo Rscript -e "devtools::install_github('jsta/irlgraph', dependencies = TRUE
 ###pandoc + dependencies
 ```
 $ sudo Rscript -e "install.packages('rmarkdown', repos = 'https://cran.rstudio.com')"
-$ sudo apt-get install texlive texlive-latex-extra texlive-xetex texlive-fonts-extra
-$ sudo apt-get install texlive-bibtex-extra biber
 $ sudo wget https://github.com/jgm/pandoc/releases/download/1.15.2/pandoc-1.15.2-1-amd64.deb
 $ sudo dpkg -i pandoc-1.15.2-1-amd64.deb
-$ sudo apt-get install cabal-install
-$ cabal update
-$ cabal install pandoc-crossref
 ```
 
 ###imagemagick
@@ -69,4 +63,16 @@ In a console, type:
 ```
 $ docker pull jsta/irlgraph-test
 $ docker cp $(docker create jsta/irlgraph-test):ReScience-submission/article/article.pdf .
+```
+
+##PDF Build Instructions
+
+```
+$ sudo apt-get install texlive texlive-latex-extra texlive-xetex texlive-fonts-extra
+$ sudo apt-get install texlive-bibtex-extra biber
+$ sudo apt-get install cabal-install
+$ cabal update
+$ cabal install pandoc-crossref
+$ make all
+$ make build_article
 ```

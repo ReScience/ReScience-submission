@@ -14,8 +14,8 @@ panel-resize_images: move_images
 build_article: panel-resize_images
 	cd article && make build
 
-all: build_article
-	@echo "Article built"
+all: panel-resize_images
+	@echo "figures built"
 
 clean:
 	rm -rf code/irlgraph/vignettes/irlgraph_cache

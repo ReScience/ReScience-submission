@@ -155,7 +155,7 @@
                         \author[1]{Owen Petchey}
                     \author[1]{Marco Plebani}
                     \author[1]{Frank Pennekamp}
-                            \affil[1]{Institute of Evolutionary Biology and Environmental Studies, University
+                            \affil[1]{Department of Evolutionary Biology and Environmental Studies, University
 of Zurich, Zurich, Switzerland}
             
 \date{\vspace{-5mm}
@@ -199,14 +199,19 @@ of Zurich, Zurich, Switzerland}
     \vspace{-1mm}
   \begin{repobox}
     \bfseries\normalsize
-      \href{http://github.com/rescience/rescience-submission/article}{\faGithubAlt~Article repository}
+      \href{https://github.com/opetchey/ReScience-submission/tree/petchey-plebani-pennekamp-2016/article}{\faGithubAlt~Article repository}
   \end{repobox}
       \vspace{-1mm}
   \begin{repobox}
     \bfseries\normalsize
-      \href{http://github.com/rescience/rescience-submission/code}{\faGithubAlt~Code repository}
+      \href{https://github.com/opetchey/ReScience-submission/tree/petchey-plebani-pennekamp-2016/code}{\faGithubAlt~Code repository}
   \end{repobox}
-        \hypersetup{urlcolor=blue}
+      \vspace{-1mm}
+  \begin{repobox}
+    \bfseries\normalsize
+      \href{https://github.com/opetchey/ReScience-submission/tree/petchey-plebani-pennekamp-2016/data}{\faGithubAlt~Data repository}
+  \end{repobox}
+      \hypersetup{urlcolor=blue}
 }
 
 \begin{rebox}
@@ -238,18 +243,18 @@ long-term prediction of abundances may be fundamentally impossible. The
 demonstration of chaotic dynamics and limited forecast horizons (sensu
 \textcite{Petchey2015}) is important in the field of ecology, since the
 ability to predict dynamics is an open question with considerable
-applied importance \textcite{Petchey2015} \textcite{Mouquet2015}.
+applied importance (\textcite{Petchey2015} \textcite{Mouquet2015}.)
 
 \section{Methods}\label{methods}
 
 This reproduction started with the raw data (source given below) and
-used information from the original paper, the supplementary information
+used information from the original paper,
 \href{http://www.nature.com/nature/journal/v451/n7180/extref/nature06512-s1.pdf}{the
-Supplement to the Nature paper}, and communications with Elisa Benincà,
-who provided for comparison digitised data from the original article,
-and Stephen Ellner, who provided code and data used to produce results
-in the original paper. Use of this data and code in this reproduction is
-indicated below.
+supplement to the original paper}, and communications with Elisa
+Benincà, who provided for comparison digitised data from the original
+article, and Stephen Ellner, who provided code and data used to produce
+results in the original paper. Use of this data and code in this
+reproduction is indicated below.
 
 \subsection{Scope of the reproduction}\label{scope-of-the-reproduction}
 
@@ -261,7 +266,7 @@ result are detailed below.
 
 The data are available as an Excel file supplement to
 \href{http://onlinelibrary.wiley.com/doi/10.1111/j.1461-0248.2009.01391.x/abstract}{an
-Ecology Letters publication} \textcite{Beninca2009}. The Excel file
+Ecology Letters publication} (\textcite{Beninca2009}). The Excel file
 contains several datasheets. Two were particularly important, as they
 were the source of the raw data (one contains original species
 abundances, the other the nutrient concentrations). We saved these two
@@ -275,27 +280,28 @@ Steve Ellner, see below for details.
 The original abundance dataset contains a duplicated date: 28/10/1996
 (row 709 and 710 in excel sheet). We changed this (in R) to 26/10/1996,
 making the observation occur half way between the two surrounding dates.
-The original Protozoa variable in the original dataset contains some
-numbers with a comma (instead of period) as the decimal separator; these
-were changed to periods.
+The Protozoa variable in the original dataset contains some numbers with
+a comma (instead of period) as the decimal separator; these were changed
+to periods.
 
 \subsection{Reproduction environment}\label{reproduction-environment}
 
 The R language and environment for statistical computing and graphics
-was used to make the reproduction. Additional R packages required are
-specified in the code associated with this reproduction. The code for
-making the analyses and figures presented in this reproduction resides
-in an R markdown document, as well as a source file containing some
-required functions. Some of the code takes several minutes to run, so an
-intermediate data file is provided with results from this code.
+(\textcite{R}) was used to make the reproduction. Additional R packages
+required are specified in the code associated with this reproduction.
+The code for making the analyses and figures presented in this
+reproduction resides in an R markdown document, as well as a source file
+containing some required functions. Some of the code takes several
+minutes to run, so an intermediate data file is provided with results
+from this code.
 
 \section{Results}\label{results}
 
 \subsection{Population dynamics}\label{population-dynamics}
 
-The reproduced populations dynamics were very similar to those in figure
-1b-g of the original publication (figure \ref{fig:dynamics}). As most
-analyses were performed on fourth root transformed values, we plot
+The reproduced populations dynamics (figure \ref{fig:dynamics}) were
+very similar to those in figure 1b-g of the original publication. As
+most analyses were performed on fourth root transformed values, we plot
 these, rather than raw abundances with a y-axis break as in the original
 article.
 
@@ -311,7 +317,7 @@ The original publication states that long sequences of zeros were
 removed from time series prior to transformation and further analysis.
 We removed zeros by matching the removals to those in the transformed
 version of the data in the published Excel file mentioned above.
-Transformation steps were:
+Subsequent transformation steps were:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -343,8 +349,7 @@ Correlations among species abundances presented in Table 1 of the
 original article closely matched our reproduced correlations, calculated
 from the transformed data with zeros removed (figure
 \ref{fig:corr_comp}). Deviations between the original and reproduced
-correlations are relatively small (less than 0.072 units) and
-infrequent.
+correlations are relatively small and infrequent.
 
 \begin{figure}[htbp]
 \centering
@@ -374,23 +379,23 @@ reasonably close match to the spectra in the original article.
 \subsection{Lyapunov exponents by direct
 method}\label{lyapunov-exponents-by-direct-method}
 
-Reproduced divergence rates (figure \ref{fig:divergence}) and therefore
-Lyapunov exponents (figure \ref{fig:LE_comparison}) were somewhat
-different from those in the original article. The original article
-states: ``the distance between initially nearby trajectories increased
-over time, and reached a plateau after about 20--30 days''. The
-reproduced results are consistent with this statement. The original
-article also stated that the analyses ``yielded significantly positive
-Lyapunov exponents of strikingly similar value for all species (Fig. 3;
-mean exponent = 0.057 per day, s.d. = 0.005 per day, n = 9)''.
-Reproduced exponents had very similar mean value, but had larger
-standard deviation (mean = 0.060 and s.d. = 0.014).
+The original article states: ``the distance between initially nearby
+trajectories increased over time, and reached a plateau after about
+20--30 days''. The reproduced results (figure \ref{fig:divergence}) are
+consistent with this statement. The original article also stated that
+the analyses ``yielded significantly positive Lyapunov exponents of
+strikingly similar value for all species (Fig. 3; mean exponent = 0.057
+per day, s.d. = 0.005 per day, n = 9)''. Reproduced exponents had very
+similar mean value, but had larger standard deviation (mean = 0.060 and
+s.d. = 0.014), resulting from quantitative differences in reproduced
+divergence rates (figure \ref{fig:divergence}) and therefore Lyapunov
+exponents (figure \ref{fig:LE_comparison}).
 
 \begin{figure}[htbp]
 \centering
 \includegraphics{figures/div_rate.pdf}
 \caption{\label{fig:divergence}Reproduced divergence rates and Lyapunov
-exponents (figure 3 in the original article).}
+exponents (equivalent to figure 3 in the original article).}
 \end{figure}
 
 \begin{figure}[htbp]
@@ -421,7 +426,7 @@ The original paper reported a global Lyapunov exponent calculated via
 two modelling approaches (neural network and generalised additive models
 {[}GAMs{]}). Only the GAM approach was reproduced, with the assistance
 of code donated by Stephen Ellner. The original article obtained a
-global Lyapunov exponent of λ=0.08 day-1. The reproduced value was 0.04.
+global Lyapunov exponent of 0.08 per day. The reproduced value was 0.04.
 We did not reproduce the bootstrapping used to give confidence intervals
 around this estimate.
 
@@ -449,22 +454,21 @@ data from original publication in black.}
 
 The reproduced results were qualitatively identical to those in the
 original article, and therefore support the conclusion of chaotic
-dynamics produced by non-linear species interactions. For example, all
-Lyapunov exponents estimated by direct method were positive, as in the
-original article, consistent with chaotic dynamics. Quantitative
-differences may have resulted from difference in algorithms used. For
-example,the original used the
+dynamics. For example, all Lyapunov exponents estimated by direct method
+were positive, as in the original article. Quantitative differences may
+have resulted from difference in algorithms used. For example, the
+original used the
 \href{http://www.mpipks-dresden.mpg.de/~tisean/}{Tisean software} to
 calculate Lyapunov exponents. As this was available from CRAN
 \href{http://cran.r-project.org/web/packages/RTisean/index.html}{until
 mid 2014} and since it is a bit less well integrated with R, we instead
-use the tseriesChaos package (\textcite{tseriesChaos}), which in any
+used the tseriesChaos package (\textcite{tseriesChaos}), which in any
 case was largely inspired by the TISEAN project. In addition, there may
 have been some difference in algorithm parameters, as not all parameters
-required by the functions we used were reported in the original ms.
+required by the function we used were reported in the original ms.
 
-Considerable quantitative difference in predictability decay
-(\ref{fig:prediction_distance}) remain unexplained, though could result
+Considerable quantitative difference in predictability decay (figure
+\ref{fig:prediction_distance}) remain unexplained, though could result
 from original analyses using neural networks, and the reproduction using
 GAMs.
 
@@ -481,8 +485,9 @@ Ecology, Evolution, Behaviour, and Environmental Studies (RREEBES)
 Course, lead by Owen Petchey at the University of Zurich. More
 information about the course
 \href{https://github.com/opetchey/RREEBES/blob/master/README.md}{here}
-on github. Many thanks to Elisa Benincà and Steve Ellner for assistance,
-and to Steve for providing unpublished data and code.
+on github. Many thanks to Elisa Benincà and Stephen Ellner for
+assistance, and to Stephen Ellner for providing unpublished data and
+code.
 
 {\sffamily \small
   \printbibliography[title=References]

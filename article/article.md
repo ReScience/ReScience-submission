@@ -113,7 +113,7 @@ The data received directly from Stephen Ellner (file 'interp_short_allsystem_new
 ![Comparison of interpolated data provided by Ellner with reproduced interpolated data (no removal of zeros). The red line is the 1:1 line.](figures/repro_ellner_comp.pdf) {#fig:trans_comp2}
 
 The original paper reported a global Lyapunov exponent calculated via two modelling approaches (neural network and generalised additive models [GAMs]). Only the GAM approach was reproduced, with the assistance of code donated by Stephen Ellner. The original article obtained
-a global Lyapunov exponent of \lambda=0.08 day<sup>-1</sup>. The reproduced value was 0.04. We did not reproduce the bootstrapping used to give confidence intervals around this estimate.
+a global Lyapunov exponent of 0.08 per day. The reproduced value was 0.04. We did not reproduce the bootstrapping used to give confidence intervals around this estimate.
 
 
 ## Predictability decay

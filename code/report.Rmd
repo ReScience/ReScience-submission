@@ -74,7 +74,7 @@ library(magrittr)
 
 Read in the data and remove some blank rows and columns.
 ```{r}
-spp.abund <- read.csv(text=getURL(paste0(repo,"/data/species_abundances_original.csv")), skip=7, header=T)
+spp.abund <- read.csv(text=getURL(paste0(repo,"/data/original/species_abundances_original.csv")), skip=7, header=T)
 
 spp.abund <- select(spp.abund, -X, -X.1)
 spp.abund <- spp.abund[-804:-920,]
@@ -129,8 +129,7 @@ str(spp.abund)
 
 Bring in the nutrient data:
 ```{r}
-nuts <- read.csv(text=getURL(paste0(repo,"/data/nutrients_original.csv")), skip=7, header=T)
-#nuts <- read.csv("~/Dropbox (Dept of Geography)/RREEBES/Beninca_etal_2008_Nature/data/nutrients_original.csv", skip=7, header=T)
+nuts <- read.csv(text=getURL(paste0(repo,"/data/original/nutrients_original.csv")), skip=7, header=T)
 
 nuts <- select(nuts, -X, -X.1)
 nuts <- nuts[-349:-8163,]
@@ -263,7 +262,7 @@ The ELE supplement contains the raw data and the transformed data, in separate d
 
 The exact method for identifying the "long sequences of zeros" was not given. However, the transformed data with zeros removed was provided, and from this we can get the day range of the retained data:
 ```{r}
-tr <- read.csv(text=getURL(paste0(repo,"/data/transformed_data_Nature2008.csv")),
+tr <- read.csv(text=getURL(paste0(repo,"/data/original/transformed_data_Nature2008.csv")),
                skip=7, na.string="")
 tr <- tr[,-14:-24] ## remove bad columns
 tr <- tr[-693:-694,] ## remove last two rows (contain summary stats)
@@ -560,7 +559,7 @@ table1b
 Compare correlations in table 1 of the original article with those calculated here:
 ```{r}
 # read in the correlations given in the original publication
-original.cors <- read.csv(text=getURL(paste0(repo,"/data/table1_original_article.csv")), skip=0, header=T, row.names = 1)
+original.cors <- read.csv(text=getURL(paste0(repo,"/data/original/table1_original_article.csv")), skip=0, header=T, row.names = 1)
 original.cors <- as.matrix(original.cors)
 
 qplot(x=as.vector(original.cors), y=as.vector(cor.coefs), ylim = c(-0.4,0.4), xlim=c(-0.4, 0.4),
@@ -652,7 +651,7 @@ Not exactly the same at Figure 3 in the Nature report. Qualitatively the same, e
 Compare graphically with original LEs
 ```{r}
 ## read in LE values given in original publication
-original.LEs <- read.csv(text=getURL(paste0(repo,"/data/original_direct_LEs.csv")), skip=0, header=T)
+original.LEs <- read.csv(text=getURL(paste0(repo,"/data/original/original_direct_LEs.csv")), skip=0, header=T)
 both_LEs <- full_join(original.LEs, LEs) # merge the reproduced and original values
 ggplot(both_LEs, aes(x=LE, y=le)) +
   geom_point() +
@@ -708,7 +707,7 @@ mt <- gather(mt, variable, value, 2:13)
 
 Check this against the data direct from Steve:
 ```{r}
-from.steve <- read.csv(text=getURL(paste0(repo,"/data/interp_short_allsystem_newnames.csv")), header=T)
+from.steve <- read.csv(text=getURL(paste0(repo,"/data/original/interp_short_allsystem_newnames.csv")), header=T)
 from.steve <- gather(from.steve, Species, Abundance, 2:13)
 names(from.steve) <- c("Day.number", "variable", "value")
 from.steve$value_steve <- from.steve$value 
@@ -717,7 +716,7 @@ from.steve <- select(from.steve, -value)
 ## correcting an offset in the two datasets Day numbers
 from.steve$Day.number <- from.steve$Day.number + 1.65 + 3.35
 
-## joint the data, again first making days character, then back to numeric after
+## join the data, again first making days character, then back to numeric after
 mt$Day.number <- as.character(mt$Day.number)
 from.steve$Day.number <- as.character(from.steve$Day.number)
 ff <- inner_join(mt, from.steve)
@@ -752,6 +751,15 @@ qplot(data=ff, x=log10(value_steve), y=log10(value)) +
 ```
 
 Looks good.
+
+
+```{r, eval=F, echo=F}
+## code to export the interpolated data, with which to test the GAM functions
+mt_wide <- spread(mt, key=variable, value=value)
+write.csv(mt_wide, "~/Desktop/Repro_data_for_gam_test.csv")
+```
+
+
 
 
 ## Fourth root transform (zeros retained)
@@ -879,6 +887,7 @@ X <- acast(melted, formula= Day.number ~ Species)
 X <- as.data.frame(X)
 ```
 
+
 Restrict range of data appropriately:
 ```{r}
 ## Select the time period to use 
@@ -886,6 +895,12 @@ start.longest=334; start.longer=808; start.shorter=1035;
 e=as.numeric(row.names(X)) > start.longer; X=X[e,];
 e=as.numeric(row.names(X)) < 2654; X=X[e,]; 
 ```
+
+```{r, eval=F, echo=F}
+## code to export the interpolated and transformeddata, with which to test the GAM functions
+write.csv(X, "~/Desktop/Repro_data_for_gam_test_transformed.csv")
+```
+
 
 Load and run the functions, or read in from data file.
 
@@ -901,7 +916,7 @@ eval(parse(text = script))
 #save(LE, file="~/Desktop/GLE_estimate.Rdata")
 
 ## load the already saved data from github (this can take some time depending on the internet connection)
-source_data(paste0(repo, "/data/GLE_estimate.Rdata?raw=True"))
+source_data(paste0(repo, "/data/reproduction/GLE_estimate.Rdata?raw=True"))
 
 LE[[1]]
 ```
@@ -969,7 +984,7 @@ cors.long$Variable <- factor(cors.long$Variable, c("Cyclopoids", "Rotifers", "Ca
                              "Protozoa"))
 
 ## read in the data of the original article that came direct from Elisa
-original_preds <- read.csv(text=getURL(paste0(repo,"/data/original_rsquared.csv")), skip=0, header=T)
+original_preds <- read.csv(text=getURL(paste0(repo,"/data/original/original_rsquared.csv")), skip=0, header=T)
 opw <- gather(original_preds, Species, r_squared, 2:25)
 opw <- separate(opw, Species, c("Species", "Model"))
 

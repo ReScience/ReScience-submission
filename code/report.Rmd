@@ -49,9 +49,8 @@ devtools::session_info()
 
 The datasets are read from this github repository:
 ```{r}
-repo <- "https://raw.githubusercontent.com/opetchey/ReScience-submission/beninca_dev"
+repo <- "https://raw.githubusercontent.com/opetchey/ReScience-submission/petchey-plebani-pennekamp-2016"
 ```
-
 
 # First get the raw data into R, and clean and tidy it.
 

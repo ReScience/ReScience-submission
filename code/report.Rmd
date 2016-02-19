@@ -706,7 +706,11 @@ mt <- gather(mt, variable, value, 2:13)
 
 Check this against the data direct from Steve:
 ```{r}
-from.steve <- read.csv(text=getURL(paste0(repo,"/data/original/interp_short_allsystem_newnames.csv")), header=T)
+from.steve <- read.csv(text=getURL(paste0(repo,"/data/original/interp_short_allsystem_original.csv")), header=T)
+name_table <- read.csv(text=getURL(paste0(repo,"/data/reproduction/repro_steve_name_table.csv")), header=T)
+names(from.steve) <- name_table$repro_names[match(names(from.steve), name_table$steve_names)]
+
+
 from.steve <- gather(from.steve, Species, Abundance, 2:13)
 names(from.steve) <- c("Day.number", "variable", "value")
 from.steve$value_steve <- from.steve$value 
@@ -910,6 +914,7 @@ script <- getURL(paste0(repo,"/code/indirect_method_functions.R"), ssl.verifypee
 # parase lines and evealuate in the global environement
 eval(parse(text = script))
 
+## To test the reproduction uncomment the next line of code
 ## don't run this unless you have some time (it takes a while)
 #LE <- Get_GLE_Beninca(X)
 #save(LE, file="~/Desktop/GLE_estimate.Rdata")

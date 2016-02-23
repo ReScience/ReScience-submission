@@ -49,7 +49,7 @@ devtools::session_info()
 ##  language (EN)                        
 ##  collate  en_US.UTF-8                 
 ##  tz       America/New_York            
-##  date     2016-02-22
+##  date     2016-02-23
 ```
 
 ```

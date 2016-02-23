@@ -37,6 +37,10 @@ if(dataset_to_use =="reproduced") {
   X=read.csv("../../data/reproduction/Repro_data_for_gam_test_transformed.csv", row.names=1)
 }
 
+## Fit the GAMs
+gams <- Fit_GAMs(X, gval=1.4, T_lag=1)
 
-LE <- Get_GLE_Beninca(X)
-LE[[1]]
+## calculate and print the GLE
+Get_LE_from_fit2(gams, X, epsval=0.01) 
+
+

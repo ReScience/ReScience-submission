@@ -673,6 +673,8 @@ sd(LEs$le)
 
 # Lyapunov exponents by indirect method
 
+The process is to transform the data, to fit GAMs, and then to calculated the global Lyapunov exponent.
+
 It seems that this must have been done on data without zeros removed, because removal of the zeros would leave too many missing values in the GAMs. So we do the transformation steps again, but without removal of zeros.
 
 ## Interpolation (zeros retained)
@@ -905,35 +907,50 @@ write.csv(X, "~/Desktop/Repro_data_for_gam_test_transformed.csv")
 ```
 
 
-Load and run the functions, or read in from data file.
+Load and run the functions, or read in from data file. Chunk not run by default, as take a minute or so. At last run, gave GLE of 0.03730891
 
-```{r}
+```{r, eval=F}
 # read script lines from website
 script <- getURL(paste0(repo,"/code/indirect_method_functions.R"), ssl.verifypeer = FALSE)
-
-# parase lines and evealuate in the global environement
 eval(parse(text = script))
 
-## To test the reproduction uncomment the next line of code
-## don't run this unless you have some time (it takes a while)
-#LE <- Get_GLE_Beninca(X)
-#save(LE, file="~/Desktop/GLE_estimate.Rdata")
+## Fit the GAMs
+gams <- Fit_GAMs(X, gval=1.4, T_lag=1)
 
-## load the already saved data from github (this can take some time depending on the internet connection)
-source_data(paste0(repo, "/data/reproduction/GLE_estimate.Rdata?raw=True"))
+## calculate and print the GLE
+Get_LE_from_fit2(gams, X1, epsval=0.01) 
 
-LE[[1]]
 ```
 
-This is quite far from the number using code and data from Steve (0.08415112). But recall that the functions have been carefully checked. Probably it is the data going into this function. A final step would be to save the data here, and take it into Steve's function. (This point is an issue on github.)
+This is quite far from the number using code and data from Steve (0.08415112). This is caused by small differences in the data (and not by the functions), as we've found in using the code in the folder "GAM_test".
 
 # Predictability (Figure 2)
 
-```{r, echo=FALSE}
-## put the models together into a list
-all.gams <- LE[[2]]
-#names(all.gams)
+The procedure is to fit GAMs (neural nets in the original publication) with response variable a function of explanatory variables at lag T, then to record r-squared of observed and fit data. Chunk not run by default, due to time required.
+
+
+```{r, echo=FALSE, eval=FALSE}
+
+T_lags <- 12
+num_spp <- length(gams)
+rsq_vals <- matrix(NA, T_lags, num_spp)
+dimnames(rsq_vals)[[2]] <- names(gams)
+
+for(i in 1:T_lags) {
+  gams <- Fit_GAMs(X, gval=1.4, T_lag=i)
+  for(j in 1:num_spp)
+    rsq_vals[i,j] <- cor(gams[[j]]$fitted.values, gams[[j]]$model[1])^2
+}
+
+save(rsq_vals, file="~/Desktop/rsq_vals.Rdata")
+
 ```
+
+
+
+<!--
+Until the close HTML comment are some code Owen was previously using to calculate the predictability decline.
+
 
 Need to predict until about 40 days ahead = 40 / 3.35 time steps = 12 time steps. Do this from each time in the time series as initial abundances.
 
@@ -980,8 +997,22 @@ cors.long <- gather(as.data.frame(cors), key=dist)
 names(cors.long) <- c("Prediction_distance", "Variable", "Correlation")
 ```
 
+End of html comment
+-->
+
+
+
 And plot our version of figure 2:
 ```{r}
+## Load the r-squared values that were previously saved (above)
+## load the already saved data from github (this can take some time depending on the internet connection)
+source_data(paste0(repo, "/data/reproduction/rsq_vals.Rdata?raw=True"))
+
+cors <- data.frame(dist=1:12, rsq_vals)
+cors.long <- gather(cors, key=dist)
+names(cors.long) <- c("Prediction_distance", "Variable", "Correlation")
+
+
 cors.long$Variable <- factor(cors.long$Variable, c("Cyclopoids", "Rotifers", "Calanoid.copepods", "Picophytoplankton",
                              "Nanophytoplankton", "Filamentous.diatoms", "Soluble.reactive.phosphorus",
                              "Total.dissolved.inorganic.nitrogen", "Bacteria", "Ostracods", "Harpacticoids",

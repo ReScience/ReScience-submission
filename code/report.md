@@ -1282,14 +1282,16 @@ opw <- full_join(opw, name.mapping)
 ```
 
 ```r
-ggplot(cors.long, aes(x=Prediction_distance*3.75, y=Correlation)) +
+ggplot(filter(cors.long, Prediction_distance<13),
+       aes(x=Prediction_distance*3.35, y=Correlation)) +
   xlab("Prediction time (days)") +
   geom_point(col="red") +
   facet_wrap(~Variable, ncol=3 ) +
   geom_point(data=filter(opw, Model=="nonlinear"),
-             aes(x=prediction_time, y=r_squared))
+             aes(x=prediction_time, y=r_squared)) +
+  ylim(0,1)
 ```
 
 ![](report_files/figure-html/unnamed-chunk-68-1.png) 
 
-Quite different patterns from in figure 2 of the nature paper. There is relatively little information in the paper or supplement about how figure 2 data was produced, so difficult to pin down the difference without asking authors.
+Some species very similar to figure 2 of the nature paper, some more different. Difference must be due to data in figure 2 coming from neural net models, whereas here it comes from the GAMs. Qualitative result the same as in the original paper, however.

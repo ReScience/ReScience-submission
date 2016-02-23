@@ -931,13 +931,16 @@ The procedure is to fit GAMs (neural nets in the original publication) with resp
 
 ```{r, echo=FALSE, eval=FALSE}
 
+## Some preliminaries, including arranging storage
 T_lags <- 12
 num_spp <- length(gams)
 rsq_vals <- matrix(NA, T_lags, num_spp)
 dimnames(rsq_vals)[[2]] <- names(gams)
 
+## fit gams for all the required lags
 for(i in 1:T_lags) {
   gams <- Fit_GAMs(X, gval=1.4, T_lag=i)
+  ## and get the r-squared for each
   for(j in 1:num_spp)
     rsq_vals[i,j] <- cor(gams[[j]]$fitted.values, gams[[j]]$model[1])^2
 }
@@ -992,4 +995,4 @@ ggplot(filter(cors.long, Prediction_distance<13),
 
 ```
 
-Quite different patterns from in figure 2 of the nature paper. There is relatively little information in the paper or supplement about how figure 2 data was produced, so difficult to pin down the difference without asking authors.
+Some species very similar to figure 2 of the nature paper, some more different. Difference must be due to data in figure 2 coming from neural net models, whereas here it comes from the GAMs. Qualitative result the same as in the original paper, however.

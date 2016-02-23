@@ -51,9 +51,7 @@ This is the submission repository for the [Re**Science** journal](https://rescie
   I believed the original results have been adequately reproduced as explained in the accompanying [article](https://github.com/opetchey/ReScience-submission/raw/petchey-plebani-pennekamp-2016/article/article.pdf).
   
   The repository lives at [https://github.com/opetchey/ReScience-submission/tree/petchey-plebani-pennekamp-2016](https://github.com/opetchey/ReScience-submission/tree/petchey-plebani-pennekamp-2016)
-  
 
-
-8. Assign the PR to an editor from the [editorial board](https://rescience.github.io/board)
+8. Assign the PR to an editor from the [editorial board](https://rescience.github.io/board).
 
 9. Answer questions and requests made in the PR conversation page.

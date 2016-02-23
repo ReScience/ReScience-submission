@@ -49,7 +49,7 @@ devtools::session_info()
 ##  language (EN)                        
 ##  collate  en_US.UTF-8                 
 ##  tz       America/New_York            
-##  date     2016-02-11
+##  date     2016-02-22
 ```
 
 ```
@@ -78,9 +78,8 @@ devtools::session_info()
 The datasets are read from this github repository:
 
 ```r
-repo <- "https://raw.githubusercontent.com/opetchey/ReScience-submission/beninca_dev"
+repo <- "https://raw.githubusercontent.com/opetchey/ReScience-submission/petchey-plebani-pennekamp-2016"
 ```
-
 
 # First get the raw data into R, and clean and tidy it.
 
@@ -105,7 +104,7 @@ library(magrittr)
 Read in the data and remove some blank rows and columns.
 
 ```r
-spp.abund <- read.csv(text=getURL(paste0(repo,"/data/species_abundances_original.csv")), skip=7, header=T)
+spp.abund <- read.csv(text=getURL(paste0(repo,"/data/original/species_abundances_original.csv")), skip=7, header=T)
 
 spp.abund <- select(spp.abund, -X, -X.1)
 spp.abund <- spp.abund[-804:-920,]
@@ -219,8 +218,7 @@ str(spp.abund)
 Bring in the nutrient data:
 
 ```r
-nuts <- read.csv(text=getURL(paste0(repo,"/data/nutrients_original.csv")), skip=7, header=T)
-#nuts <- read.csv("~/Dropbox (Dept of Geography)/RREEBES/Beninca_etal_2008_Nature/data/nutrients_original.csv", skip=7, header=T)
+nuts <- read.csv(text=getURL(paste0(repo,"/data/original/nutrients_original.csv")), skip=7, header=T)
 
 nuts <- select(nuts, -X, -X.1)
 nuts <- nuts[-349:-8163,]
@@ -380,7 +378,7 @@ The ELE supplement contains the raw data and the transformed data, in separate d
 The exact method for identifying the "long sequences of zeros" was not given. However, the transformed data with zeros removed was provided, and from this we can get the day range of the retained data:
 
 ```r
-tr <- read.csv(text=getURL(paste0(repo,"/data/transformed_data_Nature2008.csv")),
+tr <- read.csv(text=getURL(paste0(repo,"/data/original/transformed_data_Nature2008.csv")),
                skip=7, na.string="")
 tr <- tr[,-14:-24] ## remove bad columns
 tr <- tr[-693:-694,] ## remove last two rows (contain summary stats)
@@ -700,7 +698,7 @@ Compare correlations in table 1 of the original article with those calculated he
 
 ```r
 # read in the correlations given in the original publication
-original.cors <- read.csv(text=getURL(paste0(repo,"/data/table1_original_article.csv")), skip=0, header=T, row.names = 1)
+original.cors <- read.csv(text=getURL(paste0(repo,"/data/original/table1_original_article.csv")), skip=0, header=T, row.names = 1)
 original.cors <- as.matrix(original.cors)
 
 qplot(x=as.vector(original.cors), y=as.vector(cor.coefs), ylim = c(-0.4,0.4), xlim=c(-0.4, 0.4),
@@ -817,8 +815,8 @@ diverg$days <- diverg$days*3.35
 Next calculate the Lyapunov exponents, noting that 6 or 7 points were used in the regressions in the Nature report
 
 ```r
-diverg$Difference[is.na(diverg$Difference)] <- 0
-diverg$Difference[is.infinite(diverg$Difference)] <- 0
+#diverg$Difference[is.na(diverg$Difference)] <- 0
+diverg$Difference[is.infinite(diverg$Difference)] <- NA
 diverg.short <- filter(diverg, days<24) ## 24 is about 6 steps, after initial gap
 LEs <- group_by(diverg.short, Species) %>%
   summarise(le=coef(lm(Difference[1:6] ~ days[1:6]))[2])
@@ -841,6 +839,10 @@ g1 <- ggplot(diverg, aes(x=days, y=Difference)) + geom_point() + facet_wrap(~Spe
 g1
 ```
 
+```
+## Warning: Removed 1 rows containing missing values (geom_point).
+```
+
 ![](report_files/figure-html/unnamed-chunk-48-1.png) 
 
 Not exactly the same at Figure 3 in the Nature report. Qualitatively the same, except for where the time-delayed embedding failed.
@@ -849,7 +851,7 @@ Compare graphically with original LEs
 
 ```r
 ## read in LE values given in original publication
-original.LEs <- read.csv(text=getURL(paste0(repo,"/data/original_direct_LEs.csv")), skip=0, header=T)
+original.LEs <- read.csv(text=getURL(paste0(repo,"/data/original/original_direct_LEs.csv")), skip=0, header=T)
 both_LEs <- full_join(original.LEs, LEs) # merge the reproduced and original values
 ```
 
@@ -897,7 +899,7 @@ mean(LEs$le)
 ```
 
 ```
-## [1] 0.05694789
+## [1] 0.05971112
 ```
 
 ```r
@@ -905,12 +907,14 @@ sd(LEs$le)
 ```
 
 ```
-## [1] 0.01440379
+## [1] 0.01411634
 ```
 
 
 
 # Lyapunov exponents by indirect method
+
+The process is to transform the data, to fit GAMs, and then to calculated the global Lyapunov exponent.
 
 It seems that this must have been done on data without zeros removed, because removal of the zeros would leave too many missing values in the GAMs. So we do the transformation steps again, but without removal of zeros.
 
@@ -948,7 +952,11 @@ mt <- gather(mt, variable, value, 2:13)
 Check this against the data direct from Steve:
 
 ```r
-from.steve <- read.csv(text=getURL(paste0(repo,"/data/interp_short_allsystem_newnames.csv")), header=T)
+from.steve <- read.csv(text=getURL(paste0(repo,"/data/original/interp_short_allsystem_original.csv")), header=T)
+name_table <- read.csv(text=getURL(paste0(repo,"/data/reproduction/repro_steve_name_table.csv")), header=T)
+names(from.steve) <- name_table$repro_names[match(names(from.steve), name_table$steve_names)]
+
+
 from.steve <- gather(from.steve, Species, Abundance, 2:13)
 names(from.steve) <- c("Day.number", "variable", "value")
 from.steve$value_steve <- from.steve$value 
@@ -957,7 +965,7 @@ from.steve <- select(from.steve, -value)
 ## correcting an offset in the two datasets Day numbers
 from.steve$Day.number <- from.steve$Day.number + 1.65 + 3.35
 
-## joint the data, again first making days character, then back to numeric after
+## join the data, again first making days character, then back to numeric after
 mt$Day.number <- as.character(mt$Day.number)
 from.steve$Day.number <- as.character(from.steve$Day.number)
 ff <- inner_join(mt, from.steve)
@@ -1020,6 +1028,11 @@ qplot(data=ff, x=log10(value_steve), y=log10(value)) +
 ![](report_files/figure-html/unnamed-chunk-53-2.png) 
 
 Looks good.
+
+
+
+
+
 
 
 ## Fourth root transform (zeros retained)
@@ -1126,7 +1139,7 @@ g2 <- geom_line(data=filter(final, variable==soi), aes(x=Day.number, y=value), s
 g1 + g2
 ```
 
-![](report_files/figure-html/unnamed-chunk-59-1.png) 
+![](report_files/figure-html/unnamed-chunk-60-1.png) 
 
 Fourth root transformed with trend:
 
@@ -1140,7 +1153,7 @@ g2 <- geom_line(data=filter(final, variable==soi), aes(x=Day.number, y=trend), s
 g1 + g2
 ```
 
-![](report_files/figure-html/unnamed-chunk-60-1.png) 
+![](report_files/figure-html/unnamed-chunk-61-1.png) 
 
 Detrended and normalised:
 
@@ -1153,7 +1166,7 @@ g1 <- ggplot(filter(final, variable==soi), aes(x=Day.number, y=y)) +
 g1
 ```
 
-![](report_files/figure-html/unnamed-chunk-61-1.png) 
+![](report_files/figure-html/unnamed-chunk-62-1.png) 
 
 
 The functions used in the code below are based on code received from Stephen Ellner. The modifications have been tested, and produce the same results as Ellner's original code.
@@ -1173,6 +1186,7 @@ X <- acast(melted, formula= Day.number ~ Species)
 X <- as.data.frame(X)
 ```
 
+
 Restrict range of data appropriately:
 
 ```r
@@ -1182,93 +1196,68 @@ e=as.numeric(row.names(X)) > start.longer; X=X[e,];
 e=as.numeric(row.names(X)) < 2654; X=X[e,]; 
 ```
 
-Load and run the functions, or read in from data file.
+
+
+
+Load and run the functions, or read in from data file. Chunk not run by default, as take a minute or so. At last run, gave GLE of 0.03730891
 
 
 ```r
 # read script lines from website
 script <- getURL(paste0(repo,"/code/indirect_method_functions.R"), ssl.verifypeer = FALSE)
-
-# parase lines and evealuate in the global environement
 eval(parse(text = script))
 
-## don't run this unless you have some time (it takes a while)
-LE <- Get_GLE_Beninca(X)
-save(LE, file="~/Desktop/GLE_estimate.Rdata")
+## Fit the GAMs
+gams <- Fit_GAMs(X, gval=1.4, T_lag=1)
 
-## load the already saved data from github (this can take some time depending on the internet connection)
-#source_data(paste0(repo, "/data/GLE_estimate.Rdata?raw=True"))
-
-LE[[1]]
+## calculate and print the GLE
+Get_LE_from_fit2(gams, X1, epsval=0.01) 
 ```
 
-```
-## [1] 0.03748704
-```
-
-This is quite far from the number using code and data from Steve (0.08415112). But recall that the functions have been carefully checked. Probably it is the data going into this function. A final step would be to save the data here, and take it into Steve's function. (This point is an issue on github.)
+This is quite far from the number using code and data from Steve (0.08415112). This is caused by small differences in the data (and not by the functions), as we've found in using the code in the folder "GAM_test".
 
 # Predictability (Figure 2)
 
+The procedure is to fit GAMs (neural nets in the original publication) with response variable a function of explanatory variables at lag T, then to record r-squared of observed and fit data. Chunk not run by default, due to time required.
 
 
-Need to predict until about 40 days ahead = 40 / 3.35 time steps = 12 time steps. Do this from each time in the time series as initial abundances.
-
-From each time in the series, predict 12 steps ahead. Put results in an array: time x species x start.location.
-time will be 12, species will be 12, start location will be length of time series - 12
 
 
-```r
-## some preliminaries
-x <- X 
-Z <- LE[[3]]
-Z1 <- Z[,13:24]
-all.species <- names(all.gams)
-time.to.predict <- 12
-nn <- length(Z1[,1])-time.to.predict
-## create the array of predictions
-preds <- array(NA, c(12, 12, nn))
-dimnames(preds) <- list(dist=1:12,
-                        species=all.species,
-                        start.time=1:nn)
-## fill in the array with the one step ahead predictions
-for(i in 1:length(all.species))
-  preds[1,i,] <- predict(all.gams[[i]])[1:nn]
 
-# Now for the predictions at t+2 from predictions at t+1
-pred.time <- 2
-for(pred.time in 2:12) {
-  for(i in 1:length(all.species))
-    preds[pred.time,i,pred.time:nn] <- predict(all.gams[[i]],
-                                                newdata=as.data.frame(t(preds[pred.time-1,,])))[pred.time:nn]
-}
-```
 
-Get the correlations and do some house keeping:
-
-```r
-cors <- matrix(NA, 12, 12)
-dimnames(cors) = list(dist=1:12,
-                        species=names(x))
-for(i in 1:12) {
-  for(j in 1:12) {
-    cors[j,i] <- cor(Z1[1:nn,i], preds[j, i, ], use="complete.obs")^2
-}}
-cors <- data.frame(dist=as.numeric(I(rownames(cors))), cors)
-cors.long <- gather(as.data.frame(cors), key=dist)
-names(cors.long) <- c("Prediction_distance", "Variable", "Correlation")
-```
 
 And plot our version of figure 2:
 
 ```r
+## Load the r-squared values that were previously saved (above)
+## load the already saved data from github (this can take some time depending on the internet connection)
+source_data(paste0(repo, "/data/reproduction/rsq_vals.Rdata?raw=True"))
+```
+
+```
+## Downloading data from: https://raw.githubusercontent.com/opetchey/ReScience-submission/petchey-plebani-pennekamp-2016/data/reproduction/rsq_vals.Rdata?raw=True 
+## 
+## SHA-1 hash of the downloaded data file is:
+## 8805fa71c9d401416058bf2b5ad490520d80d2a5
+```
+
+```
+## [1] "rsq_vals"
+```
+
+```r
+cors <- data.frame(dist=1:12, rsq_vals)
+cors.long <- gather(cors, key=dist)
+names(cors.long) <- c("Prediction_distance", "Variable", "Correlation")
+
+
 cors.long$Variable <- factor(cors.long$Variable, c("Cyclopoids", "Rotifers", "Calanoid.copepods", "Picophytoplankton",
                              "Nanophytoplankton", "Filamentous.diatoms", "Soluble.reactive.phosphorus",
                              "Total.dissolved.inorganic.nitrogen", "Bacteria", "Ostracods", "Harpacticoids",
                              "Protozoa"))
 
 ## read in the data of the original article that came direct from Elisa
-original_preds <- read.csv(text=getURL(paste0(repo,"/data/original_rsquared.csv")), skip=0, header=T)
+original_preds <- read.csv(text=getURL(paste0(repo,"/data/original/original_rsquared.csv")), skip=0, header=T)
 opw <- gather(original_preds, Species, r_squared, 2:25)
 opw <- separate(opw, Species, c("Species", "Model"))
 

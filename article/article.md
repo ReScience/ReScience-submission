@@ -118,7 +118,7 @@ a global Lyapunov exponent of 0.08 per day. The reproduced value was 0.04. We di
 
 ## Predictability decay
 
-The article stated: "For short-term forecasts of only a few days, most species had a high predictability of R2 = 0.70 – 0.90 (Fig. 2). However, the predictability of the species was much reduced when prediction times were extended to 15–30days." The reproduced predictabilities, which were calculated from the GAMs, were consistent with these qualitative statements, though were quantitatively different (@fig:prediction_distance). We did not reproduce the predictability estimates for linear models.
+The article stated: "For short-term forecasts of only a few days, most species had a high predictability of R2 = 0.70 – 0.90 (Fig. 2). However, the predictability of the species was much reduced when prediction times were extended to 15–30days." The reproduced predictabilities, which were calculated from the GAMs, were consistent with these qualitative statements, and were most often quantitatively similar (@fig:prediction_distance). We did not reproduce the predictability estimates for linear models.
 
 ![Predictability (correlation between predicted and observed abundances) and prediction distance (days) (figure 2 in the original article). Reproducted data in red, and data from original publication in black.](figures/prediction_distance.pdf) {#fig:prediction_distance}
 
@@ -127,7 +127,7 @@ The article stated: "For short-term forecasts of only a few days, most species h
 
 The reproduced results were qualitatively identical to those in the original article, and therefore support the conclusion of chaotic dynamics. For example, all Lyapunov exponents estimated by direct method were positive, as in the original article. Quantitative differences may have resulted from difference in algorithms used. For example, the original used the [Tisean software](http://www.mpipks-dresden.mpg.de/~tisean/) to calculate Lyapunov exponents. As this was available from CRAN [until mid 2014](http://cran.r-project.org/web/packages/RTisean/index.html) and since it is a bit less well integrated with R, we instead used the tseriesChaos package (@tseriesChaos), which in any case was largely inspired by the TISEAN project. In addition, there may have been some difference in algorithm parameters, as not all parameters required by the function we used were reported in the original ms.
 
-Considerable quantitative difference in predictability decay (figure @fig:prediction_distance) remain unexplained, though could result from original analyses using neural networks, and the reproduction using GAMs. The difference in estimate of the global Lyapunov exponent (0.08 in the original article and 0.04 here) appears to be due to difference in data used (illustrated in figure @fig:trans_comp2).
+Quantitative differences in predictability decay (figure @fig:prediction_distance) remain unexplained, though could result from original analyses using neural networks, and the reproduction using GAMs. The difference in estimate of the global Lyapunov exponent (0.08 in the original article and 0.04 here) appears to be due to difference in data used (illustrated in figure @fig:trans_comp2).
 
 In conclusion, this reproduction supports the general scientific conclusions of the original article, but also shows how difficult can be an accurate quantitative reproduction, even in the presence of the extensive methodological details provided alongside the original article.
 

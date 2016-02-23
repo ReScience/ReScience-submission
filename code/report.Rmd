@@ -948,59 +948,6 @@ save(rsq_vals, file="~/Desktop/rsq_vals.Rdata")
 
 
 
-<!--
-Until the close HTML comment are some code Owen was previously using to calculate the predictability decline.
-
-
-Need to predict until about 40 days ahead = 40 / 3.35 time steps = 12 time steps. Do this from each time in the time series as initial abundances.
-
-From each time in the series, predict 12 steps ahead. Put results in an array: time x species x start.location.
-time will be 12, species will be 12, start location will be length of time series - 12
-
-```{r}
-## some preliminaries
-x <- X 
-Z <- LE[[3]]
-Z1 <- Z[,13:24]
-all.species <- names(all.gams)
-time.to.predict <- 12
-nn <- length(Z1[,1])-time.to.predict
-## create the array of predictions
-preds <- array(NA, c(12, 12, nn))
-dimnames(preds) <- list(dist=1:12,
-                        species=all.species,
-                        start.time=1:nn)
-## fill in the array with the one step ahead predictions
-for(i in 1:length(all.species))
-  preds[1,i,] <- predict(all.gams[[i]])[1:nn]
-
-# Now for the predictions at t+2 from predictions at t+1
-pred.time <- 2
-for(pred.time in 2:12) {
-  for(i in 1:length(all.species))
-    preds[pred.time,i,pred.time:nn] <- predict(all.gams[[i]],
-                                                newdata=as.data.frame(t(preds[pred.time-1,,])))[pred.time:nn]
-}
-```
-
-Get the correlations and do some house keeping:
-```{r}
-cors <- matrix(NA, 12, 12)
-dimnames(cors) = list(dist=1:12,
-                        species=names(x))
-for(i in 1:12) {
-  for(j in 1:12) {
-    cors[j,i] <- cor(Z1[1:nn,i], preds[j, i, ], use="complete.obs")^2
-}}
-cors <- data.frame(dist=as.numeric(I(rownames(cors))), cors)
-cors.long <- gather(as.data.frame(cors), key=dist)
-names(cors.long) <- c("Prediction_distance", "Variable", "Correlation")
-```
-
-End of html comment
--->
-
-
 
 And plot our version of figure 2:
 ```{r}
@@ -1033,12 +980,14 @@ name.mapping <- data.frame(Species=c("cyclo", "roti", "cala", "pico", "nano",
                                   "Ostracods", "Harpacticoids", "Protozoa"))
 opw <- full_join(opw, name.mapping)
 
-ggplot(cors.long, aes(x=Prediction_distance*3.75, y=Correlation)) +
+ggplot(filter(cors.long, Prediction_distance<13),
+       aes(x=Prediction_distance*3.35, y=Correlation)) +
   xlab("Prediction time (days)") +
   geom_point(col="red") +
   facet_wrap(~Variable, ncol=3 ) +
   geom_point(data=filter(opw, Model=="nonlinear"),
-             aes(x=prediction_time, y=r_squared))
+             aes(x=prediction_time, y=r_squared)) +
+  ylim(0,1)
 
 
 ```

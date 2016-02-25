@@ -133,7 +133,7 @@ In conclusion, this reproduction supports the general scientific conclusions of 
 
 # Acknowledgements
 
-This reproduction was made as part of the Reproducible Research in Ecology, Evolution, Behaviour, and Environmental Studies (RREEBES) Course, lead by Owen Petchey at the University of Zurich. More information about the course [here](https://github.com/opetchey/RREEBES/blob/master/README.md) on github. Many thanks to Elisa Benincà and Stephen Ellner for assistance, and to Stephen Ellner for providing unpublished data and code.
+This reproduction was made as part of the Reproducible Research in Ecology, Evolution, Behaviour, and Environmental Studies (RREEBES) Course, lead by Owen Petchey at the University of Zurich. More information about the course [here](https://github.com/opetchey/RREEBES/blob/master/README.md) on github. Many thanks to Elisa Benincà, Stephen Ellner and Jef Huisman for assistance, and to Stephen Ellner for providing unpublished data and code.
 
 
 # References

@@ -56,6 +56,10 @@ repo <- "https://raw.githubusercontent.com/opetchey/ReScience-submission/petchey
 
 All required libraries:
 ```{r, message=FALSE}
+#install.packages(c("tidyr","dplyr", "lubridate", "stringr",
+#                   "ggplot2", "RCurl", "pracma", "oce",
+#                   "tseriesChaos", "reshape2", "mgcv", "repmis",
+#                   "magrittr", "knitr"))
 library(tidyr)
 library(dplyr)
 library(lubridate)
@@ -69,6 +73,7 @@ library(reshape2)
 library(mgcv)
 library(repmis)
 library(magrittr)
+library(knitr)
 ```
 
 Read in the data and remove some blank rows and columns.
@@ -549,7 +554,6 @@ dimnames(cor.cp) <- list(sn, sn)
 
 Make it a table:
 ```{r}
-library(knitr)
 table1b <- kable(cor.cp, format="markdown", col.names = colnames(cor.cp), align="c",
                 caption="Table 1.'Correlations between the species in the food web. Table entries show the product–moment correlation coefficients, after transformation of the data to stationary time series (see Methods). Significance tests were corrected for multiple hypothesis testing by calculation of adjusted P values using the false discovery rate.' Significant correlations are indicated as follows: *: P<0.05; **: P<0.01; ***: P<0.001. 'The correlation between calanoid copepods and protozoa could not be calculated, because their time series did not overlap. Filamentous diatoms and cyclopoid copepods were not included in the correlation analysis, because their time series contained too many zeros.' (Beninca et al. 2008)")
 table1b

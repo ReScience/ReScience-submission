@@ -37,6 +37,18 @@ The data are available as an Excel file supplement to [an Ecology Letters public
 In the code below, the data and any other files are read from github, which means there must be a connection to github.
 
 
+# R package requirements
+
+The following packages must be installed.
+
+```{r}
+#install.packages(c("tidyr","dplyr", "lubridate", "stringr",
+#                   "ggplot2", "RCurl", "pracma", "oce",
+#                   "tseriesChaos", "reshape2", "mgcv", "repmis",
+#                   "magrittr", "knitr", "devtools"))
+```
+
+
 # R session info
 
 ```{r session_info, include=TRUE, echo=TRUE, results='markup'}
@@ -54,12 +66,8 @@ repo <- "https://raw.githubusercontent.com/opetchey/ReScience-submission/petchey
 
 # First get the raw data into R, and clean and tidy it.
 
-All required libraries:
+Load required packages:
 ```{r, message=FALSE}
-#install.packages(c("tidyr","dplyr", "lubridate", "stringr",
-#                   "ggplot2", "RCurl", "pracma", "oce",
-#                   "tseriesChaos", "reshape2", "mgcv", "repmis",
-#                   "magrittr", "knitr"))
 library(tidyr)
 library(dplyr)
 library(lubridate)

@@ -525,20 +525,20 @@ Cosmetic work on the table:
 ```{r}
 dim(cor.coefs) ## should be 12,12
 oo <- c(10, 9, 8, 11, 12, 6, 5, 3, 4, 2)
-cor.coefs <- cor.coefs[oo,oo]
-cor.cp <- cor.cp[oo,oo]
-for(i in 1:length(cor.cp[1,]))
+cor.coefs1 <- cor.coefs[oo,oo]
+cor.cp1 <- cor.cp[oo,oo]
+for(i in 1:length(cor.cp1[1,]))
   for(j in 1:i)
-  cor.cp[i,j] <- ""
+  cor.cp1[i,j] <- ""
 #sn <- c("Bacteria", "Harps", "Ostr", "N", "P", "Picophyt", "Nanophyt", "Rotifers", "Protozoa", "Calanoids")
-sn <- substr(rownames(cor.cp), 1, 4)
+sn <- substr(rownames(cor.cp1), 1, 4)
 sn[4:5] <- c("N", "P")
-dimnames(cor.cp) <- list(sn, sn)
+dimnames(cor.cp1) <- list(sn, sn)
 ```
 
 Make it a table:
 ```{r}
-table1b <- kable(cor.cp, format="markdown", col.names = colnames(cor.cp), align="c",
+table1b <- kable(cor.cp1, format="markdown", col.names = colnames(cor.cp1), align="c",
                 caption="Table 1.'Correlations between the species in the food web. Table entries show the product–moment correlation coefficients, after transformation of the data to stationary time series (see Methods). Significance tests were corrected for multiple hypothesis testing by calculation of adjusted P values using the false discovery rate.' Significant correlations are indicated as follows: *: P<0.05; **: P<0.01; ***: P<0.001. 'The correlation between calanoid copepods and protozoa could not be calculated, because their time series did not overlap. Filamentous diatoms and cyclopoid copepods were not included in the correlation analysis, because their time series contained too many zeros.' (Beninca et al. 2008)")
 table1b
 ```
@@ -549,7 +549,7 @@ Compare correlations in table 1 of the original article with those calculated he
 original.cors <- read.csv(text=getURL(paste0(repo,"/data/original/table1_original_article.csv")), skip=0, header=T, row.names = 1)
 original.cors <- as.matrix(original.cors)
 
-qplot(x=as.vector(original.cors), y=as.vector(cor.coefs), ylim = c(-0.4,0.4), xlim=c(-0.4, 0.4),
+qplot(x=as.vector(original.cors), y=as.vector(cor.coefs1), ylim = c(-0.4,0.4), xlim=c(-0.4, 0.4),
       xlab="Correlations in original article", ylab="Correlations calculated\nin this reproduction") + geom_abline(intercept=0,slope=1, colour="red")
 ```
 

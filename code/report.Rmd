@@ -493,14 +493,6 @@ Calculate correlation coefficients:
 cor.coefs <- cor(final_wide, use="pairwise.complete.obs")
 ```
 
-Only keep the upper triangle of the cor.pvals matrix:
-```{r}
-#for(i in 1:10){
-#  for(j in 1:10){
-#  cor.coefs[i,j] <- ifelse(i<j, cor.coefs[i,j], NA)
-#}}
-```
-
 Get p-vals:
 ```{r}
 cor.pvals <- matrix(NA, length(final_wide[1,]), length(final_wide[1,]))
@@ -511,15 +503,6 @@ for(i in 1:length(final_wide[1,]))
 }
     #plot(final_wide[,2], final_wide[,3])
 ```
-
-Only keep the upper triangle of the cor.pvals matrix:
-```{r}
-#for(i in 1:10){
-#  for(j in 1:10){
-#  cor.pvals[i,j] <- ifelse(i<j, cor.pvals[i,j], NA)
-#}}
-```
-
 
 Add significance "stars" to cor.coefs from cor.pvals:
 ```{r}
@@ -540,6 +523,7 @@ for(i in 1:length(final_wide[1,])){
 
 Cosmetic work on the table:
 ```{r}
+dim(cor.coefs) ## should be 12,12
 oo <- c(10, 9, 8, 11, 12, 6, 5, 3, 4, 2)
 cor.coefs <- cor.coefs[oo,oo]
 cor.cp <- cor.cp[oo,oo]

@@ -48,6 +48,12 @@ The following packages must be installed.
 #                   "magrittr", "knitr", "devtools"))
 ```
 
+You may also need to create a dependency on libcurl via apt-get:
+
+```
+sudo apt-get -y build-dep libcurl4-gnutls-dev
+sudo apt-get -y install libcurl4-gnutls-dev
+```
 
 # R session info
 
@@ -279,6 +285,7 @@ tr <- read.csv(text=getURL(paste0(repo,"/data/original/transformed_data_Nature20
 tr <- tr[,-14:-24] ## remove bad columns
 tr <- tr[-693:-694,] ## remove last two rows (contain summary stats)
 tr <- gather(tr, key="Species", value="Abundance", 2:13) ## make long format
+tr$Species <- as.factor(tr$Species)
 levels(tr$Species)[levels(tr$Species)=="Calanoids"] <- "Calanoid.copepods" # rename a level (and next line)
 levels(tr$Species)[levels(tr$Species)=="Total.Dissolved.Inorganic.Nitrogen"] <- "Total.dissolved.inorganic.nitrogen"
 names(tr)[2] <- "variable" # rename a couple of variables...

@@ -118,7 +118,7 @@ a global Lyapunov exponent of 0.08 per day. The reproduced value was 0.04. We di
 
 ## Predictability decay
 
-The article stated: "For short-term forecasts of only a few days, most species had a high predictability of R2 = 0.70 – 0.90 (Fig. 2). However, the predictability of the species was much reduced when prediction times were extended to 15–30days." The reproduced predictabilities, which were calculated from the GAMs, were consistent with these qualitative statements, and were most often quantitatively similar (@fig:prediction_distance). We did not reproduce the predictability estimates for linear models.
+The article stated: "For short-term forecasts of only a few days, most species had a high predictability of R2 = 0.70 – 0.90 (Fig. 2). However, the predictability of the species was much reduced when prediction times were extended to 15–30 days." The reproduced predictabilities, which were calculated from the GAMs, were consistent with these qualitative statements, and were most often quantitatively similar (@fig:prediction_distance). We did not reproduce the predictability estimates for linear models.
 
 ![Predictability (correlation between predicted and observed abundances) and prediction distance (days) (figure 2 in the original article). Reproducted data in red, and data from original publication in black.](figures/prediction_distance.pdf) {#fig:prediction_distance}
 

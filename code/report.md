@@ -7,9 +7,9 @@ Owen Petchey et al
 
 This document contains various reproductions of the anaylses presented in the paper *Chaos in a long-term experiment with a plankton community*, by Elisa Benincà and others ([the paper on the Nature website](http://www.nature.com/nature/journal/v451/n7180/abs/nature06512.html)). Details of the methods are in [the Supplement to the Nature paper](http://www.nature.com/nature/journal/v451/n7180/extref/nature06512-s1.pdf).
 
-This reproduction was made as part of the Reproducible Research in Ecology, Evolution, Behaviour, and Environmental Studies (RREEBES) Course, lead by Owen Petchey at the University of Zurich. More information about the course [here](https://github.com/opetchey/RREEBES/blob/master/README.md) on github.
+This reproduction was made as part of the Reproducible Research in Ecology, Evolution, Behaviour, and Environmental Studies (RREEBES) Course, lead by Owen Petchey at the University of Zurich. More information about the [RREEBES course on github](https://github.com/opetchey/RREEBES/blob/master/README.md) .
 
-The code and data for the reproduction are [here](https://github.com/opetchey/RREEBES/tree/Beninca_development) on github.
+[The code and data for the reproduction are on github.](https://github.com/opetchey/RREEBES/tree/Beninca_development).
 
 
 # Authors
@@ -28,6 +28,51 @@ The data are available as an Excel file supplement to [an Ecology Letters public
 
 In the code below, the data and any other files are read from github, which means there must be a connection to github.
 
+# Testing
+
+This code in this document has been tested on:
+
+```
+platform       x86_64-apple-darwin14.5.0   
+arch           x86_64                      
+os             darwin14.5.0                
+system         x86_64, darwin14.5.0        
+status                                     
+major          3                           
+minor          2.3                         
+year           2015                        
+month          12                          
+day            10                          
+svn rev        69752                       
+language       R                           
+version.string R version 3.2.3 (2015-12-10)
+nickname       Wooden Christmas-Tree   
+```
+
+and
+
+```
+Win 7 64-bit with R 3.1.3.
+```
+
+# R package requirements
+
+The following packages must be installed.
+
+
+```r
+#install.packages(c("tidyr","dplyr", "lubridate", "stringr",
+#                   "ggplot2", "RCurl", "pracma", "oce",
+#                   "tseriesChaos", "reshape2", "mgcv", "repmis",
+#                   "magrittr", "knitr", "devtools"))
+```
+
+You may also need to create a dependency on libcurl via apt-get:
+
+```
+sudo apt-get -y build-dep libcurl4-gnutls-dev
+sudo apt-get -y install libcurl4-gnutls-dev
+```
 
 # R session info
 
@@ -49,7 +94,7 @@ devtools::session_info()
 ##  language (EN)                        
 ##  collate  en_US.UTF-8                 
 ##  tz       America/New_York            
-##  date     2016-02-23
+##  date     2016-03-28
 ```
 
 ```
@@ -63,7 +108,7 @@ devtools::session_info()
 ##  evaluate    0.8     2015-09-18 CRAN (R 3.2.0)
 ##  formatR     1.2.1   2015-09-18 CRAN (R 3.2.0)
 ##  htmltools   0.3     2015-12-29 CRAN (R 3.2.3)
-##  knitr       1.11    2015-08-14 CRAN (R 3.2.2)
+##  knitr       1.11    2015-08-14 CRAN (R 3.2.3)
 ##  magrittr    1.5     2014-11-22 CRAN (R 3.2.0)
 ##  memoise     0.2.1   2014-04-22 CRAN (R 3.2.0)
 ##  rmarkdown   0.9.1   2015-12-31 CRAN (R 3.2.3)
@@ -83,7 +128,7 @@ repo <- "https://raw.githubusercontent.com/opetchey/ReScience-submission/petchey
 
 # First get the raw data into R, and clean and tidy it.
 
-All required libraries:
+Load required packages:
 
 ```r
 library(tidyr)
@@ -99,6 +144,7 @@ library(reshape2)
 library(mgcv)
 library(repmis)
 library(magrittr)
+library(knitr)
 ```
 
 Read in the data and remove some blank rows and columns.
@@ -127,7 +173,7 @@ str(spp.abund)
 ##  $ Bacteria           : num  2.15 1.97 1.79 1.61 1.43 ...
 ```
 
-The Protozoa variable contains some numbers with comman as the decimal separator. This creates a question about what dataset was used for the original analyses, as it could not have been this one.
+The Protozoa variable contains some numbers with comma as the decimal separator. This creates a question about what dataset was used for the original analyses, as it could not have been this one.
 
 ```r
 spp.abund$Protozoa <- as.numeric(str_replace(spp.abund$Protozoa, ",", "."))
@@ -137,19 +183,12 @@ Format the dates as dates.
 
 ```r
 spp.abund$Date <- dmy(spp.abund$Date)
-# y123 <- year(spp.abund$Date) %% 100
-# year(spp.abund$Date) <- 1900 + y123
-# rm(y123)
 ```
 
-Check dates match the Day.number (should give true):
+Check dates match the Day.number (should give TRUE):
 
 ```r
-sum(spp.abund$Day.number == 1+as.numeric((spp.abund$Date - spp.abund$Date[1]) / 24 / 60 / 60)) == length(spp.abund$Date)
-```
-
-```
-## [1] TRUE
+stopifnot(sum(spp.abund$Day.number == 1+as.numeric((spp.abund$Date - spp.abund$Date[1]) / 24 / 60 / 60)) == length(spp.abund$Date))
 ```
 
 Check for duplicate dates:
@@ -203,7 +242,9 @@ spp.abund$Day.number <- 1+as.numeric((spp.abund$Date - spp.abund$Date[1]) / 24 /
 Data is in wide format, so change it to long:
 
 ```r
-spp.abund <- gather(spp.abund, "variable", "value", 3:12)
+spp.abund <- gather(spp.abund, key="variable", value="value",
+                    3:12)
+spp.abund$variable <- as.factor(spp.abund$variable)
 str(spp.abund)
 ```
 
@@ -224,9 +265,8 @@ nuts <- select(nuts, -X, -X.1)
 nuts <- nuts[-349:-8163,]
 nuts$Date <- dmy(nuts$Date)
 nuts <- select(nuts, -NO2, -NO3, -NH4)
-#nuts$Date[duplicated(nuts$Date)]
-#which(duplicated(nuts$Date))
 nuts <- gather(nuts, "variable", "value", 3:4)
+nuts$variable <- as.factor(nuts$variable)
 str(nuts)
 ```
 
@@ -297,7 +337,7 @@ all.data$Type <- factor(all.data$Type, levels=c("Cyclopoids", "Herbivore", "Phyt
 ```
 
 <!--
-Here are some versions of the graphs that are not included in the report, hence the html comment:
+Here are some versions of the graphs that were interesting to produce originally, and may be of some interest, but are not included by default for brevity:
 
 Now a version that doesn't try to recreate the "gap" in the y axes of the original figures:
 
@@ -309,7 +349,7 @@ g1 <- qplot(as.numeric(Day.number), value, col=variable, data=all.data) +
 g1
 ```
 
-![](report_files/figure-html/unnamed-chunk-19-1.png) 
+![](report_files/figure-html/unnamed-chunk-20-1.png) 
 Looks reasonably good.
 
 Now a version that approximates the "gap", by removing data above it:
@@ -328,7 +368,7 @@ g1 <- qplot(as.numeric(Day.number), value, col=variable, data=an2) +
 g1
 ```
 
-![](report_files/figure-html/unnamed-chunk-20-1.png) 
+![](report_files/figure-html/unnamed-chunk-21-1.png) 
 Difficult it look like the data go off the top of the graph in ggplot.
 
 Try logarithmic y-axes:
@@ -341,7 +381,7 @@ g1 <- qplot(as.numeric(Day.number), log10(value+0.00001), col=variable, data=all
 g1
 ```
 
-![](report_files/figure-html/unnamed-chunk-21-1.png) 
+![](report_files/figure-html/unnamed-chunk-22-1.png) 
 
 End of html comment
 -->
@@ -357,7 +397,7 @@ g1 <- ggplot(aes(x=as.numeric(Day.number), y=value^0.25, col=variable), data=all
 g1
 ```
 
-![](report_files/figure-html/unnamed-chunk-22-1.png) 
+![](report_files/figure-html/unnamed-chunk-23-1.png) 
 
 
 
@@ -383,6 +423,7 @@ tr <- read.csv(text=getURL(paste0(repo,"/data/original/transformed_data_Nature20
 tr <- tr[,-14:-24] ## remove bad columns
 tr <- tr[-693:-694,] ## remove last two rows (contain summary stats)
 tr <- gather(tr, key="Species", value="Abundance", 2:13) ## make long format
+tr$Species <- as.factor(tr$Species)
 levels(tr$Species)[levels(tr$Species)=="Calanoids"] <- "Calanoid.copepods" # rename a level (and next line)
 levels(tr$Species)[levels(tr$Species)=="Total.Dissolved.Inorganic.Nitrogen"] <- "Total.dissolved.inorganic.nitrogen"
 names(tr)[2] <- "variable" # rename a couple of variables...
@@ -416,11 +457,7 @@ trimmed_raw <- filter(trimmed_raw, Day.number>min.day & Day.number<max.day)
 Make a sequence of times at which to interpolate. 
 
 ```r
-#aggregate(Day.number ~ variable, all.data, min)
-#aggregate(Day.number ~ variable, all.data, max)
-#xout <- seq(343.35, 2657.2, by=3.35)
 xout <- seq(343.35, 2658, by=3.35)
-#range(xout)
 ```
 
 Perform the interpolation:
@@ -438,23 +475,12 @@ Interpolate <- function(x, y) {
 }
 
 # run the function and tidy the data
-# (somewhat ashamed of this code...)
 # remove NAs before interpolation, so they don't cause problems
 trimmed_raw <- na.omit(trimmed_raw)
 res <- group_by(trimmed_raw, variable) %>%
   do(le=Interpolate(.$Day.number, .$value))
 
 trimmed_interp <- res %>% do(data.frame(Day.number = .$le[[1]], value = .$le[[2]], variable = .[[1]]))
-
-
-# for(p in 1:nrow(res)){
-#     temp <- data.frame(variable=res[p,1],
-#                        res[p,2][[1]])
-#     if(p==1)
-#       trimmed_interp <- temp
-#     if(p>1)
-#       trimmed_interp <- rbind(trimmed_interp, temp)
-#   }
 ```
 
 
@@ -519,7 +545,6 @@ detrended <- rbind(ww1, ww2)
 ## standardise
 scaled_trimmed_final <- group_by(detrended, variable) %>%
   mutate(stand.y=as.numeric(scale(dt.value)))
-#summarise(scaled_trimmed_final, mean=mean(stand.y), sd=sd(stand.y))
 ```
 
 ## Compare the zeros removed transformed
@@ -529,7 +554,7 @@ scaled_trimmed_final <- group_by(detrended, variable) %>%
 ## Joining by: c("Day.number", "variable")
 ```
 
-![](report_files/figure-html/unnamed-chunk-30-1.png) 
+![](report_files/figure-html/unnamed-chunk-31-1.png) 
 
 Looks pretty good, unclear why N and P are less well reproduced than others.
 
@@ -556,13 +581,9 @@ ggplot(spec, aes(y=spec, x=1/freq, group=group)) +
   coord_cartesian(ylim=c(0,50), xlim=c(10,240))
 ```
 
-![](report_files/figure-html/unnamed-chunk-32-1.png) 
+![](report_files/figure-html/unnamed-chunk-33-1.png) 
 
 ```r
-# freq.est <- spec %>% group_by(group) %>% mutate(max_spec = max(spec), freq = freq)
-# freq.est <- subset(freq.est, max_spec==spec, select=c(freq,group))
-# freq.est$freq <- 1/freq.est$freq
-
 # Calculate and plot Welch's periodogram
 wspectra <- final %>% group_by(variable) %>%
   do(spectra = pwelch(ts(data=.$y, end=2650.15, deltat=3.35), window=5, method="pgram", plot=F))
@@ -575,18 +596,7 @@ ggplot(wspec, aes(y=spec, x=1/freq, group=group)) +
   scale_y_log10()
 ```
 
-![](report_files/figure-html/unnamed-chunk-32-2.png) 
-
-```r
-# freq.est <- wspec %>%
-#   group_by(group) %>%
-#   mutate(max_spec = max(spec), freq = freq)
-# freq.est <- subset(freq.est, max_spec==spec, select=c(freq,group))
-# freq.est$freq <- 1/freq.est$freq
-# #frequency(final$y)
-# ts <- as.ts(final$y, frequency = 0.3)
-# #time(ts)
-```
+![](report_files/figure-html/unnamed-chunk-33-2.png) 
 
 # Reproducing Table 1 using ELE supplement data.
 
@@ -605,15 +615,6 @@ Calculate correlation coefficients:
 cor.coefs <- cor(final_wide, use="pairwise.complete.obs")
 ```
 
-Only keep the upper triangle of the cor.pvals matrix:
-
-```r
-#for(i in 1:10){
-#  for(j in 1:10){
-#  cor.coefs[i,j] <- ifelse(i<j, cor.coefs[i,j], NA)
-#}}
-```
-
 Get p-vals:
 
 ```r
@@ -623,18 +624,7 @@ for(i in 1:length(final_wide[1,]))
     if(sum(!is.na(final_wide[,i]) & !is.na(final_wide[,j]))>10)
     cor.pvals[i,j] <- cor.test(final_wide[,i], final_wide[,j])$p.value
 }
-    #plot(final_wide[,2], final_wide[,3])
 ```
-
-Only keep the upper triangle of the cor.pvals matrix:
-
-```r
-#for(i in 1:10){
-#  for(j in 1:10){
-#  cor.pvals[i,j] <- ifelse(i<j, cor.pvals[i,j], NA)
-#}}
-```
-
 
 Add significance "stars" to cor.coefs from cor.pvals:
 
@@ -659,22 +649,20 @@ Cosmetic work on the table:
 
 ```r
 oo <- c(10, 9, 8, 11, 12, 6, 5, 3, 4, 2)
-cor.coefs <- cor.coefs[oo,oo]
-cor.cp <- cor.cp[oo,oo]
-for(i in 1:length(cor.cp[1,]))
+cor.coefs1 <- cor.coefs[oo,oo]
+cor.cp1 <- cor.cp[oo,oo]
+for(i in 1:length(cor.cp1[1,]))
   for(j in 1:i)
-  cor.cp[i,j] <- ""
-#sn <- c("Bacteria", "Harps", "Ostr", "N", "P", "Picophyt", "Nanophyt", "Rotifers", "Protozoa", "Calanoids")
-sn <- substr(rownames(cor.cp), 1, 4)
+  cor.cp1[i,j] <- ""
+sn <- substr(rownames(cor.cp1), 1, 4)
 sn[4:5] <- c("N", "P")
-dimnames(cor.cp) <- list(sn, sn)
+dimnames(cor.cp1) <- list(sn, sn)
 ```
 
 Make it a table:
 
 ```r
-library(knitr)
-table1b <- kable(cor.cp, format="markdown", col.names = colnames(cor.cp), align="c",
+table1b <- kable(cor.cp1, format="markdown", col.names = colnames(cor.cp1), align="c",
                 caption="Table 1.'Correlations between the species in the food web. Table entries show the product–moment correlation coefficients, after transformation of the data to stationary time series (see Methods). Significance tests were corrected for multiple hypothesis testing by calculation of adjusted P values using the false discovery rate.' Significant correlations are indicated as follows: *: P<0.05; **: P<0.01; ***: P<0.001. 'The correlation between calanoid copepods and protozoa could not be calculated, because their time series did not overlap. Filamentous diatoms and cyclopoid copepods were not included in the correlation analysis, because their time series contained too many zeros.' (Beninca et al. 2008)")
 table1b
 ```
@@ -701,7 +689,7 @@ Compare correlations in table 1 of the original article with those calculated he
 original.cors <- read.csv(text=getURL(paste0(repo,"/data/original/table1_original_article.csv")), skip=0, header=T, row.names = 1)
 original.cors <- as.matrix(original.cors)
 
-qplot(x=as.vector(original.cors), y=as.vector(cor.coefs), ylim = c(-0.4,0.4), xlim=c(-0.4, 0.4),
+qplot(x=as.vector(original.cors), y=as.vector(cor.coefs1), ylim = c(-0.4,0.4), xlim=c(-0.4, 0.4),
       xlab="Correlations in original article", ylab="Correlations calculated\nin this reproduction") + geom_abline(intercept=0,slope=1, colour="red")
 ```
 
@@ -709,7 +697,7 @@ qplot(x=as.vector(original.cors), y=as.vector(cor.coefs), ylim = c(-0.4,0.4), xl
 ## Warning: Removed 56 rows containing missing values (geom_point).
 ```
 
-![](report_files/figure-html/unnamed-chunk-42-1.png) 
+![](report_files/figure-html/unnamed-chunk-41-1.png) 
 
 
 
@@ -721,7 +709,7 @@ This will be done after getting global Lyapunov exponents by the indirect method
 
 Estimate the Lyapunov exponents of the time series, via time-delayed embedding. The Nature report used the [Tisean software](http://www.mpipks-dresden.mpg.de/~tisean/), which was available from CRAN [until mid 2014](http://cran.r-project.org/web/packages/RTisean/index.html). Based on this, and being a bit less well integrated with R, we'll instead use the [tseriesChaos](http://cran.r-project.org/web/packages/tseriesChaos/index.html) package, which was *largely inspired by the TISEAN project*. 
 
-Time delay (1), embedding dimension (6), and Theiler window (50) were used in the Nature report. Other parameters are chosen rather randomly!
+Time delay (1), embedding dimension (6), and Theiler window (50) were used in the Nature report. Other parameters are chosen rather arbitrarily.
 
 
 ```r
@@ -809,18 +797,15 @@ for(i in 1:length(all.species)) {
 diverg <- as.data.frame(cbind(days=1:time.steps, diverg))
 diverg <- gather(diverg, Species, Difference, 2:10)
 diverg$days <- diverg$days*3.35
-#str(diverg)
 ```
 
 Next calculate the Lyapunov exponents, noting that 6 or 7 points were used in the regressions in the Nature report
 
 ```r
-#diverg$Difference[is.na(diverg$Difference)] <- 0
 diverg$Difference[is.infinite(diverg$Difference)] <- NA
 diverg.short <- filter(diverg, days<24) ## 24 is about 6 steps, after initial gap
 LEs <- group_by(diverg.short, Species) %>%
   summarise(le=coef(lm(Difference[1:6] ~ days[1:6]))[2])
-#pval=summary(lm(Difference[1:6] ~ days[1:6]))$coefficients[2,4])
 ```
 
 
@@ -834,6 +819,14 @@ diverg$Species_short <- plyr::revalue(diverg$Species,
 LEs$Species_short <- plyr::revalue(LEs$Species,
                                  c(Soluble.reactive.phosphorus="P",
                                    Total.dissolved.inorganic.nitrogen="N"))
+
+## ensure order of panels in figure same as in original
+diverg$Species_short <- factor(diverg$Species_short,
+                               levels=c("Calanoid.copepods", "Rotifers",
+                                        "Nanophytoplankton", "Picophytoplankton",
+                                        "Ostracods", "Harpacticoids", "Bacteria",
+                                        "N","P"))
+
 g1 <- ggplot(diverg, aes(x=days, y=Difference)) + geom_point() + facet_wrap(~Species_short) +
   geom_text(data=LEs, aes(x=60, y=0, label=round(le,3)))
 g1
@@ -843,7 +836,7 @@ g1
 ## Warning: Removed 1 rows containing missing values (geom_point).
 ```
 
-![](report_files/figure-html/unnamed-chunk-48-1.png) 
+![](report_files/figure-html/unnamed-chunk-47-1.png) 
 
 Not exactly the same at Figure 3 in the Nature report. Qualitatively the same, except for where the time-delayed embedding failed.
 
@@ -874,7 +867,7 @@ ggplot(both_LEs, aes(x=LE, y=le)) +
   ylab("Reproduced Lyapunov exponent")
 ```
 
-![](report_files/figure-html/unnamed-chunk-49-1.png) 
+![](report_files/figure-html/unnamed-chunk-48-1.png) 
 
 Get the mean and standard deviation of the original and reproduced Lyapunov exponents
 
@@ -925,11 +918,7 @@ It seems that this must have been done on data without zeros removed, because re
 Make a sequence of times at which to interpolate. 
 
 ```r
-#aggregate(Day.number ~ variable, all.data, min)
-#aggregate(Day.number ~ variable, all.data, max)
-#xout <- seq(343.35, 2657.2, by=3.35)
 xout <- seq(343.35, 2658, by=3.35)
-#range(xout)
 ```
 
 Perform the interpolation:
@@ -994,7 +983,7 @@ g2 <- geom_line(data=from.steve, aes(x=Day.number, y=sqrt(value_steve)), colour=
 g1 + g2
 ```
 
-![](report_files/figure-html/unnamed-chunk-53-1.png) 
+![](report_files/figure-html/unnamed-chunk-52-1.png) 
 
 ```r
 ## same but to allow x-y scatter
@@ -1016,16 +1005,13 @@ ff <- inner_join(mt, from.steve)
 mt$Day.number <- as.numeric(mt$Day.number)
 from.steve$Day.number <- as.numeric(from.steve$Day.number)
 ff$Day.number <- as.numeric(ff$Day.number)
-#str(ff)
-#ff$difference <- ff$value - ff$value_steve
-#qplot(log10(ff$difference))
 qplot(data=ff, x=log10(value_steve), y=log10(value)) +
   xlab("Values from Ellner\n(log 10 transformed)") +
   ylab("Reproduced values\n(log 10 transformed)") +
   geom_abline(intercept=0, slope=1, colour="red")
 ```
 
-![](report_files/figure-html/unnamed-chunk-53-2.png) 
+![](report_files/figure-html/unnamed-chunk-52-2.png) 
 
 Looks good.
 
@@ -1088,15 +1074,17 @@ detrended <- rbind(ww1, ww2)
 
 
 ```r
-## standardise
+## standardise (commented out by default; uncomment, and comment next chunck in order to work on standardised data)
 #scaled_trimmed_final <- group_by(trimmed_detrended, variable) %>%
 #  mutate(stand.y=as.numeric(scale(dt.value)))
 #summarise(scaled_trimmed_final, mean=mean(stand.y), sd=sd(stand.y))
+```
 
+
+```r
 ## or don't standardise
 final <- detrended
 final$y <- final$dt.value
-#summarise(final, mean=mean(y), sd=sd(y))
 ```
 
 
@@ -1178,11 +1166,9 @@ The function needs a matrix, X, with species abundances in wide format. Be caref
 ## use next line to work on unstandardised data
 final.to.melt <- final[, c("variable", "dt.value", "Day.number")]
 ## use next line to work on standardised
-#final.to.melt <- final[, c("variable", "y", "Day.number")]
 names(final.to.melt)[1] <- "Species"
 melted <- melt(final.to.melt, id=c("Species", "Day.number"))
 X <- acast(melted, formula= Day.number ~ Species)
-#str(X)
 X <- as.data.frame(X)
 ```
 
@@ -1249,7 +1235,7 @@ source_data(paste0(repo, "/data/reproduction/rsq_vals.Rdata?raw=True"))
 cors <- data.frame(dist=1:12, rsq_vals)
 cors.long <- gather(cors, key=dist)
 names(cors.long) <- c("Prediction_distance", "Variable", "Correlation")
-
+cors.long$Variable <- as.factor(cors.long$Variable)
 
 cors.long$Variable <- factor(cors.long$Variable, c("Cyclopoids", "Rotifers", "Calanoid.copepods", "Picophytoplankton",
                              "Nanophytoplankton", "Filamentous.diatoms", "Soluble.reactive.phosphorus",
@@ -1260,7 +1246,8 @@ cors.long$Variable <- factor(cors.long$Variable, c("Cyclopoids", "Rotifers", "Ca
 original_preds <- read.csv(text=getURL(paste0(repo,"/data/original/original_rsquared.csv")), skip=0, header=T)
 opw <- gather(original_preds, Species, r_squared, 2:25)
 opw <- separate(opw, Species, c("Species", "Model"))
-
+opw$Species <- as.factor(opw$Species)
+opw$Model <- as.factor(opw$Model)
 name.mapping <- data.frame(Species=c("cyclo", "roti", "cala", "pico", "nano",
                                    "dia", "P", "N", "bact", "ostra", "harpa",
                                    "proto"),
@@ -1274,11 +1261,6 @@ opw <- full_join(opw, name.mapping)
 
 ```
 ## Joining by: "Species"
-```
-
-```
-## Warning in outer_join_impl(x, y, by$x, by$y): joining factor and character
-## vector, coercing into character vector
 ```
 
 ```r

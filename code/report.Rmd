@@ -63,6 +63,13 @@ and
 Win 7 64-bit with R 3.1.3.
 ```
 
+# R options
+
+```{r}
+options(stringsAsFactors=FALSE)
+```
+
+
 # R package requirements
 
 The following packages must be installed.
@@ -165,8 +172,8 @@ spp.abund$Day.number <- 1+as.numeric((spp.abund$Date - spp.abund$Date[1]) / 24 /
 Data is in wide format, so change it to long:
 ```{r}
 spp.abund <- gather(spp.abund, key="variable", value="value",
-                    3:12)
-spp.abund$variable <- as.factor(spp.abund$variable)
+                    3:12, convert=FALSE)
+#spp.abund$variable <- as.factor(spp.abund$variable)
 str(spp.abund)
 ```
 
@@ -178,8 +185,8 @@ nuts <- select(nuts, -X, -X.1)
 nuts <- nuts[-349:-8163,]
 nuts$Date <- dmy(nuts$Date)
 nuts <- select(nuts, -NO2, -NO3, -NH4)
-nuts <- gather(nuts, "variable", "value", 3:4)
-nuts$variable <- as.factor(nuts$variable)
+nuts <- gather(nuts, "variable", "value", 3:4, convert=F)
+#nuts$variable <- as.factor(nuts$variable)
 str(nuts)
 ```
 
@@ -308,8 +315,8 @@ tr <- read.csv(text=getURL(paste0(repo,"/data/original/transformed_data_Nature20
                skip=7, na.string="")
 tr <- tr[,-14:-24] ## remove bad columns
 tr <- tr[-693:-694,] ## remove last two rows (contain summary stats)
-tr <- gather(tr, key="Species", value="Abundance", 2:13) ## make long format
-tr$Species <- as.factor(tr$Species)
+tr <- gather(tr, key="Species", value="Abundance", 2:13, convert=F) ## make long format
+#tr$Species <- as.factor(tr$Species)
 levels(tr$Species)[levels(tr$Species)=="Calanoids"] <- "Calanoid.copepods" # rename a level (and next line)
 levels(tr$Species)[levels(tr$Species)=="Total.Dissolved.Inorganic.Nitrogen"] <- "Total.dissolved.inorganic.nitrogen"
 names(tr)[2] <- "variable" # rename a couple of variables...
@@ -615,7 +622,7 @@ for(i in 1:length(all.species)) {
 }
 ## a bit of a fudge with the translation to days
 diverg <- as.data.frame(cbind(days=1:time.steps, diverg))
-diverg <- gather(diverg, Species, Difference, 2:10)
+diverg <- gather(diverg, Species, Difference, 2:10, convert=F)
 diverg$days <- diverg$days*3.35
 ```
 
@@ -704,7 +711,7 @@ mt <- plyr::dlply(all.data,
 ## given by the pracma::interp1 function!
 mt <- as.data.frame(mt)
 mt <- cbind(Day.number=xout, mt)
-mt <- gather(mt, variable, value, 2:13)
+mt <- gather(mt, variable, value, 2:13, convert=F)
 ```
 
 Check this against the data direct from Steve:
@@ -714,7 +721,7 @@ name_table <- read.csv(text=getURL(paste0(repo,"/data/reproduction/repro_steve_n
 names(from.steve) <- name_table$repro_names[match(names(from.steve), name_table$steve_names)]
 
 
-from.steve <- gather(from.steve, Species, Abundance, 2:13)
+from.steve <- gather(from.steve, Species, Abundance, 2:13, convert=F)
 names(from.steve) <- c("Day.number", "variable", "value")
 from.steve$value_steve <- from.steve$value 
 from.steve <- select(from.steve, -value)
@@ -956,9 +963,9 @@ And plot our version of figure 2:
 source_data(paste0(repo, "/data/reproduction/rsq_vals.Rdata?raw=True"))
 
 cors <- data.frame(dist=1:12, rsq_vals)
-cors.long <- gather(cors, key=dist)
+cors.long <- gather(cors, key=dist, convert=F)
 names(cors.long) <- c("Prediction_distance", "Variable", "Correlation")
-cors.long$Variable <- as.factor(cors.long$Variable)
+#cors.long$Variable <- as.factor(cors.long$Variable)
 
 cors.long$Variable <- factor(cors.long$Variable, c("Cyclopoids", "Rotifers", "Calanoid.copepods", "Picophytoplankton",
                              "Nanophytoplankton", "Filamentous.diatoms", "Soluble.reactive.phosphorus",
@@ -967,10 +974,10 @@ cors.long$Variable <- factor(cors.long$Variable, c("Cyclopoids", "Rotifers", "Ca
 
 ## read in the data of the original article that came direct from Elisa
 original_preds <- read.csv(text=getURL(paste0(repo,"/data/original/original_rsquared.csv")), skip=0, header=T)
-opw <- gather(original_preds, Species, r_squared, 2:25)
+opw <- gather(original_preds, Species, r_squared, 2:25, convert=F)
 opw <- separate(opw, Species, c("Species", "Model"))
-opw$Species <- as.factor(opw$Species)
-opw$Model <- as.factor(opw$Model)
+#opw$Species <- as.factor(opw$Species)
+#opw$Model <- as.factor(opw$Model)
 name.mapping <- data.frame(Species=c("cyclo", "roti", "cala", "pico", "nano",
                                    "dia", "P", "N", "bact", "ostra", "harpa",
                                    "proto"),

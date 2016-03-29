@@ -1,6 +1,6 @@
-# Reproduce anaylses of Beninca et al (2008)
-Owen Petchey et al  
-29 Jan 2015  
+# Reproducing anaylses of Beninca et al (2008)
+Owen Petchey, Marco Plebani, Frank Pennekamp  
+28 Mar 2015  
 
 
 # Introduction
@@ -54,6 +54,14 @@ and
 ```
 Win 7 64-bit with R 3.1.3.
 ```
+
+# R options
+
+
+```r
+options(stringsAsFactors=FALSE)
+```
+
 
 # R package requirements
 
@@ -159,12 +167,12 @@ str(spp.abund)
 
 ```
 ## 'data.frame':	803 obs. of  12 variables:
-##  $ Date               : Factor w/ 803 levels "","01/02/91",..: 306 440 465 498 520 601 628 673 699 778 ...
+##  $ Date               : chr  "12/07/90" "17/07/90" "18/07/90" "19/07/90" ...
 ##  $ Day.number         : int  1 6 7 8 9 12 13 15 16 19 ...
 ##  $ Cyclopoids         : num  0 0 0.0353 0 0.0353 ...
 ##  $ Calanoid.copepods  : num  1.04 2.03 1.72 2.41 1.71 ...
 ##  $ Rotifers           : num  7.7 10.19 8.08 6.06 5.94 ...
-##  $ Protozoa           : Factor w/ 330 levels "","0","0,000001",..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ Protozoa           : chr  "" "" "" "" ...
 ##  $ Nanophytoplankton  : num  0.106 0.212 0.212 0.212 0.212 ...
 ##  $ Picophytoplankton  : num  1 2 1.52 1.52 1.98 ...
 ##  $ Filamentous.diatoms: num  0 0 0 0 0 0 0 0 0 0 ...
@@ -243,8 +251,8 @@ Data is in wide format, so change it to long:
 
 ```r
 spp.abund <- gather(spp.abund, key="variable", value="value",
-                    3:12)
-spp.abund$variable <- as.factor(spp.abund$variable)
+                    3:12, convert=FALSE)
+#spp.abund$variable <- as.factor(spp.abund$variable)
 str(spp.abund)
 ```
 
@@ -265,8 +273,8 @@ nuts <- select(nuts, -X, -X.1)
 nuts <- nuts[-349:-8163,]
 nuts$Date <- dmy(nuts$Date)
 nuts <- select(nuts, -NO2, -NO3, -NH4)
-nuts <- gather(nuts, "variable", "value", 3:4)
-nuts$variable <- as.factor(nuts$variable)
+nuts <- gather(nuts, "variable", "value", 3:4, convert=F)
+#nuts$variable <- as.factor(nuts$variable)
 str(nuts)
 ```
 
@@ -349,7 +357,7 @@ g1 <- qplot(as.numeric(Day.number), value, col=variable, data=all.data) +
 g1
 ```
 
-![](report_files/figure-html/unnamed-chunk-20-1.png) 
+![](report_files/figure-html/unnamed-chunk-21-1.png) 
 Looks reasonably good.
 
 Now a version that approximates the "gap", by removing data above it:
@@ -368,7 +376,7 @@ g1 <- qplot(as.numeric(Day.number), value, col=variable, data=an2) +
 g1
 ```
 
-![](report_files/figure-html/unnamed-chunk-21-1.png) 
+![](report_files/figure-html/unnamed-chunk-22-1.png) 
 Difficult it look like the data go off the top of the graph in ggplot.
 
 Try logarithmic y-axes:
@@ -381,7 +389,7 @@ g1 <- qplot(as.numeric(Day.number), log10(value+0.00001), col=variable, data=all
 g1
 ```
 
-![](report_files/figure-html/unnamed-chunk-22-1.png) 
+![](report_files/figure-html/unnamed-chunk-23-1.png) 
 
 End of html comment
 -->
@@ -397,7 +405,7 @@ g1 <- ggplot(aes(x=as.numeric(Day.number), y=value^0.25, col=variable), data=all
 g1
 ```
 
-![](report_files/figure-html/unnamed-chunk-23-1.png) 
+![](report_files/figure-html/unnamed-chunk-24-1.png) 
 
 
 
@@ -422,8 +430,8 @@ tr <- read.csv(text=getURL(paste0(repo,"/data/original/transformed_data_Nature20
                skip=7, na.string="")
 tr <- tr[,-14:-24] ## remove bad columns
 tr <- tr[-693:-694,] ## remove last two rows (contain summary stats)
-tr <- gather(tr, key="Species", value="Abundance", 2:13) ## make long format
-tr$Species <- as.factor(tr$Species)
+tr <- gather(tr, key="Species", value="Abundance", 2:13, convert=F) ## make long format
+#tr$Species <- as.factor(tr$Species)
 levels(tr$Species)[levels(tr$Species)=="Calanoids"] <- "Calanoid.copepods" # rename a level (and next line)
 levels(tr$Species)[levels(tr$Species)=="Total.Dissolved.Inorganic.Nitrogen"] <- "Total.dissolved.inorganic.nitrogen"
 names(tr)[2] <- "variable" # rename a couple of variables...
@@ -554,7 +562,7 @@ scaled_trimmed_final <- group_by(detrended, variable) %>%
 ## Joining by: c("Day.number", "variable")
 ```
 
-![](report_files/figure-html/unnamed-chunk-31-1.png) 
+![](report_files/figure-html/unnamed-chunk-32-1.png) 
 
 Looks pretty good, unclear why N and P are less well reproduced than others.
 
@@ -581,7 +589,7 @@ ggplot(spec, aes(y=spec, x=1/freq, group=group)) +
   coord_cartesian(ylim=c(0,50), xlim=c(10,240))
 ```
 
-![](report_files/figure-html/unnamed-chunk-33-1.png) 
+![](report_files/figure-html/unnamed-chunk-34-1.png) 
 
 ```r
 # Calculate and plot Welch's periodogram
@@ -596,7 +604,7 @@ ggplot(wspec, aes(y=spec, x=1/freq, group=group)) +
   scale_y_log10()
 ```
 
-![](report_files/figure-html/unnamed-chunk-33-2.png) 
+![](report_files/figure-html/unnamed-chunk-34-2.png) 
 
 # Reproducing Table 1 using ELE supplement data.
 
@@ -697,7 +705,7 @@ qplot(x=as.vector(original.cors), y=as.vector(cor.coefs1), ylim = c(-0.4,0.4), x
 ## Warning: Removed 56 rows containing missing values (geom_point).
 ```
 
-![](report_files/figure-html/unnamed-chunk-41-1.png) 
+![](report_files/figure-html/unnamed-chunk-42-1.png) 
 
 
 
@@ -795,7 +803,7 @@ for(i in 1:length(all.species)) {
 ```r
 ## a bit of a fudge with the translation to days
 diverg <- as.data.frame(cbind(days=1:time.steps, diverg))
-diverg <- gather(diverg, Species, Difference, 2:10)
+diverg <- gather(diverg, Species, Difference, 2:10, convert=F)
 diverg$days <- diverg$days*3.35
 ```
 
@@ -836,7 +844,7 @@ g1
 ## Warning: Removed 1 rows containing missing values (geom_point).
 ```
 
-![](report_files/figure-html/unnamed-chunk-47-1.png) 
+![](report_files/figure-html/unnamed-chunk-48-1.png) 
 
 Not exactly the same at Figure 3 in the Nature report. Qualitatively the same, except for where the time-delayed embedding failed.
 
@@ -853,8 +861,8 @@ both_LEs <- full_join(original.LEs, LEs) # merge the reproduced and original val
 ```
 
 ```
-## Warning in outer_join_impl(x, y, by$x, by$y): joining factors with
-## different levels, coercing to character vector
+## Warning in outer_join_impl(x, y, by$x, by$y): joining factor and character
+## vector, coercing into character vector
 ```
 
 ```r
@@ -867,7 +875,7 @@ ggplot(both_LEs, aes(x=LE, y=le)) +
   ylab("Reproduced Lyapunov exponent")
 ```
 
-![](report_files/figure-html/unnamed-chunk-48-1.png) 
+![](report_files/figure-html/unnamed-chunk-49-1.png) 
 
 Get the mean and standard deviation of the original and reproduced Lyapunov exponents
 
@@ -935,7 +943,7 @@ mt <- plyr::dlply(all.data,
 ## given by the pracma::interp1 function!
 mt <- as.data.frame(mt)
 mt <- cbind(Day.number=xout, mt)
-mt <- gather(mt, variable, value, 2:13)
+mt <- gather(mt, variable, value, 2:13, convert=F)
 ```
 
 Check this against the data direct from Steve:
@@ -946,7 +954,7 @@ name_table <- read.csv(text=getURL(paste0(repo,"/data/reproduction/repro_steve_n
 names(from.steve) <- name_table$repro_names[match(names(from.steve), name_table$steve_names)]
 
 
-from.steve <- gather(from.steve, Species, Abundance, 2:13)
+from.steve <- gather(from.steve, Species, Abundance, 2:13, convert=F)
 names(from.steve) <- c("Day.number", "variable", "value")
 from.steve$value_steve <- from.steve$value 
 from.steve <- select(from.steve, -value)
@@ -983,7 +991,7 @@ g2 <- geom_line(data=from.steve, aes(x=Day.number, y=sqrt(value_steve)), colour=
 g1 + g2
 ```
 
-![](report_files/figure-html/unnamed-chunk-52-1.png) 
+![](report_files/figure-html/unnamed-chunk-53-1.png) 
 
 ```r
 ## same but to allow x-y scatter
@@ -1011,7 +1019,7 @@ qplot(data=ff, x=log10(value_steve), y=log10(value)) +
   geom_abline(intercept=0, slope=1, colour="red")
 ```
 
-![](report_files/figure-html/unnamed-chunk-52-2.png) 
+![](report_files/figure-html/unnamed-chunk-53-2.png) 
 
 Looks good.
 
@@ -1127,7 +1135,7 @@ g2 <- geom_line(data=filter(final, variable==soi), aes(x=Day.number, y=value), s
 g1 + g2
 ```
 
-![](report_files/figure-html/unnamed-chunk-60-1.png) 
+![](report_files/figure-html/unnamed-chunk-61-1.png) 
 
 Fourth root transformed with trend:
 
@@ -1141,7 +1149,7 @@ g2 <- geom_line(data=filter(final, variable==soi), aes(x=Day.number, y=trend), s
 g1 + g2
 ```
 
-![](report_files/figure-html/unnamed-chunk-61-1.png) 
+![](report_files/figure-html/unnamed-chunk-62-1.png) 
 
 Detrended and normalised:
 
@@ -1154,7 +1162,7 @@ g1 <- ggplot(filter(final, variable==soi), aes(x=Day.number, y=y)) +
 g1
 ```
 
-![](report_files/figure-html/unnamed-chunk-62-1.png) 
+![](report_files/figure-html/unnamed-chunk-63-1.png) 
 
 
 The functions used in the code below are based on code received from Stephen Ellner. The modifications have been tested, and produce the same results as Ellner's original code.
@@ -1233,9 +1241,9 @@ source_data(paste0(repo, "/data/reproduction/rsq_vals.Rdata?raw=True"))
 
 ```r
 cors <- data.frame(dist=1:12, rsq_vals)
-cors.long <- gather(cors, key=dist)
+cors.long <- gather(cors, key=dist, convert=F)
 names(cors.long) <- c("Prediction_distance", "Variable", "Correlation")
-cors.long$Variable <- as.factor(cors.long$Variable)
+#cors.long$Variable <- as.factor(cors.long$Variable)
 
 cors.long$Variable <- factor(cors.long$Variable, c("Cyclopoids", "Rotifers", "Calanoid.copepods", "Picophytoplankton",
                              "Nanophytoplankton", "Filamentous.diatoms", "Soluble.reactive.phosphorus",
@@ -1244,10 +1252,10 @@ cors.long$Variable <- factor(cors.long$Variable, c("Cyclopoids", "Rotifers", "Ca
 
 ## read in the data of the original article that came direct from Elisa
 original_preds <- read.csv(text=getURL(paste0(repo,"/data/original/original_rsquared.csv")), skip=0, header=T)
-opw <- gather(original_preds, Species, r_squared, 2:25)
+opw <- gather(original_preds, Species, r_squared, 2:25, convert=F)
 opw <- separate(opw, Species, c("Species", "Model"))
-opw$Species <- as.factor(opw$Species)
-opw$Model <- as.factor(opw$Model)
+#opw$Species <- as.factor(opw$Species)
+#opw$Model <- as.factor(opw$Model)
 name.mapping <- data.frame(Species=c("cyclo", "roti", "cala", "pico", "nano",
                                    "dia", "P", "N", "bact", "ostra", "harpa",
                                    "proto"),
@@ -1274,6 +1282,6 @@ ggplot(filter(cors.long, Prediction_distance<13),
   ylim(0,1)
 ```
 
-![](report_files/figure-html/unnamed-chunk-68-1.png) 
+![](report_files/figure-html/unnamed-chunk-69-1.png) 
 
 Some species very similar to figure 2 of the nature paper, some more different. Difference must be due to data in figure 2 coming from neural net models, whereas here it comes from the GAMs. Qualitative result the same as in the original paper, however.

@@ -285,6 +285,9 @@ End of html comment
 
 The graph with abundances fourth root transformed, as this is the transformation used in analyses in the original publication.
 ```{r, warning=FALSE, fig.width=10}
+
+##########################
+## Figure 1 in the article
 g1 <- ggplot(aes(x=as.numeric(Day.number), y=value^0.25, col=variable), data=all.data) +
   xlab("Time (days)") + ylab("Abundance value ^ 0.25") +
   facet_wrap(~Type, ncol=2, scales="free_y") +
@@ -455,7 +458,9 @@ two.datasets$variable <- plyr::revalue(two.datasets$variable,
 two.datasets$variable <- factor(two.datasets$variable,
                                  levels = sort(levels(as.factor(two.datasets$variable))))
 
-## graph
+
+##########################
+## Figure 2 in the article
 ggplot(two.datasets, aes(x=Abundance, y=stand.y)) + geom_point() +
   facet_wrap(~variable) +
   geom_abline(slope=1, intercept = 0, colour="red") +
@@ -544,7 +549,10 @@ for(i in 1:length(final_wide[1,])){
 
 Cosmetic work on the table:
 ```{r}
-oo <- c(10, 9, 8, 11, 12, 6, 5, 3, 4, 2)
+oo <- c("Bacteria", "Harpacticoids", "Ostracods",
+        "Total.dissolved.inorganic.nitrogen", "Soluble.reactive.phosphorus",
+        "Picophytoplankton", "Nanophytoplankton", "Rotifers",
+        "Protozoa", "Calanoid.copepods")
 cor.coefs1 <- cor.coefs[oo,oo]
 cor.cp1 <- cor.cp[oo,oo]
 for(i in 1:length(cor.cp1[1,]))
@@ -568,6 +576,9 @@ Compare correlations in table 1 of the original article with those calculated he
 original.cors <- read.csv(text=getURL(paste0(repo,"/data/original/table1_original_article.csv")), skip=0, header=T, row.names = 1)
 original.cors <- as.matrix(original.cors)
 
+
+##########################
+## Figure 3 in the article
 qplot(x=as.vector(original.cors), y=as.vector(cor.coefs1), ylim = c(-0.4,0.4), xlim=c(-0.4, 0.4),
       xlab="Correlations in original article", ylab="Correlations calculated\nin this reproduction") + geom_abline(intercept=0,slope=1, colour="red")
 ```
@@ -623,6 +634,7 @@ for(i in 1:length(all.species)) {
 ## a bit of a fudge with the translation to days
 diverg <- as.data.frame(cbind(days=1:time.steps, diverg))
 diverg <- gather(diverg, Species, Difference, 2:10, convert=F)
+diverg$Species <- as.factor(diverg$Species)
 diverg$days <- diverg$days*3.35
 ```
 
@@ -646,12 +658,26 @@ LEs$Species_short <- plyr::revalue(LEs$Species,
                                    Total.dissolved.inorganic.nitrogen="N"))
 
 ## ensure order of panels in figure same as in original
+## This does affect panel order on Owen's computer
 diverg$Species_short <- factor(diverg$Species_short,
                                levels=c("Calanoid.copepods", "Rotifers",
                                         "Nanophytoplankton", "Picophytoplankton",
                                         "Ostracods", "Harpacticoids", "Bacteria",
                                         "N","P"))
 
+
+## This puts the panels in alphabetical order if uncommented
+#diverg$Species_short <- factor(diverg$Species_short,
+#                               levels=sort(c("Calanoid.copepods", "Rotifers",
+#                                        "Nanophytoplankton", "Picophytoplankton",
+#                                        "Ostracods", "Harpacticoids", "Bacteria",
+#                                        "N","P")))
+
+str(LEs)
+levels(LEs$Species_short)
+
+##########################
+## Figure 4 in the article
 g1 <- ggplot(diverg, aes(x=days, y=Difference)) + geom_point() + facet_wrap(~Species_short) +
   geom_text(data=LEs, aes(x=60, y=0, label=round(le,3)))
 g1

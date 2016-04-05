@@ -319,7 +319,7 @@ tr <- read.csv(text=getURL(paste0(repo,"/data/original/transformed_data_Nature20
 tr <- tr[,-14:-24] ## remove bad columns
 tr <- tr[-693:-694,] ## remove last two rows (contain summary stats)
 tr <- gather(tr, key="Species", value="Abundance", 2:13, convert=F) ## make long format
-#tr$Species <- as.factor(tr$Species)
+tr$Species <- as.factor(tr$Species)
 levels(tr$Species)[levels(tr$Species)=="Calanoids"] <- "Calanoid.copepods" # rename a level (and next line)
 levels(tr$Species)[levels(tr$Species)=="Total.Dissolved.Inorganic.Nitrogen"] <- "Total.dissolved.inorganic.nitrogen"
 names(tr)[2] <- "variable" # rename a couple of variables...

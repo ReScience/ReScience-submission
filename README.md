@@ -35,15 +35,11 @@ along with the source code. The repository is organized as follows:
 └── README.md
 ```
 
-*
-    **article** -> This folder contains the accompanying text.
-*   
-    **code** -> Here is the source code along with all the plotting functions.
-*
-    **data** -> This folder is normally empty, but it is used by the source 
-    code for storing the results of the simulations. 
-*   
-    **notebook** -> There is no available notebook for this implementation. 
+* **article** -> This folder contains the accompanying text.
+* **code** -> Here is the source code along with all the plotting functions.
+* **data** -> This folder is normally empty, but it is used by the source 
+  code for storing the results of the simulations. 
+* **notebook** -> There is no available notebook for this implementation. 
 
 
 

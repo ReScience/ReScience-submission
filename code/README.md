@@ -1,7 +1,17 @@
 ### Code repository
 
-Don't forget to choose a license. You're free to use one from a set of
-well-understood licenses including BSD, GPL or Apache.
+Organization of Code repository:
+  *  
+    **neuron_model.py** Is the main Python scipt that implements the
+    thalamocortical neurons. It contains a Python class that takes care 
+    of all the necesasry computations. 
+ *
+    **plot_figures.py** Implements all the plotting functions.
+ *
+    **run_all.py** This scripts runs all the simulations of the article,
+    generates the data and plots all the results. It is recommended to 
+    run this file if you want to reproduce the figures of the article. 
 
-See [the Debian Free Software Guidelines](https://www.debian.org/social_contract#guidelines)
-for a [list of licenses](https://www.debian.org/legal/licenses/).
+In the **params** directory there are the *cfg* files that contain all 
+the parameters for the simulations. They are organized according to 
+Figures numbering (Figure 1, ...). 

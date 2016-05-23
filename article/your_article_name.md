@@ -5,7 +5,7 @@ Author:
     affiliation: 1
 Address:
   - code:    1
-    address: Professorship for Artificial Intelligence, Department of Computer Science, Chemnitz University of Technology
+    address: Professorship for Artificial Intelligence, Department of Computer Science, Chemnitz University of Technology, D-09107 Chemnitz, Germany
 Contact:
   - julien.vitay@informatik.tu-chemnitz.de
 Editor:
@@ -28,7 +28,7 @@ Repository:
 Reproduction:
   - "Laje, R. and Buonomano, D.V. (2013). Robust timing and motor patterns by taming chaos in recurrent neural networks. Nat Neurosci. 2013 Jul;16(7):925-33. doi:10.1038/nn.3405."
 Bibliography:
-  article.bib
+  your_article_name.bib
 
 ---
 
@@ -36,15 +36,36 @@ Bibliography:
 
 # Methods
 
+## Structure of the network
+
+```{.python}
+self.W_in = np.random.randn(self.N, self.Ni)
+```
+
+## Learning rule
+
+## Training procedure
+
 # Results
 
-![Figure caption](figure_1.png) {#fig:fig1}
+![**Complexity without chaos.** ](figure_1.png)
 
-![Figure caption](figure_2.png) {#fig:fig2}
+<!--{#fig:fig1-->
 
-![Figure caption](figure_3.png) {#fig:fig3}
+![**Generation and stability of complex spatiotemporal motor patterns.**](figure_2.png)
+
+<!--{#fig:fig2}-->
+
+![**Improved "timing" capacity.**](figure_3.png)
+
+<!--{#fig:fig3}-->
 
 
 # Conclusion
+
+The reproduction of the model proposed by @Laje2013 was successful. Although the original article is already quite detailed and self-explanatory, the fact that the authors released the original MATLAB code on Pubmed Central allowed to resolve some small ambiguities and speed up the reproduction process.
+
+1. 
+
 
 # References

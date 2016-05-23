@@ -8,8 +8,8 @@ from RecurrentNetwork import RecurrentNetwork
 ###############
 # Parameters
 ###############
-nb_learning_trials_rec = 30 # Number of learning trials for the recurrent weights
-nb_learning_trials_readout = 10 # Number of learning trials for the readout weights
+nb_learning_trials_rec = 3 # Number of learning trials for the recurrent weights
+nb_learning_trials_readout = 1 # Number of learning trials for the readout weights
 nb_test_trials = 5 # Number of test trials
 nb_perturbation_trials = 5 # Number of perturbation trials
 
@@ -131,29 +131,40 @@ print('Simulation done in', time.time() - tstart, 'seconds.')
 ##################
 import matplotlib.pyplot as plt
 
+subsampling_chaos = t_offset + d_stim + np.linspace(0, d_chaos, 20)
+subsampling_neuron = t_offset + d_stim + np.linspace(0, d_neuron, 20)
+
 ax = plt.subplot2grid((2,2),(0, 0))
 ax.plot(chaos[0, :], chaos[1, :], linewidth=2.)
 for i in range(nb_perturbation_trials):
     ax.plot(final_output_chaos[i][t_offset + d_stim: t_offset + d_stim + d_chaos, 0, 0],
             final_output_chaos[i][t_offset + d_stim: t_offset + d_stim + d_chaos, 1, 0])
+    ax.plot(final_output_chaos[i][subsampling_chaos, 0, 0],
+            final_output_chaos[i][subsampling_chaos, 1, 0], 'o')
 
 ax = plt.subplot2grid((2,2),(0, 1))
 ax.plot(neuron[0, :], neuron[1, :], linewidth=2.)
 for i in range(nb_perturbation_trials):
     ax.plot(final_output_neuron[i][t_offset + d_stim: t_offset + d_stim + d_neuron, 0, 0],
             final_output_neuron[i][t_offset + d_stim: t_offset + d_stim + d_neuron, 1, 0])
+    ax.plot(final_output_neuron[i][subsampling_neuron, 0, 0],
+            final_output_neuron[i][subsampling_neuron, 1, 0], 'o')
 
 ax = plt.subplot2grid((2,2),(1, 0))
 ax.plot(chaos[0, :], chaos[1, :], linewidth=2.)
 for i in range(nb_perturbation_trials):
     ax.plot(perturbation_output_chaos[i][t_offset + d_stim: t_offset + d_stim + d_chaos, 0, 0],
             perturbation_output_chaos[i][t_offset + d_stim: t_offset + d_stim + d_chaos, 1, 0])
+    ax.plot(perturbation_output_chaos[i][subsampling_chaos, 0, 0],
+            perturbation_output_chaos[i][subsampling_chaos, 1, 0], 'o')
 
 ax = plt.subplot2grid((2,2),(1, 1))
 ax.plot(neuron[0, :], neuron[1, :], linewidth=2.)
 for i in range(nb_perturbation_trials):
     ax.plot(perturbation_output_neuron[i][t_offset + d_stim: t_offset + d_stim + d_neuron, 0, 0],
         perturbation_output_neuron[i][t_offset + d_stim: t_offset + d_stim + d_neuron, 1, 0])
+    ax.plot(perturbation_output_neuron[i][subsampling_neuron, 0, 0],
+            perturbation_output_neuron[i][subsampling_neuron, 1, 0], 'o')
 
 
 plt.show()

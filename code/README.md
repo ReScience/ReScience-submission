@@ -1,7 +1,27 @@
-### Code repository
+# Description
 
-Don't forget to choose a license. You're free to use one from a set of
-well-understood licenses including BSD, GPL or Apache.
+The `augment.py` module contains classes describing the AuGMEnT model,
+the saccade/anti-saccade task with or without shaping strategy and the probabilistic decision making tasks.
 
-See [the Debian Free Software Guidelines](https://www.debian.org/social_contract#guidelines)
-for a [list of licenses](https://www.debian.org/legal/licenses/).
+The `simulation.py` executable runs multiple networks training and prints the success rate and median convergence time.
+
+This implementation uses Python 3 and NumPy.
+
+*Warning: running a simulation can be heavily time and processing power consuming.*
+
+```
+usage: simulation.py [-h] [-n NETWORKS]
+                     [-t {saccade,saccadenoshaping,probabilistic}]
+                     [-p PROCESSORS]
+
+Train AuGMEnT networks and print median convergence time
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -n NETWORKS, --networks NETWORKS
+                        number of networks to train
+  -t {saccade,saccadenoshaping,probabilistic}, --task {saccade,saccadenoshaping,probabilistic}
+                        task to run
+  -p PROCESSORS, --processors PROCESSORS
+                        number of processors to use
+```

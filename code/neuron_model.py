@@ -29,7 +29,7 @@ def loadParameters(fname):
     """ Load all the necessary paremeters from a file.
 
         |  :param fname: File name containing all parameters
-        |  :return: A dictionaty with all the parameters
+        |  :return: A dictionary with all the parameters
     """
     import os
     if os.path.isfile(fname) is False:

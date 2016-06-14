@@ -23,5 +23,5 @@
 import subprocess
 
 if __name__ == '__main__':
-    subprocess.run(["python", "neuron_model.py"])
+    subprocess.run(["python", "simulations.py"])
     subprocess.run(["python", "plot_figures.py"])

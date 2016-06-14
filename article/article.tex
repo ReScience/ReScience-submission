@@ -237,38 +237,59 @@
 
 \section{Introduction}\label{introduction}
 
-This work introduces a reference implementation of a neuron model for
-thalamocortical relay neurons, proposed by X-J Wang, \cite{wang:1994}.
-The model is conductance-based and takes advantage of an interplay between
-a T-type calcium current and a non-specific cation sag current and thus, it
+This work introduces a reference implementation of a neuron model 
+for thalamocortical relay neurons, \cite{wang:1994} proposed by X-J Wang.
+The model is conductance-based and takes advantage of an interplay between 
+a T-type calcium current and a non-specific cation sag current and thus it
 is able to generate spindle and delta rhythms. Another feature of this model
-is the presence of an intermittent phase-locking phenomenon where action 
-potentials of sodium take place in a non-periodic manner, despite the fact
-that they are phase-locked to the periodic input current. Finally, the model
-is capable of generating tonic spike patterns. The reference implementation
-in this work does not aim to reproduce all the results of the original article,
-but some of them in order to test if the model can be easily reproduced and
-at what degree the original results are reproducible. The source code of
-reference implementation is written in Python (Numpy, Scipy, Matplotlib,
-and Scikit-image).
+is the presence of an intermittent phase-locking phenomenon
+where action potentials of sodium take place in a non-periodic manner, despite
+the fact that they are phase-locked to the periodic input current. Finally,
+the model is capable of generating tonic spike patterns. The reference 
+implementation in this work, does not aim to reproduce all the results of 
+the original article, but some of them in order to test if the model can be
+easily reproduced and at what degree the original results are reproducible.
+The source code of reference implementation is written in Python (Numpy,
+Scipy, Matplotlib and Scikit-image). 
 
 
 \section{Methods}\label{methods}
 
-In this section, a detailed description of the model is given following 
-the paradigm of Nordlie et al, \cite{nordlie:2009}. Therefore, a brief
-description of the model, equations, parameters, and inputs are given in
-the form of tables. 
+The model is described in this section following the paradigm of 
+Nordlie et al, \cite{nordlie:2009}. Therefore, a brief description of
+the model, equations, parameters and inputs are given in the form of 
+tables. 
 
-Table~\ref{Table:1} provides a description of the model, Table~\ref{Table:2}
-provides all the simulation times and temporal integration time steps,
-Table~\ref{Table:3} gives a glimpse of the input signals used in this work.
-Table~\ref{Table:4} introduces the equations of the model and finally 
-Table~\ref{Table:5} summarizes all the parameters for each figure (simulation).
-The neuron model is conductance-based consisting of four differential equations
-describing the dynamics of membrane potential and the kinetics of a T-Type
-calcium current, a Sag current channel and a Potassium channel. The rest
-currents are described by algebraic equations.
+Table~\ref{Table:1} provides a description of the model and Table~\ref{Table:2}
+gives a glimpse of the input used during simulations. Table~\ref{Table:3}
+introduces the equations of the model. The neuron model is conductance-based
+consisting in four differential equations describing the dynamics of membrane
+potential and the kinetics of a T-Type calcium current, a Sag current channel
+and a Potassium channel. The rest currents are described by algebraic
+equations. Finally, all simulations parameters are given in
+Table~\ref{Table:5} and the simulations times can be found in
+Table~\ref{Table:2}.
+
+The reference implementation has been done in a Python class (Python $3.5.1$)
+along with Numpy (version $1.10.4$), Scipy (version $0.17.0$) and Matplotlib
+($1.5.1$). The numerical integration has been done by the \emph{ode} method 
+of Scipy \emph{integrate} package taking advantage of the \emph{dopri5} 
+method, which is quite close to the one used by the author of the original 
+article (the author has numerically integrated the system of the four ODEs
+by using a fifth-order adaptive size Runge-Kutta method). In addition, we 
+provide in our implementation the choice of using \emph{BDF} or \emph{Adams}
+multistep methods \cite{ascher:1998} (the choice of \emph{BDF} or \emph{Adams}
+does not alter the numerical results but it's much faster than \emph{dopri5}).
+
+All the simulations ran on a Dell OptiPlex $7040$, equipped with a sixth
+generation i$7$ processor, $8$GB of physical memory and running Arch Linux
+as operating system. The total execution time of simulations is $38.76$
+seconds and the total consumed memory is $66$MB (if one choose to run 
+the code for the parameters diagrams, the total execution time elevates 
+to $3$ to $4$ days depending on the machine). Table~\ref{Table:3}, shows
+all the parameters we used in order to produce our results (see Results). 
+No any other implementation of this model found by the authors in order 
+to make any further comparison with.  
 %%
 \begin{table}[!htbp]
     \centering
@@ -291,21 +312,7 @@ currents are described by algebraic equations.
     \label{Table:1}
 \end{table}
  %%  
-The reference implementation has been done in a Python class (Python $3.5.1$)
-along with Numpy (version $1.10.4$), Scipy (version $0.17.0$), Matplotlib
-($1.5.1$) and Scikit-image (version $0.12.3$). The numerical integration
-has been done using the \emph{ode} method of Scipy \emph{integrate} package.
-Three different methods have been used in this work (\emph{dopri5}, 
-\emph{Adams}, \emph{BDF}, \cite{ascher:1998}). \emph{dopri5} is quite close
-to the one used by the author in the original article (the author has
-numerically integrated the system of the four ODEs by using a fifth-order
-adaptive size Runge-Kutta method). \emph{BDF} and \emph{Adams} provide
-exactly the same numerical results as the first one, but they are
-faster\footnote{The user has the option to choose one of the three methods.
-    Initially,
-    we tested all three methods and since there is no any numerical difference
-    on our results we decided to use \emph{BDF}, since its much faster than
-    \emph{dopri5}.}.
+
 %%
 \begin{table}[!htbp]
     \centering
@@ -319,17 +326,11 @@ faster\footnote{The user has the option to choose one of the three methods.
         $4$ & $2.5$ & $0.05$  \\ \rowcolor{LightGray}  
         $5$ & $2$ & $0.05$  \\ \thickhline
     \end{tabular}
-    \caption{{\bfseries \sffamily Simulations Time}}
+    \caption{{\bfseries \sffamily Simulations Time.}}
     \label{Table:2}
 \end{table}
 %%  
 
-All simulations ran on a Dell OptiPlex $7040$, equipped with a sixth
-generation i$7$ processor, $8$GB of physical memory and running Arch Linux.
-The total execution time of all simulations was $526$
-minutes and the peak consumed memory was $465$MB\footnote{Python memory
-    profiler used (\url{https://pypi.python.org/pypi/memory_profiler})}\@. All the parameters 
-used during simulations are given in Table~\ref{Table:5}. 
 %%
 \begin{table}[!htbp]
     \centering
@@ -543,213 +544,157 @@ used during simulations are given in Table~\ref{Table:5}.
 
 We simulated the model described in Table~\ref{Table:4} using the parameters
 given in Table~\ref{Table:5} and the corresponding input (see
-Table~\ref{Table:3}). 
-The first test case is the simulation of burst responses. In this case, we 
-examined if the model is able to generate different types of burst responses
-such as in Fig\footnote{From now and then all the figures of the original
-article will be referred as Fig}~$1$ of the original article. Thus, we applied
-a periodic current pulse of $-1 \mu A/cm^2$ amplitude at several different 
-frequencies ($\frac{1}{P_0}$ is the frequency in $Hz$ and $P_0$ is the
-corresponding period in $ms$) ranging from $0.1Hz$ to $15Hz$ with a resolution
-(discretization) of $150$ points. The same number of samples used for 
-discretizing the duration for each frequency. The results are shown in 
-Figure~\ref{Fig:1} left panel.
-Our right panel is slightly different from the original one. In order to produce
-this diagram, we simulated the model using different frequencies and duration
-pulses and we counted spikes in one period of each iteration (one frequency out
-of $150$ and one duration out of $150$). The author in \cite{wang:1994} shows
-in Fig~$1$ a shaded are where the number of spikes is $0.5$. By simple counting
-this is impossible. However, if one takes the average of suprathreshold and 
-subthreshold spikes in one period can obtain some numbers like these.  
-
-In addition, we picked up three specific frequencies 
-$\frac{1}{P_0}=10, 5, 0.5$ and pulse duration $p=10, 120, 1200ms$
-($\frac{p}{P_0} = 0.1, 0.6, 0.6$) in order to test if the model can reproduce
-the upper panel of Fig~$1$ of \cite{wang:1994}. The first frequency that we
-used is not used in the original article, so we do not further discuss it. 
-For the two other frequencies, we have that the corresponding periods in $ms$
-are $200ms$ and $2000ms$, respectively. Now, if we compute the ON duration
-of each pulse (this is the $p$), we get $p = P_0 \times 0.6$ and this gives
-$p = 120ms$ ($5Hz$) and $p=1200ms$ ($0.5Hz$). These numbers are different
-from the ones given in the caption of Fig~$1$ in \cite{wang:1994}. 
-Also according to the parameters diagram in the left panel original
-of Fig~$1$, the frequency $frac{1}{P_0} = 5Hz$ and the ratio $\frac{p}{P_0} =
-0.6$ generate a burst of two ($2$) spikes. This is in contradiction, with
-what is presented in the same figure on the upper right panel, where 
-there is a burst of one ($1$) spike. This does not happen in our 
-implementation, where the results on the right panels of Fig~\ref{Fig:1}
-are in agreement with the parameters diagram on the left panel. 
+Table~\ref{Table:3} for three different cases). First, we verified 
+that the model is able to generate different types of burst responses such
+as in figure $1$ of the original article. Thus we applied a periodic 
+current pulse of $-1 \mu A/cm^2$ amplitude at several different frequencies
+(in the original article frequency is referred as $\frac{1}{P_0}$) ranging
+from $0.1Hz$ to $15Hz$ with a resolution (discretization) of $300$ points
+(parameters diagram in Figure~\ref{Fig:1} left panel). In addition, we
+picked up three specific frequencies ($\frac{1}{P_0}=10, 10, 5$ and pulse
+duration $p=10, 40, 40ms$ ($\frac{p}{P_0} = 0.1, 0.4, 0.2$). 
+The results are shown in Figure~\ref{Fig:1}, right panels. It is apparent that
+the reference implementation can achieve the same behavior as the original
+implementation. The parameters correspond to the proper behavior of the model.
 %%
 \begin{figure}[!htbp]
-    \includegraphics[width=1.1\textwidth]{figs/Figure1.pdf}
+    \centering
+    \includegraphics[width=1.0\textwidth]{figs/Figure1.pdf}
     \caption{{\bfseries \sffamily Responses to rhythmic hyperpolarizations.}
-        We stimulate the model with a periodic pulse with varying frequency
-        $\frac{1}{P_0}$ in $[0.1, 15]Hz$ and ON pulse duration $p$. 
+        We stimulate the model with a periodic pulse with frequency
+        $\frac{1}{P_0}$ and we record the response of the model. All the
+        parameters for this simulation are given in Table~\ref{Table:3}. 
         {\bfseries \sffamily Left Panel:} shows a range of frequencies
         $\frac{1}{P_0}$ from $0.1Hz$ to $15Hz$ versus the ratio
-        $\frac{p}{P_0}$ in range $[0, 1]$. 
-        {\bfseries \sffamily Right Panels:} In all these plots the 
-        crossed area corresponds to the transient, and thus it has to be
-        omitted. 
+        $\frac{p}{P_0}$. 
+        {\bfseries \sffamily Right Panels:} 
         {\bfseries \sffamily Red} color demonstrates a case where only
         subthreshold spikes are generated, when the frequency of the periodic
         pulse is $\frac{1}{P_0} = 10 Hz$ and $\frac{p}{P_0} = 0.1$. 
-        {\bfseries \sffamily Blue} indicates bursts of four spike, when the
-        frequency is $\frac{1}{P_0} = 5Hz$ and $\frac{p}{P_0} = 0.6$.
+        {\bfseries \sffamily Blue} indicates bursts of one spike, when the
+        frequency is $\frac{1}{P_0} = 10Hz$ and $\frac{p}{P_0} = 0.4$.
         {\bfseries \sffamily Black} shows a case of two spikes bursts. Here
-        the frequency is $\frac{1}{P_0} = 0.5 Hz$ and $\frac{p}{P_0} = 0.6$.}
+        the frequency is $\frac{1}{P_0} = 5 Hz$ and $\frac{p}{P_0} = 0.2$.}
     \label{Fig:1}
 \end{figure}
 %%
 
-The second test case implies a steady (constant) current. Thus, we used
-a steady current varying only its amplitude keeping all the other 
-parameters fixed. We used eight different values, $I_{\text{app}} =
-3.0, 0.0, -0.47, -0.6, -0.8, -1.3, -1.4, -2.0 \mu A /cm^2$. The results
-of these simulations are depicted in Figure~\ref{Fig:2}. This figure
-corresponds to Fig~$3$ of \cite{wang:1994}. In this case, there was no
-difference between the reference implementation and the original one. 
+In a second case, we used a steady current varying only its amplitude and 
+keeping the rest parameters fixed. Hence, we used $8$ different current
+amplitudes ($3, 0, -0.5, -0.55, -0.6, -0.8, -1.3$ and $-2.1 \mu A/cm^2$) and
+Figure~\ref{Fig:2} illustrates the results of our simulations, which
+correspond to figure $3$ of \cite{wang:1994}. Again original results
+are reproducible and the model is capable of generating repetitive firing,
+resting state, subthreshold oscillation, $10 Hz$ bursting, $3Hz$ bursting
+and hyperpolarized steady activity. 
 %%
 \begin{figure}[!htbp]
+    \centering
     \includegraphics[width=.8\textwidth]{figs/Figure2.pdf}
     \caption{{ \bfseries \sffamily Dynamic behavior of neuron.} Here we
-    simulate the model with parameters given in Table~\ref{Table:5}. The
-    only parameter that varies from panel to panel in this figure is the
+    simulate the model with parameters given in Table~\ref{Table:3}. The
+    only parameter that changes from panel to panel in this figure is the
     external current $I_{\text{app}}$. The jet colormap indicates the different
-    current values. For instance, we obtain, repetitive spiking when
+    current values. We observe that we get quite similar results as in the original
+    article \cite{wang:1994}. For instance, we obtain, repetitive spiking when
     we apply a constant current at $3 \mu A / cm^2$, or a periodic bursting 
     response, when we apply an external current of $-1.3 \mu A /cm^2$. These
-    results correspond to Fig~$3$ of \cite{wang:1994}.}
+    results correspond to Figure~$3$ of \cite{wang:1994}.}
     \label{Fig:2}
 \end{figure}
-%%
 
-In the third test case, we simulated the Fig~$6$ of \cite{wang:1994}. 
-In this test-case the neuron receives a constant external current at
-$-0.95 \frac{\mu A}{cm^2}$ and as Figure~\ref{Fig:3} points out 
-``spiral chaos'' is generated as in the original article. In this case,
-no differences found between reference and original implementations. 
+%%
+Another test case we simulated is the one that corresponds to figure $6$ of 
+\cite{wang:1994}. In this test-case the neuron receives a constant
+external current at $-0.95 \frac{\mu A}{cm^2}$ and as Figure~\ref{Fig:3}
+points out ``spiral chaos'' is generated as in the original article.
+The parameters for this simulation are given in Table~\ref{Table:4}. 
 %%
 \begin{figure}[!htbp]
+    \centering
     \includegraphics[width=.7\textwidth]{figs/Figure3.pdf}
     \caption{{\bfseries \sffamily ``Spiral Chaos''.} In this Figure
-    we show that the model is capable of generating ``spiral chaos''
-    as it has been shown in Fig~$6$ in \cite{wang:1994}.
-    The external current in this simulation is constant ($-0.95\mu A/cm^2$). 
-    {\bfseries \sffamily Top Panel} shows the phase portrait of the 
-    membrane potential and the Sag current ($V$ vs $h$).
-    {\bfseries \sffamily Middle Panel} illustrates the phase the membrane
-    potential ($V$) and,
-    {\bfseries \sffamily Bottom Panel} shows the $h$ current over time.}
+    we show that the model is capable of generating spiral chaos as
+    it has been shown in Figure~$6$ \cite{wang:1994}. Again all the 
+    parameters for this simulation are given in Table~\ref{Table:3}.
+    The external current in this simulation is constant and we have 
+    traced the phase portrait of the membrane potential and of the
+    Sag current ($V$ vs $h$). The top panel illustrates the phase 
+    portrait, the middle panel shows the membrane potential ($V$)
+    and the bottom panel depicts the $h$ current over time. Our 
+    results are identical to the original ones rendering 
+    the model fully reproducible. }
     \label{Fig:3}
 \end{figure}
 %%
 
-The fourth test case has to do with the amplitude of the injected external 
-current and its relation to the frequency of the generated spike bursts. In 
-order to be as precise as possible, we captured the data\footnote{Data
-    are available in the accompanying github repository of the present article.}
-values for the external current from Fig~$7$ of the original article (dots
-in Fig $7$, pg. $27$ in \cite{wang:1994}) using the software
+A fourth test case has to do with the amplitude of the injected external 
+current and its relation to the frequency of the generated spike bursts. 
+Therefore, we captured the data\footnote{The data are available in the
+accompanying github repository of the present article.} values for the 
+external current from Figure~$7$ of the original article (these are the
+values represented by dots and circles in Figure $7$ and on page $27$ of
+the \cite{wang:1994}) using the software
 PlotDigitizer\footnote{\url{(http://plotdigitizer.sourceforge.net/})}.
+Therefore, we run a simulation on the external current of the original 
+article using our implementation and the results are shown in Figure 
+\ref{Fig:4} upper row. Our results are pretty much the same as the ones
+in Figure~$7$ of the original article. In addition, we run one more simulation
+using a much higher resolution (using $200$ values of the injected current
+in the range $0$ to $-2.0 \mu A/cm^2$. It is clear that the more detailed 
+simulation is quantitatively similar to the simpler one but it reveals 
+a more oscillatory behavior in the shape of the parameters curve. If we
+superpose the two panels, we can see that the upper row is an interpolation 
+of some of the data points of the bottom row.
 
-We run a simulation using as external current the numerical values that 
-we captured from the original article and the results are shown in Figure 
-\ref{Fig:4} upper row. The black axis represent the frequency (we measured 
-the frequency using the FFT provided by Numpy) and the blue axis indicates 
-the period ($\frac{1}{\text{frequency}}$). Our results are pretty close to 
-the ones in Fig~$7$ of the original article. Because the results presented
-in the original article look as a result of a regression method\footnote{If one
-    take a good look at the plots of Fig~$7$, they will see that the curve is
-    not exactly on the data points, implying that a regression method has been 
-    used},
-we simulated the same test case but using a much higher resolution (using $100$
-sample values for the injected current ($0$ to $-2.0 \mu A/cm^2$). The results
-are shown in Figure~\ref{Fig:4} lower panels and indicate that these 
-simulations are quantitatively similar to the original ones but the 
-curves are coarse and not so much smooth.  
 %%
 \begin{figure}[!htbp]
+    \centering
     \includegraphics[width=.7\textwidth]{figs/Figure4.pdf}
-    \caption{{\bfseries \sffamily Frequency and period versus steady input 
-    current.}
-    {\bfseries \sffamily Top Row:} Indicates the external current (ranging
-    from $0$ to $-2 \mu A/cm^2$ versus the spike bursts frequency in $Hz$
-    (black axis) and the period in $sec$ (blue axis). The external current 
-    varies exactly as in Fig~$7$ in \cite{wang:1994} (see text for more
-    details). 
-    {\bfseries \sffamily Bottom Row:} Same simulations but using a finer 
-    discretization for the external current values range ($100$ samples).}
+    \caption{{\bfseries \sffamily Frequency and period versus steady input current.}
+    {\bfseries \sffamily Top Row:} Indicates the external current (ranging from 
+    $0$ to $-2 \mu A/cm^2$ versus the spike bursts frequency in $Hz$. The
+    numerical values for the external current for this simulation have been
+    taken from the original article (see text for more details). 
+    {\bfseries \sffamily Bottom Row:} The same simulation as in the upper row,
+    but with a finer discretization of the external current values range. In
+    these simulations we used $200$ values for the $I_{\text{app}}$.}
     \label{Fig:4}
 \end{figure}
 %%
 
 %%
 \begin{figure}[!htbp]
-    \includegraphics[width=1.1\textwidth]{figs/Figure5.pdf}
-    \caption{{\bfseries \sffamily Symbolic patterns.} This figure 
-    illustrates  membrane potential traces (in $mV$) for two different simulations. 
-    In the first simulation $g_T = 2.2975 mS/cm^2$ and $I_{\text{app}}=-1.4, -1.5$ and
-    $-1.6 \mu A/cm^2$ (black traces). For the second simulation, $g_T =
-    0.252mS/cm^2$ and $I_{\text{app}}=-1.2, -1.5$ and $-1.8 \mu A/cm^2$. 
-    {\bfseries \sffamily Left Panel} shows the whole trace ($8 sec$ of total
-    simulation time).
-    {\bfseries \sffamily Right Panel} illustrates a magnification of the
-    right panel ($6$ to $8$ seconds) along with a symbolic representation 
-    of supra- and sub-thresholds spikes (green line segments and dark circles,
-    respectively). The red curve depicts the external pulse current.} 
+    \centering
+    \includegraphics[width=.7\textwidth]{figs/Figure5.pdf}
+    \caption{{\bfseries \sffamily Symbolic patterns.}}
     \label{Fig:5}
 \end{figure}
 %%
 
-The final test case is related to Fig~$2$ in \cite{wang:1994}. In this
-case, a periodic pulse with frequency $10Hz$ and ratio $\frac{p}{P_0} = 0.8$
-is applied to the model as external current. The response of the model 
-is registered and then the subthreshold and suprathreshold spikes are 
-counted. We applied six different current amplitudes as in Fig~$2$A and 
-$2$B in \cite{wang:1994} and we illustrate (i) the entire temporal 
-trace of the membrane potential, (ii) a specific are of the whole trace
-(magnification) and (iii) a ``symbolic'' pattern of zeros and ones.
-
-The results are shown in Figure~\ref{Fig:5}, where the left panels 
-show the whole trace of six different simulations for six different 
-current amplitudes and two different values of $g_T$ ($-1.4, -1.5, -1.6 \mu A
-/cm^2$ along 
-with $g_T = 0.2975 mS/cm^2$ - black traces, and $-1.2, -1.5, -1.8 \mu A/cm^2$
-for $g_T = 0.252 mS /cm^2$ -
-blue traces). The right panels, show a magnification of a specific temporal 
-window of the whole trace along with a ``symbolic'' pattern. The symbolic
-pattern represents zeros (dark discs) and ones (green line segments). By 
-examining these patterns, we conclude that the reference model is able to 
-reproduce all the original patterns except from these generated by 
-a current of $-1.5 \mu A / cm^2$ in any case. In addition, we slightly 
-changed the values of $g_T$ in order to achieve similar results with the
-original implementation. 
-
-In this case, we observed something odd. The frequency for these simulations 
-was set to $10Hz$ implying a period of $100ms$. This leads to a choice of 
-$p = 80ms$ in order to achieve a ratio $\frac{p}{P_0} = 0.8$. This means 
-that the symbolic patterns appear in the original article are not generated
-per period, since the period is too short to have symbolic patterns such as
-$0301$. In addition, it seems that these symbolic patterns emerge from a 
-longer duration signal ($\sim 2 ms$, the scale in Fig~$2$ is $500ms$) and 
-not from one period. Furthermore, as we show in our simulations in
-Figure~\ref{Fig:5}, the whole trace is more complicated and in some 
-cases it seems that these patterns are not repeated across the whole 
-trace\footnote{We ran long simulations in order to verify this. Data not
-shown here.}. 
+Finally, we tried to simulate some of the symbolic patterns as they are 
+presented in Table~$1$ of \cite{wang:1994}. Therefore, we run our
+implementation using the same parameters as in \cite{wang:1994} (see 
+Table~\ref{Table:5}). The results are shown in Figure~\ref{Fig:5}, where
+black dots represent zeros ($0$) and red line segments represent aces ($1$).
+Different patterns emerge for different values of the external current. 
+For instance, the shaded area in Figure~\ref{Fig:5} indicates that the
+current is between $0.0$ and $-0.75$ and thus we have only zeros in the
+formed patterns. 
 
 \section{Conclusion}\label{conclusion}
 
 A conductance-based model for relay thalamocortical neurons proposed 
 by \cite{wang:1994} was implemented in Python. The model tested 
-thoroughly in several examples taken from the original article. Some of
-them were successfully reproduced and some other had some differences from
-their original implementations. In general, the original model was easy to
-implemented since all the equations and the most of the parameters 
-(except the initial time step of the integration method) are given or 
-are almost accurate. Unfortunately, we could not find any other implementation 
-of this model to compare with ours. 
+thoroughly in several examples taken from the original article and 
+it succeed to reproduce all of them. The original model is easy to implement
+since all the equations, parameters (except the initial time step of the
+integration method) and simulation details are given in \cite{wang:1994}.
+The choice of a different integration scheme does not affect the results,
+but it increases the temporal performance of the model. 
+All replicated figures are pretty much similar to the original ones rendering
+the new results quantitatively and qualitatively comparable to the original
+ones.
 
 {\sffamily \small
   \printbibliography[title=References]

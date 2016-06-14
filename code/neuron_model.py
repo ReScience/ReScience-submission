@@ -22,6 +22,7 @@
 #
 import numpy as np
 from scipy.integrate import ode
+from skimage.feature import peak_local_max
 
 
 def loadParameters(fname):
@@ -67,8 +68,13 @@ def loadParameters(fname):
 
 
 class WangModel():
-    def __init__(self, fname, frequency, duration, amplitude,
-                 chunks):
+    def __init__(self, fname,
+                 dt=0.05,   
+                 frequency=1,
+                 duration=1000,
+                 inp_type='const',
+                 amplitude=1,
+                 chunks=1):
         """ Constructor method
 
         |  :param fname: File name containing all parameters
@@ -80,10 +86,13 @@ class WangModel():
         """
         self.p = loadParameters(fname)      # Load the parameters
 
-        self.freq = frequency
+        self.dt = dt                        # Integration time step
+        self.freq = frequency               # Pulse current frequency
         self.P0 = (1.0/self.freq)*1000      # Period in ms
         self.P = duration                   # Duration in ms
-        self.Amp = amplitude                # Amplitude in μA/cm²
+        self.amplitude = amplitude          # Amplitude in μA/cm²
+        self.chunks = chunks                # Number of perios (time bins)
+        self.inp_type = inp_type            # Input type (constant or pulse)
 
     def s_inf(self, v):
         """ T-type calcium channel gating kinetics """
@@ -126,7 +135,7 @@ class WangModel():
     def alpha_m(self, v, sigma):
         """ Sodium (Na) channel gating kinetics """
         return (-0.1*(v + 29.7 - sigma)/(np.exp(-0.1 *
-                (v+29.7-sigma)) - 1.))
+                (v + 29.7 - sigma)) - 1.))
 
     def beta_m(self, v, sigma):
         """ Sodium (Na) channel gating kinetics """
@@ -204,10 +213,20 @@ class WangModel():
         """
         return self.p['gL'] * (v - self.p['VL'])
 
-    def I_ext(self, period, duration, amplitude, time, numChunks):
+    def I_ext(self, period, duration, time):
+        """
+        External current (in μA/cm²)
+
+        |  :param period: Period of current on pulses
+        |  :param duration: Duration of current on pulses
+        |  :param amplitude: Pulse amplitude
+        |  :param time: Total simulation time (ms)
+        |  :param numChunks: Number of chunks according to period 
+        """
         tmp = np.zeros((period, ))
-        tmp[:duration] = amplitude
-        repeats = int(numChunks + (time - period) / period)
+        tmp[:duration] = self.amplitude
+        # repeats = int(self.chunks + (time - period) / period)
+        repeats = int(self.chunks + (time / period))
         return np.tile(tmp, repeats)
 
     def rhs(self, t, X, Iapp):
@@ -232,9 +251,19 @@ class WangModel():
 
         return np.array([dV, dh, dH, dn])
 
-    def run(self, tf, vname, tname):
+    def run(self, tf, vname, tname, int_name='vode', *args):
+        """ 
+        Run the model by integrating equations.
+
+        |  :param tf: Total time (ms)
+        |  :param vname: Filename for storing membrane potential
+        |  :param tname: Filename for storing time
+        |  :param int_name: Integration method
+        |  :param *args: If int_method is vode, zvode, lsoda user can choose 
+                         Adams or BDF methods
+        """
         t0 = 0.0         # Initial time (ms)
-        dt = 0.05        # Integration time step (ms)
+        dt = self.dt     # Integration time step (ms)
 
         # Some temporal conversions
         t_sim = int(tf / dt)        # Convert tf (ms) to simulation time
@@ -242,7 +271,12 @@ class WangModel():
         p_sim = int(self.P / dt)    # Convert duration (ms) to sim. duration
 
         # Define the input current
-        Iapp = self.I_ext(P0_sim, p_sim, self.Amp, t_sim, 5)
+        if self.inp_type == "const":
+            Iapp = np.ones((t_sim, )) * self.amplitude
+        else:
+            Iapp = self.I_ext(P0_sim, p_sim, t_sim)
+            if t_sim > Iapp.shape[0]:
+                raise ValueError('Simulation time exceeds input signal dimensions!')
 
         V0 = self.p['V0']
         h0 = self.h_inf(V0, self.p['theta_h'], self.p['k_h'])
@@ -251,12 +285,15 @@ class WangModel():
         x0 = [V0, h0, H0, n0]
 
         # Set parameters and initialize the solver
-        r = ode(self.rhs).set_integrator('vode', method='BDF')
+        if len(args) == 0:
+            r = ode(self.rhs).set_integrator(int_name)
+        else:
+            r = ode(self.rhs).set_integrator(int_name, method=args[0])
         r.set_initial_value(x0, t0).set_f_params(Iapp[0])
 
         v, t = [], []
         i = 0
-        while r.successful() and r.t < tf:
+        while r.successful() and r.t < (tf-1):
             r.set_f_params(Iapp[i])
             v.append(r.integrate(r.t+dt))
             t.append(r.t)
@@ -265,34 +302,6 @@ class WangModel():
         v = np.array(v)
         t = np.array(t)
 
-        np.save("../data/"+vname, v)
-        np.save("../data/"+tname, t)
-
-
-if __name__ == '__main__':
-    base = "params/"
-    
-    # Build data for Figure 1
-    freq = [10, 10, 5, 8, 5]        # Pulse frequency in Hz
-    dur = [10, 40, 40, 75, 120]     # Pulse duration in ms
-    Iext = -1.0                     # Pulse current in mA/cm^2
-
-    name = "Fig1"
-    for i in range(len(freq)):
-        simulation = WangModel(base+"params_figure1.cfg",
-                               freq[i],
-                               dur[i],
-                               Iext,
-                               100)
-        simulation.run(6000, name+"_V"+str(i), name+"_T"+str(i))
-
-    # Build data for Figure 2
-    Iext = [3.0, 0.0, -0.5, -0.55, -0.6, -0.8, -1.3, -2.1]
-    name = "Fig2"
-    for i in Iext:
-        simulation = WangModel(base+"params_figure2.cfg", 1, 1000, i, 1)
-        simulation.run(2000, name+"_V"+str(i), name+"_T"+str(i))
-    
-    # Build data for Figure 3
-    simulation = WangModel(base+"params_figure3.cfg", 1, 1000, -0.91, 2)
-    simulation.run(6000, "Fig3_V", "Fig3_T")
+        # np.save("../data/"+vname+"stimulus", Iapp)
+        # np.save("../data/"+vname, v)
+        # np.save("../data/"+tname, t)

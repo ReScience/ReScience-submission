@@ -1,17 +1,17 @@
 ---
 Title: "How Attention Can Create Synaptic Tags for the Learning of Working Memories in Sequential Tasks"
 Author:
+  - name: Le Masson Erwan
+    affiliation: 2, 1
   - name: Alexandre Frédéric
-    affiliation: 1, 2
-  - name: Le Masson Erwan,
     affiliation: 1, 2, 3
 Address:
   - code:    1
-    address: INRIA Bordeaux Sud-Ouest, Bordeaux, France
+    address: LaBRI, Université de Bordeaux, Bordeaux INP, Talence, France
   - code:    2
-    address: Institut des Maladies Neurodégénératives, Université de Bordeaux, Bordeaux, France
+    address: INRIA Bordeaux Sud-Ouest, Talence, France
   - code:    3
-    address: ENSEIRB-MATMECA, Talence, France
+    address: Institut des Maladies Neurodégénératives, Université de Bordeaux, Bordeaux, France
 Contact:
   - frederic.alexandre@inria.fr
 Editor:
@@ -41,24 +41,25 @@ Bibliography:
 
 # Introduction
 
-The reference paper [@jrombouts:2015] introduces a new reinforcement learning model using memory
-units to learn sequential tasks called AuGMEnT. The results presented suggest new 
-approaches in understanding the acquisition of more complex tasks, and more generic learning 
-mechanisms. An implementation of the model was provided by the author which helped
-verifying the correctness of intermediate computations. Python 3 was used for this replication along with NumPy
-and multiprocessing libraries for speedup. Object oriented architecture is used in the module
-to help factorize the code.
+The reference paper [@jrombouts:2015] introduces a new reinforcement learning model, called AuGMEnT, using memory
+units to learn sequential tasks. The results presented suggest new approaches in understanding the acquisition of
+tasks require working memory and attention, as well as biologically plausible learning mechanisms. The model improves on
+previous reinforcement learning schemes by allowing tasks to be expressed more naturally as a sequence of inputs and outputs.
+An implementation of the model was provided by the author which helped verifying the correctness of computations.
+The script written for this replication uses Python 3 along with NumPy and the multiprocessing libraries for speedup.
+Object oriented architecture is used in the module to help factorize the code.
 
 
 # Methods
+
 
 ## Model
 
 The initial intention was to implement the model using an artificial neural network
 simulator. The simulation tool ANNarchy [@vitay:2015] was considered for its ability to simulate rate-coded
-networks. Unfortunately, the fixed order of evaluation, i.e. connexions then populations,
-makes it difficult to implement back-propagation models such as AuGMEnT. It was instead
-decided to write a custom script to simulate the network.\
+networks. Unfortunately, there were several incompatibilities with AuGMEnT, most notably the discrete time steps limiting its flexibility,
+and the order of evaluation in the simulator, i.e. connexions then populations, making it difficult to implement backpropagation models.
+The use of ANNarchy was abandoned and it was instead decided to write a custom script to simulate the network.\
 
 
 The paper's description of the model details all the update functions and is relatively straight forward to
@@ -66,15 +67,19 @@ implement, only the initial value of $Q_{a}(t-1)$ was not provided for the first
 Where the author's implementation uses $Q_{a}(t)$, it was decided to use a more naive solution and set it to 0.
 It might also be useful to clarify the nature of the feedback weights $w'$ in equations 14 and 16: once an action is selected,
 only the feedback synapses leaving the corresponding selected Q-value unit are activated to update tags,
-more precisely: $w'_{ij} = w_{ij} * z_{i}$. The model can have specific feedback synapses as well but the simpler method is to
-use the feed-forward synapses' weights.\
+more precisely: $w'_{ij} = w_{ij} \times z_{i}$. The model can have specific feedback synapses as well but the simpler method is to
+use the feedforward synapses' weights.\
 
 
 To offer some discussion about the model and its limits, the first point to bring forward would be its artificial time management.
 The extreme discretization of time and explicit signals such as trial begin and end make it difficult to consider real-time simulation
-or even realistic environments implementations. Another point worth noting is the possible ambiguity of memory traces. Because the traces in memory units are the sums of
-changes in input, there exist some sequences of inputs the model would be incapable of distinguishing. For example, the
-sequences `((0, 0), (1, 0), (1, 1))` and `((0, 0), (0, 1), (1, 1))` have the same memory traces `(1, 1)`.
+or even realistic environments implementations. The difficulties of implementing AuGMEnT inside the simulator ANNarchy is a good illustration of
+those limitations. The authors are currently working on a continuous version of the model to address those issues.
+Another possible weakness worth noting is the ambiguity of some memory traces. Because the traces in memory units are the sums of
+changes in input, there exist sequences of inputs the model would be incapable of distinguishing.
+For example, the sequences `((0, 0), (1, 0), (1, 1))` and `((0, 0), (0, 1), (1, 1))` have the same memory traces `(1, 1)` and could lead
+to unintended results.
+
 
 ## Tasks
 
@@ -108,6 +113,12 @@ The differences could come from undocumented changes in the experiments' protoco
 for example the use of shaping strategy to obtain better performances, are confirmed by this replication.
 
 
+# Conclusion
+
+The results obtained are comparable to those announced in the article. Ambiguities in the
+experiments' descriptions could be the cause for worse performances, but do not contradict the
+article's overall conclusion.
+
 Task                Success in [@jrombouts:2015] Success Convergence in [@jrombouts:2015] Convergence
 ------------------- ---------------------------- ------- -------------------------------- --------------
 Saccade w/ shaping  99.45%                       85.0%   4100 trials                      3800 trials
@@ -115,13 +126,6 @@ Saccade w/o shaping 76.41%                       64.0%   N/A                    
 Probabilistic       99.0%                        100%    55234 trials                     70762.5 trials
 ------------------- ---------------------------- ------- -------------------------------- --------------
 Table: Results {#tbl:results}
-
-
-# Conclusion
-
-The results obtained are comparable to those announced in the article. Ambiguities in the
-experiments' descriptions could be the cause for some variations, but do not contradict the
-article's conclusion.
 
 
 # References

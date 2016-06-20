@@ -4,10 +4,11 @@ The `augment.py` module contains classes describing the AuGMEnT model,
 the saccade/anti-saccade task with or without shaping strategy and the probabilistic decision making tasks.
 
 The `simulation.py` executable runs multiple networks training and prints the success rate and median convergence time.
+**_Warning: simulations can be heavily time and processing power consuming._**
 
-This implementation uses Python 3 and NumPy.
+The `plot-activation.py` executable partially recreates figure 2.D.
 
-*Warning: running a simulation can be heavily time and processing power consuming.*
+This implementation requires Python 3, NumPy and matplotlib.
 
 ```
 usage: simulation.py [-h] [-n NETWORKS]

@@ -123,7 +123,7 @@ class Synapses(object):
     Base class for synapse connections between two population of neurons/units
     """
     
-    def __init__(self, presynaptic_neurons, postsynaptic_neurons, weights_range, beta, lambda_, gamma, add_bias=False):
+    def __init__(self, presynaptic_neurons, postsynaptic_neurons, weights_range, lambda_, gamma, add_bias=False):
         self.presynaptic_neurons = presynaptic_neurons
         self.postsynaptic_neurons = postsynaptic_neurons
         self.postsynaptic_neurons.preceding_connections.append(self)
@@ -136,20 +136,19 @@ class Synapses(object):
             self.tags = np.zeros((len(presynaptic_neurons.rates), len(postsynaptic_neurons.rates)))
         
         self.alpha = 1. - lambda_ * gamma
-        self.beta = beta
     
     def get_synaptic_outputs(self):
         return np.dot(self.presynaptic_neurons.rates, self.weights)
     
-    def update_weights(self, delta):
+    def update_weights(self, beta, delta):
         # from equation (18)
-        self.weights += self.beta * delta * self.tags
+        self.weights += beta * delta * self.tags
     
     def update_tags(self):
         pass
     
-    def update(self, delta):
-        self.update_weights(delta)
+    def update(self, beta, delta):
+        self.update_weights(beta, delta)
         self.update_tags()
     
     def reset(self):
@@ -160,8 +159,8 @@ class InstantaneousRegularSynapses(Synapses):
     Synapses between instantaneous sensory neurons and regular association neurons (noted vR)
     """
     
-    def __init__(self, presynaptic_neurons, postsynaptic_neurons, weights_range, beta, lambda_, gamma):
-        super(InstantaneousRegularSynapses, self).__init__(presynaptic_neurons, postsynaptic_neurons, weights_range, beta, lambda_, gamma, add_bias=True)
+    def __init__(self, presynaptic_neurons, postsynaptic_neurons, weights_range, lambda_, gamma):
+        super(InstantaneousRegularSynapses, self).__init__(presynaptic_neurons, postsynaptic_neurons, weights_range, lambda_, gamma, add_bias=True)
     
     def get_synaptic_outputs(self):
         return np.dot(self.presynaptic_neurons.biased_rates, self.weights)
@@ -178,8 +177,8 @@ class TransientMemorySynapses(Synapses):
     Synapses between transient sensory neurons and memory association neurons (noted vM)
     """
     
-    def __init__(self, presynaptic_neurons, postsynaptic_neurons, weights_range, beta, lambda_, gamma):
-        super(TransientMemorySynapses, self).__init__(presynaptic_neurons, postsynaptic_neurons, weights_range, beta, lambda_, gamma)
+    def __init__(self, presynaptic_neurons, postsynaptic_neurons, weights_range, lambda_, gamma):
+        super(TransientMemorySynapses, self).__init__(presynaptic_neurons, postsynaptic_neurons, weights_range, lambda_, gamma)
         self.traces = np.zeros((len(presynaptic_neurons.rates), len(postsynaptic_neurons.rates)))
     
     def update_tags(self):
@@ -198,8 +197,8 @@ class RegularQValueSynapses(Synapses):
     Synapses between regular association neurons and Q-Value neurons (noted wR)
     """
     
-    def __init__(self, presynaptic_neurons, postsynaptic_neurons, weights_range, beta, lambda_, gamma):
-        super(RegularQValueSynapses, self).__init__(presynaptic_neurons, postsynaptic_neurons, weights_range, beta, lambda_, gamma, add_bias=True)
+    def __init__(self, presynaptic_neurons, postsynaptic_neurons, weights_range, lambda_, gamma):
+        super(RegularQValueSynapses, self).__init__(presynaptic_neurons, postsynaptic_neurons, weights_range, lambda_, gamma, add_bias=True)
         presynaptic_neurons.preceding_feedback_connections.append(self)
     
     def update_tags(self):
@@ -218,8 +217,8 @@ class MemoryQValueSynapses(Synapses):
     Synapses between memory associationn neurons and Q-Value neurons (noted wM)
     """
     
-    def __init__(self, presynaptic_neurons, postsynaptic_neurons, weights_range, beta, lambda_, gamma):
-        super(MemoryQValueSynapses, self).__init__(presynaptic_neurons, postsynaptic_neurons, weights_range, beta, lambda_, gamma)
+    def __init__(self, presynaptic_neurons, postsynaptic_neurons, weights_range, lambda_, gamma):
+        super(MemoryQValueSynapses, self).__init__(presynaptic_neurons, postsynaptic_neurons, weights_range, lambda_, gamma)
         self.presynaptic_neurons.preceding_feedback_connections.append(self)
     
     def update_tags(self):
@@ -260,15 +259,13 @@ class Network(object):
         theta           -- sigmoid function parameter
         weights_range   -- initial synapses' weights range
         """
-        self.gamma = gamma
+        self.beta = beta
         self.epsilon = epsilon
+        self.gamma = gamma
         self.delta = 0.
         
         self.predicted_value = 0.
         self.previous_predicted_value = 0.
-        
-        self.learning = True
-        self.exploration = True
         
         self.instantaneous_units = InstantaneousPopulation(n_sensory_units)
         self.transient_units = TransientPopulation(n_sensory_units * 2)
@@ -276,10 +273,10 @@ class Network(object):
         self.memory_units = MemoryPopulation(n_memory_units, theta)
         self.qvalue_units = QValuePopulation(n_qvalue_units)
         
-        self.instantaneous_regular_synapses = InstantaneousRegularSynapses(self.instantaneous_units, self.regular_units, weights_range, beta, lambda_, gamma)
-        self.transient_memory_synapses = TransientMemorySynapses(self.transient_units, self.memory_units, weights_range, beta, lambda_, gamma)
-        self.regular_qvalue_synapses = RegularQValueSynapses(self.regular_units, self.qvalue_units, weights_range, beta, lambda_, gamma)
-        self.memory_qvalue_synapses = MemoryQValueSynapses(self.memory_units, self.qvalue_units, weights_range, beta, lambda_, gamma)
+        self.instantaneous_regular_synapses = InstantaneousRegularSynapses(self.instantaneous_units, self.regular_units, weights_range, lambda_, gamma)
+        self.transient_memory_synapses = TransientMemorySynapses(self.transient_units, self.memory_units, weights_range, lambda_, gamma)
+        self.regular_qvalue_synapses = RegularQValueSynapses(self.regular_units, self.qvalue_units, weights_range, lambda_, gamma)
+        self.memory_qvalue_synapses = MemoryQValueSynapses(self.memory_units, self.qvalue_units, weights_range, lambda_, gamma)
     
     def feedforward(self, input):
         self.instantaneous_units.compute_rates(input)
@@ -291,10 +288,10 @@ class Network(object):
     
     def feedback(self, reward, end):
         self.update_delta(reward, end)
-        self.memory_qvalue_synapses.update(self.delta)
-        self.regular_qvalue_synapses.update(self.delta)
-        self.instantaneous_regular_synapses.update(self.delta)
-        self.transient_memory_synapses.update(self.delta)
+        self.memory_qvalue_synapses.update(self.beta, self.delta)
+        self.regular_qvalue_synapses.update(self.beta, self.delta)
+        self.instantaneous_regular_synapses.update(self.beta, self.delta)
+        self.transient_memory_synapses.update(self.beta, self.delta)
     
     def update_delta(self, reward, end):
         if end:
@@ -303,7 +300,7 @@ class Network(object):
         self.delta = reward + self.gamma * self.predicted_value - self.previous_predicted_value
     
     def select_action(self):
-        if (random.random() < self.epsilon) and self.exploration:
+        if random.random() < self.epsilon:
             selected = Network.random_from_boltzmann_distribution(self.qvalue_units.rates)
         else:
             max_value = self.qvalue_units.rates.max()
@@ -344,8 +341,7 @@ class Network(object):
         end    -- signal the end of a trial
         """
         self.feedforward(input)
-        if self.learning:
-            self.feedback(reward, end)
+        self.feedback(reward, end)
         if end:
             self.reset()
         
@@ -518,13 +514,12 @@ class SaccadeTask(FixationTask):
         
         network -- network to evaluate
         """
-        learning = network.learning
-        exploration = network.exploration
         fixations = self.fixations
         cues = self.cues
-        
-        network.learning = False
-        network.exploration = False
+        beta = network.beta
+        epsilon = network.epsilon
+        network.beta = 0.
+        network.epsilon = 0.
         
         success = True
         for fixation, cue in product(fixations, cues):
@@ -534,10 +529,10 @@ class SaccadeTask(FixationTask):
                 success = False
                 break;
         
-        network.learning = learning
-        network.exploration = exploration
         self.fixations = fixations
         self.cues = cues
+        network.beta = beta
+        network.epsilon = epsilon
         
         return success
     

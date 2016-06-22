@@ -4,7 +4,6 @@
 # PLoS Comput Biol 11: e1004060.
 
 import numpy as np
-import random
 from functools import reduce
 from itertools import product
 from collections import deque
@@ -17,6 +16,21 @@ def sigmoid(x, theta):
 def derivative_sigmoid(x):
     # from equation (6)
     return x * (1. - x)
+
+def random_from_boltzmann_distribution(a):
+    # for numerical stability
+    exp_values = np.exp(a - a.max())
+    exp_sum = np.sum(exp_values)
+    rand = np.random.random()
+    
+    # from equation (12)
+    tmp = exp_values[0]
+    i = 0
+    while tmp / exp_sum < rand:
+        i += 1
+        tmp += exp_values[i]
+    
+    return i
 
 class Population(object):
     """
@@ -68,9 +82,8 @@ class AssociationPopulation(Population):
     Base class for a population of association neurons/units (noted y)
     """
     
-    def __init__(self, n, theta, add_bias=False):
+    def __init__(self, n, add_bias=False):
         super(AssociationPopulation, self).__init__(n, add_bias)
-        self.theta = theta
         self.preceding_feedback_connections = []
     
     def get_synaptic_feedbacks(self):
@@ -81,26 +94,26 @@ class RegularPopulation(AssociationPopulation):
     Population of regular association neurons/units (noted yR)
     """
     
-    def __init__(self, n, theta):
-        super(RegularPopulation, self).__init__(n, theta, add_bias=True)
+    def __init__(self, n):
+        super(RegularPopulation, self).__init__(n, add_bias=True)
     
-    def compute_rates(self):
+    def compute_rates(self, theta):
         # from equations (3) and (4)
-        self.biased_rates[1:] = sigmoid(self.get_synaptic_inputs(), self.theta)
+        self.biased_rates[1:] = sigmoid(self.get_synaptic_inputs(), theta)
 
 class MemoryPopulation(AssociationPopulation):
     """
     Population of memory association neurons/units (noted yM)
     """
     
-    def __init__(self, n, theta):
-        super(MemoryPopulation, self).__init__(n, theta)
+    def __init__(self, n):
+        super(MemoryPopulation, self).__init__(n)
         self.traces = np.zeros((n,))
     
-    def compute_rates(self):
+    def compute_rates(self, theta):
         # from equations (7) and (8)
         self.traces += self.get_synaptic_inputs()
-        self.rates = sigmoid(self.traces, self.theta)
+        self.rates = sigmoid(self.traces, theta)
     
     def reset(self):
         self.traces = np.zeros(self.traces.shape)
@@ -123,7 +136,7 @@ class Synapses(object):
     Base class for synapse connections between two population of neurons/units
     """
     
-    def __init__(self, presynaptic_neurons, postsynaptic_neurons, weights_range, lambda_, gamma, add_bias=False):
+    def __init__(self, presynaptic_neurons, postsynaptic_neurons, weights_range, add_bias=False):
         self.presynaptic_neurons = presynaptic_neurons
         self.postsynaptic_neurons = postsynaptic_neurons
         self.postsynaptic_neurons.preceding_connections.append(self)
@@ -134,8 +147,6 @@ class Synapses(object):
         else:
             self.weights = np.random.uniform(*weights_range, size=(len(presynaptic_neurons.rates), len(postsynaptic_neurons.rates)))
             self.tags = np.zeros((len(presynaptic_neurons.rates), len(postsynaptic_neurons.rates)))
-        
-        self.alpha = 1. - lambda_ * gamma
     
     def get_synaptic_outputs(self):
         return np.dot(self.presynaptic_neurons.rates, self.weights)
@@ -144,12 +155,12 @@ class Synapses(object):
         # from equation (18)
         self.weights += beta * delta * self.tags
     
-    def update_tags(self):
+    def update_tags(self, alpha):
         pass
     
-    def update(self, beta, delta):
+    def update(self, alpha, beta, delta):
         self.update_weights(beta, delta)
-        self.update_tags()
+        self.update_tags(alpha)
     
     def reset(self):
         self.tags = np.zeros(self.tags.shape)
@@ -159,16 +170,15 @@ class InstantaneousRegularSynapses(Synapses):
     Synapses between instantaneous sensory neurons and regular association neurons (noted vR)
     """
     
-    def __init__(self, presynaptic_neurons, postsynaptic_neurons, weights_range, lambda_, gamma):
-        super(InstantaneousRegularSynapses, self).__init__(presynaptic_neurons, postsynaptic_neurons, weights_range, lambda_, gamma, add_bias=True)
+    def __init__(self, presynaptic_neurons, postsynaptic_neurons, weights_range):
+        super(InstantaneousRegularSynapses, self).__init__(presynaptic_neurons, postsynaptic_neurons, weights_range, add_bias=True)
     
     def get_synaptic_outputs(self):
         return np.dot(self.presynaptic_neurons.biased_rates, self.weights)
     
-    def update_tags(self):
+    def update_tags(self, alpha):
         # from equation (14)
-        self.tags += -self.alpha * self.tags
-        self.tags += self.postsynaptic_neurons.get_synaptic_feedbacks() * derivative_sigmoid(self.postsynaptic_neurons.rates) * self.presynaptic_neurons.biased_rates[:,np.newaxis]
+        self.tags += -alpha * self.tags + self.postsynaptic_neurons.get_synaptic_feedbacks() * derivative_sigmoid(self.postsynaptic_neurons.rates) * self.presynaptic_neurons.biased_rates[:,np.newaxis]
         # the numpy syntax "[:,np.newaxis]" creates a column view of a row vector
         # element-wise operations between a vector and a matrix are repeated on all rows or columns
 
@@ -177,16 +187,15 @@ class TransientMemorySynapses(Synapses):
     Synapses between transient sensory neurons and memory association neurons (noted vM)
     """
     
-    def __init__(self, presynaptic_neurons, postsynaptic_neurons, weights_range, lambda_, gamma):
-        super(TransientMemorySynapses, self).__init__(presynaptic_neurons, postsynaptic_neurons, weights_range, lambda_, gamma)
+    def __init__(self, presynaptic_neurons, postsynaptic_neurons, weights_range):
+        super(TransientMemorySynapses, self).__init__(presynaptic_neurons, postsynaptic_neurons, weights_range)
         self.traces = np.zeros((len(presynaptic_neurons.rates), len(postsynaptic_neurons.rates)))
     
-    def update_tags(self):
+    def update_tags(self, alpha):
         # from equation (15)
         self.traces += self.presynaptic_neurons.rates[:,np.newaxis]
         # from equation (16)
-        self.tags += -self.alpha * self.tags
-        self.tags += self.postsynaptic_neurons.get_synaptic_feedbacks() * derivative_sigmoid(self.postsynaptic_neurons.rates) * self.traces
+        self.tags += -alpha * self.tags + self.postsynaptic_neurons.get_synaptic_feedbacks() * derivative_sigmoid(self.postsynaptic_neurons.rates) * self.traces
         
     def reset(self):
         super(TransientMemorySynapses, self).reset()
@@ -197,14 +206,13 @@ class RegularQValueSynapses(Synapses):
     Synapses between regular association neurons and Q-Value neurons (noted wR)
     """
     
-    def __init__(self, presynaptic_neurons, postsynaptic_neurons, weights_range, lambda_, gamma):
-        super(RegularQValueSynapses, self).__init__(presynaptic_neurons, postsynaptic_neurons, weights_range, lambda_, gamma, add_bias=True)
+    def __init__(self, presynaptic_neurons, postsynaptic_neurons, weights_range):
+        super(RegularQValueSynapses, self).__init__(presynaptic_neurons, postsynaptic_neurons, weights_range, add_bias=True)
         presynaptic_neurons.preceding_feedback_connections.append(self)
     
-    def update_tags(self):
+    def update_tags(self, alpha):
         # from equation (13)
-        self.tags += -self.alpha * self.tags
-        self.tags += self.presynaptic_neurons.biased_rates[:,np.newaxis] * self.postsynaptic_neurons.z
+        self.tags += -alpha * self.tags + self.presynaptic_neurons.biased_rates[:,np.newaxis] * self.postsynaptic_neurons.z
     
     def get_synaptic_outputs(self):
         return np.dot(self.presynaptic_neurons.biased_rates, self.weights)
@@ -217,13 +225,13 @@ class MemoryQValueSynapses(Synapses):
     Synapses between memory associationn neurons and Q-Value neurons (noted wM)
     """
     
-    def __init__(self, presynaptic_neurons, postsynaptic_neurons, weights_range, lambda_, gamma):
-        super(MemoryQValueSynapses, self).__init__(presynaptic_neurons, postsynaptic_neurons, weights_range, lambda_, gamma)
+    def __init__(self, presynaptic_neurons, postsynaptic_neurons, weights_range):
+        super(MemoryQValueSynapses, self).__init__(presynaptic_neurons, postsynaptic_neurons, weights_range)
         self.presynaptic_neurons.preceding_feedback_connections.append(self)
     
-    def update_tags(self):
+    def update_tags(self, alpha):
         # from equation (13)
-        self.tags += -self.alpha * self.tags
+        self.tags += -alpha * self.tags
         self.tags += self.presynaptic_neurons.rates[:,np.newaxis] * self.postsynaptic_neurons.z
     
     def get_synaptic_feedbacks(self):
@@ -239,12 +247,12 @@ class Network(object):
                  n_qvalue_units,
                  n_regular_units = 3,
                  n_memory_units  = 4,
+                 weights_range   = (-0.25, 0.25),
                  beta            = 0.15,
-                 lambda_         = 0.2,
                  gamma           = 0.9,
                  epsilon         = 0.025,
                  theta           = 2.5,
-                 weights_range   = (-0.25, 0.25)):
+                 lambda_         = 0.2):
         """
         Constructor
         
@@ -252,46 +260,34 @@ class Network(object):
         n_regular_units -- number of association regular neurons
         n_memory_units  -- number of association memory neurons
         n_qvalue_units  -- number of Q-Value output neurons
+        weights_range   -- initial synapses' weights range
         beta            -- learning rate
-        lambda_         -- tag decay rate
         gamma           -- discount factor
         epsilon         -- exploration rate
         theta           -- sigmoid function parameter
-        weights_range   -- initial synapses' weights range
+        lambda_         -- tag decay rate
         """
+        self.alpha = 1. - lambda_ * gamma
         self.beta = beta
-        self.epsilon = epsilon
         self.gamma = gamma
         self.delta = 0.
+        self.epsilon = epsilon
+        self.theta = theta
+        self.lambda_ = lambda_
         
         self.predicted_value = 0.
         self.previous_predicted_value = 0.
         
         self.instantaneous_units = InstantaneousPopulation(n_sensory_units)
         self.transient_units = TransientPopulation(n_sensory_units * 2)
-        self.regular_units = RegularPopulation(n_regular_units, theta)
-        self.memory_units = MemoryPopulation(n_memory_units, theta)
+        self.regular_units = RegularPopulation(n_regular_units)
+        self.memory_units = MemoryPopulation(n_memory_units)
         self.qvalue_units = QValuePopulation(n_qvalue_units)
         
-        self.instantaneous_regular_synapses = InstantaneousRegularSynapses(self.instantaneous_units, self.regular_units, weights_range, lambda_, gamma)
-        self.transient_memory_synapses = TransientMemorySynapses(self.transient_units, self.memory_units, weights_range, lambda_, gamma)
-        self.regular_qvalue_synapses = RegularQValueSynapses(self.regular_units, self.qvalue_units, weights_range, lambda_, gamma)
-        self.memory_qvalue_synapses = MemoryQValueSynapses(self.memory_units, self.qvalue_units, weights_range, lambda_, gamma)
-    
-    def feedforward(self, input):
-        self.instantaneous_units.compute_rates(input)
-        self.transient_units.compute_rates(input)
-        self.regular_units.compute_rates()
-        self.memory_units.compute_rates()
-        self.qvalue_units.compute_rates()
-        self.select_action()
-    
-    def feedback(self, reward, end):
-        self.update_delta(reward, end)
-        self.memory_qvalue_synapses.update(self.beta, self.delta)
-        self.regular_qvalue_synapses.update(self.beta, self.delta)
-        self.instantaneous_regular_synapses.update(self.beta, self.delta)
-        self.transient_memory_synapses.update(self.beta, self.delta)
+        self.instantaneous_regular_synapses = InstantaneousRegularSynapses(self.instantaneous_units, self.regular_units, weights_range)
+        self.transient_memory_synapses = TransientMemorySynapses(self.transient_units, self.memory_units, weights_range)
+        self.regular_qvalue_synapses = RegularQValueSynapses(self.regular_units, self.qvalue_units, weights_range)
+        self.memory_qvalue_synapses = MemoryQValueSynapses(self.memory_units, self.qvalue_units, weights_range)
     
     def update_delta(self, reward, end):
         if end:
@@ -300,12 +296,11 @@ class Network(object):
         self.delta = reward + self.gamma * self.predicted_value - self.previous_predicted_value
     
     def select_action(self):
-        if random.random() < self.epsilon:
-            selected = Network.random_from_boltzmann_distribution(self.qvalue_units.rates)
+        if np.random.random() < self.epsilon:
+            selected = random_from_boltzmann_distribution(self.qvalue_units.rates)
         else:
-            max_value = self.qvalue_units.rates.max()
-            selected = np.where(self.qvalue_units.rates == max_value)[0]
-            if len(selected) != 1:
+            selected = np.where(self.qvalue_units.rates == self.qvalue_units.rates.max())[0]
+            if len(selected) > 1:
                 selected = np.random.choice(selected)
         
         self.previous_predicted_value = self.predicted_value
@@ -313,23 +308,20 @@ class Network(object):
         self.qvalue_units.z = np.zeros(self.qvalue_units.z.shape)
         self.qvalue_units.z[selected] = 1.
     
-    @staticmethod
-    def random_from_boltzmann_distribution(a):
-        # from equation (12)
-        max_value = a.max()
-        # for numerical stability
-        exp_values = np.exp(a - max_value)
-        exp_sum = np.sum(exp_values)
-        
-        i = 0
-        tmp = exp_values[0]
-        rand = random.random()
-        
-        while tmp / exp_sum < rand:
-            i += 1
-            tmp += exp_values[i]
-        
-        return i
+    def feedforward(self, input):
+        self.instantaneous_units.compute_rates(input)
+        self.transient_units.compute_rates(input)
+        self.regular_units.compute_rates(self.theta)
+        self.memory_units.compute_rates(self.theta)
+        self.qvalue_units.compute_rates()
+        self.select_action()
+    
+    def feedback(self, reward, end):
+        self.update_delta(reward, end)
+        self.memory_qvalue_synapses.update(self.alpha, self.beta, self.delta)
+        self.regular_qvalue_synapses.update(self.alpha, self.beta, self.delta)
+        self.instantaneous_regular_synapses.update(self.alpha, self.beta, self.delta)
+        self.transient_memory_synapses.update(self.alpha, self.beta, self.delta)
     
     def step(self, input, reward, end):
         """
@@ -364,7 +356,6 @@ class Task(object):
     
     def __init__(self):
         self.states = {"end": None}
-        self.verbose = False
     
     def reset(self):
         self.t = 0
@@ -481,31 +472,45 @@ class SaccadeTask(FixationTask):
     Saccade/Antisaccade task as described in paper
     """
     
-    description = "saccade/antisaccade task"
+    description = "saccade/anti-saccade task"
     input_size = 4
     
     def __init__(self):
         super(SaccadeTask, self).__init__()
-        # to make the task pro-saccades only : self.fixations = ("pro",)
+        
+        # to make the task pro-saccades only: self.fixations = ("pro",)
         self.fixations = ("pro", "anti")
         self.cues = ("left", "right")
     
     def reset(self):
         super(SaccadeTask, self).reset()
         
-        self.fixation = random.choice(self.fixations)
-        self.cue = random.choice(self.cues)
+        self.fixation = np.random.choice(self.fixations)
+        self.cue = np.random.choice(self.cues)
         
-        self.rewarded_target = self.cue if self.fixation == "pro" else next(cue for cue in ("left", "right") if cue != self.cue)
-        self.expected_target = self.rewarded_target
+        if self.fixation == "pro":
+            self.expected_target = self.cue
+        elif self.fixation == "anti":
+            self.expected_target = "right" if self.cue == "left" else "left"
+        self.rewarded_target = self.expected_target
     
     def get_new_input(self):
+        input = [0, 0, 0, 0]
+        
         if self.state in ("init", "go", "end"):
-            return [0, 0, 0, 0]
-        elif self.state in ("wait", "fixate", "delay"):
-            return [1 if action in (self.fixation) else 0 for action in ("left", "pro", "anti", "right")]
-        elif self.state == "cue":
-            return [1 if action in (self.fixation, self.cue) else 0 for action in ("left", "pro", "anti", "right")]
+            return input
+        if self.state in ("wait", "fixate", "cue", "delay"):
+            if self.fixation == "pro":
+                input[1] = 1
+            elif self.fixation == "anti":
+                input[2] = 1
+        if self.state == "cue":
+            if self.cue == "left":
+                input[0] = 1
+            elif self.cue == "right":
+                input[3] = 1
+        
+        return input
     
     def evaluate(self, network):
         """
@@ -554,7 +559,7 @@ class SaccadeTask(FixationTask):
             success_rates[type] = 0.
         i = 0
         
-        while (i < n_max_trials) and any(success_rates[key] < success_goal for key in success_rates.keys()):
+        while any(success_rates[type] < success_goal for type in success_rates.keys()):
             success = self.run(network)
             type = self.fixation + self.cue
             
@@ -563,12 +568,14 @@ class SaccadeTask(FixationTask):
             success_rates[type] = float(sum(samples[type])) / sample_size
             
             i += 1
+            if i > n_max_trials:
+                return None
         
         return i if self.evaluate(network) else None
 
 class SaccadeNoShapingTask(SaccadeTask):
 
-    description = "saccade/antisaccade task without shaping strategy"
+    description = "saccade/anti-saccade task without shaping strategy"
     
     def __init__(self):
         super(SaccadeNoShapingTask, self).__init__()
@@ -581,40 +588,34 @@ class ProbabilisticTask(FixationTask):
     
     description = "probabilistic decision making task"
     input_size = 45
-    infinity = 999.
-    max_weight = 0.9 * 4
-    shape_weights = [infinity, -infinity, 0.3, -0.3, 0.9, -0.9, 0.7, -0.7, 0.5, -0.5]
-    difficulties = {1: {"n_symbols": 2, "seq_length": 1, "sample_size": 1000},
-                    2: {"n_symbols": 4, "seq_length": 1, "sample_size": 1500},
-                    3: {"n_symbols": 6, "seq_length": 1, "sample_size": 2000},
-                    4: {"n_symbols": 8, "seq_length": 1, "sample_size": 2500},
-                    5: {"n_symbols": 10, "seq_length": 1, "sample_size": 3000},
-                    6: {"n_symbols": 10, "seq_length": 2, "sample_size": 10000},
-                    7: {"n_symbols": 10, "seq_length": 3, "sample_size": 10000},
-                    8: {"n_symbols": 10, "seq_length": 4, "sample_size": 20000}}
+    shape_weights = (99., 0.9, 0.7, 0.5, 0.3, -0.3, -0.5, -0.7, -0.9, -99.)
     
     def __init__(self):
         super(ProbabilisticTask, self).__init__()
-        self.difficulty = 1
+        self.input_symbols = (0, 9)
+        self.sequence_length = 1
         self.targets_types = ("red_green", "green_red")
     
     def reset(self):
         super(ProbabilisticTask, self).reset()
         
-        self.targets_type = random.choice(self.targets_types)
-        self.shapes = np.random.randint(self.difficulties[self.difficulty]["n_symbols"], size=self.difficulties[self.difficulty]["seq_length"])
-        self.locations = random.sample(range(4), len(self.shapes))
-        self.max_t_cue = len(self.shapes)
+        self.targets_type = np.random.choice(self.targets_types)
+        self.shapes = np.random.choice(self.input_symbols, self.sequence_length)
+        self.locations = np.random.choice(range(4), self.sequence_length, replace=False)
+        self.max_t_cue = self.sequence_length
         
         probability = self.probability()
-        if probability == 0.5:
+        if probability > 0.5:
+            self.expected_target = "left" if self.targets_type == "red_green" else "right"
+        elif probability < 0.5:
+            self.expected_target = "right" if self.targets_type == "red_green" else "left"
+        elif probability == 0.5:
             self.expected_target = ("left", "right")
+        
         if self.targets_type == "red_green":
-            self.expected_target = "left" if probability > 0.5 else "right"
-            self.rewarded_target = "left" if random.random() < probability else "right"
+            self.rewarded_target = "left" if np.random.random() < probability else "right"
         elif self.targets_type == "green_red":
-            self.expected_target = "right" if probability > 0.5 else "left"
-            self.rewarded_target = "right" if random.random() < probability else "left"
+            self.rewarded_target = "right" if np.random.random() < probability else "left"
     
     def get_new_input(self):
         input = [0] * self.input_size
@@ -640,9 +641,12 @@ class ProbabilisticTask(FixationTask):
         Return the probability of rewarding the red target
         """
         weights_sum = sum([self.shape_weights[shape] for shape in self.shapes])
-        if weights_sum < -self.max_weight:
+        weight_limit = 5 # above 5 is infinity
+        if weights_sum < -weight_limit:
             return 0.
-        elif weights_sum > self.max_weight:
+        elif weights_sum == 0.:
+            return 0.5
+        elif weights_sum > weight_limit:
             return 1.
         power = np.power(10., weights_sum)
         return power / (1. + power)
@@ -656,15 +660,24 @@ class ProbabilisticTask(FixationTask):
         """
         n_max_trials = 500000
         success_goal = 0.85
+        difficulties = {1: {"input_symbols": (0, 9), "sequence_length": 1, "sample_size": 1000},
+                        2: {"input_symbols": (0, 4, 5, 9), "sequence_length": 1, "sample_size": 1500},
+                        3: {"input_symbols": (0, 3, 4, 5, 6, 9), "sequence_length": 1, "sample_size": 2000},
+                        4: {"input_symbols": (0, 2, 3, 4, 5, 6, 7, 9), "sequence_length": 1, "sample_size": 2500},
+                        5: {"input_symbols": (0, 1, 2, 3, 4, 5, 6, 7, 8, 9), "sequence_length": 1, "sample_size": 3000},
+                        6: {"input_symbols": (0, 1, 2, 3, 4, 5, 6, 7, 8, 9), "sequence_length": 2, "sample_size": 10000},
+                        7: {"input_symbols": (0, 1, 2, 3, 4, 5, 6, 7, 8, 9), "sequence_length": 3, "sample_size": 10000},
+                        8: {"input_symbols": (0, 1, 2, 3, 4, 5, 6, 7, 8, 9), "sequence_length": 4, "sample_size": 20000}}
         i = 0
         
-        for key in self.difficulties.keys():
-            self.difficulty = key
-            sample_size = self.difficulties[key]["sample_size"]
+        for difficulty in range(1, 9):
+            self.input_symbols = difficulties[difficulty]["input_symbols"]
+            self.sequence_length = difficulties[difficulty]["sequence_length"]
+            sample_size = difficulties[difficulty]["sample_size"]
             samples = deque([0] * sample_size)
             success_rate = 0.
             
-            while (i < n_max_trials) and (success_rate < success_goal):
+            while success_rate < success_goal:
                 success = self.run(network)
                 
                 samples.popleft()
@@ -672,5 +685,8 @@ class ProbabilisticTask(FixationTask):
                 success_rate = float(sum(samples)) / sample_size
                 
                 i += 1
+                
+                if i > n_max_trials:
+                    return None
         
-        return i if i < n_max_trials else None
+        return i

@@ -1,64 +1,77 @@
 import augment
+import argparse
 import matplotlib.pyplot as plt
-from itertools import product
 
-class ObservableNetwork(augment.Network):
-    def __init__(self, n_sensory_units, n_qvalue_units):
-        super(ObservableNetwork, self).__init__(n_sensory_units, n_qvalue_units)
-        self.recording = False
-        self.record = {"left": [], "fixate": [], "right": []}
+def plot_activity(task_class, trial_types, setup_function, titles, colors):
+    task = task_class()
+    network = augment.Network(task.input_size, task.output_size)
     
-    def select_action(self):
-        if self.recording:
-            self.record["left"].append(self.qvalue_units.rates[0])
-            self.record["fixate"].append(self.qvalue_units.rates[1])
-            self.record["right"].append(self.qvalue_units.rates[2])
-        super(ObservableNetwork, self).select_action()
-
-if __name__ == "__main__":
-    task = augment.SaccadeTask()
-    network = ObservableNetwork(task.input_size, task.output_size)
-    
-    print("Training network...")
+    print("Training network for", task.description)
     
     convergence = None
     while convergence is None:
         convergence = task.train(network)
     
-    print("Done.")
-    
-    print("Plotting activity...")
-    
     network.beta = 0.
     network.epsilon = 0.
-    network.recording = True
+    step = network.step
+    def decorated_step(input, reward, end):
+        output = step(input, reward, end)
+        record["left"].append(network.qvalue_units.rates[0])
+        record["fixate"].append(network.qvalue_units.rates[1])
+        record["right"].append(network.qvalue_units.rates[2])
+        record["state"].append(task.state)
+        return output
+    network.step = decorated_step
     
-    fig, axes = plt.subplots(nrows=4, sharex=True, sharey=True)
-    indices = {"proleft": 0,
-               "proright": 1,
-               "antileft": 2,
-               "antiright": 3}
-    titles = {"proleft": "Pro-Saccade/Left Cue",
-              "proright": "Pro-Saccade/Right Cue",
-              "antileft": "Anti-Saccade/Left Cue",
-              "antiright": "Anti-Saccade/Right Cue"}
+    print("Plotting activity")
     
-    for fixation, cue in product(task.fixations, task.cues):
-        task.fixations = (fixation,)
-        task.cues = (cue,)
-        # ugly
-        network.record = {"left": [], "fixate": [], "right": []}
+    figure, axes = plt.subplots(nrows=len(trial_types), sharex=False, sharey=True)
+    
+    for i, trial_type in enumerate(trial_types):
+        record = {"left": [],
+                  "fixate": [],
+                  "right": [],
+                  "state": []}
+        setup_function(task, trial_type)
         task.run(network)
-        type = fixation + cue
-        axes[indices[type]].set_title(titles[type], size=12)
-        axes[indices[type]].plot(network.record["fixate"], "b")
-        axes[indices[type]].plot(network.record["left"], "g")
-        axes[indices[type]].plot(network.record["right"], "r")
+        axes[i].set_title(titles[i], size=12)
+        axes[i].plot(record["fixate"], colors[0])
+        axes[i].plot(record["left"], colors[1])
+        axes[i].plot(record["right"], colors[2])
+        axes[i].set_xticks(range(len(record["state"])))
+        axes[i].set_xticklabels(record["state"])
     
-    fig.suptitle("Q-value Units Activation Traces", size=12)
-    fig.legend(axes[0].get_lines(), ("fixate", "left", "right"), loc="lower center", ncol=3, bbox_to_anchor=(0.5, -0.01))
-    # plt.xticks(range(len(task.record["state"])), task.record["state"])
+    figure.legend(axes[0].get_lines(), ("fixate", "left", "right"), loc="lower center", ncol=3, prop={"size": 12})
+    figure.subplots_adjust(bottom=0.12, top=0.95, hspace=0.55)
     
-    print("Displaying graphs (Close the window to end the program).")
+    print("Displaying graph")
     
     plt.show()
+
+def setup_saccade(task, trial_type):
+    task.fixations = (trial_type[0],)
+    task.cues = (trial_type[1],)
+
+def setup_probabilistic(task, trial_type):
+    task.targets_types = (trial_type,)
+    task.input_symbols = (8,)
+    task.sequence_length = 4
+
+if __name__ == "__main__":
+    tasks = {"saccade": {"task_class": augment.SaccadeTask,
+                         "trial_types": (("pro", "left"), ("pro", "right"), ("anti", "left"), ("anti", "right")),
+                         "setup_function": setup_saccade,
+                         "titles": ("Pro-Saccade/Left Cue", "Pro-Saccade/Right Cue", "Anti-Saccade/Left Cue", "Anti-Saccade/Right Cue"),
+                         "colors": ("b", "g", "r")},
+            "probabilistic": {"task_class": augment.ProbabilisticTask,
+                              "trial_types": ("green_red", "red_green"),
+                              "setup_function": setup_probabilistic,
+                              "titles": ("Green/Red", "Red/Green"),
+                              "colors": ("b", "m", "y")}}
+    
+    parser = argparse.ArgumentParser(description="Plot Q-value units' activation of a trained network")
+    parser.add_argument("-t", "--task", default="saccade", type=str, choices=tasks.keys(), required=False, help="task to run")
+    args = parser.parse_args()
+    
+    plot_activity(**tasks[args.task])

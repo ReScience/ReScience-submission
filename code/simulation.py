@@ -19,7 +19,7 @@ def process(task_class):
 if __name__ == "__main__":
     tasks = {"saccade": augment.SaccadeTask, "saccadenoshaping": augment.SaccadeNoShapingTask, "probabilistic": augment.ProbabilisticTask}
     
-    parser = argparse.ArgumentParser(description="Train AuGMEnT networks and print median convergence time")
+    parser = argparse.ArgumentParser(description="Train AuGMEnT networks and print some statistics")
     parser.add_argument("-n", "--networks", default=10, type=unsigned_int, required=False, help="number of networks to train")
     parser.add_argument("-t", "--task", default="saccade", type=str, choices=tasks.keys(), required=False, help="task to run")
     parser.add_argument("-p", "--processors", default=multiprocessing.cpu_count(), type=unsigned_int, required=False, help="number of processors to use")

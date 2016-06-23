@@ -641,12 +641,10 @@ class ProbabilisticTask(FixationTask):
         Return the probability of rewarding the red target
         """
         weights_sum = sum([self.shape_weights[shape] for shape in self.shapes])
-        weight_limit = 5 # above 5 is infinity
-        if weights_sum < -weight_limit:
+        infinity_limit = 5
+        if weights_sum < -infinity_limit:
             return 0.
-        elif weights_sum == 0.:
-            return 0.5
-        elif weights_sum > weight_limit:
+        elif weights_sum > infinity_limit:
             return 1.
         power = np.power(10., weights_sum)
         return power / (1. + power)

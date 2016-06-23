@@ -2,14 +2,14 @@ import augment
 import argparse
 import matplotlib.pyplot as plt
 
-def plot_activity(task_class, trial_types, setup_function, titles, colors):
+def plot_activity(task_class, trial_types, setup_function, titles, colors, yrange):
     task = task_class()
-    network = augment.Network(task.input_size, task.output_size)
     
     print("Training network for", task.description)
     
     convergence = None
     while convergence is None:
+        network = augment.Network(task.input_size, task.output_size)
         convergence = task.train(network)
     
     network.beta = 0.
@@ -26,21 +26,27 @@ def plot_activity(task_class, trial_types, setup_function, titles, colors):
     
     print("Plotting activity")
     
-    figure, axes = plt.subplots(nrows=len(trial_types), sharex=False, sharey=True)
+    figure, axes = plt.subplots(nrows=len(trial_types), sharex=False, sharey=True, figsize=(6, 6))
     
     for i, trial_type in enumerate(trial_types):
-        record = {"left": [],
-                  "fixate": [],
-                  "right": [],
-                  "state": []}
+        record = {"left": [network.qvalue_units.rates[0]],
+                  "fixate": [network.qvalue_units.rates[1]],
+                  "right": [network.qvalue_units.rates[2]],
+                  "state": [""]}
         setup_function(task, trial_type)
         task.run(network)
         axes[i].set_title(titles[i], size=12)
+        axes[i].spines["top"].set_visible(False)
+        axes[i].spines["right"].set_visible(False)
+        axes[i].yaxis.set_ticks_position("left")
+        axes[i].xaxis.set_ticks_position("bottom")
         axes[i].plot(record["fixate"], colors[0])
         axes[i].plot(record["left"], colors[1])
         axes[i].plot(record["right"], colors[2])
         axes[i].set_xticks(range(len(record["state"])))
+        axes[i].set_xlim(0, len(record["state"]) - 1)
         axes[i].set_xticklabels(record["state"])
+        axes[i].set_ylim(*yrange)
     
     figure.legend(axes[0].get_lines(), ("fixate", "left", "right"), loc="lower center", ncol=3, prop={"size": 12})
     figure.subplots_adjust(bottom=0.12, top=0.95, hspace=0.55)
@@ -63,12 +69,14 @@ if __name__ == "__main__":
                          "trial_types": (("pro", "left"), ("pro", "right"), ("anti", "left"), ("anti", "right")),
                          "setup_function": setup_saccade,
                          "titles": ("Pro-Saccade/Left Cue", "Pro-Saccade/Right Cue", "Anti-Saccade/Left Cue", "Anti-Saccade/Right Cue"),
-                         "colors": ("b", "g", "r")},
+                         "colors": ("b", "g", "r"),
+                         "yrange": (0, 2)},
             "probabilistic": {"task_class": augment.ProbabilisticTask,
                               "trial_types": ("green_red", "red_green"),
                               "setup_function": setup_probabilistic,
                               "titles": ("Green/Red", "Red/Green"),
-                              "colors": ("b", "m", "y")}}
+                              "colors": ("b", "m", "y"),
+                              "yrange": (-2, 2)}}
     
     parser = argparse.ArgumentParser(description="Plot Q-value units' activation of a trained network")
     parser.add_argument("-t", "--task", default="saccade", type=str, choices=tasks.keys(), required=False, help="task to run")

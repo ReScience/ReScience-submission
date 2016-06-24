@@ -57,7 +57,7 @@ and matplotlib for the generation of graphics.
 The initial intention was to implement the model using an artificial neural network
 simulator. The simulation tool ANNarchy [@vitay:2015] was considered for its ability to simulate rate-coded
 networks. Unfortunately, there were several incompatibilities with AuGMEnT. The fixed order of evaluation between entities,
-i.e. connexions then populations, and the unspecified order of evaluation between different populations make it difficult to implement
+i.e. connections then populations, and the unspecified order of evaluation between different populations make it difficult to implement
 cascading evaluations. The use of ANNarchy was abandoned and it was instead decided to write a custom script to simulate the network.
 
 The paper's description of the model details all the update functions and is relatively straight forward to

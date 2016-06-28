@@ -9,7 +9,7 @@ easily install with:
 
 ```
 $ cabal update
-$ cabal install pandoc-crossref
+$ cabal install pandoc-crossref-0.1.5.6
 ```
 
 ### How to build the PDF ?
@@ -24,3 +24,6 @@ xelatex your_article_name
 xelatex your_article_name
 ```
 
+or simply:
+
+./run.sh

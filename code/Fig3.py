@@ -1,11 +1,20 @@
+# Script allowing to reproduce Fig. 3 of:
+#
+#   Laje, R. and Buonomano, D.V. (2013). Robust timing and motor patterns by taming chaos in recurrent neural networks. Nat Neurosci.
+#
+# Author: Julien Vitay (julien.vitay@informatik.tu-chemnitz.de)
+# Licence: MIT
 from __future__ import print_function
 import numpy as np
 import scipy.stats
 import time
 
+# Import the definition of the network
 from RecurrentNetwork import RecurrentNetwork
 
+###############
 # Parameters
+###############
 nb_learning_trials_rec = 20 # Number of learning trials for the recurrent weights
 nb_learning_trials_readout = 10 # Number of learning trials for the readout weights
 nb_networks = 10 # Number of different networks
@@ -19,12 +28,17 @@ target_baseline = 0.2 # Baseline of the target function
 target_amplitude = 1. # Maximal value of the target function
 target_width = 30. # Width of the Gaussian
 
+###################
+# Main procedure
+###################
+
 # Vary the timing interval
 delays = [250, 500, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000]
 
-# Store the correlations
+# Store the Pearson correlation coefficients
 pearsons = []
 
+# Iterate over the delays
 for target_time in delays:
     print('*'*60)
     print('Learning a delay of', target_time)
@@ -33,11 +47,12 @@ for target_time in delays:
     trial_duration = t_offset + d_stim + d_trajectory + t_relax # Total duration of a trial
     pearsons.append([])
 
-    for n in range(nb_networks): # 10 networks
+    for n in range(nb_networks): # 10 networks per delay
         print('*'*60)
         print('Network', n+1)
         print('*'*60)
-        # Create the network
+
+        # Create a new network (note: networks are reused in the original article)
         net= RecurrentNetwork(
             Ni = 2, # Number of inputs
             N = 800, # Number of recurrent neurons
@@ -50,7 +65,7 @@ for target_time in delays:
             P_plastic = 0.6, # Percentage of neurons receiving plastic synapses
         )
 
-        # Impulse after 200 ms
+        # Impulse input after 200 ms
         impulse = np.zeros((net.Ni, 1, trial_duration))
         impulse[0, 0, t_offset:t_offset+d_stim] = stimulus_amplitude
 
@@ -87,7 +102,7 @@ for target_time in delays:
         pearsons[-1].append(r)
 
 # Save the results
-np.savez('timingcapacity.npz', r=np.array(pearsons))
+np.savez('../data/timingcapacity.npz', r=np.array(pearsons))
 
 ##################
 # Visualization

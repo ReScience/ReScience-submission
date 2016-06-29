@@ -1,7 +1,14 @@
+# Script allowing to reproduce Fig. 1 of:
+#
+#   Laje, R. and Buonomano, D.V. (2013). Robust timing and motor patterns by taming chaos in recurrent neural networks. Nat Neurosci.
+#
+# Author: Julien Vitay (julien.vitay@informatik.tu-chemnitz.de)
+# Licence: MIT
 from __future__ import print_function
 import numpy as np
 import time
 
+# Import the definition of the network
 from RecurrentNetwork import RecurrentNetwork
 
 ###############
@@ -14,7 +21,7 @@ nb_perturbation_trials = 5 # Number of perturbation trials
 stimulus_amplitude = 5.0 # Amplitude of the input pulse
 t_offset = 200 # Time to wait before the stimulation
 d_stim= 50 # Duration of the stimulation
-d_trajectory = 2150 # Duration of the desired trajectory
+d_trajectory = 2000 + 150 # Duration of the desired trajectory
 t_relax = 550 # Duration to relax after the trajectory
 trial_duration = t_offset + d_stim + d_trajectory + t_relax # Total duration of a trial
 

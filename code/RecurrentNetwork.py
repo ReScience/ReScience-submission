@@ -1,23 +1,30 @@
+# Main network class as presented in:
+#
+#   Laje, R. and Buonomano, D.V. (2013). Robust timing and motor patterns by taming chaos in recurrent neural networks. Nat Neurosci.
+#
+# Author: Julien Vitay (julien.vitay@informatik.tu-chemnitz.de)
+# Licence: MIT
 from __future__ import print_function
 import numpy as np
 
 class RecurrentNetwork(object):
     """
-    Class implementing a recurrent network.
+    Class implementing a recurrent network with read-out weights and RLS learning rules.
+
+    **Parameters:**
+
+    * Ni : Number of input neurons
+    * N : Number of recurrent neurons
+    * No : Number of read-out neurons
+    * tau : Time constant of the neurons
+    * g : Synaptic strength scaling
+    * pc : Connection probability
+    * Io : Noise variance
+    * delta : Initial value of the P matrix
+    * P_plastic : Percentage of neurons receiving plastic synapses
     """
-    def __init__(
-        self, 
-        Ni = 2, # Number of inputs
-        N = 800, # Number of recurrent neurons
-        No = 1, # Number of read-out neurons
-        tau = 10.0, # Time constant of the neurons
-        g = 1.5, # Synaptic strength scaling
-        pc = 0.1, # Connection probability
-        Io = 0.001, # Noise variance
-        delta = 1.0, # Initial value of the P matrix
-        P_plastic = 0.6, # Percentage of neurons receiving plastic synapses
-    ):
-        # Copy parameters
+    def __init__(self, Ni=2, N=800, No=1, tau=10.0, g=1.5, pc=0.1, Io=0.001, delta=1.0, P_plastic=0.6):
+        # Copy the parameters
         self.Ni = Ni
         self.N = N
         self.No = No
@@ -36,7 +43,6 @@ class RecurrentNetwork(object):
         """
         Initializes the network including the weight matrices.
         """
-
         # Input
         self.I = np.zeros((self.Ni, 1))
 
@@ -53,20 +59,13 @@ class RecurrentNetwork(object):
         # Weights between the recurrent units
         self.W_rec = np.random.randn(self.N, self.N) * self.g/np.sqrt(self.pc*self.N)
 
-        # # Avoid self-connections
-        # self.W_rec -= np.diag(self.W_rec) 
-
         # The connection pattern is sparse with p=0.1
-        # connectivity = np.random.binomial(1, self.pc, (self.N, self.N))
-        connectivity = np.zeros((self.N, self.N))
-        for i in range(self.N):
-            for j in range(self.N):
-                if np.random.random() < self.pc and i != j:
-                    connectivity[i,j] = 1.0
-        self.W_rec *= connectivity
+        connectivity_mask = np.random.binomial(1, self.pc, (self.N, self.N))
+        connectivity_mask[np.diag_indices(self.N)] = 0
+        self.W_rec *= connectivity_mask
 
         # Store the pre-synaptic neurons to each plastic neuron
-        self.W_plastic = [list(np.nonzero(connectivity[i, :])[0]) for i in range(self.N_plastic)]
+        self.W_plastic = [list(np.nonzero(connectivity_mask[i, :])[0]) for i in range(self.N_plastic)]
 
         # Inverse correlation matrix of inputs for learning recurrent weights
         self.P = [1./self.delta*np.identity(len(self.W_plastic[i])) for i in range(self.N_plastic)]
@@ -114,7 +113,7 @@ class RecurrentNetwork(object):
             record_z.append(self.z)
 
             # Learning
-            if trajectory.size > 0 and t>=learn_start and t<learn_stop and t%2==0: 
+            if trajectory.size > 0 and t>=learn_start and t<learn_stop and t%2==0:
                 if not learn_readout:
                     self.rls_recurrent(trajectory[t, :, :])
                 else:
@@ -127,7 +126,9 @@ class RecurrentNetwork(object):
         return np.array(record_r), np.array(record_z)
 
     def update_neurons(self, stimulus, noise):
-        "Updates neural variables for a single step."
+        """
+        Updates neural variables for a single simulation step.
+        """
         # Inputs are set externally
         self.I = stimulus
         # Noise can be shut off
@@ -140,7 +141,9 @@ class RecurrentNetwork(object):
         self.z = np.dot(self.W_out, self.r)
 
     def rls_recurrent(self, target):
-        "Applies the RLS learning rule to the recurrent weights."
+        """
+        Applies the RLS learning rule to the recurrent weights.
+        """
         # Compute the error of the recurrent neurons
         error = self.r - target
         self.loss += np.mean(error**2)
@@ -158,7 +161,9 @@ class RecurrentNetwork(object):
             self.W_rec[i, self.W_plastic[i]] -= error[i, 0] * (PxR[:, 0]/RxPxR)
 
     def rls_readout(self, target):
-        "Applies the RLS learning rule to the readout weights."
+        """
+        Applies the RLS learning rule to the readout weights.
+        """
         # Compute the error of the output neurons
         error = self.z - target
         self.loss += np.mean(error**2)
@@ -174,7 +179,9 @@ class RecurrentNetwork(object):
             self.W_out[i, :] -= error[i, 0] * (PxR[:, 0]/RxPxR)
 
     def save(self, filename):
-        "Saves the network into a .npz file."
+        """
+        Saves the network into a .npz file.
+        """
         np.savez(
             filename,
             Ni = self.Ni,
@@ -199,7 +206,9 @@ class RecurrentNetwork(object):
         )
 
     def load(self, filename):
-        "Loads the network from a .npz file."
+        """
+        Loads the network from a .npz file.
+        """
         net = np.load(filename)
 
         self.Ni = int(net['Ni'])
@@ -211,7 +220,7 @@ class RecurrentNetwork(object):
         self.Io = float(net['Io'])
         self.delta = float(net['delta'])
         self.P_plastic = float(net['P_plastic'])
-        self.N_plastic = int(self.P_plastic*self.N) 
+        self.N_plastic = int(self.P_plastic*self.N)
         self.I = net['I']
         self.x = net['x']
         self.r = net['r']
@@ -222,7 +231,3 @@ class RecurrentNetwork(object):
         self.W_plastic = net['W_plastic']
         self.P = net['P']
         self.P_out = net['P_out']
-
-
-
-

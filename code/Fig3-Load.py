@@ -1,7 +1,14 @@
+# Script allowing to reproduce Fig. 3 of:
+#
+#   Laje, R. and Buonomano, D.V. (2013). Robust timing and motor patterns by taming chaos in recurrent neural networks. Nat Neurosci.
+#
+# Author: Julien Vitay (julien.vitay@informatik.tu-chemnitz.de)
+# Licence: MIT
 from __future__ import print_function
 import numpy as np
 import matplotlib.pyplot as plt
 
+# List of delays
 delays = [250, 500, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000]
 
 # Load the results from a previous run

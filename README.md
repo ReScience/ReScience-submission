@@ -36,4 +36,4 @@ unzip data.zip DAC_handwriting_output_targets.mat
 
 The model is implemented by a class `RecurrentNetwork` in the file `code/RecurrentNetwork.py`. The scripts `code/Fig1.py`, `code/Fig2.py` and `code/Fig3.py` allow to reproduce the corresponding figures of the manuscript.
 
-As the script for Figure 3 takes 3 days of computation on a standard computer, we provide the script `code/Fig3-Load.py` that only produces the figure, based on recoreded data stored in `data/timingcapacity.npz`.
+As the script for Figure 3 takes 3 days of computation on a standard computer, we provide the script `code/Fig3-Load.py` that only produces the figure, based on recorded data stored in `data/timingcapacity.npz`.

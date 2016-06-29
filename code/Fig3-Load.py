@@ -6,7 +6,6 @@
 # Licence: MIT
 from __future__ import print_function
 import numpy as np
-import matplotlib.pyplot as plt
 
 # List of delays
 delays = [250, 500, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000]
@@ -16,6 +15,7 @@ data = np.load('../data/timingcapacity.npz')
 pearsons = data['r']
 
 # Visualization
+import matplotlib.pyplot as plt
 correlation_mean = np.mean(pearsons**2, axis=1)
 correlation_std = np.std(pearsons**2, axis=1)
 plt.errorbar(np.array(delays)/1000., correlation_mean, correlation_std/np.sqrt(10), linestyle='-', marker='^')

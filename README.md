@@ -1,55 +1,39 @@
+## Robust timing and motor patterns by taming chaos in recurrent neural networks
 
-### ReScience submission repository
+**Author:** Julien Vitay <julien.vitay@informatik.tu-chemnitz.de>
 
-This is the submission repository for the [Re**Science** journal](https://rescience.github.io).
+*Professorship for Artificial Intelligence, Department of Computer Science, Chemnitz University of Technology, D-09107 Chemnitz, Germany.*
 
-### How to submit an article ?
+A reference implementation of:
 
+    Laje, R. and Buonomano, D.V. (2013). Robust timing and motor patterns by taming chaos in recurrent neural networks. Nat Neurosci. 2013 Jul;16(7):925-33. <doi:10.1038/nn.3405>
 
-1. Create a [github](https://github.com) account
+The original article and the associated data/code can be found online on Pubmed: <http://www.ncbi.nlm.nih.gov/pubmed/23708144>
 
-2. [Fork](https://help.github.com/articles/fork-a-repo/) the [ReScience submission](https://github.com/ReScience/ReScience-submission) repository
+### Dependencies
 
-3. Clone this new repository into your desktop environment
+The standard scientific Python stack is required:
 
-   ```
-   $ git clone https://github.com/YOUR-USERNAME/ReScience-submission
-   ```
+* Python 2.7 or >= 3.4
+* Numpy 1.10 (lower versions may work but not tested)
+* Scipy 0.17
+* Matplotlib 1.3
 
-4. Create a branch (the branch name should be author names separated with dashes)
+### Data
 
-   ```
-   $ git checkout -b AUTHOR1-AUTHOR2
-   ```
+The handwriting patterns for Fig. 2 are available on PMC (<http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3753043>), but the copyright holder is the Nature Publishing Group and no free license is provided, so it cannot be included in this repository. In order to reproduce Fig. 2, one has to download the provided data to obtain a `.mat` file.
 
+The data is located at <http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3753043/bin/NIHMS472497-supplement-3.zip>. This zip file should then be decompressed in the `data/` older, so that the file `DAC_handwriting_output_targets.mat` lies there.
 
-5. Add your code & article (see [author guidelines](https://rescience.github.io/write)) and commit your changes:
+In `data/` is provided a `get_handwriting.sh` script for Linux/Mac OS users that automatically performs these steps:
 
-   ```
-   $ git commit -a -m "Some comment"
-   ```
+```{.bash}
+wget http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3753043/bin/NIHMS472497-supplement-3.zip -O data.zip
+unzip data.zip DAC_handwriting_output_targets.mat
+```
 
+### Model
 
-6. [Push](https://help.github.com/articles/pushing-to-a-remote/) to github
+The model is implemented by a class `RecurrentNetwork` in the file `code/RecurrentNetwork.py`. The scripts `code/Fig1.py`, `code/Fig2.py` and `code/Fig3.py` allow to reproduce the corresponding figures of the manuscript.
 
-   ```
-   $ git push origin AUTHOR1-AUTHOR2
-   ```
-
-7. Issue a [pull request](https://help.github.com/articles/using-pull-requests/) (PR) to Re**Science** with title "Review Request" and insert the following text in the description:
-
-  ```
-  **AUTHOR**
-
-  Dear @ReScience/editors,
-
-  I request a review for the reproduction of the following paper:
-
-  * References of the paper holding results you're replicating
-
-  I believe the original results have been faithfully reproduced as explained in the accompanying article.
-  ```
-
-8. Assign the PR to an editor from the [editorial board](https://rescience.github.io/board).
-
-9. Answer questions and requests made in the PR conversation page.
+As the script for Figure 3 takes 3 days of computation on a standard computer, we provide the script `code/Fig3-Load.py` that only produces the figure, based on recoreded data stored in `data/timingcapacity.npz`.

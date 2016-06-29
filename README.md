@@ -6,7 +6,7 @@
 
 A reference implementation of:
 
-    Laje, R. and Buonomano, D.V. (2013). Robust timing and motor patterns by taming chaos in recurrent neural networks. Nat Neurosci. 2013 Jul;16(7):925-33. <doi:10.1038/nn.3405>
+Laje, R. and Buonomano, D.V. (2013). Robust timing and motor patterns by taming chaos in recurrent neural networks. Nat Neurosci. 2013 Jul;16(7):925-33. <doi:10.1038/nn.3405>
 
 The original article and the associated data/code can be found online on Pubmed: <http://www.ncbi.nlm.nih.gov/pubmed/23708144>
 

@@ -11,6 +11,6 @@ License: MIT
 $ python Fig1.py
 ```
 
-Before running `Fig2.py`, make you have downloaded the corresponding data by executing `data/get_handwriting.sh`.
+Before running `Fig2.py`, make sure you have downloaded the corresponding data by executing `data/get_handwriting.sh`.
 
 * `Fig3-Load.py` allows to plot Fig. 3, without actually running the simulation.

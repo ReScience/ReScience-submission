@@ -52,7 +52,7 @@ Just like with normal convolution layers, these residual blocks can be layered t
 
 <p style="text-align:center; font-size:75%; font-style: italic;">Basic structure of the CIFAR-10 Residual Network. An initial convolution layer is followed by residual blocks of two 3x3 convolutions which are parallel to identity mappings, the output of the identity and convolution stacks are added after each block. The depth is mostly altered by the multiplier n which defines how many residual blocks to use in each section.</p>
 
-In addition to the stacked 3x3 convolution architecture, "Deep Residual Learning for Image Recognition" also introduces a bottleneck architecture which is designed to increase the depth without significantly increasing the amount of parameters. [1] The structure of this architecture can be seen below, the depth is still controlled by a multiplier *n*. The main changes are in the residual blocks.
+In addition to the stacked 3x3 convolution architecture, "Deep Residual Learning for Image Recognition" also introduces a bottleneck architecture which is designed to increase the depth without significantly increasing the amount of parameters.[1] The structure of this architecture can be seen below, the depth is still controlled by a multiplier *n*. The main changes are in the residual blocks.
 
 | Group | Size | Multiplier |
 | ------|:------:|:----------:|
@@ -70,7 +70,7 @@ This [reproduction](https://github.com/FlorianMuellerklein/Identity-Mapping-ResN
 ![PreResNet](https://qiita-image-store.s3.amazonaws.com/0/100523/a156a5c2-026b-de55-a6fb-e4fa1772b42c.png)
 <p style="text-align:center; font-size:75%; font-style: italic;">The alterations from the original ResNet to the Preactivation ResNet.</p>
 
-**Wide Residual Networks:** The preactivation residual networks are very deep but also very thin, so "Wide Residual Networks" [3] suggested that better improvements can be realized with a much more shallow and wide architecture. With normal residual networks we get diminishing returns in performance by increasing the depth. The wide residual networks are an attempt to mitigate this observation. The authors introduce "wider deep residual networks that significantly improve over [2], having 50 times less layers and being more than 2 times faster." [3] Their 16-layer wide residual Network performs as well as a thin 1001-layer preactivation residual network. The authors also claim that the wider networks are much more efficient on a GPU than the deeper thin networks [3].
+**Wide Residual Networks:** The preactivation residual networks are very deep but also very thin, so "Wide Residual Networks" [3] suggested that better improvements can be realized with a much more shallow and wide architecture. With normal residual networks we get diminishing returns in performance by increasing the depth. The wide residual networks are an attempt to mitigate this observation. The authors introduce "wider deep residual networks that significantly improve over [2], having 50 times less layers and being more than 2 times faster." [3] Their 16-layer wide residual Network performs as well as a thin 1001-layer preactivation residual network. The authors also claim that the wider networks are much more efficient on a GPU than the deeper thin networks.[3]
 
 {: .center}
 ![WideResNet](http://i.imgur.com/3b0fw7b.png)
@@ -90,7 +90,7 @@ The wide-ResNet simply adds another multiplier *k* that increases the number of 
 # Methods
 
 Both the original residual network and follow up preactivation residual network papers use identical preprocessing, training and regularization parameters. However, the wide residual paper uses different preprocessing, training, and regularization while still comparing results to the previous preactivation residual network. For wide residual networks they used "global contrast normalization and ZCA whitening"[3] to preprocess the CIFAR-10 images. However, the Microsoft Research Asia group only used "32×32 images, with
-the per-pixel mean subtracted"[1] as their network inputs. It is possible that different network architectures would require different parameters and input data to achieve their best performance. But there should also be comparisons done where everything stays exactly the same except for the networks. This reproduction will be done using the preprocessing, training and regularization parameters from the original and preactivation residual network papers. [1][2]
+the per-pixel mean subtracted"[1] as their network inputs. It is possible that different network architectures would require different parameters and input data to achieve their best performance. But there should also be comparisons done where everything stays exactly the same except for the networks. This reproduction will be done using the preprocessing, training and regularization parameters from the original and preactivation residual network papers.[1][2]
 
 **Preprocessing:** The only preprocessing done to the CIFAR-10 images are per-pixel mean subtraction as in [1] and [2].
 
@@ -98,9 +98,9 @@ the per-pixel mean subtracted"[1] as their network inputs. It is possible that d
 
 **Training and regularization:** The networks were trained with 200 epochs (full passes through training dataset) with stochastic gradient descent, nesterov momentum of 0.9, and cross-entropy loss. For the bottleneck architecture, the initial learning rate was set to 0.01 to warm up the network and was increased to 0.1 at epoch 10 then continued on the same schedule as the other networks. For all other networks the learning rate was adjusted by the following schedule {0:0.1, 80: 0.01, 120: 0.001}. L2 regularization of 0.0001 was used used as in [1][2] and not 0.0005 like in [3].
 
-**Dropout:** Dropout of 0.3 was used in the wide residual network. [3]
+**Dropout:** Dropout of 0.3 was used in the wide residual network.[3]
 
-**Hardware and software:** This reproduction was done using the Theano and Lasagne software frameworks for mathematical computation and neural networks.[4][5] A Nvidia GTX 980 GPU was used to train and evaluate the networks. Although the impact should be insignificant it is worth noting that the original papers were both done with the Torch software package and a GPU with the same underlying architecture but more memory. [6]
+**Hardware and software:** This reproduction was done using the Theano and Lasagne software frameworks for mathematical computation and neural networks.[4][5] A Nvidia GTX 980 GPU was used to train and evaluate the networks. Although the impact should be insignificant it is worth noting that the original papers were both done with the Torch software package and a GPU with the same underlying architecture but more memory.[6]
 
 # Results
 

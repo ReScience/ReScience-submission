@@ -36,7 +36,7 @@ Bibliography:
 
 In 2015, Deep Residual Networks [1] were introduced as the winning solutions to ImageNet detection, ImageNet localization, COCO detection, and COCO segmentation, and they made it possible to train extremely deep neural networks of up to 1000 or more layers. The main idea is that Residual Networks "reformulate the layers as learning residual functions with reference to the layer inputs, instead of learning unreferenced functions" [1]. The basic idea is that the residual functions (blocks) are a combination of convolution layers and skip connections. The residual blocks are basically two branches that come together with an element-wise addition. One branch of the residual block is a stack of two convolution layers and the other is an identity function.
 
-![Residual Block](https://qph.is.quoracdn.net/main-qimg-b1fcbef975924b2ec4ad3a851e9f3934?convert_to_webp=true)
+![Residual Block](images/residual_block.png)
 <p style="text-align:center; font-size:75%; font-style: italic;">Diagram of the residual block taken from [1].</p>
 
 Just like with normal convolution layers, these residual blocks can be layered to create networks of increasing depth. Below is the basic structure of the CIFAR-10 residual network [1][2], with the depth being controlled by a multiplier *n* which dictates how many residual blocks to insert between each downsampling layer. Downsampling is done by increasing the stride of the first convolution layer in a residual block. Whenever the number of filters are increased the first convolution layer within a residual block will do the downsampling.
@@ -63,17 +63,16 @@ In addition to the stacked 3x3 convolution architecture, "Deep Residual Learning
 | Avg-Pool | 8x8 | - |
 | Softmax  | 10 | - |
 
-This [reproduction](https://github.com/FlorianMuellerklein/Identity-Mapping-ResNet-Lasagne) will focus on two recent improvements on the original residual network design, [Preactivation Residual Networks](https://arxiv.org/abs/1603.05027) and [Wide Residual Networks](https://arxiv.org/abs/1605.07146). The preactivation architecture switches up the order of the convolution, batch normalization and nonlinearities within each residual block. The wide architecture simply increases the number of convolution kernels within each preactivation residual block.
+This reproduction will focus on two recent improvements on the original residual network design, Preactivation Residual Networks and Wide Residual Networks.[2][3] The preactivation architecture switches up the order of the convolution, batch normalization and nonlinearities within each residual block. The wide architecture simply increases the number of convolution kernels within each preactivation residual block.
 
 **Preactivation Residual Blocks:** "Identity Mappings in Deep Residual Networks" [2] introduces the preactivation architecture which changes the order of the convolution kernels, batch normalizations, and nonlinearities. The preactivation residual block is said to be easier to optimize and has implicit regularization.[2] The changes from the original residual block to the preactivation residual block are best viewed in the figure below.
 
-![PreResNet](https://qiita-image-store.s3.amazonaws.com/0/100523/a156a5c2-026b-de55-a6fb-e4fa1772b42c.png)
+![PreResNet](images/pre_block.png)
 <p style="text-align:center; font-size:75%; font-style: italic;">The alterations from the original ResNet to the Preactivation ResNet.</p>
 
 **Wide Residual Networks:** The preactivation residual networks are very deep but also very thin, so "Wide Residual Networks" [3] suggested that better improvements can be realized with a much more shallow and wide architecture. With normal residual networks we get diminishing returns in performance by increasing the depth. The wide residual networks are an attempt to mitigate this observation. The authors introduce "wider deep residual networks that significantly improve over [2], having 50 times less layers and being more than 2 times faster." [3] Their 16-layer wide residual Network performs as well as a thin 1001-layer preactivation residual network. The authors also claim that the wider networks are much more efficient on a GPU than the deeper thin networks.[3]
 
-{: .center}
-![WideResNet](http://i.imgur.com/3b0fw7b.png)
+![WideResNet](images/wide_block.png)
 <p style="text-align:center; font-size:75%; font-style: italic;">An example of the wide ResNet, it's basically a Preactivation ResNet with an increased filter count in the residual blocks and an optional dropout between the two convolution layers.</p>
 
 The wide-ResNet simply adds another multiplier *k* that increases the number of filters used in each residual block. The idea of adding dropout in between the two convolution layers is also introduced with the wider residual blocks. The basic structure can be seen below.
@@ -118,15 +117,15 @@ Additionally, the training plots seemed to have the same characteristics as thos
 
 ### ResNet-110
 
-![ResNet-110](http://i.imgur.com/Y7VrxOC.png)
+![ResNet-110](images/preresnet_110_plot.png)
 
 ### ResNet-164
 
-![ResNet-164](http://i.imgur.com/VznjI5x.png)
+![ResNet-164](images/preresnet_164_plot.png)
 
 ### Wide-ResNet n=2 k=4
 
-![Wide-ResNet](http://i.imgur.com/IuBppdJ.png)
+![Wide-ResNet](images/wideresnet_n2_k4_plot.png)
 
 Finally, the speed of the networks may be interesting to some users. Wide residual networks do seem to allow for more parameters with a minimal cost in training time.
 

@@ -38,17 +38,18 @@ This is the submission repository for the [Re**Science** journal](https://rescie
 
 7. Issue a [pull request](https://help.github.com/articles/using-pull-requests/) (PR) to Re**Science** with title "Review Request" and insert the following text in the description:
 
-  ```
+ 
   **AUTHOR**
 
   Dear @ReScience/editors,
 
   I request a review for the reproduction of the following paper:
 
-  * References of the paper holding results you're replicating
+  * Benincà, E., Huisman, J., Heerkloss, R., Jöhnk, K.D., Branco, P., Van Nes, E.H., Scheffer, M. & Ellner, S.P. (2008) *Chaos in a long-term experiment with a plankton community.* Nature, 451, 822–825.
 
-  I believe the original results have been faithfully reproduced as explained in the accompanying article.
-  ```
+  I believed the original results have been adequately reproduced as explained in the accompanying [article](https://github.com/opetchey/ReScience-submission/raw/petchey-plebani-pennekamp-2016/article/article.pdf).
+  
+  The repository lives at [https://github.com/opetchey/ReScience-submission/tree/petchey-plebani-pennekamp-2016](https://github.com/opetchey/ReScience-submission/tree/petchey-plebani-pennekamp-2016)
 
 8. Assign the PR to an editor from the [editorial board](https://rescience.github.io/board).
 

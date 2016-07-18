@@ -50,10 +50,10 @@ def loadParameters(fname):
             'phi_H': config.getfloat('Sag', 'phi_H'),
             'gH': config.getfloat('Sag', 'gH'),
             'VH': config.getfloat('Sag', 'VH'),
-            'phi_K': config.getfloat('Potasium', 'phi_K'),
-            'sigma_K': config.getfloat('Potasium', 'sigma_K'),
-            'gK': config.getfloat('Potasium', 'gK'),
-            'VK': config.getfloat('Potasium', 'VK'),
+            'phi_K': config.getfloat('Potassium', 'phi_K'),
+            'sigma_K': config.getfloat('Potassium', 'sigma_K'),
+            'gK': config.getfloat('Potassium', 'gK'),
+            'VK': config.getfloat('Potassium', 'VK'),
             'gNa': config.getfloat('Sodium', 'gNa'),
             'VNa': config.getfloat('Sodium', 'VNa'),
             'sigma_Na': config.getfloat('Sodium', 'sigma_Na'),
@@ -74,14 +74,27 @@ class WangModel():
                  duration=1000,
                  inp_type='const',
                  amplitude=1,
-                 chunks=1):
+                 pulse_ampl=0,
+                 chunks=1,
+                 store=True,
+                 store_stim=False):
         """ Constructor method
 
         |  :param fname: File name containing all parameters
+        |  :param dt: Time discretization step
         |  :param frequency: Stimulation frequency (in Hz)
         |  :param duration: Duration (ON) of stimulation (in ms)
+        |  :param inp_type: Input signal type ['const' - constant current
+                                               'periodic' - periodic pulses]
+                                               'pulse' - one pulse at the 
+                                               beggining of simulation
+                                               following by a constant current.
         |  :param amplitude: Amplitude of injected current (in μA/cm²)
+        |  :param pulse_ampl: Amplitude of initial pulse (input must be set to
+                                                          'pulse')
         |  :param chunks: Number of repeated periods of pulses
+        |  :param store: Store results of simulation on npy files
+        |  :param store_stim: Store the stimulus signal
         |  :return:
         """
         self.p = loadParameters(fname)      # Load the parameters
@@ -91,8 +104,11 @@ class WangModel():
         self.P0 = (1.0/self.freq)*1000      # Period in ms
         self.P = duration                   # Duration in ms
         self.amplitude = amplitude          # Amplitude in μA/cm²
+        self.pulse_amplitude = pulse_ampl   # Amplitude of a pulse
         self.chunks = chunks                # Number of perios (time bins)
         self.inp_type = inp_type            # Input type (constant or pulse)
+        self.IsStore = store                # Store neuron activity and time
+        self.IsStoreStim = store_stim       # Store stimulus
 
     def s_inf(self, v):
         """ T-type calcium channel gating kinetics """
@@ -251,16 +267,21 @@ class WangModel():
 
         return np.array([dV, dh, dH, dn])
 
-    def run(self, tf, vname, tname, int_name='vode', *args):
+    def run(self, tf, vname, int_name='vode', *args):
         """ 
         Run the model by integrating equations.
 
         |  :param tf: Total time (ms)
-        |  :param vname: Filename for storing membrane potential
-        |  :param tname: Filename for storing time
-        |  :param int_name: Integration method
-        |  :param *args: If int_method is vode, zvode, lsoda user can choose 
-                         Adams or BDF methods
+        |  :param vname: Filename for storing time and membrane potential
+                         Time - first column, Neuron states - following four
+                         columns. [Second column - membrane potential (V)
+                                   Third column - Inactivation variable h
+                                   Fourth column - Activation variable H
+                                   Fifth column - Gate variable n]
+        |  :param int_name: Integration method (please refer to 
+            http://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.ode.html)
+        |  :param *args: If int_method is one of: vode, zvode, or lsoda, the user
+                         can choose one of Adams or BDF methods
         """
         t0 = 0.0         # Initial time (ms)
         dt = self.dt     # Integration time step (ms)
@@ -273,10 +294,17 @@ class WangModel():
         # Define the input current
         if self.inp_type == "const":
             Iapp = np.ones((t_sim, )) * self.amplitude
-        else:
+        elif self.inp_type == "pulse":
+            Iapp = np.zeros((t_sim, ))
+            dur = self.P / dt
+            Iapp[:dur] = self.pulse_amplitude
+            Iapp[dur:] = self.amplitude
+        elif self.inp_type == "periodic":
             Iapp = self.I_ext(P0_sim, p_sim, t_sim)
             if t_sim > Iapp.shape[0]:
                 raise ValueError('Simulation time exceeds input signal dimensions!')
+        else:
+            raise ValueError('Bad input signal argument!')
 
         V0 = self.p['V0']
         h0 = self.h_inf(V0, self.p['theta_h'], self.p['k_h'])
@@ -299,9 +327,13 @@ class WangModel():
             t.append(r.t)
             i += 1
 
+        # Store the neuron states and time in the same file if the 
+        # flag IsStore is true.
         v = np.array(v)
         t = np.array(t)
+        v = np.hstack([t.reshape(t.shape[0], 1), v])
 
-        # np.save("../data/"+vname+"stimulus", Iapp)
-        # np.save("../data/"+vname, v)
-        # np.save("../data/"+tname, t)
+        if self.IsStore is True:
+            np.save("../data/"+vname, v)
+        if self.IsStoreStim is True:
+            np.save("../data/"+vname+"stim", Iapp)

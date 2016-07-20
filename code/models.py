@@ -51,7 +51,7 @@ def ResNet_FullPreActivation(input_var=None, n=18):
         # add shortcut connections
         if increase_dim:
             # projection shortcut, as option B in paper
-            projection = ConvLayer(l, num_filters=out_num_filters, filter_size=(1,1), stride=(2,2), nonlinearity=None, pad='same', b=None)
+            projection = ConvLayer(bn_pre_relu, num_filters=out_num_filters, filter_size=(1,1), stride=(2,2), nonlinearity=None, pad='same', b=None)
             block = ElemwiseSumLayer([conv_2, projection])
         else:
             block = ElemwiseSumLayer([conv_2, l])
@@ -135,7 +135,7 @@ def ResNet_BottleNeck_FullPreActivation(input_var=None, n=18):
 
         if increase_dim:
             # projection shortcut, as option B in paper
-            projection = ConvLayer(l, num_filters=out_num_filters, filter_size=(1,1), stride=(2,2), nonlinearity=None, pad='same', b=None)
+            projection = ConvLayer(bn_pre_relu, num_filters=out_num_filters, filter_size=(1,1), stride=(2,2), nonlinearity=None, pad='same', b=None)
             block = ElemwiseSumLayer([conv_3, projection])
 
         elif first:
@@ -220,7 +220,7 @@ def ResNet_FullPre_Wide(input_var=None, n=6, k=4):
         # add shortcut connections
         if increase_dim:
             # projection shortcut, as option B in paper
-            projection = ConvLayer(l, num_filters=filters, filter_size=(1,1), stride=(2,2), nonlinearity=None, pad='same', b=None)
+            projection = ConvLayer(bn_pre_relu, num_filters=filters, filter_size=(1,1), stride=(2,2), nonlinearity=None, pad='same', b=None)
             block = ElemwiseSumLayer([conv_2, projection])
 
         elif first:

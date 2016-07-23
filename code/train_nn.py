@@ -1,6 +1,7 @@
 """
 Lasagne implementation of CIFAR-10 examples from "Identity Mappings in Deep Residual Networks" (https://arxiv.org/abs/1603.05027) and "Wide Residual Networks" (https://arxiv.org/abs/1605.07146)
 """
+import os
 import sys
 import gzip
 import time
@@ -31,6 +32,12 @@ elif variant == 'wide':
     from models import ResNet_FullPre_Wide as ResNet
 else:
     print 'Unsupported model %s'%variant
+
+# check if necessary directories exist, if not create them
+if not os.path.exists('data/weights'):
+    os.mkdir('data/weights')
+if not os.path.exists('data/plots'):
+    os.mkdir('data/plots')
 
 # training params
 ITERS = 200

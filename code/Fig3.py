@@ -102,11 +102,13 @@ for target_time in delays:
         pearsons[-1].append(r)
 
 # Save the results
-np.savez('../data/timingcapacity.npz', r=np.array(pearsons))
+pearsons = np.array(pearsons)
+np.savez('../data/timingcapacity.npz', r=pearsons)
 
 ##################
 # Visualization
 ##################
+import matplotlib.pyplot as plt
 correlation_mean = np.mean(pearsons**2, axis=1)
 correlation_std = np.std(pearsons**2, axis=1)
 plt.errorbar(np.array(delays)/1000., correlation_mean, correlation_std/np.sqrt(10), linestyle='-', marker='^')

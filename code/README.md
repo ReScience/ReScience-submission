@@ -14,6 +14,14 @@ Results are presented as classification error percent.
 | ResNet-164 | 5.46 | 5.66 |
 | Wide-ResNet | 5.55 | 5.41 |
 
+To reproduce these results use the following commands, respectively:
+
+```
+python code/train_nn.py normal 18
+python code/train_nn.py bottleneck 18
+python code/train_nn.py wide 2 4
+```
+
 **Note:** ResNet-110 is the stacked 3x3 filter variant and ResNet-164 is the 'botttleneck' architecture. Both use the new pre-activation units as proposed in the paper. For Wide-ResNet the paper and test results are for depth 16 and width multiplier of 4. This repo also uses the preprocessing and training parameters from the Preactivation-ResNet paper and not the Wide-ResNet paper, so it is not a 1 to 1 comparison with the Wide-ResNet paper results
 
 ### ResNet-110
@@ -63,7 +71,6 @@ test_model.py [type] [depth] [width]
 
 The extracted 'cifar-10-batches-py' from https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz must be extracted into a 'data' folder within the working directory.
 
-
 ```
  Code Directory
     |__ test_model.py
@@ -79,6 +86,11 @@ The extracted 'cifar-10-batches-py' from https://www.cs.toronto.edu/~kriz/cifar-
 
 
 **Note:** If using the wide-ResNet, the implementation in the [paper](https://arxiv.org/pdf/1605.07146v1.pdf) will be slightly different than the one here. They use different preprocessing and a different value for L2. This repo stays consistent with the [MSRA paper](https://arxiv.org/abs/1603.05027).
+
+### Software Versions
+Numpy: 1.11.0
+Theano: 0.9.0
+Lasagne: 0.2
 
 ### References
 

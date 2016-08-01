@@ -7,7 +7,6 @@ import numpy as np
 from functools import reduce
 from itertools import product
 from collections import deque
-from sys import exit
 
 def sigmoid(x, theta):
     # from equation (5)
@@ -34,64 +33,73 @@ def random_from_boltzmann_distribution(a):
 
 class Population(object):
     """
-    Base class for a population of neurons/units
+    Base class for a population of units
     """
     
     def __init__(self, n, add_bias=False):
+        # "values" contains the units' activities and potential bias
+        # "rates" is a view containing only the activities
         if add_bias:
-            self.biased_rates = np.zeros((n + 1,))
-            self.biased_rates[0] = 1.
-            self.rates = self.biased_rates[1:]
+            self.values = np.zeros((n + 1,))
+            self.values[0] = 1.
+            self.rates = self.values[1:]
         else:
-            self.rates = np.zeros((n,))
+            self.values = np.zeros((n,))
+            self.rates = self.values[:]
         
+        # synaptic connections with this population as postsynaptic
         self.preceding_connections = []
     
-    def get_synaptic_inputs(self):
-        return reduce(np.add, [connection.get_synaptic_outputs() for connection in self.preceding_connections])
+    def get_synaptic_input(self):
+        return reduce(np.add, [connection.get_synaptic_output() for connection in self.preceding_connections])
 
 class InstantaneousPopulation(Population):
     """
-    Population of instantaneous sensory neurons/units (noted xi)
+    Population of instantaneous sensory units (noted xi)
     """
     
     def __init__(self, n):
         super(InstantaneousPopulation, self).__init__(n, add_bias=True)
     
     def compute_rates(self, input):
-        self.biased_rates[1:] = input
+        # writing in place to preserve the view "rates"
+        self.rates[:] = input
 
 class TransientPopulation(Population):
     """
-    Population of transient sensory neurons/units (noted x+ and x-)
+    Population of transient sensory units (noted x+ and x-)
     """
     
     def __init__(self, n):
-        super(TransientPopulation, self).__init__(n)
-        self.previous_input = np.zeros((n//2,))
+        super(TransientPopulation, self).__init__(2 * n)
+        self.previous_input = np.zeros((n,))
     
     def compute_rates(self, input):
         # from equation (1)
-        self.rates[:len(self.rates)//2] = (input - self.previous_input).clip(0.)
+        self.rates[:len(self.rates) // 2] = (input - self.previous_input).clip(0.)
         # from equation (2)
-        self.rates[len(self.rates)//2:] = (self.previous_input - input).clip(0.)
+        self.rates[len(self.rates) // 2:] = (self.previous_input - input).clip(0.)
         self.previous_input = input
+    
+    def reset(self):
+        self.previous_input = np.zeros(self.previous_input.shape)
 
 class AssociationPopulation(Population):
     """
-    Base class for a population of association neurons/units (noted y)
+    Base class for a population of association units (noted y)
     """
     
     def __init__(self, n, add_bias=False):
         super(AssociationPopulation, self).__init__(n, add_bias)
-        self.preceding_feedback_connections = []
+        # synaptic connections with this population as presynaptic and giving a feedback
+        self.feedback_connections = []
     
-    def get_synaptic_feedbacks(self):
-        return reduce(np.add, [connection.get_synaptic_feedbacks() for connection in self.preceding_feedback_connections])
+    def get_synaptic_feedback(self):
+        return reduce(np.add, [connection.get_synaptic_feedback() for connection in self.feedback_connections])
 
 class RegularPopulation(AssociationPopulation):
     """
-    Population of regular association neurons/units (noted yR)
+    Population of regular association units (noted yR)
     """
     
     def __init__(self, n):
@@ -99,11 +107,11 @@ class RegularPopulation(AssociationPopulation):
     
     def compute_rates(self, theta):
         # from equations (3) and (4)
-        self.biased_rates[1:] = sigmoid(self.get_synaptic_inputs(), theta)
+        self.rates[:] = sigmoid(self.get_synaptic_input(), theta)
 
 class MemoryPopulation(AssociationPopulation):
     """
-    Population of memory association neurons/units (noted yM)
+    Population of memory association units (noted yM)
     """
     
     def __init__(self, n):
@@ -112,44 +120,41 @@ class MemoryPopulation(AssociationPopulation):
     
     def compute_rates(self, theta):
         # from equations (7) and (8)
-        self.traces += self.get_synaptic_inputs()
-        self.rates = sigmoid(self.traces, theta)
+        self.traces += self.get_synaptic_input()
+        self.rates[:] = sigmoid(self.traces, theta)
     
     def reset(self):
         self.traces = np.zeros(self.traces.shape)
 
-class QValuePopulation(Population):
+class QvaluePopulation(Population):
     """
-    Population of Q-Value neurons/units (noted q)
+    Population of Q-value/motor units (noted q)
     """
     
     def __init__(self, n):
-        super(QValuePopulation, self).__init__(n)
+        super(QvaluePopulation, self).__init__(n)
         self.z = np.zeros((n,))
     
     def compute_rates(self):
         # from equation (11)
-        self.rates = self.get_synaptic_inputs()
+        self.rates[:] = self.get_synaptic_input()
 
-class Synapses(object):
+class Connection(object):
     """
-    Base class for synapse connections between two population of neurons/units
+    Base class for synaptic connection between two population of units
     """
     
-    def __init__(self, presynaptic_neurons, postsynaptic_neurons, weights_range, add_bias=False):
-        self.presynaptic_neurons = presynaptic_neurons
-        self.postsynaptic_neurons = postsynaptic_neurons
-        self.postsynaptic_neurons.preceding_connections.append(self)
+    def __init__(self, presynaptic_units, postsynaptic_units, weights_range):
+        self.presynaptic_units = presynaptic_units
+        self.postsynaptic_units = postsynaptic_units
+        self.postsynaptic_units.preceding_connections.append(self)
+        # take input from presynaptic units with their potential bias ("values")
+        # but project only to the activities of the postsynaptic units ("rates")
+        self.weights = np.random.uniform(*weights_range, size=(len(presynaptic_units.values), len(postsynaptic_units.rates)))
+        self.tags = np.zeros((len(presynaptic_units.values), len(postsynaptic_units.rates)))
         
-        if add_bias:
-            self.weights = np.random.uniform(*weights_range, size=(len(presynaptic_neurons.biased_rates), len(postsynaptic_neurons.rates)))
-            self.tags = np.zeros((len(presynaptic_neurons.biased_rates), len(postsynaptic_neurons.rates)))
-        else:
-            self.weights = np.random.uniform(*weights_range, size=(len(presynaptic_neurons.rates), len(postsynaptic_neurons.rates)))
-            self.tags = np.zeros((len(presynaptic_neurons.rates), len(postsynaptic_neurons.rates)))
-    
-    def get_synaptic_outputs(self):
-        return np.dot(self.presynaptic_neurons.rates, self.weights)
+    def get_synaptic_output(self):
+        return np.dot(self.presynaptic_units.values, self.weights)
     
     def update_weights(self, beta, delta):
         # from equation (18)
@@ -164,78 +169,71 @@ class Synapses(object):
     
     def reset(self):
         self.tags = np.zeros(self.tags.shape)
-    
-class InstantaneousRegularSynapses(Synapses):
+
+class InstantaneousRegularConnection(Connection):
     """
-    Synapses between instantaneous sensory neurons and regular association neurons (noted vR)
+    Synaptic connection between instantaneous sensory units and regular association units (noted vR)
     """
     
-    def __init__(self, presynaptic_neurons, postsynaptic_neurons, weights_range):
-        super(InstantaneousRegularSynapses, self).__init__(presynaptic_neurons, postsynaptic_neurons, weights_range, add_bias=True)
-    
-    def get_synaptic_outputs(self):
-        return np.dot(self.presynaptic_neurons.biased_rates, self.weights)
+    def __init__(self, presynaptic_units, postsynaptic_units, weights_range):
+        super(InstantaneousRegularConnection, self).__init__(presynaptic_units, postsynaptic_units, weights_range)
     
     def update_tags(self, alpha):
         # from equation (14)
-        self.tags += -alpha * self.tags + self.postsynaptic_neurons.get_synaptic_feedbacks() * derivative_sigmoid(self.postsynaptic_neurons.rates) * self.presynaptic_neurons.biased_rates[:,np.newaxis]
         # the numpy syntax "[:,np.newaxis]" creates a column view of a row vector
         # element-wise operations between a vector and a matrix are repeated on all rows or columns
+        self.tags += -alpha * self.tags + self.postsynaptic_units.get_synaptic_feedback() * derivative_sigmoid(self.postsynaptic_units.rates) * self.presynaptic_units.values[:,np.newaxis]
 
-class TransientMemorySynapses(Synapses):
+class TransientMemoryConnection(Connection):
     """
-    Synapses between transient sensory neurons and memory association neurons (noted vM)
+    Synaptic connection between transient sensory units and memory association units (noted vM)
     """
     
-    def __init__(self, presynaptic_neurons, postsynaptic_neurons, weights_range):
-        super(TransientMemorySynapses, self).__init__(presynaptic_neurons, postsynaptic_neurons, weights_range)
-        self.traces = np.zeros((len(presynaptic_neurons.rates), len(postsynaptic_neurons.rates)))
+    def __init__(self, presynaptic_units, postsynaptic_units, weights_range):
+        super(TransientMemoryConnection, self).__init__(presynaptic_units, postsynaptic_units, weights_range)
+        self.traces = np.zeros((len(presynaptic_units.values), len(postsynaptic_units.rates)))
     
     def update_tags(self, alpha):
         # from equation (15)
-        self.traces += self.presynaptic_neurons.rates[:,np.newaxis]
+        self.traces += self.presynaptic_units.values[:,np.newaxis]
         # from equation (16)
-        self.tags += -alpha * self.tags + self.postsynaptic_neurons.get_synaptic_feedbacks() * derivative_sigmoid(self.postsynaptic_neurons.rates) * self.traces
+        self.tags += -alpha * self.tags + self.postsynaptic_units.get_synaptic_feedback() * derivative_sigmoid(self.postsynaptic_units.rates) * self.traces
         
     def reset(self):
-        super(TransientMemorySynapses, self).reset()
+        super(TransientMemoryConnection, self).reset()
         self.traces = np.zeros(self.traces.shape)
 
-class RegularQValueSynapses(Synapses):
+class FeedbackConnection(Connection):
     """
-    Synapses between regular association neurons and Q-Value neurons (noted wR)
+    Base class for synaptic connection giving a feedback
     """
     
-    def __init__(self, presynaptic_neurons, postsynaptic_neurons, weights_range):
-        super(RegularQValueSynapses, self).__init__(presynaptic_neurons, postsynaptic_neurons, weights_range, add_bias=True)
-        presynaptic_neurons.preceding_feedback_connections.append(self)
+    def __init__(self, presynaptic_units, postsynaptic_units, weights_range):
+        super(FeedbackConnection, self).__init__(presynaptic_units, postsynaptic_units, weights_range)
+        presynaptic_units.feedback_connections.append(self)
     
-    def update_tags(self, alpha):
-        # from equation (13)
-        self.tags += -alpha * self.tags + self.presynaptic_neurons.biased_rates[:,np.newaxis] * self.postsynaptic_neurons.z
-    
-    def get_synaptic_outputs(self):
-        return np.dot(self.presynaptic_neurons.biased_rates, self.weights)
-    
-    def get_synaptic_feedbacks(self):
-        return self.weights[1:,np.argmax(self.postsynaptic_neurons.z)]
+    def get_synaptic_feedback(self):
+        # noted w'
+        # first slice is to ignore potential bias weights
+        return self.weights[-len(self.presynaptic_units.rates):,np.argmax(self.postsynaptic_units.z)]
 
-class MemoryQValueSynapses(Synapses):
+class RegularQvalueConnection(FeedbackConnection):
     """
-    Synapses between memory associationn neurons and Q-Value neurons (noted wM)
+    Synaptic connection between regular association units and Q-value units (noted wR)
     """
-    
-    def __init__(self, presynaptic_neurons, postsynaptic_neurons, weights_range):
-        super(MemoryQValueSynapses, self).__init__(presynaptic_neurons, postsynaptic_neurons, weights_range)
-        self.presynaptic_neurons.preceding_feedback_connections.append(self)
     
     def update_tags(self, alpha):
         # from equation (13)
-        self.tags += -alpha * self.tags
-        self.tags += self.presynaptic_neurons.rates[:,np.newaxis] * self.postsynaptic_neurons.z
+        self.tags += -alpha * self.tags + self.presynaptic_units.values[:,np.newaxis] * self.postsynaptic_units.z
+
+class MemoryQvalueConnection(FeedbackConnection):
+    """
+    Synaptic connection between memory association units and Q-value units (noted wM)
+    """
     
-    def get_synaptic_feedbacks(self):
-        return self.weights[:,np.argmax(self.postsynaptic_neurons.z)]
+    def update_tags(self, alpha):
+        # from equation (13)
+        self.tags += -alpha * self.tags + self.presynaptic_units.rates[:,np.newaxis] * self.postsynaptic_units.z
 
 class Network(object):
     """
@@ -252,15 +250,15 @@ class Network(object):
                  gamma           = 0.9,
                  epsilon         = 0.025,
                  theta           = 2.5,
-                 lambda_         = 0.2):
+                 lambda_         = 0.3):
         """
         Constructor
         
-        n_sensory_units -- number of sensory input neurons
-        n_regular_units -- number of association regular neurons
-        n_memory_units  -- number of association memory neurons
-        n_qvalue_units  -- number of Q-Value output neurons
-        weights_range   -- initial synapses' weights range
+        n_sensory_units -- number of sensory input units
+        n_regular_units -- number of regular association units
+        n_memory_units  -- number of memory association units
+        n_qvalue_units  -- number of Q-value/motor output units
+        weights_range   -- connections' initial weight range
         beta            -- learning rate
         gamma           -- discount factor
         epsilon         -- exploration rate
@@ -279,15 +277,15 @@ class Network(object):
         self.previous_predicted_value = 0.
         
         self.instantaneous_units = InstantaneousPopulation(n_sensory_units)
-        self.transient_units = TransientPopulation(n_sensory_units * 2)
+        self.transient_units = TransientPopulation(n_sensory_units)
         self.regular_units = RegularPopulation(n_regular_units)
         self.memory_units = MemoryPopulation(n_memory_units)
-        self.qvalue_units = QValuePopulation(n_qvalue_units)
+        self.qvalue_units = QvaluePopulation(n_qvalue_units)
         
-        self.instantaneous_regular_synapses = InstantaneousRegularSynapses(self.instantaneous_units, self.regular_units, weights_range)
-        self.transient_memory_synapses = TransientMemorySynapses(self.transient_units, self.memory_units, weights_range)
-        self.regular_qvalue_synapses = RegularQValueSynapses(self.regular_units, self.qvalue_units, weights_range)
-        self.memory_qvalue_synapses = MemoryQValueSynapses(self.memory_units, self.qvalue_units, weights_range)
+        self.instantaneous_regular_connection = InstantaneousRegularConnection(self.instantaneous_units, self.regular_units, weights_range)
+        self.transient_memory_connection = TransientMemoryConnection(self.transient_units, self.memory_units, weights_range)
+        self.regular_qvalue_connection = RegularQvalueConnection(self.regular_units, self.qvalue_units, weights_range)
+        self.memory_qvalue_connection = MemoryQvalueConnection(self.memory_units, self.qvalue_units, weights_range)
     
     def update_delta(self, reward, end):
         if end:
@@ -318,10 +316,10 @@ class Network(object):
     
     def feedback(self, reward, end):
         self.update_delta(reward, end)
-        self.memory_qvalue_synapses.update(self.alpha, self.beta, self.delta)
-        self.regular_qvalue_synapses.update(self.alpha, self.beta, self.delta)
-        self.instantaneous_regular_synapses.update(self.alpha, self.beta, self.delta)
-        self.transient_memory_synapses.update(self.alpha, self.beta, self.delta)
+        self.memory_qvalue_connection.update(self.alpha, self.beta, self.delta)
+        self.regular_qvalue_connection.update(self.alpha, self.beta, self.delta)
+        self.instantaneous_regular_connection.update(self.alpha, self.beta, self.delta)
+        self.transient_memory_connection.update(self.alpha, self.beta, self.delta)
     
     def step(self, input, reward, end):
         """
@@ -330,7 +328,7 @@ class Network(object):
         
         input  -- new sensory input
         reward -- reward given for the previous action selected
-        end    -- signal the end of a trial
+        end    -- signal for the end of a trial
         """
         self.feedforward(input)
         self.feedback(reward, end)
@@ -343,11 +341,13 @@ class Network(object):
         """
         Reset the network for a new trial
         """
+        self.previous_predicted_value = 0.
+        self.transient_units.reset()
         self.memory_units.reset()
-        self.instantaneous_regular_synapses.reset()
-        self.transient_memory_synapses.reset()
-        self.regular_qvalue_synapses.reset()
-        self.memory_qvalue_synapses.reset()
+        self.instantaneous_regular_connection.reset()
+        self.transient_memory_connection.reset()
+        self.regular_qvalue_connection.reset()
+        self.memory_qvalue_connection.reset()
 
 class Task(object):
     """
@@ -515,7 +515,7 @@ class SaccadeTask(FixationTask):
     def evaluate(self, network):
         """
         Evaluate the network on all trial types
-        Return True if the network successfuly learned the task
+        Return True if the network successfully learned the task
         
         network -- network to evaluate
         """
@@ -583,7 +583,7 @@ class SaccadeNoShapingTask(SaccadeTask):
 
 class ProbabilisticTask(FixationTask):
     """
-    Proabilistic decision making task as defined in paper
+    Probabilistic decision making task as defined in paper
     """
     
     description = "probabilistic decision making task"
@@ -668,7 +668,7 @@ class ProbabilisticTask(FixationTask):
                         8: {"input_symbols": (0, 1, 2, 3, 4, 5, 6, 7, 8, 9), "sequence_length": 4, "sample_size": 20000}}
         i = 0
         
-        for difficulty in range(1, 9):
+        for difficulty in difficulties.keys():
             self.input_symbols = difficulties[difficulty]["input_symbols"]
             self.sequence_length = difficulties[difficulty]["sequence_length"]
             sample_size = difficulties[difficulty]["sample_size"]

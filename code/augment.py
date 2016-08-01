@@ -250,7 +250,7 @@ class Network(object):
                  gamma           = 0.9,
                  epsilon         = 0.025,
                  theta           = 2.5,
-                 lambda_         = 0.3):
+                 lambda_         = 0.2):
         """
         Constructor
         

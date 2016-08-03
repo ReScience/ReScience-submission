@@ -119,17 +119,17 @@ Finally, the triangle and heptagon, shapes with infinite weights, cancel each ot
 
 Only the saccade/anti-saccade task and the probabilistic decision making task were implemented.
 For the probabilistic decision making task, the results are very similar. However, the saccade/anti-saccade task results
-are slightly worse than announced in the original article. The results are presented in table @tbl:results.
-Since the convergence time and success rate are fairly sensible to the task's protocol, it is possible the differences come
-from undocumented changes in the experiment.
+are slightly worse than announced in the original article. The results, obtained using the same parameters as in the article,
+are presented in table @tbl:results. Since the convergence time and success rate are fairly sensible to the task's protocol,
+it is possible the differences come from undocumented changes in the experiment.
 Qualitative results such as the use of shaping strategy to obtain better performances are confirmed by this replication.
 See also figures @fig:saccade and @fig:probabilistic for the replicated activity traces of figures 2D and 4C in the reference article.
 
 Task                     Success in [@rombouts:2015]   Success   Convergence in [@rombouts:2015]   Convergence
 ----------------------- ----------------------------- --------- --------------------------------- -------------
-Saccade with shaping               99.45%               89.00%             4100 trials             3966 trials
-Saccade without shaping            76.41%               64.00%                 -                  4284.5 trials
-Probabilistic decision             99.0%                100.0%             55234 trials            55162 trials
+Saccade with shaping               99.45%               90.55%             4100 trials             3970 trials
+Saccade without shaping            76.41%               59.10%                 -                   4785 trials
+Probabilistic decision             99.0%                100.0%             55234 trials            55988 trials
 ----------------------- ----------------------------- --------- --------------------------------- --------------
 
 Table: Results {#tbl:results}
@@ -142,7 +142,7 @@ Table: Results {#tbl:results}
 # Conclusion
 
 The results obtained are comparable to those announced in the article. Ambiguities in the
-experiments' descriptions could be the cause for slightly worse performances, but do not contradict the
+experiments' descriptions could be the cause for worse performances, but do not contradict the
 article's overall conclusion.
 
 

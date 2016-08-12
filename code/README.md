@@ -10,9 +10,9 @@ Results are presented as classification error percent.
 
 | ResNet Type | Original Paper | Test Results |
 | -----------|-----------|----------- |
-| ResNet-110 | 6.37 | 6.38 |
-| ResNet-164 | 5.46 | 5.66 |
-| Wide-ResNet | 5.55 | 5.41 |
+| ResNet-110 | 6.37 | 6.06 |
+| ResNet-164 | 5.46 | 5.64 |
+| Wide-ResNet | 5.55 | 5.11 |
 
 To reproduce these results use the following commands, respectively:
 
@@ -26,15 +26,15 @@ python code/train_nn.py wide 2 4
 
 ### ResNet-110
 
-![ResNet-110](http://i.imgur.com/Y7VrxOC.png)
+![ResNet-110](plots/normal18_resnet.png)
 
 ### ResNet-164
 
-![ResNet-164](http://i.imgur.com/VznjI5x.png)
+![ResNet-164](plots/bottleneck18_resnet.png)
 
 ### Wide-ResNet Depth-16 Width-4
 
-![Wide-ResNet](http://i.imgur.com/IuBppdJ.png)
+![Wide-ResNet](plots/wide2_resnet.png)
 
 ## Implementation details
 

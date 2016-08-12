@@ -107,23 +107,23 @@ The reproduction results are consistent with those of the original paper within 
 
 | __ResNet Type__ | __Original Paper__ | __Test Results__ |
 | :---------:|:---------:|:---------: |
-| ResNet-110 | 6.37 | 6.38 |
-| ResNet-164 | 5.46 | 5.66 |
-| WResNet-n2-k4| 5.55 | 5.41 |
+| ResNet-110 | 6.37 | 6.06 |
+| ResNet-164 | 5.46 | 5.64 |
+| WResNet-n2-k4| 5.55 | 5.11 |
 
 Additionally, the training plots seemed to have the same characteristics as those presented in the original papers. Training plots for residual networks are characterized by fairly noisy trends in the cross-entropy during training and also much less of a quadratic trend than seen in other neural networks. These trends are also seen here.
 
 ### ResNet-110
 
-![ResNet-110](images/preresnet_110_plot.png)
+![ResNet-110](images/normal18_resnet.png)
 
 ### ResNet-164
 
-![ResNet-164](images/preresnet_164_plot.png)
+![ResNet-164](images/bottleneck18_resnet.png)
 
 ### Wide-ResNet n=2 k=4
 
-![Wide-ResNet](images/wideresnet_n2_k4_plot.png)
+![Wide-ResNet](images/wide2_resnet.png)
 
 Finally, the speed of the networks may be interesting to some users. Wide residual networks do seem to allow for more parameters with a minimal cost in training time.
 

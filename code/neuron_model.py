@@ -87,7 +87,7 @@ class WangModel():
         |  :param inp_type: Input signal type ['const' - constant current
                                                'periodic' - periodic pulses]
                                                'pulse' - one pulse at the 
-                                               beggining of simulation
+                                               beginning of simulation
                                                following by a constant current.
         |  :param amplitude: Amplitude of injected current (in μA/cm²)
         |  :param pulse_ampl: Amplitude of initial pulse (input must be set to
@@ -328,7 +328,7 @@ class WangModel():
             i += 1
 
         # Store the neuron states and time in the same file if the 
-        # flag IsStore is true.
+        # flag store is true.
         v = np.array(v)
         t = np.array(t)
         v = np.hstack([t.reshape(t.shape[0], 1), v])
@@ -337,3 +337,4 @@ class WangModel():
             np.save("../data/"+vname, v)
         if self.IsStoreStim is True:
             np.save("../data/"+vname+"stim", Iapp)
+        return v

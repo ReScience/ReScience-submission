@@ -29,7 +29,7 @@ from matplotlib import collections  as mc
 from skimage.feature import peak_local_max
 
 
-def plot_figure1():
+def plot_figure1_old():
     dt = 0.05
     base = '../data/'
     dopri = np.load(base+'test_dopri_V.npy')
@@ -43,56 +43,93 @@ def plot_figure1():
         tmp[spikes] = 1
         return tmp.astype('f')
 
-    M, N = 7010, 7045
+    M, N = 4200, 4205
     fig = plt.figure(figsize=(10, 10))
+    for i in range(2):
+        if i == 0:
+            M, N = 4270, 4310
+        else:
+            M, N = 6830, 6850
+        ax = fig.add_subplot(2, 1, i+1)
+        ax.plot(dopri[M:N, 0], dopri[M:N, 1], 'k', lw=2, alpha=1.0,
+                label='dopri5')
+        ax.plot(adams[M:N, 0], adams[M:N, 1], 'k--', lw=2, alpha=1.0,
+                label='Adams', zorder=0)
+        ax.plot(bdf[M:N, 0], bdf[M:N, 1], 'k-.', lw=2, alpha=1.0,
+                label='BDF', zorder=1)
+        if i == 1:
+            m = max(bdf[M:N, 1].max(), dopri[M:N, 1].max(), adams[M:N, 1].max())
+            mm = dopri[M:N, 1].max()
+            n = max(bdf[M:N, 1].argmax(), dopri[M:N, 1].argmax(),
+                    adams[M:N, 1].argmax())
+            print(m, n, mm)
+        ax.set_xlabel('Time (ms)', fontsize=16, weight='bold')
+        ax.set_ylabel('Membrane Potential (mV)', fontsize=16, weight='bold')
+        ax.get_xaxis().set_tick_params(which='both', direction='out')
+        ax.get_yaxis().set_tick_params(which='both', direction='out')
+        ticks = ax.get_xticks()
+        ticks = [i*dt for i in ticks]
+        ax.set_xticklabels(ticks, fontsize=13, weight='bold')
+        ticks = ax.get_yticks()
+        ax.set_yticklabels(ticks, fontsize=13, weight='bold')
+        handles, labels = ax.get_legend_handles_labels()
+        ax.legend(handles, labels, loc='upper right')
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        ax.yaxis.set_ticks_position('left')
+        ax.xaxis.set_ticks_position('bottom')
+
+    plt.savefig('../article/figs/Figure1.pdf', axis='tight')
+
+
+def plot_figure1():
+    base = '../data/'
+    dopri = np.load(base+'test_dopri_V.npy')
+    adams = np.load(base+'test_adams_V.npy')
+    bdf = np.load(base+'test_bdf_V.npy')
+
+    dmax = dopri[dopri[:, 1] > 0, 1]
+    amax = adams[adams[:, 1] > 0, 1][:dmax.shape[0]]
+    bmax = bdf[bdf[:, 1] > 0, 1][:dmax.shape[0]]
+
+    e1 = np.abs(dmax - amax)
+    e2 = np.abs(dmax - bmax)
+
+    fig = plt.figure(figsize=(8, 8))
     ax = fig.add_subplot(111)
-    ax.plot(dopri[M:N, 0], dopri[M:N, 1], 'k', lw=2, alpha=0.3, label='dopri5')
-    ax.plot(adams[M:N, 0], adams[M:N, 1], 'k--', lw=2, alpha=0.5, label='Adams')
-    ax.plot(bdf[M:N, 0], bdf[M:N, 1], 'k-.', lw=2, alpha=0.7, label='BDF')
-    ax.set_xlabel('Time (ms)', fontsize=16, weight='bold')
-    ax.set_ylabel('Membrane Potential (mV)', fontsize=16, weight='bold')
+    a = ax.hist(e1, bins=30, color='k', alpha=0.6)
+    ax.hist(e2, bins=30, color='r', alpha=0.6, weights=-1*np.ones(e1.shape)) 
+    ticks = ax.get_yticks()
+    ticks = [np.abs(i).astype('i') for i in ticks]
+    ax.set_yticklabels(ticks, fontsize=16, weight='bold')
+    n = (a[1].max() - a[1].min()) / 8
+    ticks = np.round(np.arange(a[1].min(), a[1].max(), n), 2)
+    ax.set_xticklabels(ticks, fontsize=16, weight='bold')
+    ax.set_ylabel('Frequency (Hz)', fontsize=19, weight='bold')
+    ax.set_xlabel('Error $|x-y|$ (mV)', fontsize=19, weight='bold')
     ax.get_xaxis().set_tick_params(which='both', direction='out')
     ax.get_yaxis().set_tick_params(which='both', direction='out')
-    ticks = ax.get_xticks()
-    ticks = [i*dt for i in ticks]
-    ax.set_xticklabels(ticks, fontsize=13, weight='bold')
-    ticks = ax.get_yticks()
-    ax.set_yticklabels(ticks, fontsize=13, weight='bold')
-    handles, labels = ax.get_legend_handles_labels()
-    ax.legend(handles, labels, loc='upper right')
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
     ax.yaxis.set_ticks_position('left')
     ax.xaxis.set_ticks_position('bottom')
+
     plt.savefig('../article/figs/Figure1.pdf', axis='tight')
 
-def detect_spikes(data, freq=0, dt=0.05, dist=40, th=0):
-    """ Detect spikes in a period of the input signal
-    as local maxima """
-    win = int(((1.0 / freq) * 1000) / dt)
-    tmp = data[7*win:8*win, 1]
-    spikes = peak_local_max(tmp, min_distance=dist)
-    spikes = spikes[tmp[spikes] > th]
-    # Check if the model behaves properly
-    if spikes.shape[0] > 4:
-        raise ValueError('Bad number of spikes!')
-    else:
-        return spikes.shape[0]
 
-
-def detect_spikes_(data, freq=0, dt=0.05, dist=40, th=0):
-    """ Detect the average of spikes in the input signal. 
-    Bins = #input_points / win_size
-    """
-    win = int(((1.0 / freq) * 1000) / dt)
+def find_spikes(data, f, dt=0.05, th1=0, th2=-65, dist=30):
+    win = int(((1.0 / f) * 1000) / dt)
     bins = int(data.shape[0] / win)
     msum = 0
-    for i in range(bins):
-        tmp = data[i*win:(i+1)*win, 1]
+    for i in range(1, bins):
+        tmp = data[i*win:(i+1)*win]
         spikes = peak_local_max(tmp, min_distance=dist)
-        spikes = spikes[tmp[spikes] > th]
+        if any(spikes > th1):
+            spikes = spikes[tmp[spikes] > th1]
+        else:
+            spikes = spikes[tmp[spikes] > th2]
         msum += spikes.shape[0]
-    return round(msum / bins)
+    return msum / bins   
 
 
 def plot_figure2(diagram=False):
@@ -108,7 +145,7 @@ def plot_figure2(diagram=False):
 
 
     if diagram is True:
-        fig = plt.figure(figsize=(19.5, 7.5))
+        fig = plt.figure(figsize=(8, 15))
         fig.subplots_adjust(wspace=0.5, hspace=.8)
     else:
         fig = plt.figure(figsize=(10, 10))
@@ -116,8 +153,8 @@ def plot_figure2(diagram=False):
     if diagram is True:
         # mat_ = np.load('mat.npy')
         # Plot parameters diagram
-        ax = plt.subplot2grid((3,7), (0, 0), colspan=3, rowspan=3)
-        samples = 30
+        ax = plt.subplot2grid((8,4), (3, 0), colspan=4, rowspan=4)
+        samples = 100
         freq = np.linspace(0.1, 15, samples)
         mat_ = np.empty((samples, samples))
         idx = 0
@@ -125,11 +162,13 @@ def plot_figure2(diagram=False):
             period = 1./freq[i] * 1000
             dur = np.linspace(0, period, samples)
             for j in range(samples):
-                data = np.load(base+'Fig2A_V'+str(idx)+'.npy')[:, :]
-                mat_[i, j] = detect_spikes_(data, freq[i])
+                data = np.load(base+'Fig2A_V'+str(idx)+'.npy')[:, 1]
+                mat_[i, j] = find_spikes(data, freq[i])
                 idx += 1
         # np.save('mat', mat_)
-        ax.contour(mat_.T, levels=[0, 1, 2, 3, 4], linewidths=2, colors='k')
+        im = ax.imshow(mat_.T, interpolation='nearest', cmap=plt.cm.hot,
+                       origin='lower', aspect='auto')
+        ax.contour(mat_.T, levels=[0, 0.5, 1, 2, 3, 4], linewidths=2, colors='w')
         ax.set_xlim([0, samples-1])
         ax.set_ylim([0, samples-1])
         ax.set_xlabel(r"Stimulation Frequecy $\frac{1}{P_0}$ (Hz)",
@@ -145,78 +184,102 @@ def plot_figure2(diagram=False):
         ax.xaxis.set_ticks_position('bottom')
         ax.yaxis.set_ticks_position('left')
         m = mat_.shape[0]
-        ax.set_xticks([0, (samples-1)//4, (samples-1)//2, 3*(samples-1)//4, (samples-1)])
-        ax.set_xticklabels(['0', '3.75', '7.5', '11.25', '15'],
+        ax.set_xticks([0, 33, 66, 99])
+        ax.set_xticklabels(['0', '5', '10', '15'],
                            fontsize=15,
                            weight='bold')
         ax.set_yticks([0, (samples-1)//2, (samples-1)])
         ax.set_yticklabels(['0', '0.5', '1.0'] ,fontsize=15, weight='bold')
-        ax.text(7, 17, '4',
+        ax.text(20, 50, '4',
                 va='top',
                 ha='left',
                 fontsize=14,
                 weight='bold')
-        ax.text(13, 12, '3',
+        ax.text(35, 35, '3',
                 va='top',
                 ha='left',
                 fontsize=14,
                 weight='bold')
-        ax.text(15, 10, '2',
+        ax.text(42, 30, '2',
                 va='top',
                 ha='left',
                 fontsize=14,
                 weight='bold')
-        ax.text(17, 8, '1',
+        ax.text(48, 23, '1',
                 va='top',
                 ha='left',
                 fontsize=14,
                 weight='bold')
-        ax.text(20, 5, '0',
+        ax.text(55, 15, '0',
                 va='top',
                 ha='left',
                 fontsize=14,
+                color='w',
+                weight='bold')
+        ax.text(80, 65, '(0,1)',
+                va='top',
+                ha='left',
+                fontsize=14,
+                color='w',
                 weight='bold')
 
     # Plot the data
     color = ['b', 'k', 'r']
-    P = [100, 200, 2000]
-    f = [10, 5, 0.5]         
+    P = [200, 2000]
+    f = [5, 0.5]         
     ms = 0.001
-    p = [10, 120, 1200]
-    for i in range(3):
+    p = [120, 1200]
+    M, N = 0, 0
+    for i in range(2):
         if diagram is True:
-            ax = plt.subplot2grid((3,7), (i, 4), colspan=3)
+            ax = plt.subplot2grid((8,4), (0, i*2), colspan=2, rowspan=2)
         else:
-            ax = plt.subplot2grid((3,1), (i, 0), colspan=1)
-        ax.plot(t[i], v[i], color=color[i-1], lw=1.5)
-        ax.add_patch(patches.Rectangle((0.0, -100.0), 200, 130, fill=False,
-                     hatch='x'))
-        ax.text(2000, 0.15,
-                "$P_0$ = "+str(f[i])+" (Hz) \n $p/P_0$ = "+str(p[i]/P[i]),
+            ax = plt.subplot2grid((4,1), (i*2, 0), colspan=1, rowspan=2)
+        if i == 0:
+            M, N = int(1600 / 0.05), int(2000 / 0.05)
+            X, Y = 1700, 70
+        if i == 1:
+            M, N = int(300 / 0.05), int(3500 / 0.05)
+            X, Y = 1000, 55
+
+        ax.plot(t[i+1][M:N], v[i+1][M:N], color=color[i], lw=1.5)
+        if i == 1:
+            ax.set_xlim([300, 3500])
+        ax.text(X, Y,
+                "$1/P_0$ = "+str(f[i])+" (Hz) \n $p/P_0$ = "+str(p[i]/P[i])
+                +" \n $p$ = "+str(p[i])+" (ms)",
                 va='top',
                 ha='left',
                 fontsize=13,
                 weight='bold')
-        ax.set_ylim([-100, 25])
-        if i == 1:
+        if i == 0:
+            ax.set_ylim([-100, 25])
             ax.set_ylabel("Voltage (mV)", fontsize=16, weight='bold')
-        if i == 2:
+            ax.get_yaxis().set_tick_params(which='both', direction='out')
+            ax.set_yticks([-100, 0, 20])
+            ticks = ax.get_yticks().astype('i')
+            ax.set_yticklabels(ticks, fontsize=15, weight='bold')
+        if i == 1:
+            ax.set_yticks([])
+        
+        if i == 0:
+            ax.set_xticks([1600, 1800, 2000])
             ticks = ax.get_xticks()
-            ticks = [(j/2000.0) for j in ticks]
+            ticks = [i / 1000 for i in ticks]
             ax.set_xticklabels(ticks, fontsize=13, weight='bold')
-            ax.set_xlabel("Time (s)", fontsize=16, weight='bold')
         else:
-            ax.set_xticks([])
-            ax.spines['bottom'].set_visible(False)
+            ticks = ax.get_xticks()
+            ticks = [i / 1000 for i in ticks]
+            ax.set_xticklabels(ticks, fontsize=13, weight='bold')
+            ax.spines['left'].set_visible(False)
+            ax.xaxis.set_ticks_position('bottom')
+        ax.set_xlabel("Time (s)", fontsize=16, weight='bold')
         ax.get_xaxis().set_tick_params(which='both', direction='out')
-        ax.get_yaxis().set_tick_params(which='both', direction='out')
+
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
         ax.xaxis.set_ticks_position('bottom')
         ax.yaxis.set_ticks_position('left')
-        ax.set_yticks([-100, 0, 20])
-        ticks = ax.get_yticks().astype('i')
-        ax.set_yticklabels(ticks, fontsize=15, weight='bold')
 
     plt.savefig('../article/figs/Figure2.pdf', axis='tight')
 
@@ -277,9 +340,9 @@ def plot_figure4():
     b = np.load(base+'Fig4B2_V.npy')
     z = np.load(base+'Fig4B2_Vstim.npy')
 
-    fig = plt.figure(figsize=(25, 10))
+    fig = plt.figure(figsize=(8.5, 12.5))
     fig.subplots_adjust(wspace=.5, hspace=.8)
-    ax = plt.subplot2grid((3,6), (0, 3), colspan=3, rowspan=1)
+    ax = plt.subplot2grid((5,2), (2, 0), colspan=2, rowspan=1)
     ax.plot(a[:, 0], a[:, 1], 'k', lw=2, alpha=0.5, zorder=10)
     ax.plot(b[:, 0], b[:, 1], 'k', lw=2, zorder=0)
     ax.set_ylim([-80, 20])
@@ -294,10 +357,10 @@ def plot_figure4():
     ax.get_xaxis().set_tick_params(which='both', direction='out')
     ax.get_yaxis().set_tick_params(which='both', direction='out')
     
-    ax = plt.subplot2grid((3,6), (1, 3), colspan=3, rowspan=1)
+    ax = plt.subplot2grid((5,2), (4, 0), colspan=2, rowspan=1)
     ax.plot(a[:, 0], a[:, 3], 'k', lw=2, alpha=0.5)
     ax.plot(b[:, 0], b[:, 3], 'k', lw=2)
-    ax.set_ylim([0, 1])
+    ax.set_ylim([-0.2, 0.5])
     ax.set_xticks([])
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
@@ -310,7 +373,7 @@ def plot_figure4():
     ax.get_xaxis().set_tick_params(which='both', direction='out')
     ax.get_yaxis().set_tick_params(which='both', direction='out')
 
-    ax = plt.subplot2grid((3,6), (2, 3), colspan=3, rowspan=1)
+    ax = plt.subplot2grid((5,2), (3, 0), colspan=2, rowspan=1)
     ax.plot(a[:, 0], s[:a.shape[0]], 'k', lw=2, alpha=0.5)
     ax.plot(a[:, 0], z[:b.shape[0]], 'k', lw=2)
     ax.set_ylim([-1.5, 0.5])
@@ -351,7 +414,7 @@ def plot_figure4():
     minima[minima < 0] = -50
     minima[minima > 0] = np.nan
 
-    ax = plt.subplot2grid((3,6), (0, 0), colspan=3, rowspan=3)
+    ax = plt.subplot2grid((5,2), (0, 0), colspan=2, rowspan=2)
     ax.plot(maxima, 'k', lw=2)
     ax.plot(minima, 'k', lw=2)
     ax.plot((3, 3), (-50, 10), 'k--')
@@ -380,7 +443,7 @@ def plot_figure4():
             ha='left',
             fontsize=15,
             weight='bold')
-    ax.text(5, 14, 'Bursting',
+    ax.text(5, 17, 'Bursting',
             va='top',
             ha='left',
             fontsize=15,
@@ -400,13 +463,13 @@ def plot_figure5():
     h = np.load(base+"Fig5_V.npy")[N:, 2]
 
     # Plot phase plane
-    fig = plt.figure(figsize=(10, 10))
-    fig.subplots_adjust(wspace=0.5, hspace=.5)
-    ax = plt.subplot2grid((4,2), (0, 0), colspan=2, rowspan=2)
+    fig = plt.figure(figsize=(8, 10))
+    fig.subplots_adjust(wspace=1., hspace=1.)
+    ax = plt.subplot2grid((7,3), (0, 0), colspan=3, rowspan=4)
     ax.plot(h, v, 'k', lw=1)
     ax.set_ylim([-80, 20])
     ax.set_xlim([0, 0.1])
-    ax.set_ylabel("V [Voltage (mV)]", fontsize=16, weight='bold')
+    ax.set_ylabel("V (mV)", fontsize=16, weight='bold')
     ax.set_xlabel("h", fontsize=15, weight='bold')
     ticks = ax.get_xticks()
     ax.set_xticklabels(ticks, fontsize=15, weight='bold')
@@ -414,7 +477,7 @@ def plot_figure5():
     ax.set_yticklabels(ticks, fontsize=15, weight='bold')
 
     # Plot membrane potential
-    ax = plt.subplot2grid((4,2), (2, 0), colspan=2)
+    ax = plt.subplot2grid((7,3), (4, 0), colspan=3, rowspan=2)
     ax.plot(t, v, 'k', lw=1)
     ax.set_ylim([-80, 20])
     ax.set_xticks([])
@@ -429,7 +492,7 @@ def plot_figure5():
     ax.yaxis.set_ticks_position('left')
 
     # Plot h 
-    ax = plt.subplot2grid((4,2), (3, 0), colspan=2)
+    ax = plt.subplot2grid((7,3), (6, 0), colspan=3, rowspan=1)
     ax.plot(t, h, 'b', lw=1)
     ax.set_ylim([0.017, 0.077])
     ax.set_xlabel("Time (s)", fontsize=16, weight='bold')
@@ -437,6 +500,7 @@ def plot_figure5():
     ticks = ax.get_xticks().astype('i')
     ticks = [i/1000 for i in ticks]
     ax.set_xticklabels(ticks, fontsize=15, weight='bold')
+    ax.set_yticks([0.02, 0.07])
     ticks = ax.get_yticks()
     ax.set_yticklabels(ticks, fontsize=15, weight='bold')
     ax.get_xaxis().set_tick_params(which='both', direction='out')
@@ -459,8 +523,9 @@ def freq_analysis(data, dt=0.05):
     windowed = signal * blackmanharris(N)
     Sf = rfft(windowed)
     Xf = np.linspace(0, 1/(2*dt), N/2)
-    index = np.argmax(np.abs(Sf[:N/2]))
-    return Xf[index]*1000
+    # Xf = np.linspace(0, 10, N/2)
+    index = np.argmax(np.abs(Sf[:N//2]))
+    return Xf[index] * 1000
 
 
 def plot_figure6():
@@ -470,13 +535,17 @@ def plot_figure6():
     base = "../data/"
 
     # Process the data - compute frequencies
-    IextReal_A = np.genfromtxt(base+'data1.dat')
+    # IextReal_A = np.genfromtxt(base+'data1.dat')
+    IextReal_A = np.genfromtxt(base+'data1or.dat')
+    IextOr_A = np.genfromtxt(base+'data1or.dat')
     FreqReal_A, IRealA = [], []
     for i in range(IextReal_A.shape[0]):
         data = np.load(base+'Fig6AReal_V'+str(i)+".npy")[N:, 1]
         FreqReal_A.append(freq_analysis(data))
 
-    IextReal_B = np.genfromtxt(base+'data2.dat')
+    # IextReal_B = np.genfromtxt(base+'data2.dat')
+    IextReal_B = np.genfromtxt(base+'data2or.dat')
+    IextOr_B = np.genfromtxt(base+'data2or.dat')
     FreqReal_B, IRealB = [], []
     for i in range(IextReal_B.shape[0]):
         data = np.load(base+'Fig6BReal_V'+str(i)+".npy")[N:, 1]
@@ -486,7 +555,7 @@ def plot_figure6():
     Freq = [np.array(FreqReal_A).astype('f'), np.array(FreqReal_B).astype('f')]
 
     # Plot the data
-    fig = plt.figure(figsize=(23, 9))
+    fig = plt.figure(figsize=(18, 8))
     fig.subplots_adjust(wspace=0.5, hspace=.5)
     for i in range(2):
         ax1 = plt.subplot2grid((2, 4), (0, i*2), colspan=2, rowspan=2)
@@ -500,6 +569,16 @@ def plot_figure6():
         ax1.plot(x, y, 'k.-', alpha=0.7, lw=2.5, zorder=0, ms=15)
         ax2.plot(x, 1.0 / y,'bo-', alpha=0.7, lw=2.5, zorder=5, ms = 10,
                  mfc='None', mew=2)
+        if i == 0:
+            ax1.scatter(IextOr_A[:, 0], IextOr_A[:, 1], s=65, c='c',
+                        marker='x', linewidths=2)
+            ax2.scatter(IextOr_A[:, 0], 1.0/IextOr_A[:, 1], marker='p',
+                        s=65, c='m')
+        if i == 1:
+            ax1.scatter(IextOr_B[:, 0], IextOr_B[:, 1], marker='x', s=65,
+                        c='c')
+            ax2.scatter(IextOr_B[:, 0], 1.0/IextOr_B[:, 1], marker='p', s=65,
+                        c='m')
 
 
         ax1.grid(ls='--', color='k')
@@ -552,6 +631,18 @@ def plot_figure6():
                             fontsize=16, 
                             weight='bold',
                             color='b')
+        if i == 0:
+            ax1.text(-0.05, 19, 'A',
+                     va='top',
+                     ha='left',
+                     fontsize=22,
+                     weight='bold')
+        if i == 1:
+            ax1.text(-0.05, 19, 'B',
+                     va='top',
+                     ha='left',
+                     fontsize=22,
+                     weight='bold')
     plt.savefig('../article/figs/Figure6.pdf', axis='tight')
 
 

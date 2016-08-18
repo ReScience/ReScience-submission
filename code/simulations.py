@@ -34,10 +34,10 @@ from neuron_model import *
 def simulate_figure1():
     print("Running test for comparing integration methods")
     base = './params/'
-    Iext = -0.6
+    Iext = -0.55
     name = ['test_dopri', 'test_adams', 'test_bdf']
 
-    simulation = WangModel(base+"params_figure1.cfg",
+    simulation = WangModel(base+"params_figure3.cfg",
                            inp_type='const',
                            amplitude=Iext)
     simulation.run(6000, name[0]+"_V", 'dopri5')
@@ -75,16 +75,15 @@ def simulate_figure2(diagram=False):
     print("Running simulation #2")
 
     if diagram is True:
-        samples = 30
+        samples = 100
         freq = np.linspace(0.1, 15, samples)
         Iext = -1.0                                   
 
         name = "Fig2A"
         idx = 0
         for i, f in enumerate(freq):
-            period = np.round(1./f, 2) * 1000
-            # period = 1./f * 1000
-            dur = np.round(np.linspace(0, period, samples), 2)
+            period = 1./f * 1000
+            dur = np.linspace(0, period, samples)
             for j, d in enumerate(dur):
                 print('Frequency: {}, Duration: {}'.format(f, d))
                 nm = 'Fig2A_V'+str(idx)
@@ -94,7 +93,8 @@ def simulate_figure2(diagram=False):
                                        duration=d,
                                        inp_type='periodic',
                                        amplitude=Iext,
-                                       chunks=100)
+                                       chunks=100,
+                                       store_stim=False)
                 simulation.run(15*period, name+"_V"+str(idx),
                                'vode',
                                'Adams')
@@ -112,7 +112,7 @@ def simulate_figure2(diagram=False):
                                inp_type='periodic',
                                amplitude=Iext,
                                chunks=100)
-        simulation.run(2000, name+"_V"+str(i), 'vode', 'Adams')
+        simulation.run(5000, name+"_V"+str(i), 'vode', 'Adams')
 
 
 def simulate_figure3():
@@ -171,7 +171,7 @@ def simulate_figure5():
 def simulate_figure6():
     print("Running simulation #6")
 
-    Iext = np.round(np.genfromtxt('../data/data1.dat'), 3)
+    Iext = np.genfromtxt('../data/data1or.dat')[:, 0]
     name = "Fig6AReal"
     for i, I in enumerate(Iext):
         nm = 'Fig6AReal_V'+str(i)
@@ -179,9 +179,9 @@ def simulate_figure6():
         simulation = WangModel(base+"params_figure6a.cfg",
                                inp_type='const',
                                amplitude=I)
-        simulation.run(2500, name+"_V"+str(i), 'vode', 'Adams')
+        simulation.run(5000, name+"_V"+str(i), 'vode', 'Adams')
 
-    Iext = np.round(np.genfromtxt('../data/data2.dat'), 3)
+    Iext = np.genfromtxt('../data/data2or.dat')[:, 0]
     name = "Fig6BReal"
     for i, I in enumerate(Iext):
         nm = 'Fig6BReal_V'+str(i)
@@ -189,7 +189,7 @@ def simulate_figure6():
         simulation = WangModel(base+"params_figure6b.cfg",
                                inp_type='const',
                                amplitude=I)
-        simulation.run(2500, name+"_V"+str(i), 'vode', 'Adams')
+        simulation.run(5000, name+"_V"+str(i), 'vode', 'Adams')
 
 
 def simulate_figure7():

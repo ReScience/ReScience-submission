@@ -62,9 +62,9 @@ perturbation[0, 0, t_offset : t_offset + d_stim] = stimulus_amplitude
 perturbation[1, 0, t_offset + t_perturbation: t_offset + t_perturbation + d_perturbation] = perturbation_amplitude
 
 # Target output for learning the readout weights
-target = np.zeros((net.No, 1, trial_duration))
+target = np.zeros((trial_duration, net.No, 1))
 time_axis = np.linspace(0, trial_duration, trial_duration)
-target[0, 0, : ] = target_baseline + (target_amplitude - target_baseline) * np.exp(-(t_offset + d_stim + target_time - time_axis)**2/target_width**2)
+target[:, 0, 0] = target_baseline + (target_amplitude - target_baseline) * np.exp(-(t_offset + d_stim + target_time - time_axis)**2/target_width**2)
 
 ###################
 # Main procedure

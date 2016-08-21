@@ -26,7 +26,7 @@ d_stim= 50 # Duration of the stimulation
 t_relax = 150 # Duration to relax after the trajectory
 
 perturbation_amplitude = 0.2 # Amplitude of the perturbation pulse
-t_perturbation = 300. # Offset for the perturbation
+t_perturbation = 300 # Offset for the perturbation
 d_perturbation = 10 # Duration of the perturbation
 
 
@@ -55,6 +55,8 @@ except:
     print("You have to download the handwriting data first.")
     print("Go to the data/ folder and run the script get_handwriting.sh:")
     print("$ bash get_handwriting.sh")
+    exit(-1)
+
 chaos = targets['chaos']
 neuron = targets['neuron']
 
@@ -77,10 +79,10 @@ perturbation_neuron[2, 0, t_offset:t_offset+d_stim] = stimulus_amplitude
 perturbation_neuron[3, 0, t_offset + t_perturbation: t_offset + t_perturbation + d_perturbation] = perturbation_amplitude
 
 # Targets
-target_chaos = np.zeros((net.No, 1, t_offset + d_stim + d_chaos + t_relax))
-target_chaos[:, 0, t_offset + d_stim: t_offset + d_stim + d_chaos] = chaos
-target_neuron = np.zeros((net.No, 1, t_offset + d_stim + d_neuron + t_relax))
-target_neuron[:, 0, t_offset + d_stim: t_offset + d_stim + d_neuron] = neuron
+target_chaos = np.zeros((t_offset + d_stim + d_chaos + t_relax, net.No, 1))
+target_chaos[t_offset + d_stim: t_offset + d_stim + d_chaos, :, 0] = chaos
+target_neuron = np.zeros((t_offset + d_stim + d_neuron + t_relax, net.No, 1))
+target_neuron[t_offset + d_stim: t_offset + d_stim + d_neuron, :, 0] = neuron
 
 ###################
 # Main procedure

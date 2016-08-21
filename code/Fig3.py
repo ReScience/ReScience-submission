@@ -70,9 +70,9 @@ for target_time in delays:
         impulse[0, 0, t_offset:t_offset+d_stim] = stimulus_amplitude
 
         # Target output for learning the readout weights
-        target = np.zeros((net.No, 1, trial_duration))
+        target = np.zeros((trial_duration, net.No, 1))
         time_axis = np.linspace(0, trial_duration, trial_duration)
-        target[0, 0, : ] = target_baseline + (target_amplitude - target_baseline) * np.exp(-(t_offset + d_stim + target_time - time_axis)**2/target_width**2)
+        target[:, 0, 0] = target_baseline + (target_amplitude - target_baseline) * np.exp(-(t_offset + d_stim + target_time - time_axis)**2/target_width**2)
 
         # Initial trial to determine the innate trajectory
         print('Initial trial to determine a trajectory (without noise)')
@@ -97,7 +97,7 @@ for target_time in delays:
 
         # Pearson correlation coefficient
         pred = final_output[t_offset+d_stim:t_offset+d_stim+d_trajectory, 0, 0]
-        desired = target[0, 0, t_offset+d_stim:t_offset+d_stim+d_trajectory ]
+        desired = target[t_offset+d_stim:t_offset+d_stim+d_trajectory, 0, 0]
         r, p = scipy.stats.pearsonr(desired, pred)
         pearsons[-1].append(r)
 

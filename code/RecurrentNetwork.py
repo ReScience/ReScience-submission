@@ -88,12 +88,13 @@ class RecurrentNetwork(object):
         * `learn_readout`: defines whether the recurrent (False) or readout (True) weights should be learned.
         * `verbose`: defines if the loss should be printed (default: True)
         """
-        # Arrays for recording
-        record_r = []
-        record_z = []
 
         # Get the stimulus shape to know the duration
-        nb, dummy, duration = stimulus.shape
+        nb, _, duration = stimulus.shape
+
+        # Arrays for recording
+        record_r = np.zeros((duration, self.N, 1))
+        record_z = np.zeros((duration, self.No, 1))
 
         # Reset the recurrent population
         self.x = np.random.uniform(-1.0, 1.0, (self.N, 1))
@@ -109,21 +110,21 @@ class RecurrentNetwork(object):
             self.update_neurons(stimulus[:, :, t], noise)
 
             # Recording
-            record_r.append(self.r)
-            record_z.append(self.z)
+            record_r[t, ...] = self.r
+            record_z[t, ...] = self.z
 
             # Learning
             if trajectory.size > 0 and t>=learn_start and t<learn_stop and t%2==0:
                 if not learn_readout:
                     self.rls_recurrent(trajectory[t, :, :])
                 else:
-                    self.rls_readout(trajectory[:, :, t])
+                    self.rls_readout(trajectory[t, :, :])
 
         # Print the loss at the end of the trial
         if trajectory.size > 0 and verbose:
             print('\tLoss:', self.loss/(learn_stop-learn_start)*2.)
 
-        return np.array(record_r), np.array(record_z)
+        return record_r, record_z
 
     def update_neurons(self, stimulus, noise):
         """

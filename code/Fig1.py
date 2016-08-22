@@ -26,7 +26,7 @@ t_relax = 550 # Duration to relax after the trajectory
 trial_duration = t_offset + d_stim + d_trajectory + t_relax # Total duration of a trial
 
 perturbation_amplitude = 0.5 # Amplitude of the perturbation pulse
-t_perturbation = 500. # Offset for the perturbation
+t_perturbation = 500 # Offset for the perturbation
 d_perturbation = 10 # Duration of the perturbation
 
 target_baseline = 0.2 # Baseline of the target function
@@ -53,13 +53,13 @@ net = RecurrentNetwork(
 # Input definitions
 ###################
 # Impulse after 200 ms
-impulse = np.zeros((net.Ni, 1, trial_duration))
-impulse[0, 0, t_offset:t_offset+d_stim] = stimulus_amplitude
+impulse = np.zeros((trial_duration, net.Ni, 1))
+impulse[t_offset:t_offset+d_stim, 0, 0] = stimulus_amplitude
 
 # Perturbation during the trial
-perturbation = np.zeros((net.Ni, 1, trial_duration))
-perturbation[0, 0, t_offset : t_offset + d_stim] = stimulus_amplitude
-perturbation[1, 0, t_offset + t_perturbation: t_offset + t_perturbation + d_perturbation] = perturbation_amplitude
+perturbation = np.zeros((trial_duration, net.Ni, 1))
+perturbation[t_offset : t_offset + d_stim, 0, 0] = stimulus_amplitude
+perturbation[t_offset + t_perturbation: t_offset + t_perturbation + d_perturbation, 1, 0] = perturbation_amplitude
 
 # Target output for learning the readout weights
 target = np.zeros((trial_duration, net.No, 1))
@@ -73,11 +73,11 @@ tstart = time.time()
 
 # Initial trial to determine the innate trajectory
 print('Initial trial to determine a trajectory (without noise)')
-trajectory, initial_output = net.simulate(stimulus=impulse, noise=False)
+initial_trajectory, initial_output = net.simulate(stimulus=impulse, noise=False)
 
 # Pre-training test trial
 print('Pre-training test trial')
-pretraining, pretraining_output = net.simulate(stimulus=impulse)
+pretraining_trajectory, pretraining_output = net.simulate(stimulus=impulse)
 
 # Perturbation trial
 print(nb_perturbation_trials, 'perturbation trials')
@@ -89,7 +89,7 @@ for i in range(nb_perturbation_trials):
 # 20 trials of learning for the recurrent weights
 for i in range(nb_learning_trials_rec):
     print('Learning trial recurrent', i+1)
-    _, _ = net.simulate(stimulus=impulse, trajectory=trajectory,
+    _, _ = net.simulate(stimulus=impulse, trajectory=initial_trajectory,
                         learn_start=t_offset+d_stim, learn_stop=t_offset+d_stim+d_trajectory)
 
 # 10 trials of learning for the readout weights
@@ -114,8 +114,8 @@ for i in range(2):
 print(nb_perturbation_trials, 'perturbation trials')
 perturbation_final = []
 for i in range(nb_perturbation_trials):
-    _, o = net.simulate(stimulus=perturbation)
-    perturbation_final.append(o)
+    _, perturbation_output = net.simulate(stimulus=perturbation)
+    perturbation_final.append(perturbation_output)
 
 print('Simulation done in', time.time() - tstart, 'seconds.')
 
@@ -126,7 +126,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
 ax = plt.subplot2grid((4,2),(0, 0), colspan=2)
-ax.imshow(trajectory[:, :100, 0].T, aspect='auto', origin='lower')
+ax.imshow(initial_trajectory[:, :100, 0].T, aspect='auto', origin='lower')
 ax.set_xticks([0, 500, 1000, 1500, 2000, 2500])
 ax.set_xticklabels([0, 0.5, 1, 1.5, 2, 2.5])
 ymin, ymax = ax.get_ylim()
@@ -136,12 +136,12 @@ ax.set_xlabel('Time (s)')
 ax.set_ylabel('Recurrent units')
 
 ax = plt.subplot2grid((4,2),(1, 0))
-ax.plot(trajectory[:, 0, 0] + 1, 'b')
-ax.plot(trajectory[:, 1, 0] + 3, 'b')
-ax.plot(trajectory[:, 2, 0] + 5, 'b')
-ax.plot(pretraining[:, 0, 0] + 1, 'r')
-ax.plot(pretraining[:, 1, 0] + 3, 'r')
-ax.plot(pretraining[:, 2, 0] + 5, 'r')
+ax.plot(initial_trajectory[:, 0, 0] + 1, 'b')
+ax.plot(initial_trajectory[:, 1, 0] + 3, 'b')
+ax.plot(initial_trajectory[:, 2, 0] + 5, 'b')
+ax.plot(pretraining_trajectory[:, 0, 0] + 1, 'r')
+ax.plot(pretraining_trajectory[:, 1, 0] + 3, 'r')
+ax.plot(pretraining_trajectory[:, 2, 0] + 5, 'r')
 ax.set_xticks([0, 500, 1000, 1500, 2000, 2500])
 ax.set_xticklabels([0, 0.5, 1, 1.5, 2, 2.5])
 ax.set_yticks([1, 3, 5])

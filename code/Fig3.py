@@ -66,8 +66,8 @@ for target_time in delays:
         )
 
         # Impulse input after 200 ms
-        impulse = np.zeros((net.Ni, 1, trial_duration))
-        impulse[0, 0, t_offset:t_offset+d_stim] = stimulus_amplitude
+        impulse = np.zeros((trial_duration, net.Ni, 1))
+        impulse[t_offset:t_offset+d_stim, 0, 0] = stimulus_amplitude
 
         # Target output for learning the readout weights
         target = np.zeros((trial_duration, net.No, 1))

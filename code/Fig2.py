@@ -65,24 +65,24 @@ _, d_chaos = chaos.shape
 _, d_neuron = neuron.shape
 
 # Impulses
-impulse_chaos = np.zeros((net.Ni, 1, t_offset + d_stim + d_chaos + t_relax))
-impulse_chaos[0, 0, t_offset:t_offset+d_stim] = stimulus_amplitude
-impulse_neuron = np.zeros((net.Ni, 1, t_offset + d_stim + d_neuron + t_relax))
-impulse_neuron[2, 0, t_offset:t_offset+d_stim] = stimulus_amplitude
+impulse_chaos = np.zeros((t_offset + d_stim + d_chaos + t_relax, net.Ni, 1))
+impulse_chaos[t_offset:t_offset+d_stim, 0, 0] = stimulus_amplitude
+impulse_neuron = np.zeros((t_offset + d_stim + d_neuron + t_relax, net.Ni, 1))
+impulse_neuron[t_offset:t_offset+d_stim, 2, 0] = stimulus_amplitude
 
 # Perturbation
-perturbation_chaos = np.zeros((net.Ni, 1, t_offset + d_stim + d_chaos + t_relax))
-perturbation_chaos[0, 0, t_offset:t_offset+d_stim] = stimulus_amplitude
-perturbation_chaos[1, 0, t_offset + t_perturbation: t_offset + t_perturbation + d_perturbation] = perturbation_amplitude
-perturbation_neuron = np.zeros((net.Ni, 1, t_offset + d_stim + d_neuron + t_relax))
-perturbation_neuron[2, 0, t_offset:t_offset+d_stim] = stimulus_amplitude
-perturbation_neuron[3, 0, t_offset + t_perturbation: t_offset + t_perturbation + d_perturbation] = perturbation_amplitude
+perturbation_chaos = np.zeros((t_offset + d_stim + d_chaos + t_relax, net.Ni, 1))
+perturbation_chaos[t_offset:t_offset+d_stim, 0, 0] = stimulus_amplitude
+perturbation_chaos[t_offset + t_perturbation: t_offset + t_perturbation + d_perturbation, 1, 0] = perturbation_amplitude
+perturbation_neuron = np.zeros((t_offset + d_stim + d_neuron + t_relax, net.Ni, 1))
+perturbation_neuron[t_offset:t_offset+d_stim, 2, 0] = stimulus_amplitude
+perturbation_neuron[t_offset + t_perturbation: t_offset + t_perturbation + d_perturbation, 3, 0] = perturbation_amplitude
 
 # Targets
 target_chaos = np.zeros((t_offset + d_stim + d_chaos + t_relax, net.No, 1))
-target_chaos[t_offset + d_stim: t_offset + d_stim + d_chaos, :, 0] = chaos
+target_chaos[t_offset + d_stim: t_offset + d_stim + d_chaos, :, 0] = chaos.T
 target_neuron = np.zeros((t_offset + d_stim + d_neuron + t_relax, net.No, 1))
-target_neuron[t_offset + d_stim: t_offset + d_stim + d_neuron, :, 0] = neuron
+target_neuron[t_offset + d_stim: t_offset + d_stim + d_neuron, :, 0] = neuron.T
 
 ###################
 # Main procedure
@@ -145,8 +145,8 @@ print('Simulation done in', time.time() - tstart, 'seconds.')
 ##################
 import matplotlib.pyplot as plt
 
-subsampling_chaos = t_offset + d_stim + np.linspace(0, d_chaos, 20, dtype=np.int32)
-subsampling_neuron = t_offset + d_stim + np.linspace(0, d_neuron, 20, dtype=np.int32)
+subsampling_chaos = (t_offset + d_stim + np.linspace(0, d_chaos, 20)).astype(np.int32)
+subsampling_neuron = (t_offset + d_stim + np.linspace(0, d_neuron, 20)).astype(np.int32)
 
 ax = plt.subplot2grid((2,2),(0, 0))
 ax.plot(chaos[0, :], chaos[1, :], linewidth=2.)

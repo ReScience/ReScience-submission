@@ -198,7 +198,7 @@ P_out = [np.identity(N)/delta for i in range(No)]
 
 **Training:** Once the $P$ matrices are initialized to the correct value, implementing the learning rule only consists of getting the algebraic operations right. One particularity of the original Matlab code is that the learning rules are only applied every 2 time steps during the training window instead of every step. As the computations are heavy, we kept this implementation trick which does not change much the results.
 
-For the recurrent weights, we need to build a vector `r_plastic` for each neuron that contains the firing rates of the neurons connected to it. Once we have this vector, we can apply the RLS rule:
+For the recurrent weights, we need to build a vector `r_plastic` for each neuron that contains the firing rates of the neurons connected to it. Once we have this vector, we can apply the RLS rule. The error is computed as a vector for all recurrent units, but in practice only used for the first ``N_plastic`` units:
 
 ```{.python}
 # Compute the error of the recurrent neurons
@@ -210,15 +210,15 @@ for i in range(N_plastic): # for each plastic post neuron
     # Multiply with the inverse correlation matrix P*R
     PxR = np.dot(P[i], r_plastic)
     # Normalization term 1 + R'*P*R
-    RxPxR = (1. + np.dot(r_plastic.T,  PxR))[0, 0]
+    RxPxR = (1. + np.dot(r_plastic.T,  PxR))
     # Update the inverse correlation matrix
     # P <- P - ((P*R)*(P*R)')/(1+R'*P*R)
     P[i] -= np.dot(PxR, PxR.T)/RxPxR
     # Learning rule W <- W - e * (P*R)/(1+R'*P*R)
-    W_rec[i, W_plastic[i]] -= error[i, 0] * (PxR[:, 0]/RxPxR)
+    W_rec[i, W_plastic[i]] -= error[i, 0] * (PxR/RxPxR)[:, 0]
 ```
 
-The implementation for the read-out weights is similar, except we can use directly `r` instead of `r_plastic` in the update rules.
+The weight update uses the error of the neuron ``i`` (a scalar) and a vector corresponding to ``(P*R)/(1+R'*P*R)``. The shape of ``W_rec[i, W_plastic[i]]`` is (80,) on average, but ``PxR/RxPxR`` is (80, 1), so we need to slice this array to the correct shape using ``[:, 0]``. The implementation for the read-out weights is similar, except we can use directly `r` instead of `r_plastic` in the update rules.
 
 ## Training procedure
 

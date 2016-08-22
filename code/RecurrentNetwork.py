@@ -22,8 +22,9 @@ class RecurrentNetwork(object):
     * Io : Noise variance
     * delta : Initial value of the P matrix
     * P_plastic : Percentage of neurons receiving plastic synapses
+    * dtype: floating point precision (default: np.float32)
     """
-    def __init__(self, Ni=2, N=800, No=1, tau=10.0, g=1.5, pc=0.1, Io=0.001, delta=1.0, P_plastic=0.6):
+    def __init__(self, Ni=2, N=800, No=1, tau=10.0, g=1.5, pc=0.1, Io=0.001, delta=1.0, P_plastic=0.6, dtype=np.float32):
         # Copy the parameters
         self.Ni = Ni
         self.N = N
@@ -35,6 +36,7 @@ class RecurrentNetwork(object):
         self.delta = delta
         self.P_plastic = P_plastic
         self.N_plastic = int(self.P_plastic*self.N) # Number of plastic cells = 480
+        self.dtype = dtype
 
         # Build the network
         self.build()
@@ -44,20 +46,20 @@ class RecurrentNetwork(object):
         Initializes the network including the weight matrices.
         """
         # Input
-        self.I = np.zeros((self.Ni, 1))
+        self.I = np.zeros((self.Ni, 1), dtype=self.dtype)
 
         # Recurrent population
-        self.x = np.random.uniform(-1.0, 1.0, (self.N, 1))
-        self.r = np.tanh(self.x)
+        self.x = np.random.uniform(-1.0, 1.0, (self.N, 1)).astype(self.dtype)
+        self.r = np.tanh(self.x).astype(self.dtype)
 
         # Read-out population
-        self.z = np.zeros((self.No, 1))
+        self.z = np.zeros((self.No, 1), dtype=self.dtype)
 
         # Weights between the input and recurrent units
-        self.W_in = np.random.randn(self.N, self.Ni)
+        self.W_in = np.random.randn(self.N, self.Ni).astype(self.dtype)
 
         # Weights between the recurrent units
-        self.W_rec = np.random.randn(self.N, self.N) * self.g/np.sqrt(self.pc*self.N)
+        self.W_rec = (np.random.randn(self.N, self.N) * self.g/np.sqrt(self.pc*self.N)).astype(self.dtype)
 
         # The connection pattern is sparse with p=0.1
         connectivity_mask = np.random.binomial(1, self.pc, (self.N, self.N))
@@ -68,13 +70,13 @@ class RecurrentNetwork(object):
         self.W_plastic = [list(np.nonzero(connectivity_mask[i, :])[0]) for i in range(self.N_plastic)]
 
         # Inverse correlation matrix of inputs for learning recurrent weights
-        self.P = [1./self.delta*np.identity(len(self.W_plastic[i])) for i in range(self.N_plastic)]
+        self.P = [1./self.delta*np.identity(len(self.W_plastic[i])).astype(self.dtype) for i in range(self.N_plastic)]
 
         # Output weights
-        self.W_out = np.random.randn(self.No, self.N) / np.sqrt(self.N)
+        self.W_out = (np.random.randn(self.No, self.N) / np.sqrt(self.N)).astype(self.dtype)
 
         # Inverse correlation matrix of inputs for learning readout weights
-        self.P_out = [1./self.delta*np.identity(self.N) for i in range(self.No)]
+        self.P_out = [1./self.delta*np.identity(self.N).astype(self.dtype) for i in range(self.No)]
 
     def simulate(self, stimulus, noise=True, trajectory=np.array([]), learn_start=-1, learn_stop=-1, learn_readout=False, verbose=True):
         """
@@ -90,28 +92,32 @@ class RecurrentNetwork(object):
         """
 
         # Get the stimulus shape to know the duration
-        nb, _, duration = stimulus.shape
+        duration, _, _ = stimulus.shape
 
         # Arrays for recording
-        record_r = np.zeros((duration, self.N, 1))
-        record_z = np.zeros((duration, self.No, 1))
+        record_r = np.zeros((duration, self.N, 1), dtype=self.dtype)
+        record_z = np.zeros((duration, self.No, 1), dtype=self.dtype)
 
         # Reset the recurrent population
-        self.x = np.random.uniform(-1.0, 1.0, (self.N, 1))
-        self.r = np.tanh(self.x)
+        self.x = np.random.uniform(-1.0, 1.0, (self.N, 1)).astype(self.dtype)
+        self.r = np.tanh(self.x).astype(self.dtype)
 
         # Reset loss term
         self.loss = 0.0
+
+        # Ensure the floating point precision
+        stimulus = stimulus.astype(self.dtype)
+        trajectory = trajectory.astype(self.dtype)
 
         # Simulate for the desired duration
         for t in range(duration):
 
             # Update the neurons' firing rates
-            self.update_neurons(stimulus[:, :, t], noise)
+            self.update_neurons(stimulus[t, :, :], noise)
 
             # Recording
-            record_r[t, ...] = self.r
-            record_z[t, ...] = self.z
+            record_r[t, :, :] = self.r
+            record_z[t, :, :] = self.z
 
             # Learning
             if trajectory.size > 0 and t>=learn_start and t<learn_stop and t%2==0:
@@ -133,7 +139,7 @@ class RecurrentNetwork(object):
         # Inputs are set externally
         self.I = stimulus
         # Noise can be shut off
-        I_noise = self.Io * np.random.randn(self.N, 1) if noise else 0.0
+        I_noise = (self.Io * np.random.randn(self.N, 1) if noise else np.zeros((self.N, 1))).astype(self.dtype)
         # tau * dx/dt + x = I + sum(r) + I_noise
         self.x += (np.dot(self.W_in, self.I) + np.dot(self.W_rec, self.r) + I_noise - self.x)/self.tau
         # r = tanh(x)
@@ -148,6 +154,7 @@ class RecurrentNetwork(object):
         # Compute the error of the recurrent neurons
         error = self.r - target
         self.loss += np.mean(error**2)
+
         # Apply the FORCE learning rule to the recurrent weights
         for i in range(self.N_plastic): # for each plastic post neuron
             # Get the rates from the plastic synapses only
@@ -155,11 +162,11 @@ class RecurrentNetwork(object):
             # Multiply with the inverse correlation matrix P*R
             PxR = np.dot(self.P[i], r_plastic)
             # Normalization term 1 + R'*P*R
-            RxPxR = (1. + np.dot(r_plastic.T,  PxR))[0, 0]
+            RxPxR = (1. + np.dot(r_plastic.T,  PxR))
             # Update the inverse correlation matrix P <- P - ((P*R)*(P*R)')/(1+R'*P*R)
             self.P[i] -= np.dot(PxR, PxR.T)/RxPxR
             # Learning rule W <- W - e * (P*R)/(1+R'*P*R)
-            self.W_rec[i, self.W_plastic[i]] -= error[i, 0] * (PxR[:, 0]/RxPxR)
+            self.W_rec[i, self.W_plastic[i]] -= error[i, 0] * (PxR/RxPxR)[:, 0]
 
     def rls_readout(self, target):
         """
@@ -168,16 +175,17 @@ class RecurrentNetwork(object):
         # Compute the error of the output neurons
         error = self.z - target
         self.loss += np.mean(error**2)
+
         # Apply the FORCE learning rule to the readout weights
         for i in range(self.No): # for each readout neuron
             # Multiply the rates with the inverse correlation matrix P*R
             PxR = np.dot(self.P_out[i], self.r)
             # Normalization term 1 + R'*P*R
-            RxPxR = (1. + np.dot(self.r.T,  PxR))[0, 0]
+            RxPxR = (1. + np.dot(self.r.T,  PxR))
             # Update the inverse correlation matrix P <- P - ((P*R)*(P*R)')/(1+R'*P*R)
             self.P_out[i] -= np.dot(PxR, PxR.T)/RxPxR
             # Learning rule W <- W - e * (P*R)/(1+R'*P*R)
-            self.W_out[i, :] -= error[i, 0] * (PxR[:, 0]/RxPxR)
+            self.W_out[i, :] -= error[i, 0] * (PxR/RxPxR)[:, 0]
 
     def save(self, filename):
         """

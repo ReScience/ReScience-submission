@@ -29,90 +29,44 @@ from matplotlib import collections  as mc
 from skimage.feature import peak_local_max
 
 
-def plot_figure1_old():
-    dt = 0.05
+def plot_figure1():
     base = '../data/'
-    dopri = np.load(base+'test_dopri_V.npy')
-    adams = np.load(base+'test_adams_V.npy')
-    bdf = np.load(base+'test_bdf_V.npy')
 
-    def spk(x):
-        tmp = np.zeros((x.shape[0], ))
-        spikes = peak_local_max(x, min_distance=10)
-        spikes = spikes[x[spikes] > 0]
-        tmp[spikes] = 1
-        return tmp.astype('f')
+    data = []
+    data.append(np.load(base+'test_dopri_V.npy')[:, 1])   # dopri5
+    data.append(np.load(base+'test_adams_V.npy')[:, 1])   # adams
+    data.append(np.load(base+'test_bdf_V.npy')[:, 1])     # BDF
 
-    M, N = 4200, 4205
-    fig = plt.figure(figsize=(10, 10))
+    labels = ['Dopri5', 'Adams', 'BDF']
+    case = ['A', 'B']
+
+    fig = plt.figure(figsize=(15, 7))
+    fig.subplots_adjust(wspace=0.5, hspace=0.5)
     for i in range(2):
-        if i == 0:
-            M, N = 4270, 4310
-        else:
-            M, N = 6830, 6850
-        ax = fig.add_subplot(2, 1, i+1)
-        ax.plot(dopri[M:N, 0], dopri[M:N, 1], 'k', lw=2, alpha=1.0,
-                label='dopri5')
-        ax.plot(adams[M:N, 0], adams[M:N, 1], 'k--', lw=2, alpha=1.0,
-                label='Adams', zorder=0)
-        ax.plot(bdf[M:N, 0], bdf[M:N, 1], 'k-.', lw=2, alpha=1.0,
-                label='BDF', zorder=1)
-        if i == 1:
-            m = max(bdf[M:N, 1].max(), dopri[M:N, 1].max(), adams[M:N, 1].max())
-            mm = dopri[M:N, 1].max()
-            n = max(bdf[M:N, 1].argmax(), dopri[M:N, 1].argmax(),
-                    adams[M:N, 1].argmax())
-            print(m, n, mm)
-        ax.set_xlabel('Time (ms)', fontsize=16, weight='bold')
-        ax.set_ylabel('Membrane Potential (mV)', fontsize=16, weight='bold')
-        ax.get_xaxis().set_tick_params(which='both', direction='out')
-        ax.get_yaxis().set_tick_params(which='both', direction='out')
-        ticks = ax.get_xticks()
-        ticks = [i*dt for i in ticks]
-        ax.set_xticklabels(ticks, fontsize=13, weight='bold')
-        ticks = ax.get_yticks()
-        ax.set_yticklabels(ticks, fontsize=13, weight='bold')
-        handles, labels = ax.get_legend_handles_labels()
-        ax.legend(handles, labels, loc='upper right')
+        ax = fig.add_subplot(1, 2, i+1, aspect=1)
+        ax.plot(data[0], data[i+1], 'k')
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
         ax.yaxis.set_ticks_position('left')
         ax.xaxis.set_ticks_position('bottom')
-
-    plt.savefig('../article/figs/Figure1.pdf', axis='tight')
-
-
-def plot_figure1():
-    base = '../data/'
-    dopri = np.load(base+'test_dopri_V.npy')
-    adams = np.load(base+'test_adams_V.npy')
-    bdf = np.load(base+'test_bdf_V.npy')
-
-    dmax = dopri[dopri[:, 1] > 0, 1]
-    amax = adams[adams[:, 1] > 0, 1][:dmax.shape[0]]
-    bmax = bdf[bdf[:, 1] > 0, 1][:dmax.shape[0]]
-
-    e1 = np.abs(dmax - amax)
-    e2 = np.abs(dmax - bmax)
-
-    fig = plt.figure(figsize=(8, 8))
-    ax = fig.add_subplot(111)
-    a = ax.hist(e1, bins=30, color='k', alpha=0.6)
-    ax.hist(e2, bins=30, color='r', alpha=0.6, weights=-1*np.ones(e1.shape)) 
-    ticks = ax.get_yticks()
-    ticks = [np.abs(i).astype('i') for i in ticks]
-    ax.set_yticklabels(ticks, fontsize=16, weight='bold')
-    n = (a[1].max() - a[1].min()) / 8
-    ticks = np.round(np.arange(a[1].min(), a[1].max(), n), 2)
-    ax.set_xticklabels(ticks, fontsize=16, weight='bold')
-    ax.set_ylabel('Frequency (Hz)', fontsize=19, weight='bold')
-    ax.set_xlabel('Error $|x-y|$ (mV)', fontsize=19, weight='bold')
-    ax.get_xaxis().set_tick_params(which='both', direction='out')
-    ax.get_yaxis().set_tick_params(which='both', direction='out')
-    ax.spines['right'].set_visible(False)
-    ax.spines['top'].set_visible(False)
-    ax.yaxis.set_ticks_position('left')
-    ax.xaxis.set_ticks_position('bottom')
+        ticks = ax.get_yticks()
+        ax.set_yticklabels(ticks, fontsize=14, weight='bold')
+        ticks = ax.get_xticks()
+        ax.set_xticklabels(ticks, fontsize=14, weight='bold')
+        ax.set_xlabel(labels[0]+' V (mV)', fontsize=16, weight='bold')
+        ax.set_ylabel(labels[i+1]+' V (mV)', fontsize=17, weight='bold')
+        ax.get_xaxis().set_tick_params(which='both', direction='out')
+        ax.get_yaxis().set_tick_params(which='both', direction='out')
+        if i == 1:
+            ax.spines['left'].set_visible(False)
+        if i == 0:
+            ax.yaxis.set_ticks_position('left')
+            ax.xaxis.set_ticks_position('bottom')
+        ax.text(-78, 19, case[i],
+                va='top',
+                ha='left',
+                fontsize=23,
+                weight='bold')
 
     plt.savefig('../article/figs/Figure1.pdf', axis='tight')
 
@@ -356,12 +310,20 @@ def plot_figure4():
     ax.set_ylabel('V (mV)', fontsize=16, weight='bold')
     ax.get_xaxis().set_tick_params(which='both', direction='out')
     ax.get_yaxis().set_tick_params(which='both', direction='out')
+    ax.text(950, 12, 'B',
+            va='top',
+            ha='left',
+            fontsize=26,
+            weight='bold')
     
     ax = plt.subplot2grid((5,2), (4, 0), colspan=2, rowspan=1)
     ax.plot(a[:, 0], a[:, 3], 'k', lw=2, alpha=0.5)
     ax.plot(b[:, 0], b[:, 3], 'k', lw=2)
     ax.set_ylim([-0.2, 0.5])
-    ax.set_xticks([])
+    ticks = ax.get_xticks()
+    ticks = [(i/1000) for i in ticks]
+    ax.set_xticklabels(ticks, fontsize=13, weight='bold')
+    ax.set_xlabel('Time (s)', fontsize=16, weight='bold')
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
     ax.spines['bottom'].set_visible(False)
@@ -372,15 +334,17 @@ def plot_figure4():
     ax.set_ylabel('H', fontsize=16, weight='bold')
     ax.get_xaxis().set_tick_params(which='both', direction='out')
     ax.get_yaxis().set_tick_params(which='both', direction='out')
+    ax.text(950, 0.5, 'D',
+            va='top',
+            ha='left',
+            fontsize=26,
+            weight='bold')
 
     ax = plt.subplot2grid((5,2), (3, 0), colspan=2, rowspan=1)
     ax.plot(a[:, 0], s[:a.shape[0]], 'k', lw=2, alpha=0.5)
     ax.plot(a[:, 0], z[:b.shape[0]], 'k', lw=2)
     ax.set_ylim([-1.5, 0.5])
-    ticks = ax.get_xticks()
-    ticks = [(i/1000) for i in ticks]
-    ax.set_xticklabels(ticks, fontsize=13, weight='bold')
-    ax.set_xlabel('Time (s)', fontsize=16, weight='bold')
+    ax.set_xticks([])
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
     ax.xaxis.set_ticks_position('bottom')
@@ -392,6 +356,11 @@ def plot_figure4():
                   weight='bold')
     ax.get_xaxis().set_tick_params(which='both', direction='out')
     ax.get_yaxis().set_tick_params(which='both', direction='out')
+    ax.text(950, 0.5, 'C',
+            ha='left',
+            fontsize=26,
+            weight='bold')
+
 
     def extrema(x):
         spikes = peak_local_max(x, min_distance=150)
@@ -447,6 +416,11 @@ def plot_figure4():
             va='top',
             ha='left',
             fontsize=15,
+            weight='bold')
+    ax.text(19, 0, 'A',
+            va='top',
+            ha='left',
+            fontsize=26,
             weight='bold')
     plt.savefig('../article/figs/Figure4.pdf', axis='tight')
 

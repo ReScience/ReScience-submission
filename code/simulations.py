@@ -40,9 +40,9 @@ def simulate_figure1():
     simulation = WangModel(base+"params_figure3.cfg",
                            inp_type='const',
                            amplitude=Iext)
-    simulation.run(6000, name[0]+"_V", 'dopri5')
-    simulation.run(6000, name[1]+"_V", 'vode', 'Adams')
-    simulation.run(6000, name[2]+"_V", 'vode', 'BDF')
+    simulation.run(3000, name[0]+"_V", 'dopri5')
+    simulation.run(3000, name[1]+"_V", 'vode', 'Adams')
+    simulation.run(3000, name[2]+"_V", 'vode', 'BDF')
 
     base = '../data/'
     def spk(x):

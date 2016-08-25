@@ -296,7 +296,7 @@ class WangModel():
             Iapp = np.ones((t_sim, )) * self.amplitude
         elif self.inp_type == "pulse":
             Iapp = np.zeros((t_sim, ))
-            dur = self.P / dt
+            dur = int(self.P / dt)
             Iapp[:dur] = self.pulse_amplitude
             Iapp[dur:] = self.amplitude
         elif self.inp_type == "periodic":

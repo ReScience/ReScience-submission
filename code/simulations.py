@@ -58,14 +58,17 @@ def simulate_figure1():
     spks1 = spk(dopri[:, 1]).astype('i')
     spks2 = spk(adams[:, 1]).astype('i')
     spks3 = spk(bdf[:, 1]).astype('i')
+    s1 = np.where(spks1 > 0)[0]
+    s2 = np.where(spks2 > 0)[0]
+    s3 = np.where(spks3 > 0)[0]
     isi1 = np.diff(dopri[spks1==1, 0])
     isi2 = np.diff(adams[spks2==1, 0])
     isi3 = np.diff(bdf[spks3==1, 0])
     CV1 = np.mean(isi1) / np.std(isi1)
     CV2 = np.mean(isi2) / np.std(isi2)
     CV3 = np.mean(isi3) / np.std(isi3)
-    print('sum(Spikes dopri5 - spikes Adams):  ',(dopri[spks1,0]-adams[spks2,0]).sum())
-    print('sum(Spikes dopri5 - spikes BDF):  ',(dopri[spks1,0]-bdf[spks3,0]).sum())
+    print('sum(Spikes dopri5 - spikes Adams):  ', np.abs((s1 - s2).sum()))
+    print('sum(Spikes dopri5 - spikes BDF):  ', np.abs((s1 - s3).sum()))
     print('CV dopri5:', CV1)
     print('CV Adams:', CV2)
     print('CV BDF:', CV3)

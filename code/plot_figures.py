@@ -44,7 +44,12 @@ def plot_figure1():
     fig.subplots_adjust(wspace=0.5, hspace=0.5)
     for i in range(2):
         ax = fig.add_subplot(1, 2, i+1, aspect=1)
-        ax.plot(data[0], data[i+1], 'k')
+        ax.plot(data[0], data[i+1], 'k.')
+        plt.fill_between([-80, 20], [-82, 18], [-78, 22],
+                          edgecolor='none',
+                          facecolor='k', alpha=0.2)
+        ax.set_xlim([-80, 20])
+        ax.set_ylim([-80, 20])
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
         ax.yaxis.set_ticks_position('left')
@@ -57,8 +62,6 @@ def plot_figure1():
         ax.set_ylabel(labels[i+1]+' V (mV)', fontsize=17, weight='bold')
         ax.get_xaxis().set_tick_params(which='both', direction='out')
         ax.get_yaxis().set_tick_params(which='both', direction='out')
-        if i == 1:
-            ax.spines['left'].set_visible(False)
         if i == 0:
             ax.yaxis.set_ticks_position('left')
             ax.xaxis.set_ticks_position('bottom')

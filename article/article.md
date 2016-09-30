@@ -1,4 +1,4 @@
----            
+﻿---            
 Title: "Cellular and Network Mechanisms of Slow Oscillatory Activity (<1 Hz) 
         and Wave Propagations in a Cortical Network Model"
 Author:
@@ -50,7 +50,7 @@ We provide an implementation of the model of [@Compte03_2707], which reproduces 
 behaviors during slow-wave oscillations in vitro in control conditions and under pharmacological manipulations.
 In particular, we focus on the authors' model results that include: (a) neuronal membrane potentials oscillating
 between Up and Down states at $<\!\!1\,\mathrm{Hz}$; (b) characteristic membrane resistance behavior and activation of neuronal
-ion channels with proportional excitation and inhibition during Up states; (c) spontaneous initiation and further
+ion channels with proportional excitation and inhibition during Up states; (c) spontaneous and stimulus-evoked initiation and further
 wave-like propagation of population spiking activity. The original implementation is in
 C\nolinebreak[4]\hspace{-0.05em}\raisebox{.4ex}{\tiny{\bf ++}}, but the source code is not publicly available. 
 The implementation we propose is coded in the NEST [@Gewaltig_07_11204] framework, one of the modern actively 
@@ -96,7 +96,7 @@ implementation behaves like the original according to the information given in t
 injection of $250\,\mathrm{pA}$ current into the soma (Fig.$\,$@fig:bm-neuron) results in an adapting firing pattern in pyramidal (PY) 
 and non-adapting firing in fast-spiking (FS) neurons with average firing rates of $22$ and $76$ spikes/s, respectively. 
 Distribution of the membrane leak conductance with 10\% (PY) and 2.5\% (FS) standard deviation around the mean value leads 
-to a small fraction of pyramidal (but not fast-spiking) neurons showing pacemaking activity. 
+to a small fraction of PY and a negligible fraction of FS neurons showing spontaneous activity.
 
 
 ![**Model response to 250 pA current injection for 500 ms into the soma of a pyramidal (PY) (A) and a fast-spiking (FS) (B) neuron.** 
@@ -118,7 +118,7 @@ These simplifications are justified by the stereotyped trajectory of the presyna
 Further, these simplifications allow us to merge gating variables $s$ of all synapses of one type (AMPA, NMDA or GABA) into a single 
 postsynaptic time-dependent conductance (see Table @tbl:syn-values). While multiple activations of the 
 same synapse lead to linear summation of postsynaptic AMPA and GABA conductances in the original model, NMDA conductances saturate at high 
-input rates. Such behavior is modeled using the short-term plasticity formalism suggested by [@Markram98]. In short, the amplitude 
+input rates. We model such behavior using the short-term plasticity formalism suggested by [@Markram98]. In short, the amplitude 
 of the postsynaptic current $PSC=A\cdot R\cdot u$ is proportional to the fraction of available synaptic efficacy $R$ and 
 utilization of synaptic efficacy $u$. Spike-triggered synaptic activation leads to a reduction of the available synaptic efficacy 
 (corresponding to short-term depression) together with an increase in the utilization of synaptic efficacy (corresponding 
@@ -131,8 +131,8 @@ $$ \frac{ds}{dt}=\alpha(1-s)x-s/\tau. $$ {#eq:1}
  
 
 ![**Simplified synaptic kinetics (dashed curve) for AMPA, NMDA, and GABA conductances closely reproduces the behavior 
-of the original model (solid curve) in a wide range of spiking rates.** DC currents, simultaneous injected into the soma of a pre-synaptic 
-excitatory and an inhibitory neuron for $500\,\mathrm{ms}$, lead to synaptic activation at rates of $4$, $14$, $22$ spikes/s (top to bottom) 
+of the original model (solid curve) in a wide range of spiking rates.** DC currents, simultaneous injected into the soma of a presynaptic 
+excitatory and an inhibitory neuron for $500\,\mathrm{ms}$, lead to synaptic activation of the postsynaptic by the presynaptic neuron at rates of $4$, $14$, $22$ spikes/s (top to bottom) 
 for AMPA and NMDA, and $14$, $36$, $52$ spikes/s for GABA channels. These synaptic activation rates span the range of excitatory 
 and inhibitory neuronal firing rates observed during Up states in the model. Curves for the original model obtained with the help of a 
 reimplementation of the single-neuron and synapse dynamics in Python. To construct this figure, synaptic inputs with a 
@@ -142,17 +142,20 @@ the synaptic weight. For the implementation with simplified synaptic kinetics, s
 amplitude of the initial postsynaptic response in the original implementation.](../code/fig2.png){#fig:bm-syn}
 
 The network architecture represents a chain of excitatory and inhibitory neurons (of length $l_{\mathrm{chain}}$) equidistantly 
-distributed over $5\,\mathrm{mm}$. Each neuron projects a given number (drawn from a Gaussian distribution) of outgoing connections to 
-target neurons of each type. The probability of a connection between any two neurons decays with inter-neuronal distance 
-according to a Gaussian with characteristic scales $\lambda_{e}$ and $\lambda_{i}$ for excitatory and inhibitory pre-synaptic 
-neuron types, respectively. Multiple connections can exist for a given pair of neurons. In Tables$\;$@tbl:Model-summary$\;\!$--@tbl:neuron-values 
+distributed over $5\,\mathrm{mm}$. Each neuron projects a given total number (drawn from a Gaussian distribution) of outgoing connections. 
+The probability of a connection between any two neurons decays with inter-neuronal distance according to a Gaussian 
+$P(x)=\exp(-\frac{x^2}{2\lambda^2})/\sqrt{2 \pi \lambda^2}$ with characteristic scales $\lambda_{e}$ and $\lambda_{i}$ for excitatory and inhibitory presynaptic 
+neuron types, respectively. Excitatory connections include both AMPA and NMDA channels, while inhibitory connections use GABA channels. 
+Multiple connections can exist for a given pair of neurons. In Tables$\;$@tbl:Model-summary$\;\!$--@tbl:neuron-values 
 we provide the description of the model.
 
 The simulations are performed with NEST 2.8.0 [@Nest280] and combine an adaptive step size for the single-neuron solver with 
-communication between neurons at a step size of $0.1\,\mathrm{ms}$. The time resolution of all recordings is $0.1\,\mathrm{ms}$. In Fig.$\,$@fig:result-intra$\,\!$E 
-excitatory and inhibitory conductances are filtered with a $20\,\mathrm{ms}$ rectangular kernel. This kernel width is chosen to yield 
+communication between neurons at a step size of $0.1\,\mathrm{ms}$. The time resolution of all recordings is $0.1\,\mathrm{ms}$. 
+
+In Fig.$\,$@fig:result-intra$\,\!$E 
+excitatory and inhibitory conductances are filtered with a $40\,\mathrm{ms}$ rectangular kernel. This kernel width is chosen to yield 
 average input levels, rather than individual synaptic events. We find that filtering is required to reproduce the proportionality 
-of excitatory and inhibitory conductances, shown in the original Figure 6, although no corresponding information is given in the original paper. 
+of excitatory and inhibitory conductances, shown in the original Figure 6, although no corresponding information is given in the original paper.
 
 To estimate the neuronal membrane conductance according to Eq.$\,$@eq:G-exp-def in the model at a time $t_{0}$ near the membrane potential $V_{0}$,
 we use a procedure we refer to as the “virtual hyperpolarization method” (schematically shown in Fig.$\,$@fig:R-scheme). First, 
@@ -179,7 +182,7 @@ cross-membrane current $I_{0}$, required to keep the neuron clamped to membrane 
 is determined. After that, the neuron is slightly hyperpolarized to the potential $V_{1}$ and the corresponding steady-state current 
 $I_{1}$ is estimated. The resulting ratio $\Delta I/\Delta V$ then gives the conductance estimate at time $t_{0}$. 
 In case of an isopotential neuron model, the corresponding currents $I_{0}$ and $I_{1}$ can be calculated using 
-Eq.$\,$@eq:I-as-sum .](../code/fig3.png){#fig:R-scheme}
+Eq.$\,$@eq:I-as-sum.](../code/fig3.png){#fig:R-scheme}
 
 
 \pagebreak
@@ -197,7 +200,7 @@ Eq.$\,$@eq:I-as-sum .](../code/fig3.png){#fig:R-scheme}
 +--------------+---------------------------------------------------------------------------+
 |Channel model |Hodgkin-Huxley formalism                                                   |
 +--------------+---------------------------------------------------------------------------+
-|Synapse model |single- or double-exponential-shaped postsynaptic currents                 |
+|Synapse model |single- or double-exponential-shaped postsynaptic conductances             |
 +--------------+---------------------------------------------------------------------------+
 |Plasticity    |presynaptic short-term plasticity                                          |
 +--------------+---------------------------------------------------------------------------+
@@ -268,18 +271,18 @@ Table: **Network topology and synapse model.** {#tbl:Topo-syn}
 |                                 |and its derivative becomes negative: $\left(V_{s}>0\right)\;\land\;\left(\frac{dV_{s}}{dt}<0\right)$.| 
 |                                 |After that, the neuron becomes refractory and no spike emission is allowed during a fixed time.      |
 +---------------------------------+-----------------------------------------------------------------------------------------------------+
-|Post-synaptic  \                 |$g_{\mathrm{AMPA},\mathrm{GABA}}\left(t\right)=w\exp\left(-t/\tau\right)$ \                          |
+|Postsynaptic  \                  |$g_{\mathrm{AMPA},\mathrm{GABA}}\left(t\right)=w\exp\left(-t/\tau\right)$ \                          |
 |conductances	                  |$g_{\mathrm{NMDA}}\left(t\right)=w\left(\exp\left(-t/\tau_{\mathrm{slow}}\right)-\exp\left(-t/\tau_{\mathrm{fast}}\right)\right)$ |
 +---------------------------------+-----------------------------------------------------------------------------------------------------+
 |Channel dynamics                 |Hodgkin-Huxley formalism $\widetilde{I}\left(t\right)=\tilde{g}m^{k}h^{l}\left(V-E_{\mathrm{rev}}\right)$; \|
 |                                 |$m,\,h$ follow a first-order activation scheme, $\frac{dx}{dt}=\phi\left[\alpha\left(V\right)\left(1-x\right)-\beta\left(V\right)x\right]=\left(x_{\infty}\left(V\right)-x\right)/\tau\left(V\right)$ with $x_{\infty}=\frac{\alpha}{\alpha+\beta}$, $\tau=\frac{1}{\phi\left(\alpha+\beta\right)}$ |
 +---------------------------------+-----------------------------------------------------------------------------------------------------+
-|$\mathrm{Ca}^{2+}$ concentration | $\frac{d\left[\mathrm{Ca}^{2+}\right]}{dt}=\alpha_{\mathrm{Ca}}\widetilde{I}_{\mathrm{Ca}} - \left[\mathrm{Ca}^{2+}\right]/\tau_{\mathrm{Ca}}$ |
+|$\mathrm{Ca}^{2+}$ concentration | $\frac{d\left[\mathrm{Ca}^{2+}\right]}{dt}=-\alpha_{\mathrm{Ca}}\widetilde{I}_{\mathrm{Ca}} - \left[\mathrm{Ca}^{2+}\right]/\tau_{\mathrm{Ca}}$ |
 +---------------------------------+-----------------------------------------------------------------------------------------------------+
-|$\mathrm{Na}^{+}$ concentration  | $\frac{d\left[\mathrm{Na}^{+}\right]}{dt}=\alpha_{\mathrm{Na}}(\widetilde{I}_{\mathrm{Na}} + \widetilde{I}_{\mathrm{NaP}}) - R_{\mathrm{\mathrm{pump}}}\left(\left[\mathrm{Na}^{+}\right]^{3}/\left(\left[\mathrm{Na}^{+}\right]^{3}+15^{3}\right)-\left[\mathrm{Na}^{+}\right]_{\mathrm{eq}}^{3}/\left(\left[\mathrm{Na}^{+}\right]_{\mathrm{eq}}^{3}+15^{3}\right)\right)$ |
+|$\mathrm{Na}^{+}$ concentration  | $\frac{d\left[\mathrm{Na}^{+}\right]}{dt}=-\alpha_{\mathrm{Na}}(\widetilde{I}_{\mathrm{Na}} + \widetilde{I}_{\mathrm{NaP}}) - R_{\mathrm{\mathrm{pump}}}\left(\left[\mathrm{Na}^{+}\right]^{3}/\left(\left[\mathrm{Na}^{+}\right]^{3}+15^{3}\right)-\left[\mathrm{Na}^{+}\right]_{\mathrm{eq}}^{3}/\left(\left[\mathrm{Na}^{+}\right]_{\mathrm{eq}}^{3}+15^{3}\right)\right)$ |
 +---------------------------------+-----------------------------------------------------------------------------------------------------+
 
-Table: **Neuron model and post-synaptic conductances.** Ionic concentrations are measured in $\mathrm{mM}$. {#tbl:neuron-general}
+Table: **Neuron model and postsynaptic conductances.** Ionic concentrations are measured in $\mathrm{mM}$. {#tbl:neuron-general}
 
 
 \pagebreak
@@ -335,7 +338,7 @@ Table: **Neuron model and post-synaptic conductances.** Ionic concentrations are
 |{\mathrm{\mathrm{Ca}}}\right)$           |                                                                                     |
 +-----------------------------------------+-------------------------------------------------------------------------------------+
 |**$\mathrm{Na}^{+}$-dependent            |activation variable $m$:   \                                                         |
-|$\mathrm{K^{+}}$                         |$m_{\infty}=0.37/\left(1+\left(38.7/\left[\mathrm{Na}^{+}\right]\right)^{3.5}\right)$|                                               |
+|$\mathrm{K^{+}}$                         |$m_{\infty}=0.37/\left(1+\left(38.7/\left[\mathrm{Na}^{+}\right]\right)^{3.5}\right)$|
 |current, soma** \                        |                                                                                     |
 |$\widetilde{I}_{\mathrm{KNa}}=\tilde{g}  |                                                                                     |
 |_{\mathrm{KNa}}m\left(V-E_               |                                                                                     |
@@ -384,25 +387,25 @@ ionic concentrations in $\mathrm{mM}$, and time constants in $\mathrm{ms}$. {#tb
 +-----------------------+--------+--------------------------------------------------------------------------------------------------------------------------------+
 |$\mathrm{delay}$       |0.1     |synaptic delay ($\mathrm{ms}$)                                                                                                  |
 +-----------------------+--------+--------------------------------------------------------------------------------------------------------------------------------+
-|$W_{e\leftarrow        |2.72    |synaptic weights ($\mathrm{nS}$)                                                                                                |
+|$W_{e\leftarrow        |7       |synaptic weights ($\mathrm{nS}$)                                                                                                |
 |\mathrm{AMPA}}$        |        |                                                                                                                                |
 +-----------------------+--------+--------------------------------------------------------------------------------------------------------------------------------+
-|$W_{i\leftarrow        |0.13    |                                                                                                                                |
+|$W_{i\leftarrow        |3       |                                                                                                                                |
 |\mathrm{AMPA}}$        |        |                                                                                                                                |
 +-----------------------+--------+--------------------------------------------------------------------------------------------------------------------------------+
-|$W_{e\leftarrow        |0.18    |                                                                                                                                |
+|$W_{e\leftarrow        |0.15    |                                                                                                                                |
 |\mathrm{NMDA}}$        |        |                                                                                                                                |
 +-----------------------+--------+--------------------------------------------------------------------------------------------------------------------------------+
-|$W_{i\leftarrow        |0.03    |                                                                                                                                |
+|$W_{i\leftarrow        |0       |                                                                                                                                |
 |\mathrm{NMDA}}$        |        |                                                                                                                                |
 +-----------------------+--------+--------------------------------------------------------------------------------------------------------------------------------+
-|$W_{e\leftarrow        |2.59    |                                                                                                                                |
+|$W_{e\leftarrow        |16      |                                                                                                                                |
 |\mathrm{GABA}}$        |        |                                                                                                                                |
 +-----------------------+--------+--------------------------------------------------------------------------------------------------------------------------------+
-|$W_{i\leftarrow        |0.07    |                                                                                                                                |
+|$W_{i\leftarrow        |2       |                                                                                                                                |
 |\mathrm{GABA}}$        |        |                                                                                                                                |
 +-----------------------+--------+--------------------------------------------------------------------------------------------------------------------------------+
-|$U$                    |0.01    |initial utilization of synaptic efficacy                                                                                        |
+|$U$                    |0.5     |initial utilization of synaptic efficacy                                                                                        |
 +-----------------------+--------+--------------------------------------------------------------------------------------------------------------------------------+
 |$\tau_{\mathrm{rec}}$  |130     |recovery time constant ($\mathrm{ms}$) of available synaptic efficacy for NMDA synapses onto PY and FS neurons                  |
 +-----------------------+--------+--------------------------------------------------------------------------------------------------------------------------------+
@@ -465,7 +468,7 @@ Table: **Parameter specification for our synaptic implementation.** Note that th
 |{soma}}$     |                |                                                                 |
 +-------------+----------------+-----------------------------------------------------------------+
 |$\tilde{g}_  |$10\pm1$        |leak conductance ($\mathrm{nS}$)                                 |
-|{\mathrm{L}  |($20.5\pm0.05$) |                                                                 |
+|{\mathrm{L}  |($20.5\pm0.5$)  |                                                                 |
 |}^{\mathrm   |                |                                                                 |
 |{soma}}$     |                |                                                                 |
 +-------------+----------------+-----------------------------------------------------------------+
@@ -514,19 +517,45 @@ for the latter are given in brackets. "(-)" means parameter not used for the inh
 
 # Results
 
-We here focus on the main activity regime of the model, namely spontaneously generated Up-Down oscillations, and do not reproduce 
-the network response to pharmacological manipulations. First, we simulate the reimplemented model with the parameters given in the 
-original paper. However, despite close reproduction of the model constituents, the simulated network activity is characterized by 
-unreasonably high firing rates due to the dominance of NMDA conductances far exceeding the potency of the opposing GABAergic inhibition. 
-To achieve a network state characterized by comparable excitation and inhibition, we modify the synaptic strengths $W$ of all synapse types 
-(values are given in Table @tbl:syn-values). This results in periods of spontaneously generated activity (Up states) which propagate 
-along the network in a wave-like fashion (Fig.$\,$@fig:result-spikes$\,\!$A) with a mean firing rate around 20 spikes/s for excitatory and 35 spikes/s
-for inhibitory neurons at the peak of activity (Fig.$\,$@fig:result-spikes$\,\!$B). On the level of individual neurons, Up states are characterized 
-by a depolarized membrane potential and an increase of the intracellular concentration of $\mathrm{Na}^{+}$ ions by $2$--$4\,\mathrm{mM}$ 
-(Fig.$\,$@fig:result-spikes$\,\!$C,D for two neurons), similar to the results shown in Figure 2 of the original work. Synaptic and intrinsic 
-neuronal conductances (Fig.$\,$@fig:result-intra$\,\!$B--I) are tightly coupled to the membrane depolarization (Fig.$\,$@fig:result-intra$\,\!$A) 
-and show a dynamic range very similar to that reported in the original figure. When filtered with a rectangular kernel (see Methods), 
-excitatory and inhibitory conductances are clearly coupled (Fig.$\,$@fig:result-intra$\,\!$E), like in the original model (see Figure 6). 
+We here focus on the main activity regime of the model, namely Up-Down oscillations that are either spontaneously generated or induced by stimulation. 
+First, we simulate the reimplemented model with the parameters corresponding to the original paper. The simulated activity, however, is characterized 
+by unreasonably high firing rates due to the dominance of NMDA conductances far exceeding the potency of the opposing GABAergic inhibition.
+This difference from the original results might be a consequence of the different implementation of synaptic dynamics.
+Closer examination of the original Figure 5C suggests that unitary excitatory and inhibitory postsynaptic responses are approximately $0.5\,\mathrm{nS}$ during 
+periods of network silence. This contradicts our implementation of the non-modified synaptic dynamics (see Fig.$\,$@fig:bm-syn), 
+where single synaptic activations (with synaptic weights as in the original model) would result in $5.4$ and $0.8\,\mathrm{nS}$ 
+postsynaptic response for AMPA and GABA channels, respectively. This suggests an inconsistency between the reported dynamics and 
+that which was implemented already in the original work. Furthermore, we assumed the units of the function defining the dependence of the synaptic conductances on the presynaptic membrane potential to be $\mathrm{ms^{-1}}$, but this is not strictly specified in the original work, providing another potential source of discrepancies.
+
+To achieve an appropriate network regime, we modify the synaptic strengths $W$ of all synapse types. Specifically, we match the firing rates, the duration of Up and Down states, the wave propagation speed, and the response to network stimulation. Corresponding synaptic strengths for the model 
+with simplified synaptic dynamics are given in Table @tbl:syn-values. When transformed back to the original implementation (i.e., excluding 
+the synaptic gating variable $s$), the modified strengths are
+$g_{\mathrm{ee}}^{\mathrm{AMPA}}=6.6\,\mathrm{nS}$, 
+$g_{\mathrm{ee}}^{\mathrm{NMDA}}=0.1\,\mathrm{nS}$, 
+$g_{\mathrm{ei}}^{\mathrm{AMPA}}=2.8\,\mathrm{nS}$, 
+$g_{\mathrm{ei}}^{\mathrm{NMDA}}=0\,\mathrm{nS}$, 
+$g_{\mathrm{ie}}^{\mathrm{GABA}}=97\,\mathrm{nS}$, 
+$g_{\mathrm{ii}}^{\mathrm{GABA}}=12\,\mathrm{nS}$. 
+However, a range of different synaptic weight settings was able to produce qualitatively identical network activity. 
+Therefore, we chose a set of weights from among these possibilities based on relative proximity to the originally reported weight values.
+Besides the reasons mentioned above, 
+differences between the simplified and original synaptic kinetics during network activity, not brought out by the simple inputs in Fig.$\,$@fig:bm-syn, 
+may contribute to the need for weight changes to obtain a network state similar to that in the original study. However, this is unlikely 
+to account for the need to strongly increase the inhibitory weights relative to the excitatory ones. In the absence of the original code and since our 
+network implementation does not allow using the original synapse dynamics, we cannot resolve this issue here.
+
+The adjusted weights result in periods of spontaneously generated activity (Up states) which propagate along the network in a wave-like fashion 
+(Fig.$\,$@fig:result-spikes$\,\!$A) with propagation speed $3-7\,\mathrm{mm/s}$. On the level of individual neurons, Up states are characterized 
+by a depolarized membrane potential and an increase of the intracellular concentration of $\mathrm{Na}^{+}$ ions by $3$--$4.5\,\mathrm{mM}$ 
+(Fig.$\,$@fig:result-spikes$\,\!$C,D for two neurons), similar to the results shown in Figure 2 of the original work. When excitatory neurons are 
+slightly hyperpolarized to reduce the level of spontaneous activity, external stimulation of $40$ adjacent excitatory neurons can initiate Up state propagation 
+(Fig.$\,$@fig:result-stim$\,\!$A) with the firing rate profiles (Fig.$\,$@fig:result-stim$\,\!$C) being similar to those shown in Figure 3D of the original work.
+The histogram of the intervals between the first spike of each pyramidal cell and its immediately adjacent interneuron (Fig.$\,$@fig:result-stim$\,\!$B) closely 
+resembles the original result in Figure 3C. In analogy to the original work, repeated network stimulation within a few seconds after the first one does not 
+evoke an Up state transition (Fig.$\,$@fig:result-stim$\,\!$A).
+
+During the spontaneous Up-Down oscillations shown in Fig.$\,$@fig:result-spikes$\,\!$A, synaptic and intrinsic neuronal conductances (Fig.$\,$@fig:result-intra$\,\!$B--I) are tightly coupled to the membrane depolarization (Fig.$\,$@fig:result-intra$\,\!$A) and show a dynamic range very similar to that reported in the 
+original Figure 5. When filtered with a rectangular kernel (see Methods), excitatory and inhibitory conductances are clearly coupled (Fig.$\,$@fig:result-intra$\,\!$E), like in the original model (see their Figure 6). 
 
 When computed as the reciprocal of the sum of all conductances (see Eq.$\,$@eq:G-model-def), membrane resistance is decreased during Up states 
 relative to silent Down states (Fig.$\,$@fig:result-intra$\,\!$B,$\,$@fig:result-R), consistent with the results shown in Figure 5B of the original work. 
@@ -538,24 +567,33 @@ least for membrane potentials below $-80\,\mathrm{mV}$.
 
 
 ![**Spontaneous Up-Down oscillations generated in a network of 1280 neurons with a chain-like architecture.** **(A)** Spiking activity of excitatory 
-(red) and inhibitory (blue) neurons propagates along the chain in a wave-like fashion. **(B)** Population firing rates show clear Up states, 
-synchronized across excitatory and inhibitory neurons. Similar to Figure 3 of the original paper. **(C,D)** Intracellularly recorded membrane potentials 
-(top) and concentration of intracellular $\mathrm{Na}^{+}$ ions (bottom) of PY neurons are similar to those reported in the original study (Figure 2). 
-The neuron in (C) shows pacemaking activity with spiking during Down states, while the neuron in (D) is typical for the majority of neurons and is 
+(red) and inhibitory (blue) neurons propagates along the chain in a wave-like fashion. **(B, C)** Intracellularly recorded membrane potentials 
+(top) and concentration of intracellular $\mathrm{Na}^{+}$ ions (bottom) of PY neurons are similar to those reported in the original study (their Figure 2). 
+The neuron in **B** shows spontaneous activity with spiking during Down states, while the neuron in **C** is typical for the majority of neurons and is 
 characterized by well-defined Up and Down states.](../code/fig4.png){#fig:result-spikes}
+
+
+![**Transition to Up state is evoked by external stimulation in a network of 1280 neurons with a chain-like architecture.** **(A)** Spiking activity of excitatory 
+(red) and inhibitory (blue) neurons propagates along the chain in a wave-like fashion when stimulated at time $t=2\,\mathrm{s}$. 
+Stimulation at $t=6\,\mathrm{s}$, however, does not evoke a transition to the Up state. All excitatory neurons are continuously hyperpolarized by $5\,\mathrm{pA}$ 
+external current to reduce spontaneous activity. Network stimulation is achieved by injection of $200\,\mathrm{pA}$ current for $50\,\mathrm{ms}$ into 40 adjacent 
+excitatory neurons. **(B)** Histogram of the intervals between the first spike of each pyramidal cell and its immediately adjacent interneuron in the
+time window shown in **A**. **(C)** Firing rate averaged across neurons for the time window shown in **A**. We substract from the spike
+times for each excitatory (inhibitory) neuron the time of the first spike of the nearest inhibitory (excitatory) neuron, and then we construct the time 
+histogram of those intervals in the red (blue) curve. Gray curve represents the red curve scaled to match the peak value of the blue curve.](../code/fig5.png){#fig:result-stim}
 
 
 ![**Membrane input resistance and various ionic conductances in the course of the slow oscillation on the example of a representative neuron.**
 **(A)** Membrane voltage trace shows periods of high activity (Up states). **(B)** Total input resistance, measured as the reciprocal of the summed 
-open membrane conductances. Excitatory and inhibitory synaptic conductances **(C, D)** are approximately proportional when binned with $20\,\mathrm{ms}$ bin 
+open membrane conductances. Excitatory and inhibitory synaptic conductances **(C, D)** are approximately proportional when binned with $40\,\mathrm{ms}$ bin 
 width **(E)**. **(F-J)** The dynamics of various other conductances ($\tilde{g}_{\mathrm{NaP}}$; $\tilde{g}_{\mathrm{KS}}$; $\tilde{g}_{\mathrm{KAR}}$; 
-$\tilde{g}_{\mathrm{KCa}}$; $\tilde{g}_{\mathrm{KNa}}$) closely resembles that reported in the original paper (Figure 5).](../code/fig5.png){#fig:result-intra}
+$\tilde{g}_{\mathrm{KCa}}$; $\tilde{g}_{\mathrm{KNa}}$) closely resembles that reported in the original paper (their Figure 5).](../code/fig6.png){#fig:result-intra}
 
 
-![Accessing neuronal membrane resistance through the reciprocal of the sum of open channel conductances (gray plot in **B**) and through the injection 
-of brief hyperpolarizing pulses (black dots in **B**) results in the quantitatively similar estimates. Hyperpolarizing pulses have an amplitude of $300\,\mathrm{pA}$
-and duration of $100\,\mathrm{ms}$ **(A)**, while the neuron is hyperpolarized by a $250\,\mathrm{pA}$ current, similarly to the procedure described in the original 
-Figure 4.](../code/fig6.png){#fig:result-R}
+![**Accessing neuronal membrane resistance through the reciprocal of the sum of open channel conductances and through the injection of brief hyperpolarizing pulses results in quantitatively similar estimates.** 
+**(A)** Membrane voltage trace in response to $100\,\mathrm{ms}$ hyperpolarizing pulses with amplitude $300\,\mathrm{pA}$ while the neuron is continuously hyperpolarized by a $250\,\mathrm{pA}$ current, similarly to the procedure described in the original 
+Figure 4.
+**(B)** Gray trace, resistance corresponding to the trace in **A** as determined by the reciprocal of the sum of open channel conductances. Black dots, corresponding resistance as estimated from the injection of hyperpolarizing pulses.](../code/fig7.png){#fig:result-R}
 
 
 However, note that the authors define membrane conductance as 
@@ -586,10 +624,10 @@ $$ G_{\mathrm{m}}^{\mathrm{exp}}=\underset{i}{\sum}\frac{\Delta\left(G_{i}\left(
 \underset{i}{\sum}\frac{\Delta\left(G_{i}\left(V\right)\right)}{\Delta V}\left(V-E_{i}\right)+\underset{i}{\sum}G_{i}\left(V\right). $$ {#eq:G-m-def}
 
 \noindent As one can see, the definition used in the original study (Eq.$\,$@eq:G-model-def) excludes the first term. To demonstrate the difference in 
-these two definitions, we simulate isolated pyramidal neurons with DC inputs of different amplitudes injected for 20 seconds into the soma 
+these two definitions, we simulate isolated pyramidal neurons (parameters are set to average values) with DC inputs of different amplitudes injected for 20 seconds into the soma and
 record the membrane potential (Fig.$\,$@fig:IV$\,\!$A) as well as all ionic channel conductances. A long pulse duration is chosen here to take into account 
 the long time required for the model neuron to reach a steady state. Then we compute membrane conductance according to Eq.$\,$@eq:G-m-def and Eq.$\,$@eq:G-model-def
-a few milliseconds before the DC input is switched off. The I-V curve shows a profound non-linearity (Fig.$\,$@fig:IV$\,\!$B) leading to $G_{\mathrm{m}}^{\mathrm{exp}}$
+a few milliseconds before the DC input is switched off. The I-V curve shows a profound nonlinearity (Fig.$\,$@fig:IV$\,\!$B) leading to $G_{\mathrm{m}}^{\mathrm{exp}}$
 (the reciprocal of the slope of the I-V curve) reaching $0.012\,\mathrm{nS}$ (corresponding to $83\,\mathrm{G}\Omega$), while $G_{\mathrm{m}}^{\mathrm{model}}$ remains near $15\,\mathrm{nS}$
 (corresponding to $0.07\,\mathrm{G}\Omega$) (Fig.$\,$@fig:IV$\,\!$C). Therefore, under the protocol mimicking a standard electrophysiological procedure, the instantaneous chord 
 and steady-state slope conductances deviate by several orders of magnitude for the present neuron model. To measure the steady-state slope conductance 
@@ -598,41 +636,53 @@ as done in this method is necessary because of the aforementioned long relaxatio
 the length of an Up state and therefore prevents measuring steady-state resistances during freely evolving activity. The results of this method for the above 
 case of prolonged DC stimulation closely match those obtained from the I-V curve (Fig.$\,$@fig:IV$\,\!$C). In the active network model, this method results in a membrane 
 conductance around $2\,\mathrm{nS}$ (corresponding to $500\,\mathrm{M}\Omega$) during the Down state (Fig.$\,$@fig:R-mod$\,\!$B,C). During the Up states, however, membrane conductance tends 
-to drop to zero and even becomes negative, indicating self-depolarizing dynamics in the subthreshold periods. Note that in Fig.$\,$@fig:R-mod$\,\!$B,C time periods of $20\,\mathrm{ms}$
-before and after each spike event (shown by vertical gray lines) are not considered to avoid the contamination of subthreshold dynamics with spikes.
+to drop to zero and even becomes negative for  $5-75\,\mathrm{ms}$ with an average of $32\,\mathrm{ms}$ before oncoming spike events, indicating self-depolarizing dynamics in the subthreshold periods. Note that in Fig.$\,$@fig:R-mod$\,\!$B,C time periods of $5\,\mathrm{ms}$
+before and after each spike event are not considered to avoid the contamination of subthreshold dynamics with spikes.
   
 
 ![**The method of accessing neuronal membrane conductance (or resistance) suggested by [@Compte03_2707] deviates from the approach based on the 
 construction of an I-V curve.** **(A)** A $10\,\mathrm{s}$ DC injection (inside the region marked by vertical dashed lines) with various amplitudes into the 
 somatic compartment of a PY neuron results in neuronal hyper-/depolarization. Relaxation of membrane potentials after offset of the DC input takes 
 hundreds of ms. **(B)** The I-V curve shows a strong voltage dependence of the neuronal resistance (measured as the slope of the curve). **(C)**
-Membrane conductance, measured with the method suggested by the authors (Eq.$\,$@eq:G-model-def; dashed curve), is around $15\,\mathrm{nS}$ (corresponding to a 
-$70\,\mathrm{M}\Omega$ resistance). Membrane conductance, measured according to Eq.$\,$@eq:G-m-def (solid curve), reaches $0.012\,\mathrm{nS}$ (corresponding to a $83\,\mathrm{G}\Omega$
-resistance). The virtual hyperpolarization method (circles, see Methods) closely reproduces the latter conductance measure. ](../code/fig7.png){#fig:IV}
+Membrane conductance measured with the method suggested by the authors of [@Compte03_2707] (Eq.$\,$@eq:G-model-def; dashed curve), is around $15\,\mathrm{nS}$ (corresponding to a 
+$70\,\mathrm{M}\Omega$ resistance) for the neuron being hyper- or depolarized by $\Delta V=-3$--$7\,\mathrm{mV}$ by DC currents. Membrane conductance measured according to Eq.$\,$@eq:G-m-def (solid curve), reaches $0.012\,\mathrm{nS}$ (corresponding to a $83\,\mathrm{G}\Omega$
+resistance). The virtual hyperpolarization method (circles, see Methods) closely reproduces the latter conductance measure. ](../code/fig8.png){#fig:IV}
 
 
 ![**Application of the virtual hyperpolarization method to the network model.** Neuronal depolarization during Up states **(A)** is associated with 
 dominant strongly negative membrane conductance **(B,C)**, which is the result of self-depolarization due to intrinsic neuronal dynamics. Membrane 
 conductance is calculated according to Eq.$\,$@eq:G-exp-def with $\mathrm{Na^{+}}$ and $\mathrm{Ca^{2+}}$ frozen **(B)** and steady-state **(C)**. 
-Vertical gray lines show the time window of $20\,\mathrm{ms}$ just before and after individual spikes, which is masked in the determination of the conductance 
-to avoid contamination by supra-threshold activity. ](../code/fig8.png){#fig:R-mod}
+The time windows of $5\,\mathrm{ms}$ just before and after individual spikes are masked in the determination of the conductance 
+to avoid contamination by supra-threshold activity. ](../code/fig9.png){#fig:R-mod}
 
+
+Finally, in the original work modification of e-to-i and i-to-e synaptic weights by $10$% results in noticeable differences in spiking activity, though oscillations are qualitatively 
+preserved  (see their Figure 6). In our model, however, similar modification of synaptic weights results in negligible differences in spiking activity. Also, when AMPA, NDMA, or GABA conductances are blocked in the model, corresponding changes in the spiking pattern are similar in the original (their Figure 9) and the present model 
+(Fig.$\,$@fig:result-block). 
+
+![**When AMPA, NMDA, or GABA channels are blocked in the model, simulation reproduces the results reported in the original Figure 9.** Spiking activity is visualized as 
+multi-unit recordings with recording sites spatially separated by $250\,\mathrm{\mu m}$. Each site records from neurons within a $50\,\mathrm{\mu m}$ range.](../code/fig10.png){#fig:result-block}
  
 # Conclusion
 
-After some minor modifications to the model, we are able to reproduce the majority of the original results concerning spontaneously generated Up-Down 
+After modifications to the model with respect to synaptic dynamics and strength, we are able to reproduce the majority of the original results concerning 
+spontaneously generated and stimulation-evoked Up-Down 
 oscillations. In particular, the dynamics of membrane potentials, membrane resistances, channel conductances, intracellular concentrations of $\mathrm{Na}^{+}$
 and $\mathrm{Ca}^{2+}$ ions, and spiking activity closely resemble those of the original model. In our implementation, the synaptic dynamics does not 
-depend on the shapes of individual presynaptic action potentials, but just incorporates the average post-synaptic effect of an action potential. The 
-fact that we can reproduce the emerging network phenomena suggests that this detail of the synapse model is not relevant on the network level. We provide 
+depend on the shapes of individual presynaptic action potentials, but just incorporates the average postsynaptic effect of an action potential. The 
+fact that we can reproduce the emerging network phenomena suggests that this detail of the synapse model is not relevant on the network level. 
+We provide 
 a closer look at the method which the authors of the original study use to access neuronal conductance (or resistance). Their measure reflects an 
-“instantaneous chord conductance”, which results in values around $20\,\mathrm{nS}$ throughout network activity. In experimental works, the typical measure approximates 
-a “steady-state slope conductance” (see [@Jack1983] for classification), which results in a membrane conductance of around $2\,\mathrm{nS}$ during Down states and 
-dominant negative conductances during Up states in the model. The latter suggests powerful non-synaptic self-excitation mechanisms, which dominate during 
-subthreshold neuronal activation, deviating from typical results reported in the experimental literature. Therefore, the dynamics of membrane conductance 
-in the model merits further investigation.
+“instantaneous chord conductance”, which results in the model in values around $15\,\mathrm{nS}$ in an isolated pyramidal neuron, and around $20\,\mathrm{nS}$ throughout network activity. In experimental works, the typical measure approximates 
+a “steady-state slope conductance” (see [@Jack1983] for classification), which results in a membrane conductance of less than $1\,\mathrm{nS}$ for a slightly depolarized isolated pyramidal neuron. Throughout network activity, this yields around $2\,\mathrm{nS}$ during Down states, strongly fluctuating membrane conductance during subthreshold Up state periods, and a strong negative conductance lasting on average $32\,\mathrm{ms}$ before each spike event. These low and even negative long-lasting conductances are typically not reported in the experimental literature. Therefore, the dynamics of membrane conductance in the model merits further investigation. 
+The present model successfully reproduces the network response to blockade of AMPA, NMDA, or GABA channels. However, 
+the sensitivity of the present model to changes in the synaptic strengths is weaker than in the original model.  
 
-Overall, we confirm the correctness of the original implementation of the model. 
+We could not obtain the desired network regime with the synaptic weights reported in the original work after calibration to account for the change in the synaptic model. 
+We suggest the synaptic dynamics to be the source of discrepancy, as suggested by the inconsistency between our synapse implementation and 
+the results shown in the original Figure 5C. 
+
+Apart from these differences in synaptic dynamics, we confirm the correctness of the original implementation of the model. 
 
 
 # Acknowledgements

@@ -41,14 +41,14 @@ def tight_layout(axes, style, filename, fig_width='small', label_order=[]):
     -None
     '''
 
-    print '---Preparing awesomization engine---'
+    print ('---Preparing awesomization engine---')
     fig = axes[0]['ax'].get_figure()
     fig.savefig(filename)  # necessary for this function to work properly
 
     geometry_adjust(axes, style, fig_width, label_order)
     fig.savefig(filename)
 
-    print '---Congratulations! Now your figure is AWESOME!!!---'
+    print ('---Congratulations! Now your figure is AWESOME!!!---')
 
     return None
 

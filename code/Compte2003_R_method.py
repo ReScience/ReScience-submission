@@ -42,7 +42,7 @@ signal += np.random.normal(1., 0.3, len(time)) * 2 - 2
 # smooth data
 bin_width = 50
 signal = [np.mean(signal[i:i + bin_width])
-          for i in xrange(len(time) - bin_width)]
+          for i in range(len(time) - bin_width)]
 signal = np.array(signal)
 time = time[0:-bin_width]
 

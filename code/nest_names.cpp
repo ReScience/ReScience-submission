@@ -342,6 +342,11 @@ const Name x( "x" );
 const Name xs( "xs" );
 
 // needed in Timofeev2000 or Compte2003
+const Name g_conn("g_conn");
+const Name V_m_s("V_m_s");
+const Name V_m_d("V_m_d");
+const Name C_m_s("C_m_s");
+const Name C_m_d("C_m_d");
 const Name g_Na_p("g_Na_p");
 const Name g_K_s("g_K_s");
 const Name g_K_A("g_K_A");
@@ -366,7 +371,7 @@ const Name tau_syn_ampa("tau_syn_ampa");
 const Name tau_syn_nmda_fast("tau_syn_nmda_fast");
 const Name tau_syn_nmda_slow("tau_syn_nmda_slow");
 
-const Name g_gaba("g_gaba_fast");
+const Name g_gaba("g_gaba");
 const Name tau_syn_gaba("tau_syn_gaba");
 
 }

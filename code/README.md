@@ -44,39 +44,84 @@ $make install
 
 6. To make your NEST installation visible from Python by default from the console, add the following lines to your .bashrc file:  
 export PATH=$PATH:\<path-to-nest\>/install-2.8.0/bin  
-export PYTHONPATH=$PYTHONPATH:\<path-to-nest\>/install-2.8.0/lib/python2.7/site-packages  
+export PYTHONPATH=$PYTHONPATH:\<path-to-nest\>/install-2.8.0/lib/pythonX.Y/site-packages  
+
+where pythonX.Y is your python version.
 
 
 ## Python installation
-The network model and further analysis are implemented with Python (v.2.7.12). Scripts were tested with numpy (v.1.10.1) and matplotlib (v.1.5.0).  
+The network model and further analysis are implemented with Python (v.3.5.2). Scripts were tested with numpy (v.1.11.1) and matplotlib (v.1.5.1).  
 
 
-To install Python 2.7, type in console:  
+To install Python 3, type in console:  
 ```
-$sudo add-apt-repository ppa:fkrull/deadsnakes-python2.7
 $sudo apt-get update 
-$sudo apt-get install python2.7
+$sudo apt-get install python3
 ```
+
+
+In case of having readline issues while running the code with anaconda, type:  
+```
+$conda remove --force readline && pip install readline
+```
+
+One might also need to install texlive-latex-extra and dvipng packages, if not installed:
+```
+$sudo apt-get update
+$sudo apt-get install texlive-latex-extra
+$sudo apt-get install dvipng
+```
+
 
 ## Running the scripts
-To run the model and perform the analysis, type from the console:
+To run the model and perform the analysis in the regime, where activity emerges
+spontaneously, type from the console:
 ```
-$python Compte2003.py
+$python Compte2003_spont.py
 ```
+Simulation takes approx. 11 minutes. Also, one can set "flag_ItoE = True" or 
+"flag_EtoI = True" to enchance i-to-E or reduce E-to-I synaptic weights by 10% 
+correspondingly.  
+
+
+To run the model and perform the analysis in the regime, where activity is 
+evoked by external stimulation, type from the console:
+```
+$python Compte2003_stim.py
+```
+Simulation takes approx. 5 minutes  
+
+
+To run the model and perform the analysis in the regimes, when AMPA, NMDA, or 
+GABA channels are blocked, type from the console:
+```
+$python Compte2003_block.py
+```
+Simulation takes approx. 25 minutes. The network size is half of original 
+to reduce the simulation time.  
+
+
 
 To see the neuronal response to DC injection into the soma, type:
 ```
 $python Compte2003_bm_neuron.py
-```
+```  
+
+
 To see the comparison of original and simplified synaptic implementation, type:
 ```
 $python Compte2003_bm_syn.py
-```
+```  
+
+
 To see the analysis of neuronal membrane resistance, type:
 ```
 $python Compte2003_IV.py
-```
+```  
+
+
 To see a schematic representation of the virtual hyperpolarization method, type:
 ```
 $python Compte2003_R_method.py
 ```
+

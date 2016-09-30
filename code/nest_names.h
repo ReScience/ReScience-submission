@@ -371,15 +371,13 @@ extern const Name x;  //!< current scaling factor of the synaptic weight [0...1]
 extern const Name xs; //!< current scaling factor of the synaptic weight [0...1] (property arrays)
 
 
-extern const Name g_gaba;
-extern const Name tau_syn_gaba;
-extern const Name g_ampa;
-extern const Name tau_syn_ampa;
-extern const Name g_nmda_fast;
-extern const Name tau_syn_nmda_fast;
-extern const Name g_nmda_slow;
-extern const Name tau_syn_nmda_slow;
+
 // Specific to Timofeev2000 or Compte2003
+extern const Name g_conn; 
+extern const Name V_m_s; 
+extern const Name V_m_d; 
+extern const Name C_m_s; 
+extern const Name C_m_d; 
 extern const Name g_Na_p; 
 extern const Name g_K_s;   
 extern const Name g_K_A;
@@ -396,6 +394,16 @@ extern const Name K_A_h;
 extern const Name n_Ca;
 extern const Name n_Na;
 extern const Name E_Ca;
+
+extern const Name g_gaba;
+extern const Name tau_syn_gaba;
+extern const Name g_ampa;
+extern const Name tau_syn_ampa;
+extern const Name g_nmda_fast;
+extern const Name tau_syn_nmda_fast;
+extern const Name g_nmda_slow;
+extern const Name tau_syn_nmda_slow;
+
 }
 }
 

@@ -68,129 +68,77 @@ A_s = 0.015E-2  # [cm^2] somatic area
 A_d = 0.035E-2  # [cm^2] dendritic area
 Params_neuron = {'PY':
                  {
+                     't_ref': 2.,    # [ms] absolute refractory time 
                      'E_Ca':  120.,  # [mV] Ca2+ reversal potential
-                     'E_K': -100.,  # [mV] K+ reversal potential
+                     'E_K': -100.,   # [mV] K+ reversal potential
                      'E_L': -60.95,  # [mV] resting potential
                      'E_Na':   55.,  # [mV] Na+ reversal potential
-                     'E_ex':    0.,  # [m] AMPA,NMDA reversal potential
-                     'E_in': -70.,  # [mV] GABA reversal potential
-                     'g_0': 1.75E3,  # [nS] axial dendritic conductance
+                     'E_ex':    0.,  # [mV] AMPA, NMDA reversal potential
+                     'E_in': -70.,   # [mV] GABA reversal potential
+                     'g_conn': 1.75E3,  # [nS] axial dendritic conductance
                      'tau_syn_ampa': 2.,  # [ms] AMPA time constant
                      'tau_syn_nmda_fast': 2.,  # [ms] fast NMDA time constant
                      'tau_syn_nmda_slow': 100.,  # [ms] slow NMDA time constant
                      'tau_syn_gaba': 10.,  # [ms] GABA time constant
 
                      # parameters for somatic compartment
-                     'comp_0': {
-                         'C_m': C_m * A_s,  # [pF] capacitance
-                         'V_m': -75.,  # [mV] initial membrane potential
-                         # [nS] conductance of fast Na+ channel
-                         'g_Na': 50E6 * A_s,
-                         # [nS] conductance of fast K+ channel
-                         'g_K': 10.5E6 * A_s,
-                         'g_L': 0.067E6 * A_s,  # [nS] leak conductance
-                         # [nS] conductance of fast A-type K+ channel
-                         'g_K_A': 1E6 * A_s,
-                         # [nS] conductance of Na+ dependent K+ channel
-                         'g_K_Na': 1.33E6 * A_s,
-                         # [nS] conductance of non-inactivating K+ channel
-                         'g_K_s': 0.576E6 * A_s,
+                     'C_m_s': C_m * A_s,  # [pF] capacitance
+                     'V_m_s': -75.,  # [mV] initial membrane potential
+                      # [nS] conductance of fast Na+ channel
+                      'g_Na': 50E6 * A_s,
+                      # [nS] conductance of fast K+ channel
+                      'g_K': 10.5E6 * A_s,
+                      'g_L': 0.067E6 * A_s,  # [nS] leak conductance
+                      # [nS] conductance of fast A-type K+ channel
+                      'g_K_A': 1E6 * A_s,
+                      # [nS] conductance of Na+ dependent K+ channel
+                      'g_K_Na': 1.33E6 * A_s,
+                      # [nS] conductance of non-inactivating K+ channel
+                      'g_K_s': 0.576E6 * A_s,
+                      
+                      # parameters for dendritic compartment
+                      'C_m_d': C_m * A_d,
+                      'V_m_d': -75.,
+                      # [nS] conductance of Ca+ dependent K+ channel
+                      'g_K_Ca': 0.57E6 * A_d,
+                      # [nS] conductance of inwardly rectifying channel
+                      'g_K_AR': 0.0257E6 * A_d,
+                      # [nS] conductance of high-threshold Ca+ channel
+                      'g_Ca': 0.43E6 * A_d,
+                      # [nS] conductance of Na-persistent channel
+                      'g_Na_p': 0.0686E6 * A_d,
+    
+                      'K_A_h': 0.31,  # initial inactivation value of g_K_A
+                      'K_m': 0.015,  # initial activation value of g_K
+                      'K_s_m': 0.002,  # initial activation value of g_K_s
+                      'Na_h': 1.,  # initial inactivation value of g_Na
+                      'n_Ca': 0.,  # [mM] initial concentration of Ca2+
+                      'n_Na': 9.5  # [mM] initial concentration of Na+
 
-                         # [nS] conductance of Ca+ dependent K+ channel
-                         'g_K_Ca': 0.,
-                         # [nS] conductance of inwardly rectifying channel
-                         'g_K_AR': 0.,
-                         # [nS] conductance of high-threshold Ca+ channel
-                         'g_Ca': 0.,
-                         # [nS] conductance of Na-persistent channel
-                         'g_Na_p': 0.,
-
-                         'K_A_h': 0.31,  # initial inactivation value of g_K_A
-                         'K_m': 0.015,  # initial activation value of g_K
-                         'K_s_m': 0.002,  # initial activation value of g_K_s
-                         'Na_h': 1.,  # initial inactivation value of g_Na
-                         'n_Ca': 0.,  # [mM] initial concentration of Ca2+
-                         'n_Na': 9.5  # [mM] initial concentration of Na+
-
-                     },
-
-                     # parameters for dendritic compartment
-                     'comp_1': {
-                         'C_m': C_m * A_d,
-                         'V_m': -75.,
-                         'g_Na': 0.,
-                         'g_L': 0.,
-                         'g_K': 0.,
-                         'g_K_A': 0.,
-                         'g_K_Na': 0.,
-                         'g_K_s': 0.,
-
-                         'g_K_Ca': 0.57E6 * A_d,
-                         'g_K_AR': 0.0257E6 * A_d,
-                         'g_Ca': 0.43E6 * A_d,
-                         'g_Na_p': 0.0686E6 * A_d,
-
-                         'K_A_h': 0.31,
-                         'K_m': 0.015,
-                         'K_s_m': 0.002,
-                         'Na_h':  1.,
-                         'n_Ca':  0.,
-                         'n_Na': 9.5
-                     }
                  }
                }
 
 
 # parameters for inh neurons
-# axial conductance g_0=0. mimics 1-compartment neuron
 A_s = 0.02E-2  # [cm^2] somatic area
 Params_neuron['FS'] = {
-    'E_Ca': 120.,
+    't_ref': 2.,
     'E_K': -90.,
     'E_L': -63.8,
     'E_Na':  55.,
     'E_ex':   0.,
     'E_in': -70.,
-    'g_0':   0.,
     'tau_syn_ampa': 2.,
     'tau_syn_nmda_fast': 2.,
     'tau_syn_nmda_slow': 100.,
     'tau_syn_gaba': 10.,
 
     # somatic compartment
-    'comp_0': {
-        'C_m': C_m * A_s,
-        'V_m': -61.,
-        'g_Na': 35E6 * A_s,
-        'g_K': 9E6 * A_s,
-        'g_L': 0.1025E6 * A_s,
-        'g_K_A': 0.,
-        'g_K_Na': 0.,
-        'g_K_s': 0.,
-
-        'g_K_Ca': 0.,
-        'g_K_AR': 0.,
-        'g_Ca': 0.,
-        'g_Na_p': 0.
-    },
-
-    # dendritic compartment is irrelevant here
-    'comp_1': {
-        'C_m': 100.,
-        'V_m': -61.,
-        'g_Na': 0.,
-        'g_L': 0.,
-        'g_K': 0.,
-        'g_K_A': 0.,
-        'g_K_Na': 0.,
-        'g_K_s': 0.,
-
-        'g_K_Ca': 0.,
-        'g_K_AR': 0.,
-        'g_Ca': 0.,
-        'g_Na_p': 0.,
-    }
-
+    'C_m_s': C_m * A_s,
+    'V_m_s': -61.,
+    'g_Na': 35E6 * A_s,
+    'g_K': 9E6 * A_s,
+    'g_L': 0.1025E6 * A_s
 }
 
 
@@ -271,7 +219,9 @@ for type_id in range(2):
     #####################################################
 
     nest.ResetKernel()
-
+    nest.SetKernelStatus({"resolution": dt,             
+                          "local_num_threads": 5
+                        })
     # create neurons
     neuron_name = 'compte2003_' + ['ex', 'in'][type_id]
     neuron = nest.Create(neuron_name, n=len(Param_dc['amplitude']['PY']),
@@ -289,12 +239,12 @@ for type_id in range(2):
         gen += [nest.Create('dc_generator', params=params)]
 
         nest.Connect(gen[-1], [neuron[gen_id]], {'rule': 'one_to_one'},
-                     {'receptor_type': syns['C0_curr']})
+                     {'receptor_type': syns['curr']})
 
     # create and connect multimeter
     params = {
         'interval': dt,
-        'record_from': nest.GetDefaults('compte2003_ex')['recordables'],
+        'record_from': nest.GetDefaults(neuron_name)['recordables'],
     }
 
     mm = nest.Create('multimeter', n=len(gen), params=params)
@@ -340,7 +290,7 @@ for type_id in range(2):
         mask_0 = (data['times'] > (t0 - 3.)) * (data['times'] < t1)
 
         gate_time = data['times']
-        Vm = data['V_m.0']
+        Vm = data['V_m_s']
         
         # filtered pre-synaptic membrane potential
         f = 1. / (1. + np.exp(-(Vm - 20.) / 2.))
@@ -368,9 +318,9 @@ for type_id in range(2):
             gate_gaba += [f_gate_1order(alpha, tau, f)]
             gate_ampl[gen_id][2] = np.max(gate_gaba[-1][mask_0])
 
-    print 'neuron type:%s ' % neuron_type
-    print 'mean rate (spikes/s): ', rate
-    print 'dc_ampl (pA): ', dc_ampl
+    print ('neuron type:%s ' % neuron_type)
+    print ('mean rate (spikes/s): ', rate)
+    print ('dc_ampl (pA): ', dc_ampl)
 
 
 #############################################################
@@ -408,7 +358,9 @@ for flag_calibr in [True, False]:
     for gen_id in range(len(Param_dc['amplitude']['PY'])):
 
         nest.ResetKernel()
-
+        nest.SetKernelStatus({"resolution": dt,             
+                              "local_num_threads": 5
+                            })
         # create 3 neurons for testing AMPA, NMDA and GABA inputs
         neurons = nest.Create('compte2003_ex', n=3, params=Params_neuron['PY'])
 
@@ -423,7 +375,7 @@ for flag_calibr in [True, False]:
 
         # connect generator to AMPA channels
         nest.Connect(gen, [neurons[0]], {'rule': 'one_to_one'},
-                     {'receptor_type': syns['C1_ampa'],
+                     {'receptor_type': syns['ampa'],
                       'weight': calibr[0],
                       'delay': 0.1})
 
@@ -437,7 +389,7 @@ for flag_calibr in [True, False]:
 
         nest.Connect(parrot, [neurons[1]], {'rule': 'one_to_one'},
                      {'model': 'tsodyks2_synapse',
-                      'receptor_type': syns['C1_nmda_fast'],
+                      'receptor_type': syns['nmda_fast'],
                       'weight': calibr[1], 'delay': 0.1})
 
         # create spike generator for GABA channels
@@ -446,7 +398,7 @@ for flag_calibr in [True, False]:
 
         # connect generator to GABA channels
         nest.Connect(gen, [neurons[2]], {'rule': 'one_to_one'},
-                     {'receptor_type': syns['C0_gaba'],
+                     {'receptor_type': syns['gaba'],
                       'weight': calibr[2], 'delay': 0.1})
 
         # create and connect multimeter
@@ -467,7 +419,7 @@ for flag_calibr in [True, False]:
         # extract amplitude of simulated AMPA conductance
         data = nest.GetStatus(mm)[0]['events']
         time = data['times']
-        g_ampa = data['g_ampa.1']
+        g_ampa = data['g_ampa']
 
         spikes = spike_times['PY'][gen_id]
         
@@ -477,14 +429,14 @@ for flag_calibr in [True, False]:
         mask_0 = (time > t0 - 3) * (time < t1)
         g_ampl[gen_id, 0] = np.max(g_ampa[mask_0])
 
-        # extract amplitude simulated NMDA conductance
+        # extract amplitude of simulated NMDA conductance
         data = nest.GetStatus(mm)[1]['events']
-        g_nmda = data['g_nmda_slow.1'] - data['g_nmda_fast.1']
+        g_nmda = data['g_nmda_slow'] - data['g_nmda_fast']
         g_ampl[gen_id, 1] = np.max(g_nmda[mask_0])
 
         # extract amplitude of simulated GABA conductance
         data = nest.GetStatus(mm)[2]['events']
-        g_gaba = data['g_gaba.0']
+        g_gaba = data['g_gaba']
 
         spikes = spike_times['FS'][gen_id]
         
@@ -541,7 +493,7 @@ for flag_calibr in [True, False]:
             # plot gating variable
             ax.plot(time_gate, gate_gaba[gen_id], '0.5')
             # plot recorded conductance
-            ax.plot(time, g_gaba, 'k--')
+            ax.plot(time, g_gaba, 'k-')
             ax.set_xlabel('$\mathrm{time \, (ms)}$')
             ax.set_ylabel('$g \, (\mathrm{nS})$')
             ax.set_xlim([Param_dc['start'], Param_dc['stop']])
@@ -570,6 +522,6 @@ for flag_calibr in [True, False]:
 aw.tight_layout(axes, style, './fig2.png', fig_width='medium',
                 label_order=['A', 'B', 'C', '', '', '', '', '', ''])
 
-print 'Synaptic calibration:\n', calibr
+print ('Synaptic calibration:\n', calibr)
 
 plt.show()

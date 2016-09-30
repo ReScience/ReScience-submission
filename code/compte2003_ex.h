@@ -11,17 +11,15 @@
  * Journal of Neurophysiology, 2707--2725, 2003"
  *------------------------------------------------------------------------------
  *
- * This model is based on the "iaf_cond_alpha_mc" model in NEST 
- * written by Hans Ekkehard Plesser
+ * This model is based on the "aeif_cond_exp" model in NEST 
  *------------------------------------------------------------------------------
 */ 
-
-#ifndef compte2003_ex_H
-#define compte2003_ex_H
+#ifndef COMPTE2003_EX_H
+#define COMPTE2003_EX_H
 
 #include "config.h"
 
-#ifdef HAVE_GSL
+#ifdef HAVE_GSL_1_11
 
 #include "nest.h"
 #include "event.h"
@@ -30,34 +28,33 @@
 #include "connection.h"
 #include "universal_data_logger.h"
 #include "recordables_map.h"
+
 #include "dictdatum.h"
 #include "name.h"
-
 #include <vector>
+
 
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_matrix.h>
-#include <gsl/gsl_odeiv.h>
+#include <gsl/gsl_odeiv2.h>
+
 
 namespace nest
 {
 /**
  * Function computing right-hand side of ODE for GSL solver.
  * @note Must be declared here so we can befriend it in class.
- * @note Must have C-linkage for passing to GSL.
+ * @note Must have C-linkage for passing to GSL. Internally, it is
+ *       a first-class C++ function, but cannot be a member function
+ *       because of the C-linkage.
  * @note No point in declaring it inline, since it is called
  *       through a function pointer.
+ * @param void* Pointer to model neuron instance.
  */
 extern "C" int compte2003_ex_dynamics( double, const double*, double*, void* );
 
-/**
- * @note All parameters that occur for both compartments
- *       and dendrite are stored as C arrays, with index 0 being soma.
- */
 class compte2003_ex : public Archiving_Node
 {
-
-  // Boilerplate function declarations --------------------------------
 
 public:
   compte2003_ex();
@@ -88,13 +85,10 @@ private:
   void init_state_( const Node& proto );
   void init_buffers_();
   void calibrate();
-  void update( Time const&, const long_t, const long_t );
+  void update( const Time&, const long_t, const long_t );
 
   // Enumerations and constants specifying structure and properties ----
-
-  //! Compartments, NCOMP is number
-        enum Compartments_ {comp_0 = 0, comp_1,NCOMP };
-
+  
   /**
    * Minimal spike receptor type.
    * @note Start with 1 so we can forbid port 0 to avoid accidental
@@ -105,11 +99,10 @@ private:
   /**
    * Spike receptors.
    */
-        enum SpikeSynapseTypes { C0_AMPA=MIN_SPIKE_RECEPTOR,C0_NMDA_FAST,C0_NMDA_SLOW,C0_GABA,
-				C1_AMPA,C1_NMDA_FAST,C1_NMDA_SLOW,C1_GABA,
-			       SUP_SPIKE_RECEPTOR };
+  enum SpikeSynapseTypes { 
+       AMPA=MIN_SPIKE_RECEPTOR, NMDA_FAST, NMDA_SLOW, GABA, SUP_SPIKE_RECEPTOR };
 
-    static const size_t NUM_SPIKE_RECEPTORS = SUP_SPIKE_RECEPTOR - MIN_SPIKE_RECEPTOR;
+  static const size_t NUM_SPIKE_RECEPTORS = SUP_SPIKE_RECEPTOR - MIN_SPIKE_RECEPTOR;
   /**
    * Minimal current receptor type.
    *  @note Start with SUP_SPIKE_RECEPTOR to avoid any overlap and
@@ -120,39 +113,21 @@ private:
   /**
    * Current receptors.
    */
-        enum CurrentSynapseTypes { C0_I=MIN_CURR_RECEPTOR,C1_I, 
-   			       SUP_CURR_RECEPTOR };
+  enum CurrentSynapseTypes { I=MIN_CURR_RECEPTOR, SUP_CURR_RECEPTOR };
 
   static const size_t NUM_CURR_RECEPTORS = SUP_CURR_RECEPTOR - MIN_CURR_RECEPTOR;
 
   // Friends --------------------------------------------------------
 
+  // make dynamics function quasi-member
   friend int compte2003_ex_dynamics( double, const double*, double*, void* );
 
+  // The next two classes need to be friends to access the State_ class/member
   friend class RecordablesMap< compte2003_ex >;
   friend class UniversalDataLogger< compte2003_ex >;
 
-
-  // Parameters ------------------------------------------------------
-
-  /**
-   * Independent parameters of the model.
-   * These parameters must be passed to the iteration function that
-   * is passed to the GSL ODE solvers. Since the iteration function
-   * is a C++ function with C linkage, the parameters can be stored
-   * in a C++ struct with member functions, as long as we just pass
-   * it by void* from C++ to C++ function. The struct must be public,
-   * though, since the iteration function is a function with C-linkage,
-   * whence it cannot be a member function of compte2003_ex.
-   * @note One could achieve proper encapsulation by an extra level
-   *       of indirection: Define the iteration function as a member
-   *       function, plus an additional wrapper function with C linkage.
-   *       Then pass a struct containing a pointer to the node and a
-   *       pointer-to-member-function to the iteration function as void*
-   *       to the wrapper function. The wrapper function can then invoke
-   *       the iteration function on the node (Stroustrup, p 418). But
-   *       this appears to involved, and the extra indirections cost.
-   */
+private:
+  //! Independent parameters
     struct Parameters_ {
 
       double_t t_ref;      //!< Refractory period in ms
@@ -161,63 +136,75 @@ private:
       double_t E_K;        //!<
       double_t E_Ca;       //!<         
      
-      double_t g_conn[NCOMP-1];    //!< Conductances connecting compartments, in nS
-      double_t g_L[NCOMP];         //!< Leak Conductance in nS
-      double_t g_Na[NCOMP];        //!< 
-      double_t g_K[NCOMP];         //!< 
-      double_t g_Na_p[NCOMP];      //!< 
-      double_t g_K_s[NCOMP];       //!< 
-      double_t g_K_A[NCOMP];       //!< 
-      double_t g_K_AR[NCOMP];       //!< 
-      double_t g_K_Ca[NCOMP];       //!< 
-      double_t g_K_Na[NCOMP];       //!< 
-      double_t g_Ca[NCOMP];       //!< 
-      double_t C_m[NCOMP];         //!< Membrane Capacitance in pF
-
+      double_t g_conn;    //!< Conductances connecting compartments, in nS
+      
       double_t tau_syn_ampa;    //!< Synaptic Time Constant Excitatory Synapse in ms
       double_t tau_syn_nmda_fast;         //
       double_t tau_syn_nmda_slow;         //
       double_t E_ex;        //!< Excitatory reversal Potential in mV
       double_t E_in;        //!< Inhibitory reversal Potential in mV
-      double_t tau_syn_gaba;    //!< Synaptic Time Constant for Inhibitory Synapse in ms
+      double_t tau_syn_gaba; //!< Synaptic Time Constant for Inhibitory Synapse in ms
 
-      double_t I_e[NCOMP];         //!< Constant Current in pA
-
+      //soma
+      double_t C_m_s;         //!< Somatic membrane Capacitance in pF
+      double_t g_L;         //!< Leak Conductance in nS
+      double_t g_Na;        //!< 
+      double_t g_K;         //!< 
+      double_t g_K_s;       //!< 
+      double_t g_K_A;       //!<       
+      double_t g_K_Na;       //!< 
+      double_t I_e;         //!< Constant Current to soma in pA
+            
+      //dendr            
+      double_t C_m_d;         //!< Dendr membrane Capacitance in pF
+      double_t g_Na_p;      //!< 
+      double_t g_K_AR;       //!< 
+      double_t g_K_Ca;       //!< 
+      double_t g_Ca;       //!< 
+      
     Parameters_();                                //!< Sets default parameter values
-    Parameters_( const Parameters_& );            //!< needed to copy C-arrays
-    Parameters_& operator=( const Parameters_& ); //!< needed to copy C-arrays
+    //!!!Parameters_( const Parameters_& );            //!< needed to copy C-arrays
+    //!!!Parameters_& operator=( const Parameters_& ); //!< needed to copy C-arrays
 
     void get( DictionaryDatum& ) const; //!< Store current values in dictionary
     void set( const DictionaryDatum& ); //!< Set values from dicitonary
   };
+  
 
-
-  // State variables  ------------------------------------------------------
+public:
+  // ----------------------------------------------------------------
 
   /**
    * State variables of the model.
    * @note Copy constructor and assignment operator required because
    *       of C-style array.
    */
-public:
   struct State_
   {
-
     /**
-     * Elements of state vector.
-     * For the multicompartmental case here, these are offset values.
-     * The state variables are stored in contiguous blocks for each
-     * compartment, beginning with the soma.
+     * Enumeration identifying elements in state array State_::y_.
+     * The state vector must be passed to GSL as a C array. This enum
+     * identifies the elements of the vector. It must be public to be
+     * accessible from the iteration function.
      */
-      enum StateVecElems_ { V_M = 0, G_AMPA, G_NMDA_FAST,G_NMDA_SLOW,
-			    G_GABA,n_Ca,n_Na,Na_h, K_m, K_s_m, K_A_h,STATE_VEC_COMPS };
+    enum StateVecElems { 
+         V_M_S = 0, 
+         V_M_D, //1
+         G_AMPA,//2 
+         G_NMDA_FAST,//3 
+         G_NMDA_SLOW,//4 
+         G_GABA,//5
+         N_CA,//6
+         N_NA,//7
+         NA_H,//8 
+         K_M, //9
+         K_S_M,//10 
+         K_A_H,//11 
+         STATE_VEC_SIZE };
 
-    //! total size of state vector
-    static const size_t STATE_VEC_SIZE = STATE_VEC_COMPS * NCOMP;
 
-    //! neuron state, must be C-array for GSL solver
-    double_t y_[ STATE_VEC_SIZE ];
-    int_t r_; //!< number of refractory steps remaining
+    double_t y_[ STATE_VEC_SIZE ]; //!< neuron state, must be C-array for GSL solver
+    int_t r_;                      //!< number of refractory steps remaining
 
     State_( const Parameters_& ); //!< Default initialization
     State_( const State_& );
@@ -225,23 +212,9 @@ public:
 
     void get( DictionaryDatum& ) const;
     void set( const DictionaryDatum&, const Parameters_& );
-
-    /**
-     * Compute linear index into state array from compartment and element.
-     * @param comp compartment index
-     * @param elem elemet index
-     * @note compartment argument is not of type Compartments_, since looping
-     *       over enumerations does not work.
-     */
-    static size_t
-    idx( size_t comp, StateVecElems_ elem )
-    {
-      return comp * STATE_VEC_COMPS + elem;
-    }
   };
 
-private:
-  // Internal buffers --------------------------------------------------------
+  // ----------------------------------------------------------------
 
   /**
    * Buffers of the model.
@@ -261,10 +234,10 @@ private:
     std::vector< RingBuffer > currents_;
 
     /** GSL ODE stuff */
-    gsl_odeiv_step* s_;    //!< stepping function
-    gsl_odeiv_control* c_; //!< adaptive stepsize control function
-    gsl_odeiv_evolve* e_;  //!< evolution function
-    gsl_odeiv_system sys_; //!< struct describing system
+    gsl_odeiv2_step* s_;    //!< stepping function
+    gsl_odeiv2_control* c_; //!< adaptive stepsize control function
+    gsl_odeiv2_evolve* e_;  //!< evolution function
+    gsl_odeiv2_system sys_; //!< struct describing system
 
     // IntergrationStep_ should be reset with the neuron on ResetNetwork,
     // but remain unchanged during calibration. Since it is initialized with
@@ -274,63 +247,41 @@ private:
     double IntegrationStep_; //!< current integration time step, updated by GSL
 
     /**
-     * Input currents injected by CurrentEvent.
+     * Input current injected by CurrentEvent.
      * This variable is used to transport the current applied into the
      * _dynamics function computing the derivative of the state vector.
      * It must be a part of Buffers_, since it is initialized once before
      * the first simulation, but not modified before later Simulate calls.
      */
-    double_t I_stim_[ NCOMP ]; //!< External Stimulus in pA
+    double_t I_stim_;
   };
 
-  // Internal variables ---------------------------------------------
+  // ----------------------------------------------------------------
 
   /**
    * Internal variables of the model.
    */
   struct Variables_
   {
-    /** initial value to normalise excitatory synaptic conductance */
-    double_t PSConInit_E_[ NCOMP ];
-
-    /** initial value to normalise inhibitory synaptic conductance */
-    double_t PSConInit_I_[ NCOMP ];
-
     int_t RefractoryCounts_;
   };
 
   // Access functions for UniversalDataLogger -------------------------------
 
-  /**
-   * Read out state vector elements, used by UniversalDataLogger
-   * First template argument is component "name", second compartment "name".
-   */
-  template < State_::StateVecElems_ elem, Compartments_ comp >
+  //! Read out state vector elements, used by UniversalDataLogger
+  template < State_::StateVecElems elem >
   double_t
   get_y_elem_() const
   {
-    return S_.y_[ S_.idx( comp, elem ) ];
+    return S_.y_[ elem ];
   }
 
-  //! Read out number of refractory steps, used by UniversalDataLogger
-  double_t
-  get_r_() const
-  {
-    return Time::get_resolution().get_ms() * S_.r_;
-  }
-
-  // Data members ----------------------------------------------------
+  // ----------------------------------------------------------------
 
   Parameters_ P_;
   State_ S_;
   Variables_ V_;
   Buffers_ B_;
-
-  //! Table of compartment names
-  static std::vector< Name > comp_names_;
-
-  //! Dictionary of receptor types, leads to seg fault on exit, see #328
-  // static DictionaryDatum receptor_dict_;
 
   //! Mapping of recordables names to access functions
   static RecordablesMap< compte2003_ex > recordablesMap_;
@@ -383,6 +334,7 @@ compte2003_ex::handles_test_event( DataLoggingRequest& dlr, rport receptor_type 
   return B_.logger_.connect_logging_device( dlr, recordablesMap_ );
 }
 
+
 inline void
 compte2003_ex::get_status( DictionaryDatum& d ) const
 {
@@ -398,20 +350,16 @@ compte2003_ex::get_status( DictionaryDatum& d ) const
    * a seg fault on exit, see #328
    */
   DictionaryDatum receptor_dict_ = new Dictionary();
-  (*receptor_dict_)[Name("C0_ampa")]  = C0_AMPA;
-  (*receptor_dict_)[Name("C0_nmda_fast")]  = C0_NMDA_FAST;
-  (*receptor_dict_)[Name("C0_nmda_slow")]  = C0_NMDA_SLOW;
-  (*receptor_dict_)[Name("C0_gaba")]  = C0_GABA;
-  (*receptor_dict_)[Name("C0_curr")]  = C0_I;
-  //Compartment 1
-  (*receptor_dict_)[Name("C1_ampa")]  = C1_AMPA;
-  (*receptor_dict_)[Name("C1_nmda_fast")]  = C1_NMDA_FAST;
-  (*receptor_dict_)[Name("C1_nmda_slow")]  = C1_NMDA_SLOW;
-  (*receptor_dict_)[Name("C1_gaba")]  = C1_GABA;
-  (*receptor_dict_)[Name("C1_curr")]  = C1_I;
+  (*receptor_dict_)[Name("ampa")]  = AMPA;
+  (*receptor_dict_)[Name("nmda_fast")]  = NMDA_FAST;
+  (*receptor_dict_)[Name("nmda_slow")]  = NMDA_SLOW;
+  (*receptor_dict_)[Name("gaba")]  = GABA;
+  (*receptor_dict_)[Name("curr")]  = I;
+
 
   ( *d )[ names::receptor_types ] = receptor_dict_;
 }
+
 
 inline void
 compte2003_ex::set_status( const DictionaryDatum& d )
@@ -434,6 +382,5 @@ compte2003_ex::set_status( const DictionaryDatum& d )
 
 } // namespace
 
-
-#endif // HAVE_GSL
-#endif // compte2003_ex_H
+#endif // HAVE_GSL_1_11
+#endif // COMPTE2003_E_H

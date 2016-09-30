@@ -12,7 +12,7 @@
 # -----------------------------------------------------------------------------
 # File description:
 #
-# Simulate response of pyramidal neurons to DC injection (Fig. 7)
+# Simulate response of pyramidal neurons to DC injection (Fig. 8)
 # -----------------------------------------------------------------------------
 
 import numpy as np
@@ -41,7 +41,7 @@ Param_dc = {
 }
 
 # [pA] range of amplitudes for DC injection for e and i neurons
-temp = np.append(np.arange(-5., 1.8, 0.5), np.arange(1.8, 2., 0.02))
+temp = np.append(np.arange(-10., 1.8, 0.5), np.arange(1.8, 2., 0.02))
 Amplitude_dc = np.append(temp, np.arange(2., 3.6, 0.2))
 
 
@@ -53,129 +53,77 @@ A_s = 0.015E-2  # [cm^2] somatic area
 A_d = 0.035E-2  # [cm^2] dendritic area
 Params_neuron = {'PY':
                  {
+                     't_ref': 2.,    # [ms] absolute refractory time 
                      'E_Ca':  120.,  # [mV] Ca2+ reversal potential
-                     'E_K': -100.,  # [mV] K+ reversal potential
+                     'E_K': -100.,   # [mV] K+ reversal potential
                      'E_L': -60.95,  # [mV] resting potential
                      'E_Na':   55.,  # [mV] Na+ reversal potential
                      'E_ex':    0.,  # [mV] AMPA, NMDA reversal potential
-                     'E_in': -70.,  # [mV] GABA reversal potential
-                     'g_0': 1.75E3,  # [nS] axial dendritic conductance
+                     'E_in': -70.,   # [mV] GABA reversal potential
+                     'g_conn': 1.75E3,  # [nS] axial dendritic conductance
                      'tau_syn_ampa': 2.,  # [ms] AMPA time constant
                      'tau_syn_nmda_fast': 2.,  # [ms] fast NMDA time constant
                      'tau_syn_nmda_slow': 100.,  # [ms] slow NMDA time constant
                      'tau_syn_gaba': 10.,  # [ms] GABA time constant
 
                      # parameters for somatic compartment
-                     'comp_0': {
-                         'C_m': C_m * A_s,  # [pF] capacitance
-                         'V_m': -75.,  # [mV] initial membrane potential
-                         # [nS] conductance of fast Na+ channel
-                         'g_Na': 50E6 * A_s,
-                         # [nS] conductance of fast K+ channel
-                         'g_K': 10.5E6 * A_s,
-                         'g_L': 0.067E6 * A_s,  # [nS] leak conductance
-                         # [nS] conductance of fast A-type K+ channel
-                         'g_K_A': 1E6 * A_s,
-                         # [nS] conductance of Na+ dependent K+ channel
-                         'g_K_Na': 1.33E6 * A_s,
-                         # [nS] conductance of non-inactivating K+ channel
-                         'g_K_s': 0.576E6 * A_s,
+                     'C_m_s': C_m * A_s,  # [pF] capacitance
+                     'V_m_s': -75.,  # [mV] initial membrane potential
+                      # [nS] conductance of fast Na+ channel
+                      'g_Na': 50E6 * A_s,
+                      # [nS] conductance of fast K+ channel
+                      'g_K': 10.5E6 * A_s,
+                      'g_L': 0.067E6 * A_s,  # [nS] leak conductance
+                      # [nS] conductance of fast A-type K+ channel
+                      'g_K_A': 1E6 * A_s,
+                      # [nS] conductance of Na+ dependent K+ channel
+                      'g_K_Na': 1.33E6 * A_s,
+                      # [nS] conductance of non-inactivating K+ channel
+                      'g_K_s': 0.576E6 * A_s,
+                      
+                      # parameters for dendritic compartment
+                      'C_m_d': C_m * A_d,
+                      'V_m_d': -75.,
+                      # [nS] conductance of Ca+ dependent K+ channel
+                      'g_K_Ca': 0.57E6 * A_d,
+                      # [nS] conductance of inwardly rectifying channel
+                      'g_K_AR': 0.0257E6 * A_d,
+                      # [nS] conductance of high-threshold Ca+ channel
+                      'g_Ca': 0.43E6 * A_d,
+                      # [nS] conductance of Na-persistent channel
+                      'g_Na_p': 0.0686E6 * A_d,
+    
+                      'K_A_h': 0.31,  # initial inactivation value of g_K_A
+                      'K_m': 0.015,  # initial activation value of g_K
+                      'K_s_m': 0.002,  # initial activation value of g_K_s
+                      'Na_h': 1.,  # initial inactivation value of g_Na
+                      'n_Ca': 0.,  # [mM] initial concentration of Ca2+
+                      'n_Na': 9.5  # [mM] initial concentration of Na+
 
-                         # [nS] conductance of Ca+ dependent K+ channel
-                         'g_K_Ca': 0.,
-                         # [nS] conductance of inwardly rectifying channel
-                         'g_K_AR': 0.,
-                         # [nS] conductance of high-threshold Ca+ channel
-                         'g_Ca': 0.,
-                         # [nS] conductance of Na-persistent channel
-                         'g_Na_p': 0.,
-
-                         'K_A_h': 0.31,  # initial inactivation value of g_K_A
-                         'K_m': 0.015,  # initial activation value of g_K
-                         'K_s_m': 0.002,  # initial activation value of g_K_s
-                         'Na_h': 1.,  # initial inactivation value of g_Na
-                         'n_Ca': 0.,  # [mM] initial concentration of Ca2+
-                         'n_Na': 9.5  # [mM] initial concentration of Na+
-
-                     },
-
-                     # parameters for dendritic compartment
-                     'comp_1': {
-                         'C_m': C_m * A_d,
-                         'V_m': -75.,
-                         'g_Na': 0.,
-                         'g_L': 0.,
-                         'g_K': 0.,
-                         'g_K_A': 0.,
-                         'g_K_Na': 0.,
-                         'g_K_s': 0.,
-
-                         'g_K_Ca': 0.57E6 * A_d,
-                         'g_K_AR': 0.0257E6 * A_d,
-                         'g_Ca': 0.43E6 * A_d,
-                         'g_Na_p': 0.0686E6 * A_d,
-
-                         'K_A_h': 0.31,
-                         'K_m': 0.015,
-                         'K_s_m': 0.002,
-                         'Na_h':  1.,
-                         'n_Ca':  0.,
-                         'n_Na': 9.5
-                     }
                  }
-                 }
+               }
 
 
 # parameters for inh neurons
-# axial conductance g_0=0. mimics 1-compartment neuron
 A_s = 0.02E-2  # [cm^2] somatic area
 Params_neuron['FS'] = {
-    'E_Ca': 120.,
+    't_ref': 2.,
     'E_K': -90.,
     'E_L': -63.8,
     'E_Na':  55.,
     'E_ex':   0.,
     'E_in': -70.,
-    'g_0':   0.,
     'tau_syn_ampa': 2.,
     'tau_syn_nmda_fast': 2.,
     'tau_syn_nmda_slow': 100.,
     'tau_syn_gaba': 10.,
 
     # somatic compartment
-    'comp_0': {
-        'C_m': C_m * A_s,
-        'V_m': -61.,
-        'g_Na': 35E6 * A_s,
-        'g_K': 9E6 * A_s,
-        'g_L': 0.1025E6 * A_s,
-        'g_K_A': 0.,
-        'g_K_Na': 0.,
-        'g_K_s': 0.,
-
-        'g_K_Ca': 0.,
-        'g_K_AR': 0.,
-        'g_Ca': 0.,
-        'g_Na_p': 0.
-    },
-
-    # dendritic compartment is irrelevant here
-    'comp_1': {
-        'C_m': 100.,
-        'V_m': -61.,
-        'g_Na': 0.,
-        'g_L': 0.,
-        'g_K': 0.,
-        'g_K_A': 0.,
-        'g_K_Na': 0.,
-        'g_K_s': 0.,
-
-        'g_K_Ca': 0.,
-        'g_K_AR': 0.,
-        'g_Ca': 0.,
-        'g_Na_p': 0.,
-    }
-
+    'C_m_s': C_m * A_s,
+    'V_m_s': -61.,
+    'g_Na': 35E6 * A_s,
+    'g_K': 9E6 * A_s,
+    'g_L': 0.1025E6 * A_s
 }
 
 
@@ -186,6 +134,10 @@ Params_neuron['FS'] = {
 neuron_type = 'PY'
 
 nest.ResetKernel()
+nest.SetKernelStatus({"resolution": dt,             
+                      "local_num_threads": 4
+                     })
+
 
 # set defaults for nest objects
 nest.SetDefaults('dc_generator', Param_dc)
@@ -219,7 +171,7 @@ for dc_id in range(len(Amplitude_dc)):
     gen = nest.Create('dc_generator',
                       params={'amplitude': Amplitude_dc[dc_id]})
     nest.Connect(gen, [neuron[dc_id]], {'rule': 'one_to_one'},
-                 {'receptor_type': syns['C0_curr']})
+                 {'receptor_type': syns['curr']})
 
     # create and connect multimeters
     mm += [nest.Create('multimeter')]
@@ -256,50 +208,50 @@ for dc_id in range(len(Amplitude_dc)):
 
     # reconstruct all neuronal conductances from simulation
 
-    temp = {'V_m': data['V_m.0']}
-    temp['V_m_d'] = data['V_m.1']
+    temp = {'V_m': data['V_m_s']}
+    temp['V_m_d'] = data['V_m_d']
     temp['times'] = data['times']
-    temp['g_ex'] = (data['g_ampa.' + comp] + data['g_nmda_slow.' + comp] -
-                    data['g_nmda_fast.' + comp])
-    temp['g_in'] = data['g_gaba.0']
+    temp['g_ex'] = (data['g_ampa'] + data['g_nmda_slow'] -
+                    data['g_nmda_fast'])
+    temp['g_in'] = data['g_gaba']
     temp['senders'] = data['senders']
 
-    a_m = 0.1 * (data['V_m.0'] + 33.) / \
-        (1. - np.exp(-(data['V_m.0'] + 33.) / 10.))
-    b_m = 4. * np.exp(-(data['V_m.0'] + 53.7) / 12.)
+    a_m = 0.1 * (data['V_m_s'] + 33.) / \
+        (1. - np.exp(-(data['V_m_s'] + 33.) / 10.))
+    b_m = 4. * np.exp(-(data['V_m_s'] + 53.7) / 12.)
     m_inf = a_m / (a_m + b_m)
-    temp['g_Na'] = (Params_neuron[neuron_type]['comp_0']['g_Na'] *
-                    np.power(m_inf, 3) * data['Na_h.0'])
+    temp['g_Na'] = (Params_neuron[neuron_type]['g_Na'] *
+                    np.power(m_inf, 3) * data['Na_h'])
 
-    temp['g_K'] = (Params_neuron[neuron_type]['comp_0']['g_K'] *
-                   np.power(data['K_m.0'], 4))
+    temp['g_K'] = (Params_neuron[neuron_type]['g_K'] *
+                   np.power(data['K_m'], 4))
 
-    m_inf = 1. / (1. + np.exp(-(data['V_m.0'] + 50.) / 20.))
-    temp['g_K_A'] = (Params_neuron[neuron_type]['comp_0']['g_K_A'] *
-                     np.power(m_inf, 3) * data['K_A_h.0'])
+    m_inf = 1. / (1. + np.exp(-(data['V_m_s'] + 50.) / 20.))
+    temp['g_K_A'] = (Params_neuron[neuron_type]['g_K_A'] *
+                     np.power(m_inf, 3) * data['K_A_h'])
 
-    temp['g_K_s'] = (Params_neuron[neuron_type]['comp_0']['g_K_s'] *
-                     data['K_s_m.0'])
+    temp['g_K_s'] = (Params_neuron[neuron_type]['g_K_s'] *
+                     data['K_s_m'])
 
-    Na_p_m = 1. / (1. + np.exp(-(data['V_m.' + comp] + 55.7) / 7.7))
-    temp['g_Na_p'] = (Params_neuron[neuron_type]['comp_' + comp]['g_Na_p'] *
+    Na_p_m = 1. / (1. + np.exp(-(data['V_m_d'] + 55.7) / 7.7))
+    temp['g_Na_p'] = (Params_neuron[neuron_type]['g_Na_p'] *
                       np.power(Na_p_m, 3))
 
-    K_ar_h = 1. / (1. + np.exp((data['V_m.' + comp] + 75.) / 4.))
-    temp['g_K_ar'] = (Params_neuron[neuron_type]['comp_' + comp]['g_K_AR'] *
+    K_ar_h = 1. / (1. + np.exp((data['V_m_d'] + 75.) / 4.))
+    temp['g_K_ar'] = (Params_neuron[neuron_type]['g_K_AR'] *
                       K_ar_h)
 
-    m_inf = 1. / (1. + np.exp(-(data['V_m.' + comp] + 20.) / 9.))
-    temp['g_Ca'] = (Params_neuron[neuron_type]['comp_' + comp]['g_Ca'] *
+    m_inf = 1. / (1. + np.exp(-(data['V_m_d'] + 20.) / 9.))
+    temp['g_Ca'] = (Params_neuron[neuron_type]['g_Ca'] *
                     np.power(m_inf, 2))
 
-    temp['n_Ca'] = data['n_Ca.' + comp]
-    temp['g_K_Ca'] = (1. / (1. + 30. / data['n_Ca.' + comp]) *
-                      Params_neuron[neuron_type]['comp_' + comp]['g_K_Ca'])
+    temp['n_Ca'] = data['n_Ca']
+    temp['g_K_Ca'] = (1. / (1. + 30. / data['n_Ca']) *
+                      Params_neuron[neuron_type]['g_K_Ca'])
 
-    temp['n_Na'] = data['n_Na.0']
-    temp['g_K_Na'] = (0.37 / (1. + np.power(38.7 / data['n_Na.0'], 3.5)) *
-                      Params_neuron[neuron_type]['comp_0']['g_K_Na'])
+    temp['n_Na'] = data['n_Na']
+    temp['g_K_Na'] = (0.37 / (1. + np.power(38.7 / data['n_Na'], 3.5)) *
+                      Params_neuron[neuron_type]['g_K_Na'])
 
     Mm_raw += [temp]
 
@@ -313,7 +265,7 @@ for dc_id in range(len(Amplitude_dc)):
 
         # calculate membrane conductance according to original definition
         # in the model 10ms before the end of dc injection
-        g_temp = (Params_neuron[neuron_type]['comp_0']['g_L'] + temp['g_Na']
+        g_temp = (Params_neuron[neuron_type]['g_L'] + temp['g_Na']
                   + temp['g_K'] + temp['g_K_A'] +
                   temp['g_K_s'] + temp['g_Na_p']
                   + temp['g_K_ar'] + temp['g_Ca'] + temp['g_K_Ca']
@@ -335,42 +287,42 @@ for dc_id in range(len(Amplitude_dc)):
             d = 1. / (1. + np.exp(-(V + 20.) / 10.))
             h = c / (c + d)
             return (np.power(m, 3) * h *
-                    Params_neuron[neuron_type]['comp_0']['g_Na'])
+                    Params_neuron[neuron_type]['g_Na'])
 
         # fast K+ current
         def g_K(V):
             a = 0.01 * (V + 34.) / (1 - np.exp(-(V + 34.) / 10.))
             b = 0.125 * np.exp(-(V + 44.) / 25.)
             m = a / (a + b)
-            return (np.power(m, 4) *Params_neuron[neuron_type]['comp_0']['g_K'])
+            return (np.power(m, 4) *Params_neuron[neuron_type]['g_K'])
 
         # K+ A-current
         def g_K_A(V):
             m = 1. / (1. + np.exp(-(V + 50.) / 20.))
             h = 1. / (1. + np.exp((V + 80.) / 6.))
             return (np.power(m, 3) * h *
-                    Params_neuron[neuron_type]['comp_0']['g_K_A'])
+                    Params_neuron[neuron_type]['g_K_A'])
 
         # Na+ persistent current
         def g_Na_p(V):
             m = 1. / (1 + np.exp(-(V + 55.7) / 7.7))
             return (np.power(m, 3) *
-                    Params_neuron[neuron_type]['comp_1']['g_Na_p'])
+                    Params_neuron[neuron_type]['g_Na_p'])
 
         # K+ slow non-inactivating current
         def g_K_s(V):
             m = 1. / (1. + np.exp(-(V + 34.) / 6.5))
-            return m * Params_neuron[neuron_type]['comp_0']['g_K_s']
+            return m * Params_neuron[neuron_type]['g_K_s']
 
         # K+ inward-rectifying current
         def g_K_AR(V):
             m = 1. / (1 + np.exp((V + 75.) / 4.))
-            return m * Params_neuron[neuron_type]['comp_1']['g_K_AR']
+            return m * Params_neuron[neuron_type]['g_K_AR']
 
         # Ca2+ current
         def g_Ca(V):
             m = 1. / (1. + np.exp(-(V + 20.) / 9.))
-            return m**2 * Params_neuron[neuron_type]['comp_1']['g_Ca']
+            return m**2 * Params_neuron[neuron_type]['g_Ca']
 
         #  K+ Ca-dependent current
         def g_K_Ca(V):
@@ -381,7 +333,7 @@ for dc_id in range(len(Amplitude_dc)):
                     (V - Params_neuron[neuron_type]['E_Ca']))
 
             m = n_Ca / (n_Ca + 30.)
-            return m * Params_neuron[neuron_type]['comp_1']['g_K_Ca']
+            return m * Params_neuron[neuron_type]['g_K_Ca']
 
         # K+ Na-dependent current
         def g_K_Na(V):
@@ -398,7 +350,7 @@ for dc_id in range(len(Amplitude_dc)):
 
             m = 0.37 / (1. + np.power(38.7 / n_Na, 3.5))
 
-            return m * Params_neuron[neuron_type]['comp_0']['g_K_Na']
+            return m * Params_neuron[neuron_type]['g_K_Na']
 
         # total current
         def I_m(V):
@@ -409,7 +361,7 @@ for dc_id in range(len(Amplitude_dc)):
                  
                  g_Ca(V) * (V - Params_neuron[neuron_type]['E_Ca']) +
                  
-                 Params_neuron[neuron_type]['comp_0']['g_L'] * 
+                 Params_neuron[neuron_type]['g_L'] * 
                  (V - Params_neuron[neuron_type]['E_L']) +
                  
                  data['g_ex'] * (V - Params_neuron[neuron_type]['E_ex']) +
@@ -450,13 +402,13 @@ axes = []
 ax = fig.add_subplot(fig_size[0], fig_size[1], ax_id)
 ax_id += 1
 
-for dc_id in xrange(0, len(Amplitude_dc), 4):
+for dc_id in range(0, len(Amplitude_dc), 4):
     ax.plot(Mm_raw[dc_id]['times'] / 1000., Mm_raw[dc_id]['V_m'], 'k',
             label='%.1f' % Amplitude_dc[dc_id])
 ax.set_xlabel('$\mathrm{time \, (s)}$')
 ax.set_ylabel('$V_{\mathrm{m}} \, \mathrm{(mV)}$')
 ax.set_ylim(top=-66.)
-ax.set_xticks(range(0, 26, 5))
+ax.set_xticks(np.arange(0, 26, 5))
 ax.set_xlim([0., sim_time / 1000.])
 ax.set_yticks(np.arange(-78., -64., 4.))
 ax.vlines([Param_dc['start'] / 1000., Param_dc['stop'] / 1000.],
@@ -471,7 +423,7 @@ ax_id += 1
 ax.plot(I_dc, V_max, 'k')
 ax.set_xlabel('$\mathrm{I \, (pA)}$')
 ax.set_xticks(np.linspace(min(I_dc),max(I_dc),3,dtype=int))
-ax.set_ylabel('$V_{\mathrm{m}} \, \mathrm{(mV)}$')
+ax.set_ylabel('$\Delta V_{\mathrm{m}} \, \mathrm{(mV)}$')
 ax.set_yticks([-2.,4.,10.])
 axes += [{'ax': ax, 'cb': None}]
 
@@ -483,13 +435,14 @@ ax.plot(V_max, G_origin, 'k--')
 ax.plot(V_max[1:-1], G_ohm, 'k-')
 ax.plot(V_max, G_th, 'o', color='0.5', alpha=0.5, markeredgecolor='0.5')
 ax.set_ylabel('$G_{\mathrm{m}} \, \mathrm{(nS)}$')
-ax.set_xlabel('$V_{\mathrm{m}} \, \mathrm{(mV)}$')
+ax.set_xlabel('$\Delta V_{\mathrm{m}} \, \mathrm{(mV)}$')
 ax.set_yticks(np.linspace(-5,15,3))
+ax.set_xticks(np.linspace(-3,6,4))
 # ax.set_yscale('log')
 axes += [{'ax': ax, 'cb': None}]
 
 
 # Finalization phase: adjust subplot dimensions
-aw.tight_layout(axes, style, './fig7.png', fig_width='medium')
+aw.tight_layout(axes, style, './fig8.png', fig_width='medium')
 
 plt.show()

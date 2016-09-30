@@ -32,7 +32,7 @@ def f_Sd_sort(Spike_data, num_neuron):
     Spike_data: dict{'times':array[|spike time|], 'senders': array[|neuron gid|]} 
                 spiking data mixed from multiple neurons. 
 
-    -num_neuron: float - full number of neurons recorded. 
+    -num_neuron: int - full number of neurons recorded. 
 
     Returns
     -------
@@ -104,7 +104,7 @@ def f_psth(Data, bin_width=1., t_min=0, t_max=1):
         Spike_train = Spike_train[mask]
 
         # bin data
-        binned_train = map(int, np.floor(Spike_train - t_min) / bin_width)
+        binned_train = np.array(np.floor(Spike_train - t_min) / bin_width, dtype=int)
         PSTH['rates'][train_id] = np.histogram(binned_train,
                                                bins=np.arange(num_bins + 1))[0]
         train_id += 1

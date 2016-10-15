@@ -1,7 +1,12 @@
 ### Code repository
 
-Don't forget to choose a license. You're free to use one from a set of
-well-understood licenses including BSD, GPL or Apache.
+This code will reproduce all figures presented in the article. Figures are stored in the figures subdirectory
 
-See [the Debian Free Software Guidelines](https://www.debian.org/social_contract#guidelines)
-for a [list of licenses](https://www.debian.org/legal/licenses/).
+In order to reproduce a particular figure, i.e. figure 1
+python run.py f1
+
+Figures up to 9 can be created.
+
+
+In order to reproduce all figures
+python run.py all

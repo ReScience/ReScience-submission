@@ -69,7 +69,7 @@ t0 = t_meas - 100.    # x position of the inset drawing left top corner
 V0 = signal[t_meas] * 0.6  # y position of the inset drawing left top corner
 
 # add trace for initial steady period
-t_start = t0
+t_start = int(t0)
 t_stop = t_start + int(dc_dur * 0.2)
 time_temp = time[t_start:t_stop]
 trace = V0 * np.ones(len(time_temp))
@@ -78,7 +78,7 @@ ax.plot(time_temp, trace, 'k', linewidth=2)
 
 # add trace for hyperpolarizing behavior
 t_start = t_stop
-t_stop = t0 + int(dc_dur * 0.7)
+t_stop = int(t0 + dc_dur * 0.7)
 time_temp = time[t_start:t_stop]
 V1 = signal[t_meas] * 0.3
 tau = 10.
@@ -88,7 +88,7 @@ ax.plot(time_temp, trace, 'k', linewidth=2)
 
 # add trace for recovery from hyperpolarization
 t_start = t_stop
-t_stop = t0 + dc_dur
+t_stop = int(t0 + dc_dur)
 time_temp = time[t_start:t_stop]
 trace = V0 - (V0 - V1) * np.exp(-(time_temp - t_start) / tau)
 

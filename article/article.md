@@ -55,7 +55,7 @@ wave-like propagation of population spiking activity. The original implementatio
 C\nolinebreak[4]\hspace{-0.05em}\raisebox{.4ex}{\tiny{\bf ++}}, but the source code is not publicly available. 
 The implementation we propose is coded in the NEST [@Gewaltig_07_11204] framework, one of the modern actively 
 developed simulation platforms that is publicly available. The code uses the Python interface [@Eppler09_12] for 
-legibility. The model and analysis scripts are implemented using Python 2.7.6.
+legibility. The model and analysis scripts are implemented using Python 3.5.2, and also tested with Python 2.7.6.
 
 
 # Methods
@@ -131,7 +131,7 @@ $$ \frac{ds}{dt}=\alpha(1-s)x-s/\tau. $$ {#eq:1}
  
 
 ![**Simplified synaptic kinetics (dashed curve) for AMPA, NMDA, and GABA conductances closely reproduces the behavior 
-of the original model (solid curve) in a wide range of spiking rates.** DC currents, simultaneous injected into the soma of a presynaptic 
+of the original model (solid curve) in a wide range of spiking rates.** DC currents, simultaneously injected into the soma of a presynaptic 
 excitatory and an inhibitory neuron for $500\,\mathrm{ms}$, lead to synaptic activation of the postsynaptic by the presynaptic neuron at rates of $4$, $14$, $22$ spikes/s (top to bottom) 
 for AMPA and NMDA, and $14$, $36$, $52$ spikes/s for GABA channels. These synaptic activation rates span the range of excitatory 
 and inhibitory neuronal firing rates observed during Up states in the model. Curves for the original model obtained with the help of a 
@@ -269,7 +269,7 @@ Table: **Network topology and synapse model.** {#tbl:Topo-syn}
 +---------------------------------+-----------------------------------------------------------------------------------------------------+
 |Spike detection                  |A spike is detected when the somatic membrane potential rises above $0\,\mathrm{mV}$                 |
 |                                 |and its derivative becomes negative: $\left(V_{s}>0\right)\;\land\;\left(\frac{dV_{s}}{dt}<0\right)$.| 
-|                                 |After that, the neuron becomes refractory and no spike emission is allowed during a fixed time.      |
+|                                 |After that, the neuron becomes refractory and no spike emission is allowed during a fixed time of $1\,\mathrm{ms}$.|
 +---------------------------------+-----------------------------------------------------------------------------------------------------+
 |Postsynaptic  \                  |$g_{\mathrm{AMPA},\mathrm{GABA}}\left(t\right)=w\exp\left(-t/\tau\right)$ \                          |
 |conductances	                  |$g_{\mathrm{NMDA}}\left(t\right)=w\left(\exp\left(-t/\tau_{\mathrm{slow}}\right)-\exp\left(-t/\tau_{\mathrm{fast}}\right)\right)$ |

@@ -44,13 +44,11 @@ $make install
 
 6. To make your NEST installation visible from Python by default from the console, add the following lines to your .bashrc file:  
 export PATH=$PATH:\<path-to-nest\>/install-2.8.0/bin  
-export PYTHONPATH=$PYTHONPATH:\<path-to-nest\>/install-2.8.0/lib/pythonX.Y/site-packages  
-
-where pythonX.Y is your python version.
+export PYTHONPATH=$PYTHONPATH:\<path-to-nest\>/install-2.8.0/lib/python2.7/site-packages  
 
 
 ## Python installation
-The network model and further analysis are implemented with Python (v.3.5.2). Scripts were tested with numpy (v.1.11.1) and matplotlib (v.1.5.1).  
+The network model and further analysis are implemented with Python (v.3.5.2), and also tested with Python (v.2.7.6). Scripts were tested with numpy (v.1.11.1) and matplotlib (v.1.5.1).  
 
 
 To install Python 3, type in console:  

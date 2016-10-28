@@ -1,0 +1,238 @@
+
+Hi,
+
+Hier der Abschlussbericht dieser Fehlersuche.
+Im Folgenden werde ich zusammenfassen worin der Unterschied zwischen
+der IDL und der MATLAB Version besteht. Dank an Alexa fuer das
+durchnudeln der Testdaten.
+
+1.
+Beide Programme Reihen die Spikes richtig auf und erkennen Koinzidenzen
+korrekt. 
+
+2.
+Der Unterschied in den Ergebnissen liegt an unterschiedlichen 
+Einstellungen in den Parameterfiles.
+Diese sind vermutlich durch schlechte Kommentare
+und falsche Achsenbeschriftungen in der IDL Version ausgeloest.
+
+3.
+Neben den Unsicherheiten ob ein Wert in ms oder time units angegeben
+werden muss sind die beiden wichtigsten Probleme:
+   
+3.1 
+IDL Version definiert die linke cut Grenze als cut_event+t_pre+1
+(t_pre ueblicherweise negativ. Bei einem t_pre von 5 time units
+werden also 4 time units links von dem Zeitschritt in der der
+cut_event aufgetreten ist mitgenommen.
+Die MATLAB Version dagegen nimmt t_pre time units links von dem
+Zeitschritt in der der cut_event aufgetreten ist mit.
+
+Will man die gleichen Bilder erhalten muss in der MATLAB Version
+t_pre also eine time unit GROESSER gewaehlt werden als in der
+IDL Version (bei time_unit=0.5, beispielsweise -599.5 bei MATLAB
+und -600 bei IDL).
+
+3.2
+Die IDL Version unterscheided zwischen der Einheit der Zeit 
+"time_units" im Eingabefile und der Aufloesung der darin enthaltenen
+Messwerte "time_res". Beide Werte werden in ms angegeben.
+Wenn also time_units=0.1ms aber time_res=1ms, dann heisst das, das
+die letzte Stelle der Zeitangaben nicht beruecksichtigt werden soll
+(z.B weil sie nur Nullen enthaelt, oder nicht Signifikant ist).
+Die IDL Version bringt dann durch RUNDEN alles auf eine der time_res
+entsprechenden Skala.
+Ueblicherweise will man wahrscheinlich die Messdaten in der Aufloesung
+der Einheit der Zeit ansehen. In diesen Faellen sollte stets
+  time_res==time_units
+gewaehlt werden!
+Die MATLAB Version verfuegt (noch?) nicht ueber die Moeglichkeit
+Einheit und Aufloesung der Zeitskala unabhaengig voneinander zu waehlen.
+  
+Im Parameterfile der IDL Version habe ich folgende Einstellung
+gefunden:
+
+time_units=0.5
+time_res=1
+
+Das heisst die Daten wurden mit einer Genauigkeit von 1ms angesehen.
+Zwei Spikes, die einen Abstand von 0.5ms hatten konnten also unter
+Umstaenden als gleichzeitig angesehen werden.
+
+Dadurch kam die Verletzung meines "PATTERN EXCLUSION PRINCIPLE"
+Zustande!
+
+Die Effekte sind dennoch NICHT GROSS, da die Suche nach Koinzidenzen
+auf einer um den Faktor 5 groesseren Binbreite durchgefuehrt wurde.
+Unterschiede kommen Zustande, da das erste "binnen" auf der im GDF
+File laufenden Zeit erfolgt, und dass andere auf den bereits um den
+cut event aufgereiten Daten (von der linken Grenze an).
+
+4.
+Nach den Korrekturen aller Einstellungen kann ich mit beiden Versionen
+EXAKT die gleichen Bilder erzeugen. 
+
+
+5.
+Die Schlussfolgerungen fuer das Science Paper muessen wir jetzt
+diskutieren. Das sauberste waer natuerlich alles neu zu rechnen.
+Eventuell reicht es aber aus, die Bilder neu zu machen und die
+dazu passenden alpha Funktionen (Vorschag von Alexa 26.7).
+
+6.
+Eine zusaetzliche Beobachtung hat sich mal wieder bestaetigt.
+Welche UE genau auftreten haengt von dem Anfang des 
+Binnings ab (von Alexa 26.7 nochmal betont).
+Manchmal scheint sich damit auch die Struktur aller UE zu aendern.
+Was dies bedeutet muessen wir mal diskutieren.
+Meiner Ansicht nach weisst dieser Effekt auf eine den UEs zugrundeliegende
+Struktur hin. So als ob die UE auf einem Gitter leben und damit mit
+dem Binning eine ganze Reihe aufleuchtet oder verschwindet. 
+Dies koennte durch eine (unterschwellige) kurzfristige Oszillation
+ausgeloest sein. Mit dem Anfangspunkt des Binnings haetten 
+man dann ein Werkzeug fuer das auffinden solcher Strukturen.
+
+7.
+Ich bereite gerade eine neue Version (1.3.1) des UE Programms vor,
+die im Parameterfile alles in ms verlangt und hoffentlich eindeutige
+Kommentare enthaelt.
+Die Darstellungsroutine fuer die UE "Kaeschtle" kann jetzt auf 
+Wunsch die Kaeschtle genau so breit machen wie die wirkliche
+Binbreite und setzt sie auch an die wirklichen Bingrenzen, damit
+kann man genau sehen wie die Spikes in den bins liegen, und wann
+sie herausrutschen. Dies war beim debuggen eine Hilfe.
+
+
+Markus
+
+
+
+
+
+Noch ein Nachtrag zu 3.2.
+
+Gestern habe ich nochmal mit Sonja ueber das Thema Zeitaufloesung
+gesprochen. Sie sagte, dass die Alexa Daten urspruenglich nicht
+in 0.5ms Aufloesung sonder in 0.1ms Aufloesung vorliegen.
+
+Ich moechte deshalb nochmal etwas herausstellen, was in 3.2
+vieleicht nicht so klar formuliert ist:
+
+ Letztlich ist jede Zeitaufloesung in der man sich die Daten
+ anguckt korrekt solange man sich bewusst ist welche Auf-
+ loesung man benutzt hat und die gesammte Analyse mit der 
+ gleichen Aufloesung durchgefuehrt wird.
+
+Damit Ergebnisse in einer Aufloesung auch exakt mit 
+Ergebnissen eines anderen Programms in der gleichen 
+Aufloesung uebereinstimmen muessen beide die gleich
+Definition der Umwandlung verwenden.
+
+Es koennte sogar sein, das Sonja diesen time_res=1ms Eintrag
+damals bewusst gemacht hat um die Daten auf eine 1ms 
+Aufloesung zu bringen weil sie mit solchen Daten Erfahrungen
+hatte. Leider kann sie sich daran nicht mehr erinnern.
+
+Von diesem Standpunkt aus koennte man auch sagen:
+Wir fuehren diese Analyse ganz mit einer Aufloesung von 1ms
+durch. Dann muessen wir nur gewaehrleisten, dass ein
+entsprechendes matlab Programm die gleiche Definition
+verwendet. 
+
+
+Die Situation ist meines Wissens 
+im Moment die folgende:
+
+
+
+                -------------------
+                |  Alexa Format    |
+                |  Aufloesung 0.1ms|
+                --------------------
+                 /             \
+                /               \
+               /                 \
+   ---------------------      -------------------     
+   |  Alexas 2gdf      |      | alexa2gdf       |
+   |  Programm         |      | Aufloesung 1ms  |
+   |  Aufloesung 0.5ms |      |                 |
+   ---------------------\     -------------------
+           | Methode     \            Methode 
+           | binnen ?      T          abschneiden
+           |                \         (binnen)
+           |                 \        
+   ---------------------      ----------------------
+   | IDL UE Software   |      | MATLAB UE Software |
+   | Aufloesung 1ms    |      |                    |
+   |                   |      |                    |
+   ---------------------      ----------------------
+           | Methode               |
+           | runden                |
+           |                       |
+       Analyse Ergebnis        Analyse Ergebnis
+
+T ist hier die Identitaet.
+Das matlab alexa2gdf Programm wurde bisher 
+nicht eingesetzt. Es haette auch wieder zu
+anderen Analyseergebnissen gefuehrt, da die 
+Definition der Aufloesungsumrechnung eine
+andere ist.
+
+Um in matlab die gleichen Ergebnisse wie in IDL
+zu erhalten koennten wir jetzt  T als
+eine Umwandlung einbauen, die das gleiche macht 
+wie das in IDL verwendete Verfahren.
+
+Fuer die Zukunft schlage ich folgendes Verfahren
+vor:
+
+1.
+Die 
+          *2gdf 
+
+Programme erstellen GDF files in der
+Aufloesung, die im * Format vorlag. Die Einheit
+der Zeit ist gleich der Aufloesung.
+Beispiel: Wenn die Ausgangsdaten eine Aufloesung
+von 0.1ms haben, dann ist der Wert 0.3ms im
+GDF File durch die ganze Zahl 3 represaentiert.
+
+2.
+Eine Eventuelle Umwandlung der Aufloesung wird
+durch ein seperates Programm 
+
+           gdf2gdf 
+
+gemacht.
+Es fordert, dass sowohl im input GDF File
+als auch im output GDF File die Einheit der Zeit
+gleich der Aufloesung ist. 
+Mir persoenlich ist Umwandlung durch binnen lieber
+als runden. Das sollte ja insgesamt nur eine
+Verschiebung ausmachen da sich fuer positive
+Zahlen round als
+    round(x):=floor(x+0.5)
+definieren laesst. Bei negativen Zahlen muss man
+da ein bischen Vorsichtig sein, da es in der 
+Literatur Verwirrung ueber die
+Bezeichnungen gibt.
+Jedenfalls gibt es dann genau eine Stelle an der
+diese Umwandlung stattfindet.
+Zusaetzlich tauchen die Begriffe "Einheit" und 
+"Aufloesung", die offensichtlich konzeptionell
+schwer auseinanderzuhalten sind nicht unabhaengig
+voneinander auf (haben immer den gleichen Wert).
+
+Gruss,
+Markus
+
+
+
+
+
+
+
+
+
+
+

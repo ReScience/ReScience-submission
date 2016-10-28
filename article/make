@@ -1,0 +1,8 @@
+
+
+~/.cabal/bin/pandoc --standalone --filter ~/.cabal/bin/pandoc-crossref --template=rescience-template.tex --latex-engine=xelatex --biblatex --bibliography=VRostami_JIto_MDenker_SGruen_2016.bib -M "crossrefYaml=crossref.yaml" --output VRostami_JIto_MDenker_SGruen_2016.tex VRostami_JIto_MDenker_SGruen_2016.md
+
+xelatex VRostami_JIto_MDenker_SGruen_2016
+biber VRostami_JIto_MDenker_SGruen_2016
+xelatex VRostami_JIto_MDenker_SGruen_2016
+xelatex VRostami_JIto_MDenker_SGruen_2016

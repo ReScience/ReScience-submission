@@ -1,0 +1,59 @@
+@misc{markdown,
+    author    = "John Gruber and Aaron Swartz",
+    title     = "The Markdown format",
+    year      = "2004",
+    url       = "http://daringfireball.net/projects/markdown/syntax"
+}
+
+
+
+@article{Riehle97_1950, 
+  author =       {Riehle, Alexa and Gr{\"u}n, Sonja and Diesmann, Markus and Aertsen, Ad},
+  title =        {Spike Synchronization and Rate Modulation Differentially Involved in Motor Cortical Function},
+  journal =      science,
+  year =         1997,
+  volume =       278,
+  pages =        {1950--1953},
+  number =       5345,
+  month =        {December},
+  abstract =     {It is now commonly accepted that planning and execution of movements are based on distributed processing by neuronal populations in motor cortical areas. It is less clear, though, how these populations organize dynamically to cope with the momentary computational demands. Simultaneously recorded activities of neurons in the primary motor cortex of monkeys during performance of a delayed-pointing task exhibited context-dependent, rapid changes in the patterns of coincident action potentials. Accurate spike synchronization occurred in relation to external events (stimuli, movements) and was commonly accompanied by discharge rate modulations but without precise time locking of the spikes to these external events. Spike synchronization also occurred in relation to purely internal events (stimulus expectancy), where firing rate modulations were distinctly absent. These findings indicate that internally generated synchronization of individual spike discharges may subserve the cortical organization of cognitive motor processes. Publication Types: * Comment},
+  groups =       {brainworks},
+  lastdatemodified ={2006-07-14},
+  lastname =     {Riehle},
+  link =         {http://www.brainworks.uni-freiburg.de/publications/1997/journal\%20papers/abs-science1997-riehle.htm},
+  longnotes =    {[[http://www.brainworks.uni-freiburg.de/publications/1997/journal\%20papers/1901.htm perspectives]]},
+  own =          {notown},
+  pdf =          {Riehle97_1950.pdf},
+  read =         {notread},
+  website =      {www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=pubmed&cmd=Retrieve&dopt=Abstract&list_uids=9395398&query_hl=35&itool=pubmed_docsum} 
+}
+
+
+@ARTICLE{10.3389/fninf.2014.00010,
+  
+AUTHOR={Garcia, Samuel and Guarino, Domenico and Jaillet, Florent and Jennings, Todd and Pröpper, Robert and Rautenberg, Philipp and Rodgers, Chris and Sobolev, Andrey and Wachtler, Thomas and Yger, Pierre and Davison, Andrew},   
+	 
+TITLE={Neo: an object model for handling electrophysiology data in multiple formats},      
+	
+JOURNAL={Frontiers in Neuroinformatics},      
+	
+VOLUME={8},      
+
+PAGES={10},     
+	
+YEAR={2014},      
+	  
+URL={http://journal.frontiersin.org/article/10.3389/fninf.2014.00010},       
+	
+DOI={10.3389/fninf.2014.00010},      
+	
+ISSN={1662-5196},   
+   
+ABSTRACT={Neuroscientists use many different software tools to acquire, analyse and visualise electrophysiological signals. However, incompatible data models and file formats make it difficult to exchange data between these tools. This reduces scientific productivity, renders potentially useful analysis methods inaccessible and impedes collaboration between labs.A common representation of the core data would improve interoperability and facilitate data-sharing.To that end, we propose here a language-independent object model, named "Neo", suitable for representing data acquired from electroencephalographic, intracellular, or extracellular recordings, or generated from simulations. As a concrete instantiation of this object model we have developed an open source implementation in the Python programming language.In addition to representing electrophysiology data in memory for the purposes of analysis and visualisation, the Python implementation provides a set of input/output (IO) modules for reading/writing the data from/to a variety of commonly used file formats.Support is included for formats produced by most of the major manufacturers of electrophysiology recording equipment and also for more generic formats such as MATLAB.Data representation and data analysis are conceptually separate: it is easier to write robust analysis code if it is focused on analysis and relies on an underlying package to handle data representation.For that reason, and also to be as lightweight as possible, the Neo object model and the associated Python package are deliberately limited to representation of data, with no functions for data analysis or visualisation.Software for neurophysiology data analysis and visualisation built on top of Neo automatically gains the benefits of interoperability, easier data sharing and automatic format conversion; there is already a burgeoning ecosystem of such tools. We intend that Neo should become the standard basis for Python tools in neurophysiology.}
+}
+
+
+
+
+
+

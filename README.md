@@ -1,56 +1,49 @@
 
-### ReScience submission repository
+##  [Re] Spike Synchronization and Rate Modulation Differentially Involved in Motor Cortical Function
 
-This is the submission repository for the [Re**Science** journal](https://rescience.github.io).
+**Authors:** Vahid Rostami, Junji Ito, Michael Denker, Sonja Gr&uuml;n
 
+**Corresponding author:** Vahid Rostami, v.rostami@fz-juelich.de
 
-### How to submit an article ?
+**A reference implementation of:**
 
-
-1. Create a [github](https://github.com) account
-
-2. [Fork](https://help.github.com/articles/fork-a-repo/) the [ReScience submission](https://github.com/ReScience/ReScience-submission) repository
-
-3. Clone this new repository into your desktop environment
-
-   ```
-   $ git clone https://github.com/YOUR-USERNAME/ReScience-submission
-   ```
-
-4. Create a branch (the branch name should be author names separated with dashes)
-
-   ```
-   $ git checkout -b AUTHOR1-AUTHOR2
-   ```
+Spike synchronization and rate modulation differentially involved in motor cortical function. Alexa Riehle, Sonja Gr&uuml;n, Markus Diesmann, and Ad Aertsen (1997) Science 278:1950-1953. DOI:10.1126/science.278.5345.1950
 
 
-5. Add your code & article (see [author guidelines](https://rescience.github.io/write)) and commit your changes:
+In this paper we illustrate the successful reproduction of the results shown in Riehle et al (1997) using our new Python implementation of the Unitary Events (UE) method. Our implementation of the UE analysis is available in the `unitary_event_analysis` module of the the Electrophysiology Analysis Toolbox [Elephant](https://github.com/NeuralEnsemble/elephant).
 
-   ```
-   $ git commit -a -m "Some comment"
-   ```
+## Dependencies
+
+- Elephant==0.3.0
+- neo==0.4.0
+- quantities>=0.9.0
+- numpy>=1.6.2
+- scipy>=0.11.0
+- matplotlib>=1.5.1
+
+## Installation
+### On Ubuntu/Debian:
+- sudo apt-get install python-numpy python-scipy python-matplotlib python-pip ipython
+- pip install quantities
+- pip install git+https://github.com/NeuralEnsemble/python-neo.git@apibreak#egg=neo-apibreak
+- pip install elephant
 
 
-6. [Push](https://help.github.com/articles/pushing-to-a-remote/) to github
 
-   ```
-   $ git push origin AUTHOR1-AUTHOR2
-   ```
+## Structure of this repository
 
-7. Issue a [pull request](https://help.github.com/articles/using-pull-requests/) (PR) to Re**Science** with title "Review Request" and insert the following text in the description:
+### article
+This folder contains the accompanying text in markdown/pdf/tex format and all the reproduced figures (used in our paper).
 
-  ```
-  **AUTHOR**
+### code
+This folder contains all the plotting functions, and the functions for loading and converting (from `gdf` format to `Neo`) the data (provided in `utils.py`). 
 
-  Dear @ReScience/editors,
+The source code of our UE implementation is pull requested and accepted after peer-review [https://github.com/NeuralEnsemble/elephant/pull/64](https://github.com/NeuralEnsemble/elephant/pull/64) in [Elephant](https://github.com/NeuralEnsemble/elephant).
 
-  I request a review for the reproduction of the following paper:
+### data
+This folder contains the preprocessed versions of the spike train data used in the original publication (provided by Dr. Alexa Riehle, CNRS-AMU, Marseille).
 
-  * References of the paper holding results you're replicating
+### notebook
+An iPython notebook is provided here to plot the figures (Figure 1, Figure 2 and Figure 5) of our paper.
 
-  I believe the original results have been faithfully reproduced as explained in the accompanying article.
-  ```
 
-8. Assign the PR to an editor from the [editorial board](https://rescience.github.io/board).
-
-9. Answer questions and requests made in the PR conversation page.

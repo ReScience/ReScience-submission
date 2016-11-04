@@ -25,7 +25,7 @@ In this paper we illustrate the successful reproduction of the results shown in 
 ### On Ubuntu/Debian:
 - sudo apt-get install python-numpy python-scipy python-matplotlib python-pip ipython
 - pip install quantities
-- pip install git+https://github.com/NeuralEnsemble/python-neo.git@apibreak#egg=neo-apibreak
+- pip install git+https://github.com/NeuralEnsemble/python-neo.git@snapshot-20150821#egg=neo-snapshot-20150821
 - pip install elephant
 
 

@@ -1,3 +1,4 @@
+from __future__ import print_function
 import augment
 import argparse
 import matplotlib.pyplot as plt
@@ -61,7 +62,7 @@ def setup_saccade(task, trial_type):
 
 def setup_probabilistic(task, trial_type):
     task.targets_types = (trial_type,)
-    task.input_symbols = (8,)
+    task.input_symbols = (8,) # shield-shaped symbol
     task.sequence_length = 4
 
 if __name__ == "__main__":
@@ -83,3 +84,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     plot_activity(**tasks[args.task])
+    

@@ -1,8 +1,10 @@
+from __future__ import print_function
+
 import augment
 import argparse
 import multiprocessing
 import time
-from statistics import median
+from numpy import median
 
 def unsigned_int(string):
     value = int(string)
@@ -45,3 +47,4 @@ if __name__ == "__main__":
     convergence_times = [result for result in results if result is not None]
     print("Success rate: {0:.2f}%".format(100.0 * len(convergence_times) / args.networks))
     print("Median convergence time:", median(convergence_times), "trials")
+    

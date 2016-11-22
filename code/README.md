@@ -1,14 +1,19 @@
+# Requirements
+
+ - Python 2.7 or 3.4
+ - NumPy 1.8
+ - Matplotlib 1.3
+
 # Description
 
 The `augment.py` module contains classes describing the AuGMEnT model,
-the saccade/anti-saccade task with or without shaping strategy and the probabilistic decision making tasks.
-This implementation requires Python 3, NumPy and matplotlib.
+the saccade/anti-saccade task with or without shaping strategy and the probabilistic decision making task.
 
 The `simulation.py` executable runs multiple networks training and prints the success rate and median convergence time.
 **_Warning: simulations can be heavily time and processing power consuming._**
 
 ```
-usage: simulation.py [-h] [-n NETWORKS]
+usage: python simulation.py [-h] [-n NETWORKS]
                      [-t {saccade,saccadenoshaping,probabilistic}]
                      [-p PROCESSORS]
 
@@ -27,7 +32,7 @@ optional arguments:
 The `plot-activation.py` executable plots the activity of Q-value units in trained networks.
 
 ```
-usage: plot-activation.py [-h] [-t {probabilistic,saccade}]
+usage: python plot-activation.py [-h] [-t {probabilistic,saccade}]
 
 Plot Q-value units activation of a trained network
 

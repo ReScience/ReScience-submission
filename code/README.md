@@ -1,7 +1,14 @@
 ### Code repository
 
-Don't forget to choose a license. You're free to use one from a set of
-well-understood licenses including BSD, GPL or Apache.
+functions.py - containing all reference implementations of the free water DTI model
 
-See [the Debian Free Software Guidelines](https://www.debian.org/social_contract#guidelines)
-for a [list of licenses](https://www.debian.org/legal/licenses/).
+run_simulations.py - code to generate the article's simulation
+                    (a notebook version of this file can be found in the notebook folder 
+                     and it is entitled as run_simulations.ipynb)
+
+run_invivo_data.py - code to generate the article's real data analysis
+                    (a notebook version of this file can be found in the notebook folder 
+                     and it is entitled as run_data.ipynb)
+
+As the main article mention, to run these procedures you need a Dipy installation. For this
+please follow the steps described in [dipy's website](http://nipy.org/dipy/installation.html)

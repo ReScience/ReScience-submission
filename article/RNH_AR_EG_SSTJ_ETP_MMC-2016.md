@@ -19,7 +19,7 @@ Address:
   - code:    2
     address: The University of Washington eScience Institute, Seattle, WA, USA
   - code: 3
-    address: Indiana University School of Informatics and Computing, Indiana, IA, USA
+    address: Intelligent Systems Engineering, Indiana University, IA, USA
   - code: 4
     address: University Medical Center Utrecht, Utrecht, NL
   - code: 5
@@ -68,7 +68,7 @@ FA is thought to be an indicator of different microstructural properties
 but also indicates white matter coherence (i.e. the alignment of axons within a measurement voxel).
 However, because a measurement voxel can contain partial volumes of different 
 types of tissue, these measures are not always specific to one particular type of tissue.
-In particular, diffusion anisotropy in voxels near cerebral ventricle and parenchyma can be
+In particular, diffusion anisotropy in voxels near cerebral ventricles and parenchyma can be
 underestimated by partial volume effects of cerebrospinal fluid (CSF).
 
 To remove the influence of the freely diffusing CSF and quantify changes that are specifically related to brain tissue, the DTI model
@@ -86,7 +86,7 @@ In this work, we provide the first open-source reference implementation of the
 free water contamination DTI model. All implementations are made in Python based on the descriptions provided
 in Hoy et al.'s original article. For speed optimization, all necessary standard
 DT processing steps use previously optimized functions freely available with the software
-package Diffusion Imaging in Python ([Dipy](http://nipy.org/dipy/),  [@Garyfallidis2014-zo])
+package Diffusion Imaging in Python ([Dipy](http://dipy.org),  [@Garyfallidis2014-zo])
 and the optimization algorithms provided by the open-source software for mathematics,
 science, and engineering [Scipy](http://scipy.org/).
 

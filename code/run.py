@@ -17,25 +17,8 @@
 import sys
 import model
 
-if sys.argv[1] == "f1":
-    model.figure1()
-elif sys.argv[1] == "f2":
-    model.figure2()
-elif sys.argv[1] == "f3":
-    model.figure3()
-elif sys.argv[1] == "f4":
-    model.figure4()
-elif sys.argv[1] == "f5":
-    model.figure5()
-elif sys.argv[1] == "f6":
-    model.figure6()
-elif sys.argv[1] == "f7":
-    model.figure7()
-elif sys.argv[1] == "f8":
-    model.figure8()
-elif sys.argv[1] == "f9":
-    model.figure9()
-else:
+
+def run_all():
     model.figure1()
     model.figure2()
     model.figure3()
@@ -45,3 +28,27 @@ else:
     model.figure7()
     model.figure8()
     model.figure9()
+
+if len(sys.argv) == 2:  # if 1 option is provided
+    if sys.argv[1] == "f1":
+        model.figure1()
+    elif sys.argv[1] == "f2":
+        model.figure2()
+    elif sys.argv[1] == "f3":
+        model.figure3()
+    elif sys.argv[1] == "f4":
+        model.figure4()
+    elif sys.argv[1] == "f5":
+        model.figure5()
+    elif sys.argv[1] == "f6":
+        model.figure6()
+    elif sys.argv[1] == "f7":
+        model.figure7()
+    elif sys.argv[1] == "f8":
+        model.figure8()
+    elif sys.argv[1] == "f9":
+        model.figure9()
+    else:  # if option doesn't make sense or all
+        run_all()
+else:  # if no options / too many options provided
+    run_all()

@@ -14,34 +14,16 @@
    limitations under the License.
 """
 
-from scalebars import *
-from ode_functions import *
-
-from scipy.signal import argrelextrema
 import matplotlib.patches as patches
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
+from scipy.signal import argrelextrema
 
-"""
-Static model parameters (constant across all simulations)
-"""
-g_na_bar = 0.7
-g_nap_bar = 0.05
-g_k_bar = 1.3
-g_p_bar = 0.05
-g_leak = 0.005
-g_a_bar = 1.0
+from ode_functions import *
+from scalebars import *
 
-e_na = 60
-e_k = -80
-e_leak = -50
-e_ca = 40
-e_h = -38.8
 
-k1 = -0.0005
-k2 = 0.04
-
-cm = 0.040
+# import pandas as pd #  Needed for loading XPP files
 
 
 def figure1():
@@ -66,21 +48,7 @@ def figure1():
                      'legend': None,
                      'y_on': True}
 
-    """
-    Model parameters
-    """
-    t1 = 100
-    dt = 1e-2
-    g_t_bar = 0.1
-    g_sk_bar = 0.3
-    g_n_bar = 0.05
-    t_start = 10
-    duration = 1
-    i_bias_on = 1
-    g_h_bar = 0.005
-
-    t, y = solver(t1, dt, [t_start, g_t_bar, duration, i_bias_on, g_sk_bar, g_n_bar, g_h_bar])  # Integrate solution
-
+    t, y = solver(100)  # Integrate solution
     plt.figure(figsize=(5, 2))  # Create figure
     plt.plot(t, y[:, 0], 'k-')  # Plot solution
 
@@ -93,7 +61,7 @@ def figure1():
                        arrowprops=dict(facecolor='black', shrink=0, headlength=10, headwidth=5, width=1), )
     plt.gca().annotate('mAHP', xy=(38, -77), xytext=(43, -72),
                        arrowprops=dict(facecolor='black', shrink=0, headlength=10, headwidth=5, width=1), )
-    alter_figure(plot_settings)  # Alter figure for publication
+    alter_figure(plot_settings, close=True)  # Alter figure for publication
 
 
 def figure2():
@@ -101,8 +69,12 @@ def figure2():
     Generate figure 2
 
     This is a 100ms simulation with "default model parameters"
+    In order to analyse differences between the results in this implementation
+    and the published paper. The authors provided the original XPP files and the
+    results for a "figure 2-like" simulation are provided in XPP.dat
     :return: None
     """
+    #  sim_data_XPP = pd.read_csv("XPP.dat", delimiter=" ", header=None)  # Load the XPP simulation
 
     plot_settings = {'y_limits': [-25, 0],
                      'x_limits': None,
@@ -118,23 +90,29 @@ def figure2():
                      'legend_size': 8,
                      'y_on': True}
 
-    t1 = 100
-    dt = 1e-2
-    g_t_bar = 0.1
-    g_sk_bar = 0.3
-    g_n_bar = 0.05
-    t_start = 10
-    duration = 1
-    i_bias_on = 1
-    g_h_bar = 0.005
-
-    t, y = solver(t1, dt, [t_start, g_t_bar, duration, i_bias_on, g_sk_bar, g_n_bar, g_h_bar])
+    t, y = solver(100)  # Integrate solution
     t_short = np.where((t >= 8) & (t <= 18))[0]  # shorter time bounds for plots A and C
-
     v, m, h, m_nap, h_na_p, n, m_t, h_t, m_p, m_n, h_n, z_sk, m_a, h_a, m_h, ca = y[:, ].T  # Extract all variables
 
     """
-    Explicitly calculate all currents
+    Explicitly calculate all currents: Extra constants duplicated from function dydt to calculate currents
+    """
+    g_na_bar = 0.7
+    g_nap_bar = 0.05
+    g_k_bar = 1.3
+    g_p_bar = 0.05
+    g_leak = 0.005
+    g_a_bar = 1.0
+    e_na = 60
+    e_k = -80
+    e_leak = -50
+    e_ca = 40
+    g_t_bar = 0.1
+    g_n_bar = 0.05
+    g_sk_bar = 0.3
+
+    """
+    Calculate currents used in the plot
     """
     i_na = g_na_bar * (m ** 3) * h * (v - e_na)
     i_na_p = g_nap_bar * m_nap * h_na_p * (v - e_na)
@@ -145,23 +123,19 @@ def figure2():
     i_p = g_p_bar * m_p * (v - e_ca)
     i_sk = g_sk_bar * (z_sk ** 2) * (v - e_k)
     i_a = g_a_bar * m_a * h_a * (v - e_k)
-    # i_h = g_h_bar * m_h * (v - e_h)
 
     plt.figure(figsize=(5, 3), dpi=96)  # Create figure
 
     plt.subplot(2, 2, 1)  # Generate subplot 1 (top left)
-
     plt.plot(t[t_short], i_na[t_short], 'k-')
     plt.plot(t[t_short], i_na_p[t_short], c='k', linestyle='dotted')
-
     alter_figure(plot_settings)  # Alter figure for publication
 
     plt.subplot(2, 2, 2)  # Generate subplot 2 (top right)
-
     plt.plot(t, i_t + i_n + i_p, 'k-')
     plt.plot(t, i_t, c='k', linestyle='dotted')
-    plt.plot(t, i_n, 'k-.')
     plt.plot(t, i_p, 'k--')
+    plt.plot(t, i_n, 'k-.')
 
     plot_settings['y_limits'] = [-2.5, 0]
     plot_settings['y_ticks'] = [-2.5, -2, -1.5, -1, -0.5, 0]
@@ -171,7 +145,6 @@ def figure2():
     alter_figure(plot_settings)  # Alter figure for publication
 
     plt.subplot(2, 2, 3)  # Generate subplot 3 (bottom left)
-
     plt.plot(t[t_short], i_k[t_short], 'k-')
     plt.plot(t[t_short], i_a[t_short], c='k', linestyle='dotted')
     plt.plot(t[t_short], i_leak[t_short], 'k-.')
@@ -188,6 +161,7 @@ def figure2():
     plt.subplot(2, 2, 4)  # Generate subplot 4 (bottom left)
 
     plt.plot(t, i_sk, 'k-')
+    #  plt.plot(sim_data_XPP[0][900:]-200,sim_data_XPP[34][900:])  # Isk for XPP data
 
     plot_settings['y_limits'] = [0, 1]
     plot_settings['y_ticks'] = [0, 0.2, 0.4, 0.6, 0.8, 1]
@@ -196,7 +170,7 @@ def figure2():
     plot_settings['legend'] = ['I-SK']
     plot_settings['scale_size'] = 20
     plot_settings['scale_loc'] = 2
-    alter_figure(plot_settings)  # Alter figure for publication
+    alter_figure(plot_settings, close=True)  # Alter figure for publication
 
 
 def figure3():
@@ -226,36 +200,18 @@ def figure3():
                      'figure_name': 'figure_3',
                      'legend': ['0.1 $\mu$S', '0.125 $\mu$S', '0.15 $\mu$S'],
                      'legend_size': 8,
+                     'legend_location': 4,
                      'y_on': True}
     line_styles = ['-', 'dotted', '-.']
 
-    t1 = 7
-    dt = 1e-2
-    g_sk_bar = 0.3
-    g_n_bar = 0.05
-    t_start = 0.5
-    duration = 1
-    i_bias_on = 1
-    g_h_bar = 0.005
-
     plt.figure(figsize=(5, 3))
     plt.subplot(1, 2, 1)  # Generate subplot 1 (left)
-
     for ix, g_t_bar in enumerate([0.1, 0.125, 0.15]):
-        t, y = solver(t1, dt, [t_start, g_t_bar, duration, i_bias_on, g_sk_bar, g_n_bar, g_h_bar])
+        t, y = solver(6, g_t_bar=g_t_bar, t_start=0.5)
         plt.plot(t, y[:, 0], c='k', linestyle=line_styles[ix])
-
     alter_figure(plot_settings)  # Alter figure for publication
 
     plt.subplot(1, 2, 2)  # Generate subplot 2 (right)
-
-    dt = 1e-2
-    g_t_bar = 0.1
-    g_sk_bar = 0.3
-    g_n_bar = 0.05
-    t_start = 0.5
-    g_h_bar = 0.005
-
     for ix, i_bias_on in enumerate([0, -0.1, -0.2]):
         """
         First step (hyperpolarizing)
@@ -263,25 +219,21 @@ def figure3():
         t1 = 1000
         duration = t1
 
-        t, y_hold = solver(t1, dt, [t_start, g_t_bar, duration, i_bias_on, g_sk_bar, g_n_bar, g_h_bar])
+        t, y_hold = solver(t1, duration=duration, i_bias_on=i_bias_on)
         y_0 = y_hold[-1, :]  # Create new initial conditions
 
         """
         Second step (current pulse)
         """
         t1 = 20
-        i_bias_on = 1
-        duration = 1
-        t_start = 0
-
-        t, y = solver(t1, dt, [t_start, g_t_bar, duration, i_bias_on, g_sk_bar, g_n_bar, g_h_bar], y_hold=y_0)
+        t, y = solver(t1, t_start=0, y_hold=y_0)
         v = y[:, 0]
 
         """
         Append the end of the first step onto the second step (for plotting purposes)
         """
         len_pre = 100
-        t = np.concatenate((np.linspace(-len_pre * dt, -dt, len_pre), t))
+        t = np.concatenate((np.linspace(-len_pre * np.diff(t)[0], -np.diff(t)[0], len_pre), t))
         v_bar = np.concatenate((y_hold[-len_pre:, 0], v))
         v_bar = v_bar - v_bar[0] + -7.16300325e+01  # Align solution to initial condition of the "standard simulation"
 
@@ -292,8 +244,8 @@ def figure3():
     plot_settings['x_limits'] = [-1, 20]
     plot_settings['legend'] = ['-72 mV', '-75 mV', '-78 mV']
     plot_settings['scale_size'] = 5
-    alter_figure(plot_settings)
-    plt.savefig('figures/figure_3.pdf', dpi=1200)
+    plot_settings['legend_location'] = 1
+    alter_figure(plot_settings, close=True)
 
 
 def figure4():
@@ -321,37 +273,17 @@ def figure4():
                      'y_on': True}
     line_styles = ['-', 'dotted']
 
-    t1 = 100
-    dt = 1e-2
-    g_t_bar = 0.1
-    g_n_bar = 0.05
-    t_start = 10
-    duration = 1
-    i_bias_on = 1
-    g_h_bar = 0.005
-
     plt.figure(figsize=(5, 3), dpi=96)
 
     plt.subplot(2, 1, 1)  # Generate figure 1 (top)
-
     for ix, g_sk_bar in enumerate([0.3, 0]):
-        t, y = solver(t1, dt, [t_start, g_t_bar, duration, i_bias_on, g_sk_bar, g_n_bar, g_h_bar])
+        t, y = solver(100, g_sk_bar=g_sk_bar)
         plt.plot(t, y[:, 0], c='k', linestyle=line_styles[ix])
-
     alter_figure(plot_settings)  # Alter figure for publication
 
-    t1 = 1200
-    dt = 1e-2
-    g_t_bar = 0.1
-    g_sk_bar = 0.03
-    g_n_bar = 0.05
-    t_start = 50
-    duration = t1
-    i_bias_on = 0.33
-    g_h_bar = 0.005
-
     plt.subplot(2, 1, 2)
-    t, y = solver(t1, dt, [t_start, g_t_bar, duration, i_bias_on, g_sk_bar, g_n_bar, g_h_bar])
+    t1 = 1200
+    t, y = solver(t1, t_start=50, duration=t1, i_bias_on=0.33, g_sk_bar=0.03)
     plt.plot(t, y[:, 0], 'k-')
 
     plot_settings['y_limits'] = [-100, 30]
@@ -360,14 +292,14 @@ def figure4():
     plot_settings['locator_size'] = 10
     plot_settings['scale_size'] = 100
     plot_settings['legend'] = None
-    alter_figure(plot_settings)  # Alter plot for publication
+    alter_figure(plot_settings, close=True)  # Alter plot for publication
 
 
 def figure5():
     """
     Generate figure 5
 
-    This is a 2500ms simulation in which firing cessation is demonstrated following
+    This is a 3000ms simulation in which firing cessation is demonstrated following
     a constant bias current of 0.22nA
     :return: None
     """
@@ -386,33 +318,21 @@ def figure5():
                      'legend_size': 8,
                      'y_on': True}
 
-    t1 = 2500
-    dt = 1e-2
-    g_t_bar = 0.1
-    g_sk_bar = 0.3
-    g_n_bar = 0.05
-    t_start = 60
-    duration = 2000
-    i_bias_on = 0.22
-    g_h_bar = 0.005
-
-    t, y = solver(t1, dt, [t_start, g_t_bar, duration, i_bias_on, g_sk_bar, g_n_bar, g_h_bar])
-
     plt.figure(figsize=(5, 2))
 
+    t, y = solver(3000, duration=2400, i_bias_on=0.22, t_start=60)
     plt.plot(t, y[:, 0], 'k-')
-
-    ix_start = np.where(t < 40)[0][-1]  # Find index for beginning of inset
-    ix_end = np.where(t < 160)[0][-1]  # Find index for end of inset
-
     alter_figure(plot_settings)  # Alter figure for publication
-
     plt.gca().add_patch(patches.Rectangle((40, -75), 120, 16, fill=False))  # Draw rectangle to highlight inset
 
     """
     Create inset of highlighted region
+    Due to inset: alter_figure is not used
     """
     plt.axes([.75, .5, .25, .4], axisbg='y')
+
+    ix_start = np.where(t < 40)[0][-1]  # Find index for beginning of inset
+    ix_end = np.where(t < 160)[0][-1]  # Find index for end of inset
     v_highlighted = y[ix_start:ix_end, 0]
     plt.plot(t[ix_start:ix_end], v_highlighted, 'k')
     plt.ylim([-75, -55])
@@ -451,39 +371,17 @@ def figure6():
     marker = ['o', 's', '^']
     line_styles = ['-', 'dotted', '--']
 
-    t1 = 240
-    dt = 1e-2
-    g_t_bar = 0.1 / 10
-    g_sk_bar = 0.3
-    g_n_bar = 0.05
-    t_start = 10
-    duration = 250
-    i_bias_on = 2
-    g_h_bar = 0.005
-
     plt.figure(figsize=(5, 3), dpi=96)
 
     plt.subplot(2, 1, 1)  # Generate subplot 1 (top)
-
-    t, y = solver(t1, dt, [t_start, g_t_bar, duration, i_bias_on, g_sk_bar, g_n_bar, g_h_bar])
+    t, y = solver(240, i_bias_on=2, g_t_bar=0.1 / 10, duration=250)
     plt.plot(t, y[:, 0], 'k-')
     alter_figure(plot_settings)
 
-    t1 = 240
-    dt = 1e-2
-    g_t_bar = 0.1 / 10
-    g_sk_bar = 0.3
-    g_n_bar = 0.05
-    t_start = 10
-    duration = 250
-    g_h_bar = 0.005
-
     plt.subplot(2, 1, 2)  # Generate subplot 2 (bottom)
-
     for ix, i_bias_on in enumerate([2, 1.5, 1]):
-        t, y = solver(t1, dt, [t_start, g_t_bar, duration, i_bias_on, g_sk_bar, g_n_bar, g_h_bar])
+        t, y = solver(240, i_bias_on=i_bias_on, g_t_bar=0.1 / 10, duration=250)
         t_spike, f = spike_times(t, y[:, 0])
-
         plt.plot(t_spike[0:-1], f, c='k', linestyle=line_styles[ix], marker=marker[ix], fillstyle='none')
 
     plot_settings['y_limits'] = [0, 200]
@@ -492,7 +390,7 @@ def figure6():
     plot_settings['y_label'] = 'Frequency (Hz)'
     plot_settings['legend'] = ['2.0 nA', '1.5 nA', '1.0 nA']
     plot_settings['scale_size'] = 0
-    alter_figure(plot_settings)  # Alter figure for publication
+    alter_figure(plot_settings, close=True)  # Alter figure for publication
 
 
 def figure7():
@@ -502,6 +400,7 @@ def figure7():
     This is a 250ms simulation to determine spike frequency stabilization with full T current
     :return: None
     """
+
     plot_settings = {'y_limits': [-100, 30],
                      'x_limits': None,
                      'y_ticks': [-80, -60, -40, -20, 0, 20],
@@ -520,35 +419,15 @@ def figure7():
     line_styles = ['-', 'dotted', '--']
 
     plt.figure(figsize=(5, 3), dpi=96)
+
     plt.subplot(2, 1, 1)  # Generate subplot 1 (top)
-
-    t1 = 250
-    dt = 1e-2
-    g_t_bar = 0.1
-    g_sk_bar = 0.3
-    g_n_bar = 0.05
-    t_start = 10
-    duration = 260
-    i_bias_on = 2
-    g_h_bar = 0.005
-
-    t, y = solver(t1, dt, [t_start, g_t_bar, duration, i_bias_on, g_sk_bar, g_n_bar, g_h_bar])
+    t, y = solver(250, i_bias_on=2, duration=260)
     plt.plot(t, y[:, 0], 'k-')
     alter_figure(plot_settings)
 
     plt.subplot(2, 1, 2)  # Generate subplot 2 (bottom)
-
-    t1 = 250
-    dt = 1e-2
-    g_t_bar = 0.1
-    g_sk_bar = 0.3
-    g_n_bar = 0.05
-    t_start = 10
-    duration = 260
-    g_h_bar = 0.005
-
     for ix, i_bias_on in enumerate([2, 1.5, 1]):
-        t, y = solver(t1, dt, [t_start, g_t_bar, duration, i_bias_on, g_sk_bar, g_n_bar, g_h_bar])
+        t, y = solver(250, i_bias_on=i_bias_on, duration=260)
         t_spike, f = spike_times(t, y[:, 0])
         plt.plot(t_spike[0:-1], f, c='k', linestyle=line_styles[ix], marker=marker[ix], fillstyle='none')
 
@@ -559,7 +438,7 @@ def figure7():
     plot_settings['legend'] = ['2.0 nA', '1.5 nA', '1.0 nA']
     plot_settings['scale_size'] = 0
     plot_settings['legend_location'] = 4
-    alter_figure(plot_settings)
+    alter_figure(plot_settings, close=True)
 
 
 def figure8():
@@ -583,73 +462,51 @@ def figure8():
                      'legend': ['First ISI', 'Second ISI'],
                      'legend_size': 8,
                      'y_on': True,
-                     'legend_location': 3}
-
-    t1 = 200
-    dt = 1e-2
-    g_sk_bar = 0.3
-    g_n_bar = 0.05
-    t_start = 15
-    duration = 260
-    i_bias_on = 1
-    g_h_bar = 0.005
+                     'legend_location': 4}
 
     g_t_bars = np.linspace(0.02, 0.2, 10)
     isi = np.zeros((len(g_t_bars), 2))
 
     for ix, g_t_bar in enumerate(g_t_bars):
-        t, y = solver(t1, dt, [t_start, g_t_bar, duration, i_bias_on, g_sk_bar, g_n_bar, g_h_bar])
+        t, y = solver(200, t_start=15, duration=260, g_t_bar=g_t_bar)
         t_spike, f = spike_times(t, y[:, 0])
-
         isi[ix, 0] = t_spike[1] - t_spike[0]
         isi[ix, 1] = t_spike[2] - t_spike[1]
 
     plt.subplot(2, 2, 1)  # Generate subplot 1 (top left)
-
     plt.plot(g_t_bars, isi[:, 0], c='k', marker='o', fillstyle='none', linestyle='-')
     plt.plot(g_t_bars, isi[:, 1], c='k', marker='s', fillstyle='none', linestyle='dotted')
 
     """
     Annotate plot
     """
-    plt.gca().arrow(g_t_bars[3], 29, 0, 22, head_width=0, head_length=0, fc='k', ec='k')
-    plt.gca().arrow(g_t_bars[3], 51, -0.01, 0, head_width=2, head_length=0.01, fc='k', ec='k')
-    plt.gca().arrow(g_t_bars[3], 29, 0.01, 0, head_width=2, head_length=0.01, fc='k', ec='k')
-    plt.gca().annotate("Acceleration", (0.1, 29), fontsize=8)
-    plt.gca().annotate("Adaptation", (0.01, 51), fontsize=8)
+    plt.gca().arrow(g_t_bars[3], 35, 0, 11, head_width=0, head_length=0, fc='k', ec='k')
+    plt.gca().arrow(g_t_bars[3], 46, -0.01, 0, head_width=2, head_length=0.01, fc='k', ec='k')
+    plt.gca().arrow(g_t_bars[3], 35, 0.01, 0, head_width=2, head_length=0.01, fc='k', ec='k')
+    plt.gca().annotate("Acceleration", (0.1, 35), fontsize=8)
+    plt.gca().annotate("Adaptation", (0.01, 46), fontsize=8)
     alter_figure(plot_settings)
 
     plt.subplot(2, 2, 2)  # Generate subplot 2 (top right)
-
-    t1 = 200
-    dt = 1e-2
-    g_sk_bar = 0.3
-    g_t_bar = 0.02
-    t_start = 15
-    duration = 260
-    i_bias_on = 1
-    g_h_bar = 0.005
-
     g_n_bars = np.linspace(0.02, 0.2, 10)
     isi = np.zeros((len(g_t_bars), 2))
     for ix, g_n_bar in enumerate(g_n_bars):
-        t, y = solver(t1, dt, [t_start, g_t_bar, duration, i_bias_on, g_sk_bar, g_n_bar, g_h_bar])
+        t, y = solver(200, g_n_bar=g_n_bar, duration=260, t_start=15, g_t_bar=0.02)
         t_spike, f = spike_times(t, y[:, 0])
 
         isi[ix, 0] = t_spike[1] - t_spike[0]
         isi[ix, 1] = t_spike[2] - t_spike[1]
-
     plt.plot(g_t_bars, isi[:, 0], c='k', marker='o', fillstyle='none', linestyle='-')
     plt.plot(g_t_bars, isi[:, 1], c='k', marker='s', fillstyle='none', linestyle='dotted')
 
     """
     Annotate plot
     """
-    plt.gca().arrow(g_n_bars[3], 25, 0, 20, head_width=0, head_length=0, fc='k', ec='k')
-    plt.gca().arrow(g_n_bars[3], 45, -0.01, 0, head_width=2, head_length=0.01, fc='k', ec='k')
-    plt.gca().arrow(g_n_bars[3], 25, 0.01, 0, head_width=2, head_length=0.01, fc='k', ec='k')
-    plt.gca().annotate("Acceleration", (0.1, 25), fontsize=8)
-    plt.gca().annotate("Adaptation", (0.015, 45), fontsize=8)
+    plt.gca().arrow(g_n_bars[3], 30, 0, 10, head_width=0, head_length=0, fc='k', ec='k')
+    plt.gca().arrow(g_n_bars[3], 40, -0.01, 0, head_width=2, head_length=0.01, fc='k', ec='k')
+    plt.gca().arrow(g_n_bars[3], 30, 0.01, 0, head_width=2, head_length=0.01, fc='k', ec='k')
+    plt.gca().annotate("Acceleration", (0.1, 30), fontsize=8)
+    plt.gca().annotate("Adaptation", (0.015, 40), fontsize=8)
     plot_settings['y_ticks'] = []
     plot_settings['y_label'] = ""
     plot_settings['y_on'] = False
@@ -657,28 +514,20 @@ def figure8():
     alter_figure(plot_settings)
 
     plt.subplot(2, 2, 3)  # Generate subplot 3 (bottom left)
-
-    t1 = 200
-    dt = 1e-2
-    g_sk_bar = 0.3
-    g_n_bar = 0.05
-    t_start = 15
-    duration = 260
-    i_bias_on = 1
-    g_h_bar = 0.005
-
     g_t_bars = np.linspace(0.02, 0.16, 8)
     isi = np.zeros((len(g_t_bars), 2))
     for ix, g_t_bar in enumerate(g_t_bars):
-        t, y = solver(t1, dt, [t_start, g_t_bar, duration, i_bias_on, g_sk_bar, g_n_bar, g_h_bar], ca_type=1)
+        t, y = solver(200, g_t_bar=g_t_bar, duration=260, t_start=15, ca_type=1)
         t_spike, f = spike_times(t, y[:, 0])
 
         isi[ix, 0] = t_spike[1] - t_spike[0]
         isi[ix, 1] = t_spike[2] - t_spike[1]
-
     plt.plot(g_t_bars, isi[:, 0], c='k', marker='o', fillstyle='none', linestyle='-')
     plt.plot(g_t_bars, isi[:, 1], c='k', marker='s', fillstyle='none', linestyle='dotted')
 
+    """
+    Annotate plot
+    """
     plt.gca().arrow(g_t_bars[2], 25, -0.02, 0, head_width=2, head_length=0.01, fc='k', ec='k')
     plt.gca().arrow(g_t_bars[4], 25, 0.02, 0, head_width=2, head_length=0.01, fc='k', ec='k')
     plt.gca().annotate("Adaptation", (0.06, 25), fontsize=8)
@@ -692,28 +541,20 @@ def figure8():
     alter_figure(plot_settings)
 
     plt.subplot(2, 2, 4)
-
-    t1 = 200
-    dt = 1e-2
-    g_sk_bar = 0.3
-    g_t_bar = 0.02
-    t_start = 15
-    duration = 260
-    i_bias_on = 1
-    g_h_bar = 0.005
-
     g_n_bars = np.linspace(0.02, 0.16, 8)
     isi = np.zeros((len(g_t_bars), 2))
     for ix, g_n_bar in enumerate(g_n_bars):
-        t, y = solver(t1, dt, [t_start, g_t_bar, duration, i_bias_on, g_sk_bar, g_n_bar, g_h_bar], ca_type=2)
+        t, y = solver(200, duration=260, t_start=15, g_n_bar=g_n_bar, g_t_bar=0.02, ca_type=2)
         t_spike, f = spike_times(t, y[:, 0])
 
         isi[ix, 0] = t_spike[1] - t_spike[0]
         isi[ix, 1] = t_spike[2] - t_spike[1]
-
     plt.plot(g_t_bars, isi[:, 0], c='k', marker='o', fillstyle='none', linestyle='-')
     plt.plot(g_t_bars, isi[:, 1], c='k', marker='s', fillstyle='none', linestyle='dotted')
 
+    """
+    Annotate plot
+    """
     plt.gca().arrow(g_n_bars[2], 20, -0.02, 0, head_width=2, head_length=0.01, fc='k', ec='k')
     plt.gca().arrow(g_n_bars[4], 20, 0.02, 0, head_width=2, head_length=0.01, fc='k', ec='k')
     plt.gca().annotate("Adaptation", (0.06, 20), fontsize=8)
@@ -721,7 +562,8 @@ def figure8():
     plot_settings['y_ticks'] = []
     plot_settings['y_label'] = ''
     plot_settings['y_on'] = False
-    alter_figure(plot_settings)
+    plot_settings['legend_location'] = 2
+    alter_figure(plot_settings, close=True)
 
 
 def figure9():
@@ -731,34 +573,30 @@ def figure9():
     2000ms simulation in order to show the effects of H current on mAHP length
     :return: None
     """
+
+    g_h_bars = np.linspace(0.005, 0.05, 10)
     plot_settings = {'y_limits': [70, 115],
                      'x_limits': [0.005, 0.05],
                      'y_ticks': [70, 80, 90, 100, 110],
                      'locator_size': 5,
                      'y_label': 'mAHP Duration (ms)',
-                     'x_ticks': [],
+                     'x_ticks': g_h_bars[0::2],
                      'scale_size': 0,
-                     'x_label': "",
+                     'x_label': '$\\bar{g_H }$ ($\mu S$)',
                      'scale_loc': 4,
                      'figure_name': 'figure_9',
                      'legend': None,
                      'legend_size': 8,
-                     'y_on': True}
+                     'y_on': True,
+                     'x_on': True}
 
-    t1 = 5000  # long to allow V to stabilize to new rest location
-    dt = 1e-3
-    g_sk_bar = 0.3
-    g_t_bar = 0.1
-    g_n_bar = 0.05
+    plt.figure(figsize=(5, 3), dpi=96)
+
     t_start = 3000  # long to allow V to stabilize to new rest location
-    duration = 1
-    i_bias_on = 1
-
-    g_h_bars = np.linspace(0.005, 0.05, 10)
     length_after = np.zeros((len(g_h_bars),))
 
-    for ix, gHBar in enumerate(g_h_bars):
-        t, y = solver(t1, dt, [t_start, g_t_bar, duration, i_bias_on, g_sk_bar, g_n_bar, gHBar])
+    for ix, g_h_bar in enumerate(g_h_bars):
+        t, y = solver(5000, t_start=t_start, g_h_bar=g_h_bar)
         v = y[:, 0]
 
         pk = np.where(v == np.max(v))[0][0]
@@ -767,18 +605,18 @@ def figure9():
         v_clipped -= v_rest
         crossings = np.where((v_clipped[:-1] * v_clipped[1:]) < 0)[0]
         ix_after = np.where(t[crossings] < 200)[0][-1]
-
-        length_after[ix] = t[crossings[ix_after]-crossings[ix_after-1]]
-
-    plt.figure(figsize=(5, 3), dpi=96)
+        length_after[ix] = t[crossings[ix_after] - crossings[ix_after - 1]]
+    plt.plot(g_h_bars, length_after, c='k', marker='o', fillstyle='none')
     """
     x is digitized from figure 9 in the original manuscript
     """
-    x = [108.44444444444443, 97.03703703703704, 89.7037037037037, 85.55555555555556, 82.22222222222223,
-         80.2962962962963, 78.22222222222223, 77.18518518518519, 76.81481481481481, 74.07407407407408]
-    plt.plot(g_h_bars, length_after, c='k', marker='o', fillstyle='none')
-    #plt.plot(g_h_bars, x)
+    # x = [108.44444444444443, 97.03703703703704, 89.7037037037037, 85.55555555555556, 82.22222222222223,
+    # 80.2962962962963, 78.22222222222223, 77.18518518518519, 76.81481481481481, 74.07407407407408]
+    # plt.plot(g_h_bars, x)
 
+    """
+    Annotate plot
+    """
     ellipse = patches.Ellipse(xy=(0.017, 105), width=0.01, height=4, angle=0)
     plt.gca().add_artist(ellipse)
     ellipse.set_facecolor((1, 1, 1))
@@ -788,18 +626,10 @@ def figure9():
     plt.gca().add_artist(ellipse)
     ellipse.set_facecolor((1, 1, 1))
     plt.gca().annotate("Adult", (0.04, 72), fontsize=8, ha="center", va="center")
-
-    alter_figure(plot_settings)
-    plt.xticks(g_h_bars[0::2])
-    plt.xlabel('$\\bar{g_H}$ ($\mu S$)')
-    plt.tight_layout()
-    plt.gca().spines['bottom'].set_visible(True)
-    plt.gca().xaxis.set_ticks_position('bottom')
-
-    plt.savefig('figures/figure_9.pdf', dpi=1200)
+    alter_figure(plot_settings, close=True)
 
 
-def alter_figure(settings):
+def alter_figure(settings, close=False):
     plt.ylim(settings['y_limits'])
     plt.yticks(settings['y_ticks'])
     plt.xticks(settings['x_ticks'])
@@ -810,8 +640,6 @@ def alter_figure(settings):
     plt.ylabel(settings['y_label'])
     plt.xlabel(settings['x_label'])
     plt.gca().spines['top'].set_visible(False)
-    plt.gca().spines['right'].set_visible(False)
-    plt.gca().spines['bottom'].set_visible(False)
     plt.gca().xaxis.set_ticks_position('none')
 
     if 'y_on' in settings:
@@ -819,6 +647,13 @@ def alter_figure(settings):
     else:
         plt.gca().yaxis.set_ticks_position('none')
         plt.gca().spines['left'].set_visible(False)
+
+    if 'x_on' in settings:
+        plt.gca().spines['bottom'].set_visible(True)
+        plt.gca().xaxis.set_ticks_position('bottom')
+    else:
+        plt.gca().spines['right'].set_visible(False)
+        plt.gca().spines['bottom'].set_visible(False)
 
     plt.xlim(settings['x_limits'])
     if settings['scale_size'] != 0:
@@ -832,6 +667,9 @@ def alter_figure(settings):
                        loc=settings['legend_location'])
     plt.tight_layout()
     plt.savefig('figures/' + settings['figure_name'] + '.pdf', dpi=1200)
+
+    if close:
+        plt.close()
 
 
 def spike_times(t, v):

@@ -270,30 +270,39 @@ def tau_m_h(v):
     return 475. / (np.exp((v + 70.) / 11.) + np.exp(-(v + 70.) / 11.)) + 50.
 
 
-def solver(t1, dt, params, y_hold=None, ca_type=None):
+def solver(t1, g_t_bar=0.1, g_sk_bar=0.3, g_n_bar=0.05, t_start=10, duration=1,
+           i_bias_on=1, g_h_bar=0.005, y_hold=None, ca_type=None):
     """
     Centralized function to conglomerate all parameters and settings to solve the simulation
     Simulation is solved with odeint from scipy.integrate
 
-    :param t1: Exeriment end time (ms)
-    :param dt: Time step (ms)
-    :param params: Parameters to pass to dYdt
+    :param t1: Experiment end time (ms)
+    :param t1: End time of simulation
+    :param g_t_bar: Maximal conductance for T-type calcium current. Defaults to 0.1
+    :param g_sk_bar: Maximal conductance for SK-type current. Defaults to 0.3
+    :param g_n_bar: Maximal conductance for N current. Defaults to 0.05
+    :param g_h_bar: Maximal conductance for H current. Defaults to 0.005
+    :param t_start: Current step/pulse start time
+    :param duration: Length of current step/pulse
+    :param i_bias_on: Current amplitude
     :param y_hold: Optional, if there is a different set of initial conditions
     :param ca_type: Optional, if there is a condition where ICa different: ca_type=1, Ica=IP+IN. ca_type=2, ICa=IP + IT
     :return: t,Y
     """
+
+    params = [t_start, g_t_bar, duration, i_bias_on, g_sk_bar, g_n_bar, g_h_bar]
     params = np.concatenate((params, [ca_type]))  # Add ca_type to params
 
     if y_hold is not None:
         y0 = y_hold
     else:
-        y0 = np.array([-7.16300325e+01, 1.48943268e-02, 9.80788764e-01,
-                       2.51507413e-03, 7.90179293e-01, 1.59065019e-01,
-                       1.19787623e-03, 5.54427498e-01, 1.23450478e-08,
-                       9.68939717e-04, 6.32590012e-01, 2.03398209e-03,
-                       5.79009279e-02, 3.18449566e-01, 1.76316853e-01,
-                       1.35436880e-04])  # steady state conditions for "typical" experiment
-
+        y0 = np.array([-7.16300326e+01, 1.48943267e-02, 9.80788764e-01,
+                       2.51507410e-03, 7.90179298e-01, 1.59065019e-01,
+                       1.19787622e-03, 5.54427500e-01, 1.23450475e-08,
+                       9.68939709e-04, 6.32590017e-01, 2.03398207e-03,
+                       5.79009277e-02, 3.18449568e-01, 1.76316847e-01,
+                       1.35436879e-04])  # steady state conditions for "typical" experiment
+    dt = 0.05
     t = np.linspace(0, t1, int(t1 / dt))  # create vector of times
 
     y = odeint(dydt, y0, t, args=(params,), hmax=0.05, atol=1e-10, rtol=1e-10)
@@ -302,6 +311,7 @@ def solver(t1, dt, params, y_hold=None, ca_type=None):
 
 def dydt(y, t, args):
     """
+    Function to calculate the RHS of the set of differential equations
     :param y: [v, m, h, m_nap, h_nap, n, m_t, h_t, m_p, m_n, h_n, z_sk, m_a, h_a, m_h, ca]
     :param t: Current time point
     :param args: Model parameters [t_start, g_t_bar, duration, i_bias_on, g_sk_bar, g_n_bar, g_h_bar, ICaType]

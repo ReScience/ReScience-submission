@@ -274,7 +274,7 @@ seen, the results are very similar to the original figure, however the
 amplitude of the ADP seems a bit below that of the original figure. This
 discrepancy will be addressed in the discussion.
 
-\begin{figure}[htbp]
+\begin{figure}
 \centering
 \includegraphics{../code/figures/figure_1.pdf}
 \caption{Model response (action potential) to a 1 nA pulse active for 1
@@ -290,7 +290,7 @@ peak of \textasciitilde{}0.8 nA, whereas the peak amplitude in the
 original paper is \textasciitilde{}1 nA, there are also slight
 differences in the calcium currents.
 
-\begin{figure}[htbp]
+\begin{figure}
 \centering
 \includegraphics{../code/figures/figure_2.pdf}
 \caption{Ionic currents underlying an action potential created by a 1 nA
@@ -302,7 +302,7 @@ calcium and pre-pulse hyperpolarization. This has been replicated in
 figure \ref{fig:fig3}. Again there are slight discrepancies which will
 be addressed later.
 
-\begin{figure}[htbp]
+\begin{figure}
 \centering
 \includegraphics{../code/figures/figure_3.pdf}
 \caption{ADP dependancy on calcuim and voltage. Maximal T-type channel
@@ -316,7 +316,7 @@ SK-current. This result is very well reproduced in figure
 \ref{fig:fig4}. The authors also demonstrate spike frequency adaptation
 which is known to occur with attenuated SK-current.
 
-\begin{figure}[htbp]
+\begin{figure}
 \centering
 \includegraphics{../code/figures/figure_4.pdf}
 \caption{Comparison of model to known experimental results. Removal of
@@ -333,7 +333,7 @@ rest after stimulus is removed). Discrepancies in the length of the
 plateau are purely due to discrepancies in the stimulus duration (the
 duration used in figure \ref{fig:fig5} is a guess that appears close).
 
-\begin{figure}[htbp]
+\begin{figure}
 \centering
 \includegraphics{../code/figures/figure_5.pdf}
 \caption{Model response to sustained 0.22 nA pulse which lasts for 2.3
@@ -350,14 +350,14 @@ results are quite well replicated in figures \ref{fig:fig6} and
 \ref{fig:fig7}. Of note the ``double peak'' as the model stabilizes onto
 its sustained spiking behavior is accurately replicated.
 
-\begin{figure}[htbp]
+\begin{figure}
 \centering
 \includegraphics{../code/figures/figure_6.pdf}
 \caption{Model response to sustained current step with maximal T-type
 conductance of 0.01\(\mu S\) \label{fig:fig6}}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}
 \centering
 \includegraphics{../code/figures/figure_7.pdf}
 \caption{Model response to sustained current step with maximal T-type
@@ -369,7 +369,7 @@ T-type and N-type calcium currents and varying the definition of total
 calcium current. These results are very well replicated in figure
 \ref{fig:fig8}.
 
-\begin{figure}[htbp]
+\begin{figure}
 \centering
 \includegraphics{../code/figures/figure_8.pdf}
 \caption{Spike frequency adaptation to various calcium currents
@@ -389,7 +389,7 @@ the original figure (digitized values provided in the code), however
 there are some values that deviate slightly, again this result will be
 discussed later.
 
-\begin{figure}[htbp]
+\begin{figure}
 \centering
 \includegraphics{../code/figures/figure_9.pdf}
 \caption{mAHP length as a funtion of H-current amplitude.
@@ -412,13 +412,16 @@ implementation (code for figure 2 provides the option to compare the
 I-SK that XPP calculates with this implementation). Given the fact that
 the paper had the same parameters as this implementation and the XPP
 simulation matches this implementation, its likely that some simulations
-had a slightly different parameter set.
+had a slightly different parameter set. For example figures
+\ref{fig:fig2} and \ref{fig:fig6} have different parameter sets, and
+there are discrepancies in figure \ref{fig:fig2} but not in figure
+\ref{fig:fig6}. This may imply that the discrepancies may be in the
+differing parameters.
 
-It is important to note however that this in no way detracts from the
-results of the original manuscript - the only difference is in subtle
-features. The major results: replication of frequency adaptations,
-parametric variation, etc\ldots{} are all replicated despite these
-discrepancies.
+This implementation has identified subtle discrepancies in the original
+paper. However this replication proves that all major results:
+replication of frequency adaptations, parametric variation, etc\ldots{}
+are valid despite these discrepancies.
 
 \section{Conclusion}\label{conclusion}
 

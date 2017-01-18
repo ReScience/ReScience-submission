@@ -1,0 +1,10 @@
+name: plotting_figures
+
+dependencies:
+  - python=2.7
+  - numpy
+  - matplotlib
+  - quantities
+  - pip:
+        - git+https://github.com/NeuralEnsemble/python-neo.git@snapshot-20150821#egg=neo-snapshot-20150821
+        - elephant

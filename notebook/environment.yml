@@ -6,5 +6,5 @@ dependencies:
   - matplotlib
   - quantities
   - pip:
-        - git+https://github.com/NeuralEnsemble/python-neo.git@snapshot-20150821#egg=neo-snapshot-20150821
-        - elephant
+    - git+https://github.com/NeuralEnsemble/python-neo.git@snapshot-20150821#egg=neo-snapshot-20150821
+    - elephant

@@ -1,0 +1,5 @@
+python==2.7
+quantities>=0.9.0
+numpy>=1.6.2
+scipy>=0.11.0
+matplotlib>=1.5.1

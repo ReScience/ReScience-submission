@@ -63,18 +63,32 @@ second-order tensor known as the diffusion tensor (DT) [@Basser1994-hg], [@Basse
 
 DTI-based measures such as fractional anisotropy (FA) and mean diffusivity (MD)
 are usually used to assess properties of brain microstructure. For example,
-FA is thought to be an indicator of different microstructural properties
+FA is sensitive to different microstructural properties
 (such as packing density of axons, and density of myelin in nerve fibers [@Beaulieu2002-tl]),
-but also indicates white matter coherence (i.e. the alignment of axons within a measurement voxel).
+as well to the degree of white matter coherence (i.e. the alignment of axons within a measurement voxel).
 However, because a measurement voxel can contain partial volumes of different 
 types of tissue, these measures are not always specific to one particular type of tissue.
 In particular, diffusion anisotropy in voxels near cerebral ventricles and parenchyma can be
 underestimated by partial volume effects of cerebrospinal fluid (CSF).
 
-To remove the influence of the freely diffusing CSF and quantify changes that are specifically related to brain tissue, the DTI model
-can be extended to separately take into account the contributions of tissue and CSF by representing
-the tissue compartment with an anisotropic diffusion tensor and the CSF compartment as an isotropic
-free water diffusion coefficient. Recently, two procedures were
+Since CSF partial volume effects depend on the exact positioning of brain relative to the MRI spatial
+encoding grind, the reproducibility of diffusion-weighted measures might be compromised by
+free water diffusion partial volume effects  [@Metzler-Baddeley2011-hg]. Moreover, free water contaminations are
+likely to confound diffusion based measures in studies of brain aging and some pathology, because CSF partial
+volume effects might be increased due to tissue morphological atrophy and enlargement of cerebral ventricle [@Donnell2015-hg]. 
+
+In MRI acquistions, the signal from free water can be directly eliminated using fluid-attenuated
+inversion recover diffusion-weighted sequences [@Papadakis2002-hg]. However,
+these sequences have some drawback. For example, they require longer acquisitions times
+and produce images with lower SNR. Moreover, these approaches cannot be used
+retrospectively for data cohorts already acquired with standard
+diffusion-weighted sequences.
+
+Diffusion free-water can also be suppressed by adding parameters to the diffusion MRI models.
+For example, the DTI model can be extended to separately take into account the 
+contributions of tissue and CSF by representing the tissue compartment with
+an anisotropic diffusion tensor and the CSF compartment as an isotropic
+free water diffusion coefficient [@Pasternak2009-hg]. Recently, two procedures were
 proposed by Hoy and colleagues to fit this two compartments model to
 diffusion-weighted data at different b-values (i.e. different diffusion gradient-weightings) [@Hoy2014-lk,].
 Although these procedures have been shown to provide diffusion based measures that are stable
@@ -83,12 +97,9 @@ original algorithms were "implemented by a group member with no formal programmi
 training and without optimization for speed" [@Hoy2014-lk].
 
 In this work, we provide the first open-source reference implementation of the
-free water contamination DTI model. All implementations are made in Python based on the descriptions provided
-in Hoy et al.'s original article. For speed optimization, all necessary standard
-DT processing steps use previously optimized functions freely available with the software
-package Diffusion Imaging in Python ([Dipy](http://dipy.org),  [@Garyfallidis2014-zo])
-and the optimization algorithms provided by the open-source software for mathematics,
-science, and engineering [Scipy](http://scipy.org/).
+free water contamination DTI model. All implementations are made in Python for its
+compatibility with the previously optimized functions freely available at the software
+package Diffusion Imaging in Python ([Dipy](http://dipy.org),  [@Garyfallidis2014-zo]).
 
 # Methods
 
@@ -98,9 +109,9 @@ with a simple bi-exponential expansion of DTI:
 $$ s_i = s_0 \left [ f \exp\left ( -b D_{iso} \right ) + 
       (1-f) \exp\left ( -b g_i D g_i \right )\right ] $$ {#eq:1} where $s_0$ is
 the signal when no diffusion sensitization gradient is applied, $f$ is the volume fraction
-of free water contamination, $D_{iso}$ is the free water isotropic diffusion coefficient which is set to $3.0 \times 10^{-3}  mm^{2}/s$,
-$D$ is the diffusion tensor of the tissue, $b$ is a parameter that depends on the diffusion gradient shape, and $g_i$ is
-the diffusion gradient direction.
+of free water contamination, $D$ is the diffusion tensor of the tissue, $b$ is a parameter that depends on the diffusion gradient shape, $g_i$ is
+the diffusion gradient direction and $D_{iso}$ is the free water isotropic diffusion coefficient
+which is set to $3.0 \times 10^{-3}  mm^{2}/s$ [@Pasternak2009-hg].
 
 ##Implementation of fitting algorithms 
   
@@ -134,6 +145,9 @@ W =
  b_m g^2_{mx} & -2b_m g_{mx}g_{my} & -b_m g^2_{my} & -2b_m g_{mx}g_{mz} & -2b_m g_{my}g_{mz} & -b_m g^2_{mz} & 1
 \end{bmatrix}
 $$ {#eq:6}
+
+Relative to the original article, the elemets of $W$ have been re-ordered according to order
+of the diffusion tensor elements used in Dipy.
 
 To ensure that the WLS method converges to the local minimum, $f$ grid search sampling is performed 
 over larger interval ranges relative to original article. Particularly, for the second and third iterations used

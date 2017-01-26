@@ -28,7 +28,7 @@ import scipy.optimize as opt
 # -------------------------------------------------------------------------
 
 
-def wls_iter(design_matrix, sig, S0, Diso=3e-3, mdreg=2.7e-3,
+def wls_iter(design_matrix, sig, S0, Diso=3e-3, mdreg=1.5e-3,
              min_signal=1.0e-6, piterations=3):
     """ Applies weighted linear least squares fit of the water free elimination
     model to single voxel signals.
@@ -46,13 +46,13 @@ def wls_iter(design_matrix, sig, S0, Diso=3e-3, mdreg=2.7e-3,
         Value of the free water isotropic diffusion. Default is set to 3e-3
         $mm^{2}.s^{-1}$. Please ajust this value if you are assuming different
         units of diffusion.
-     mdreg : float, optimal
-        DTI's mean diffusivity regularization threshold. If standard DTI
-        diffusion tensor's mean diffusivity is almost near the free water
-        diffusion value, the diffusion signal is assumed to be only free water
-        diffusion (i.e. volume fraction will be set to 1 and tissue's diffusion
-        parameters are set to zero). Default md_reg is 2.7e-3 $mm^{2}.s^{-1}$
-        (corresponding to 90% of the free water diffusion value).
+    mdreg : float, optimal
+        Tissue compartment mean diffusivity regularization threshold.
+        If tissue's mean diffusivity is almost near the free water diffusion
+        value, the diffusion signal is assumed to be only free water diffusion
+        (i.e. volume fraction will be set to 1 and tissue's diffusion
+        parameters are set to zero). Default md_reg was set to
+        1.5e-3 $mm^{2}.s^{-1}$ according to [1]_.
     min_signal : float
         The minimum signal value. Needs to be a strictly positive
         number. Default: minimal signal in the data provided to `fit`.
@@ -68,24 +68,26 @@ def wls_iter(design_matrix, sig, S0, Diso=3e-3, mdreg=2.7e-3,
         2) Three lines of the eigenvector matrix each containing the
            first, second and third coordinates of the eigenvector
         3) The volume fraction of the free water compartment
+
+    References
+    ----------
+    .. [1] Henriques, R.N., Rokem, A., Garyfallidis, E., St-Jean, S., Peterson,
+           E.T., Correia, M.M., 2017. Re: Optimization of a free water
+           elimination two-compartmental model for diffusion tensor imaging.
+           ReScience
     """
     W = design_matrix
-
-    # DTI ordinary linear least square solution
-    log_s = np.log(np.maximum(sig, min_signal))
 
     # Define weights
     S2 = np.diag(sig**2)
 
-    # DTI weighted linear least square solution
+    # Defining matrix to solve fwDTI wls solution
     WTS2 = np.dot(W.T, S2)
     inv_WT_S2_W = np.linalg.pinv(np.dot(WTS2, W))
     invWTS2W_WTS2 = np.dot(inv_WT_S2_W, WTS2)
-    params = np.dot(invWTS2W_WTS2, log_s)
 
-    md = (params[0] + params[2] + params[5]) / 3
     # Process voxel if it has significant signal from tissue
-    if md < mdreg and np.mean(sig) > min_signal and S0 > min_signal:
+    if np.mean(sig) > min_signal and S0 > min_signal:
         # General free-water signal contribution
         fwsig = np.exp(np.dot(design_matrix,
                               np.array([Diso, 0, Diso, 0, 0, Diso, 0])))
@@ -118,19 +120,29 @@ def wls_iter(design_matrix, sig, S0, Diso=3e-3, mdreg=2.7e-3,
             fhig = f + df
             ns = 19
 
-        evals, evecs = decompose_tensor(from_lower_triangular(params))
-        fw_params = np.concatenate((evals, evecs[0], evecs[1], evecs[2],
-                                    np.array([f])), axis=0)
+        if mdreg is None:
+            evals, evecs = decompose_tensor(from_lower_triangular(params))
+            fw_params = np.concatenate((evals, evecs[0], evecs[1], evecs[2],
+                                        np.array([f])), axis=0)
+        else:
+            # MD regularization - if tissue's md is larger than mdreg,
+            # the voxel will be classified as containing only free water
+            md = (params[0] + params[2] + params[5]) / 3
+            if md > mdreg:
+                fw_params = np.zeros(13)
+                fw_params[12] = 1.0
+            else:
+                evals, evecs = decompose_tensor(from_lower_triangular(params))
+                fw_params = np.concatenate((evals, evecs[0], evecs[1],
+                                            evecs[2], np.array([f])), axis=0)
     else:
         fw_params = np.zeros(13)
-        if md > mdreg:
-            fw_params[12] = 1.0
 
     return fw_params
 
 
 def wls_fit_tensor(gtab, data, Diso=3e-3, mask=None, min_signal=1.0e-6,
-                   piterations=3, mdreg=2.7e-3):
+                   piterations=3, mdreg=1.5e-3):
     r""" Computes weighted least squares (WLS) fit to calculate self-diffusion
     tensor using a linear regression model [1]_.
 
@@ -155,12 +167,12 @@ def wls_fit_tensor(gtab, data, Diso=3e-3, mask=None, min_signal=1.0e-6,
         Number of iterations used to refine the precision of f. Default is set
         to 3 corresponding to a precision of 0.01.
     mdreg : float, optimal
-        DTI's mean diffusivity regularization threshold. If standard DTI
-        diffusion tensor's mean diffusivity is almost near the free water
-        diffusion value, the diffusion signal is assumed to be only free water
-        diffusion (i.e. volume fraction will be set to 1 and tissue's diffusion
-        parameters are set to zero). Default md_reg is 2.7e-3 $mm^{2}.s^{-1}$
-        (corresponding to 90% of the free water diffusion value).
+        Tissue compartment mean diffusivity regularization threshold.
+        If tissue's mean diffusivity is almost near the free water diffusion
+        value, the diffusion signal is assumed to be only free water diffusion
+        (i.e. volume fraction will be set to 1 and tissue's diffusion
+        parameters are set to zero). Default md_reg was set to
+        1.5e-3 $mm^{2}.s^{-1}$ according to [1]_.
 
     Returns
     -------
@@ -174,10 +186,10 @@ def wls_fit_tensor(gtab, data, Diso=3e-3, mask=None, min_signal=1.0e-6,
 
     References
     ----------
-    .. [1] Hoy, A.R., Koay, C.G., Kecskemeti, S.R., Alexander, A.L., 2014.
-           Optimization of a free water elimination two-compartmental model
-           for diffusion tensor imaging. NeuroImage 103, 323-333.
-           doi: 10.1016/j.neuroimage.2014.09.053
+    .. [1] Henriques, R.N., Rokem, A., Garyfallidis, E., St-Jean, S., Peterson,
+           E.T., Correia, M.M., 2017. Re: Optimization of a free water
+           elimination two-compartmental model for diffusion tensor imaging.
+           ReScience
     """
     fw_params = np.zeros(data.shape[:-1] + (13,))
     W = design_matrix(gtab)
@@ -321,12 +333,12 @@ def nls_iter(design_matrix, sig, S0, Diso=3e-3, mdreg=2.7e-3,
         $mm^{2}.s^{-1}$. Please ajust this value if you are assuming different
         units of diffusion.
     mdreg : float, optimal
-        DTI's mean diffusivity regularization threshold. If standard DTI
-        diffusion tensor's mean diffusivity is almost near the free water
-        diffusion value, the diffusion signal is assumed to be only free water
-        diffusion (i.e. volume fraction will be set to 1 and tissue's diffusion
-        parameters are set to zero). Default md_reg is 2.7e-3 $mm^{2}.s^{-1}$
-        (corresponding to 90% of the free water diffusion value).
+        Tissue compartment mean diffusivity regularization threshold.
+        If tissue's mean diffusivity is almost near the free water diffusion
+        value, the diffusion signal is assumed to be only free water diffusion
+        (i.e. volume fraction will be set to 1 and tissue's diffusion
+        parameters are set to zero). Default md_reg was set to
+        1.5e-3 $mm^{2}.s^{-1}$ according to [1]_.
     min_signal : float
         The minimum signal value. Needs to be a strictly positive
         number.
@@ -356,7 +368,7 @@ def nls_iter(design_matrix, sig, S0, Diso=3e-3, mdreg=2.7e-3,
                       min_signal=min_signal, Diso=Diso, mdreg=mdreg)
 
     # Process voxel if it has significant signal from tissue
-    if params[12] < 0.99 and np.mean(sig) > min_signal and S0 > min_signal:
+    if np.mean(sig) > min_signal and S0 > min_signal:
         # converting evals and evecs to diffusion tensor elements
         evals = params[:3]
         evecs = params[3:12].reshape((3, 3))
@@ -399,7 +411,7 @@ def nls_iter(design_matrix, sig, S0, Diso=3e-3, mdreg=2.7e-3,
     return params
 
 
-def nls_fit_tensor(gtab, data, mask=None, Diso=3e-3, mdreg=2.7e-3,
+def nls_fit_tensor(gtab, data, mask=None, Diso=3e-3, mdreg=1.5e-3,
                    min_signal=1.0e-6, f_transform=True, cholesky=False,
                    jac=True):
     """
@@ -420,12 +432,12 @@ def nls_fit_tensor(gtab, data, mask=None, Diso=3e-3, mdreg=2.7e-3,
         $mm^{2}.s^{-1}$. Please ajust this value if you are assuming different
         units of diffusion.
     mdreg : float, optimal
-        DTI's mean diffusivity regularization threshold. If standard DTI
-        diffusion tensor's mean diffusivity is almost near the free water
-        diffusion value, the diffusion signal is assumed to be only free water
-        diffusion (i.e. volume fraction will be set to 1 and tissue's diffusion
-        parameters are set to zero). Default md_reg is 2.7e-3 $mm^{2}.s^{-1}$
-        (corresponding to 90% of the free water diffusion value).
+        Tissue compartment mean diffusivity regularization threshold.
+        If tissue's mean diffusivity is almost near the free water diffusion
+        value, the diffusion signal is assumed to be only free water diffusion
+        (i.e. volume fraction will be set to 1 and tissue's diffusion
+        parameters are set to zero). Default md_reg was set to
+        1.5e-3 $mm^{2}.s^{-1}$ according to [1]_.
     min_signal : float
         The minimum signal value. Needs to be a strictly positive
         number. Default: 1.0e-6.
@@ -450,6 +462,13 @@ def nls_fit_tensor(gtab, data, mask=None, Diso=3e-3, mdreg=2.7e-3,
             2) Three lines of the eigenvector matrix each containing the
                first, second and third coordinates of the eigenvector
             3) The volume fraction of the free water compartment
+
+    References
+    ----------
+    .. [1] Henriques, R.N., Rokem, A., Garyfallidis, E., St-Jean, S., Peterson,
+           E.T., Correia, M.M., 2017. Re: Optimization of a free water
+           elimination two-compartmental model for diffusion tensor imaging.
+           ReScience
     """
     # Analyse compatible input cases
     if jac is True and cholesky is True:
@@ -548,7 +567,7 @@ def cholesky_to_lower_triangular(R):
 # -------------------------------------------------------------------------
 
 
-def nls_iter_bounds(design_matrix, sig, S0, Diso=3e-3, mdreg=2.7e-3,
+def nls_iter_bounds(design_matrix, sig, S0, Diso=3e-3, mdreg=1.5e-3,
                     min_signal=1.0e-6, bounds=None, jac=True):
     """ Applies non-linear least-squares fit with constraints of the water free
     elimination model to single voxel signals.
@@ -567,12 +586,12 @@ def nls_iter_bounds(design_matrix, sig, S0, Diso=3e-3, mdreg=2.7e-3,
         $mm^{2}.s^{-1}$. Please ajust this value if you are assuming different
         units of diffusion.
     mdreg : float, optimal
-        DTI's mean diffusivity regularization threshold. If standard DTI
-        diffusion tensor's mean diffusivity is almost near the free water
-        diffusion value, the diffusion signal is assumed to be only free water
-        diffusion (i.e. volume fraction will be set to 1 and tissue's diffusion
-        parameters are set to zero). Default md_reg is 2.7e-3 $mm^{2}.s^{-1}$
-        (corresponding to 90% of the free water diffusion value).
+        Tissue compartment mean diffusivity regularization threshold.
+        If tissue's mean diffusivity is almost near the free water diffusion
+        value, the diffusion signal is assumed to be only free water diffusion
+        (i.e. volume fraction will be set to 1 and tissue's diffusion
+        parameters are set to zero). Default md_reg was set to
+        1.5e-3 $mm^{2}.s^{-1}$ according to [1]_.
     min_signal : float
         The minimum signal value. Needs to be a strictly positive
         number.
@@ -594,6 +613,13 @@ def nls_iter_bounds(design_matrix, sig, S0, Diso=3e-3, mdreg=2.7e-3,
         2) Three lines of the eigenvector matrix each containing the
            first, second and third coordinates of the eigenvector
         3) The volume fraction of the free water compartment.
+
+    References
+    ----------
+    .. [1] Henriques, R.N., Rokem, A., Garyfallidis, E., St-Jean, S., Peterson,
+           E.T., Correia, M.M., 2017. Re: Optimization of a free water
+           elimination two-compartmental model for diffusion tensor imaging.
+           ReScience
     """
     # Initial guess
     params = wls_iter(design_matrix, sig, S0,
@@ -667,12 +693,12 @@ def nls_fit_tensor_bounds(gtab, data, mask=None, Diso=3e-3, mdreg=2.7e-3,
         $mm^{2}.s^{-1}$. Please ajust this value if you are assuming different
         units of diffusion.
     mdreg : float, optimal
-        DTI's mean diffusivity regularization threshold. If standard DTI
-        diffusion tensor's mean diffusivity is almost near the free water
-        diffusion value, the diffusion signal is assumed to be only free water
-        diffusion (i.e. volume fraction will be set to 1 and tissue's diffusion
-        parameters are set to zero). Default md_reg is 2.7e-3 $mm^{2}.s^{-1}$
-        (corresponding to 90% of the free water diffusion value).
+        Tissue compartment mean diffusivity regularization threshold.
+        If tissue's mean diffusivity is almost near the free water diffusion
+        value, the diffusion signal is assumed to be only free water diffusion
+        (i.e. volume fraction will be set to 1 and tissue's diffusion
+        parameters are set to zero). Default md_reg was set to
+        1.5e-3 $mm^{2}.s^{-1}$ according to [1]_.
     min_signal : float
         The minimum signal value. Needs to be a strictly positive
         number. Default: 1.0e-6.
@@ -695,6 +721,13 @@ def nls_fit_tensor_bounds(gtab, data, mask=None, Diso=3e-3, mdreg=2.7e-3,
             2) Three lines of the eigenvector matrix each containing the
                first, second and third coordinates of the eigenvector
             3) The volume fraction of the free water compartment
+
+    References
+    ----------
+    .. [1] Henriques, R.N., Rokem, A., Garyfallidis, E., St-Jean, S., Peterson,
+           E.T., Correia, M.M., 2017. Re: Optimization of a free water
+           elimination two-compartmental model for diffusion tensor imaging.
+           ReScience
     """
     fw_params = np.zeros(data.shape[:-1] + (13,))
     W = design_matrix(gtab)

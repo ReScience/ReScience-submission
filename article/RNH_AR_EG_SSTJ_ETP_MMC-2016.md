@@ -227,15 +227,20 @@ the README.md file of the repository subfolder code). In addition to Dipy's modu
 the implemented procedures also requires the python pakage [NumPy](http://www.numpy.org/),
 which is also a dependency of both Scipy and Dipy.
 
-## Simulations
-In their original study, Hoy and colleagues simulated a measurement along 32 diffusion
-directions with diffusion weighting b-values of 500 and 1500 $s/mm^{2}$ and with six b-value=0 $s/mm^{2}$ images.
-These simulations correspond to the results reported in Figure 5 of the original article.
-We conducted Monte Carlo simulations using the multi-tensor simulation
-module available in Dipy and using identical simulated acquisition parameters.
-As in the original article, fitting procedures are tested for voxels with five different FA values
-and with constant diffusion trace of $2.4 \times 10^{-3} mm^{2}/s$.
-The eigenvalues used for the five FA levels are reported in Table @tbl:table.
+## Simulation 1
+
+In this study, the performance of the fwDTI fitting techniques is first assessed for five different
+tissue's diffusion tensor FA levels and for free water volume fraction contamination using the multi-tensor
+simulation module available in Dipy. This simulation corresponds to the results reported in Figure 5
+of the original article [@Hoy2014-lk].
+
+The acquisition parameters for this first simulation are based on the acquisition parameters previouly
+optimized by Hoy et al. (2014) which consist in diffusion-weighted
+measures along 32 diffusion directions for diffusion b-values of 500 and 1500 $s/mm^{2}$
+and with six b-value=0 $s/mm^{2}$ images. As in the original article, the ground truth of
+tissue's diffusion tensor had a constant diffusion trace of $2.4 \times 10^{-3} mm^{2}/s$.
+The diffusion tensor's eigenvalues used for the five FA levels are reported in Table @tbl:table.
+
 
 Table: Eigenvalues values used for the simulations {#tbl:table}
 
@@ -247,11 +252,45 @@ $\lambda_3$  $8.00 \times 10^{-4}$  $7.38 \times 10^{-4}$  $6.75 \times 10^{-4}$
 
 For each FA value, eleven different degrees of free water contamination were
 evaluated (f values equally spaced from 0 to 1). To assess the robustness of the
-procedure, Rician noise with signal-to-noise ratio (SNR) of 40 relative to the b-value=0 $s/mm^{2}$ images was
-used. For each FA and f-value pair, simulations were performed for 120
+procedures to MRI noise, Rician noise with signal-to-noise ratio (SNR) of 40 relative
+to the b-value=0 $s/mm^{2}$ images was used. For each FA and f-value pair, simulations were performed for 120
 different diffusion tensor orientations. Simulations for each diffusion tensor
 orientation were repeated 100 times making a total of 12000 simulated
-iterations for each FA and f-value pair.
+iterations for each FA and f-value pair. All these parameters are setted
+according to Hoy et al. (2014) [@Hoy2014-lk].
+
+## Simulation 2
+
+After evaluating the fitting procedures for the reported FA and F values, the optimal b-values for
+two-shell diffusion MRI acquisition are re-accessed. This second simulation corresponds to the original
+article's Figure 2 [@Hoy2014-lk] in which b-values are investigated from 200 to 800 $s/mm^{2}$ in increaments of
+100 $s/mm^{2}$ for the minimun b-values and from 300 to 1500 $s/mm^{2}$ in increaments of
+100 $s/mm^{2}$ for the maximum b-value. Similarly to Hoy et al. (2014), the optimal b-value assessment is done
+for a fixed f-value of 0.5 and fixed FA of 0.71 which correspond to a typical MRI voxel in the boundary
+between CSF and white matter tissue.
+
+## Simulation 3
+
+To evaluate our implementations for different number of diffusion shells, different number gradient directions
+per shell, and different SNR levels, the upper panels of the original article's Figure 4. For this last simulation,
+multi-compartmental simulations are performed for six different acquisition parameters sets that are summarized in
+Table @tbl:table2.
+
+Table: The six different acquisition parameter set tested {#tbl:table2}
+
+Nember of shells  b-values ($s/mm^{2}$)                      Directions per shell          
+---------------- ------------------------------------------ ------------------------
+2                 500/1500                                   32 per shell
+3                 500/1000/1500                              21/21/22
+4                 400/767/1133/1500                          16 per shell
+6                 400/620/840/1060/1280/1500                 10/10/10/10/10/14
+8                 300/471/643/814/986/1157/1329/1500         8 per shell
+16                300/380/460/540/620/700/780/860/940/       4 per shell
+                  1020/1100/1180/1250/1340/1420/1500
+
+Although Hoy et al. (2014) only reported the latter analysis for the higher FA
+level, here the lower FA values of 0 is also assessed. According to the original
+article, this optimization analysis is also done for the fixed f-value of 0.5. 
 
 ## *In vivo* data
 
@@ -267,7 +306,7 @@ taken into account by the free water elimination model. We also processed the da
 
 # Results
 
-The results from the Monte Carlo simulations are shown in Figure @fig:simulations. As reported
+The results from the first multi-compartmental simulations are shown in Figure @fig:simulations. As reported
 in the original article, FA values estimated using the free water elimination model match the tissue's ground truth
 values for free water volume fractions $f$ ranging around 0 to 0.7 (top panel of
 Figure @fig:simulations). However, FA values seem to be overestimated for higher volume fractions. This bias is more

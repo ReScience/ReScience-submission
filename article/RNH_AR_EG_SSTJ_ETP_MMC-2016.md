@@ -167,11 +167,32 @@ $$F_{NLS} = \frac{1}{2} \sum_{i=1}^{m} \left
 - (1-f)\exp(-\sum_{j=1}^{7}W_{ij}\gamma_{j})\right ]^{2}$$ {#eq:8}
 
 Similarly to the original article [@Hoy2014-lk], this procedure is only used
-to obtain the intial guess for the free water elimination parameters, which were then
+to obtain the initial guess for the free water elimination parameters, which were then
 used to initialize a fwDTI model non-linear convergence solver (see below).
 
 
-**Non-Linear Least Square Solution (NLS).** To improve computation speed, instead of using the modified Newton's algorithm proposed in the original article,
+**Removing problematic first guess estimates.** For cases where the ground truth free water volume fraction is 
+near to one (i.e. voxels containing only free water), the tissue's diffusion
+tensor component can erroneously fit the free water diffusion signal and
+therefore the free water DTI model fails to identifying the signal as pure
+free water. In these cases, since both tissue and free water compartment
+represents well the signal, the free water volume fraction can be arbitrarily
+estimated to any value of the range between 0 and 1 rather than being close to 1.
+To overcome this issue, Hoy et al. (2014) proposed to re-initialize the
+parameters initial guess when the tissue's mean diffusivity appraches the
+values of free water diffusion (tissue's MD > $1.5 \times 10^{-3} mm^{2}/s$)
+[@Hoy2014-lk]. After accessing the frequency that this problem arised and
+reviewing the original's article re-initialization settings (supplementary_notebook_3.ipynb),
+the following parameters adjustments were before the use of the non-linear fitting procedure,
+when the initial e tissue's mean diffusivity is higher than  $1.5 \times 10^{-3} mm^{2}/s$:
+1) To avoid high tissue's mean diffusivity for high volume fraction estimates
+and to better indicate that tissue diffusion is particaly absent,
+the elements of the tissues diffusion tensor is set zero;
+2) free water volume fraction estimates are set to 1.
+
+
+**Non-Linear Least Square Solution (NLS).** To improve computation speed,
+instead of using the modified Newton's algorithm proposed in the original article,
 the non-linear convergence was done using Scipy's wrapped modified Levenberg-Marquardt algorithm
 (function `scipy.optimize.leastsq` of [Scipy](http://scipy.org/)).
 
@@ -196,24 +217,14 @@ of the Jacobian derivation see supplementary_notebook_2.ipynb). Due to increased
 our analytical Jacobian derivation is not compatible with the Cholesky decomposition. This
 variable transformation is therefore not used by default.
 
-**Removing problematic estimates.** For cases where the ground truth free water volume fraction is 1 (i.e. voxels
-containing only free water), the tissue's diffusion tensor component can erroneously fit
-the free water diffusion signal rather than placing the free water signal in the free water compartment,
-and therefore incorrectly estimate the water volume fraction close to 0 rather than 1.
-To remove these problematic cases, for all voxels with standard DTI mean diffusivity values larger than $2.7 \times 10^{-3} mm^{2}/s$, the free
-water volume fraction is set to one while all other diffusion tensor
-parameters are set to zero. This mean diffusivity threshold was arbitray adjusted to 90%
-of the theoretical free water diffusion value, however this can be adjusted by
-changing the optional input 'mdreg' in both WLS and NLS free water elimination
-procedures.
-
 **Implementation dependencies.** In addition to the dependency on Scipy, both
 free water elimination fitting procedures require modules from Dipy [@Garyfallidis2014-zo],
 since these contain all necessary standard diffusion tensor fitting functions.
-Although the core algorithms for the free water elimination model are implemented here separately from Dipy,
-a version of these will be incorporated as a sub-module of Dipy's model
-reconstruction module ([https://github.com/nipy/dipy/pull/835](https://github.com/nipy/dipy/pull/835)). In addition, the
-implemented procedures also requires the python pakage [NumPy](http://www.numpy.org/),
+Before the using the fwDTI fitting procedures proposed here a Dipy's installation is
+requered (to install Dipy please follow the steps described in
+[dipy's website](http://nipy.org/dipy/installation.html) or read the information the
+the README.md file of the repository subfolder code). In addition to Dipy's modules,
+the implemented procedures also requires the python pakage [NumPy](http://www.numpy.org/),
 which is also a dependency of both Scipy and Dipy.
 
 ## Simulations

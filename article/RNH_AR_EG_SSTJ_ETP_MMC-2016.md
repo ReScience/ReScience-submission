@@ -186,7 +186,7 @@ the tissue's mean diffusivity approaches the value of free water diffusion
 these re-initialization settings are reviewed by accessing the fwDTI estimates
 for synthetic voxels than mostly contain free water diffusion and analysis
 the frequency that this problem arises as a function of ground truth $f$ values
-(supplementary_notebook_3.ipynb). Based on this, the following parameters
+(supplementary_notebook_1.ipynb). Based on this, the following parameters
 adjustments were done in our implementations when the initial tissue's mean
 diffusivity is higher than  $1.5 \times 10^{-3} mm^{2}/s$: 1) free water
 volume fraction estimates are set to 1 indicating that the voxel is likely
@@ -214,11 +214,11 @@ The latter directly solves the non-linear problem with predefined
 constraints in a similar fashion to what is done in the original article, however
 our experiments showed that this procedure does not overcome the performance of
 `scipy.optimize.leastsq` in terms of accuracy, and requires more computing time
-(see supplementary_notebook_1.ipynb for more details).
+(see supplementary_notebook_2.ipynb for more details).
 
 To speed up the performance of the non-linear optimization procedure, the Jacobian of the free water
 elimination DTI model was analytically derived and incorporated in the non-linear procedure (for details
-of the Jacobian derivation see supplementary_notebook_2.ipynb). Due to increased mathematical complexity, 
+of the Jacobian derivation see supplementary_notebook_3.ipynb). Due to increased mathematical complexity, 
 our analytical Jacobian derivation is not compatible with the Cholesky decomposition. This
 variable transformation is therefore not used by default.
 
@@ -385,7 +385,7 @@ These differences in FA and MD estimates are expected due to the suppression
 of the isotropic diffusion of free water. As similarly reported in the original article,
 high amplitudes of FA are observed in the periventricular gray matter which might be related to
 inflated values in voxels with high $f$ values. These can be mitigated by excluding voxels with
-high free water volume fraction estimates (see supplementary_notebook_5.ipynb), similarly to
+high free water volume fraction estimates (see supplementary_notebook_4.ipynb), similarly to
 what is suggested by Hoy and colleagues [@Hoy2014-lk].
 
 ![*In vivo* diffusion measures obtained from the free water DTI and standard

@@ -261,17 +261,20 @@ according to Hoy et al. (2014) [@Hoy2014-lk].
 
 ## Simulation 2
 
-After evaluating the fitting procedures for the reported FA and F values, the optimal b-values for
+After evaluating the fitting procedures for the reported FA and f ground truth values, the optimal b-values for
 two-shell diffusion MRI acquisition are re-accessed. This second simulation corresponds to the original
-article's Figure 2 [@Hoy2014-lk] in which b-values are investigated from 200 to 800 $s/mm^{2}$ in increaments of
-100 $s/mm^{2}$ for the minimun b-values and from 300 to 1500 $s/mm^{2}$ in increaments of
-100 $s/mm^{2}$ for the maximum b-value. Similarly to Hoy et al. (2014), the optimal b-value assessment is done
-for a fixed f-value of 0.5 and fixed FA of 0.71 which correspond to a typical MRI voxel in the boundary
-between CSF and white matter tissue.
+article's Figure 2 [@Hoy2014-lk] in which b-value minimum is investigated from 200 to 800 $s/mm^{2}$ in increaments of
+100 $s/mm^{2}$ while b-value maximum is assessed from 300 to 1500 $s/mm^{2}$ in increaments of
+100 $s/mm^{2}$. Similarly to Hoy et al. (2014), this simulation is done for a fixed f-value of 0.5 and FA of 0.71
+which correspond to a typical MRI voxel in the boundary between CSF and white matter tissue.
+For each b-value pair, simulations are repeated 12000 times similarly to
+simulation 1 and fitting performances are quantified from tissue's FA estimates, free water volume fraction
+estimates and tissue's mean diffusivity estimates using the mean squared error ($MSE = \frac{1}{n} \sum_{i=1}^{n} (Y_i - \widehat{Y})^{2}$,
+where $n$=12000, $Y$ is the ground truth value of a diffusion measure, and $Y_i$ is single measure estimate)
 
 ## Simulation 3
 
-To evaluate our implementations for different number of diffusion shells, different number gradient directions
+To evaluate our implementations for different number of diffusion shells, different number of gradient directions
 per shell, and different SNR levels, the upper panels of the original article's Figure 4. For this last simulation,
 multi-compartmental simulations are performed for six different acquisition parameters sets that are summarized in
 Table @tbl:table2.
@@ -290,7 +293,11 @@ Nember of shells  b-values ($s/mm^{2}$)                      Directions per shel
 
 Although Hoy et al. (2014) only reported the latter analysis for the higher FA
 level, here the lower FA values of 0 is also assessed. According to the original
-article, this optimization analysis is also done for the fixed f-value of 0.5. 
+article, this optimization analysis is also done for the fixed f-value of 0.5.
+As the previous two simulations, tests are repeated 12000 times for each acquisition
+parameter set, SNR level, and both high and low FA values. Fitting performances are
+quantified using the mean squared error of the diffusion based measures (i.e. tissue's FA,
+tissue's MD, and free water volume fraction f).
 
 ## *In vivo* data
 
@@ -306,21 +313,47 @@ taken into account by the free water elimination model. We also processed the da
 
 # Results
 
-The results from the first multi-compartmental simulations are shown in Figure @fig:simulations. As reported
+The results from the first multi-compartmental simulations are shown in Figure @fig:simulations1. As reported
 in the original article, FA values estimated using the free water elimination model match the tissue's ground truth
 values for free water volume fractions $f$ ranging around 0 to 0.7 (top panel of
-Figure @fig:simulations). However, FA values seem to be overestimated for higher volume fractions. This bias is more
+Figure @fig:simulations1). However, FA values seem to be overestimated for higher volume fractions. This bias is more
 prominent for lower FA values in which overestimations are visible from lower free water volume
 fractions. The lower panels of Figure @fig:simulations suggest that the free water elimination model produces
 accurate free water volume fraction for the full range of volume fraction ground truth values. All the features observed
 here are consistent with Figure 5 of the original article.
 
-![Fractional Anisotropy (FA) and free water volume fraction ($f$) estimates obtained with Monte Carlo simulations
+![Fractional Anisotropy (FA) and free water volume fraction ($f$) estimates obtained with multi-compartmental simulations
 using the free water elimination fitting procedures. The top panel shows the FA median and interquartile range
 for the five different FA ground truth levels and plotted as a function of the ground truth water volume fraction.
 The bottom panels show the estimated volume fraction $f$ median and interquartile range as a function of its ground truth values
 (right and left panels correspond to the higher and lower FA values, respectively). This figure reproduces
-Fig. 7 of the original article.](fwdti_simulations.png){#fig:simulations}
+Fig. 5 of the original article.](fwdti_simulations_1.png){#fig:simulations1}
+
+The re-evaluation of the optimal b-value for a two-shell acquisition scheme is shown in Figure @fig:simulations2. For a better
+visuallization of the optional b-value pair, MSE is converted to it reciprocal inverse [@Hoy2014-lk]. In this way, the optimal
+b-value pair corresponds to a inverse recirprocal mean squared error of 1 (IRMSE). Athough our fwDTI fitting implementations seem to produce
+more stable IRMSE for all diffusion measures (note that colormaps where rescaled from 0.9 to 1),
+results of Figure @fig:simulations2 are consistent to the original article which suggests that the b-values pair 500-1500 $s/mm^{2}$
+is the most adequate parameters for the fwDTI model fitting.  
+
+![Inverse reciprocal mean squared errors (IRMSE) as a function of the minimum and maximum b-value for three different
+diffusion measures. For left to right panels, the IRMSE were computed from the free water volume fraction estimates,
+tissue's fractional anisotroy, and tissue's mean diffusivity. This figure reproduces Fig. 2 of the original
+article.](fwdti_simulations_2.png){#fig:simulations2}
+
+Figure @fig:simulations3 shows the mean squared errors as a function of the signal to noise ratio (SNR) for different
+set of acquisition parameters with different number of b-value shells and gradient directions. As reported in the
+original article [@Hoy2014-lk], the figure shows better performances for the two-shell acquisition scheme. This suggests
+that for the fwDTI model fitting having larger number of diffusion gradient directions is more acquate than having a larger
+number of b-value with smaller number of diffusion gradient directions.
+
+
+![Mean squared errors (MSE) plotted as a function of the signal to noise ratio (SNR) for six different acquisition parameter
+sets. For left to right panels the MSE were computed from the tissue's fractional anisotroy estimates,
+free water volume fraction estimates and tissue's mean diffusivity. The upper panels of figure reproduces
+the lower panels of the original article Fig. 4 in which ground truth tissue's FA is set to 0.71.
+Lower panels show the analogous results for a ground truth tissue's FA of 0](fwdti_simulations_3.png){#fig:simulations3}
+
 
 *In vivo* tensor statistics obtained from the free water elimination and standard DTI models
 are shown in Figure @fig:invivo. Complete processing of all these measure took less than 1 hour
@@ -331,7 +364,7 @@ These differences in FA and MD estimates are expected due to the suppression
 of the isotropic diffusion of free water. As similarly reported in the original article,
 high amplitudes of FA are observed in the periventricular gray matter which might be related to
 inflated values in voxels with high $f$ values. These can be mitigated by excluding voxels with
-high free water volume fraction estimates (see supplementary_notebook_3.ipynb), similarly to
+high free water volume fraction estimates (see supplementary_notebook_5.ipynb), similarly to
 what is suggested by Hoy and colleagues [@Hoy2014-lk].
 
 ![*In vivo* diffusion measures obtained from the free water DTI and standard
@@ -339,7 +372,7 @@ what is suggested by Hoy and colleagues [@Hoy2014-lk].
    their difference are shown in the top panels (A-C),
    while respective MD values are shown in the bottom panels (D-F). In addition
    the free water volume fraction estimated from the free water DTI model is shown in
-   panel G.](In_vivo_free_water_DTI_and_standard_DTI_measures.png){#fig:invivo}
+   panel G. This figure reproduces Fig. 7 of the original article.](fwdti_in_vivo.png){#fig:invivo}
 
 
 # Conclusion
@@ -347,15 +380,16 @@ what is suggested by Hoy and colleagues [@Hoy2014-lk].
 Despite the changes done to reduce the algorithm's execution time, the
 implemented procedures to solve the free water elimination DTI model have comparable performance
 in terms of accuracy to the original methods described by Hoy and colleagues [@Hoy2014-lk].
-Based on similar Monte Carlo simulations with the same SNR used in the original article,
-our results confirmed that the free water elimination DTI model is able to remove confounding effects
-of fast diffusion for typical FA values of brain white matter. Similarly to
-what was reported by Hoy and colleagues, the proposed procedures seem to generate
-biased values of FA for free water volume fractions near 1. Nevertheless,
-our results confirm that these problematic cases correspond to regions that are not typically
+Based on similar simulations used in the original article, our results confirmed that the free
+water elimination DTI model is able to remove confounding effects of fast diffusion for typical
+FA values of brain white matter. Similarly to what was reported by Hoy and colleagues,
+the proposed procedures seem to generate biased values of FA for free water volume fractions near 1.
+Nevertheless, our results confirm that these problematic cases correspond to regions that are not typically
 of interest in neuroimaging analysis (voxels associated with cerebral ventricles)
 and might be removed by excluding voxels with measured volume fractions above a reasonable
-threshold such as 0.7.
+threshold such as 0.7. This this study, it was also confirmed that for a fixed scanning time the
+fwDTI model fitting has a better performance when data is acquired for 32 diffusion gradient directions
+distributed along two b-values of 500 and 1500 $s/mm^{2}$.
 
 # Author Contributions
 

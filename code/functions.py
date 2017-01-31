@@ -177,7 +177,7 @@ def wls_fit_tensor(gtab, data, Diso=3e-3, mask=None, min_signal=1.0e-6,
     Returns
     -------
     fw_params : ndarray (x, y, z, 13)
-        Matrix containing in the last dimention the free water model parameters
+        Matrix containing in the last dimension the free water model parameters
         in the following order:
             1) Three diffusion tensor's eigenvalues
             2) Three lines of the eigenvector matrix each containing the
@@ -203,7 +203,7 @@ def wls_fit_tensor(gtab, data, Diso=3e-3, mask=None, min_signal=1.0e-6,
         mask = np.array(mask, dtype=bool, copy=False)
 
     # Prepare S0
-    S0 = np.mean(data[:, :, :, gtab.b0s_mask], axis=-1)
+    S0 = np.mean(data[..., gtab.b0s_mask], axis=-1)
 
     index = ndindex(mask.shape)
     for v in index:
@@ -332,13 +332,6 @@ def nls_iter(design_matrix, sig, S0, Diso=3e-3, mdreg=2.7e-3,
         Value of the free water isotropic diffusion. Default is set to 3e-3
         $mm^{2}.s^{-1}$. Please ajust this value if you are assuming different
         units of diffusion.
-    mdreg : float, optimal
-        Tissue compartment mean diffusivity regularization threshold.
-        If tissue's mean diffusivity is almost near the free water diffusion
-        value, the diffusion signal is assumed to be only free water diffusion
-        (i.e. volume fraction will be set to 1 and tissue's diffusion
-        parameters are set to zero). Default md_reg was set to
-        1.5e-3 $mm^{2}.s^{-1}$ according to [1]_.
     min_signal : float
         The minimum signal value. Needs to be a strictly positive
         number.
@@ -364,8 +357,7 @@ def nls_iter(design_matrix, sig, S0, Diso=3e-3, mdreg=2.7e-3,
         3) The volume fraction of the free water compartment.
     """
     # Initial guess
-    params = wls_iter(design_matrix, sig, S0,
-                      min_signal=min_signal, Diso=Diso, mdreg=mdreg)
+    params = wls_iter(design_matrix, sig, S0, min_signal=min_signal, Diso=Diso)
 
     # Process voxel if it has significant signal from tissue
     if np.mean(sig) > min_signal and S0 > min_signal:
@@ -411,7 +403,7 @@ def nls_iter(design_matrix, sig, S0, Diso=3e-3, mdreg=2.7e-3,
     return params
 
 
-def nls_fit_tensor(gtab, data, mask=None, Diso=3e-3, mdreg=1.5e-3,
+def nls_fit_tensor(gtab, data, mask=None, Diso=3e-3,
                    min_signal=1.0e-6, f_transform=True, cholesky=False,
                    jac=True):
     """
@@ -431,13 +423,6 @@ def nls_fit_tensor(gtab, data, mask=None, Diso=3e-3, mdreg=1.5e-3,
         Value of the free water isotropic diffusion. Default is set to 3e-3
         $mm^{2}.s^{-1}$. Please ajust this value if you are assuming different
         units of diffusion.
-    mdreg : float, optimal
-        Tissue compartment mean diffusivity regularization threshold.
-        If tissue's mean diffusivity is almost near the free water diffusion
-        value, the diffusion signal is assumed to be only free water diffusion
-        (i.e. volume fraction will be set to 1 and tissue's diffusion
-        parameters are set to zero). Default md_reg was set to
-        1.5e-3 $mm^{2}.s^{-1}$ according to [1]_.
     min_signal : float
         The minimum signal value. Needs to be a strictly positive
         number. Default: 1.0e-6.
@@ -456,8 +441,8 @@ def nls_fit_tensor(gtab, data, mask=None, Diso=3e-3, mdreg=1.5e-3,
     Returns
     -------
     fw_params : ndarray (x, y, z, 13)
-        Matrix containing in the dimention the free water model parameters in
-        the following order:
+        Matrix containing in the last dimension the free water model parameters
+        in the following order:
             1) Three diffusion tensor's eigenvalues
             2) Three lines of the eigenvector matrix each containing the
                first, second and third coordinates of the eigenvector
@@ -486,16 +471,16 @@ def nls_fit_tensor(gtab, data, mask=None, Diso=3e-3, mdreg=1.5e-3,
         mask = np.array(mask, dtype=bool, copy=False)
 
     # Prepare S0
-    S0 = np.mean(data[:, :, :, gtab.b0s_mask], axis=-1)
+    S0 = np.mean(data[..., gtab.b0s_mask], axis=-1)
 
+    # Loop data fitting through all voxels
     index = ndindex(mask.shape)
     for v in index:
         if mask[v]:
-            params = nls_iter(W, data[v], S0[v],
-                              Diso=Diso, mdreg=mdreg,
+            params = nls_iter(W, data[v], S0[v], Diso=Diso,
                               min_signal=min_signal,
-                              f_transform=f_transform, cholesky=cholesky,
-                              jac=jac)
+                              f_transform=f_transform,
+                              cholesky=cholesky, jac=jac)
             fw_params[v] = params
 
     return fw_params
@@ -567,7 +552,7 @@ def cholesky_to_lower_triangular(R):
 # -------------------------------------------------------------------------
 
 
-def nls_iter_bounds(design_matrix, sig, S0, Diso=3e-3, mdreg=1.5e-3,
+def nls_iter_bounds(design_matrix, sig, S0, Diso=3e-3,
                     min_signal=1.0e-6, bounds=None, jac=True):
     """ Applies non-linear least-squares fit with constraints of the water free
     elimination model to single voxel signals.
@@ -585,13 +570,6 @@ def nls_iter_bounds(design_matrix, sig, S0, Diso=3e-3, mdreg=1.5e-3,
         Value of the free water isotropic diffusion. Default is set to 3e-3
         $mm^{2}.s^{-1}$. Please ajust this value if you are assuming different
         units of diffusion.
-    mdreg : float, optimal
-        Tissue compartment mean diffusivity regularization threshold.
-        If tissue's mean diffusivity is almost near the free water diffusion
-        value, the diffusion signal is assumed to be only free water diffusion
-        (i.e. volume fraction will be set to 1 and tissue's diffusion
-        parameters are set to zero). Default md_reg was set to
-        1.5e-3 $mm^{2}.s^{-1}$ according to [1]_.
     min_signal : float
         The minimum signal value. Needs to be a strictly positive
         number.
@@ -623,7 +601,7 @@ def nls_iter_bounds(design_matrix, sig, S0, Diso=3e-3, mdreg=1.5e-3,
     """
     # Initial guess
     params = wls_iter(design_matrix, sig, S0,
-                      min_signal=min_signal, Diso=Diso, mdreg=mdreg)
+                      min_signal=min_signal, Diso=Diso)
 
     # Set bounds
     if bounds is None:
@@ -641,7 +619,7 @@ def nls_iter_bounds(design_matrix, sig, S0, Diso=3e-3, mdreg=1.5e-3,
         bounds[1][6] = S0hig
 
     # Process voxel if it has significant signal from tissue
-    if params[12] < 0.99 and np.mean(sig) > min_signal:
+    if np.mean(sig) > min_signal and S0 > min_signal:
         # converting evals and evecs to diffusion tensor elements
         evals = params[:3]
         evecs = params[3:12].reshape((3, 3))
@@ -674,7 +652,7 @@ def nls_iter_bounds(design_matrix, sig, S0, Diso=3e-3, mdreg=1.5e-3,
     return params
 
 
-def nls_fit_tensor_bounds(gtab, data, mask=None, Diso=3e-3, mdreg=2.7e-3,
+def nls_fit_tensor_bounds(gtab, data, mask=None, Diso=3e-3,
                           min_signal=1.0e-6, bounds=None, jac=True):
     """
     Fit the water elimination tensor model using the non-linear least-squares
@@ -692,13 +670,6 @@ def nls_fit_tensor_bounds(gtab, data, mask=None, Diso=3e-3, mdreg=2.7e-3,
         Value of the free water isotropic diffusion. Default is set to 3e-3
         $mm^{2}.s^{-1}$. Please ajust this value if you are assuming different
         units of diffusion.
-    mdreg : float, optimal
-        Tissue compartment mean diffusivity regularization threshold.
-        If tissue's mean diffusivity is almost near the free water diffusion
-        value, the diffusion signal is assumed to be only free water diffusion
-        (i.e. volume fraction will be set to 1 and tissue's diffusion
-        parameters are set to zero). Default md_reg was set to
-        1.5e-3 $mm^{2}.s^{-1}$ according to [1]_.
     min_signal : float
         The minimum signal value. Needs to be a strictly positive
         number. Default: 1.0e-6.
@@ -715,8 +686,8 @@ def nls_fit_tensor_bounds(gtab, data, mask=None, Diso=3e-3, mdreg=2.7e-3,
     Returns
     -------
     fw_params : ndarray (x, y, z, 13)
-        Matrix containing in the dimention the free water model parameters in
-        the following order:
+        Matrix containing in the last dimension the free water model parameters
+        in the following order:
             1) Three diffusion tensor's eigenvalues
             2) Three lines of the eigenvector matrix each containing the
                first, second and third coordinates of the eigenvector
@@ -746,7 +717,7 @@ def nls_fit_tensor_bounds(gtab, data, mask=None, Diso=3e-3, mdreg=2.7e-3,
     index = ndindex(mask.shape)
     for v in index:
         if mask[v]:
-            params = nls_iter_bounds(W, data[v], S0[v], Diso=Diso, mdreg=mdreg,
+            params = nls_iter_bounds(W, data[v], S0[v], Diso=Diso,
                                      min_signal=min_signal, bounds=bounds,
                                      jac=jac)
             fw_params[v] = params

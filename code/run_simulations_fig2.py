@@ -223,8 +223,8 @@ plt.pcolormesh(Bmax_ed, Bmin_ed, rmsef,
                vmin=0, vmax=1)
 plt.axis([250, 1550, 850, 150])
 plt.colorbar()
-plt.xlabel('Maxinum b-value (s/mm2)')
-plt.ylabel('Mininum b-value (s/mm2)')
+plt.xlabel('Maximum b-value (s/mm2)')
+plt.ylabel('Minimum b-value (s/mm2)')
 
 # Plotting he reciprocal scaled mean squared error for FA
 plt.subplot(1, 3, 2)
@@ -232,8 +232,8 @@ plt.pcolormesh(Bmax_ed, Bmin_ed, rmsefa,
                vmin=0, vmax=1)
 plt.axis([250, 1550, 850, 150])
 plt.colorbar()
-plt.xlabel('Maxinum b-value (s/mm2)')
-plt.ylabel('Mininum b-value (s/mm2)')
+plt.xlabel('Maximum b-value (s/mm2)')
+plt.ylabel('Minimum b-value (s/mm2)')
 
 # Plotting he reciprocal scaled mean squared error for diffusion
 # trace
@@ -242,8 +242,8 @@ plt.pcolormesh(Bmax_ed, Bmin_ed, rmsetrace,
                vmin=0, vmax=1)
 plt.axis([250, 1550, 850, 150])
 plt.colorbar()
-plt.xlabel('Maxinum b-value (s/mm2)')
-plt.ylabel('Mininum b-value (s/mm2)')
+plt.xlabel('Maximum b-value (s/mm2)')
+plt.ylabel('Minimum b-value (s/mm2)')
 
 plt.show()
 
@@ -269,8 +269,8 @@ plt.pcolormesh(Bmax_ed, Bmin_ed, rmsef,
                vmin=0.9, vmax=1)
 plt.axis([250, 1550, 850, 150])
 plt.colorbar()
-plt.xlabel('Maxinum b-value (s/mm2)')
-plt.ylabel('Mininum b-value (s/mm2)')
+plt.xlabel('Maximum b-value (s/mm2)')
+plt.ylabel('Minimum b-value (s/mm2)')
 
 # Plotting he reciprocal scaled mean squared error for FA
 plt.subplot(1, 3, 2)
@@ -278,8 +278,8 @@ plt.pcolormesh(Bmax_ed, Bmin_ed, rmsefa,
                vmin=0.9, vmax=1)
 plt.axis([250, 1550, 850, 150])
 plt.colorbar()
-plt.xlabel('Maxinum b-value (s/mm2)')
-plt.ylabel('Mininum b-value (s/mm2)')
+plt.xlabel('Maximum b-value (s/mm2)')
+plt.ylabel('Minimum b-value (s/mm2)')
 
 # Plotting he reciprocal scaled mean squared error for diffusion
 # trace
@@ -288,8 +288,8 @@ plt.pcolormesh(Bmax_ed, Bmin_ed, rmsetrace,
                vmin=0.9, vmax=1)
 plt.axis([250, 1550, 850, 150])
 plt.colorbar()
-plt.xlabel('Maxinum b-value (s/mm2)')
-plt.ylabel('Mininum b-value (s/mm2)')
+plt.xlabel('Maximum b-value (s/mm2)')
+plt.ylabel('Minimum b-value (s/mm2)')
 
 plt.show()
 

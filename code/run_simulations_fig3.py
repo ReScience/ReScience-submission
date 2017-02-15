@@ -212,10 +212,10 @@ colors = {0: 'g', 1: 'r', 2: 'b', 3: 'g', 4: 'r', 5: 'b'}
 lstyle = {0: '-', 1: '-', 2: '-', 3: '--', 4: '--', 5: '--'}
 acquisition = {0: '2-shells',
                1: '3-shells',
-               2: '4-shell',
-               3: '6-shell',
-               4: '8-shell',
-               5: '16-shell'}
+               2: '4-shells',
+               3: '6-shells',
+               4: '8-shells',
+               5: '16-shells'}
 
 # For both FA level
 for fa_i in range(2):

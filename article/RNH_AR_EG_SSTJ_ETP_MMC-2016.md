@@ -74,8 +74,8 @@ cerebrospinal fluid (CSF).
 Since CSF partial volume effects depend on the exact positioning of brain relative to the MRI spatial encoding grid, the reproducibility of diffusion-weighted measures might be compromised by free water partial volume effects  [@Metzler-Baddeley2011-hg]. Moreover, free water contaminations are likely to confound diffusion-based measures in studies of brain aging and some pathologies, because CSF partial volume effects might be increased due to tissue morphological atrophy and enlargement of cerebral ventricle [@Donnell2015-hg]. 
 
 During the MRI acquisition, the signal from free water can be directly eliminated using
-fluid-attenuated inversion recovery diffusion-weighted sequences [@Papadakis2002-hg]. However, these sequences have some drawbacks. For example, they require longer acquisition times and produce images with lower SNR. Moreover, these approaches
-cannot be used retrospectively for data cohorts already acquired with multi b-valuel diffusion-weighted sequences, such as the [Human Connectome Project](http://www.humanconnectomeproject.org/) [@David2013] and the [Cambridge Centre for Ageing and Neuroscience cohort](http://www.cam-can.org/) [@Taylor2017]
+fluid-attenuated inversion recovery diffusion-weighted sequences [@Papadakis2002-hg]. However, these sequences have some drawbacks. For example, they require longer acquisition times and produce images with lower signal-to-noise ratio (SNR). Moreover, these approaches
+cannot be used retrospectively for data cohorts already acquired with multi b-value diffusion-weighted sequences, such as the [Human Connectome Project](http://www.humanconnectomeproject.org/) [@David2013] and the [Cambridge Centre for Ageing and Neuroscience cohort](http://www.cam-can.org/) [@Taylor2017].
 
 Free-water can also be suppressed by adding parameters to diffusion MRI models. For example, the DTI model can be extended to separately take into account the 
 contributions of tissue and CSF, by representing the tissue compartment with
@@ -130,7 +130,7 @@ W =
 \end{bmatrix}
 $$ {#eq:6} Relative to the original article, the elements of $W$ have been re-ordered according to the order of the diffusion tensor elements used in Dipy. This reordering is just a matter of differing notational conventions and has no effect on the results of the equation.
 
-To ensure that the WLS method converges to the local minimum, $f$ grid search sampling is performed over larger interval ranges relative to original article. Particularly, for the second and third iterations used to refine the parameters precision, $f$ is resampled over intervals of 0.2 and 0.02 instead of interval sizes of 0.1 and 0.01 proposed by Hoy and colleagues. On the other hand, the sample step size was maintained to 0.01 and 0.001 respectively. 
+To ensure that the WLS method converges to the local minimum, $f$ grid search sampling is performed over larger interval ranges relative to the original article. Particularly, for the second and third iterations used to refine the parameters precision, $f$ is resampled over intervals of 0.2 and 0.02 instead of interval sizes of 0.1 and 0.01 proposed by Hoy and colleagues. On the other hand, the sample step size was maintained to 0.01 and 0.001 respectively. 
 
 Moreover, since the WLS objective function is sensitive to the squared error of the model weights ($\omega_i=s_i$):
 
@@ -149,7 +149,7 @@ used to initialize a fwDTI model non-linear convergence solver (see below).
 
 **Removing problematic first guess estimates.** For cases where the ground truth free water volume fraction is close to one (i.e. voxels containing only free water), the tissue's diffusion
 tensor component can erroneously fit the free water diffusion signal and
-therefore the free water DTI model fails to identifying the signal as pure
+therefore the free water DTI model fails to identify the signal as pure
 free water. In these cases, since both tissue and free water compartments
 can represent the signal well, the free water volume fraction can be arbitrarily
 estimated to any value in the range between 0 and 1 rather than being close to 1.
@@ -171,7 +171,7 @@ our experiments showed that this procedure does not exceed  the performance of
 To speed up the performance of the non-linear optimization procedure, the Jacobian of the free water elimination DTI model was analytically derived and incorporated in the non-linear procedure (for details of the Jacobian derivation see supplementary_notebook_3.ipynb). Due to increased mathematical complexity, our analytical Jacobian derivation is not compatible with the Cholesky decomposition. This variable transformation is therefore not used by default.
 
 **Implementation dependencies.** In addition to the dependency on Scipy, both
-free water elimination fitting procedures require modules from Dipy [@Garyfallidis2014-zo],which contain implementations of  standard diffusion tensor fitting functions. An installation of , Dipy is
+free water elimination fitting procedures require modules from Dipy [@Garyfallidis2014-zo], which contain implementations of  standard diffusion tensor fitting functions. An installation of Dipy is
 therefore required, before the fwDTI fitting procedures proposed here can be used. To install Dipy please follow the steps described in
 [dipy's website](http://nipy.org/dipy/installation.html), or follow the instructions in the README file of the code provided with this paper. In addition to Dipy's modules,
 the implemented procedures also require the [NumPy](http://www.numpy.org/) Python package, which is also a dependency of both Scipy and Dipy.
@@ -199,14 +199,21 @@ For each FA value, eleven different degrees of free water contamination were
 evaluated (f values equally spaced from 0 to 1). To assess the procedure's
 robustness to MRI noise, Rician noise with signal-to-noise ratio (SNR) of 40
 relative to the b-value=0 $s/mm^{2}$ images was used, similarly to Hoy et al. (2014) [@Hoy2014-lk]. For each FA and f-value pair, simulations were performed for 120 different
-diffusion tensor orientations which were repeated 100 times to make a total of
+diffusion tensor orientations which were repeated 100 times for a total of
 12000 simulated iterations for each FA and f-value pair [@Hoy2014-lk].
 
 
 ## Simulation 2
 
 After evaluating the fitting procedures for the reported FA and $f$ ground truth values, the optimal b-values for two-shell diffusion MRI acquisition were re-assessed. This second simulation corresponds to the original article's Figure 2 [@Hoy2014-lk] in which b-value minimum was investigated from 200 to 800 $s/mm^{2}$ in increments of 100 $s/mm^{2}$ while b-value maximum was assessed from 300 to 1500 $s/mm^{2}$ in increments of
-100 $s/mm^{2}$. Similarly to Hoy et al. (2014), this simulation was done for a fixed f-value of 0.5 and FA of 0.71, corresponding to a typical MRI voxel in the boundary between CSF and white matter tissue. For each b-value pair, simulations were repeated 12000 times similarly to simulation 1 and fitting performances was quantified from the free water DTI’s FA estimates, $f$ estimates, and mean diffusivity estimates, using the mean squared error: $MSE = \frac{1}{n} \sum_{i=1}^{n} (Y_i - \widehat{Y})^{2}$, where $n$=12000, $Y$ is the ground truth value of a diffusion measure, and $Y_i$ is single measure estimate.
+100 $s/mm^{2}$. Similarly to Hoy et al. (2014), this simulation was done for a
+fixed f-value of 0.5 and FA of 0.71, corresponding to a typical MRI voxel in
+the boundary between CSF and white matter tissue. For each b-value pair,
+simulations were repeated 12000 times similarly to simulation 1 and 
+fitting performances was quantified from the free water DTI’s FA estimates,
+$f$ estimates, and mean diffusivity estimates, using the mean squared error:
+$MSE = \frac{1}{n} \sum_{i=1}^{n} (Y_i - \widehat{Y})^{2}$, where $n$=12000, 
+$\widehat{Y}$ is the ground truth value of a diffusion measure, and $Y_i$ is single measure estimate.
 
 ## Simulation 3
 
@@ -214,7 +221,7 @@ To evaluate our implementations for different number of diffusion shells, differ
 
 Table: The six different acquisition parameter set tested {#tbl:table2}
 
-Nember of shells  b-values ($s/mm^{2}$)                      Directions per shell          
+Number of shells  b-values ($s/mm^{2}$)                      Directions per shell          
 ---------------- ------------------------------------------ ------------------------
 2                 500/1500                                   32 per shell
 3                 500/1000/1500                              21/21/22
@@ -272,7 +279,7 @@ are shown in Figure @fig:invivo. Complete processing of all these measure took l
 ![*In vivo* diffusion measures obtained from the free water DTI and standard
    DTI. The values of FA for the free water DTI model, the standard DTI model and
    their difference are shown in the top panels (A-C),
-   while respective MD values are shown in the bottom panels (D-F). In addition
+   while respective MD values are shown in the bottom panels (D-F). In addition,
    the free water volume fraction estimated from the free water DTI model is shown in
    panel G. This figure reproduces Fig. 7 of the original article.](fwdti_in_vivo.png){#fig:invivo}
 

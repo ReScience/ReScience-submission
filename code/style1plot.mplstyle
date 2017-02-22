@@ -1,0 +1,16 @@
+
+figure.figsize: 5.258, 3.2496
+
+axes.labelsize: 10
+font.size: 10
+legend.fontsize: 10
+axes.titlesize: 12
+xtick.labelsize: 8
+ytick.labelsize: 8
+
+text.usetex: True
+svg.fonttype: none
+
+savefig.bbox: tight
+
+figure.subplot.wspace: 0.3

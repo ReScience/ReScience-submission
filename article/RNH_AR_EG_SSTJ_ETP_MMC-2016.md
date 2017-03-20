@@ -63,31 +63,56 @@ using a second-order tensor known as the diffusion tensor (DT) [@Basser1994-hg],
 [@Basser1994-zd].
 
 DTI-based measures such as fractional anisotropy (FA) and mean diffusivity (MD)
-are usually used to assess properties of brain microstructure. For example, FA is sensitive to
-different microstructural properties (such as packing density of axons, and density of myelin in nerve fibers [@Beaulieu2002-tl]), as well to the degree of white matter coherence
-(i.e. the alignment of axons within a measurement voxel). However, because a measurement
-voxel can contain partial volumes of different  types of tissue, these measures are not
-always specific to one particular type of tissue. In particular, diffusion anisotropy in voxels
-near cerebral ventricles and parenchyma can be underestimated by partial volume effects of
-cerebrospinal fluid (CSF).
+are usually used to assess properties of brain microstructure.  Although this technique
+is not specific to any concrete microstructural properties, its measures can be useful
+to assess general microstructural changes that might be related to changes in cell packing
+density, changes in the density of myelin in nerve fibers, or changes in the alignment
+of axons [@Beaulieu2002-tl]. Because a measurement voxel can contain partial volumes of different
+types of tissue, these measures are not always specific to one particular type of tissue.
+In particular, diffusion anisotropy in voxels near cerebral ventricles and parenchyma can be
+underestimated by partial volume effects of cerebrospinal fluid (CSF). This partial volume effect
+is often referred to as “free water” contamination, to distinguish signal contributions from water
+molecules whose diffusion is affected by interactions with tissue, and the signal contributions
+from unrestricted diffusion of water molecules in large CSF compartments, such as the ventricles.
 
-Since CSF partial volume effects depend on the exact positioning of brain relative to the MRI spatial encoding grid, the reproducibility of diffusion-weighted measures might be compromised by free water partial volume effects  [@Metzler-Baddeley2011-hg]. Moreover, free water contaminations are likely to confound diffusion-based measures in studies of brain aging and some pathologies, because CSF partial volume effects might be increased due to tissue morphological atrophy and enlargement of cerebral ventricle [@Donnell2015-hg]. 
+Since CSF partial volume effects depend on the exact positioning of brain relative to the MRI spatial
+encoding grid, the reproducibility of diffusion-weighted measures might be compromised by free water partial
+volume effects  [@Metzler-Baddeley2011-hg]. Moreover, free water contaminations are likely to confound
+diffusion-based measures in studies of brain aging and some pathologies, because CSF partial volume
+effects might be increased due to tissue morphological atrophy and enlargement of cerebral ventricle [@Donnell2015-hg] [@MetzlerBaddeley2012]. 
 
 During the MRI acquisition, the signal from free water can be directly eliminated using
-fluid-attenuated inversion recovery diffusion-weighted sequences [@Papadakis2002-hg]. However, these sequences have some drawbacks. For example, they require longer acquisition times and produce images with lower signal-to-noise ratio (SNR). Moreover, these approaches
-cannot be used retrospectively for data cohorts already acquired with multi b-value diffusion-weighted sequences, such as the [Human Connectome Project](http://www.humanconnectomeproject.org/) [@David2013] and the [Cambridge Centre for Ageing and Neuroscience cohort](http://www.cam-can.org/) [@Taylor2017].
+fluid-attenuated inversion recovery (FLAIR) diffusion-weighted sequences [@Papadakis2002-hg]. However,
+these sequences have some drawbacks. For example, they require longer acquisition times and produce images
+with lower SNR. Moreover, these approaches cannot be used retrospectively for data cohorts already
+acquired with multi b-valuel diffusion-weighted sequences, such as the [Human Connectome Project](http://www.humanconnectomeproject.org/) [@David2013]
+and the [Cambridge Centre for Ageing and Neuroscience cohort](http://www.cam-can.org/) [@Taylor2017]
 
-Free-water can also be suppressed by adding parameters to diffusion MRI models. For example, the DTI model can be extended to separately take into account the 
+Free-water can also be suppressed by adding parameters to diffusion MRI models,
+avoiding the image SNR reduction of FLAIR based acquisitions and required increases of acquisition time.
+For example, the DTI model can be extended to separately take into account the 
 contributions of tissue and CSF, by representing the tissue compartment with
 an anisotropic diffusion tensor and the CSF compartment as an isotropic
-free water diffusion coefficient [@Pasternak2009-hg]. In addition to the correction for free water partial volume effects, estimates of volume fraction provided for this model were shown to provide insight into the brain as an indicator of extracellular space which changes due to concussions [@Pasternak2014]. Recently, two procedures were
-proposed by Hoy and colleagues to fit this two-compartment model to
-diffusion-weighted data acquired for at least two different non-zero b-values (i.e. different diffusion gradient-weightings or diffusion shells) [@Hoy2014-lk,]. Although these procedures have been shown to provide diffusion-based measures that are stable to different degrees of free water contamination, the authors noted that their original algorithms were "implemented by a group member with no formal programming training and without optimization for speed" [@Hoy2014-lk].
+free water diffusion coefficient [@Pasternak2009-hg]. Relative to the FLAIR diffusion-weighted acquisitions,
+this post-processing technique has also the advantageous of providing a per voxel estimate of the free water
+volume fraction. In addition to the correction for free water partial volume effects [@MetzlerBaddeley2012],
+previous studies had also used the estimates of volume fraction to infer tissue extracellular changes
+associated to neurological pathologicals (such in the context of schizophrenia [@Pasternak2012])
+and brain concussions [@Pasternak2014].
 
-In this work, we provide the first open-source reference implementation of the
-free water contamination DTI model. All implementations are made in Python, and are designed to be compatible with  previously optimized functions that are freely available as part of  the open-source software
+Recently, two procedures were proposed by Hoy and colleagues to fit this two-compartment model
+to diffusion-weighted data acquired for at least two different non-zero b-values (i.e. different
+diffusion gradient-weightings or diffusion shells) [@Hoy2014-lk,]. Although these procedures have
+been shown to provide diffusion-based measures that are stable to different degrees of free water 
+contamination, the authors noted that their original algorithms were "implemented by a group member 
+with no formal programming training and without optimization for speed" [@Hoy2014-lk]. In this work,
+we provide the first open-source reference implementation of the
+free water contamination DTI model. All implementations are made in Python, and are designed to be 
+compatible with  previously optimized functions that are freely available as part of  the open-source software
 package Diffusion Imaging in Python ([Dipy](http://dipy.org),  [@Garyfallidis2014-zo]).
-In addition to presenting some methodological improvements that  increase model fitting robustness, we also present here an evaluation of the fitting that replicates the results of Hoy et al. (2014)[@Hoy2014-lk,]. Finally, the optimal acquisition parameter sets for fitting the free water elimination DTI model are re-assessed.
+In addition to presenting some methodological improvements that  increase model fitting robustness,
+ we also present here an evaluation of the fitting that replicates the results of Hoy et al. (2014)[@Hoy2014-lk,].
+Finally, the optimal acquisition parameter sets for fitting the free water elimination DTI model are re-assessed.
 
 # Methods
 
@@ -179,10 +204,17 @@ the implemented procedures also require the [NumPy](http://www.numpy.org/) Pytho
 
 ## Simulation 1
 
-The performance of the fwDTI fitting techniques was first assessed for five different tissues’ diffusion tensor FA levels and for free water volume fraction contamination using a Monte Carlo simulation of a multi-tensor implemented  in Dipy. This simulation corresponds to the results reported in Figure 5 of the original article [@Hoy2014-lk].
+The performance of the fwDTI fitting techniques was first assessed for
+five different tissues’ diffusion tensor FA levels and for free water volume fraction
+contamination using multi-tensor simulations implemented  in Dipy. This simulation corresponds to the results reported in Figure 5 of the original
+article [@Hoy2014-lk].
 
-The acquisition parameters for this first simulation were based on the previously optimized parameter set reported by Hoy et al. (2014) which consist in a total of 70 signal measured 
-for diffusion b-values of 500 and 1500 $s/mm^{2}$ (each along 32 different diffusion directions) and for six b-value=0 $s/mm^{2}$ . As in the original article, the ground truth of
+The acquisition parameters for this first simulation were based on the previously optimized parameter
+set reported by Hoy et al. (2014) which consist in a total of 70 signal measured 
+for diffusion b-values of 500 and 1500 $s/mm^{2}$ (each along 32 different diffusion directions)
+and for six b-value=0 $s/mm^{2}$ . These directions were sampled using a electrostatic potential
+energy algorithm insuring that these are evenly sampled on the surface of the sphere [@Jones1999] [@Jones2004],
+using the Dipy `disperse_charges` function. As in the original article, the ground truth of
 tissue's diffusion tensor had a constant diffusion trace of $2.4 \times 10^{-3} mm^{2}/s$.
 The diffusion tensor's eigenvalues used for the five FA levels are reported in Table @tbl:table.
 
@@ -217,7 +249,11 @@ $\widehat{Y}$ is the ground truth value of a diffusion measure, and $Y_i$ is sin
 
 ## Simulation 3
 
-To evaluate our implementations for different number of diffusion shells, different number of gradient directions, and different SNR levels, the lower panels of the original article's Figure 4 were  replicated. For this last simulation, multi-tensor simulations were  performed for six different acquisition parameters sets that are summarized in Table @tbl:table2.
+To evaluate our implementations for different number of diffusion shells, different number of
+gradient directions  (sampled using an electrostatic repulsion algorithm [@Jones1999]), and different
+SNR levels, the lower panels of the original article's Figure 4 were  replicated. For this last simulation,
+multi-tensor simulations were  performed for six different acquisition parameters sets that are 
+summarized in Table @tbl:table2.
 
 Table: The six different acquisition parameter set tested {#tbl:table2}
 
@@ -234,14 +270,17 @@ Number of shells  b-values ($s/mm^{2}$)                      Directions per shel
 Although Hoy et al. (2014) only reported the latter analysis for the higher FA
 level, here the lower FA values of 0 was also assessed. According to the original
 article, this optimization analysis was also done for the fixed f-value of 0.5.
-As the previous two simulations, tests were repeated 12000 times (for 120 diffusion tensor direction each repeated 100 times). Fitting
+As the previous two simulations, tests were repeated 12000 times (for 120 diffusion tensor
+direction each repeated 100 times). Fitting
 performances was quantified using the mean squared error of the the free water DTI
 FA, $f$ and MD estimates (see Simulation 2).
 
 
 ## *In vivo* data
 
-Similarly to the original article, the procedures were also tested using *in vivo* human brain data [@valabregue2015], that can be automatically downloaded using  functions implemented in Dipy functions (see run_invivo_data.py code script). The original dataset consisted of 74 volumes of images acquired for a b-value of 0 $s/mm^{2}$ and 578 volumes diffusion weighted images acquired along 16 diffusion gradient directions for b-values of 200 and 400 $s/mm^{2}$ and along 182 diffusion gradient directions for b-values of 1000, 2000 and 3000 $s/mm^{2}$. In this study, only the data for b-values up to 2000 $s/mm^{2}$ were used, to decrease the impact of non-Gaussian diffusion more apparent at higher b-values. This is because these effects are not included in the free water elimination model [@Hoy2014-lk]. We also processed the data with the standard DTI tensor model (as implemented in Dipy), in order to compare the results with the free water elimination model.
+Similarly to the original article, the procedures were also tested using *in vivo* human brain
+data [@valabregue2015], that can be automatically downloaded using  functions implemented in Dipy
+functions (see run_invivo_data.py code script). The original dataset consisted of 74 volumes of images acquired for a b-value of 0 $s/mm^{2}$ and 578 volumes diffusion weighted images acquired along 16 diffusion gradient directions for b-values of 200 and 400 $s/mm^{2}$ and along 182 diffusion gradient directions for b-values of 1000, 2000 and 3000 $s/mm^{2}$. In this study, only the data for b-values up to 2000 $s/mm^{2}$ were used, to decrease the impact of non-Gaussian diffusion more apparent at higher b-values. This is because these effects are not included in the free water elimination model [@Hoy2014-lk]. We also processed the data with the standard DTI tensor model (as implemented in Dipy), in order to compare the results with the free water elimination model.
 
 # Results
 

@@ -1,3 +1,16 @@
+'''
+Copyright (c) 2016-2017, Vahid Rostami, Junji ito, Michael Denker, Sonja Gruen
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+Neither the names of the copyright holders nor the names of the contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+'''
+
 import numpy
 import quantities as pq
 import matplotlib.pyplot as plt
@@ -131,8 +144,7 @@ def plot_figure1_2(
     # figure format
     plot_params = plot_params_default
     plot_params.update(plot_params_user)
-    for key, val in plot_params.items():
-        exec(key + '=val')
+    globals().update(plot_params)
     if len(unit_real_ids) != N:
         raise ValueError('length of unit_ids should be' +
                          'equal to number of neurons!')
@@ -149,7 +161,7 @@ def plot_figure1_2(
     plt.subplots_adjust(top=top, right=right, left=left,
                         bottom=bottom, hspace=hspace, wspace=wspace)
 
-    print 'plotting raster plot ...'
+    print('plotting raster plot ...')
     ax0 = plt.subplot(num_row, 1, 1)
     ax0.set_title('Spike Events')
     for n in range(N):
@@ -173,7 +185,7 @@ def plot_figure1_2(
     ax0.text(Xlim[1] - 200, num_tr * 2 + 7, 'Neuron 2')
     ax0.text(Xlim[1] - 200, -12, 'Neuron 3')
 
-    print 'plotting Spike Rates ...'
+    print('plotting Spike Rates ...')
     ax1 = plt.subplot(num_row, 1, 2, sharex=ax0)
     ax1.set_title('Spike Rates')
     for n in range(N):
@@ -192,7 +204,7 @@ def plot_figure1_2(
             ax1.axvline(e_val, ls=ls, color='r', lw=lw, alpha=alpha)
     ax1.set_xticks([])
 
-    print 'plotting Raw Coincidences ...'
+    print('plotting Raw Coincidences ...')
     ax2 = plt.subplot(num_row, 1, 3, sharex=ax0)
     ax2.set_title('Coincident Events')
     for n in range(N):
@@ -220,7 +232,7 @@ def plot_figure1_2(
         for e_val in events[key]:
             ax2.axvline(e_val, ls=ls, color='r', lw=2, alpha=alpha)
 
-    print 'plotting emp. and exp. coincidences rate ...'
+    print('plotting emp. and exp. coincidences rate ...')
     ax3 = plt.subplot(num_row, 1, 4, sharex=ax0)
     ax3.set_title('Coincidence Rates')
     ax3.plot(t_winpos + winsize / 2.,
@@ -239,7 +251,7 @@ def plot_figure1_2(
             ax3.axvline(e_val, ls=ls, color='r', lw=2, alpha=alpha)
     ax3.set_xticks([])
 
-    print 'plotting Surprise ...'
+    print('plotting Surprise ...')
     ax4 = plt.subplot(num_row, 1, 5, sharex=ax0)
     ax4.set_title('Statistical Significance')
     ax4.plot(t_winpos + winsize / 2., Js_dict['Js'], lw=lw, color='k')
@@ -248,7 +260,7 @@ def plot_figure1_2(
     ax4.axhline(-Js_sig, ls='-', color='g')
     ax4.text(t_winpos[30], Js_sig + 0.3, '$\\alpha +$', color='r')
     ax4.text(t_winpos[30], -Js_sig - 0.5, '$\\alpha -$', color='g')
-    ax4.set_xticks(t_winpos.magnitude[::len(t_winpos) / 10])
+    ax4.set_xticks(t_winpos.magnitude[::int(len(t_winpos) / 10)])
     ax4.set_yticks([ue.jointJ(0.99), ue.jointJ(0.5), ue.jointJ(0.01)])
     ax4.set_yticklabels([0.99, 0.5, 0.01])
 
@@ -258,7 +270,7 @@ def plot_figure1_2(
             ax4.axvline(e_val, ls=ls, color='r', lw=lw, alpha=alpha)
     ax4.set_xticks([])
 
-    print 'plotting UEs ...'
+    print('plotting UEs ...')
     ax5 = plt.subplot(num_row, 1, 6, sharex=ax0)
     ax5.set_title('Unitary Events')
     for n in range(N):
@@ -322,8 +334,7 @@ def plot_figure3(
     # figure format
     plot_params = plot_params_default
     plot_params.update(plot_params_user)
-    for key, val in plot_params.items():
-        exec(key + '=val')
+    globals().update(plot_params)
     if len(unit_real_ids) != N:
         raise ValueError(
             'length of unit_ids should be equal to number of neurons!')
@@ -354,7 +365,8 @@ def plot_figure3(
             ax0.set_yticklabels(['5', '4', '3'], fontsize=fsize)
             ax0.spines['right'].set_visible(False)
             ax0.yaxis.set_ticks_position('left')
-            ax0.text(-110, 190, 'Neuron #', rotation=90, fontsize=fsize)
+            # ax0.text(-110, 190, 'Neuron #', rotation=90, fontsize=fsize)
+            ax0.set_ylabel('Neuron #', fontsize=fsize)
         else:
             ax0.spines['left'].set_visible(False)
             ax0.yaxis.set_ticks_position('right')

@@ -1,0 +1,594 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.5 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \sortlist{nty}{nty}
+    \entry{Abeles82}{book}{}
+      \name{author}{1}{}{%
+        {{hash=47cc27c6ef754465fea8a3274304d0f3}{Abeles}{A\bibinitperiod}{Moshe}{M\bibinitperiod}{}{}{}{}}%
+      }
+      \list{location}{1}{%
+        {Berlin, Heidelberg, New York}%
+      }
+      \list{publisher}{1}{%
+        {Springer-Verlag}%
+      }
+      \strng{namehash}{47cc27c6ef754465fea8a3274304d0f3}
+      \strng{fullhash}{47cc27c6ef754465fea8a3274304d0f3}
+      \field{sortinit}{A}
+      \field{sortinithash}{b685c7856330eaee22789815b49de9bb}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{series}{Studies of Brain Function}
+      \field{title}{{Local Cortical Circuits: An Electrophysiological Study}}
+      \field{year}{1982}
+    \endentry
+    \entry{Adrian2014}{article}{}
+      \name{author}{5}{}{%
+        {{hash=1b6c773c24479f4228162b5adabae6f7}{Adrian}{A\bibinitperiod}{Stoewer}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=a38bc839f9ea464ff7351b7971bb1d40}{Christian}{C\bibinitperiod}{Kellner}{K\bibinitperiod}{}{}{}{}}%
+        {{hash=51682a24e542a40a2789ebaf30f8bbc8}{Jan}{J\bibinitperiod}{Benda}{B\bibinitperiod}{}{}{}{}}%
+        {{hash=0bec959f3fd1708a0a22ac29a8d89aed}{Thomas}{T\bibinitperiod}{Wachtler}{W\bibinitperiod}{}{}{}{}}%
+        {{hash=c9526a3dcdcbb4cbfcf729535d58d47e}{Jan}{J\bibinitperiod}{Grewe}{G\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{ed89cc06de4e84b91e7955eceb3a7907}
+      \strng{fullhash}{2824824ef03e8305c553a3408e5b2d27}
+      \field{sortinit}{A}
+      \field{sortinithash}{b685c7856330eaee22789815b49de9bb}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Frontiers in Neuroinformatics}
+      \field{title}{{File format and library for neuroscience data and metadata}}
+      \field{volume}{8}
+      \field{year}{2014}
+    \endentry
+    \entry{badia_incf_2015}{report}{}
+      \name{author}{16}{}{%
+        {{hash=243314f3a9e4f580132d3fd8619f8c55}{Badia}{B\bibinitperiod}{Rosa}{R\bibinitperiod}{}{}{}{}}%
+        {{hash=72b1f79a6f35439abb27d2ca5236fb0b}{Davison}{D\bibinitperiod}{Andrew}{A\bibinitperiod}{}{}{}{}}%
+        {{hash=f6f72f78b262d4fcff83ad67927cd29c}{Denker}{D\bibinitperiod}{Michael}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=59f22b302d98e9e075ec814f17c1e49a}{Giesler}{G\bibinitperiod}{Andre}{A\bibinitperiod}{}{}{}{}}%
+        {{hash=6a3efe5c8970888f8396d808b125b35d}{Gosh}{G\bibinitperiod}{Satra}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=fae216475918e7d5a3fd11e334229e70}{Goble}{G\bibinitperiod}{Carole}{C\bibinitperiod}{}{}{}{}}%
+        {{hash=23e27f78671208ddad6a55ffec7d1cce}{Grewe}{G\bibinitperiod}{Jan}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=53e64085ba1c7e0fd687afbb264d9e30}{Grün}{G\bibinitperiod}{Sonja}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=147826d25121323a650d728dcf00c29f}{Hatsopoulos}{H\bibinitperiod}{Nicho}{N\bibinitperiod}{}{}{}{}}%
+        {{hash=94c91bf485ff901c4b7791cbf12eb9a4}{LeFranc}{L\bibinitperiod}{Yann}{Y\bibinitperiod}{}{}{}{}}%
+        {{hash=8eda2b6e97bca9218ea6b70dcb8cd32c}{Muller}{M\bibinitperiod}{Jeff}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=ba464751e85c5975fd4b00830dce739e}{Pröpper}{P\bibinitperiod}{Robert}{R\bibinitperiod}{}{}{}{}}%
+        {{hash=c757ce20c6904e9c0e5b93c611bc0992}{Teeters}{T\bibinitperiod}{Jeff}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=739fea8110d6909bf6645f56b5fc629c}{Wachtler}{W\bibinitperiod}{Thomas}{T\bibinitperiod}{}{}{}{}}%
+        {{hash=63fafe1a09fb369e618094cf3225c974}{Weeks}{W\bibinitperiod}{Michael}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=86a847fed233df0376116790ede82340}{Zehl}{Z\bibinitperiod}{Lyuba}{L\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{686d32af40b9ae39bbbaa2b1d5e4bc84}
+      \strng{fullhash}{1583fd2fa12ebe3892fb1c6003c4e90c}
+      \field{sortinit}{B}
+      \field{sortinithash}{4ecbea03efd0532989d3836d1a048c32}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{{INCF} {Program} on {Standards} for data sharing: new perspectives on workflows and data management for the analysis of electrophysiological data.}
+      \field{type}{Techn. {Report}}
+      \field{year}{2015}
+    \endentry
+    \entry{Brown04_456}{article}{}
+      \name{author}{3}{}{%
+        {{hash=e4cbf6c251a42f3473ec76634f8e570d}{Brown}{B\bibinitperiod}{Emery\bibnamedelima N.}{E\bibinitperiod\bibinitdelim N\bibinitperiod}{}{}{}{}}%
+        {{hash=5608b50bd0c7936040f0c7d3836d31e3}{Kaas}{K\bibinitperiod}{Robert\bibnamedelima E.}{R\bibinitperiod\bibinitdelim E\bibinitperiod}{}{}{}{}}%
+        {{hash=bd7f0337a0a5a73e8dab8370e4deac89}{Mitra}{M\bibinitperiod}{Partha\bibnamedelima P.}{P\bibinitperiod\bibinitdelim P\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{642fb0f81a9deb0604f09c754890f302}
+      \strng{fullhash}{642fb0f81a9deb0604f09c754890f302}
+      \field{sortinit}{B}
+      \field{sortinithash}{4ecbea03efd0532989d3836d1a048c32}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature Neuroscience}
+      \field{title}{Multiple neural spike train data analysis: state-of-the-art and future challenges}
+      \field{volume}{7}
+      \field{year}{2004}
+      \field{pages}{456\bibrangedash 461}
+      \range{pages}{6}
+    \endentry
+    \entry{Denker2015_000}{inbook}{}
+      \name{author}{2}{}{%
+        {{hash=f6f72f78b262d4fcff83ad67927cd29c}{Denker}{D\bibinitperiod}{Michael}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=53e64085ba1c7e0fd687afbb264d9e30}{Grün}{G\bibinitperiod}{Sonja}{S\bibinitperiod}{}{}{}{}}%
+      }
+      \name{editor}{4}{}{%
+        {{hash=b393ec8ba7421eb4f3c1f05e1bb6fd9d}{Amunts}{A\bibinitperiod}{Katrin}{K\bibinitperiod}{}{}{}{}}%
+        {{hash=8a5319fcc8c034f02d1e6131a2075556}{Grandinetti}{G\bibinitperiod}{Lucio}{L\bibinitperiod}{}{}{}{}}%
+        {{hash=fdb7d4a16eb3f3118ac7a8e12f2719ce}{Lippert}{L\bibinitperiod}{Thomas}{T\bibinitperiod}{}{}{}{}}%
+        {{hash=eef9a82a22125c381c2932d53b56b78c}{Petkov}{P\bibinitperiod}{Nicolai}{N\bibinitperiod}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Springer Series Lecture Notes in Computer Science}%
+      }
+      \strng{namehash}{a1aa963d64c6fcf456bbb3ce1075c91c}
+      \strng{fullhash}{a1aa963d64c6fcf456bbb3ce1075c91c}
+      \field{sortinit}{D}
+      \field{sortinithash}{78f7c4753a2004675f316a80bdb31742}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{chapter}{Designing Workflows for the Reproducible Analysis of Electrophysiological Data.}
+      \field{title}{Brain Inspired Computing}
+      \field{year}{in press}
+    \endentry
+    \entry{Denker10}{article}{}
+      \name{author}{4}{}{%
+        {{hash=f6f72f78b262d4fcff83ad67927cd29c}{Denker}{D\bibinitperiod}{Michael}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=0840237d57f02a400049f66f51b385d9}{Riehle}{R\bibinitperiod}{Alexa}{A\bibinitperiod}{}{}{}{}}%
+        {{hash=a6e9c8b3b1dc422f6d4f5f42ab3051bc}{Diesmann}{D\bibinitperiod}{Markus}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=53e64085ba1c7e0fd687afbb264d9e30}{Grün}{G\bibinitperiod}{Sonja}{S\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{dca23b7cad1ffa842bc32d6b8d6b12b6}
+      \strng{fullhash}{57447a90c8ea53d4705b05a2faa34c16}
+      \field{sortinit}{D}
+      \field{sortinithash}{78f7c4753a2004675f316a80bdb31742}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Computational Neuroscience}
+      \field{title}{Estimating the contribution of assembly activity to cortical dynamics from spike and population measures}
+      \field{volume}{29}
+      \field{year}{2010}
+      \field{pages}{599\bibrangedash 613}
+      \range{pages}{15}
+    \endentry
+    \entry{Denker11}{article}{}
+      \name{author}{6}{}{%
+        {{hash=f6f72f78b262d4fcff83ad67927cd29c}{Denker}{D\bibinitperiod}{Michael}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=282f98a46dceada7afac6b3ecf81dfec}{Roux}{R\bibinitperiod}{Sébastien}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=636dfb9df02f33d2e9354d37a46a1d4d}{Lindén}{L\bibinitperiod}{Henrik}{H\bibinitperiod}{}{}{}{}}%
+        {{hash=a6e9c8b3b1dc422f6d4f5f42ab3051bc}{Diesmann}{D\bibinitperiod}{Markus}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=0840237d57f02a400049f66f51b385d9}{Riehle}{R\bibinitperiod}{Alexa}{A\bibinitperiod}{}{}{}{}}%
+        {{hash=53e64085ba1c7e0fd687afbb264d9e30}{Grün}{G\bibinitperiod}{Sonja}{S\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{dca23b7cad1ffa842bc32d6b8d6b12b6}
+      \strng{fullhash}{1743353b31e847fab795d69a76533215}
+      \field{sortinit}{D}
+      \field{sortinithash}{78f7c4753a2004675f316a80bdb31742}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Cerebral Cortex}
+      \field{title}{The Local Field Potential Reflects Surplus Spike Synchrony}
+      \field{volume}{21}
+      \field{year}{2011}
+      \field{pages}{2681\bibrangedash 2695}
+      \range{pages}{15}
+    \endentry
+    \entry{Diesmann16_personalcomm}{article}{}
+      \name{author}{1}{}{%
+        {{hash=a6e9c8b3b1dc422f6d4f5f42ab3051bc}{Diesmann}{D\bibinitperiod}{Markus}{M\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{a6e9c8b3b1dc422f6d4f5f42ab3051bc}
+      \strng{fullhash}{a6e9c8b3b1dc422f6d4f5f42ab3051bc}
+      \field{sortinit}{D}
+      \field{sortinithash}{78f7c4753a2004675f316a80bdb31742}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{personal communication}
+      \field{title}{Report on comparing the IDL and the Matlab implementations of the UE analysis}
+      \field{year}{2016}
+    \endentry
+    \entry{Garcia14}{article}{}
+      \name{author}{11}{}{%
+        {{hash=71d56699b4609102c490a47fd1b4afb3}{Garcia}{G\bibinitperiod}{Samuel}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=1cb60289022dc8a4246825aa4e982034}{Guarino}{G\bibinitperiod}{Domenico}{D\bibinitperiod}{}{}{}{}}%
+        {{hash=b124ef01d8cff212ad2f689dc37ff92d}{Jaillet}{J\bibinitperiod}{Florent}{F\bibinitperiod}{}{}{}{}}%
+        {{hash=328f84fba2698c187d276e52b83df523}{Jennings}{J\bibinitperiod}{Todd}{T\bibinitperiod}{}{}{}{}}%
+        {{hash=ba464751e85c5975fd4b00830dce739e}{Pröpper}{P\bibinitperiod}{Robert}{R\bibinitperiod}{}{}{}{}}%
+        {{hash=f51cd2205aa0844293cfb096b550b0b7}{Rautenberg}{R\bibinitperiod}{Philipp}{P\bibinitperiod}{}{}{}{}}%
+        {{hash=964cba39e729aaf947dfb9e0547e2313}{Rodgers}{R\bibinitperiod}{Chris}{C\bibinitperiod}{}{}{}{}}%
+        {{hash=5c54dce88d4e8d05a24fda7d6f7c898e}{Sobolev}{S\bibinitperiod}{Andrey}{A\bibinitperiod}{}{}{}{}}%
+        {{hash=739fea8110d6909bf6645f56b5fc629c}{Wachtler}{W\bibinitperiod}{Thomas}{T\bibinitperiod}{}{}{}{}}%
+        {{hash=ceebf33d0edf9c8fbb25b47b41cd2b32}{Yger}{Y\bibinitperiod}{Pierre}{P\bibinitperiod}{}{}{}{}}%
+        {{hash=72b1f79a6f35439abb27d2ca5236fb0b}{Davison}{D\bibinitperiod}{Andrew}{A\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{53fbb3546f55a61d2ea097998d43b3f0}
+      \strng{fullhash}{53772086c1df2cd16c385960112ff039}
+      \field{sortinit}{G}
+      \field{sortinithash}{1c854ef9177a91bf894e66485bdbd3ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Frontiers in Neuroinformatics}
+      \field{title}{Neo: an object model for handling electrophysiology data in multiple formats}
+      \field{volume}{8}
+      \field{year}{2014}
+      \field{pages}{10}
+      \range{pages}{1}
+    \endentry
+    \entry{Grammont99}{article}{}
+      \name{author}{2}{}{%
+        {{hash=6b07390586ee048fffae07a3e2dcee7c}{Grammont}{G\bibinitperiod}{Franck}{F\bibinitperiod}{}{}{}{}}%
+        {{hash=0840237d57f02a400049f66f51b385d9}{Riehle}{R\bibinitperiod}{Alexa}{A\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{f85968b288bf0ed54621169def382bad}
+      \strng{fullhash}{f85968b288bf0ed54621169def382bad}
+      \field{sortinit}{G}
+      \field{sortinithash}{1c854ef9177a91bf894e66485bdbd3ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Experimental Brain Research}
+      \field{title}{Precise spike synchronization in monkey motor cortex involved in preparation for movement}
+      \field{volume}{128}
+      \field{year}{1999}
+      \field{pages}{118\bibrangedash 122}
+      \range{pages}{5}
+    \endentry
+    \entry{Grewe2011}{article}{}
+      \name{author}{3}{}{%
+        {{hash=23e27f78671208ddad6a55ffec7d1cce}{Grewe}{G\bibinitperiod}{Jan}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=739fea8110d6909bf6645f56b5fc629c}{Wachtler}{W\bibinitperiod}{Thomas}{T\bibinitperiod}{}{}{}{}}%
+        {{hash=f0049b5905ec2af7caf4cdf6b716a30a}{Benda}{B\bibinitperiod}{Jan}{J\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{7619fdad426faca7c44ef79277863b4c}
+      \strng{fullhash}{7619fdad426faca7c44ef79277863b4c}
+      \field{sortinit}{G}
+      \field{sortinithash}{1c854ef9177a91bf894e66485bdbd3ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Frontiers in Neuroinformatics}
+      \field{title}{{A Bottom-up Approach to Data Annotation in Neurophysiology}}
+      \field{volume}{5}
+      \field{year}{2011}
+    \endentry
+    \entry{GruenPhD}{book}{}
+      \name{author}{1}{}{%
+        {{hash=b50fe2ad55415c0cadde7f7184b65a0c}{Grün}{G\bibinitperiod}{S.}{S\bibinitperiod}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Verlag Harri Deutsch}%
+      }
+      \strng{namehash}{b50fe2ad55415c0cadde7f7184b65a0c}
+      \strng{fullhash}{b50fe2ad55415c0cadde7f7184b65a0c}
+      \field{sortinit}{G}
+      \field{sortinithash}{1c854ef9177a91bf894e66485bdbd3ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{ISBN 3-8171-1506-7}
+      \field{series}{Reihe Physik, Band 60}
+      \field{title}{{Unitary Joint-Events in Multiple-Neuron Spiking Activity: Detection, Significance, and Interpretation}}
+      \field{year}{1996}
+    \endentry
+    \entry{Gruen02a}{article}{}
+      \name{author}{3}{}{%
+        {{hash=b50fe2ad55415c0cadde7f7184b65a0c}{Grün}{G\bibinitperiod}{S.}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=54b69b31bebecc06a615a89151e20e56}{Diesmann}{D\bibinitperiod}{M.}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=edc93e4bd0280a80f8f2d9b7e58bd8b3}{Aertsen}{A\bibinitperiod}{A.}{A\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{20875bf53ba00199f97bc089f54a7ff4}
+      \strng{fullhash}{20875bf53ba00199f97bc089f54a7ff4}
+      \field{sortinit}{G}
+      \field{sortinithash}{1c854ef9177a91bf894e66485bdbd3ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Neural Computation}
+      \field{title}{{`U}nitary {E}vents' in Multiple Single-Neuron Spiking Activity. {I.} {D}etection and Significance}
+      \field{volume}{14}
+      \field{year}{2002}
+      \field{pages}{43\bibrangedash 80}
+      \range{pages}{38}
+    \endentry
+    \entry{Gruen02b}{article}{}
+      \name{author}{3}{}{%
+        {{hash=b50fe2ad55415c0cadde7f7184b65a0c}{Grün}{G\bibinitperiod}{S.}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=54b69b31bebecc06a615a89151e20e56}{Diesmann}{D\bibinitperiod}{M.}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=edc93e4bd0280a80f8f2d9b7e58bd8b3}{Aertsen}{A\bibinitperiod}{A.}{A\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{20875bf53ba00199f97bc089f54a7ff4}
+      \strng{fullhash}{20875bf53ba00199f97bc089f54a7ff4}
+      \field{sortinit}{G}
+      \field{sortinithash}{1c854ef9177a91bf894e66485bdbd3ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Neural Computation}
+      \field{title}{{`U}nitary {E}vents' in Multiple Single-Neuron Spiking Activity. {II.} {N}on-{S}tationary Data}
+      \field{volume}{14}
+      \field{year}{2002}
+      \field{pages}{81\bibrangedash 119}
+      \range{pages}{39}
+    \endentry
+    \entry{Gruen03b}{article}{}
+      \name{author}{3}{}{%
+        {{hash=b50fe2ad55415c0cadde7f7184b65a0c}{Grün}{G\bibinitperiod}{S.}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=5c57cf8680166d5eada49d3a930059f3}{Riehle}{R\bibinitperiod}{A.}{A\bibinitperiod}{}{}{}{}}%
+        {{hash=54b69b31bebecc06a615a89151e20e56}{Diesmann}{D\bibinitperiod}{M.}{M\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{fbf0b02892ca1ef3392a302c067d2c40}
+      \strng{fullhash}{fbf0b02892ca1ef3392a302c067d2c40}
+      \field{sortinit}{G}
+      \field{sortinithash}{1c854ef9177a91bf894e66485bdbd3ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Biological Cybernetics}
+      \field{title}{Effect of cross-trial nonstationarity on joint-spike events}
+      \field{volume}{88}
+      \field{year}{2003}
+      \field{pages}{335\bibrangedash 351}
+      \range{pages}{17}
+    \endentry
+    \entry{Gruen09}{article}{}
+      \name{author}{1}{}{%
+        {{hash=53e64085ba1c7e0fd687afbb264d9e30}{Grün}{G\bibinitperiod}{Sonja}{S\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{53e64085ba1c7e0fd687afbb264d9e30}
+      \strng{fullhash}{53e64085ba1c7e0fd687afbb264d9e30}
+      \field{sortinit}{G}
+      \field{sortinithash}{1c854ef9177a91bf894e66485bdbd3ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Neurophysiology}
+      \field{number}{101}
+      \field{title}{Data-driven significance estimation of precise spike correlation.}
+      \field{year}{2009}
+      \field{pages}{1126\bibrangedash 1140}
+      \range{pages}{15}
+    \endentry
+    \entry{GruenRotter10_Chap10}{inbook}{}
+      \name{author}{3}{}{%
+        {{hash=53e64085ba1c7e0fd687afbb264d9e30}{Grün}{G\bibinitperiod}{Sonja}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=a6e9c8b3b1dc422f6d4f5f42ab3051bc}{Diesmann}{D\bibinitperiod}{Markus}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=83a9d134b8e1d6697bd710a1176471b1}{Aertsen}{A\bibinitperiod}{Ad}{A\bibinitperiod}{}{}{}{}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=53e64085ba1c7e0fd687afbb264d9e30}{Grün}{G\bibinitperiod}{Sonja}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=b2f53c7f6e46d970e3f44a698a690fc6}{Rotter}{R\bibinitperiod}{Stefan}{S\bibinitperiod}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{1debd6ae322071c9f68882a0d84560ef}
+      \strng{fullhash}{1debd6ae322071c9f68882a0d84560ef}
+      \field{sortinit}{G}
+      \field{sortinithash}{1c854ef9177a91bf894e66485bdbd3ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{chapter}{Unitary Event Analysis.}
+      \field{title}{Analysis of Parallel Spike Trains}
+      \field{year}{2010}
+    \endentry
+    \entry{Gruen99}{article}{}
+      \name{author}{5}{}{%
+        {{hash=b50fe2ad55415c0cadde7f7184b65a0c}{Grün}{G\bibinitperiod}{S.}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=54b69b31bebecc06a615a89151e20e56}{Diesmann}{D\bibinitperiod}{M.}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=4a7be839672bf6b5678a371baab5b069}{Grammont}{G\bibinitperiod}{F.}{F\bibinitperiod}{}{}{}{}}%
+        {{hash=5c57cf8680166d5eada49d3a930059f3}{Riehle}{R\bibinitperiod}{A.}{A\bibinitperiod}{}{}{}{}}%
+        {{hash=edc93e4bd0280a80f8f2d9b7e58bd8b3}{Aertsen}{A\bibinitperiod}{A.}{A\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{22540f06a27e5634301a23c42b7d1f9d}
+      \strng{fullhash}{f777839dbc56bc65b044c996c3918426}
+      \field{sortinit}{G}
+      \field{sortinithash}{1c854ef9177a91bf894e66485bdbd3ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Neuroscience Methods}
+      \field{title}{{Detecting unitary events without discretization of time}}
+      \field{volume}{94}
+      \field{year}{1999}
+      \field{pages}{67\bibrangedash 79}
+      \range{pages}{13}
+    \endentry
+    \entry{Ito11}{article}{}
+      \name{author}{4}{}{%
+        {{hash=14a981ebf618e2ffa6a59c2395e7ecee}{Ito}{I\bibinitperiod}{J}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=1f6c6b83848bfc616c20ec6d8957f9a1}{Maldonado}{M\bibinitperiod}{P}{P\bibinitperiod}{}{}{}{}}%
+        {{hash=27515ed8ea87500fc8f5a164b4e2fcf9}{Singer}{S\bibinitperiod}{W}{W\bibinitperiod}{}{}{}{}}%
+        {{hash=d9099f36a962fb4744cdc95379e45704}{Grün}{G\bibinitperiod}{S}{S\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{e7b882946b826e2718b5f2e1d7391f85}
+      \strng{fullhash}{9931b1d3ec8901a8929b11b3c05b6af1}
+      \field{sortinit}{I}
+      \field{sortinithash}{25e99d37ba90f7c4fb20baf4e310faf3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Cereb Cortex}
+      \field{title}{Saccade-related modulations of neuronal excitability support synchrony of visually elicited spikes}
+      \field{volume}{21}
+      \field{year}{2011}
+      \field{pages}{2482\bibrangedash 2497}
+      \range{pages}{16}
+    \endentry
+    \entry{Kilavik09}{article}{}
+      \name{author}{6}{}{%
+        {{hash=5e485522369879dd6d2217d47b28e1ad}{Kilavik}{K\bibinitperiod}{B.\bibnamedelimi E.}{B\bibinitperiod\bibinitdelim E\bibinitperiod}{}{}{}{}}%
+        {{hash=965dfaaeb5bda9a53305156ff3332c45}{Roux}{R\bibinitperiod}{S.}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=49950437c54d71df53dc19a89c069afb}{Ponce-Alvarez}{P\bibinithyphendelim A\bibinitperiod}{A.}{A\bibinitperiod}{}{}{}{}}%
+        {{hash=cb48f0b5b58b913e666b64b93eb21721}{Confais}{C\bibinitperiod}{J.}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=b50fe2ad55415c0cadde7f7184b65a0c}{Grün}{G\bibinitperiod}{S.}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=5c57cf8680166d5eada49d3a930059f3}{Riehle}{R\bibinitperiod}{A.}{A\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{29346e996225efad73d5e033aaee0f93}
+      \strng{fullhash}{d0d3e2e7684bddcb2b963552be5e17a2}
+      \field{sortinit}{K}
+      \field{sortinithash}{a7d5b3aec5a0890aae7baf85a209abfc}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Neuroscience}
+      \field{title}{Long-term Modifications in Motor Cortical Dynamics induced by intensive practice}
+      \field{volume}{29}
+      \field{year}{2009}
+      \field{pages}{12653\bibrangedash 12663}
+      \range{pages}{11}
+    \endentry
+    \entry{Louis10}{article}{}
+      \name{author}{4}{}{%
+        {{hash=165807253efb456afc14f5c5a637e435}{Louis}{L\bibinitperiod}{S.}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=3990c3843f0ee4bf5411e15565b676ea}{Gerstein}{G\bibinitperiod}{G.\bibnamedelimi L.}{G\bibinitperiod\bibinitdelim L\bibinitperiod}{}{}{}{}}%
+        {{hash=b50fe2ad55415c0cadde7f7184b65a0c}{Grün}{G\bibinitperiod}{S.}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=54b69b31bebecc06a615a89151e20e56}{Diesmann}{D\bibinitperiod}{M.}{M\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{dc763cec9330cb69bcd81e0acc5ebb74}
+      \strng{fullhash}{f069756d45eaeb49053fdbe99ce68ea0}
+      \field{sortinit}{L}
+      \field{sortinithash}{872351f18d0f736066eda0bf18bfa4f7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Front. Comput. Neurosci.}
+      \field{title}{Surrogate spike train generation through dithering in operational time}
+      \field{volume}{4}
+      \field{year}{2010}
+      \field{pages}{127}
+      \range{pages}{1}
+    \endentry
+    \entry{Maldonado08}{article}{}
+      \name{author}{6}{}{%
+        {{hash=73e46ed2e548d51f8bbc68b2929767e2}{Maldonado}{M\bibinitperiod}{Pedro}{P\bibinitperiod}{}{}{}{}}%
+        {{hash=fba9fec209f577e1c72e661febb46406}{Babul}{B\bibinitperiod}{Cecilia}{C\bibinitperiod}{}{}{}{}}%
+        {{hash=974000371a3ba2b0a655dec8d315a71a}{Singer}{S\bibinitperiod}{Wolf}{W\bibinitperiod}{}{}{}{}}%
+        {{hash=e45fbcfce0affb5e78e238a2d024f924}{Rodriguez}{R\bibinitperiod}{Eugenio}{E\bibinitperiod}{}{}{}{}}%
+        {{hash=7c609bc456fd4768d19eaf6872cbad0f}{Berger}{B\bibinitperiod}{Denise}{D\bibinitperiod}{}{}{}{}}%
+        {{hash=53e64085ba1c7e0fd687afbb264d9e30}{Grün}{G\bibinitperiod}{Sonja}{S\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{6b639187cc4cad4a12a11b8d23e7117a}
+      \strng{fullhash}{77ceef782830c7c29c8c133d84f4244b}
+      \field{sortinit}{M}
+      \field{sortinithash}{2684bec41e9697b92699b46491061da2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Neurophysiology}
+      \field{title}{Synchronization of Neuronal Responses in Primary Visual Cortex of Monkeys Viewing Natural Images}
+      \field{volume}{100}
+      \field{year}{2008}
+      \field{pages}{1523\bibrangedash 1532}
+      \range{pages}{10}
+    \endentry
+    \entry{Nakahara02}{article}{}
+      \name{author}{2}{}{%
+        {{hash=d4691036508f4bf83c916efd67be3f6a}{Nakahara}{N\bibinitperiod}{H.}{H\bibinitperiod}{}{}{}{}}%
+        {{hash=091eb0563ff135bac3f03117f00ca92e}{Amari}{A\bibinitperiod}{S.}{S\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{beda892cbfdb1ea78b555798b612f2ad}
+      \strng{fullhash}{beda892cbfdb1ea78b555798b612f2ad}
+      \field{sortinit}{N}
+      \field{sortinithash}{925374ca63e7594de7fafdb83e64d41d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Neural Computation}
+      \field{title}{Information-geometric measure for neural spikes}
+      \field{volume}{14}
+      \field{year}{2002}
+      \field{pages}{2269\bibrangedash 2316}
+      \range{pages}{48}
+    \endentry
+    \entry{Pipa2013}{article}{}
+      \name{author}{3}{}{%
+        {{hash=fc589f8d0d85e42c9326684c4e155520}{Pipa}{P\bibinitperiod}{Gordon}{G\bibinitperiod}{}{}{}{}}%
+        {{hash=53e64085ba1c7e0fd687afbb264d9e30}{Grün}{G\bibinitperiod}{Sonja}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=e4a1fa8bad8c1a509d287620b07ebbdf}{Vreeswijk}{V\bibinitperiod}{Carl\bibnamedelima Van}{C\bibinitperiod\bibinitdelim V\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{2e0752b048bae173b25fd34b27aee9c9}
+      \strng{fullhash}{2e0752b048bae173b25fd34b27aee9c9}
+      \field{sortinit}{P}
+      \field{sortinithash}{c0a4896d0e424f9ca4d7f14f2b3428e7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Neural Computation}
+      \field{title}{{Impact of Spike Train Autostructure on Probability Distribution of Joint Spike Events}}
+      \field{volume}{1163}
+      \field{year}{2013}
+      \field{pages}{1123\bibrangedash 1163}
+      \range{pages}{41}
+    \endentry
+    \entry{Riehle2000}{article}{}
+      \name{author}{4}{}{%
+        {{hash=0840237d57f02a400049f66f51b385d9}{Riehle}{R\bibinitperiod}{Alexa}{A\bibinitperiod}{}{}{}{}}%
+        {{hash=6b07390586ee048fffae07a3e2dcee7c}{Grammont}{G\bibinitperiod}{Franck}{F\bibinitperiod}{}{}{}{}}%
+        {{hash=a6e9c8b3b1dc422f6d4f5f42ab3051bc}{Diesmann}{D\bibinitperiod}{Markus}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=53e64085ba1c7e0fd687afbb264d9e30}{Grün}{G\bibinitperiod}{Sonja}{S\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{88d15238933e9482c8be9dbf1e0af060}
+      \strng{fullhash}{a618f00c8d1da33451510013728150f3}
+      \field{sortinit}{R}
+      \field{sortinithash}{c7387613477035a752d935acfc3e3ea2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Physiology Paris}
+      \field{title}{Dynamical changes and temporal precision of synchronized spiking activity in monkey motor cortex during movement preparation}
+      \field{volume}{94}
+      \field{year}{2000}
+      \field{pages}{569\bibrangedash 582}
+      \range{pages}{14}
+    \endentry
+    \entry{Riehle97}{article}{}
+      \name{author}{4}{}{%
+        {{hash=0840237d57f02a400049f66f51b385d9}{Riehle}{R\bibinitperiod}{Alexa}{A\bibinitperiod}{}{}{}{}}%
+        {{hash=53e64085ba1c7e0fd687afbb264d9e30}{Grün}{G\bibinitperiod}{Sonja}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=a6e9c8b3b1dc422f6d4f5f42ab3051bc}{Diesmann}{D\bibinitperiod}{Markus}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=83a9d134b8e1d6697bd710a1176471b1}{Aertsen}{A\bibinitperiod}{Ad}{A\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{88d15238933e9482c8be9dbf1e0af060}
+      \strng{fullhash}{2cc98b0e4bf7a8003861316b298c5392}
+      \field{sortinit}{R}
+      \field{sortinithash}{c7387613477035a752d935acfc3e3ea2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Science}
+      \field{title}{Spike Synchronization and Rate Modulation Differentially Involved in Motor Cortical Function}
+      \field{volume}{278}
+      \field{year}{1997}
+      \field{pages}{1950\bibrangedash 1953}
+      \range{pages}{4}
+    \endentry
+    \entry{Pullrequest_UE}{article}{}
+      \name{author}{1}{}{%
+        {{hash=f49c65cd533b79d8aa1bba32d8cf88b0}{Rostami}{R\bibinitperiod}{Vahid}{V\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{f49c65cd533b79d8aa1bba32d8cf88b0}
+      \strng{fullhash}{f49c65cd533b79d8aa1bba32d8cf88b0}
+      \field{sortinit}{R}
+      \field{sortinithash}{c7387613477035a752d935acfc3e3ea2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Elephant Github}
+      \field{title}{Pull Request of the Unitary Events method in Elephant}
+      \field{year}{2016}
+      \verb{url}
+      \verb https://github.com/NeuralEnsemble/elephant/pull/64
+      \endverb
+    \endentry
+    \entry{Zehl2016}{article}{}
+      \name{author}{10}{}{%
+        {{hash=86a847fed233df0376116790ede82340}{Zehl}{Z\bibinitperiod}{Lyuba}{L\bibinitperiod}{}{}{}{}}%
+        {{hash=b124ef01d8cff212ad2f689dc37ff92d}{Jaillet}{J\bibinitperiod}{Florent}{F\bibinitperiod}{}{}{}{}}%
+        {{hash=7372b5a0a87df8dec679ca9af13decde}{Stoewer}{S\bibinitperiod}{Adrian}{A\bibinitperiod}{}{}{}{}}%
+        {{hash=23e27f78671208ddad6a55ffec7d1cce}{Grewe}{G\bibinitperiod}{Jan}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=5c54dce88d4e8d05a24fda7d6f7c898e}{Sobolev}{S\bibinitperiod}{Andrey}{A\bibinitperiod}{}{}{}{}}%
+        {{hash=739fea8110d6909bf6645f56b5fc629c}{Wachtler}{W\bibinitperiod}{Thomas}{T\bibinitperiod}{}{}{}{}}%
+        {{hash=2ee59795ddc280f865e75cc6caba1bbf}{Brochier}{B\bibinitperiod}{Thomas\bibnamedelima G.}{T\bibinitperiod\bibinitdelim G\bibinitperiod}{}{}{}{}}%
+        {{hash=0840237d57f02a400049f66f51b385d9}{Riehle}{R\bibinitperiod}{Alexa}{A\bibinitperiod}{}{}{}{}}%
+        {{hash=f6f72f78b262d4fcff83ad67927cd29c}{Denker}{D\bibinitperiod}{Michael}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=53e64085ba1c7e0fd687afbb264d9e30}{Grün}{G\bibinitperiod}{Sonja}{S\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{7e24e9bf7f42aa0da5431c48bcf7bbac}
+      \strng{fullhash}{916dabca2db4465fdd5d0358d6fc71d8}
+      \field{sortinit}{Z}
+      \field{sortinithash}{fdda4caaa6b5fa63e0c081dcb159543a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Frontiers in Neuroinformatics}
+      \field{title}{{Handling Metadata in a Neurophysiology Laboratory}}
+      \field{volume}{10}
+      \field{year}{2016}
+      \field{pages}{26}
+      \range{pages}{1}
+    \endentry
+  \endsortlist
+\endrefsection
+\endinput
+

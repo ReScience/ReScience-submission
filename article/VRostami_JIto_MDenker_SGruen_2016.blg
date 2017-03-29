@@ -1,0 +1,15 @@
+[0] Config.pm:327> INFO - This is Biber 2.2
+[0] Config.pm:330> INFO - Logfile is 'VRostami_JIto_MDenker_SGruen_2016.blg'
+[58] biber:286> INFO - === Mi Mär 29, 2017, 21:12:15
+[58] Biber.pm:334> INFO - Reading 'VRostami_JIto_MDenker_SGruen_2016.bcf'
+[170] Biber.pm:677> INFO - Found 28 citekeys in bib section 0
+[187] Biber.pm:3054> INFO - Processing section 0
+[200] Biber.pm:3193> INFO - Looking for bibtex format file 'VRostami_JIto_MDenker_SGruen_2016.bib' for section 0
+[202] bibtex.pm:1072> INFO - Decoding LaTeX character macros into UTF-8
+[205] bibtex.pm:935> INFO - Found BibTeX data source 'VRostami_JIto_MDenker_SGruen_2016.bib'
+[548] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[548] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[548] Biber.pm:2931> INFO - Sorting list 'nty' of type 'entry' with scheme 'nty' and locale 'en-US'
+[549] Biber.pm:2935> INFO - No sort tailoring available for locale 'en-US'
+[609] bbl.pm:505> INFO - Writing 'VRostami_JIto_MDenker_SGruen_2016.bbl' with encoding 'UTF-8'
+[613] bbl.pm:596> INFO - Output to VRostami_JIto_MDenker_SGruen_2016.bbl

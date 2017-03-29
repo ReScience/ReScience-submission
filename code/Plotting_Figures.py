@@ -1,3 +1,19 @@
+'''
+Copyright (c) 2016-2017, Vahid Rostami, Junji ito, Michael Denker, Sonja Gruen
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+Neither the names of the copyright holders nor the names of the contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+'''
+
+
+
+
 import numpy
 import quantities as pq
 import elephant.unitary_event_analysis as ue
@@ -43,7 +59,7 @@ plot_params = {
     'path_filename_format': 'figure1.eps',
 }
 
-print 'plotting Figure 1 with trigger: ', trigger, '...'
+print('plotting Figure 1 with trigger: ', trigger, '...')
 plot_figure1_2(spiketrain, UE, significance_level, binsize,
                winsize, winstep, pattern_hash, N, plot_params)
 
@@ -68,8 +84,8 @@ UE = ue.jointJ_window_analysis(
 # parameters for plotting
 plot_params = {'path_filename_format': 'figure2.eps'}
 
-print
-print 'plotting Figure 2 with trigger: ', trigger, '...'
+print()
+print('plotting Figure 2 with trigger: ', trigger, '...')
 plot_figure1_2(spiketrain, UE, significance_level, binsize,
                winsize, winstep, pattern_hash, N, plot_params)
 
@@ -88,18 +104,17 @@ t_pre = 99 * pq.ms
 t_post = 499 * pq.ms
 spiketrains2 = load_gdf2Neo(data_path + fname, trigger, t_pre, t_post)
 
-print
-print 'plotting Figure 3 ...'
+print()
+print('plotting Figure 3 ...')
 sts_lst = [spiketrains1, spiketrains2]
 Js_dict_lst_lst = []
 for spiketrains in sts_lst:
     N = len(spiketrains.T)
-    print 'calculating UE ...'
+    print('calculating UE ...')
     patterns_hash = [7, 3, 5, 6]
     N_comb = [[0, 1, 2], [0, 1, 2], [0, 1, 2], [0, 1, 2]]
     UE_anal_lst = []
     for n, pattern_hash in zip(N_comb, patterns_hash):
-        spiketrain = spiketrains[:, n]
         UE_anal = ue.jointJ_window_analysis(
             spiketrains, binsize, winsize, winstep, [pattern_hash],
             n_surr=0, method=method)

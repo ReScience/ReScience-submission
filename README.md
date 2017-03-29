@@ -44,6 +44,12 @@ The source code of our UE implementation is pull requested and accepted after pe
 This folder contains the preprocessed versions of the spike train data used in the original publication (provided by Dr. Alexa Riehle, CNRS-AMU, Marseille).
 
 ### notebook
-An iPython notebook is provided here to plot the figures (Figure 1, Figure 2 and Figure 5) of our paper.
+An jupyter notebook is provided here to plot the figures (Figure 1, Figure 2 and Figure 5) of our paper.
+
+how to use the jupyter notebook:
+- https://jupyter.readthedocs.io/en/latest/index.html
+
+how to install the jupyter notebook:
+- pip install jupyter
 
 

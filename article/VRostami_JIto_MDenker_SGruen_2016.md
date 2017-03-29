@@ -4,9 +4,9 @@ Motor Cortical Function"
 Author:
   - name: Vahid Rostami
     affiliation: 1
-  - name: Junji Ito,
+  - name: Junji Ito
     affiliation: 1
-  - name: Michael Denker,
+  - name: Michael Denker
     affiliation: 1
   - name: Sonja Gr&uuml;n
     affiliation: 1,2

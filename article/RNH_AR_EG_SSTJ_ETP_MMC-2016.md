@@ -206,13 +206,13 @@ the implemented procedures also require the [NumPy](http://www.numpy.org/) Pytho
 
 The performance of the fwDTI fitting techniques was first assessed for
 five different tissues’ diffusion tensor FA levels and for free water volume fraction
-contamination using multi-tensor simulations implemented  in Dipy. This simulation corresponds to the results reported in Figure 5 of the original
-article [@Hoy2014-lk].
+contamination using multi-tensor models implemented in Dipy. This synthetic data was used to
+reproduce Figure 5 of the original article [@Hoy2014-lk].
 
 The acquisition parameters for this first simulation were based on the previously optimized parameter
 set reported by Hoy et al. (2014) which consist in a total of 70 signal measured 
 for diffusion b-values of 500 and 1500 $s/mm^{2}$ (each along 32 different diffusion directions)
-and for six b-value=0 $s/mm^{2}$ . These directions were sampled using a electrostatic potential
+and for six b-value=0 $s/mm^{2}$. These directions were sampled using a electrostatic potential
 energy algorithm insuring that these are evenly sampled on the surface of the sphere [@Jones1999] [@Jones2004],
 using the Dipy `disperse_charges` function. As in the original article, the ground truth of
 tissue's diffusion tensor had a constant diffusion trace of $2.4 \times 10^{-3} mm^{2}/s$.
@@ -237,7 +237,11 @@ diffusion tensor orientations which were repeated 100 times for a total of
 
 ## Simulation 2
 
-After evaluating the fitting procedures for the reported FA and $f$ ground truth values, the optimal b-values for two-shell diffusion MRI acquisition were re-assessed. This second simulation corresponds to the original article's Figure 2 [@Hoy2014-lk] in which b-value minimum was investigated from 200 to 800 $s/mm^{2}$ in increments of 100 $s/mm^{2}$ while b-value maximum was assessed from 300 to 1500 $s/mm^{2}$ in increments of
+After evaluating the fitting procedures for the reported FA and $f$ ground truth values,
+the optimal b-values for two-shell diffusion MRI acquisition were re-assessed. 
+This second simulation corresponds to the original article's Figure 2 [@Hoy2014-lk]
+in which b-value minimum was investigated from 200 to 800 $s/mm^{2}$ in increments of 100 $s/mm^{2}$
+while b-value maximum was assessed from 300 to 1500 $s/mm^{2}$ in increments of
 100 $s/mm^{2}$. Similarly to Hoy et al. (2014), this simulation was done for a
 fixed f-value of 0.5 and FA of 0.71, corresponding to a typical MRI voxel in
 the boundary between CSF and white matter tissue. For each b-value pair,
@@ -251,8 +255,8 @@ $\widehat{Y}$ is the ground truth value of a diffusion measure, and $Y_i$ is sin
 
 To evaluate our implementations for different number of diffusion shells, different number of
 gradient directions  (sampled using an electrostatic repulsion algorithm [@Jones1999]), and different
-SNR levels, the lower panels of the original article's Figure 4 were  replicated. For this last simulation,
-multi-tensor simulations were  performed for six different acquisition parameters sets that are 
+SNR levels, the lower panels of the original article's Figure 4 were replicated. For this last simulation,
+synthetic data was generated for six different acquisition parameters sets that are 
 summarized in Table @tbl:table2.
 
 Table: The six different acquisition parameter set tested {#tbl:table2}
@@ -284,9 +288,11 @@ functions (see run_invivo_data.py code script). The original dataset consisted o
 
 # Results
 
-The results from the first multi-tensor simulations are shown in Figure @fig:simulations1. As reported in the original article, no FA bias was observed for large FA ground truth values and free water volume fractions $f$ ranging around 0 to 0.7 (top panel of Figure @fig:simulations1). However, FA values seemed to be overestimated for higher volume fractions. This bias was more prominent for lower FA values in which overestimations wee visible starting from lower free water volume fractions. The results shown in the lower panels of Figure @fig:simulations1 suggest that the free water elimination model accurately estimated  the free water volume fraction for the full range of volume fraction ground truth values. All the features observed here are consistent with Figure 5 of the original article.
+The results from the first simulation are shown in Figure @fig:simulations1. As reported in the original article,
+no FA bias was observed for large FA ground truth values and free water volume fractions $f$ ranging around 0 to 0.7 (top panel of Figure @fig:simulations1).
+However, FA values seemed to be overestimated for higher volume fractions. This bias was more prominent for lower FA values in which overestimations wee visible starting from lower free water volume fractions. The results shown in the lower panels of Figure @fig:simulations1 suggest that the free water elimination model accurately estimated  the free water volume fraction for the full range of volume fraction ground truth values. All the features observed here are consistent with Figure 5 of the original article.
 
-![Fractional Anisotropy (FA) and free water volume fraction ($f$) estimates obtained with multi-tensor simulations using the free water elimination fitting procedures. The top panel shows the FA median and interquartile range for the five different FA ground truth levels and plotted as a function of the ground truth water volume fraction. The bottom panels show the estimated volume fraction $f$ median and interquartile range as a function of its ground truth values (right and left panels correspond to the higher and lower FA values, respectively). This figure reproduces Fig. 5 of the original article.](fwdti_simulations_1.png){#fig:simulations1}
+![Fractional Anisotropy (FA) and free water volume fraction ($f$) estimates obtained from synthetic data using the free water elimination fitting procedures. The top panel shows the FA median and interquartile range for the five different FA ground truth levels and plotted as a function of the ground truth water volume fraction. The bottom panels show the estimated volume fraction $f$ median and interquartile range as a function of its ground truth values (right and left panels correspond to the higher and lower FA values, respectively). This figure reproduces Fig. 5 of the original article.](fwdti_simulations_1.png){#fig:simulations1}
 
 The re-evaluation of the optimal b-value for a two-shell acquisition scheme is shown in Figure
 @fig:simulations2. For a better visualization of the optimal b-value pair, MSE is converted to
@@ -326,8 +332,17 @@ are shown in Figure @fig:invivo. Complete processing of all these measure took l
 # Conclusion
 
 Despite the changes done to reduce the algorithm's execution time, the
-implemented procedures to solve the free water elimination DTI model have comparable performance in terms of accuracy to the original methods described by Hoy and colleagues [@Hoy2014-lk]. Based on simulations similar to the ones used in the original article, our results confirm that the free water elimination DTI model is able to remove confounding effects of fast diffusion for typical FA values of brain white matter. As previously  reported by Hoy and colleagues, the proposed procedures seem to generate biased values of FA for free water volume fractions near one. Nevertheless, our results confirm that these problematic cases correspond to regions of the *in vivo* data that are not typically of interest in neuroimaging analysis (voxels associated with cerebral ventricles) and might be removed by excluding voxels with measured volume fractions above a reasonable threshold such as 0.7. This study also confirms that for a fixed scanning time the fwDTI fitting procedures have better performance when data is acquired for diffusion gradient direction
-evenly distributed along two b-values of 500 and 1500 $s/mm^{2}$.
+implemented procedures to solve the free water elimination DTI model have comparable performance in 
+terms of accuracy to the original methods described by Hoy and colleagues [@Hoy2014-lk].
+Based on simulations similar to the ones used in the original article, our results confirm that the free
+water elimination DTI model is able to remove confounding effects of fast diffusion for typical FA values
+of brain white matter. As previously  reported by Hoy and colleagues, the proposed procedures seem to
+generate biased values of FA for free water volume fractions near one. Nevertheless, our results confirm 
+that these problematic cases correspond to regions of the *in vivo* data that are not typically of interest
+in neuroimaging analysis (voxels associated with cerebral ventricles) and might be removed by excluding voxels
+with measured volume fractions above a reasonable threshold such as 0.7. This study also confirms that for
+a fixed scanning time the fwDTI fitting procedures have better performance when data is acquired for
+diffusion gradient direction evenly distributed along two b-values of 500 and 1500 $s/mm^{2}$.
 
 
 # Author Contributions

@@ -26,6 +26,7 @@ Publication:
   volume:    "**1**"
   issue:     "**1**"
   date:      Sep 2015
+  number: 1
 Repository:
   article:   "http://github.com/rescience/rescience-submission/article"
   code:      "http://github.com/rescience/rescience-submission/code"

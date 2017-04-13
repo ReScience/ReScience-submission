@@ -416,21 +416,20 @@ cross-trial homogeneous data, selecting
 \emph{``analytic\_TrialAverage''} as \emph{\texttt{method}} (line 7 in
 the pseudo code) computes the expected number by estimating the rate of
 each neuron from the average spike count across trials
-\autocites{Gruen02a}{Gruen02b}. For data with cross-trial variability,
-the \emph{``analytic\_TrialByTrial''} method (line 10 in the pseudo
-code) should be used, which accounts for cross-trial changes in the
-firing rates by computing the expected number of occurrences of the
-spike pattern based on the product of single-trial estimates of firing
-rates \autocite{Gruen03b}. Both methods perform a parametric test, where
-the\\
+\autocites{Gruen02a}{Gruen02b}. For data with\\
 \includegraphics{UE_algorithm.eps}\\
-number of occurrences of the spike pattern is assumed to be a
-Poisson-distributed. As an alternative non-parametric option, selecting
-\emph{``surrogate\_TrialByTrial''} as \emph{\texttt{method}} (line 15 in
-the pseudo code) will numerically compute the distribution of the
-expected number by implementing the null-hypothesis based on surrogate
-spike trains \autocite{Gruen09}. In the following, we will explain these
-methods in greater detail.
+cross-trial variability, the \emph{``analytic\_TrialByTrial''} method
+(line 10 in the pseudo code) should be used, which accounts for
+cross-trial changes in the firing rates by computing the expected number
+of occurrences of the spike pattern based on the product of single-trial
+estimates of firing rates \autocite{Gruen03b}. Both methods perform a
+parametric test, where the number of occurrences of the spike pattern is
+assumed to be a Poisson-distributed. As an alternative non-parametric
+option, selecting \emph{``surrogate\_TrialByTrial''} as
+\emph{\texttt{method}} (line 15 in the pseudo code) will numerically
+compute the distribution of the expected number by implementing the
+null-hypothesis based on surrogate spike trains \autocite{Gruen09}. In
+the following, we will explain these methods in greater detail.
 
 In case of selecting \emph{``analytic\_TrialAverage''} - as used in the
 remainder of this study for the reproduction of \autocite{Riehle97} -
@@ -534,16 +533,16 @@ examining the distribution of the differences between them.
 
 For the reproduction of the original results in \autocite{Riehle97}, we
 have to focus on reproducing Figure 2A-F and Figure 4A, since for the
-other figures the data still available were either incomplete in respect
-to metadata (original Figure 3) or all the required data set were not
-available anymore (original Figure 4B,C) . Figure 2 represents the main
-result of the study and includes the UE analysis that underlies the
-subsequent analyses. Figure 4A is an example of the application of the
-UE method to data with more than 2 neurons. In terms of complexity of
-the code the implementation of the UE analysis for three or more neurons
-is considerably more demanding than for only two neurons. With this
-example we show that our implementation is capable of performing the UE
-analysis for the generic case of arbitrary numbers of neurons.
+rest of the figures data were either incomplete in respect to metadata
+(original Figure 3) or not available (original Figure 4B,C). Figure 2
+represents the main result of the study and includes the UE analysis
+that underlies the subsequent analyses. Figure 4A is an example of the
+application of the UE method to data with more than 2 neurons. In terms
+of complexity of the code the implementation of the UE analysis for
+three or more neurons is considerably more demanding than for only two
+neurons. With this example we show that our implementation is capable of
+performing the UE analysis for the generic case of arbitrary number of
+neurons.
 
 We apply our reimplementation of the UE method to preprocessed versions
 of the spike train data available to us after communication with AR,
@@ -647,7 +646,7 @@ reproduced results. In Figure~\ref{fig:validation_fig2} A the reproduced
 spike times in Figure~\ref{fig:figure2alignedRS} A are plotted against
 the extracted original spike times. The plotted data points lie on the
 diagonal line, indicating that the reproduced spike times correspond to
-to the original ones. Figure~\ref{fig:validation_fig2} B shows the same
+the original ones. Figure~\ref{fig:validation_fig2} B shows the same
 plot for the UEs, indicating the identity of the original and reproduced
 UE timings as well. To further confirm the identity, we plot in
 Figure~\ref{fig:validation_fig2} C the distributions of the differences
@@ -744,16 +743,16 @@ original UE result.
 \centering
 \includegraphics{CmpIDL_Matlab_3.eps}
 \caption{\label{fig:workflow_report}Illustration of the data
-preprocessing workflow, taken from the 1997 report of MD (in German) on
-the comparison of the first UE implementation in IDL (left branch) and
-the second implementation in Matlab \autocite{Diesmann16_personalcomm}
-(right branch). Data entering both analysis branches have a resolution
-of 0.1 ms (top box). In the IDL branch spike times \(t\) in the original
-data are first transformed to a resolution of \(h=0.5\) ms (by the
-\texttt{2gdf} program, middle left) using the method of binning
-\(\lfloor t/h \rfloor\). Then the data are read into the ``IDL UE
-Software'' (lower left box) and therein converted to \(h=1\) ms
-resolution by the method of ``round half up''
+preprocessing workflow, translated from the 1997 report of MD (in
+German) on the comparison of the first UE implementation in IDL (left
+branch) and the second implementation in Matlab
+\autocite{Diesmann16_personalcomm} (right branch). Data entering both
+analysis branches have a resolution of 0.1 ms (top box). In the IDL
+branch spike times \(t\) in the original data are first transformed to a
+resolution of \(h=0.5\) ms (by the \texttt{2gdf} program, middle left)
+using the method of binning \(\lfloor t/h \rfloor\). Then the data are
+read into the ``IDL UE Software'' (lower left box) and therein converted
+to \(h=1\) ms resolution by the method of ``round half up''
 \(\lfloor t/h+1./2 \rfloor\) prior to analysis. Alternatively, one can
 load the 0.5 ms resolution data into the ``MATLAB UE Software'' (lower
 right box). Here the bin width is a parameter of the analysis and thus
@@ -818,11 +817,11 @@ Python to the original data. The method involves a number of numerical
 computations and is very sensitive, as we show here by the comparison of
 Figures ~\ref{fig:figure2alignedPS} and ~\ref{fig:figure2alignedRS},
 which differed in the events that the trials were aligned to. This
-difference in the alignment would not make any difference in the results
-if the time difference between the two events (PS and RS) were identical
-across the trials. But since the latter was not the case due to hardware
-features of the recording setup (as we learned from the first author of
-the original publication), the binning of the data started at a slightly
+difference in the alignment would not affect the results if the time
+difference between the two events (PS and RS) were identical across the
+trials. But since the latter was not the case due to hardware features
+of the recording setup (as we learned from the first author of the
+original publication), the binning of the data started at a slightly
 different time points in different trials. This likely led to a loss or
 an addition of a spike in a bin and thus to a small difference of the
 number of spike synchrony events (see also the discussion on the issues
@@ -896,11 +895,11 @@ software package Elephant at http://neuralensemble.org/elephant/.
 
 If the authors of the original paper would not have been accessible, we
 would not have been able to reproduce the results. Nevertheless, here
-our final validation of the reproduction is based the values extracted
-from the vector graphic image (PDF) in the original paper. In an optimal
-scenario, we would be able to exactly validate the results based on a
-numerical comparison. To do so, all of the following pieces of
-information would have had to be available at hand:
+our final validation of the reproduction is based on the values
+extracted from the vector graphic image (PDF) in the original paper. In
+an optimal scenario, we would be able to exactly validate the results
+based on a numerical comparison. To do so, all of the following pieces
+of information would have had to be available at hand:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}

@@ -1,15 +1,15 @@
-[1] Config.pm:327> INFO - This is Biber 2.2
-[1] Config.pm:330> INFO - Logfile is 'VRostami_JIto_MDenker_SGruen_2016.blg'
-[56] biber:286> INFO - === Do Apr 13, 2017, 14:58:08
-[56] Biber.pm:334> INFO - Reading 'VRostami_JIto_MDenker_SGruen_2016.bcf'
-[163] Biber.pm:677> INFO - Found 28 citekeys in bib section 0
-[197] Biber.pm:3054> INFO - Processing section 0
-[212] Biber.pm:3193> INFO - Looking for bibtex format file 'VRostami_JIto_MDenker_SGruen_2016.bib' for section 0
-[215] bibtex.pm:1072> INFO - Decoding LaTeX character macros into UTF-8
-[218] bibtex.pm:935> INFO - Found BibTeX data source 'VRostami_JIto_MDenker_SGruen_2016.bib'
-[588] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[588] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[589] Biber.pm:2931> INFO - Sorting list 'nty' of type 'entry' with scheme 'nty' and locale 'en-US'
-[589] Biber.pm:2935> INFO - No sort tailoring available for locale 'en-US'
-[657] bbl.pm:505> INFO - Writing 'VRostami_JIto_MDenker_SGruen_2016.bbl' with encoding 'UTF-8'
-[661] bbl.pm:596> INFO - Output to VRostami_JIto_MDenker_SGruen_2016.bbl
+[0] Config.pm:327> INFO - This is Biber 2.2
+[0] Config.pm:330> INFO - Logfile is 'VRostami_JIto_MDenker_SGruen_2016.blg'
+[44] biber:286> INFO - === So Apr 23, 2017, 15:53:19
+[44] Biber.pm:334> INFO - Reading 'VRostami_JIto_MDenker_SGruen_2016.bcf'
+[146] Biber.pm:677> INFO - Found 28 citekeys in bib section 0
+[164] Biber.pm:3054> INFO - Processing section 0
+[179] Biber.pm:3193> INFO - Looking for bibtex format file 'VRostami_JIto_MDenker_SGruen_2016.bib' for section 0
+[181] bibtex.pm:1072> INFO - Decoding LaTeX character macros into UTF-8
+[184] bibtex.pm:935> INFO - Found BibTeX data source 'VRostami_JIto_MDenker_SGruen_2016.bib'
+[532] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[533] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[533] Biber.pm:2931> INFO - Sorting list 'nty' of type 'entry' with scheme 'nty' and locale 'en-US'
+[533] Biber.pm:2935> INFO - No sort tailoring available for locale 'en-US'
+[594] bbl.pm:505> INFO - Writing 'VRostami_JIto_MDenker_SGruen_2016.bbl' with encoding 'UTF-8'
+[598] bbl.pm:596> INFO - Output to VRostami_JIto_MDenker_SGruen_2016.bbl

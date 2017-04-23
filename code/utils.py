@@ -23,7 +23,7 @@ plot_params_default = {
     # epochs to be marked on the time axis
     'events': [],
     # save figure
-    'save_fig': False,
+    'save_fig': True,
     # show figure
     'showfig': True,
     # figure size
@@ -325,7 +325,7 @@ def plot_figure1_2(
         plt.show()
 
 
-def plot_figure3(
+def plot_figure6(
         data_list, Js_dict_lst_lst, sig_level, binsize, winsize,
         winstep, patterns, N, N_comb, plot_params_user):
     """plots Figure 3 of the manuscript"""
@@ -365,7 +365,6 @@ def plot_figure3(
             ax0.set_yticklabels(['5', '4', '3'], fontsize=fsize)
             ax0.spines['right'].set_visible(False)
             ax0.yaxis.set_ticks_position('left')
-            # ax0.text(-110, 190, 'Neuron #', rotation=90, fontsize=fsize)
             ax0.set_ylabel('Neuron #', fontsize=fsize)
         else:
             ax0.spines['left'].set_visible(False)
@@ -389,7 +388,7 @@ def plot_figure3(
         ax1.set_xticks([])
         if data_cnt == 0:
             ax1.set_title('Coincident Events', fontsize=fsize)
-            ax1.text(-110, 190, 'Neuron #', rotation=90, fontsize=fsize)
+            ax1.set_ylabel('Neuron #', fontsize=fsize)
             ax1.set_yticks([num_tr / 2 + 1, num_tr * 3 / 2., num_tr * 5 / 2])
             ax1.set_yticklabels(['5', '4', '3'], fontsize=fsize)
             ax1.spines['right'].set_visible(False)
@@ -429,8 +428,7 @@ def plot_figure3(
         ax2.set_xticks([])
         if data_cnt == 0:
             ax2.set_title('Unitary Events', fontsize=fsize)
-            ax2.text(-110, 190, 'Neuron #', rotation=90,
-                     fontsize=fsize)
+            ax2.set_ylabel('Neuron #', fontsize=fsize)
             ax2.set_yticks([num_tr / 2 + 1, num_tr * 3 / 2.,
                             num_tr * 5 / 2])
             ax2.set_yticklabels(['5', '4', '3'], fontsize=fsize)
@@ -452,7 +450,8 @@ def plot_figure3(
                                  markersize=ms1, color='k')
                     if patt_tmp[n_cnt][0] == 1:
                         sig_idx_win = numpy.where(
-                            Js_dict_lst[N_cnt]['Js'] >= Js_sig)[0]
+                            numpy.nan_to_num(
+                                Js_dict_lst[N_cnt]['Js']) >= Js_sig)[0]
                         if len(sig_idx_win) > 0:
                             x = numpy.unique(Js_dict_lst[N_cnt][
                                              'indices']['trial' +

@@ -1,6 +1,6 @@
 
 # Requirements
-- [Elephant](https://github.com/NeuralEnsemble/elephant)>=0.5.0
+- [Elephant](https://github.com/NeuralEnsemble/elephant)>=0.4.1
 - [neo](https://github.com/NeuralEnsemble/python-neo)>=0.4.0
 - Python>=2.7
 - quantities>=0.9.0

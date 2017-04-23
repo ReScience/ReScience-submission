@@ -13,8 +13,7 @@ Spike synchronization and rate modulation differentially involved in motor corti
 In this paper we illustrate the successful reproduction of the results shown in Riehle et al (1997) using our new Python implementation of the Unitary Events (UE) method. Our implementation of the UE analysis is available in the `unitary_event_analysis` module of the the Electrophysiology Analysis Toolbox [Elephant](https://github.com/NeuralEnsemble/elephant).
 
 ## Dependencies
-
-- Elephant>=0.5.0
+- Elephant>=0.4.1
 - neo>=0.4.0
 - quantities>=0.9.0
 - numpy>=1.6.2
@@ -26,7 +25,10 @@ In this paper we illustrate the successful reproduction of the results shown in 
 - pip install quantities
 - pip install elephant
 
-
+## Run instructions
+- cd code
+- pip install -r requirements.txt
+- python Plotting_Figures.py
 
 ## Structure of this repository
 

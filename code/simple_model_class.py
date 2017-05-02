@@ -134,7 +134,7 @@ class simpleModel(object):
                 if total_time < time:
                     template_spike_array.append(total_time)
                     
-                ST_ex[i] = template_spike_array
+            ST_ex[i] = template_spike_array
                 
         
         for i in range(self.n_inh):
@@ -147,7 +147,7 @@ class simpleModel(object):
                 if total_time < time:
                     template_spike_array.append(total_time)
                     
-                ST_inh[i] = template_spike_array
+            ST_inh[i] = template_spike_array
                 
         a = np.zeros((self.n_ex,1))    
         b = np.zeros((self.n_inh,1)) 

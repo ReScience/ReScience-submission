@@ -122,8 +122,8 @@ class simpleModel(object):
         ST_ex = [None]*self.n_ex
         ST_inh = [None]*self.n_inh
         
-        rate_parameter = 1000*(1.0/self.background_rate)
-        rate_parameter = 1.0/rate_parameter
+        
+        rate_parameter = self.background_rate/1000.0 # adjust rate to ms time scale
         for i in range(self.n_ex):
             template_spike_array = []
             # Produce Poissonian spike train

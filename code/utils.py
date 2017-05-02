@@ -325,10 +325,151 @@ def plot_figure1_2(
         plt.show()
 
 
+
+def plot_figure3(sts_lst, UE, extracted_data, significance_level,
+                 binsize, winsize, winstep, plot_params_user):
+    """plots Figure 3 of the manuscript"""
+
+    import matplotlib.pylab as plt
+    # figure format
+    plot_params = plot_params_default
+    plot_params.update(plot_params_user)
+    for key, val in plot_params.items():
+        exec(key + '=val')
+    t_start = sts_lst[0][0][0].t_start
+    t_stop = sts_lst[0][0][0].t_stop
+    t_winpos = ue._winpos(t_start, t_stop, winsize, winstep)
+    f, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2)
+    f.set_size_inches(figsize)
+    plt.subplots_adjust(top=.9, right=.92, left=.12,
+                        bottom=.1, hspace=.4, wspace=.4)
+    fsize = 12
+    # scatter plot of panel A of figure 2 of the original publication
+    ax = ax1
+    ax.locator_params(nbins=4, axis='x')
+    ax.locator_params(nbins=4, axis='y')
+    ys_cnt = 0
+    diff_spikes_rep = []
+    spiketrain = sts_lst[0]
+    for cnt_i, i in enumerate(spiketrain.T):
+        for cnt_j, j in enumerate(i):
+            sp_trial = extracted_data['spikes'][ys_cnt]
+            if len(j) >= len(sp_trial):
+                for cnt, sp_t in enumerate(sp_trial):
+                    min_positive = numpy.argmin(numpy.abs(j.magnitude - sp_t))
+                    ax.plot(j.magnitude[min_positive], sp_t, ',', color='k')
+                    diff_spikes_rep.append(j.magnitude[min_positive] - sp_t)
+            else:
+                for cnt, sp_t in enumerate(j.magnitude):
+                    min_positive = numpy.argmin(numpy.abs(sp_trial - sp_t))
+                    ax.plot(sp_t, sp_trial[min_positive], ',', color='k')
+                    diff_spikes_rep.append(sp_t - sp_trial[min_positive])
+            ys_cnt += 1
+
+    ax.set_ylabel('spike time [ms] (reproduced)')
+    ax.set_xlabel('spike time [ms] (original article)')
+    ax.text(-0.1, 1.07, 'A', transform=ax.transAxes, size=fsize + 5,
+            weight='bold')
+
+    # scatter plot of UEs of panel E of figure 2
+    ax = ax2
+    ax.locator_params(nbins=5, axis='x')
+    ax.locator_params(nbins=5, axis='y')
+    ys_cnt = 0
+    Js_sig = ue.jointJ(significance_level)
+    sig_idx_win = numpy.where(UE['Js'] >= Js_sig)[0]
+    diff_UE_rep = []
+    y_cnt = 0
+    for tr in range(len(spiketrain)):
+        x_idx = numpy.sort(
+            numpy.unique(UE['indices']['trial' + str(tr)],
+                      return_index=True)[1])
+        x = UE['indices']['trial' + str(tr)][x_idx]
+        if len(x) > 0:
+            # choose only the significance coincidences
+            xx = []
+            for j in sig_idx_win:
+                xx = numpy.append(xx, x[numpy.where(
+                    (x * binsize >= t_winpos[j]) &
+                    (x * binsize < t_winpos[j] + winsize))])
+            x_tmp = numpy.unique(xx) * binsize.magnitude
+            if len(x_tmp) > 0:
+                ue_trial = numpy.sort(extracted_data['ue'][y_cnt])
+                diff_UE_rep = numpy.append(diff_UE_rep, x_tmp - ue_trial)
+                y_cnt += +1
+                ax.plot(ue_trial, x_tmp, 'o', color='r')
+    ax.text(-0.1, 1.07, 'B', transform=ax.transAxes, size=fsize + 5,
+            weight='bold')
+    ax.set_ylabel('time of UEs [ms] (reporduced)')
+    ax.set_xlabel('time of UEs [ms] (original article)')
+
+    # histogram of spike times differences between
+    # extracted and available data
+    ax = ax3
+    ax.locator_params(nbins=6, axis='x')
+    ax.locator_params(nbins=6, axis='y')
+    binwidth = 0.05
+    ax.set_adjustable('box')
+    ax.hist(diff_spikes_rep, numpy.arange(-0.5, 0.5, binwidth),
+            histtype='step', color='k', label="spikes [ms]")
+    ax.set_ylabel('count spikes')
+    ax.set_xlim(-1.5, 1.5)
+    ax.set_xlabel('difference [ms] (original - reproduced)')
+    ax.text(-0.1, 1.07, 'C', transform=ax.transAxes, size=fsize + 5,
+            weight='bold')
+
+    # PLOT UNreproduced distribution
+    ys_cnt = 0
+    diff_spikes = []
+    spiketrain = sts_lst[1]
+    for cnt_i, i in enumerate(spiketrain.T):
+        for cnt_j, j in enumerate(i):
+            # extracted data differs by 6 ms when aligned on PS_4 in
+            # comparison to aligned on RS_4. The reason is that the lenght
+            # of trial between PS and RS is 1505ms not 1500 as stated
+            # in the original papero. Therefore we add 6 ms to the
+            # extracted values before comparing the spike times
+            sp_trial = extracted_data['spikes'][ys_cnt] + 6
+            if len(j) >= len(sp_trial):
+                for cnt, sp_t in enumerate(sp_trial):
+                    min_positive = numpy.argmin(numpy.abs(j.magnitude - sp_t))
+                    diff_spikes = numpy.append(
+                        diff_spikes, (j.magnitude - sp_t)[min_positive])
+            else:
+                for cnt, sp_t in enumerate(j.magnitude):
+                    min_positive = numpy.argmin(numpy.abs(sp_trial - sp_t))
+                    diff_spikes = numpy.append(
+                        diff_spikes, (sp_trial - sp_t)[min_positive])
+            ys_cnt += 1
+    ax.hist(diff_spikes, numpy.arange(-1.5, 1.5, binwidth),
+            histtype='step', color='gray', label="spikes [ms]")
+
+    ax = ax4
+    ax.locator_params(nbins=6, axis='x')
+    ax.locator_params(nbins=6, axis='y')
+    ax.set_adjustable('box')
+    ax.hist(diff_UE_rep, numpy.arange(-1.5, 1.5, 2 * binwidth),
+            histtype='step', normed=1, color='r', label="UEs [ms]")
+    ax.set_ylim(0, 5)
+    ax.set_ylabel('count UEs')
+    ax.text(-0.1, 1.07, 'D', transform=ax.transAxes, size=fsize + 5,
+            weight='bold')
+    ax.set_xlabel('difference [ms] (original - reproduced)')
+    ax.set_xlim(-1.5, 1.5)
+
+    if save_fig:
+        plt.savefig(path_filename_format)
+        if not showfig:
+            plt.cla()
+            plt.close()
+
+    if showfig:
+        plt.show()
+
 def plot_figure6(
         data_list, Js_dict_lst_lst, sig_level, binsize, winsize,
         winstep, patterns, N, N_comb, plot_params_user):
-    """plots Figure 3 of the manuscript"""
+    """plots Figure 6 of the manuscript"""
 
     import matplotlib.pylab as plt
     # figure format

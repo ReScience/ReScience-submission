@@ -61,6 +61,8 @@ print('plotting Figure 1 with trigger: ', trigger, '...')
 plot_figure1_2(spiketrain, UE, significance_level, binsize,
                winsize, winstep, pattern_hash, N, plot_params)
 
+
+########################################################
 # Figure 2 (alignment of the trials on the RS)
 # This is the reproduction of Figure 2 of
 # the original article after cutting the data
@@ -88,7 +90,44 @@ plot_figure1_2(spiketrain, UE, significance_level, binsize,
                winsize, winstep, pattern_hash, N, plot_params)
 
 
+########################################################
 # Figure 3
+# load spike data of figure 2
+file_name = 'winny131_23.gdf'
+trigger = 'RS_4'
+t_pre = 1799 * pq.ms
+t_post = 300 * pq.ms
+spiketrain_fig2 = load_gdf2Neo(data_path + file_name, trigger, t_pre, t_post)
+
+# calculating UE ...
+UE = ue.jointJ_window_analysis(
+    spiketrain_fig2, binsize, winsize, winstep, pattern_hash, method=method)
+
+# load spike data of figure 1
+file_name = 'winny131_23.gdf'
+trigger = 'PS_4'
+t_pre = 300 * pq.ms
+t_post = 1800 * pq.ms
+spiketrain_fig1 = load_gdf2Neo(data_path + file_name, trigger, t_pre, t_post)
+
+# load extracted data from Riehle et al
+extracted_data = numpy.load(
+    data_path + 'extracted_data.npy', encoding='latin1').item()
+
+# parameters for plotting
+plot_params = {
+    'figsize': (7.5, 7.5),
+    'path_filename_format': '../article/figure3.eps'}
+
+print()
+print('plotting Figure 3 ...')
+plot_figure3([spiketrain_fig2, spiketrain_fig1], UE, extracted_data,
+             significance_level, binsize, winsize,
+             winstep, plot_params)
+
+
+########################################################
+# Figure 6
 # This is the reproduction of Figure 4A of the original article
 
 fname = 'jenny201_345_preprocessed.gdf'

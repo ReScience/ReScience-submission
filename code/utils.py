@@ -334,6 +334,7 @@ def plot_figure3(sts_lst, UE, extracted_data, significance_level,
     # figure format
     plot_params = plot_params_default
     plot_params.update(plot_params_user)
+    globals().update(plot_params)
     for key, val in plot_params.items():
         exec(key + '=val')
     t_start = sts_lst[0][0][0].t_start

@@ -52,8 +52,8 @@ background_rate = 33.3
 A = 0.5
 
 
-seeds = np.load('../data_run/Seeds.npy')
-directory = '../data_run'
+seeds = np.load('../data/Seeds.npy')
+directory = '../data'
 
 start = time.time() 
 for drive_frequency in frequencies:
@@ -82,6 +82,12 @@ for drive_frequency in frequencies:
 
 	meg_ctrl_avg = meg_ctrl_avg *0.05
 	meg_schiz_avg = meg_schiz_avg *0.05
+
+	filename_ctrl_avg = directory+'/Data-Average/sims_ctrl_avg_'+str(int(drive_frequency))+'Hz'
+	filename_schiz_avg = directory+'/Data-Average/sims_schiz_avg_'+str(int(drive_frequency))+'Hz'
+
+	np.save(filename_ctrl_avg,meg_ctrl_avg)
+	np.save(filename_schiz_avg,meg_schiz_avg)
 
 
 end = time.time()

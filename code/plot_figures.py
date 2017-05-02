@@ -48,21 +48,15 @@ def getSpikeTimes(data,dt):
 	return spike_times
 
 # Load data
-#ctrl_avg_meg_20 = np.load('../data/sims_ctrl_avg_20Hz.npy')
-#ctrl_avg_meg_30 = np.load('../data/sims_ctrl_avg_30Hz.npy')
-#ctrl_avg_meg_40 = np.load('../data/sims_ctrl_avg_40Hz.npy')
+ctrl_avg_meg_20 = np.load('../data/Data-Average/sims_ctrl_avg_20Hz.npy')
+ctrl_avg_meg_30 = np.load('../data/Data-Average/sims_ctrl_avg_30Hz.npy')
+ctrl_avg_meg_40 = np.load('../data/Data-Average/sims_ctrl_avg_40Hz.npy')
 
-#schiz_avg_meg_20 = np.load('../data/sims_schiz_avg_20Hz.npy')
-#schiz_avg_meg_30 = np.load('../data/sims_schiz_avg_30Hz.npy')
-#schiz_avg_meg_40 = np.load('../data/sims_schiz_avg_40Hz.npy')
+schiz_avg_meg_20 = np.load('../data/Data-Average/sims_schiz_avg_20Hz.npy')
+schiz_avg_meg_30 = np.load('../data/Data-Average/sims_schiz_avg_30Hz.npy')
+schiz_avg_meg_40 = np.load('../data/Data-Average/sims_schiz_avg_40Hz.npy')
 
-ctrl_avg_meg_20 = np.load('../data_run/sims_ctrl_avg_20Hz.npy')
-ctrl_avg_meg_30 = np.load('../data_run/sims_ctrl_avg_30Hz.npy')
-ctrl_avg_meg_40 = np.load('../data_run/sims_ctrl_avg_40Hz.npy')
 
-schiz_avg_meg_20 = np.load('../data_run/sims_schiz_avg_20Hz.npy')
-schiz_avg_meg_30 = np.load('../data_run/sims_schiz_avg_30Hz.npy')
-schiz_avg_meg_40 = np.load('../data_run/sims_schiz_avg_40Hz.npy')
 
 
 
@@ -71,7 +65,7 @@ sim_time = 500
 s = 2**13
 dt = float(sim_time)/float(s)
 time = np.linspace(0,sim_time,int(sim_time/dt))
-#time = np.linspace(0,sim_time,int(sim_time/dt)+1)
+
 
 
 # Flags
@@ -205,9 +199,9 @@ if savefig:
 
 ########### Figure 3 - Replication of Figure 6 from Vierling-Claassen et al.
 # Load data
-data_ex  = np.load('../data_run/Single-Trial-Data-40Hz/sims_ctrl_40Hz0-Ex.npy')
-data_inh = np.load('../data_run/Single-Trial-Data-40Hz/sims_ctrl_40Hz0-Inh.npy')
-data_meg = np.load('../data_run/Single-Trial-Data-40Hz/sims_ctrl_40Hz0-MEG.npy')
+data_ex  = np.load('../data/Single-Trial-Data-40Hz/sims_ctrl_40Hz0-Ex.npy')
+data_inh = np.load('../data/Single-Trial-Data-40Hz/sims_ctrl_40Hz0-Inh.npy')
+data_meg = np.load('../data/Single-Trial-Data-40Hz/sims_ctrl_40Hz0-MEG.npy')
 
 # Plot figure
 plt.figure(3,figsize=[15.0,15.0])
@@ -253,9 +247,9 @@ if savefig:
 
 ########### Figure 4 - Replication of Figure 7 from Vierling-Claassen et al.
 # Load data
-data_ex  = np.load('../data_run/Single-Trial-Data-40Hz/sims_schiz_40Hz0-Ex.npy')
-data_inh = np.load('../data_run/Single-Trial-Data-40Hz/sims_schiz_40Hz0-Inh.npy')
-data_meg = np.load('../data_run/Single-Trial-Data-40Hz/sims_schiz_40Hz0-MEG.npy')
+data_ex  = np.load('../data/Single-Trial-Data-40Hz/sims_schiz_40Hz0-Ex.npy')
+data_inh = np.load('../data/Single-Trial-Data-40Hz/sims_schiz_40Hz0-Inh.npy')
+data_meg = np.load('../data/Single-Trial-Data-40Hz/sims_schiz_40Hz0-MEG.npy')
 
 # Plot figure
 plt.figure(4,figsize=[15.0,15.0])
@@ -301,9 +295,9 @@ if savefig:
 
 ########### Figure 5 - Replication of Figure 10 from Vierling-Claassen et al.
 # Load data
-data_ex  = np.load('../data_run/Single-Trial-Data-20Hz/sims_ctrl_20Hz13-Ex.npy')
-data_inh = np.load('../data_run/Single-Trial-Data-20Hz/sims_ctrl_20Hz13-Inh.npy')
-data_meg = np.load('../data_run/Single-Trial-Data-20Hz/sims_ctrl_20Hz13-MEG.npy')
+data_ex  = np.load('../data/Single-Trial-Data-20Hz/sims_ctrl_20Hz13-Ex.npy')
+data_inh = np.load('../data/Single-Trial-Data-20Hz/sims_ctrl_20Hz13-Inh.npy')
+data_meg = np.load('../data/Single-Trial-Data-20Hz/sims_ctrl_20Hz13-MEG.npy')
 
 # Plot figure
 plt.figure(5,figsize=[15.0,15.0])
@@ -349,9 +343,9 @@ if savefig:
 
 ########### Figure 6 - Replication of Figure 11 from Vierling-Claassen et al.
 # Load data
-data_ex  = np.load('../data_run/Single-Trial-Data-20Hz/sims_schiz_20Hz13-Ex.npy')
-data_inh = np.load('../data_run/Single-Trial-Data-20Hz/sims_schiz_20Hz13-Inh.npy')
-data_meg = np.load('../data_run/Single-Trial-Data-20Hz/sims_schiz_20Hz13-MEG.npy')
+data_ex  = np.load('../data/Single-Trial-Data-20Hz/sims_schiz_20Hz13-Ex.npy')
+data_inh = np.load('../data/Single-Trial-Data-20Hz/sims_schiz_20Hz13-Inh.npy')
+data_meg = np.load('../data/Single-Trial-Data-20Hz/sims_schiz_20Hz13-MEG.npy')
 
 # Plot figure
 plt.figure(6,figsize=[15.0,15.0])

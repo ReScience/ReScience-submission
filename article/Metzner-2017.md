@@ -56,8 +56,8 @@ sends noise spikes at times drawn from a Poisson distribution. Table @tbl:summar
 whereas Table @tbl:description describes the equations underlying the different parts of the model. Tables
 @tbl:modparameters and @tbl:simparameters list the parameters of the model and the simulations, their definitions and values, respectively.
 
-The model was implemented using Python 2.7.9. using numpy ?.?.?. Visualisation of results was also done in Python
-using the matplotlib module (matplotlib ?.?.?).
+The model was implemented using Python 2.7.9 using numpy 1.9.3 Visualisation of results was also done in Python
+using the matplotlib module (matplotlib 1.4.3).
 Furthermore, since the model is computationally very inexpensive, we did not aim to provide the most efficient implementation but rather
 an implementation that is clear, and easy to understand and use.
 

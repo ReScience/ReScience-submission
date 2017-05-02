@@ -52,6 +52,6 @@ model.plotPSD(freqs*1000,pxx,50.0,0)	# note that since time is in ms, frequencie
 
 
 
-model.rasterPlot(ex,time,0)
-model.rasterPlot(inh,time,0)
+model.rasterPlot(ex,time,0,'Ex')
+model.rasterPlot(inh,time,0,'Inh')
 model.plotMEG(meg,time,0)

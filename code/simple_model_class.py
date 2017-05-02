@@ -243,7 +243,7 @@ class simpleModel(object):
         
         if save:
             filenamepng = self.directory+self.filename+'-MEG.png'
-            print filenamepng
+
             plt.savefig(filenamepng,dpi=600)
         
         
@@ -266,7 +266,7 @@ class simpleModel(object):
     
         if save:
             filenamepng = self.directory+self.filename+'-'+name+'-raster.png'
-            print filenamepng
+
             plt.savefig(filenamepng,dpi=600)
         #plt.show()
     
@@ -316,7 +316,7 @@ class simpleModel(object):
             
         if save:
             filenamepng = self.directory+self.filename+'-PSD.png'
-            print filenamepng
+
             plt.savefig(filenamepng,dpi=600)
             
         

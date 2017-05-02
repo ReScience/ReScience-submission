@@ -73,7 +73,6 @@ def plotMEGTrace(meg,sim_time,dt,save,filename):
  
 	if save:
             filenamepng = filename+'-MEG.png'
-            print filenamepng
             plt.savefig(filenamepng,dpi=600)
         
 

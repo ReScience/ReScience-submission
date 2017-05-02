@@ -57,11 +57,11 @@ directory = '../data'
 
 start = time.time() 
 for drive_frequency in frequencies:
-	print 'Drive Frequency:',drive_frequency
+	print('Drive Frequency:',drive_frequency)
 	meg_ctrl_avg = np.zeros((8192,))
 	meg_schiz_avg = np.zeros((8192,))
 	for i,seed in enumerate(seeds):
-	    print i
+	    print(i)
 
 	    filename_ctrl  = '/Single-Trial-Data-'+str(int(drive_frequency))+'Hz/sims_ctrl_'+str(int(drive_frequency))+'Hz'+str(i)
 	    filename_schiz = '/Single-Trial-Data-'+str(int(drive_frequency))+'Hz/sims_schiz_'+str(int(drive_frequency))+'Hz'+str(i)
@@ -91,4 +91,4 @@ for drive_frequency in frequencies:
 
 
 end = time.time()
-print 'Time elapsed:', end-start
+print('Time elapsed:', end-start)

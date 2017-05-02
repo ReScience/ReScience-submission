@@ -31,7 +31,7 @@ g_di    = 0.08 				# default=0.08 Drive-I weight
 s=2**13
 time 	= 500				# simulation stime (in ms) 
 dt=float(time)/float(s)
-print dt
+print('time step:',dt)
 
 b_ex    = -0.01 			# applied current for exc. cells
 b_inh   = -0.01 			# applied current for inh. cells

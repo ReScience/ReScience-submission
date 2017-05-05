@@ -37,18 +37,35 @@ Bibliography:
 # Introduction
 We provide an implementation of [@Vierling2008], which models impaired auditory entrainment
 in the gamma range for schizophrenic patients. Particularly, we only reimplement the simplified network model
-and do not replicate the Genesis model which is also developed in the article. 
-We focus on the main result: an increase in inhibitory decay time constants leads to
+and do not replicate the biophysically more detailed Genesis model which is also developed in the article. 
+
+In the original article the authors conduct an MEG study of auditory entrainment and find changes in gamma and beta range entrainment
+found in schizophrenic patients. These changes in oscillatory dynamics in patients are important for two reasons: First, gamma range oscillations 
+emerge in a variety of different tasks and are thought to underlie many cognitive processes (see e.g. [?]). Furthermore, impaired gamma range oscillations
+in schizophrenic patientas have been found in most of these tasks and might offer an explanation for the cognitive deficits found in patients.
+Therefore, the study of the mechanisms underlying oscillatory entrainment might shed light on the basic principles that are responsible for a wide range
+of deficits in schizophrenic patients
+Second, oscillatory entrainment is a promising candidate for a neurophysiological biomarker for schizophrenia [@Siekmeier20??].
+In the original article they develop two models that are able to account for the changes they find in their
+experimental data. One is a biophysically detailed network model and the other one a simplified network model. In both models 
+a prolonged decay at GABAergic inhibitory synapses causes the reduction in gamma entrainment and the increase in beta entrainment.
+The simplified network model, despite its many simplifications, offers insight into the mechanisms underlying these entrainment deficits
+while focusing on a few key parameters. This makes it easy to distill and understand underlying dynamics and mechanisms and, at the same time, 
+makes simulations computationally very inexpensive allowing for an extensive exploration of the parameter space. Additionally,
+again because of the simplicity, the model can easily be extended to study the effect other parameters (e.g. sparsity of connections, different populations
+of inhibitory neurons, different types of synaptic receptors,...), without loosing much of its simplicity.
+
+We focus on the main results of the original article: an increase in inhibitory decay time constants leads to
 a reduction of power in the gamma range and an increase in power in the beta range, replicating
 experimental findings for schizophrenic patients. Therefore, we reproduce Figures 4,5,6,7,10 and 11 of the original paper.
 The original model is implemented using Matlab but the source code is not publicly available.
-The model and analysis scripts are implemented using Python 2.7.9.
+The model and analysis scripts are implemented using Python 2.7.9. All simulations were run under Ubuntu 15.04.
 
 
 # Methods
 The model was implemented solely from the paper description, since the original code is not publicly
 available. The model is a simple model consisting of two neural populations (excitatory and inhibitory cells).
-Indivudal cells are modeled as theta neurons (for a detailed discussion of this neuron model see [@Boergers2003]).
+Individual cells are modeled as theta neurons (for a detailed discussion of this neuron model see [@Boergers2003]).
 Each population connects to itself and to the other with an all-to-all connectivity. Both populations
 also have two sources of input, the oscillatory drive input and a background noise input. The drive input
 periodically sends spikes to both populations with a given frequency, whereas the background noise input
@@ -56,7 +73,7 @@ sends noise spikes at times drawn from a Poisson distribution. Table @tbl:summar
 whereas Table @tbl:description describes the equations underlying the different parts of the model. Tables
 @tbl:modparameters and @tbl:simparameters list the parameters of the model and the simulations, their definitions and values, respectively.
 
-The model was implemented using Python 2.7.9 using numpy 1.9.3 Visualisation of results was also done in Python
+The model was implemented using Python 2.7.9 using numpy 1.9.3. Visualisation of results was also done in Python
 using the matplotlib module (matplotlib 1.4.3).
 Furthermore, since the model is computationally very inexpensive, we did not aim to provide the most efficient implementation but rather
 an implementation that is clear, and easy to understand and use.

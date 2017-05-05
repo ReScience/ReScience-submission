@@ -69,7 +69,7 @@ time = np.linspace(0,sim_time,int(sim_time/dt))
 
 
 # Flags
-savefig = 0	# set savefig to 1 if you want to store the figures
+savefig = 1	# set savefig to 1 if you want to store the figures
 showfig = 1	# set plotfi to 1 if you want to show the figures
 
 
@@ -111,8 +111,8 @@ plt.setp(ax4.get_yticklabels(),visible=True)
 plt.setp(ax6.get_yticklabels(),visible=True)
 
 if savefig:
-	plt.savefig('Replication-Figure4.png',dpi=600)
-	plt.savefig('Replication-Figure4.eps',dpi=600)
+	plt.savefig('../data/Figures/Replication-Figure4.png',dpi=600)
+	plt.savefig('../data/Figures/Replication-Figure4.eps',dpi=600)
 
 
 ########### Figure 2 - Replication of Figure 5 from Vierling-Claassen et al.
@@ -193,8 +193,8 @@ plt.setp(ax44.get_yticklabels(),visible=True)
 plt.setp(ax66.get_yticklabels(),visible=True)
 
 if savefig:
-	plt.savefig('Replication-Figure5.png',dpi=600)
-	plt.savefig('Replication-Figure5.eps',dpi=600)
+	plt.savefig('../data/Figures/Replication-Figure5.png',dpi=600)
+	plt.savefig('../data/Figures/Replication-Figure5.eps',dpi=600)
 
 
 ########### Figure 3 - Replication of Figure 6 from Vierling-Claassen et al.
@@ -241,8 +241,8 @@ ax1.set_xlabel('Frequency (Hz)')
 ax1.set_ylabel('Power')
 
 if savefig:
-	plt.savefig('Replication-Figure6.png',dpi=600)
-	plt.savefig('Replication-Figure6.eps',dpi=600)
+	plt.savefig('../data/Figures/Replication-Figure6.png',dpi=600)
+	plt.savefig('../data/Figures/Replication-Figure6.eps',dpi=600)
 
 
 ########### Figure 4 - Replication of Figure 7 from Vierling-Claassen et al.
@@ -289,8 +289,8 @@ ax1.set_xlabel('Frequency (Hz)')
 ax1.set_ylabel('Power')
 
 if savefig:
-	plt.savefig('Replication-Figure7.png',dpi=600)
-	plt.savefig('Replication-Figure7.eps',dpi=600)
+	plt.savefig('../data/Figures/Replication-Figure7.png',dpi=600)
+	plt.savefig('../data/Figures/Replication-Figure7.eps',dpi=600)
 
 
 ########### Figure 5 - Replication of Figure 10 from Vierling-Claassen et al.
@@ -337,8 +337,8 @@ ax1.set_xlabel('Frequency (Hz)')
 ax1.set_ylabel('Power')
 
 if savefig:
-	plt.savefig('Replication-Figure10.png',dpi=600)
-	plt.savefig('Replication-Figure10.eps',dpi=600)
+	plt.savefig('../data/Figures/Replication-Figure10.png',dpi=600)
+	plt.savefig('../data/Figures/Replication-Figure10.eps',dpi=600)
 
 
 ########### Figure 6 - Replication of Figure 11 from Vierling-Claassen et al.
@@ -385,8 +385,8 @@ ax1.set_xlabel('Frequency (Hz)')
 ax1.set_ylabel('Power')
 
 if savefig:
-	plt.savefig('Replication-Figure11.png',dpi=600)
-	plt.savefig('Replication-Figure11.eps',dpi=600)
+	plt.savefig('../data/Figures/Replication-Figure11.png',dpi=600)
+	plt.savefig('../data/Figures/Replication-Figure11.eps',dpi=600)
 
 
 if showfig:

@@ -162,19 +162,42 @@ class simpleModel(object):
             for i in range(self.n_inh):
                 for tn in ST_inh[i]:
                     N_inh[i,t] = N_inh[i,t] + self._noise(t,tn) 
-            # evolve gating variables
-            s_ee[:,:,t] 	= s_ee[:,:,t-1] + self.dt*(-1.0*(s_ee[:,:,t-1]/self.tau_ex) + np.exp(-1.0*self.eta*(1+np.cos(theta_ex[:,t-1])))*((1.0-s_ee[:,:,t-1])/self.tau_R))
-            # this seems awfully complicated            
+
+            # evolve gating variable
+
+	    # E-E connections
+	    ee_decay            = s_ee[:,:,t-1]/self.tau_ex # exponential decay
+	    ee_synaptic_input   = np.exp(-1.0*self.eta*(1+np.cos(theta_ex[:,t-1])))*((1.0-s_ee[:,:,t-1])/self.tau_R) # synaptic input from other cells
+            s_ee[:,:,t] 	= s_ee[:,:,t-1] + self.dt*(-1.0*ee_decay + ee_synaptic_input)
+             
+	    # E-I connections          
             for k in range(self.n_ex):
                 a[k,0]=theta_ex[k,t-1]
-            s_ei[:,:,t] 	= s_ei[:,:,t-1] + self.dt*(-1.0*(s_ei[:,:,t-1]/self.tau_ex) + np.exp(-1.0*self.eta*(1+np.cos(a)))*((1.0-s_ei[:,:,t-1])/self.tau_R))
-            # this seems awfully complicated            
+	    ei_decay            = s_ei[:,:,t-1]/self.tau_ex # exponential decay
+	    ei_synaptic_input   = np.exp(-1.0*self.eta*(1+np.cos(a)))*((1.0-s_ei[:,:,t-1])/self.tau_R) # synaptic input from other cells
+            s_ei[:,:,t] 	= s_ei[:,:,t-1] + self.dt*(-1.0*ei_decay + ei_synaptic_input)
+                      
+	    # I-E connections 
             for l in range(self.n_inh):
                 b[l,0]=theta_inh[l,t-1]
-            s_ie[:,:,t] 	= s_ie[:,:,t-1] + self.dt*(-1.0*(s_ie[:,:,t-1]/self.tau_inh) + np.exp(-1.0*self.eta*(1+np.cos(b)))*((1.0-s_ie[:,:,t-1])/self.tau_R))
-            s_ii[:,:,t] 	= s_ii[:,:,t-1] + self.dt*(-1.0*(s_ii[:,:,t-1]/self.tau_inh) + np.exp(-1.0*self.eta*(1+np.cos(theta_inh[:,t-1])))*((1.0-s_ii[:,:,t-1])/self.tau_R))
-            s_de[:,t]  	= s_de[:,t-1]   + self.dt*(-1.0*(s_de[:,t-1]/self.tau_ex) + np.exp(-1.0*self.eta*(1+np.cos(drive_cell[t-1])))*((1.0-s_de[:,t-1])/self.tau_R))
-            s_di[:,t]   	= s_di[:,t-1]   + self.dt*(-1.0*(s_di[:,t-1]/self.tau_ex) + np.exp(-1.0*self.eta*(1+np.cos(drive_cell[t-1])))*((1.0-s_di[:,t-1])/self.tau_R))
+	    ie_decay            = s_ie[:,:,t-1]/self.tau_inh # exponential decay
+	    ie_synaptic_input   = np.exp(-1.0*self.eta*(1+np.cos(b)))*((1.0-s_ie[:,:,t-1])/self.tau_R) # synaptic input from other cells
+            s_ie[:,:,t] 	= s_ie[:,:,t-1] + self.dt*(-1.0*ie_decay + ie_synaptic_input)
+
+	    # I-I connections
+	    ii_decay            = s_ii[:,:,t-1]/self.tau_inh # exponential decay
+	    ii_synaptic_input   = np.exp(-1.0*self.eta*(1+np.cos(theta_inh[:,t-1])))*((1.0-s_ii[:,:,t-1])/self.tau_R) # synaptic input from other cells
+            s_ii[:,:,t] 	= s_ii[:,:,t-1] + self.dt*(-1.0*ii_decay + ii_synaptic_input)
+
+	    # D-E connections
+	    de_decay            = s_de[:,:,t-1]/self.tau_ex # exponential decay
+	    de_synaptic_input   = np.exp(-1.0*self.eta*(1+np.cos(drive_cell[t-1])))*((1.0-s_de[:,:,t-1])/self.tau_R) # synaptic input from drive cell
+            s_de[:,t]  	= s_de[:,t-1]   + self.dt*(-1.0*de_decay + de_synaptic_input)
+
+	    # D-I connections
+	    di_decay            = s_di[:,:,t-1]/self.tau_ex # exponential decay
+	    di_synaptic_input   = np.exp(-1.0*self.eta*(1+np.cos(drive_cell[t-1])))*((1.0-s_di[:,:,t-1])/self.tau_R) # synaptic input from drive cell
+            s_di[:,t]   	= s_di[:,t-1]   + self.dt*(-1.0*di_decay + di_synaptic_input)
              
             # calculate total synaptic input
             S_ex[:,t]	= self.g_ee*np.sum(s_ee[:,:,t-1],axis=0) - self.g_ie*np.sum(s_ie[:,:,t-1],axis=0) + self.g_de*s_de[:,t-1]
@@ -227,7 +250,7 @@ class simpleModel(object):
         time = np.linspace(0,sim_time,int(sim_time/self.dt))
         ax.plot(time,trace,'k')
         
-        plt.show()
+
     
     def plotMEG(self,MEG,sim_time,save):
         '''
@@ -247,7 +270,6 @@ class simpleModel(object):
             plt.savefig(filenamepng,dpi=600)
         
         
-        #plt.show()
     
     def rasterPlot(self,data,sim_time,save,name):
         '''
@@ -282,17 +304,9 @@ class simpleModel(object):
         
         tn = np.linspace(0,sim_time,int(sim_time/self.dt)+1)
         
-        npts = len(meg)
-        startpt = int(0.2*fs)
+        npts = len(meg)   
         
-        if (npts - startpt)%2!=0:
-            startpt = startpt + 1
-        
-        meg = meg[startpt:]
-        tn = tn[startpt:]
-        nfft = len(tn)    
-        
-        pxx,freqs=mlab.psd(meg,NFFT=nfft,Fs=fs,noverlap=0,window=mlab.window_none)
+        pxx,freqs=mlab.psd(meg,NFFT=npts,Fs=fs,noverlap=0,window=mlab.window_none)
         pxx[0] = 0.0
         	
         return pxx,freqs
@@ -311,7 +325,7 @@ class simpleModel(object):
         ax = fig.add_subplot(111)
     
     
-        ax.plot(freqs,psd)
+        ax.plot(freqs*1000,psd) # adjust for ms time scale of data
         ax.axis(xmin=0, xmax=fmax)
             
         if save:
@@ -334,6 +348,8 @@ class simpleModel(object):
         for i,n in enumerate(neuron):
         		
           # if theta passes (2l-1)*pi, l integer, with dtheta/dt>0 then the neuron spikes (see Boergers and Kopell, 2003)
+	  # therefore we loop through the time series of the single neuron and look for these events
+	  # the spike time is then simply the product of the index times the time step 
           if (n%(2*np.pi))>np.pi and (old%(2*np.pi))<np.pi:
               spike_time = i*self.dt
               spike_times.append(spike_time)
@@ -355,6 +371,12 @@ class simpleModel(object):
         return spike_times_array
     
     def _noise(self,t,tn):
+        '''
+           Calculates the noise EPSP according to the formula from the model description table of the article
+           Parameters:
+	   t:  current time
+           tn: the time of a noise spike
+        '''
     	t  = t * self.dt
     	if t-tn>0:
     		value = (self.A*(np.exp(-(t-tn)/self.tau_ex)-np.exp(-(t-tn)/self.tau_R)))/(self.tau_ex-self.tau_R)

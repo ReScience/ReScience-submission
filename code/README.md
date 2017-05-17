@@ -13,7 +13,7 @@ $ pip install matplotlib
 ## Running the model
 To run a single example model type:
 ```
-python run_example.py
+python example_run.py
 ```
 This will run a single simulations (see run_example.py for details on the parameters) and produce
 some plts of the data.

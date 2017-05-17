@@ -213,18 +213,18 @@ ax3 = plt.subplot2grid((2,2),(1,1))
 # Raster plot
 spike_times = getSpikeTimes(data_ex,dt)
 for i,times in enumerate(spike_times):
-		y = [i]*len(times)
+		y = [i+10]*len(times)
 		ax2.plot(times,y,linestyle='None',color='k',marker='|',markersize=10)
 
 spike_times = getSpikeTimes(data_inh,dt)
 for i,times in enumerate(spike_times):
-		y = [i+20]*len(times)
+		y = [i]*len(times)
 		ax2.plot(times,y,linestyle='None',color='b',marker='|',markersize=10)
 		ax2.axis([0,sim_time,-0.5,30])
 ax2.set_xlabel('Time (ms)')
 ax2.set_yticks([])
-ax2.annotate('E cells',xy=(0,0.5),xytext=(-ax2.yaxis.labelpad,-75),xycoords=ax2.yaxis.label,textcoords='offset points',size=12,ha='right',va='top')
-ax2.annotate('I cells',xy=(0,0.5),xytext=(-ax2.yaxis.labelpad,75),xycoords=ax2.yaxis.label,textcoords='offset points',size=12,ha='right',va='bottom')
+ax2.annotate('I cells',xy=(0,0.5),xytext=(-ax2.yaxis.labelpad,-75),xycoords=ax2.yaxis.label,textcoords='offset points',size=12,ha='right',va='top')
+ax2.annotate('E cells',xy=(0,0.5),xytext=(-ax2.yaxis.labelpad,75),xycoords=ax2.yaxis.label,textcoords='offset points',size=12,ha='right',va='bottom')
 
 # MEG plot
 ax3.plot(time,data_meg,'k',linewidth=1.5)
@@ -261,18 +261,18 @@ ax3 = plt.subplot2grid((2,2),(1,1))
 # Raster plot
 spike_times = getSpikeTimes(data_ex,dt)
 for i,times in enumerate(spike_times):
-		y = [i]*len(times)
+		y = [i+10]*len(times)
 		ax2.plot(times,y,linestyle='None',color='k',marker='|',markersize=10)
 
 spike_times = getSpikeTimes(data_inh,dt)
 for i,times in enumerate(spike_times):
-		y = [i+20]*len(times)
+		y = [i]*len(times)
 		ax2.plot(times,y,linestyle='None',color='b',marker='|',markersize=10)
 		ax2.axis([0,sim_time,-0.5,30])
 ax2.set_xlabel('Time (ms)')
 ax2.set_yticks([])
-ax2.annotate('E cells',xy=(0,0.5),xytext=(-ax2.yaxis.labelpad,-75),xycoords=ax2.yaxis.label,textcoords='offset points',size=12,ha='right',va='top')
-ax2.annotate('I cells',xy=(0,0.5),xytext=(-ax2.yaxis.labelpad,75),xycoords=ax2.yaxis.label,textcoords='offset points',size=12,ha='right',va='bottom')
+ax2.annotate('I cells',xy=(0,0.5),xytext=(-ax2.yaxis.labelpad,-75),xycoords=ax2.yaxis.label,textcoords='offset points',size=12,ha='right',va='top')
+ax2.annotate('E cells',xy=(0,0.5),xytext=(-ax2.yaxis.labelpad,75),xycoords=ax2.yaxis.label,textcoords='offset points',size=12,ha='right',va='bottom')
 
 # MEG plot
 ax3.plot(time,data_meg,'k',linewidth=1.5)
@@ -309,18 +309,18 @@ ax3 = plt.subplot2grid((2,2),(1,1))
 # Raster plot
 spike_times = getSpikeTimes(data_ex,dt)
 for i,times in enumerate(spike_times):
-		y = [i]*len(times)
+		y = [i+10]*len(times)
 		ax2.plot(times,y,linestyle='None',color='k',marker='|',markersize=10)
 
 spike_times = getSpikeTimes(data_inh,dt)
 for i,times in enumerate(spike_times):
-		y = [i+20]*len(times)
+		y = [i]*len(times)
 		ax2.plot(times,y,linestyle='None',color='b',marker='|',markersize=10)
 		ax2.axis([0,sim_time,-0.5,30])
 ax2.set_xlabel('Time (ms)')
 ax2.set_yticks([])
-ax2.annotate('E cells',xy=(0,0.5),xytext=(-ax2.yaxis.labelpad,-75),xycoords=ax2.yaxis.label,textcoords='offset points',size=12,ha='right',va='top')
-ax2.annotate('I cells',xy=(0,0.5),xytext=(-ax2.yaxis.labelpad,75),xycoords=ax2.yaxis.label,textcoords='offset points',size=12,ha='right',va='bottom')
+ax2.annotate('I cells',xy=(0,0.5),xytext=(-ax2.yaxis.labelpad,-75),xycoords=ax2.yaxis.label,textcoords='offset points',size=12,ha='right',va='top')
+ax2.annotate('E cells',xy=(0,0.5),xytext=(-ax2.yaxis.labelpad,75),xycoords=ax2.yaxis.label,textcoords='offset points',size=12,ha='right',va='bottom')
 
 # MEG plot
 ax3.plot(time,data_meg,'k',linewidth=1.5)
@@ -357,18 +357,18 @@ ax3 = plt.subplot2grid((2,2),(1,1))
 # Raster plot
 spike_times = getSpikeTimes(data_ex,dt)
 for i,times in enumerate(spike_times):
-		y = [i]*len(times)
+		y = [i+10]*len(times)
 		ax2.plot(times,y,linestyle='None',color='k',marker='|',markersize=10)
 
 spike_times = getSpikeTimes(data_inh,dt)
 for i,times in enumerate(spike_times):
-		y = [i+20]*len(times)
+		y = [i]*len(times)
 		ax2.plot(times,y,linestyle='None',color='b',marker='|',markersize=10)
 		ax2.axis([0,sim_time,-0.5,30])
 ax2.set_xlabel('Time (ms)')
 ax2.set_yticks([])
-ax2.annotate('E cells',xy=(0,0.5),xytext=(-ax2.yaxis.labelpad,-75),xycoords=ax2.yaxis.label,textcoords='offset points',size=12,ha='right',va='top')
-ax2.annotate('I cells',xy=(0,0.5),xytext=(-ax2.yaxis.labelpad,75),xycoords=ax2.yaxis.label,textcoords='offset points',size=12,ha='right',va='bottom')
+ax2.annotate('I cells',xy=(0,0.5),xytext=(-ax2.yaxis.labelpad,-75),xycoords=ax2.yaxis.label,textcoords='offset points',size=12,ha='right',va='top')
+ax2.annotate('E cells',xy=(0,0.5),xytext=(-ax2.yaxis.labelpad,75),xycoords=ax2.yaxis.label,textcoords='offset points',size=12,ha='right',va='bottom')
 
 # MEG plot
 ax3.plot(time,data_meg,'k',linewidth=1.5)

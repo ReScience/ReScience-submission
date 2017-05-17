@@ -66,9 +66,31 @@ The model and analysis scripts are implemented using Python 2.7.9. All simulatio
 The model was implemented solely from the paper description, since the original code is not publicly
 available. The model is a simple model consisting of two neural populations (excitatory and inhibitory cells).
 Individual cells are modeled as theta neurons (for a detailed discussion of this neuron model see [@Boergers2003]).
-The neuron is described a single parameter $\theta$, which can be regarded as the membrane voltage, subject to the following dynamics
-$\frac{d \theta}{dt}=1-\cos \theta + (b+S+N(t))\cdot(1+ \cos \theta)$. 
+The neuron is described by a single variable $\theta$, which can be regarded as the membrane voltage, subject to the following dynamics
 
+$$\frac{d \theta}{dt}=1-\cos \theta + (b+S+N(t))\cdot(1+ \cos \theta),$$ 
+
+where $b$ is an externally applied current, $S$ is the total synaptic input to the cell and $N(t)$ is a time-varying noise input.
+Total synaptic input to a cell in a network is calculated as
+
+$$S_k = \sum_{j=1}^n \alpha_j \cdot g_{jk} \cdot s_{jk},$$
+
+where $\alpha _j=\pm 1$ controls excitation and inhibition,
+$g_{jk}$ is the synaptic strength from cell $j$ to cell $k$ and
+$s_{jk}$ is the synaptic gating variable from cell $j$ to cell $k$.
+Synaptic gating variables are subject to the following dynamics
+
+$$\frac{ds_{jk}}{dt}= - \frac{s _{jk}}{\tau _j} + e ^{- \eta \cdot (1+ \cos \theta _j)} \cdot \frac{1-s _{jk}}{\tau _R},$$
+
+where $\tau _j$ is the synaptic decay time
+and $\tau_R$ the synaptic rise time. 
+The network receives excitatory drive input at click train frequency from a single pacemaker cell. Additionally,
+Poissonian noise input is also given to all cells in the network. A noise spike at time $t_n$ elicits the following 'EPSC'
+ 
+$$N=H(t-t_n) \cdot \frac{A \cdot g _{gmax} \cdot (e^{-(t-t _n)/ \tau _{exc}} - e^{-(t-t _n)/ \tau _R} )}{\tau _{exc} - \tau _R},$$
+
+where $A \cdot g_{gmax}$ is the strength of the noise and again $\tau _{exc}$ is the synaptic decay time
+and $\tau_R$ the synaptic rise time.
 
 Each population connects to itself and to the other with an all-to-all connectivity. Both populations
 also have two sources of input, the oscillatory drive input and a background noise input. The drive input
@@ -104,26 +126,6 @@ Table: Model summary {#tbl:summary}
 |Recordings      |Theta variables (both populations); 'MEG' signal (summed EPSCs at exc. neurons)|
 +----------------+-----------------------------------------------------------------+
 
-
-
-Table: Model description {#tbl:description}
-
-+----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|Neuron model    | $\frac{d \theta}{dt}=1-\cos \theta + (b+S+N(t))\cdot(1+ \cos \theta)$|
-|                | $\theta$ voltage variable; $b$ applied current; $S$ total synaptic input;$N(t)$ time-varying noise;|
-+----------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|Synaptic input  | $S_k = \sum_{j=1}^n \alpha_j \cdot g_{jk} \cdot s_{jk}$;|
-|                | $\alpha _j=\pm 1$ controlling excitation and inhibition; $g_{jk}$ synaptic strength from cell $j$ to cell $k$; $s_{jk}$ synaptic gating variable from cell $j$ to cell $k$|
-+----------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|Synapse model   | $\frac{ds_{jk}}{dt}= - \frac{s _{jk}}{\tau _j} + e ^{- \eta \cdot (1+ \cos \theta _j)} \cdot \frac{1-s _{jk}}{\tau _R}$;|
-|                | $\tau _j$  synaptic decay time; $\tau_R$ synaptic rise time|
-+----------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|Drive model     | Single excitatory pacemaker cell firing at the click|
-|                | train frequency and providing input to all cells|
-+----------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|Noise model     | $N=H(t-t_n) \cdot \frac{A \cdot g _{gmax} \cdot (e^{-(t-t _n)/ \tau _{exc}} - e^{-(t-t _n)/ \tau _R} )}{\tau _{exc} - \tau _R}$;|
-|                | EPSC for noise spike at time $t_n$|
-+----------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 
 
@@ -176,6 +178,7 @@ Drive          Control subjects                                                 
 
 20 Hz          Entrainment to the drive, however, more power in the harmonic 40 Hz band      Stronger entrainment to the drive, less power in the harmonic band 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 Figures @fig:Vierling4 and @fig:Vierling5 show the output of the replicated model for the same simulations as for Figures 4 and 5 from the original article. The main charactersitics
 described above can be clearly seen. However, in our model these main features are a little bit less pronounced than in the original model. Since the network

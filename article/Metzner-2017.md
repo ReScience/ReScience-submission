@@ -66,18 +66,24 @@ The model and analysis scripts are implemented using Python 2.7.9. All simulatio
 The model was implemented solely from the paper description, since the original code is not publicly
 available. The model is a simple model consisting of two neural populations (excitatory and inhibitory cells).
 Individual cells are modeled as theta neurons (for a detailed discussion of this neuron model see [@Boergers2003]).
+The neuron is described a single parameter $\theta$, which can be regarded as the membrane voltage, subject to the following dynamics
+$\frac{d \theta}{dt}=1-\cos \theta + (b+S+N(t))\cdot(1+ \cos \theta)$. 
+
+
 Each population connects to itself and to the other with an all-to-all connectivity. Both populations
 also have two sources of input, the oscillatory drive input and a background noise input. The drive input
 periodically sends spikes to both populations with a given frequency, whereas the background noise input
-sends noise spikes at times drawn from a Poisson distribution. Table @tbl:summary summarizes the network model
-whereas Table @tbl:description describes the equations underlying the different parts of the model. Tables
-@tbl:modparameters and @tbl:simparameters list the parameters of the model and the simulations, their definitions and values, respectively.
+sends noise spikes at times drawn from a Poisson distribution. Table @tbl:summary summarizes the network model.
+Tables @tbl:modparameters and @tbl:simparameters list the parameters of the model and the simulations, their definitions and values, respectively.
 
 The model was implemented using Python 2.7.9 using numpy 1.9.3. Visualisation of results was also done in Python
 using the matplotlib module (matplotlib 1.4.3).
 Furthermore, since the model is computationally very inexpensive, we did not aim to provide the most efficient implementation but rather
 an implementation that is clear, and easy to understand and use.
 
+All differential equations are solved using a simple forward Euler scheme. As in the original article a single simulation 
+simulatesa 500ms trial and the time step is chosen such that this results in 2^13 = 8192 data points. However, the main results are 
+unaffected by a smaller time step.
 
 
 Table: Model summary {#tbl:summary}
@@ -100,10 +106,10 @@ Table: Model summary {#tbl:summary}
 
 
 
-Table: Model description {#tbl:descritpion}
+Table: Model description {#tbl:description}
 
 +----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|Neuron model    | $\frac{d \theta}{dt}=1-\cos \theta + (b+S+N(t))\cdot(1+ \cos \theta);$|
+|Neuron model    | $\frac{d \theta}{dt}=1-\cos \theta + (b+S+N(t))\cdot(1+ \cos \theta)$|
 |                | $\theta$ voltage variable; $b$ applied current; $S$ total synaptic input;$N(t)$ time-varying noise;|
 +----------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |Synaptic input  | $S_k = \sum_{j=1}^n \alpha_j \cdot g_{jk} \cdot s_{jk}$;|
@@ -156,24 +162,20 @@ Total time             500ms
 # Results
 
 As explained in the introduction, we only replicated the simple model from [@Vierling2008], and **not** the GENESIS model.
-We aimed to reproduce Figures 4 (raw, simulated MEG signal) and 5 (power spectra for MEG signals from Figure 4)  from [@Vierling2008], which show the main results of the model:
+We aimed to reproduce Figures 4 (raw, simulated MEG signal) and 5 (power spectra for MEG signals from Figure 4)  from [@Vierling2008], which show the main results of the model (summarized in Table
+@tbl:mainresults).
 
-1. Control network:
+Table: Model parameters {#tbl:mainresults}
 
-..1.1. 40 Hz drive: Strong entrainment to the drive, no power in frequency bands apart from 40 Hz
- 
-..1.2. 30 Hz drive: Strong entrainment to the drive, no power in frequency bands apart from 30 Hz
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Drive          Control subjects                                                              Schizophrenic patients
+-------------  ----------------------------------------------------------------------------- ---------------------------------------------------------------------------------
+40 Hz          Strong entrainment to the drive, no power in frequency bands apart from 40 Hz Weaker entrainment to the drive, emergence of a subharmonic component (at 20 Hz)
 
-..1.3. 20 Hz drive: Entrainment to the drive, however, more power in the harmonic, 40 Hz band than in the 20 Hz band
+30 Hz          Strong entrainment to the drive, no power in frequency bands apart from 30 Hz Strong entrainment to the drive, no power in frequency bands apart from 30 Hz
 
-2. Schizophrenia network:
-
-..2.1. 40 Hz drive: Weaker entrainment to the drive (compared to control network), emergence of a subharmonic component (at 40 Hz)
-
-..2.2. 30 Hz drive: Strong entrainment to the drive, no power in frequency bands apart from 30 Hz
-
-..2.3. 20 Hz drive: Stronger entrainment to the drive (compared to control network), less power in the harmonic band
-
+20 Hz          Entrainment to the drive, however, more power in the harmonic 40 Hz band      Stronger entrainment to the drive, less power in the harmonic band 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Figures @fig:Vierling4 and @fig:Vierling5 show the output of the replicated model for the same simulations as for Figures 4 and 5 from the original article. The main charactersitics
 described above can be clearly seen. However, in our model these main features are a little bit less pronounced than in the original model. Since the network

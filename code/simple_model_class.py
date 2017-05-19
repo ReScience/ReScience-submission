@@ -190,13 +190,13 @@ class simpleModel(object):
             s_ii[:,:,t] 	= s_ii[:,:,t-1] + self.dt*(-1.0*ii_decay + ii_synaptic_input)
 
 	    # D-E connections
-	    de_decay            = s_de[:,:,t-1]/self.tau_ex # exponential decay
-	    de_synaptic_input   = np.exp(-1.0*self.eta*(1+np.cos(drive_cell[t-1])))*((1.0-s_de[:,:,t-1])/self.tau_R) # synaptic input from drive cell
+	    de_decay            = s_de[:,t-1]/self.tau_ex # exponential decay
+	    de_synaptic_input   = np.exp(-1.0*self.eta*(1+np.cos(drive_cell[t-1])))*((1.0-s_de[:,t-1])/self.tau_R) # synaptic input from drive cell
             s_de[:,t]  	= s_de[:,t-1]   + self.dt*(-1.0*de_decay + de_synaptic_input)
 
 	    # D-I connections
-	    di_decay            = s_di[:,:,t-1]/self.tau_ex # exponential decay
-	    di_synaptic_input   = np.exp(-1.0*self.eta*(1+np.cos(drive_cell[t-1])))*((1.0-s_di[:,:,t-1])/self.tau_R) # synaptic input from drive cell
+	    di_decay            = s_di[:,t-1]/self.tau_ex # exponential decay
+	    di_synaptic_input   = np.exp(-1.0*self.eta*(1+np.cos(drive_cell[t-1])))*((1.0-s_di[:,t-1])/self.tau_R) # synaptic input from drive cell
             s_di[:,t]   	= s_di[:,t-1]   + self.dt*(-1.0*di_decay + di_synaptic_input)
              
             # calculate total synaptic input

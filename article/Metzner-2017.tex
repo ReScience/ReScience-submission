@@ -32,7 +32,7 @@ Inhibition and Gamma and Beta Auditory Entrainment
 \usepackage{listings}
 \lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
 
-
+\usepackage{placeins}
 
 %\usepackage{fancyvrb}
 %\VerbatimFootnotes
@@ -323,7 +323,7 @@ efficient implementation but rather an implementation that is clear, and
 easy to understand and use.
 
 All differential equations are solved using a simple forward Euler
-scheme. As in the original article a single simulation simulatesa 500ms
+scheme. As in the original article a single simulation simulates a 500ms
 trial and the time step is chosen such that this results in 2\^{}13 =
 8192 data points. However, the main results are unaffected by a smaller
 time step.
@@ -424,7 +424,7 @@ which show the main results of the model (summarized in Table
 \ref{tbl:mainresults}).
 
 \begin{longtable}[]{@{}lll@{}}
-\caption{Model parameters}\label{tbl:mainresults}\tabularnewline
+\caption{Main model result features}\label{tbl:mainresults}\tabularnewline
 \toprule
 \begin{minipage}[b]{0.08\columnwidth}\raggedright\strut
 Drive\strut
@@ -563,16 +563,39 @@ In this section we explore possible scenarios that might explain the less pronou
 
 We explore the influence of the background noise. The main mechanism behind the emergence of a 20 Hz component in response
 to 40 Hz drive in the schizophrenia network is the prolonged inhibition which suppresses activity in every second 40 Hz cycle. In the absence
-of noise the network responds with a pure 20 Hz oscillation (see Figures \ref{fig:NoiseExplorationMEG} (a) and \ref{fig:NoiseExplorationPSD} (a)). However, the background noise
+of noise the network responds with a pure 20 Hz oscillation (see Figures \ref{fig:NoiseExplorationMEG} left upper panel and \ref{fig:NoiseExplorationPSD} left upper panel). However, the background noise
 gives sufficient input to some excitatory cells to overcome this suppression and also fire in between the 20 Hz cycles. This results in a mixed response, 
 where power is split between 20 Hz and 40 Hz. The ratio of this split depends on the strength of the noise. Therefore, we asked whether the less pronounced
-20 Hz component in our reimplementation might simply come from a too high background noise amplitude. Figures \ref{fig:NoiseExplorationMEG} (b) and (c) and \ref{fig:NoiseExplorationPSD} (b) and (c), show the 
+20 Hz component in our reimplementation might simply come from a too high background noise amplitude. Figures \ref{fig:NoiseExplorationMEG} (left middle and lower panels  and \ref{fig:NoiseExplorationPSD} left middle and lower panels, show the 
 response (MEG signal and power spectral density, respectivey) to a 40 Hz drive in the cases, where we scaled down the noise to 75\% and 50\%, respectively. It can clearly be seen that the 20 Hz component increases, when
-the noise strength decreases (full noise strength can be seen in panel (d) of both Figures). However, as can be seen in panels (e) to (h), showing the response of the control network to 20 Hz drive,
+the noise strength decreases. However, as can be seen in right panels, showing the response of the control network to 20 Hz drive,
 is that downscaling of the background noise reduces the 40 Hz component in response to 20 Hz drive. This is not surprising since background noise drives excitatory cells to fire in between 20 Hz cycles in the control network, resulting
 in the 40 Hz component. This component is suppressed in the schizophrenia network due to the prolonged inhibition.
 Summarising, a difference in the strength of the background noise might be an explanation for the discrepancy between original and reimplementation. However, only a reduction of noise solely for the schizophrenia network 
 fully replicates the original results. 
+
+\begin{figure}
+\centering
+\includegraphics{Noise-Exploration-MEG.eps}
+\caption{Replication of Figure 11: Single trial from the schizophrenia
+network. 20 Hz drive. Network entrains to 20 Hz without 40 Hz component,
+as can be seen in the frequency diagram, raster plot and MEG trace. note
+that the 40 Hz power in the power spectrum is a
+harmonic.}\label{fig:NoiseExplorationMEG}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{Noise-Exploration-PSD.eps}
+\caption{Replication of Figure 11: Single trial from the schizophrenia
+network. 20 Hz drive. Network entrains to 20 Hz without 40 Hz component,
+as can be seen in the frequency diagram, raster plot and MEG trace. note
+that the 40 Hz power in the power spectrum is a
+harmonic.}\label{fig:NoiseExplorationPSD}
+\end{figure}
+
+
+\FloatBarrier
 
 \section{Conclusion}\label{conclusion}
 

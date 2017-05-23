@@ -60,7 +60,7 @@ time = np.linspace(0,sim_time,int(sim_time/dt))
 
 
 # Flags
-savefig = 1	# set savefig to 1 if you want to store the figures
+savefig = 0	# set savefig to 1 if you want to store the figures
 showfig = 1	# set plotfi to 1 if you want to show the figures
 
 
@@ -405,6 +405,7 @@ plt.setp(ax1.get_yticklabels(),fontsize=18)
 if savefig:
 	plt.savefig('../data/Figures/Replication-Figure11.png',dpi=600)
 	plt.savefig('../data/Figures/Replication-Figure11.eps',dpi=600)
+
 
 
 if showfig:

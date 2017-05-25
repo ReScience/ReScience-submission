@@ -106,11 +106,11 @@ plt.setp(ax3.get_yticklabels(),visible=True,fontsize=18)
 plt.setp(ax5.get_yticklabels(),visible=True,fontsize=18)
 
 if savefig:
-	plt.savefig('../data/Figures/Noise-Exploration.png',dpi=600)
-	plt.savefig('../data/Figures/Noise-Exploration.eps',dpi=600)
+	plt.savefig('../data/Figures/Noise-Exploration-MEG.png',dpi=600)
+	plt.savefig('../data/Figures/Noise-Exploration-MEG.eps',dpi=600)
 
 ########### Figure 8 - Exploration of the influence of noise strength (PSD)
-# load data
+# calculate power spectra
 pxx_ctrl_20_A_0,freqs = calcPowerSpectrum(ctrl_avg_meg_20_A_0,dt,sim_time)
 pxx_schiz_40_A_0,_     = calcPowerSpectrum(schiz_avg_meg_40_A_0,dt,sim_time)
 
@@ -120,9 +120,9 @@ pxx_schiz_40_A_0_25,_     = calcPowerSpectrum(schiz_avg_meg_40_A_0_25,dt,sim_tim
 pxx_ctrl_20_A_0_375,freqs = calcPowerSpectrum(ctrl_avg_meg_20_A_0_375,dt,sim_time)
 pxx_schiz_40_A_0_375,_     = calcPowerSpectrum(schiz_avg_meg_40_A_0_375,dt,sim_time)
 
-# plot
+
 # Plot figure
-#plt.figure(2)
+
 f2,((ax11,ax22),(ax33,ax44),(ax55,ax66)) = plt.subplots(3,2,sharex=True,sharey=True,figsize=[19.0,15.0])
 
 ax11.plot(freqs*1000,pxx_schiz_40_A_0,'k',linewidth=2)
@@ -173,7 +173,7 @@ xticks[4].set_weight('bold')
 ax66.plot(freqs*1000,pxx_ctrl_20_A_0_375,'k',linewidth=2)
 ax66.set_xlabel('Frequency (Hz)',fontsize=18)
 ax66.set_ylabel('Power',fontsize=18)
-ax66.annotate('Control 29 Hz Drive',xy=(0.5,0),xytext=(0,-75),xycoords='axes fraction',textcoords='offset points',size=35,ha='center',va='bottom')
+ax66.annotate('Control 20 Hz Drive',xy=(0.5,0),xytext=(0,-75),xycoords='axes fraction',textcoords='offset points',size=35,ha='center',va='bottom')
 xticks=ax66.xaxis.get_ticklabels()
 xticks[2].set_weight('bold')
 xticks[3].set_weight('bold')
@@ -195,8 +195,8 @@ plt.setp(ax33.get_yticklabels(),visible=True,fontsize=18)
 plt.setp(ax55.get_yticklabels(),visible=True,fontsize=18)
 
 if savefig:
-	plt.savefig('../data/Figures/Noise-Exploration.png',dpi=600)
-	plt.savefig('../data/Figures/Noise-Exploration.eps',dpi=600)
+	plt.savefig('../data/Figures/Noise-Exploration-PSD.png',dpi=600)
+	plt.savefig('../data/Figures/Noise-Exploration-PSD.eps',dpi=600)
 
 if showfig:
 	plt.show()

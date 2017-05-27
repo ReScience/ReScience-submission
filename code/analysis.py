@@ -3,15 +3,22 @@ import matplotlib.pyplot as plt
 import matplotlib.mlab as mlab
 
 
-def getSingleSpikeTimes(neuron,dt):
-        '''
-           Calculates the spike times from the trace of a single theta neuron
-           Parameters:
-           neuron: the single neuron trace
-	   dt: time step
-        '''
+def getSingleSpikeTimes(neuron,dt)
+	'''Calculates the spike times from the trace of a single theta neuron.
+
+ 	Parameters
+	-----------------
+	neuron : ndarray
+		1D array containing the single neuron trace.
+	dt     : float 
+		The time step.
+
+	Returns
+	-----------------
+	list
+		A list containing the spike times.
+	'''
 	spike_times = []
-	#spike_flag = 0
 	old = 0.0
 	for i,n in enumerate(neuron):
 		
@@ -24,12 +31,20 @@ def getSingleSpikeTimes(neuron,dt):
 	return spike_times
 
 def getSpikeTimes(data,dt):
-        '''
-           Calculates the spike times from an array of theta neuron traces
-           Parameters:
-           data: the traces array
-	   dt: time step
-        '''
+	'''Calculates the spike times from an array of theta neuron traces.
+
+ 	Parameters
+	-----------------
+	data   : ndarray
+		nD array containing the traces.
+	dt     : float 
+		The time step.
+
+	Returns
+	-----------------
+	list
+		A list containing lists of spike times.
+	'''
 	nx,ny = data.shape
 	spike_times = [None]*nx
 	for i in range(nx):
@@ -39,13 +54,17 @@ def getSpikeTimes(data,dt):
 
 
 def rasterPlot(spike_times,sim_time):
-        '''
-           Plots a raster plot for an array of spike trains
-           Parameters:
-           spike_times: array of spike trains
-           sim_time: duration of the simulation
-        '''
-	fig = plt.figure()
+	'''Plots a raster plot for an array of spike trains.
+
+ 	Parameters
+	-----------------
+	spike_times   : list
+		A list containing lists of spike times.
+	sim_time      : float 
+		The duration of the simulation.
+
+	'''
+       	fig = plt.figure()
 	ax = fig.add_subplot(111)
 	for i,times in enumerate(spike_times):
 		y = [i]*len(times)
@@ -56,71 +75,81 @@ def rasterPlot(spike_times,sim_time):
 
 
 def plotMEGTrace(meg,sim_time,dt,save,filename):
-        '''
-           Plots a simulated MEG signal versus time
-           Parameters:
-           meg: the simulated MEG signal to plot
-           sim_time: the duration of the simulation
-	   dt: time step
-	   save: flag whether to save the plot or not
-	   filename: filename to save the plot
-        '''
+	'''Plots a simulated MEG signal versus time.
+
+ 	Parameters
+	-----------------
+	meg      : ndarray
+		1D array containing the simulated MEG signal.
+	sim_time : float
+		The duration of the simulation.
+	dt       : float
+		The time step.
+	save     : int
+		A flag whether to save the plot or not.
+	filename : str
+		The filename to save the plot.
+	'''
 	fig = plt.figure()
 	ax = fig.add_subplot(111)
 	time = np.linspace(0,sim_time,int(sim_time/dt))
 	ax.plot(time,meg,'k')
  
- 
 	if save:
-            filenamepng = filename+'-MEG.png'
-            plt.savefig(filenamepng,dpi=600)
+		filenamepng = filename+'-MEG.png'
+		plt.savefig(filenamepng,dpi=600)
         
-
 	plt.show()
 
 
 
 def calcPowerSpectrum(meg,dt,sim_time):
-        '''
-           Calculates the power spectral density of a simulated MEG signal
-           Parameters:
-           meg: the simulated MEG signal
-	   dt: time step
-           sim_time: the duration of the simulation
-        '''
+	'''Calculates the power spectral density of a simulated MEG signal (using mlab.psd(), which uses Welch's method).
+
+ 	Parameters
+	-----------------
+	meg      : ndarray
+		1D array containing the simulated MEG signal.
+	dt       : float 
+		The time step.
+	sim_time : float
+		The duration of the simulation.
+
+	Returns
+	-----------------
+	ndarray,ndarray
+		Two 1D arrays containing the power spectral density of the signal and the according frequencies.
+	'''
 	# fourier sample rate
   	fs = 1. / dt	
 
 	tn = np.linspace(0,sim_time,int(sim_time/dt))
 
   	npts = len(meg)
- 	startpt = int(0.2*fs)
-
-  	if (npts - startpt)%2!=0:
-      		startpt = startpt + 1
-
-  	meg = meg[startpt:]
-  	tn = tn[startpt:]
-  	nfft = len(tn)
 
 
-
-  	pxx,freqs=mlab.psd(meg,NFFT=nfft,Fs=fs,noverlap=0,window=mlab.window_none)
+  	pxx,freqs=mlab.psd(meg,NFFT=npts,Fs=fs,noverlap=0,window=mlab.window_none)
   	pxx[0] = 0.0
 	
 	return pxx,freqs
 
 
 def plotPowerSpectrum(pxx,freqs,fmax,save,filename):
- 	'''
-           Plots the power spectral density of a simulated MEG signal
-           Parameters:
-           freqs: frequency vector
-           pxx: power spectral density vector
-           fmax: maximum frequency to display
-	   save: flag whether to save the plot or not
-	   filename: filename to save the plot
-        '''
+	'''Plots the power spectral density of a simulated MEG signal.
+
+ 	Parameters
+	-----------------
+	freqs   : ndarray
+		1D array containing the frequencies.
+	pxx     : ndarray
+		1D array containing the power spectral desnsity.
+	fmax    : float 
+		Maximal frequency to display.
+	save    : int
+		Flag whether to save the plot or not.
+	filename : str
+		The filename to save the plot.
+	'''
 	fig = plt.figure()
 	ax = fig.add_subplot(111)
 

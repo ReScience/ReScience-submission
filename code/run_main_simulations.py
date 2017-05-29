@@ -12,6 +12,10 @@
 #   inhibition and altered gamma and beta range auditory entrainment. 
 #   Journal of neurophysiology, 99(5), 2656-2671.
 # -----------------------------------------------------------------------------
+# A script that runs the main simulations of the replication study.
+#
+# -----------------------------------------------------------------------------
+
 import time
 import numpy as np
 
@@ -61,21 +65,19 @@ for drive_frequency in frequencies:
 	meg_ctrl_avg = np.zeros((8192,))
 	meg_schiz_avg = np.zeros((8192,))
 	for i,seed in enumerate(seeds):
-	    print(i)
+		print(i)
 
-	    filename_ctrl  = '/Single-Trial-Data-'+str(int(drive_frequency))+'Hz/sims_ctrl_'+str(int(drive_frequency))+'Hz'+str(i)
-	    filename_schiz = '/Single-Trial-Data-'+str(int(drive_frequency))+'Hz/sims_schiz_'+str(int(drive_frequency))+'Hz'+str(i)
+		filename_ctrl  = '/Single-Trial-Data-'+str(int(drive_frequency))+'Hz/sims_ctrl_'+str(int(drive_frequency))+'Hz'+str(i)
+		filename_schiz = '/Single-Trial-Data-'+str(int(drive_frequency))+'Hz/sims_schiz_'+str(int(drive_frequency))+'Hz'+str(i)
+	        
+		model_ctrl = simpleModel(n_ex,n_inh,eta,tau_R,tau_ex,tau_inh_ctrl,g_ee,g_ei,g_ie,g_ii,g_de,g_di,dt,b_ex,b_inh,drive_frequency,background_rate,A,seed,filename_ctrl,directory)
+		model_schiz = simpleModel(n_ex,n_inh,eta,tau_R,tau_ex,tau_inh_schiz,g_ee,g_ei,g_ie,g_ii,g_de,g_di,dt,b_ex,b_inh,drive_frequency,background_rate,A,seed,filename_schiz,directory)
+	        
+		meg_ctrl,ex_ctrl,inh_ctrl = model_ctrl.run(sim_time,1,1,1)
+		meg_schiz,ex_schiz,inh_schiz = model_schiz.run(sim_time,1,1,1)
 	    
-	    
-	    model_ctrl = simpleModel(n_ex,n_inh,eta,tau_R,tau_ex,tau_inh_ctrl,g_ee,g_ei,g_ie,g_ii,g_de,g_di,dt,b_ex,b_inh,drive_frequency,background_rate,A,seed,filename_ctrl,directory)
-	    model_schiz = simpleModel(n_ex,n_inh,eta,tau_R,tau_ex,tau_inh_schiz,g_ee,g_ei,g_ie,g_ii,g_de,g_di,dt,b_ex,b_inh,drive_frequency,background_rate,A,seed,filename_schiz,directory)
-	    
-	    
-	    meg_ctrl,ex_ctrl,inh_ctrl = model_ctrl.run(sim_time,1,1,1)
-	    meg_schiz,ex_schiz,inh_schiz = model_schiz.run(sim_time,1,1,1)
-	    
-	    meg_ctrl_avg += meg_ctrl    
-	    meg_schiz_avg += meg_schiz
+		meg_ctrl_avg += meg_ctrl    
+		meg_schiz_avg += meg_schiz
 	    
 	    
 

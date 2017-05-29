@@ -1,9 +1,20 @@
 # -*- coding: utf-8 -*-
-"""
-Script that runs a single instance of the simple model
-
-@author: Christoph Metzner
-"""
+# -----------------------------------------------------------------------------
+# Copyright (c) 2017, Christoph Metzner
+# Distributed under the (new) BSD License.
+#
+# Contributors: Christoph Metzner (c.metzner@herts.ac.uk)
+# -----------------------------------------------------------------------------
+# References:
+#
+# * Vierling-Claassen, D., Siekmeier, P., Stufflebeam, S., & Kopell, N. (2008). 
+#   Modeling GABA alterations in schizophrenia: a link between impaired 
+#   inhibition and altered gamma and beta range auditory entrainment. 
+#   Journal of neurophysiology, 99(5), 2656-2671.
+# -----------------------------------------------------------------------------
+# A script to run a single trial of the model used in the replication study.
+#
+# -----------------------------------------------------------------------------
 
 from simple_model_class import simpleModel
 

@@ -18,15 +18,26 @@ python example_run.py
 This will run a single simulations (see run_example.py for details on the parameters) and produce
 some plts of the data.
 
-To run the full set of simulations for the article figures, type:
+To run the main set of simulations for the article figures, type:
 ```
-python run_simulations.py
+python run_main_simulations.py
 ```
 Note: This might take 15-20 minutes.
 
 Afterwards, in order to replicate the figures from the article, type:
 ```
-python plot_figures.py
+python plot_main_figures.py
+``` 
+
+To run the set of simulations for the noise explorations, type:
+```
+python run_noise_exploration_sims.py
+```
+Note: This might take 15-20 minutes.
+
+Afterwards, in order to replicate the figures from the article, type:
+```
+python plot_exploration_figures.py
 ``` 
 
 Alternatively, you can have a look at the notebooks folder and the IPython notebooks there.

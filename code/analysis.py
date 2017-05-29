@@ -1,3 +1,20 @@
+# -*- coding: utf-8 -*-
+# -----------------------------------------------------------------------------
+# Copyright (c) 2017, Christoph Metzner
+# Distributed under the (new) BSD License.
+#
+# Contributors: Christoph Metzner (c.metzner@herts.ac.uk)
+# -----------------------------------------------------------------------------
+# References:
+#
+# * Vierling-Claassen, D., Siekmeier, P., Stufflebeam, S., & Kopell, N. (2008). 
+#   Modeling GABA alterations in schizophrenia: a link between impaired 
+#   inhibition and altered gamma and beta range auditory entrainment. 
+#   Journal of neurophysiology, 99(5), 2656-2671.
+# -----------------------------------------------------------------------------
+# A collection of anaylsis methods used in the replication study.
+#
+# -----------------------------------------------------------------------------
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.mlab as mlab

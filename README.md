@@ -1,91 +1,37 @@
 
-### ReScience submission repository
+# Chemical Signalling in the Neurovascular Unit
 
-This is the submission repository for the [Re**Science** journal](https://rescience.github.io).
+This is a replication of the following article:
 
-### How to submit an article ?
+Witthoft A, Karniadakis GE (2012) A bidirectional model for communication in the neurovascular unit. *Journal of Theoretical Biology* 311: 80-93.
 
-
-1. Create a [github](https://github.com) account
-
-2. [Fork](https://help.github.com/articles/fork-a-repo/) the [ReScience submission](https://github.com/ReScience/ReScience-submission) repository
-
-3. Clone this new repository into your desktop environment
-
-   ```
-   $ git clone https://github.com/YOUR-USERNAME/ReScience-submission
-   ```
-
-4. Create a branch (the branch name should be author names separated with dashes)
-
-   ```
-   $ git checkout -b AUTHOR1-AUTHOR2
-   ```
+where the authors present *"an interactional model of bidirectional signalling in the neurovascular unit"*. This model combines previous models of the astrocyte signalling cascade [1,2] with a model of smooth muscle cell contractions in small arteries [3]. *"This is the first computational model of astrocyte response to vascular function, making it the first model of a neurovascular unit to include a two-way communication path between the brain and vasculature."*
 
 
-5. Add your code & article (see [author guidelines](https://rescience.github.io/write)) and commit your changes:
+## References
 
-   ```
-   $ git commit -a -m "Some comment"
-   ```
+[1] Bennett MR, Farnell L, Gibson W (2008) Origins of blood volume change due to glutamatergic synaptic activity at astrocytes abutting on arteriolar smooth muscle cells. *Journal of Theoretical Biology* 250: 172-185.
+
+[2] Farr H, David T (2011) Models of neurovascular coupling via potassium and EET signalling. *Journal of Theoretical Biology* 286: 13-23.
+
+[3] Gonzalez-Fernandez JM, Ermentrout B (1994) On the origin and dynamics of the vasomotion of small arteries. *Mathematical Biosciences* 119: 127-167.
 
 
-6. [Push](https://help.github.com/articles/pushing-to-a-remote/) to github
+## Pre-requisites
 
-   ```
-   $ git push origin AUTHOR1-AUTHOR2
-   ```
+This replication has been written and tested on Linux Mint 18.1 Cinnamon using the
+following packages:
 
-7. Issue a [pull request](https://help.github.com/articles/using-pull-requests/) (PR) to Re**Science** with title containing author(s) name and follow the template that will appear once you opened the pull request:
+ * Python 3.5.3
+ * Numpy 1.12.1
+ * Scipy 0.19.0
+ * Matplotlib 2.0.2
+ 
+Original data is in the data directory.
 
-  ```
-  **AUTHOR**
 
-  Dear @ReScience/editors,
+## Usage
 
-  I request a review for the following replication:
-
-  ### Original article
-
-  **Title:**  
-  **Author(s):**  
-  **Journal (or Conference):**  
-  **Year:**  
-  **DOI:**  
-  **PDF:**   
-
-  ### Replication
-
-  **Author(s)**:   
-  **Repository**:  
-  **PDF**:  
-  **Keywords**:  
-  **Language**:  
-  **Domain**:  
-
-  ### Results
-
-  * [ ] Article has been fully replicated
-  * [ ] Article has been partially replicated
-  * [ ] Article has not been replicated
-
-  ### Potential reviewers
-  <!-- If you know potential reviewers, you can tell us here -->
-  <!-- You can look at http://rescience.github.io/board for the -->
-  <!-- list of registered reviewers (but you can propose others) -->
-
-  ---
-
-  **EDITOR**
-
-  * [ ] Editor acknowledgment
-  * [ ] Reviewer 1 
-  * [ ] Reviewer 2
-  * [ ] Review 1 decision [accept/reject]
-  * [ ] Review 2 decision [accept/reject]
-  * [ ] Editor decision [accept/reject]
-  ```
-
-8. You can suggest reviewers from [editorial board](https://rescience.github.io/board).
-
-9. Answer questions and requests made in the PR conversation page.
+```
+ usage: nvu.py
+```

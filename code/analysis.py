@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # Copyright (c) 2017, Christoph Metzner
 # Distributed under the (new) BSD License.
 #
 # Contributors: Christoph Metzner (c.metzner@herts.ac.uk)
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # References:
 #
 # * Vierling-Claassen, D., Siekmeier, P., Stufflebeam, S., & Kopell, N. (2008). 
 #   Modeling GABA alterations in schizophrenia: a link between impaired 
 #   inhibition and altered gamma and beta range auditory entrainment. 
 #   Journal of neurophysiology, 99(5), 2656-2671.
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # A collection of anaylsis methods used in the replication study.
 #
 # -----------------------------------------------------------------------------
@@ -39,7 +39,8 @@ def getSingleSpikeTimes(neuron,dt):
     old = 0.0
     for i,n in enumerate(neuron):
         
-        # if theta passes (2l-1)*pi, l integer, with dtheta/dt>0 then the neuron spikes (see Boergers and Kopell, 2003)
+        # if theta passes (2l-1)*pi, l integer, with dtheta/dt>0 then 
+        # the neuron spikes (see Boergers and Kopell, 2003)
         if (n%(2*np.pi))>np.pi and (old%(2*np.pi))<np.pi:
             spike_time = i*dt
             spike_times.append(spike_time)
@@ -82,7 +83,7 @@ def rasterPlot(spike_times,sim_time):
         The duration of the simulation.
 
     '''
-           fig = plt.figure()
+    fig = plt.figure()
     ax = fig.add_subplot(111)
     for i,times in enumerate(spike_times):
         y = [i]*len(times)
@@ -122,7 +123,8 @@ def plotMEGTrace(meg,sim_time,dt,save,filename):
 
 
 def calcPowerSpectrum(meg,dt,sim_time):
-    '''Calculates the power spectral density of a simulated MEG signal (using mlab.psd(), which uses Welch's method).
+    '''Calculates the power spectral density of a simulated MEG signal 
+    (using mlab.psd(), which uses Welch's method).
 
      Parameters
     -----------------
@@ -136,18 +138,19 @@ def calcPowerSpectrum(meg,dt,sim_time):
     Returns
     -----------------
     ndarray,ndarray
-        Two 1D arrays containing the power spectral density of the signal and the according frequencies.
+        Two 1D arrays containing the power spectral density of the signal 
+        and the according frequencies.
     '''
     # fourier sample rate
-      fs = 1. / dt    
+    fs = 1. / dt    
 
     tn = np.linspace(0,sim_time,int(sim_time/dt))
 
-      npts = len(meg)
+    npts = len(meg)
 
 
-      pxx,freqs=mlab.psd(meg,NFFT=npts,Fs=fs,noverlap=0,window=mlab.window_none)
-      pxx[0] = 0.0
+    pxx,freqs=mlab.psd(meg,NFFT=npts,Fs=fs,noverlap=0,window=mlab.window_none)
+    pxx[0] = 0.0
     
     return pxx,freqs
 

@@ -63,7 +63,8 @@ class simpleModel(object):
     b_inh        : float
         applied current to inhibitory cells
     drive_frequency : float
-        drive frequency (a drive frequency of 0.0 means no drive at all and the network is solely driven by noise)
+        drive frequency (a drive frequency of 0.0 means no drive at all and the
+        network is solely driven by noise)
     
     background_rate : float
         rate of the background noise spike trains
@@ -74,7 +75,10 @@ class simpleModel(object):
         seed for the random number generator
     '''
 
-        def __init__(self,n_ex=20,n_inh=10,eta=5.0,tau_R=0.1,tau_ex=2.0,tau_inh=8.0,g_ee=0.015,g_ei=0.025,g_ie=0.015,g_ii=0.02,g_de=0.3,g_di=0.08,dt=0.05,b_ex=-0.01,b_inh=-0.01,drive_frequency=0.0,background_rate=33.3,A=0.5,seed=12345,filename='default',directory='/'):
+    def __init__(self,n_ex=20,n_inh=10,eta=5.0,tau_R=0.1,tau_ex=2.0,tau_inh=8.0,
+g_ee=0.015,g_ei=0.025,g_ie=0.015,g_ii=0.02,g_de=0.3,g_di=0.08,dt=0.05,
+b_ex=-0.01,b_inh=-0.01,drive_frequency=0.0,background_rate=33.3,A=0.5,
+seed=12345,filename='default',directory='/'):
         self.n_ex = n_ex
         self.n_inh = n_inh
         self.eta = eta
@@ -107,42 +111,61 @@ class simpleModel(object):
         saveMEG : int
             A flag that signalises whether the MEG signal should be stored
         saveEX: : int
-            A flag that signalises whether the exc. population activity should be stored
+            A flag that signalises whether the exc. population activity 
+           should be stored
         saveINH : int
-            A flag that signalises whether the inh.population activity should be stored
+            A flag that signalises whether the inh.population activity 
+            should be stored
         '''
-            
-        time_points = np.linspace(0,time,int(time/self.dt)) # number of time steps 
+        # number of time steps 
+        time_points = np.linspace(0,time,int(time/self.dt)) 
         
-            # Initialisations
-        drive_cell  =   np.zeros((len(time_points),))    # the pacemaking drive cell
+        # Initialisations
+
+        # the pacemaking drive cell
+        drive_cell  =   np.zeros((len(time_points),))    
         
+        # exc. neurons
+        theta_ex = np.zeros((self.n_ex,len(time_points)))        
+        # inh. neurons
+        theta_inh = np.zeros((self.n_inh,len(time_points)))        
         
-        theta_ex = np.zeros((self.n_ex,len(time_points)))        # exc. neurons
-        theta_inh = np.zeros((self.n_inh,len(time_points)))        # inh. neurons
+        # E-E snyaptic gating variables
+        s_ee = np.zeros((self.n_ex,self.n_ex,len(time_points))) 
+        # E-I snyaptic gating variables    
+        s_ei = np.zeros((self.n_ex,self.n_inh,len(time_points)))    
+        # I-E snyaptic gating variables
+        s_ie = np.zeros((self.n_inh,self.n_ex,len(time_points)))
+        # I-I snyaptic gating variables    
+        s_ii = np.zeros((self.n_inh,self.n_inh,len(time_points)))    
+        # Drive-E snyaptic gating variables
+        s_de = np.zeros((self.n_ex,len(time_points)))  
+        # Drive-I snyaptic gating variables          
+        s_di = np.zeros((self.n_inh,len(time_points)))
         
-        s_ee = np.zeros((self.n_ex,self.n_ex,len(time_points)))     # E-E snyaptic gating variables
-        s_ei = np.zeros((self.n_ex,self.n_inh,len(time_points)))    # E-I snyaptic gating variables
-        s_ie = np.zeros((self.n_inh,self.n_ex,len(time_points)))    # I-E snyaptic gating variables
-        s_ii = np.zeros((self.n_inh,self.n_inh,len(time_points)))    # I-I snyaptic gating variables
-        s_de = np.zeros((self.n_ex,len(time_points)))            # Drive-E snyaptic gating variables
-        s_di = np.zeros((self.n_inh,len(time_points)))            # Drive-I snyaptic gating variables
+        # Noise to exc. cells
+        N_ex = np.zeros((self.n_ex,len(time_points)))  
+        # Noise to inh. cells          
+        N_inh = np.zeros((self.n_inh,len(time_points)))            
         
-        N_ex = np.zeros((self.n_ex,len(time_points)))            # Noise to exc. cells
-        N_inh = np.zeros((self.n_inh,len(time_points)))            # Noise to inh. cells
+        # Synaptic inputs for exc. cells
+        S_ex = np.zeros((self.n_ex,len(time_points)))
+        # Synaptic inputs for inh. cells            
+        S_inh = np.zeros((self.n_inh,len(time_points)))            
         
-        S_ex = np.zeros((self.n_ex,len(time_points)))            # Synaptic inputs for exc. cells
-        S_inh = np.zeros((self.n_inh,len(time_points)))            # Synaptic inputs for inh. cells
+        # MEG component for each cell (only E-E EPSCs)
+        meg = np.zeros((self.n_ex,len(time_points)))            
         
-        meg = np.zeros((self.n_ex,len(time_points)))            # MEG component for each cell (only E-E EPSCs)
-        
-        # applied currents
-        B_ex    = self.b_ex * np.ones((self.n_ex,))                # applied current for exc. cells
-        B_inh   = self.b_inh * np.ones((self.n_inh,))            # applied current for inh. cells
-        
-        # Frequency = 1000/period(in ms) and b= pi**2 / period**2 (because period = pi* sqrt(1/b); see Boergers and Kopell 2003) 
+        # applied current for exc. cells
+        B_ex    = self.b_ex * np.ones((self.n_ex,)) 
+        # applied current for inh. cells               
+        B_inh   = self.b_inh * np.ones((self.n_inh,))            
+
+        # Frequency = 1000/period(in ms) and b= pi**2 / period**2 
+        # (because period = pi* sqrt(1/b); see Boergers and Kopell 2003) 
         period  = 1000.0/self.drive_frequency
-        b_drive = np.pi**2/period**2            # applied current for drive cell 
+        # applied current for drive cell
+        b_drive = np.pi**2/period**2             
         
         # Seed the random generator
         random.seed( self.seed )
@@ -151,8 +174,8 @@ class simpleModel(object):
         ST_ex = [None]*self.n_ex
         ST_inh = [None]*self.n_inh
         
-        
-        rate_parameter = self.background_rate/1000.0 # adjust rate to ms time scale
+        # adjust rate to ms time scale
+        rate_parameter = self.background_rate/1000.0 
         for i in range(self.n_ex):
             template_spike_array = []
             # Produce Poissonian spike train
@@ -193,54 +216,80 @@ class simpleModel(object):
                     N_inh[i,t] = N_inh[i,t] + self._noise(t,tn) 
 
             # evolve gating variable
-
+       
             # E-E connections
-            ee_decay            = s_ee[:,:,t-1]/self.tau_ex # exponential decay
-            ee_synaptic_input   = np.exp(-1.0*self.eta*(1+np.cos(theta_ex[:,t-1])))*((1.0-s_ee[:,:,t-1])/self.tau_R) # synaptic input from other cells
-            s_ee[:,:,t]     = s_ee[:,:,t-1] + self.dt*(-1.0*ee_decay + ee_synaptic_input)
+            # exponential decay
+            ee_decay            = s_ee[:,:,t-1]/self.tau_ex 
+            # synaptic input from other cells
+            ee_synaptic_input   = np.exp(-1.0*self.eta*(1+np.cos(theta_ex[:,t-1])))*((1.0-s_ee[:,:,t-1])/self.tau_R) 
+            s_ee[:,:,t] = s_ee[:,:,t-1]+self.dt*(-1.0*ee_decay+ee_synaptic_input)
              
             # E-I connections          
             for k in range(self.n_ex):
                 a[k,0]=theta_ex[k,t-1]
-            ei_decay            = s_ei[:,:,t-1]/self.tau_ex # exponential decay
-            ei_synaptic_input   = np.exp(-1.0*self.eta*(1+np.cos(a)))*((1.0-s_ei[:,:,t-1])/self.tau_R) # synaptic input from other cells
-            s_ei[:,:,t]     = s_ei[:,:,t-1] + self.dt*(-1.0*ei_decay + ei_synaptic_input)
+            # exponential decay
+            ei_decay            = s_ei[:,:,t-1]/self.tau_ex 
+            # synaptic input from other cells
+            ei_synaptic_input   = np.exp(-1.0*self.eta*(1+np.cos(a)))*((1.0-s_ei[:,:,t-1])/self.tau_R) 
+            s_ei[:,:,t] = s_ei[:,:,t-1]+self.dt*(-1.0*ei_decay+ei_synaptic_input)
                       
             # I-E connections 
             for l in range(self.n_inh):
                 b[l,0]=theta_inh[l,t-1]
-            ie_decay            = s_ie[:,:,t-1]/self.tau_inh # exponential decay
-            ie_synaptic_input   = np.exp(-1.0*self.eta*(1+np.cos(b)))*((1.0-s_ie[:,:,t-1])/self.tau_R) # synaptic input from other cells
-            s_ie[:,:,t]     = s_ie[:,:,t-1] + self.dt*(-1.0*ie_decay + ie_synaptic_input)
+            # exponential decay
+            ie_decay            = s_ie[:,:,t-1]/self.tau_inh 
+            # synaptic input from other cells
+            ie_synaptic_input   = np.exp(-1.0*self.eta*(1+np.cos(b)))*((1.0-s_ie[:,:,t-1])/self.tau_R) 
+            s_ie[:,:,t] = s_ie[:,:,t-1]+self.dt*(-1.0*ie_decay+ie_synaptic_input)
 
             # I-I connections
-            ii_decay            = s_ii[:,:,t-1]/self.tau_inh # exponential decay
-            ii_synaptic_input   = np.exp(-1.0*self.eta*(1+np.cos(theta_inh[:,t-1])))*((1.0-s_ii[:,:,t-1])/self.tau_R) # synaptic input from other cells
-            s_ii[:,:,t]     = s_ii[:,:,t-1] + self.dt*(-1.0*ii_decay + ii_synaptic_input)
+            # exponential decay
+            ii_decay            = s_ii[:,:,t-1]/self.tau_inh 
+            # synaptic input from other cells
+            ii_synaptic_input   = np.exp(-1.0*self.eta*(1+np.cos(theta_inh[:,t-1])))*((1.0-s_ii[:,:,t-1])/self.tau_R) 
+            s_ii[:,:,t] = s_ii[:,:,t-1]+self.dt*(-1.0*ii_decay+ii_synaptic_input)
 
             # D-E connections
-            de_decay            = s_de[:,t-1]/self.tau_ex # exponential decay
-            de_synaptic_input   = np.exp(-1.0*self.eta*(1+np.cos(drive_cell[t-1])))*((1.0-s_de[:,t-1])/self.tau_R) # synaptic input from drive cell
-            s_de[:,t]      = s_de[:,t-1]   + self.dt*(-1.0*de_decay + de_synaptic_input)
+            # exponential decay
+            de_decay            = s_de[:,t-1]/self.tau_ex 
+            # synaptic input from drive cell
+            de_synaptic_input   = np.exp(-1.0*self.eta*(1+np.cos(drive_cell[t-1])))*((1.0-s_de[:,t-1])/self.tau_R) 
+            s_de[:,t] = s_de[:,t-1]+self.dt*(-1.0*de_decay+de_synaptic_input)
 
             # D-I connections
-            di_decay            = s_di[:,t-1]/self.tau_ex # exponential decay
-            di_synaptic_input   = np.exp(-1.0*self.eta*(1+np.cos(drive_cell[t-1])))*((1.0-s_di[:,t-1])/self.tau_R) # synaptic input from drive cell
-            s_di[:,t]       = s_di[:,t-1]   + self.dt*(-1.0*di_decay + di_synaptic_input)
+            # exponential decay
+            di_decay            = s_di[:,t-1]/self.tau_ex 
+            # synaptic input from drive cell
+            di_synaptic_input   = np.exp(-1.0*self.eta*(1+np.cos(drive_cell[t-1])))*((1.0-s_di[:,t-1])/self.tau_R) 
+            s_di[:,t] = s_di[:,t-1]+self.dt*(-1.0*di_decay+di_synaptic_input)
              
             # calculate total synaptic input
-            S_ex[:,t]    = self.g_ee*np.sum(s_ee[:,:,t-1],axis=0) - self.g_ie*np.sum(s_ie[:,:,t-1],axis=0) + self.g_de*s_de[:,t-1]
-            S_inh[:,t] = self.g_ei*np.sum(s_ei[:,:,t-1],axis=0) - self.g_ii*np.sum(s_ii[:,:,t-1],axis=0) + self.g_di*s_di[:,t-1]
-             
-            meg[:,t]    = self.g_ee*np.sum(s_ee[:,:,t-1],axis=0)  #+ self.g_de*s_de[:,t-1]
+            excitation = self.g_ee*np.sum(s_ee[:,:,t-1],axis=0)
+            inhibition = self.g_ie*np.sum(s_ie[:,:,t-1],axis=0)
+            drive = self.g_de*s_de[:,t-1]
+            S_ex[:,t] = excitation-inhibition+drive
 
-            
+            excitation = self.g_ei*np.sum(s_ei[:,:,t-1],axis=0)
+            inhibition = self.g_ii*np.sum(s_ii[:,:,t-1],axis=0)
+            drive = self.g_di*s_di[:,t-1]
+            S_inh[:,t] = excitation-inhibition+drive
+             
+            meg[:,t]    = self.g_ee*np.sum(s_ee[:,:,t-1],axis=0)  
+
+ 
             # evolve drive cell
-            drive_cell[t]      = drive_cell[t-1]  + self.dt*((1 - np.cos(drive_cell[t-1])) + b_drive*(1 + np.cos(drive_cell[t-1])))
+            part_a = (1-np.cos(drive_cell[t-1]))
+            part_b = b_drive*(1 + np.cos(drive_cell[t-1])) 
+            drive_cell[t] = drive_cell[t-1]+self.dt*(part_a+part_b)
              
             # evolve theta
-            theta_ex[:,t]      = theta_ex[:,t-1]  + self.dt*( (1 - np.cos(theta_ex[:,t-1])) + (B_ex + S_ex[:,t] + N_ex[:,t])*(1 + np.cos(theta_ex[:,t-1])))
-            theta_inh[:,t]     = theta_inh[:,t-1] + self.dt*( (1 - np.cos(theta_inh[:,t-1])) + (B_inh + S_inh[:,t] + N_inh[:,t])*(1 + np.cos(theta_inh[:,t-1])))
+            part_a = (1 - np.cos(theta_ex[:,t-1]))
+            part_b = (B_ex + S_ex[:,t] + N_ex[:,t])*(1 + np.cos(theta_ex[:,t-1]))
+            theta_ex[:,t]= theta_ex[:,t-1]  + self.dt*(part_a+part_b)
+
+            part_a = (1 - np.cos(theta_inh[:,t-1]))
+            part_b = (B_inh + S_inh[:,t] + N_inh[:,t])*(1 + np.cos(theta_inh[:,t-1]))
+            theta_inh[:,t] = theta_inh[:,t-1] + self.dt*(part_a+part_b)
         
         
         
@@ -332,9 +381,10 @@ class simpleModel(object):
             filenamepng = self.directory+self.filename+'-'+name+'-raster.png'
 
             plt.savefig(filenamepng,dpi=600)
-    
+
     def calculatePSD(self,meg,sim_time):
-        '''Calculates the power spectral density of a simulated MEG signal (using mlab.psd(), which uses Welch's method).
+        '''Calculates the power spectral density of a simulated MEG 
+        signal (using mlab.psd(), which uses Welch's method).
 
         Parameters
         -----------------
@@ -346,7 +396,8 @@ class simpleModel(object):
         Returns
         -----------------
         ndarray,ndarray
-            Two 1D arrays containing the power spectral density of the signal and the according frequencies.
+            Two 1D arrays containing the power spectral density of 
+            the signal and the according frequencies.
         '''
         # fourier sample rate
         fs = 1. / self.dt    
@@ -405,10 +456,12 @@ class simpleModel(object):
         spike_times = []
         old = 0.0
         for i,n in enumerate(neuron):
-                
-            # if theta passes (2l-1)*pi, l integer, with dtheta/dt>0 then the neuron spikes (see Boergers and Kopell, 2003)
-            # therefore we loop through the time series of the single neuron and look for these events
-            # the spike time is then simply the product of the index times the time step 
+
+            # if theta passes (2l-1)*pi, l integer, with dtheta/dt>0 then 
+            # the neuron spikes (see Boergers and Kopell, 2003)
+            # therefore we loop through the time series of the single neuron 
+            # and look for these events the spike time is then simply the product
+            # of the index times the time step 
             if (n%(2*np.pi))>np.pi and (old%(2*np.pi))<np.pi:
                 spike_time = i*self.dt
                 spike_times.append(spike_time)
@@ -439,7 +492,8 @@ class simpleModel(object):
         return spike_times_array
     
     def _noise(self,t,tn):
-        '''Calculates the noise EPSP according to the formula from the model description of the article.
+        '''Calculates the noise EPSP according to the formula from the model 
+        description of the article.
 
          Parameters
         -----------------
@@ -455,7 +509,9 @@ class simpleModel(object):
         '''
         t  = t * self.dt
         if t-tn>0:
-            value = (self.A*(np.exp(-(t-tn)/self.tau_ex)-np.exp(-(t-tn)/self.tau_R)))/(self.tau_ex-self.tau_R)
+            exp1 = np.exp(-(t-tn)/self.tau_ex)
+            exp2 = np.exp(-(t-tn)/self.tau_R)
+            value = (self.A*(exp1-exp2))/(self.tau_ex-self.tau_R)
         else:
             value = 0
     

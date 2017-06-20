@@ -305,7 +305,7 @@ class simpleModel(object):
 		if save:
 			filenamepng = self.directory+self.filename+'-MEG.png'
 
-		plt.savefig(filenamepng,dpi=600)
+			plt.savefig(filenamepng,dpi=600)
         
         
     
@@ -331,7 +331,7 @@ class simpleModel(object):
 		if save:
 			filenamepng = self.directory+self.filename+'-'+name+'-raster.png'
 
-		plt.savefig(filenamepng,dpi=600)
+			plt.savefig(filenamepng,dpi=600)
     
 	def calculatePSD(self,meg,sim_time):
 		'''Calculates the power spectral density of a simulated MEG signal (using mlab.psd(), which uses Welch's method).

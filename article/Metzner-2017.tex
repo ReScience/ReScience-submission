@@ -274,11 +274,11 @@ The model was implemented solely from the paper description, since the
 original code is not publicly available. The model is a simple model
 consisting of two neural populations (excitatory and inhibitory cells).
 Individual cells are modeled as theta neurons (for a detailed discussion
-of this neuron model see \autocite{Boergers2003}). The neuron is
-described by a single variable \(\theta\), which can be regarded as the
+of this neuron model see \autocite{Boergers2003}). The $k$th neuron in a network is
+described by a single variable \(\theta_k\), which can be regarded as the
 neuron state, subject to the following dynamics
 
-\[\frac{d \theta}{dt}=1-\cos \theta + (b+S+N(t))\cdot(1+ \cos \theta),\]
+\[\frac{d \theta_k}{dt}=1-\cos \theta_k + (b+S_k+N(t))\cdot(1+ \cos \theta_k),\]
 
 where \(b\) is an externally applied current, \(S\) is the total
 synaptic input to the cell and \(N(t)\) is a time-varying noise input.
@@ -294,11 +294,11 @@ gating variables are subject to the following dynamics
 
 \[\frac{ds_{jk}}{dt}= - \frac{s _{jk}}{\tau _j} + e ^{- \eta \cdot (1+ \cos \theta _j)} \cdot \frac{1-s _{jk}}{\tau _R},\]
 
-where \(\tau _j\) is the synaptic decay time and \(\tau_R\) the synaptic
-rise time. The network receives excitatory drive input at click train
+where \(\tau _j\) is the synaptic decay time, \(\tau_R\) the synaptic
+rise time and \(\eta\) is a scaling parameter. The network receives excitatory drive input at click train
 frequency from a single pacemaker cell. Additionally, Poissonian noise
 input is also given to all cells in the network. A noise spike at time
-\(t_n\) elicits the following `EPSC'
+\(t_n\) elicits the following excitatory postsynaptic potential (`EPSC')
 
 \[N=H(t-t_n) \cdot \frac{A \cdot g _{gmax} \cdot (e^{-(t-t _n)/ \tau _{exc}} - e^{-(t-t _n)/ \tau _R} )}{\tau _{exc} - \tau _R},\]
 

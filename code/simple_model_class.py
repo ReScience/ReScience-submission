@@ -401,8 +401,7 @@ seed=12345,filename='default',directory='/'):
         '''
         # fourier sample rate
         fs = 1. / self.dt    
-        
-        tn = np.linspace(0,sim_time,int(sim_time/self.dt)+1)        
+               
         npts = len(meg)   
         
         pxx,freqs=mlab.psd(meg,NFFT=npts,Fs=fs,noverlap=0,window=mlab.window_none)

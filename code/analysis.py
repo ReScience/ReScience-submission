@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 import matplotlib.mlab as mlab
 
 
-def getSingleSpikeTimes(neuron,dt)
+def getSingleSpikeTimes(neuron,dt):
 	'''Calculates the spike times from the trace of a single theta neuron.
 
  	Parameters

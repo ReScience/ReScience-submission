@@ -18,9 +18,9 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.mlab as mlab
 
-from analysis import calcPowerSpectrum,getSingleSpikeTimes,getSpikeTimes
+
+from analysis import calcPowerSpectrum
 
 
 
@@ -34,8 +34,8 @@ time = np.linspace(0,sim_time,int(sim_time/dt))
 
 
 # Flags
-savefig = 1	# set savefig to 1 if you want to store the figures
-showfig = 1	# set plotfi to 1 if you want to show the figures
+savefig = 1    # set savefig to 1 if you want to store the figures
+showfig = 1    # set plotfi to 1 if you want to show the figures
 
 ########### Figure 7 - Exploration of the influence of noise strength (raw MEG)
 # load data
@@ -89,8 +89,8 @@ plt.setp(ax3.get_yticklabels(),visible=True,fontsize=18)
 plt.setp(ax5.get_yticklabels(),visible=True,fontsize=18)
 
 if savefig:
-	plt.savefig('../data/Figures/Noise-Exploration-MEG.png',dpi=600)
-	plt.savefig('../data/Figures/Noise-Exploration-MEG.eps',dpi=600)
+    plt.savefig('../data/Figures/Noise-Exploration-MEG.png',dpi=600)
+    plt.savefig('../data/Figures/Noise-Exploration-MEG.eps',dpi=600)
 
 ########### Figure 8 - Exploration of the influence of noise strength (PSD)
 # calculate power spectra
@@ -178,8 +178,8 @@ plt.setp(ax33.get_yticklabels(),visible=True,fontsize=18)
 plt.setp(ax55.get_yticklabels(),visible=True,fontsize=18)
 
 if savefig:
-	plt.savefig('../data/Figures/Noise-Exploration-PSD.png',dpi=600)
-	plt.savefig('../data/Figures/Noise-Exploration-PSD.eps',dpi=600)
+    plt.savefig('../data/Figures/Noise-Exploration-PSD.png',dpi=600)
+    plt.savefig('../data/Figures/Noise-Exploration-PSD.eps',dpi=600)
 
 if showfig:
-	plt.show()
+    plt.show()

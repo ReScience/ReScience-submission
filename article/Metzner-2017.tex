@@ -232,14 +232,14 @@ is also developed in the article.
 In the original article the authors conduct an MEG study of auditory
 entrainment and find changes in gamma and beta range entrainment found
 in schizophrenic patients. These changes in oscillatory dynamics in
-patients are important for two reasons: First, gamma range oscillations
+patients are important for two reasons: first, gamma range oscillations
 emerge in a variety of different tasks and are thought to underlie many
 cognitive processes (see e.g. \autocite{Fries2005,Fries2015}). Furthermore, impaired gamma
 range oscillations in schizophrenic patientas have been found in most of
 these tasks and might offer an explanation for the cognitive deficits
 found in patients. Therefore, the study of the mechanisms underlying
 oscillatory entrainment might shed light on the basic principles that
-are responsible for a wide range of deficits in schizophrenic patients
+are responsible for a wide range of deficits in schizophrenic patients.
 Second, oscillatory entrainment is a promising candidate for a
 neurophysiological biomarker for schizophrenia
 \autocite{Siekmeier2015}. In the original article they develop two
@@ -276,7 +276,7 @@ consisting of two neural populations (excitatory and inhibitory cells).
 Individual cells are modeled as theta neurons (for a detailed discussion
 of this neuron model see \autocite{Boergers2003}). The neuron is
 described by a single variable \(\theta\), which can be regarded as the
-membrane voltage, subject to the following dynamics
+neuron state, subject to the following dynamics
 
 \[\frac{d \theta}{dt}=1-\cos \theta + (b+S+N(t))\cdot(1+ \cos \theta),\]
 
@@ -286,7 +286,8 @@ Total synaptic input to a cell in a network is calculated as
 
 \[S_k = \sum_{j=1}^n \alpha_j \cdot g_{jk} \cdot s_{jk},\]
 
-where \(\alpha _j=\pm 1\) controls excitation and inhibition, \(g_{jk}\)
+where \(\alpha _j\) controls excitation and inhibition, i.e. is $+1$ for excitatory synapses and $-1$ for inhibitory ones,
+\(g_{jk}\)
 is the synaptic strength from cell \(j\) to cell \(k\) and \(s_{jk}\) is
 the synaptic gating variable from cell \(j\) to cell \(k\). Synaptic
 gating variables are subject to the following dynamics
@@ -308,8 +309,10 @@ rise time.
 Each population connects to itself and to the other with an all-to-all
 connectivity. Both populations also have two sources of input, the
 oscillatory drive input and a background noise input. The drive input
-periodically sends spikes to both populations with a given frequency,
-whereas the background noise input sends noise spikes at times drawn
+periodically sends spikes to both populations with a given frequency. In order to generate the spikes
+a drive cell is implemented (also a theta neuron), which receives an applied current so that its spike frequency
+matches the driving frequency. This drive cell is then connected to all cells in the network.
+The background noise input sends noise spikes at times drawn
 from a Poisson distribution. Table \ref{tbl:summary} summarizes the
 network model. Tables \ref{tbl:modparameters} and
 \ref{tbl:simparameters} list the parameters of the model and the
@@ -322,9 +325,9 @@ computationally very inexpensive, we did not aim to provide the most
 efficient implementation but rather an implementation that is clear, and
 easy to understand and use.
 
-All differential equations are solved using a simple forward Euler
-scheme. As in the original article a single simulation simulates a 500ms
-trial and the time step is chosen such that this results in 2\^{}13 =
+All differential equations were solved using a simple forward Euler
+scheme. As in the original article a single simulation simulated a 500ms
+trial and the time step was chosen such that this results in 2\^{}13 =
 8192 data points. However, the main results are unaffected by a smaller
 time step.
 
@@ -505,7 +508,7 @@ signals from \ref{fig:Vierling4}}\label{fig:Vierling5}
 After having looked at the model output averaged over 20 trials with
 different noise, we also show single trial data which exemplify the main
 model features , as was done in the original article. Figures
-\ref{fig:Vierling6} and fig:Vierling7 show the model output in
+\ref{fig:Vierling6} and \ref{fig:Vierling7} show the model output in
 response to 40 Hz drive input for the control and the schizophrenia
 network, respectively. The strong entrainment in the control case, the
 reduction of entrainment and the emergence of a subharmonic 20 Hz

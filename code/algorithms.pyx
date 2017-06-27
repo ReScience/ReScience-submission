@@ -16,16 +16,36 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#cython: boundscheck=False
-cimport cython
+# distutils: language = c++
+# distutils: extra_compile_args = -std=c++11
+# cython: boundscheck=False
+
 import numpy as np
 cimport numpy as np
 import networkx as nx
 import random
-from libc.stdlib cimport rand, srand
-cdef extern from "limits.h":
-    int INT_MAX
 
+
+# Wrapper classes for random number generation 
+
+cdef extern from "<random>" namespace "std":
+    
+    cdef cppclass mt19937:
+        mt19937()
+        mt19937(unsigned int seed)
+        void seed(unsigned int seed)
+        
+    cdef cppclass uniform_real_distribution[T]:
+        uniform_real_distribution()
+        uniform_real_distribution(T a, T b)
+        T operator()(mt19937 gen)
+
+    cdef cppclass uniform_int_distribution[T]:
+        uniform_int_distribution()
+        uniform_int_distribution(T a, T b)
+        T operator()(mt19937 gen)
+
+cdef mt19937 rng = mt19937(1)
 
 
 # Functions to generate networkx-graphs
@@ -138,7 +158,7 @@ def measure_fixation_probabilities(graph_generator, graph_generator_arguments, w
     Fixation probabilities as a numpy-array of the same length as benefit_to_cost_ratios.
     '''
     fixation_probabilities = []
-    seeds = [rand() for i in xrange(n_graphs)]
+    seeds = np.linspace(1, 2**32-1, n_graphs, dtype=np.uint32)
     for bc_ratio in benefit_to_cost_ratios:
         b = c * bc_ratio
         if dview is None:
@@ -152,7 +172,7 @@ def measure_fixation_probabilities(graph_generator, graph_generator_arguments, w
     return np.array(fixation_probabilities) 
 
 
-def measure_fixation_probability(np.ndarray[np.int64_t, ndim=2] graph_nd, int n_runs, float b, float c, float w, int seed, int iteration_type):
+def measure_fixation_probability(np.ndarray[np.int64_t, ndim=2] graph_nd, int n_runs, float b, float c, float w, unsigned int seed, int iteration_type):
     '''Measure fixation probability by running many simulations starting with a random node as the initial cooperator. 
     
     Parameters:
@@ -167,14 +187,15 @@ def measure_fixation_probability(np.ndarray[np.int64_t, ndim=2] graph_nd, int n_
     Returns:
     The ratio of the number of simulations that ended with a fixation of cooperators.
     '''
-    srand(seed)
     cdef long int [:,:] graph = graph_nd
     cdef int N = graph.shape[0]
     cdef int first_cooperator_index
+    rng.seed(seed)
+    cdef uniform_int_distribution[int] dist = uniform_int_distribution[int](0,N-1)
     cdef int C_fixations = 0
     cdef int i = 0
     for i in range(n_runs):
-        first_cooperator_index = int((rand() / (float(INT_MAX) + 1) * N))
+        first_cooperator_index = dist(rng)
         if run_until_fixation(graph, N, first_cooperator_index, b, c, w, iteration_type):
             C_fixations += 1
     return C_fixations / float(n_runs)
@@ -201,7 +222,9 @@ cdef bint run_until_fixation(long int [:,:] graph, int N, int cooperator_index, 
     '''
     cdef int i = 0
     cdef int j = 0
-    
+    cdef uniform_int_distribution[int] dist1 = uniform_int_distribution[int](0,N-1)
+    cdef uniform_real_distribution[double] dist2 = uniform_real_distribution[double](0.0,1.0)
+
     #Initialization
     cdef long int [:] strategies = np.zeros(N, dtype=np.int)
     strategies[cooperator_index] = 1
@@ -235,8 +258,8 @@ cdef bint run_until_fixation(long int [:,:] graph, int N, int cooperator_index, 
     else:              #imitation
         iteration = iteration_IM
     while n_cooperators > 0 and n_cooperators < N:
-        update_node_index = int((rand() / (float(INT_MAX) + 1) * N))
-        random_number = rand() / float(INT_MAX)
+        update_node_index = dist1(rng)
+        random_number = dist2(rng)
         n_cooperators += iteration(graph, strategies, adjacent_cooperators, adjacent_defectors, update_node_index, random_number, b, c, w)
         counter += 1
     return n_cooperators == N

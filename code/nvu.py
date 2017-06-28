@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Spyder Editor
-
 This is a temporary script file.
 """
 
@@ -107,22 +106,22 @@ tau = 0.2 * dyn/cm
 Kd = 1000 * nM
 Bt = 10000 * nM
 alpha = 4.3987e15 * nM/C
-kca = 1.3568e11 * nM/C
+kca = 1.3568e2 * 1/s
 we = 0.9
 x0 = 188.5 * um
 x1 = 1.2
 x2 = 0.13
-x3 = 2.2443
-x4 = 0.71182
+x3 = 2.24425
+x4 = 0.711816
 x5 = 0.8
 x6 = 0.01
-x7 = 0.32134
+x7 = 0.32133758
 x8 = 0.88977
 x9 = 0.0090463
 sigma0h = 3e6 * dyn/cm**2
 u1 = 41.76
-u2 = 0.047396
-u3 = 0.0584
+u2 = 4.73958e-2
+u3 = 5.83999e-2
 wm = 0.7
 kpsi = 3.3
 Cam = 500 * nM
@@ -141,7 +140,7 @@ bd = 5
 cd = 0.03
 dd = 1.3
 Sx = 40000 * um**2
-Ax = 50.265 * um**2
+Ax = 502.65 * um**2
 
 
 def nvu(t, y, Jrho_IN, x_rel):
@@ -167,14 +166,14 @@ def nvu(t, y, Jrho_IN, x_rel):
     # Synaptic space
     JSigK = JSigKkNa * potassium_s/(potassium_s + KKoa)
     JKss = interp1d(Jrho_IN[:,0], Jrho_IN[:,1], bounds_error=False, fill_value=0)
-    potassium_s_dt = JKss(t) - JSigK
+    potassium_s_dt = (JKss(t) - JSigK)
     
     
     # Astrocytic space
     rhos = interp1d(Jrho_IN[:,0], Jrho_IN[:,2], bounds_error=False, fill_value=0)
     G = (rhos(t) + delta)/(KG + rhos(t) + delta)
     ip3_dt = rh*G - kdeg*ip3
-    Jip3 = Jmax * ((ip3/(ip3+Ki)) * (calcium_a/(calcium_a+Kact)) * h)**3 *\
+    Jip3 = Jmax * (ip3/(ip3+Ki) * calcium_a/(calcium_a+Kact) * h)**3 *\
         (1 - calcium_a/calcium_er)
     Jpump = Vmax * calcium_a**2 / (calcium_a**2 + Kp**2)
     Jleak = Pl * (1 - calcium_a/calcium_er)
@@ -236,18 +235,17 @@ def nvu(t, y, Jrho_IN, x_rel):
     
     
     # Vessel mechanics
-    fdp = 0.5 * dp * (x/np.pi - Ax/x) * cm # why *cm here? Is that the artery length?
+    fdp = 0.5 * dp * (x/np.pi - Ax/x) * um # why *cm here? Is that the artery length?
     xd = x/x0
     sigmax = x3*(1 + np.tanh((xd-x1)/x2)) + x4*(xd-x5) - x8*(x6/(xd-x7))**2 - x9
     fx = we*Sx*sigmax*sigma0h
-    u = x-yy
-    ud = u/x0
+    yd = yy/x0
+    ud = xd-yd
     sigmau = u2 * np.exp(u1*ud) - u3
     fu = wm*Sx*sigmau*sigma0h
     x_dt = 1/tau * (fdp - fx - fu)
     psi = calcium_smc**q/(Cam**q+calcium_smc**q)
     omega_dt = kpsi * (psi/(psim+psi) - omega)
-    yd = yy/x0
     psiref = Caref**q/(Cam**q+Caref**q)
     omega_ref = psiref/(psim + psiref)
     sigmay0 = sigmay0h * omega/omega_ref
@@ -290,7 +288,7 @@ def init():
 def K_glut_release(t1, t2):
     sizeJrho = 1600
     sec = sizeJrho/(t2-t1)
-    Max_neural_Kplus = 0.48*uM/s
+    Max_neural_Kplus = 0.55*uM/s
     Max_neural_glut = 0.5
     Jrho_IN = np.zeros((sizeJrho,3))
     Jrho_IN[:,0] = np.linspace(t1, t2, sizeJrho)
@@ -313,34 +311,28 @@ def K_glut_release(t1, t2):
 def main(fig_dims):
     y0 = init()
     x_rel = y0[13]
-    
-#    # Equilibration
-#    t1 = -20
-#    t2 = 0
-#    n = 100
-#    Jrho_IN = np.zeros((n,3))
-#    Jrho_IN[:,0] = np.linspace(t1, t2, n)
-#    t = np.linspace(t1, t2, 200)    
-#    ode15s = ode(nvu)
-#    ode15s.set_f_params(Jrho_IN, x_rel)
-#    ode15s.set_integrator('lsoda')
-#    ode15s.set_initial_value(y0, t=t1)
-#    nt = len(t)
-#    sol = np.zeros([nt, len(y0)])
-#    sol[0,:] = y0
-#    for i in range(1,nt):
-#        if ode15s.successful():
-#            sol[i,:] = ode15s.integrate(t[i])
-#    y0 = sol[-1,:]
-#    
-#    plt.figure(figsize=fig_dims)
-#    plt.plot(t, sol[:,7]/mV, label="", lw=2)
-#    plt.xlabel("time")
-#    plt.ylabel("")
-#    plt.show()
-#    
-#    sys.exit()
-    
+    integrator = "lsoda"
+    atol = 1e-7
+    rtol = 1e-7
+
+    # Equilibration
+    t1 = -20
+    t2 = 0
+    n = 100
+    Jrho_IN = np.zeros((n,3))
+    Jrho_IN[:,0] = np.linspace(t1, t2, n)
+    t = np.linspace(t1, t2, 200)    
+    ode15s = ode(nvu)
+    ode15s.set_f_params(Jrho_IN, x_rel)
+    ode15s.set_integrator(integrator, atol=atol, rtol=rtol)
+    ode15s.set_initial_value(y0, t=t1)
+    nt = len(t)
+    sol = np.zeros([nt, len(y0)])
+    sol[0,:] = y0
+    for i in range(1,nt):
+        if ode15s.successful():
+            sol[i,:] = ode15s.integrate(t[i])
+    y0 = sol[-1,:]    
 
     
     # Simulation
@@ -350,63 +342,43 @@ def main(fig_dims):
     t = np.linspace(t1, t2, 200)    
     ode15s = ode(nvu)
     ode15s.set_f_params(Jrho_IN, x_rel)
-    ode15s.set_integrator('lsoda')
+    ode15s.set_integrator(integrator, atol=atol, rtol=rtol)
     ode15s.set_initial_value(y0, t=t1)
     nt = len(t)
     sol = np.zeros([nt, len(y0)])
     sol[0,:] = y0
     for i in range(1,nt):
         if ode15s.successful():
-            sol[i,:] = ode15s.integrate(t[i])    
+            sol[i,:] = ode15s.integrate(t[i])  
     
-    plt.figure(figsize=fig_dims)
-    plt.plot(t, sol[:,0]/uM, label="", lw=2)
-    plt.xlabel("time")
-    plt.ylabel("")
+    f, axarr = plt.subplots(4, 2)
+    f.set_size_inches(fig_dims[0], h=fig_dims[1])
+    # left side
+    axarr[0, 0].plot(t, sol[:,0]/uM, label="", lw=2)
+    axarr[0, 0].set_ylabel("K+ syn (uM)")
+    axarr[1, 0].plot(t, sol[:,1]/uM, label="", lw=2)
+    axarr[1, 0].set_ylabel("IP3 (uM)")
+    axarr[2, 0].plot(t, sol[:,2]/uM, label="", lw=2)
+    axarr[2, 0].set_ylabel("Ca2+ ast (uM)")
+    axarr[3, 0].plot(t, sol[:,5]/uM, label="", lw=2)
+    axarr[3, 0].set_ylabel("EET (uM)")
+    # right side
+    axarr[0, 1].plot(t, sol[:,7]/mV, label="", lw=2)
+    axarr[0, 1].set_ylabel("Vk (mV)")
+    axarr[1, 1].plot(t, sol[:,8]/mM, label="", lw=2)
+    axarr[1, 1].set_ylabel("K+ pvs (mM)")
+    axarr[2, 1].plot(t, sol[:,14]/uM, label="", lw=2)
+    axarr[2, 1].set_ylabel("Ca2+ smc (uM)")
+    axarr[3, 1].plot(t, sol[:,13]/(2*np.pi*um), label="", lw=2)
+    axarr[3, 1].set_ylabel("r (um)")
+    # Fine-tune figure; hide x ticks for top plots
+    plt.setp([a.get_xticklabels() for a in axarr[0,:]], visible=False)
+    plt.setp([a.get_xticklabels() for a in axarr[1,:]], visible=False)
+    plt.setp([a.get_xticklabels() for a in axarr[2,:]], visible=False)
+    # Fine-tune figure; make subplots farther from each other.
+    f.subplots_adjust(wspace=0.3, hspace=0.2)
+#    plt.savefig('figures/nvu.png', dpi=600, bbox_inches='tight')
     plt.show()
-    
-    plt.figure(figsize=fig_dims)
-    plt.plot(t, sol[:,1]/uM, label="", lw=2)
-    plt.xlabel("time")
-    plt.ylabel("")
-    plt.show()
-    
-    plt.figure(figsize=fig_dims)
-    plt.plot(t, sol[:,2]/uM, label="", lw=2)
-    plt.xlabel("time")
-    plt.ylabel("")
-    plt.show()
-    
-    plt.figure(figsize=fig_dims)
-    plt.plot(t, sol[:,5]/uM, label="", lw=2)
-    plt.xlabel("time")
-    plt.ylabel("")
-    plt.show()
-    
-    plt.figure(figsize=fig_dims)
-    plt.plot(t, sol[:,7]/mV, label="", lw=2)
-    plt.xlabel("time")
-    plt.ylabel("")
-    plt.show()
-    
-    plt.figure(figsize=fig_dims)
-    plt.plot(t, sol[:,8]/mM, label="", lw=2)
-    plt.xlabel("time")
-    plt.ylabel("")
-    plt.show()
-    
-    plt.figure(figsize=fig_dims)
-    plt.plot(t, sol[:,14]/uM, label="", lw=2)
-    plt.xlabel("time")
-    plt.ylabel("")
-    plt.show()
-    
-    plt.figure(figsize=fig_dims)
-    plt.plot(t, sol[:,13]/(2*np.pi*um), label="", lw=2)
-    plt.xlabel("time")
-    plt.ylabel("")
-    plt.show()
-    
     
     
     
@@ -419,10 +391,10 @@ if __name__ == "__main__":
     plt.rcParams['font.serif'] = ['Arial']
     
     WIDTH = 510  # the number latex snp.pits out
-    FACTOR = 0.5  # the fraction of the width you'd like the figure to occupy
+    FACTOR = 1.0  # the fraction of the width you'd like the figure to occupy
     fig_width_pt  = WIDTH * FACTOR
     inches_per_pt = 1.0 / 72.27
-    golden_ratio  = (np.sqrt(5) - 1.0) / 2.0  # because it looks good
+    golden_ratio  = (np.sqrt(5) - 1.0) / 1.8  # because it looks good
     fig_width_in  = fig_width_pt * inches_per_pt  # figure width in inches
     fig_height_in = fig_width_in * golden_ratio   # figure height in inches
     fig_dims    = [fig_width_in, fig_height_in] # fig dims as a list

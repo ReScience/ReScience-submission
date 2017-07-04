@@ -76,7 +76,7 @@ def plot_MEG_summary(time,meg_data,xlabel,ylabel,annotations,savefig,filename,fo
 
 def plot_PSD_summary(freqs,psd_data,xlabel,ylabel,annotations,savefig,filename,fontsizes):
     f2,((ax1,ax2),(ax3,ax4),(ax5,ax6)) = plt.subplots(3,2,sharex=True,
-    sharey=True,figsize=[20.0,25.0])
+    sharey=True,figsize=[25.0,25.0])
 
     ax1.plot(freqs,psd_data[0],'k',linewidth=2)
     ax1.axis(xmin=0, xmax=55)

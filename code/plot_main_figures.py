@@ -104,7 +104,7 @@ xlabels = ['Time (ms)','Frequency (Hz)']
 ylabels = ['Simulated MEG','Power']
 annotations = ['I cells','E cells']
 
-plot_single_trial(sim_time,spike_times,freqs,data_psd,time,data_meg,xlabels,ylabels,annotations,savefig,'../data/Figures/Replication-Figure7',[25,25,25])
+plot_single_trial(sim_time,spike_times,freqs,data_psd,time,data_meg,xlabels,ylabels,annotations,savefig,'../data/Figures/Replication-Figure7',[30,25,25])
 
 ########### Figure 5 - Replication of Figure 10 from Vierling-Claassen et al.
 # Load data
@@ -122,7 +122,7 @@ xlabels = ['Time (ms)','Frequency (Hz)']
 ylabels = ['Simulated MEG','Power']
 annotations = ['I cells','E cells']
 
-plot_single_trial(sim_time,spike_times,freqs,data_psd,time,data_meg,xlabels,ylabels,annotations,savefig,'../data/Figures/Replication-Figure10',[25,25,25])
+plot_single_trial(sim_time,spike_times,freqs,data_psd,time,data_meg,xlabels,ylabels,annotations,savefig,'../data/Figures/Replication-Figure10',[30,25,25])
 
 ########### Figure 6 - Replication of Figure 11 from Vierling-Claassen et al.
 # Load data
@@ -140,7 +140,7 @@ xlabels = ['Time (ms)','Frequency (Hz)']
 ylabels = ['Simulated MEG','Power']
 annotations = ['I cells','E cells']
 
-plot_single_trial(sim_time,spike_times,freqs,data_psd,time,data_meg,xlabels,ylabels,annotations,savefig,'../data/Figures/Replication-Figure11',[25,25,25])
+plot_single_trial(sim_time,spike_times,freqs,data_psd,time,data_meg,xlabels,ylabels,annotations,savefig,'../data/Figures/Replication-Figure11',[30,25,25])
 
 
 if showfig:

@@ -23,8 +23,8 @@ import matplotlib.pyplot as plt
 from analysis import calcPowerSpectrum
 import matplotlib.mlab as mlab
 
-from analysis import calcPowerSpectrum,getSingleSpikeTimes,getSpikeTimes
-from plot_utility import plot_MEG_summary,plot_PSD_summary,plot_single_trial
+from analysis import calcPowerSpectrum
+from plot_utility import plot_MEG_summary,plot_PSD_summary
 
 # Parameters
 sim_time = 500

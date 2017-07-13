@@ -383,6 +383,8 @@ def main(fig_dims):
     
     
 if __name__ == "__main__":
+    np.seterr(over='ignore')
+
     plt.rcParams['axes.labelsize'] = 9
     plt.rcParams['xtick.labelsize'] = 9
     plt.rcParams['ytick.labelsize'] = 9

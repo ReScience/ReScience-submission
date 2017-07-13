@@ -116,7 +116,7 @@ def create_connected_random_graph(N,k):
     n_edges = np.array([len(g.edges(n)) for n in g.nodes()])
     while np.mean(n_edges) <= k:
         n1,n2 = random.randint(0,N-1), random.randint(0,N-1)
-        if n1 != n2:
+        if n1 != n2 and not g.has_edge(n1,n2):
             g.add_edge(n1,n2)
             n_edges[n1] = n_edges[n1] + 1
             n_edges[n2] = n_edges[n2] + 1

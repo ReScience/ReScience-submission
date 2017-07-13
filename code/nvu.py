@@ -184,8 +184,6 @@ def nvu(t, y, Jrho_IN, x_rel):
     tauca = tautrpv / (calcium_p/uM)
     eps = (x - x_rel)/x_rel
     Hca = calcium_a/gammacai + calcium_p/gammacae
-    # sinf is inconsistent between code and equations
-    # gammacai is off by order of magnitude
     sinf = (1/(1 + np.exp(-(eps-eps12)/kappa))) * (1/(1+Hca) *\
         (Hca + np.tanh((Vk - v1trpv)/v2trpv)))
     ss_dt = 1/tauca * (sinf - ss)
@@ -235,7 +233,7 @@ def nvu(t, y, Jrho_IN, x_rel):
     
     
     # Vessel mechanics
-    fdp = 0.5 * dp * (x/np.pi - Ax/x) * um # why *cm here? Is that the artery length?
+    fdp = 0.5 * dp * (x/np.pi - Ax/x) * um
     xd = x/x0
     sigmax = x3*(1 + np.tanh((xd-x1)/x2)) + x4*(xd-x5) - x8*(x6/(xd-x7))**2 - x9
     fx = we*Sx*sigmax*sigma0h

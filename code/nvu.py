@@ -292,8 +292,8 @@ def K_glut_release(t1, t2):
     Jrho_IN[:,0] = np.linspace(t1, t2, sizeJrho)
     it1 = int(5.0*sec)
     it2 = int(sec)
-    it3 = int(18*sec)
-    it4 = int(sec)
+    it3 = int(19*sec)
+    it4 = int(0.25*sec)
     pos = it1
     Jrho_IN[pos+1:pos+it2+1,1] = Max_neural_Kplus * np.linspace(0, 1, it2)
     Jrho_IN[pos+1:pos+it2+1,2] = Max_neural_glut * np.linspace(0, 1, it2)
@@ -319,7 +319,7 @@ def main(fig_dims):
     n = 100
     Jrho_IN = np.zeros((n,3))
     Jrho_IN[:,0] = np.linspace(t1, t2, n)
-    t = np.linspace(t1, t2, 200)    
+    t = np.linspace(t1, t2, n)    
     ode15s = ode(nvu)
     ode15s.set_f_params(Jrho_IN, x_rel)
     ode15s.set_integrator(integrator, atol=atol, rtol=rtol)
@@ -349,6 +349,7 @@ def main(fig_dims):
         if ode15s.successful():
             sol[i,:] = ode15s.integrate(t[i])  
     
+    # Plot Figure 5 in Witthoft2012
     f, axarr = plt.subplots(4, 2)
     f.set_size_inches(fig_dims[0], h=fig_dims[1])
     # left side
@@ -377,6 +378,13 @@ def main(fig_dims):
     # Fine-tune figure; make subplots farther from each other.
     f.subplots_adjust(wspace=0.3, hspace=0.2)
 #    plt.savefig('figures/nvu.png', dpi=600, bbox_inches='tight')
+    plt.show()
+
+    # plot astrocytic currents, Figure S.2 in Witthoft2013
+    fig = plt.figure(figsize=fig_dims)
+    plt.plot(t, sol[:,11]/mV, label="", lw=2)
+    plt.ylabel("Vm (mV)")
+    plt.xlabel("time(s)")
     plt.show()
     
     

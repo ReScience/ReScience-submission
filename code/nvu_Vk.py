@@ -291,8 +291,8 @@ def K_glut_release(t1, t2):
     Jrho_IN[:,0] = np.linspace(t1, t2, sizeJrho)
     it1 = int(5.0*sec)
     it2 = int(sec)
-    it3 = int(18*sec)
-    it4 = int(sec)
+    it3 = int(19*sec)
+    it4 = int(0.25*sec)
     pos = it1
     Jrho_IN[pos+1:pos+it2+1,1] = Max_neural_Kplus * np.linspace(0, 1, it2)
     Jrho_IN[pos+1:pos+it2+1,2] = Max_neural_glut * np.linspace(0, 1, it2)

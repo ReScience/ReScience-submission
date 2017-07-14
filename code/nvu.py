@@ -290,10 +290,10 @@ def K_glut_release(t1, t2):
     Max_neural_glut = 0.5
     Jrho_IN = np.zeros((sizeJrho,3))
     Jrho_IN[:,0] = np.linspace(t1, t2, sizeJrho)
-    it1 = int(2.5*sec)
+    it1 = int(5.0*sec)
     it2 = int(sec)
-    it3 = int(15*sec)
-    it4 = int(0.25*sec)
+    it3 = int(18*sec)
+    it4 = int(sec)
     pos = it1
     Jrho_IN[pos+1:pos+it2+1,1] = Max_neural_Kplus * np.linspace(0, 1, it2)
     Jrho_IN[pos+1:pos+it2+1,2] = Max_neural_glut * np.linspace(0, 1, it2)
@@ -369,6 +369,7 @@ def main(fig_dims):
     axarr[2, 1].set_ylabel("Ca2+ smc (uM)")
     axarr[3, 1].plot(t, sol[:,13]/(2*np.pi*um), label="", lw=2)
     axarr[3, 1].set_ylabel("r (um)")
+    f.suptitle("time (s)", y=0.05)
     # Fine-tune figure; hide x ticks for top plots
     plt.setp([a.get_xticklabels() for a in axarr[0,:]], visible=False)
     plt.setp([a.get_xticklabels() for a in axarr[1,:]], visible=False)

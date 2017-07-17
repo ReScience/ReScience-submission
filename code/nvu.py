@@ -20,6 +20,7 @@ uM = 1e-3 * mM
 nM = 1e-6 * mM
 C = 1
 A = C/s
+pA = 1e-12 * A
 V = 1
 mV = 1e-3 * V
 F = C/V
@@ -304,7 +305,19 @@ def K_glut_release(t1, t2):
     Jrho_IN[pos+1:pos+it4+1,1] = Max_neural_Kplus * np.linspace(1, 0, it4)
     Jrho_IN[pos+1:pos+it4+1,2] = Max_neural_glut * np.linspace(1, 0, it4)
     return Jrho_IN
-    
+
+
+def astr_currents(sol):
+    potassium_s = sol[:,0]
+    ss = sol[:,4]
+    nbk = sol[:,6]
+    Vk = sol[:,7]
+    JSigK = JSigKkNa * potassium_s/(potassium_s + KKoa)
+    Isigk = -JSigK * Castr * gamma
+    Ibk = gbk * nbk * (Vk - vbk)
+    Itrpv = gtrpv * ss * (Vk - vtrpv)
+    return Isigk, Ibk, Itrpv    
+
     
 def main(fig_dims):
     y0 = init()
@@ -377,15 +390,20 @@ def main(fig_dims):
     plt.setp([a.get_xticklabels() for a in axarr[2,:]], visible=False)
     # Fine-tune figure; make subplots farther from each other.
     f.subplots_adjust(wspace=0.3, hspace=0.2)
-#    plt.savefig('figures/nvu.png', dpi=600, bbox_inches='tight')
+#    plt.savefig('../article/figures/nvu.png', dpi=600, bbox_inches='tight')
     plt.show()
 
     # plot astrocytic currents, Figure S.2 in Witthoft2013
+    Isigk, Ibk, Itrpv = astr_currents(sol)
     fig = plt.figure(figsize=fig_dims)
-    plt.plot(t, sol[:,11]/mV, label="", lw=2)
-    plt.ylabel("Vm (mV)")
+    plt.plot(t, Isigk/pA, label="Isigk", lw=2)
+    plt.plot(t, Ibk/pA, label="Ibk", lw=2)
+    plt.plot(t, Itrpv/pA, label="Itrpv", lw=2)
+    plt.ylabel("Astrocytic currents (pA)")
     plt.xlabel("time(s)")
-    plt.show()
+    plt.legend(loc=4)
+    plt.savefig('../article/figures/astr_currents.png', dpi=600, bbox_inches='tight')
+#    plt.show()
     
     
     
@@ -403,7 +421,7 @@ if __name__ == "__main__":
     FACTOR = 1.0  # the fraction of the width you'd like the figure to occupy
     fig_width_pt  = WIDTH * FACTOR
     inches_per_pt = 1.0 / 72.27
-    golden_ratio  = (np.sqrt(5) - 1.0) / 1.8  # because it looks good
+    golden_ratio  = (np.sqrt(5) - 1.0) / 3  # because it looks good
     fig_width_in  = fig_width_pt * inches_per_pt  # figure width in inches
     fig_height_in = fig_width_in * golden_ratio   # figure height in inches
     fig_dims    = [fig_width_in, fig_height_in] # fig dims as a list

@@ -69,7 +69,6 @@ def perivascular_space(potassium_p, k, Vm, calcium_p, Ibk, Jtrpv, Castr=0,
     potassium_p_dt = Jbk/VRpa + Jkir/VRps - Rdecay * (potassium_p -\
         potassium_p_min)
     v1 = (-17.4-(12*(dp/mmHg)/200))*mV
-#    v1 = -19.0 * mV
     minf = 0.5 * (1 + np.tanh((Vm-v1)/v2))
     Ica = gca * minf * (Vm - vca)
     Jca = Ica/(Csmc*gamma)
@@ -88,7 +87,6 @@ def ion_currents(Vm, k, calcium_smc, n, vkir, Ica, Ikir, alphakir=0, av1=0,
     Il = gl * (Vm - vl)
     Ik = gk * n * (Vm - vk)
     Vm_dt = (1/Csmc) * (-Il - Ik - Ica - Ikir)
-#    Vm_dt = 0
     v3 = -(v5/2) * np.tanh((calcium_smc-Ca3)/Ca4) + v6
     lamn = phin * np.cosh((Vm-v3)/(2*v4))
     ninf = 0.5 * (1 + np.tanh((Vm-v3)/v4))
@@ -105,8 +103,6 @@ def vessel_mechanics(t, calcium_smc, x, yy, omega, Ica, Kd=0, Bt=0, alpha=0,
     # SMC calcium
     rho_smc = (Kd+calcium_smc)**2/((Kd+calcium_smc)**2 + Kd*Bt)
     calcium_smc_dt = -rho_smc * (alpha*Ica + kca*calcium_smc)
-#    if t > 0:
-#        calcium_smc_dt = -rho_smc * (alpha*Ica + kca*calcium_smc)
 
     # Vessel mechanics
     fdp = 0.5 * dp * (x/np.pi - Ax/x) * um
@@ -153,7 +149,6 @@ def nvu(t, y, Jrho_IN, x_rel, units, param):
     calcium_smc = y[14]
     omega = y[15]
     yy = y[16]
-    amyloid = y[17]
     
     # Synaptic space
     potassium_s_dt, JSigK = synapse(t, potassium_s, Jrho_IN, **param)    
@@ -175,16 +170,56 @@ def nvu(t, y, Jrho_IN, x_rel, units, param):
     x_dt, calcium_smc_dt, omega_dt, yy_dt = vessel_mechanics(t, calcium_smc, x,
                                             yy, omega, Ica, **units, **param)
     
-    # Amyloid
-    k_n = 0.076 * 1/units['hr']
-    k_p = 0.083 * 1/units['hr']
-    r = x/(2*np.pi)
-    r_rel = x_rel/(2*np.pi)
-    amyloid_dt = k_n*amyloid - k_p*amyloid * r/r_rel
+    return [potassium_s_dt, ip3_dt, calcium_a_dt, h_dt, ss_dt, eet_dt, nbk_dt,
+            Vk_dt, potassium_p_dt, calcium_p_dt, k_dt, Vm_dt, n_dt, x_dt,
+            calcium_smc_dt, omega_dt, yy_dt]
+
+
+def nvu_Vk(t, y, Jrho_IN, x_rel, Vk_f, units, param):
+    potassium_s = y[0]
+    ip3 = y[1]
+    calcium_a = y[2]
+    h = y[3]
+    ss = y[4]
+    eet = y[5]
+    nbk = y[6]
+    Vk = y[7]
+    potassium_p = y[8]
+    calcium_p = y[9]
+    k = y[10]
+    Vm = y[11]
+    n = y[12]
+    x = y[13]
+    calcium_smc = y[14]
+    omega = y[15]
+    yy = y[16]
+
+    # override Vk to external data
+    Vk = Vk_f(t)
+    
+    # Synaptic space
+    potassium_s_dt, JSigK = synapse(t, potassium_s, Jrho_IN, **param)    
+    
+    # Astrocytic space
+    ip3_dt, calcium_a_dt, h_dt, ss_dt, eet_dt, nbk_dt, Vk_dt, Ibk, Jtrpv =\
+        astrocyte(t, ip3, calcium_a, h, ss, Vk, calcium_p, x, eet, nbk,
+                  Jrho_IN, x_rel, JSigK, **units, **param)    
+    
+    # Perivascular space
+    potassium_p_dt, calcium_p_dt, vkir, Ikir, Ica = perivascular_space(
+            potassium_p, k, Vm, calcium_p, Ibk, Jtrpv, **units, **param)   
+    
+    # Ion currents
+    k_dt, Vm_dt, n_dt = ion_currents(Vm, k, calcium_smc, n, vkir, Ica, Ikir,
+                                     **units, **param)
+    
+    # Vessel mechanics
+    x_dt, calcium_smc_dt, omega_dt, yy_dt = vessel_mechanics(t, calcium_smc, x,
+                                            yy, omega, Ica, **units, **param)
     
     return [potassium_s_dt, ip3_dt, calcium_a_dt, h_dt, ss_dt, eet_dt, nbk_dt,
             Vk_dt, potassium_p_dt, calcium_p_dt, k_dt, Vm_dt, n_dt, x_dt,
-            calcium_smc_dt, omega_dt, yy_dt, amyloid_dt]
+            calcium_smc_dt, omega_dt, yy_dt]
 
 
 def run_simulation(time, y0, *args):

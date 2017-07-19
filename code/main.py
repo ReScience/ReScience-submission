@@ -24,9 +24,8 @@ def init(r0):
     calcium_smc = 3.41385670857693e-07
     omega = 0.536911672725179
     yy = 0.000115089683436595
-    amyloid = 3.75e-8
     return [potassium_s, ip3, calcium_a, h, ss, eet, nbk, Vk, potassium_p,
-            calcium_p, k, Vm, n, x, calcium_smc, omega, yy, amyloid]
+            calcium_p, k, Vm, n, x, calcium_smc, omega, yy]
     
     
 def K_glut_release(t1, t2, uM=0, s=0, **kwargs):

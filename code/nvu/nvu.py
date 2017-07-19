@@ -175,9 +175,55 @@ def nvu(t, y, Jrho_IN, x_rel, units, param):
             calcium_smc_dt, omega_dt, yy_dt]
 
 
-def run_simulation(time, y0, *args, atol=1e-7, rtol=1e-7):
+def nvu_Vk(t, y, Jrho_IN, x_rel, Vk_f, units, param):
+    potassium_s = y[0]
+    ip3 = y[1]
+    calcium_a = y[2]
+    h = y[3]
+    ss = y[4]
+    eet = y[5]
+    nbk = y[6]
+    Vk = Vk_f(t)
+    potassium_p = y[8]
+    calcium_p = y[9]
+    k = y[10]
+    Vm = y[11]
+    n = y[12]
+    x = y[13]
+    calcium_smc = y[14]
+    omega = y[15]
+    yy = y[16]
+    
+    # Synaptic space
+    potassium_s_dt, JSigK = synapse(t, potassium_s, Jrho_IN, **param)    
+    
+    # Astrocytic space
+    ip3_dt, calcium_a_dt, h_dt, ss_dt, eet_dt, nbk_dt, Vk_dt, Ibk, Jtrpv =\
+        astrocyte(t, ip3, calcium_a, h, ss, Vk, calcium_p, x, eet, nbk,
+                  Jrho_IN, x_rel, JSigK, **units, **param)    
+    
+    # Perivascular space
+    potassium_p_dt, calcium_p_dt, vkir, Ikir, Ica = perivascular_space(
+            potassium_p, k, Vm, calcium_p, Ibk, Jtrpv, **units, **param)   
+    
+    # Ion currents
+    k_dt, Vm_dt, n_dt = ion_currents(Vm, k, calcium_smc, n, vkir, Ica, Ikir,
+                                     **units, **param)
+    
+    # Vessel mechanics
+    x_dt, calcium_smc_dt, omega_dt, yy_dt = vessel_mechanics(t, calcium_smc, x,
+                                            yy, omega, Ica, **units, **param)
+    
+    return [potassium_s_dt, ip3_dt, calcium_a_dt, h_dt, ss_dt, eet_dt, nbk_dt,
+            Vk_dt, potassium_p_dt, calcium_p_dt, k_dt, Vm_dt, n_dt, x_dt,
+            calcium_smc_dt, omega_dt, yy_dt]
+
+
+def run_simulation(time, y0, *args, atol=1e-7, rtol=1e-7, mode=''):
     integrator = "lsoda"
     ode15s = ode(nvu)
+    if mode == 'Vk':
+        ode15s = ode(nvu_Vk)
     ode15s.set_f_params(*args)
     ode15s.set_integrator(integrator, atol=atol, rtol=rtol)
     ode15s.set_initial_value(y0, t=time[0])

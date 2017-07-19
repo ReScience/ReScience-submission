@@ -60,6 +60,9 @@ def main(fparam, fig_dims):
     x_rel = y0[13]
     sol = np.zeros(len(y0))
 
+    atol = 1e-7
+    rtol = 1e-7
+
     # Equilibration
     t1 = -20
     t2 = 0
@@ -67,7 +70,7 @@ def main(fparam, fig_dims):
     Jrho_IN = np.zeros((nt,3))
     Jrho_IN[:,0] = np.linspace(t1, t2, nt)
     t = np.linspace(t1, t2, nt)
-    sol = nvu.run_simulation(t, y0, Jrho_IN, x_rel, units, param)
+    sol = nvu.run_simulation(t, y0, Jrho_IN, x_rel, units, param, atol=atol, rtol=rtol)
     y0 = sol[-1,:]
     
     # Plot solution
@@ -79,7 +82,7 @@ def main(fparam, fig_dims):
     nt = 200
     Jrho_IN = K_glut_release(t1, t2, **units)
     t = np.linspace(t1, t2, nt)    
-    sol = nvu.run_simulation(t, y0, Jrho_IN, x_rel, units, param)
+    sol = nvu.run_simulation(t, y0, Jrho_IN, x_rel, units, param, atol=atol, rtol=rtol)
     
     
     # Plot solution

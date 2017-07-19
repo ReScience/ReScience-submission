@@ -33,5 +33,5 @@ Original data is in the data directory.
 ## Usage
 
 ```
- usage: nvu.py
+ usage: main.py ../data/parameter.cfg
 ```

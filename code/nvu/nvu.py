@@ -72,7 +72,7 @@ def perivascular_space(potassium_p, k, Vm, calcium_p, Ibk, Jtrpv, Castr=0,
     minf = 0.5 * (1 + np.tanh((Vm-v1)/v2))
     Ica = gca * minf * (Vm - vca)
     Jca = Ica/(Csmc*gamma)
-    calcium_p_dt = -Jtrpv - Jca - Cadecay * (calcium_p - calcium_p_min)
+    calcium_p_dt = Jtrpv/VRpa + Jca/VRps - Cadecay * (calcium_p - calcium_p_min)
     return potassium_p_dt, calcium_p_dt, vkir, Ikir, Ica
 
 
@@ -219,11 +219,57 @@ def nvu_Vk(t, y, Jrho_IN, x_rel, Vk_f, units, param):
             calcium_smc_dt, omega_dt, yy_dt]
 
 
+def nvu_k(t, y, Jrho_IN, x_rel, k_f, units, param):
+    potassium_s = y[0]
+    ip3 = y[1]
+    calcium_a = y[2]
+    h = y[3]
+    ss = y[4]
+    eet = y[5]
+    nbk = y[6]
+    Vk = y[7]
+    potassium_p = y[8]
+    calcium_p = y[9]
+    k = k_f(t)
+    Vm = y[11]
+    n = y[12]
+    x = y[13]
+    calcium_smc = y[14]
+    omega = y[15]
+    yy = y[16]
+    
+    # Synaptic space
+    potassium_s_dt, JSigK = synapse(t, potassium_s, Jrho_IN, **param)    
+    
+    # Astrocytic space
+    ip3_dt, calcium_a_dt, h_dt, ss_dt, eet_dt, nbk_dt, Vk_dt, Ibk, Jtrpv =\
+        astrocyte(t, ip3, calcium_a, h, ss, Vk, calcium_p, x, eet, nbk,
+                  Jrho_IN, x_rel, JSigK, **units, **param)    
+    
+    # Perivascular space
+    potassium_p_dt, calcium_p_dt, vkir, Ikir, Ica = perivascular_space(
+            potassium_p, k, Vm, calcium_p, Ibk, Jtrpv, **units, **param)   
+    
+    # Ion currents
+    k_dt, Vm_dt, n_dt = ion_currents(Vm, k, calcium_smc, n, vkir, Ica, Ikir,
+                                     **units, **param)
+    
+    # Vessel mechanics
+    x_dt, calcium_smc_dt, omega_dt, yy_dt = vessel_mechanics(t, calcium_smc, x,
+                                            yy, omega, Ica, **units, **param)
+    
+    return [potassium_s_dt, ip3_dt, calcium_a_dt, h_dt, ss_dt, eet_dt, nbk_dt,
+            Vk_dt, potassium_p_dt, calcium_p_dt, k_dt, Vm_dt, n_dt, x_dt,
+            calcium_smc_dt, omega_dt, yy_dt]
+
+
 def run_simulation(time, y0, *args, atol=1e-7, rtol=1e-7, mode=''):
     integrator = "lsoda"
     ode15s = ode(nvu)
     if mode == 'Vk':
         ode15s = ode(nvu_Vk)
+    elif mode == 'k':
+        ode15s = ode(nvu_k)
     ode15s.set_f_params(*args)
     ode15s.set_integrator(integrator, atol=atol, rtol=rtol)
     ode15s.set_initial_value(y0, t=time[0])
@@ -256,8 +302,6 @@ def plot_solution(t, sol, fig_dims, uM=0, mV=0, mM=0, um=0, **kwargs):
     axarr[2, 0].set_ylabel("Ca2+ ast (uM)")
     axarr[3, 0].plot(t, sol[:,5]/uM, label="", lw=2)
     axarr[3, 0].set_ylabel("EET (uM)")
-#    axarr[4, 0].plot(t, sol[:,17]/uM, label="", lw=2)
-#    axarr[4, 0].set_ylabel("Abeta (uM)")
 
     # right side
     axarr[0, 1].plot(t, sol[:,7]/mV, label="", lw=2)
@@ -275,9 +319,39 @@ def plot_solution(t, sol, fig_dims, uM=0, mV=0, mM=0, um=0, **kwargs):
     plt.setp([a.get_xticklabels() for a in axarr[0,:]], visible=False)
     plt.setp([a.get_xticklabels() for a in axarr[1,:]], visible=False)
     plt.setp([a.get_xticklabels() for a in axarr[2,:]], visible=False)
-#    plt.setp([a.get_xticklabels() for a in axarr[3,:]], visible=False)
 
     # Fine-tune figure; make subplots farther from each other.
     f.subplots_adjust(wspace=0.3, hspace=0.2)
 #    plt.savefig('figures/nvu.png', dpi=600, bbox_inches='tight')
     plt.show()
+
+
+def plot_vasodilation(t, sol, fig_dims, x_rel, um=0, uM=0, **kwargs):
+    plt.rcParams['axes.labelsize'] = 9
+    plt.rcParams['xtick.labelsize'] = 9
+    plt.rcParams['ytick.labelsize'] = 9
+    plt.rcParams['legend.fontsize'] = 9
+    plt.rcParams['font.family'] = 'sans-serif'
+    plt.rcParams['font.serif'] = ['Arial']
+
+    r = sol[:,13]/(2*np.pi*um)
+    r_rel = x_rel/(2*np.pi*um)
+    strain = (r-r_rel)/r_rel
+    
+    f, axarr = plt.subplots(2, 1)
+    f.set_size_inches(fig_dims[0], h=fig_dims[1])
+    
+    axarr[0].plot(t, strain, label="", lw=2)
+    axarr[0].set_ylabel("Radial strain")
+    axarr[1].plot(t, sol[:,9]/uM, label="", lw=2)
+    axarr[1].set_ylabel("Ca2+ pvs (uM)")
+    
+    f.suptitle("time (s)", y=0.05)
+    
+    # Fine-tune figure; hide x ticks for top plots
+    plt.setp(axarr[0].get_xticklabels(), visible=False)
+
+    # Fine-tune figure; make subplots farther from each other.
+    f.subplots_adjust(wspace=0.3, hspace=0.2)
+    plt.savefig('../article/figures/pinacidil.png', dpi=600, bbox_inches='tight')
+#    plt.show()

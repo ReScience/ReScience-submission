@@ -35,7 +35,7 @@ def astrocyte(t, ip3, calcium_a, h, ss, Vk, calcium_p, x, eet, nbk, Jrho_IN,
     Jpump = Vmax * calcium_a**2 / (calcium_a**2 + Kp**2)
     Jleak = Pl * (1 - calcium_a/calcium_er)
     Itrpv = gtrpv * ss * (Vk - vtrpv)
-    Jtrpv = -0.5 * Itrpv/(Castr*gamma)
+    Jtrpv = -Itrpv/(Castr*gamma)
     calcium_a_dt = beta * (Jip3 - Jpump + Jleak + Jtrpv)
     h_dt = kon * (Kinh - (calcium_a + Kinh) * h)
     tauca = tautrpv / (calcium_p/uM)
@@ -83,8 +83,6 @@ def ion_currents(Vm, k, calcium_smc, n, vkir, Ica, Ikir, alphakir=0, av1=0,
     betak = betakir * np.exp(bv2/mV * (Vm - vkir + bv1)/mV)
     tauk = 1/(alphak+betak)
     kinf = alphak/(alphak+betak)
-    if tauk == 0:
-        print(Vm)
     k_dt = 1/tauk * (kinf - k)
     Il = gl * (Vm - vl)
     Ik = gk * n * (Vm - vk)
@@ -402,5 +400,5 @@ def plot_vasodilation(t, sol, fig_dims, x_rel, um=0, uM=0, **kwargs):
 
     # Fine-tune figure; make subplots farther from each other.
     f.subplots_adjust(wspace=0.3, hspace=0.2)
-    plt.savefig('../article/figures/pinacidil.png', dpi=600, bbox_inches='tight')
-#    plt.show()
+#    plt.savefig('../article/figures/pinacidil.png', dpi=600, bbox_inches='tight')
+    plt.show()

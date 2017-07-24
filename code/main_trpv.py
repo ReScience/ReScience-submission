@@ -52,6 +52,7 @@ def plot_Vk(t, sol, fig_dims, r0, um=0, mV=0, **kwargs):
     ax2.set_ylim([-10, 100])
     ax2.set_ylabel("vessel dilation (%)")
     
+#    print(sol[0,7]/mV)
     
     plt.savefig('../article/figures/Vk_inflation.png', dpi=600, bbox_inches='tight')
 #    plt.show()
@@ -68,7 +69,7 @@ def main(fparam, fig_dims):
     sol = np.zeros(len(y0))
 
     atol = 1e-7
-    rtol = 1e-7
+    rtol = 1e-8
 
     # manual artery inflation according to Cao2011
     cao = np.loadtxt("../data/cao2011.csv", delimiter=',')

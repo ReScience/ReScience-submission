@@ -69,16 +69,16 @@ for A in As:
             print(i)
 
             filename_ctrl  = '/Single-Trial-Data-'+str(int(drive_frequency))+\
-'Hz/sims_ctrl_'+str(int(drive_frequency))+'Hz_A'+str(A)+'_'+str(i)
+                'Hz/sims_ctrl_'+str(int(drive_frequency))+'Hz_A'+str(A)+'_'+str(i)
             filename_schiz = '/Single-Trial-Data-'+str(int(drive_frequency))+\
-'Hz/sims_schiz_'+str(int(drive_frequency))+'Hz_A'+str(A)+'_'+str(i)
+                'Hz/sims_schiz_'+str(int(drive_frequency))+'Hz_A'+str(A)+'_'+str(i)
                 
             model_ctrl = simpleModel(n_ex,n_inh,eta,tau_R,tau_ex,tau_inh_ctrl,
-g_ee,g_ei,g_ie,g_ii,g_de,g_di,dt,b_ex,b_inh,drive_frequency,background_rate,A,
-seed,filename_ctrl,directory)
+                g_ee,g_ei,g_ie,g_ii,g_de,g_di,dt,b_ex,b_inh,drive_frequency,background_rate,A,
+                seed,filename_ctrl,directory)
             model_schiz = simpleModel(n_ex,n_inh,eta,tau_R,tau_ex,tau_inh_schiz,
-g_ee,g_ei,g_ie,g_ii,g_de,g_di,dt,b_ex,b_inh,drive_frequency,background_rate,A,
-seed,filename_schiz,directory)
+                g_ee,g_ei,g_ie,g_ii,g_de,g_di,dt,b_ex,b_inh,drive_frequency,background_rate,A,
+                seed,filename_schiz,directory)
                 
             meg_ctrl,ex_ctrl,inh_ctrl = model_ctrl.run(sim_time,0,0,0)
             meg_schiz,ex_schiz,inh_schiz = model_schiz.run(sim_time,0,0,0)
@@ -90,9 +90,9 @@ seed,filename_schiz,directory)
         meg_schiz_avg = meg_schiz_avg *0.05
 
         filename_ctrl_avg = directory+'/Data-Average/sims_ctrl_avg_'+\
-str(int(drive_frequency))+'Hz_A'+str(A)
+            str(int(drive_frequency))+'Hz_A'+str(A)
         filename_schiz_avg = directory+'/Data-Average/sims_schiz_avg_'+\
-str(int(drive_frequency))+'Hz_A'+str(A)
+            str(int(drive_frequency))+'Hz_A'+str(A)
 
         np.save(filename_ctrl_avg,meg_ctrl_avg)
         np.save(filename_schiz_avg,meg_schiz_avg)

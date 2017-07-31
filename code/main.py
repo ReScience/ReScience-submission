@@ -74,7 +74,7 @@ def main(fparam, fig_dims):
     y0 = sol[-1,:]
     
     # Plot solution
-    nvu.plot_solution(t, sol, fig_dims, **units)
+    #nvu.plot_solution(t, sol, fig_dims, **units)
     
     # Simulation
     t1 = 0

@@ -72,7 +72,7 @@ def perivascular_space(potassium_p, k, Vm, calcium_p, Ibk, Jtrpv, Castr=0,
     minf = 0.5 * (1 + np.tanh((Vm-v1)/v2))
     Ica = gca * minf * (Vm - vca)
     Jca = -Ica/(Csmc*gamma)
-    calcium_p_dt = Jtrpv/VRpa + Jca/VRps - Cadecay * (calcium_p - calcium_p_min)
+    calcium_p_dt = -Jtrpv/VRpa - Jca/VRps - Cadecay * (calcium_p - calcium_p_min)
     return potassium_p_dt, calcium_p_dt, vkir, Ikir, Ica
 
 

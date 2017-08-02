@@ -26,6 +26,7 @@ Publication:
   volume:    "**1**"
   issue:     "**1**"
   date:      Sep 2015
+  number: 1
 Repository:
   article:   "http://github.com/rescience/rescience-submission/article"
   code:      "http://github.com/rescience/rescience-submission/code"
@@ -34,7 +35,7 @@ Repository:
 Reproduction:
   - "Original article (title, authors, journal, doi)"
 Bibliography:
-  your_article_name.bib
+  bibliography.bib
 
 ---
 
@@ -90,7 +91,7 @@ A reference to figure @fig:logo.
 A reference to equation @eq:1.
 A reference to citation @markdown.
 
-![Figure caption](rescience-logo.pdf) {#fig:logo}
+![Figure caption](rescience-logo.pdf){#fig:logo}
 
 $$ A = \sqrt{\frac{B}{C}} $$ {#eq:1}
 

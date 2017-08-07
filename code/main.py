@@ -4,6 +4,7 @@ from nvu import nvu, utils
 
 import numpy as np
 from sys import argv
+import matplotlib.pylab as plt 
 
 
 def init(r0):
@@ -51,7 +52,7 @@ def K_glut_release(t1, t2, uM, s, **kwargs):
     return Jrho_IN
 
 
-def plot_currents(t, sol, fig_dims, JSigKkNa, ):
+def plot_input(Jrho_IN, fig_dims, uM, s, **kwargs):
     plt.rcParams['axes.labelsize'] = 9
     plt.rcParams['xtick.labelsize'] = 9
     plt.rcParams['ytick.labelsize'] = 9
@@ -59,21 +60,17 @@ def plot_currents(t, sol, fig_dims, JSigKkNa, ):
     plt.rcParams['font.family'] = 'sans-serif'
     plt.rcParams['font.serif'] = ['Arial']
     
-    JSigK = JSigKkNa * sol[:,0]/(sol[:,0] + KKoa)
-    Isigk = -JSigK/100 * Castr * gamma
-    
     f, ax1 = plt.subplots()
     f.set_size_inches(fig_dims[0], h=fig_dims[1])
 
-    ax1.plot(t, sol[:,7]/mV, label="", lw=2, color="C1")
-    ax1.set_ylabel("Vk (mV)")
+    ax1.plot(Jrho_IN[:,0], Jrho_IN[:,1]/(uM/s), label="K+", lw=2)
+    ax1.plot(Jrho_IN[:,0], Jrho_IN[:,2], label="Glu", lw=2)
+    ax1.set_ylabel("Glu (1) / K+ (uM/s)")
     ax1.set_xlabel("time (s)")
-
-    ax2 = ax1.twinx()
-    ax2.plot(t, r, lw=2)
-    ax2.set_ylim([-10, 100])
-    ax2.set_ylabel("vessel dilation (%)")
-
+    ax1.legend()
+#    plt.savefig('../article/figures/input.png', dpi=600, bbox_inches='tight')
+    plt.show()
+    
 
 def main(fparam, fig_dims):
     units, param = utils.read_config(fparam)
@@ -108,6 +105,7 @@ def main(fparam, fig_dims):
     t = np.linspace(t1, t2, nt)    
     sol = nvu.run_simulation(t, y0, Jrho_IN, x_rel, units, param, atol=atol, rtol=rtol)
     
+    plot_input(Jrho_IN, fig_dims, **units)
     
     # Plot solution
     nvu.plot_solution(t, sol, fig_dims, **units)
@@ -122,7 +120,7 @@ if __name__ == "__main__":
     FACTOR = 1.0  # the fraction of the width you'd like the figure to occupy
     fig_width_pt  = WIDTH * FACTOR
     inches_per_pt = 1.0 / 72.27
-    golden_ratio  = (np.sqrt(5) - 1.0) / 2  # because it looks good
+    golden_ratio  = (np.sqrt(5) - 1.0) / 4  # because it looks good
     fig_width_in  = fig_width_pt * inches_per_pt  # figure width in inches
     fig_height_in = fig_width_in * golden_ratio   # figure height in inches
     fig_dims    = [fig_width_in, fig_height_in] # fig dims as a list

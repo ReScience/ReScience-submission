@@ -1,8 +1,14 @@
 # -*- coding: utf-8 -*-
 
 """
-Code for Diem AK (2017) Chemical Signalling in the Neurovascular Unit, The ReScience Journal
+Code for Diem AK (2017) Chemical Signalling in the Neurovascular Unit, The
+ReScience Journal
+
 https://github.com/akdiem/ReScience-submission/tree/Diem-2017
+
+This is a reimplementation of Witthoft A, Karniadakis GE (2012) A bidirectional
+model for communication in the neurovascular unit. Journal of Theoretical
+Biology 311: 80-93.
 """
 
 from nvu import nvu, utils
@@ -93,15 +99,18 @@ def K_glut_release(t1, t2, uM=0, s=0, **kwargs):
 
 
 def main(fparam, fig_dims):
+    # read units and parameters from parameter file
     units, param = utils.read_config(fparam)
     um = units['um']
     mV = units['mV']
     
+    # set up simulation variables
     r0 = 20 * um
     y0 = init(r0)
     x_rel = y0[13]
     sol = np.zeros(len(y0))
 
+    # simulation tolerance values
     atol = 1e-7
     rtol = 1e-7
     

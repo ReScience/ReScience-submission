@@ -1,8 +1,14 @@
 # -*- coding: utf-8 -*-
 
 """
-Code for Diem AK (2017) Chemical Signalling in the Neurovascular Unit, The ReScience Journal
+Code for Diem AK (2017) Chemical Signalling in the Neurovascular Unit, The
+ReScience Journal
+
 https://github.com/akdiem/ReScience-submission/tree/Diem-2017
+
+This is a reimplementation of Witthoft A, Karniadakis GE (2012) A bidirectional
+model for communication in the neurovascular unit. Journal of Theoretical
+Biology 311: 80-93.
 """
 
 from nvu import nvu, utils

@@ -52,7 +52,7 @@ def astrocyte(t, ip3, calcium_a, h, ss, Vk, calcium_p, x, eet, nbk, Jrho_IN,
     Ibk = gbk * nbk * (Vk - vbk)
     Ileak = gleak * (Vk - vleak)
     Isigk = -JSigK * Castr * gamma
-    Vk_dt = 1/Castr * (-Isigk - Ibk - Ileak - Itrpv)
+    Vk_dt = 1/Castr * (-Isigk - Ibk - Ileak)
     return ip3_dt, calcium_a_dt, h_dt, ss_dt, eet_dt, nbk_dt, Vk_dt, Ibk, Jtrpv
 
 
@@ -369,8 +369,8 @@ def plot_solution(t, sol, fig_dims, uM=0, mV=0, mM=0, um=0, **kwargs):
 
     # Fine-tune figure; make subplots farther from each other.
     f.subplots_adjust(wspace=0.3, hspace=0.2)
-#    plt.savefig('figures/nvu.png', dpi=600, bbox_inches='tight')
-    plt.show()
+    plt.savefig('../article/figures/no_trpv.png', dpi=600, bbox_inches='tight')
+#    plt.show()
 
 
 def plot_vasodilation(t, sol, fig_dims, x_rel, um=0, uM=0, **kwargs):
@@ -400,5 +400,5 @@ def plot_vasodilation(t, sol, fig_dims, x_rel, um=0, uM=0, **kwargs):
 
     # Fine-tune figure; make subplots farther from each other.
     f.subplots_adjust(wspace=0.3, hspace=0.2)
-#    plt.savefig('../article/figures/pinacidil.png', dpi=600, bbox_inches='tight')
-    plt.show()
+    plt.savefig('../article/figures/pinacidil.png', dpi=600, bbox_inches='tight')
+#    plt.show()

@@ -11,7 +11,7 @@ from scipy.interpolate import interp1d
 import matplotlib.pylab as plt
 
 
-def synapse(t, potassium_s, Jrho_IN, JSigKkNa=0, KKoa=0, **kwargs):
+def synapse(t, potassium_s, Jrho_IN, JSigKkNa, KKoa, **kwargs):
     JSigK = JSigKkNa * potassium_s/(potassium_s + KKoa)
     JKss = interp1d(Jrho_IN[:,0], Jrho_IN[:,1], bounds_error=False, fill_value=0)
     potassium_s_dt = JKss(t) - JSigK
@@ -19,13 +19,11 @@ def synapse(t, potassium_s, Jrho_IN, JSigKkNa=0, KKoa=0, **kwargs):
 
 
 def astrocyte(t, ip3, calcium_a, h, ss, Vk, calcium_p, x, eet, nbk, Jrho_IN,
-              x_rel, JSigK, delta=0, KG=0, rh=0, kdeg=0, Jmax=0, Ki=0, Kact=0,
-              calcium_er=0, Vmax=0, Kp=0, Pl=0, gtrpv=0, vtrpv=0, Castr=0,
-              gamma=0, beta=0, kon=0, Kinh=0, tautrpv=0, uM=0, gammacai=0,
-              gammacae=0, eps12=0, kappa=0, v1trpv=0, v2trpv=0, Veet=0,
-              calcium_a_min=0, keet=0, v5bk=0, Ca3bk=0, Ca4bk=0, v6bk=0,
-              psibk=0, v4bk=0, eetshift=0, gbk=0, vbk=0, gleak=0, vleak=0,
-              **kwargs):
+              x_rel, JSigK, delta, KG, rh, kdeg, Jmax, Ki, Kact, calcium_er,
+              Vmax, Kp, Pl, gtrpv, vtrpv, Castr, gamma, beta, kon, Kinh, 
+              tautrpv, uM, gammacai, gammacae, eps12, kappa, v1trpv, v2trpv,
+              Veet, calcium_a_min, keet, v5bk, Ca3bk, Ca4bk, v6bk, psibk,
+              v4bk, eetshift, gbk, vbk, gleak, vleak, **kwargs):
     rhos = interp1d(Jrho_IN[:,0], Jrho_IN[:,2], bounds_error=False,
                     fill_value=0)
     G = (rhos(t) + delta)/(KG + rhos(t) + delta)
@@ -56,11 +54,10 @@ def astrocyte(t, ip3, calcium_a, h, ss, Vk, calcium_p, x, eet, nbk, Jrho_IN,
     return ip3_dt, calcium_a_dt, h_dt, ss_dt, eet_dt, nbk_dt, Vk_dt, Ibk, Jtrpv
 
 
-def perivascular_space(potassium_p, k, Vm, calcium_p, Ibk, Jtrpv, Castr=0,
-                       gamma=0, gkir0=0, mM=0, vkir1=0, vkir2=0, Csmc=0,
-                       VRpa=0, VRps=0, Rdecay=0, potassium_p_min=0, dp=0,
-                       mmHg=0, mV=0, v2=0, gca=0, vca=0, Cadecay=0,
-                       calcium_p_min=0, **kwargs):
+def perivascular_space(potassium_p, k, Vm, calcium_p, Ibk, Jtrpv, Castr,
+                       gamma, gkir0, mM, vkir1, vkir2, Csmc, VRpa, VRps,
+                       Rdecay, potassium_p_min, dp, mmHg, mV, v2, gca, vca,
+                       Cadecay, calcium_p_min, **kwargs):
     Jbk = Ibk/(Castr*gamma)
     gkir = gkir0 * np.sqrt(potassium_p/mM)
     vkir = vkir1 * np.log10(potassium_p/mM) - vkir2
@@ -76,9 +73,9 @@ def perivascular_space(potassium_p, k, Vm, calcium_p, Ibk, Jtrpv, Castr=0,
     return potassium_p_dt, calcium_p_dt, vkir, Ikir, Ica
 
 
-def ion_currents(Vm, k, calcium_smc, n, vkir, Ica, Ikir, alphakir=0, av1=0,
-                 av2=0, betakir=0, bv2=0, bv1=0, mV=0, gl=0, vl=0, gk=0, vk=0,
-                 Csmc=0, v5=0, Ca3=0, Ca4=0, v6=0, phin=0, v4=0, **kwargs):
+def ion_currents(Vm, k, calcium_smc, n, vkir, Ica, Ikir, alphakir, av1, av2,
+                 betakir, bv2, bv1, mV, gl, vl, gk, vk, Csmc, v5, Ca3, Ca4, v6,
+                 phin, v4, **kwargs):
     alphak = alphakir / (1 + np.exp((Vm - vkir + av1)/av2))
     betak = betakir * np.exp(bv2/mV * (Vm - vkir + bv1)/mV)
     tauk = 1/(alphak+betak)
@@ -94,12 +91,11 @@ def ion_currents(Vm, k, calcium_smc, n, vkir, Ica, Ikir, alphakir=0, av1=0,
     return k_dt, Vm_dt, n_dt
 
 
-def vessel_mechanics(t, calcium_smc, x, yy, omega, Ica, Kd=0, Bt=0, alpha=0,
-                     kca=0, dp=0, Ax=0, um=0, x0=0, x3=0, x1=0, x2=0, x4=0,
-                     x5=0, x8=0, x6=0, x7=0, x9=0, we=0, Sx=0, sigmax=0,
-                     sigma0h=0, u2=0, u1=0, u3=0, wm=0, tau=0, Cam=0, q=0,
-                     kpsi=0, psim=0, Caref=0, sigmay0h=0, y1=0, y2=0, y4=0,
-                     y0=0, y3=0, vref=0, ad=0, cd=0, bd=0, dd=0, **kwargs):
+def vessel_mechanics(t, calcium_smc, x, yy, omega, Ica, Kd, Bt, alpha, kca, dp,
+                     Ax, um, x0, x3, x1, x2, x4, x5, x8, x6, x7, x9, we, Sx,
+                     sigma0h, u2, u1, u3, wm, tau, Cam, q, kpsi, psim,
+                     Caref, sigmay0h, y1, y2, y4, y0, y3, vref, ad, cd, bd, dd,
+                     **kwargs):
     # SMC calcium
     rho_smc = (Kd+calcium_smc)**2/((Kd+calcium_smc)**2 + Kd*Bt)
     calcium_smc_dt = -rho_smc * (alpha*Ica + kca*calcium_smc)
@@ -369,8 +365,8 @@ def plot_solution(t, sol, fig_dims, uM=0, mV=0, mM=0, um=0, **kwargs):
 
     # Fine-tune figure; make subplots farther from each other.
     f.subplots_adjust(wspace=0.3, hspace=0.2)
-    plt.savefig('../article/figures/no_trpv.png', dpi=600, bbox_inches='tight')
-#    plt.show()
+#    plt.savefig('../article/figures/no_trpv.png', dpi=600, bbox_inches='tight')
+    plt.show()
 
 
 def plot_vasodilation(t, sol, fig_dims, x_rel, um=0, uM=0, **kwargs):

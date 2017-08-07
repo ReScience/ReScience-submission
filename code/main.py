@@ -28,7 +28,7 @@ def init(r0):
             calcium_p, k, Vm, n, x, calcium_smc, omega, yy]
     
     
-def K_glut_release(t1, t2, uM=0, s=0, **kwargs):
+def K_glut_release(t1, t2, uM, s, **kwargs):
     sizeJrho = 1600
     sec = sizeJrho/(t2-t1)
     Max_neural_Kplus = 0.55*uM/s
@@ -51,6 +51,30 @@ def K_glut_release(t1, t2, uM=0, s=0, **kwargs):
     return Jrho_IN
 
 
+def plot_currents(t, sol, fig_dims, JSigKkNa, ):
+    plt.rcParams['axes.labelsize'] = 9
+    plt.rcParams['xtick.labelsize'] = 9
+    plt.rcParams['ytick.labelsize'] = 9
+    plt.rcParams['legend.fontsize'] = 9
+    plt.rcParams['font.family'] = 'sans-serif'
+    plt.rcParams['font.serif'] = ['Arial']
+    
+    JSigK = JSigKkNa * sol[:,0]/(sol[:,0] + KKoa)
+    Isigk = -JSigK/100 * Castr * gamma
+    
+    f, ax1 = plt.subplots()
+    f.set_size_inches(fig_dims[0], h=fig_dims[1])
+
+    ax1.plot(t, sol[:,7]/mV, label="", lw=2, color="C1")
+    ax1.set_ylabel("Vk (mV)")
+    ax1.set_xlabel("time (s)")
+
+    ax2 = ax1.twinx()
+    ax2.plot(t, r, lw=2)
+    ax2.set_ylim([-10, 100])
+    ax2.set_ylabel("vessel dilation (%)")
+
+
 def main(fparam, fig_dims):
     units, param = utils.read_config(fparam)
     um = units['um']
@@ -60,8 +84,8 @@ def main(fparam, fig_dims):
     x_rel = y0[13]
     sol = np.zeros(len(y0))
 
-    atol = 1e-7
-    rtol = 1e-7
+    atol = 1e-8
+    rtol = 1e-6
 
     # Equilibration
     t1 = -20

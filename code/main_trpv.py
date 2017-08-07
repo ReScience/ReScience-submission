@@ -54,8 +54,8 @@ def plot_Vk(t, sol, fig_dims, r0, um=0, mV=0, **kwargs):
     
 #    print(sol[0,7]/mV)
     
-    plt.savefig('../article/figures/Vk_inflation.png', dpi=600, bbox_inches='tight')
-#    plt.show()
+#    plt.savefig('../article/figures/Vk_inflation.png', dpi=600, bbox_inches='tight')
+    plt.show()
 
 
 def main(fparam, fig_dims):

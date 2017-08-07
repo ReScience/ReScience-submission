@@ -35,23 +35,23 @@ Original data is in the data directory.
 Four different simulation scenarios have been implemented using the ODE describing chemical transport and blood vessel mechanics in the NVU. To run a "control" simulation containing stimulus presentation from the synaptic space run
 
 ```
- main.py ../data/parameter.cfg
+ python main.py ../data/parameter.cfg
 ```
 
 To run a simulation of the NVU under manual stretching of the blood vessel run
 
 ```
- main_trpv.py ../data/parameter.cfg
+ python main_trpv.py ../data/parameter.cfg
 ```
 
 To run a simulation of the NVU under administration of the vasodilatory drug pinacidil run
 
 ```
- main_k.py ../data/parameter.cfg
+ python main_k.py ../data/parameter.cfg
 ```
 
 To run a simulation of the NVU with fixed values for the astrocyte membrane potential run
 
 ```
- main_Vk.py ../data/parameter.cfg
+ python main_Vk.py ../data/parameter.cfg
 ```

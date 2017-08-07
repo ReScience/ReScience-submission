@@ -436,3 +436,29 @@ def plot_input(Jrho_IN, fig_dims, uM, s, **kwargs):
     ax1.legend()
 #    plt.savefig('../article/figures/input.png', dpi=600, bbox_inches='tight')
     plt.show()
+    
+    
+def plot_Vk(t, sol, fig_dims, r0, um, mV, **kwargs):
+    plt.rcParams['axes.labelsize'] = 9
+    plt.rcParams['xtick.labelsize'] = 9
+    plt.rcParams['ytick.labelsize'] = 9
+    plt.rcParams['legend.fontsize'] = 9
+    plt.rcParams['font.family'] = 'sans-serif'
+    plt.rcParams['font.serif'] = ['Arial']
+
+    r = (sol[:,13]/(2*np.pi)-r0)/r0 * 100
+    
+    f, ax1 = plt.subplots()
+    f.set_size_inches(fig_dims[0], h=fig_dims[1])
+
+    ax1.plot(t, sol[:,7]/mV, label="", lw=2, color="C1")
+    ax1.set_ylabel("Vk (mV)")
+    ax1.set_xlabel("time (s)")
+
+    ax2 = ax1.twinx()
+    ax2.plot(t, r, lw=2)
+    ax2.set_ylim([-10, 100])
+    ax2.set_ylabel("vessel dilation (%)")
+    
+#    plt.savefig('../article/figures/Vk_inflation.png', dpi=600, bbox_inches='tight')
+    plt.show()

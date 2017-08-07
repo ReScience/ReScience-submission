@@ -398,3 +398,41 @@ def plot_vasodilation(t, sol, fig_dims, x_rel, um=0, uM=0, **kwargs):
     f.subplots_adjust(wspace=0.3, hspace=0.2)
     plt.savefig('../article/figures/pinacidil.png', dpi=600, bbox_inches='tight')
 #    plt.show()
+    
+    
+def plot_input(Jrho_IN, fig_dims, uM, s, **kwargs):
+    """Plots the input function.
+
+    Parameters
+    --------------
+    t1 : float
+        Time of the beginning of the simulation.
+    t2 : float
+        Time of the end of the simulation.
+    uM : float
+        Value for unit uM.
+    s : float
+        Value for unit s.
+
+    Returns
+    ---------
+    array
+        Array containing input conditions over simulation time.
+    """
+    plt.rcParams['axes.labelsize'] = 9
+    plt.rcParams['xtick.labelsize'] = 9
+    plt.rcParams['ytick.labelsize'] = 9
+    plt.rcParams['legend.fontsize'] = 9
+    plt.rcParams['font.family'] = 'sans-serif'
+    plt.rcParams['font.serif'] = ['Arial']
+    
+    f, ax1 = plt.subplots()
+    f.set_size_inches(fig_dims[0], h=fig_dims[1])
+
+    ax1.plot(Jrho_IN[:,0], Jrho_IN[:,1]/(uM/s), label="K+", lw=2)
+    ax1.plot(Jrho_IN[:,0], Jrho_IN[:,2], label="Glu", lw=2)
+    ax1.set_ylabel("Glu (1) / K+ (uM/s)")
+    ax1.set_xlabel("time (s)")
+    ax1.legend()
+#    plt.savefig('../article/figures/input.png', dpi=600, bbox_inches='tight')
+    plt.show()

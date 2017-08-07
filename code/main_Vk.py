@@ -9,6 +9,9 @@ https://github.com/akdiem/ReScience-submission/tree/Diem-2017
 This is a reimplementation of Witthoft A, Karniadakis GE (2012) A bidirectional
 model for communication in the neurovascular unit. Journal of Theoretical
 Biology 311: 80-93.
+
+This file initiates and runs a simulation of the neurovascular unit forcing
+the values for the astrocyte membrane potential to match Witthoft (2012).
 """
 
 from nvu import nvu, utils

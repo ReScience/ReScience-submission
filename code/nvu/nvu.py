@@ -8,6 +8,9 @@ https://github.com/akdiem/ReScience-submission/tree/Diem-2017
 This is a reimplementation of Witthoft A, Karniadakis GE (2012) A bidirectional
 model for communication in the neurovascular unit. Journal of Theoretical
 Biology 311: 80-93.
+
+This file contains the ODE describing chemical transports and blood vessel
+mechanics in the neurovascular unit.
 """
 
 import numpy as np

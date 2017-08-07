@@ -34,7 +34,7 @@ def astrocyte(t, ip3, calcium_a, h, ss, Vk, calcium_p, x, eet, nbk, Jrho_IN,
     Jleak = Pl * (1 - calcium_a/calcium_er)
     Itrpv = gtrpv * ss * (Vk - vtrpv)
     Jtrpv = -Itrpv/(Castr*gamma)
-    calcium_a_dt = beta * (Jip3 - Jpump + Jleak + Jtrpv)
+    calcium_a_dt = beta * (Jip3 - Jpump + Jleak)
     h_dt = kon * (Kinh - (calcium_a + Kinh) * h)
     tauca = tautrpv / (calcium_p/uM)
     eps = (x - x_rel)/x_rel
@@ -50,7 +50,7 @@ def astrocyte(t, ip3, calcium_a, h, ss, Vk, calcium_p, x, eet, nbk, Jrho_IN,
     Ibk = gbk * nbk * (Vk - vbk)
     Ileak = gleak * (Vk - vleak)
     Isigk = -JSigK * Castr * gamma
-    Vk_dt = 1/Castr * (-Isigk - Ibk - Ileak - Itrpv)
+    Vk_dt = 1/Castr * (-Isigk - Ibk - Ileak)
     return ip3_dt, calcium_a_dt, h_dt, ss_dt, eet_dt, nbk_dt, Vk_dt, Ibk, Jtrpv
 
 
@@ -69,7 +69,7 @@ def perivascular_space(potassium_p, k, Vm, calcium_p, Ibk, Jtrpv, Castr,
     minf = 0.5 * (1 + np.tanh((Vm-v1)/v2))
     Ica = gca * minf * (Vm - vca)
     Jca = -Ica/(Csmc*gamma)
-    calcium_p_dt = -Jtrpv/VRpa - Jca/VRps - Cadecay * (calcium_p - calcium_p_min)
+    calcium_p_dt = - Jca/VRps - Cadecay * (calcium_p - calcium_p_min)
     return potassium_p_dt, calcium_p_dt, vkir, Ikir, Ica
 
 

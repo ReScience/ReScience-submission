@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 
+"""
+Code for Diem AK (2017) Chemical Signalling in the Neurovascular Unit, The ReScience Journal
+https://github.com/akdiem/ReScience-submission/tree/Diem-2017
+"""
+
 from nvu import nvu, utils
 
 import numpy as np
@@ -8,6 +13,18 @@ from scipy.interpolate import interp1d
 
 
 def init(r0):
+    """Returns the initial conditions for the NVU model.
+
+    Parameters
+    --------------
+    r0 : float
+        Blood vessel radius at rest.
+
+    Returns
+    ---------
+    list
+        List of initial values for the variables of nvu()
+    """
     potassium_s = 2.92655044308714e-8
     ip3 = 5.37611796987610e-10
     calcium_a = 1.47220569018281e-07
@@ -27,29 +44,6 @@ def init(r0):
     yy = 0.000115089683436595
     return [potassium_s, ip3, calcium_a, h, ss, eet, nbk, Vk, potassium_p,
             calcium_p, k, Vm, n, x, calcium_smc, omega, yy]
-    
-    
-def K_glut_release(t1, t2, uM=0, s=0, **kwargs):
-    sizeJrho = 1600
-    sec = sizeJrho/(t2-t1)
-    Max_neural_Kplus = 0.55*uM/s
-    Max_neural_glut = 0.5
-    Jrho_IN = np.zeros((sizeJrho,3))
-    Jrho_IN[:,0] = np.linspace(t1, t2, sizeJrho)
-    it1 = int(5.0*sec)
-    it2 = int(sec)
-    it3 = int(18*sec)
-    it4 = int(sec)
-    pos = it1
-    Jrho_IN[pos+1:pos+it2+1,1] = Max_neural_Kplus * np.linspace(0, 1, it2)
-    Jrho_IN[pos+1:pos+it2+1,2] = Max_neural_glut * np.linspace(0, 1, it2)
-    pos += it2
-    Jrho_IN[pos+1:pos+it3+1,1] = Max_neural_Kplus * np.ones(it3)
-    Jrho_IN[pos+1:pos+it3+1,2] = Max_neural_glut * np.ones(it3)
-    pos += it3
-    Jrho_IN[pos+1:pos+it4+1,1] = Max_neural_Kplus * np.linspace(1, 0, it4)
-    Jrho_IN[pos+1:pos+it4+1,2] = Max_neural_glut * np.linspace(1, 0, it4)
-    return Jrho_IN
 
 
 def k(t):

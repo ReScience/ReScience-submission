@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 
+"""
+Code for Diem AK (2017) Chemical Signalling in the Neurovascular Unit, The ReScience Journal
+https://github.com/akdiem/ReScience-submission/tree/Diem-2017
+"""
+
 from nvu import nvu, utils
 
 import numpy as np
@@ -8,6 +13,18 @@ from scipy.interpolate import interp1d
 
 
 def init(r0):
+    """Returns the initial conditions for the NVU model.
+
+    Parameters
+    --------------
+    r0 : float
+        Blood vessel radius at rest.
+
+    Returns
+    ---------
+    list
+        List of initial values for the variables of nvu()
+    """
     potassium_s = 2.92655044308714e-8
     ip3 = 5.37611796987610e-10
     calcium_a = 1.47220569018281e-07
@@ -30,6 +47,29 @@ def init(r0):
     
     
 def K_glut_release(t1, t2, uM=0, s=0, **kwargs):
+    """Returns the input conditions for the NVU model.
+    
+    Input variables are the K+ (uM/s) concentration and ratio of bound/unbound
+    Glu receptors. They are realised as step functions with a steep linear increase
+    to a maximum sustained value and steep linear decrease back to 0 once the
+    stimulus is removed.
+
+    Parameters
+    --------------
+    t1 : float
+        Time of the beginning of the simulation.
+    t2 : float
+        Time of the end of the simulation.
+    uM : float
+        Value for unit uM.
+    s : float
+        Value for unit s.
+
+    Returns
+    ---------
+    array
+        Array containing input conditions over simulation time.
+    """
     sizeJrho = 1600
     sec = sizeJrho/(t2-t1)
     Max_neural_Kplus = 0.55*uM/s

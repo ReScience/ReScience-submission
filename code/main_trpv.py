@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 
+"""
+Code for Diem AK (2017) Chemical Signalling in the Neurovascular Unit, The ReScience Journal
+https://github.com/akdiem/ReScience-submission/tree/Diem-2017
+"""
+
 from nvu import nvu, utils
 
 import numpy as np
@@ -9,6 +14,18 @@ import matplotlib.pylab as plt
 
 
 def init(r0):
+    """Returns the initial conditions for the NVU model.
+
+    Parameters
+    --------------
+    r0 : float
+        Blood vessel radius at rest.
+
+    Returns
+    ---------
+    list
+        List of initial values for the variables of nvu()
+    """
     potassium_s = 2.92655044308714e-8
     ip3 = 5.37611796987610e-10
     calcium_a = 1.47220569018281e-07

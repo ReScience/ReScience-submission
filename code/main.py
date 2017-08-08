@@ -84,13 +84,14 @@ def K_glut_release(t1, t2, uM, s, **kwargs):
     Max_neural_glut = 0.5
     Jrho_IN = np.zeros((sizeJrho,3))
     Jrho_IN[:,0] = np.linspace(t1, t2, sizeJrho)
-    it1 = int(5.0*sec)
-    it2 = int(sec)
-    it3 = int(18*sec)
-    it4 = int(sec)
+    it1 = int(0*sec)
+    it2 = int(20*sec)
+    it3 = int(5*sec)
+    it4 = int(1*sec)
     pos = it1
-    Jrho_IN[pos+1:pos+it2+1,1] = Max_neural_Kplus * np.linspace(0, 1, it2)
-    Jrho_IN[pos+1:pos+it2+1,2] = Max_neural_glut * np.linspace(0, 1, it2)
+    t = np.linspace(0, 20, it2)
+    Jrho_IN[pos+1:pos+it2+1,1] = Max_neural_Kplus * 0.5*(1 + np.tanh((t-9)/3))
+    Jrho_IN[pos+1:pos+it2+1,2] = Max_neural_glut * 0.5*(1 + np.tanh((t-9)/3))
     pos += it2
     Jrho_IN[pos+1:pos+it3+1,1] = Max_neural_Kplus * np.ones(it3)
     Jrho_IN[pos+1:pos+it3+1,2] = Max_neural_glut * np.ones(it3)
@@ -112,7 +113,7 @@ def main(fparam, fig_dims):
     sol = np.zeros(len(y0))
 
     # simulation tolerance values
-    atol = 1e-7
+    atol = 1e-8
     rtol = 1e-7
 
     # Equilibration
@@ -136,10 +137,10 @@ def main(fparam, fig_dims):
     t = np.linspace(t1, t2, nt)    
     sol = nvu.run_simulation(t, y0, Jrho_IN, x_rel, units, param, atol=atol, rtol=rtol)
     
-#    plot_input(Jrho_IN, fig_dims, **units)
+    nvu.plot_input(Jrho_IN, fig_dims, fname='../article/figures/input.png', **units)
     
     # Plot solution
-    nvu.plot_solution(t, sol, fig_dims, **units)
+    nvu.plot_solution(t, sol, fig_dims, fname='../article/figures/fig1.png', **units)
     
 
 if __name__ == "__main__":

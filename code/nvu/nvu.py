@@ -133,7 +133,7 @@ def astrocyte(t, ip3, calcium_a, h, ss, Vk, calcium_p, x, eet, nbk, Jrho_IN,
     Ibk = gbk * nbk * (Vk - vbk) # eq 15
     Ileak = gleak * (Vk - vleak) # eq 21
     Isigk = -JSigK * Castr * gamma # eq 20
-    Vk_dt = 1/Castr * (-Isigk - Ibk - Ileak) # eq 20
+    Vk_dt = 1/Castr * (-Isigk - Ibk - Ileak - Itrpv) # eq 20
     return ip3_dt, calcium_a_dt, h_dt, ss_dt, eet_dt, nbk_dt, Vk_dt, Ibk, Jtrpv
 
 
@@ -183,7 +183,7 @@ def perivascular_space(potassium_p, k, Vm, calcium_p, Ibk, Jtrpv, Castr,
     minf = 0.5 * (1 + np.tanh((Vm-v1)/v2))
     Ica = gca * minf * (Vm - vca)
     Jca = -Ica/(Csmc*gamma)
-    calcium_p_dt = - Jca/VRps - Cadecay * (calcium_p - calcium_p_min)
+    calcium_p_dt = -Jtrpv/VRpa - Jca/VRps - Cadecay * (calcium_p - calcium_p_min)
     return potassium_p_dt, calcium_p_dt, vkir, Ikir, Ica
 
 

@@ -114,7 +114,7 @@ def main(fparam, fig_dims):
     sol = np.zeros(len(y0))
 
     # simulation tolerance values
-    atol = 1e-8
+    atol = 1e-7
     rtol = 1e-7
 
     # Equilibration
@@ -136,7 +136,7 @@ def main(fparam, fig_dims):
     sol = nvu.run_simulation(t, y0, Jrho_IN, x_rel, units, param, atol=atol, rtol=rtol)
     
     #nvu.plot_input(Jrho_IN, fig_dims, fname='../article/figures/input.png', **units)
-    nvu.plot_input(Jrho_IN, fig_dims, **units)
+#    nvu.plot_input(Jrho_IN, fig_dims, **units)
     
     # Plot solution
     #nvu.plot_solution(t, sol, fig_dims, fname='../article/figures/fig1.png', **units)

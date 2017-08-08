@@ -619,7 +619,7 @@ def run_simulation(time, y0, *args, atol=1e-7, rtol=1e-7, mode=''):
     return sol
 
 
-def plot_solution(t, sol, fig_dims, uM, mV, mM, um, **kwargs):
+def plot_solution(t, sol, fig_dims, uM, mV, mM, um, fname='', **kwargs):
     """Plot solution.
 
     Parameters
@@ -670,11 +670,13 @@ def plot_solution(t, sol, fig_dims, uM, mV, mM, um, **kwargs):
 
     # Fine-tune figure; make subplots farther from each other.
     f.subplots_adjust(wspace=0.3, hspace=0.2)
-#    plt.savefig('../article/figures/no_trpv.png', dpi=600, bbox_inches='tight')
-    plt.show()
+    if fname == '':
+        plt.show()
+    else:
+        plt.savefig(fname, dpi=600, bbox_inches='tight')
 
 
-def plot_vasodilation(t, sol, fig_dims, x_rel, um, uM, **kwargs):
+def plot_vasodilation(t, sol, fig_dims, x_rel, um, uM, fname='', **kwargs):
     """Plot artery radial strain and perivascular Ca2+.
 
     Parameters
@@ -714,11 +716,13 @@ def plot_vasodilation(t, sol, fig_dims, x_rel, um, uM, **kwargs):
 
     # Fine-tune figure; make subplots farther from each other.
     f.subplots_adjust(wspace=0.3, hspace=0.2)
-    plt.savefig('../article/figures/pinacidil.png', dpi=600, bbox_inches='tight')
-#    plt.show()
+    if fname == '':
+        plt.show()
+    else:
+        plt.savefig(fname, dpi=600, bbox_inches='tight')
     
     
-def plot_input(Jrho_IN, fig_dims, uM, s, **kwargs):
+def plot_input(Jrho_IN, fig_dims, uM, s, fname='', **kwargs):
     """Plots the input function.
 
     Parameters
@@ -736,18 +740,20 @@ def plot_input(Jrho_IN, fig_dims, uM, s, **kwargs):
     plt.rcParams['font.serif'] = ['Arial']
     
     f, ax1 = plt.subplots()
-    f.set_size_inches(fig_dims[0], h=fig_dims[1])
+    f.set_size_inches(fig_dims[0], h=fig_dims[1]/3)
 
     ax1.plot(Jrho_IN[:,0], Jrho_IN[:,1]/(uM/s), label="K+", lw=2)
     ax1.plot(Jrho_IN[:,0], Jrho_IN[:,2], label="Glu", lw=2)
     ax1.set_ylabel("Glu (1) / K+ (uM/s)")
     ax1.set_xlabel("time (s)")
     ax1.legend()
-#    plt.savefig('../article/figures/input.png', dpi=600, bbox_inches='tight')
-    plt.show()
+    if fname == '':
+        plt.show()
+    else:
+        plt.savefig(fname, dpi=600, bbox_inches='tight')
     
     
-def plot_Vk(t, sol, fig_dims, r0, um, mV, **kwargs):
+def plot_Vk(t, sol, fig_dims, r0, um, mV, fname='', **kwargs):
     """Plot astrocyte membrane potential and vessel dilation.
 
     Parameters
@@ -780,5 +786,7 @@ def plot_Vk(t, sol, fig_dims, r0, um, mV, **kwargs):
     ax2.set_ylim([-10, 100])
     ax2.set_ylabel("vessel dilation (%)")
     
-#    plt.savefig('../article/figures/Vk_inflation.png', dpi=600, bbox_inches='tight')
-    plt.show()
+    if fname == '':
+        plt.show()
+    else:
+        plt.savefig(fname, dpi=600, bbox_inches='tight')

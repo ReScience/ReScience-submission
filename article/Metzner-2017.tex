@@ -235,7 +235,7 @@ in schizophrenic patients. These changes in oscillatory dynamics in
 patients are important for two reasons: first, gamma range oscillations
 emerge in a variety of different tasks and are thought to underlie many
 cognitive processes (see e.g. \autocite{Fries2005,Fries2015}). Furthermore, impaired gamma
-range oscillations in schizophrenic patientas have been found in most of
+range oscillations in schizophrenic patients have been found in most of
 these tasks and might offer an explanation for the cognitive deficits
 found in patients. Therefore, the study of the mechanisms underlying
 oscillatory entrainment might shed light on the basic principles that
@@ -257,13 +257,13 @@ of the parameter space. Additionally, again because of the simplicity,
 the model can easily be extended to study the effect other parameters
 (e.g.~sparsity of connections, different populations of inhibitory
 neurons, different types of synaptic receptors,\ldots{}), without
-loosing much of its simplicity.
+losing much of its simplicity.
 
 We focus on the main results of the original article: an increase in
 inhibitory decay time constants leads to a reduction of power in the
 gamma range and an increase in power in the beta range, replicating
 experimental findings for schizophrenic patients. Therefore, we
-reproduce Figures 4,5,6,7,10 and 11 of the original paper. The original
+reproduce Figures 4, 5, 6, 7, 10 and 11 of the original paper. The original
 model is implemented using Matlab but the source code is not publicly
 available. The model and analysis scripts are implemented using Python
 2.7.9. All simulations were run under Ubuntu 15.04.
@@ -286,7 +286,7 @@ Total synaptic input to a cell in a network is calculated as
 
 \[S_k = \sum_{j=1}^n \alpha_j \cdot g_{jk} \cdot s_{jk},\]
 
-where \(\alpha _j\) controls excitation and inhibition, i.e. is $+1$ for excitatory synapses and $-1$ for inhibitory ones,
+where \(n\) is the number of presynaptic neurons, \(\alpha _j\) controls excitation and inhibition, i.e. is $+1$ for excitatory synapses and $-1$ for inhibitory ones,
 \(g_{jk}\)
 is the synaptic strength from cell \(j\) to cell \(k\) and \(s_{jk}\) is
 the synaptic gating variable from cell \(j\) to cell \(k\). Synaptic
@@ -318,7 +318,7 @@ network model. Tables \ref{tbl:modparameters} and
 \ref{tbl:simparameters} list the parameters of the model and the
 simulations, their definitions and values, respectively.
 
-The model was implemented using Python 2.7.9 using numpy 1.9.3.
+The model was implemented using Python 2.7.9 and numpy 1.9.3.
 Visualisation of results was also done in Python using the matplotlib
 module (matplotlib 1.4.3). Furthermore, since the model is
 computationally very inexpensive, we did not aim to provide the most
@@ -519,7 +519,7 @@ activitydisplayed in the raster plot of \ref{fig:Vierling7}).
 
 \begin{figure}
 \centering
-\includegraphics{Replication-Figure6.eps}
+\includegraphics[width=0.9\textwidth]{Replication-Figure6.eps}
 \caption{Replication of Figure 6: Single trial from the control network.
 40 Hz drive. Network entrains to 40 Hz, as can be seen in the frequency
 diagram, raster plot and MEG trace.}\label{fig:Vierling6}
@@ -527,7 +527,7 @@ diagram, raster plot and MEG trace.}\label{fig:Vierling6}
 
 \begin{figure}
 \centering
-\includegraphics{Replication-Figure7.eps}
+\includegraphics[width=0.9\textwidth]{Replication-Figure7.eps}
 \caption{Replication of Figure 7: Single trial from the schizophrenia
 network. 40 Hz drive. Network entrains to 40 Hz but also shows a strong
 20 Hz component, as can be seen in the frequency diagram, raster plot
@@ -542,16 +542,18 @@ original model are faithfully reproduced.
 
 \begin{figure}
 \centering
-\includegraphics{Replication-Figure10.eps}
+\includegraphics[width=0.9\textwidth]{Replication-Figure10.eps}
 \caption{Replication of Figure 10: Single trial from the control
 network. 20 Hz drive. Network entrains to 20 Hz but also shows a 40 Hz
 component, as can be seen in the frequency diagram, raster plot and MEG
 trace.}\label{fig:Vierling10}
 \end{figure}
 
+\FloatBarrier
+
 \begin{figure}
 \centering
-\includegraphics{Replication-Figure11.eps}
+\includegraphics[width=0.9\textwidth]{Replication-Figure11.eps}
 \caption{Replication of Figure 11: Single trial from the schizophrenia
 network. 20 Hz drive. Network entrains to 20 Hz without 40 Hz component,
 as can be seen in the frequency diagram, raster plot and MEG trace. note
@@ -561,11 +563,27 @@ harmonic.}\label{fig:Vierling11}
 
 
 
+
+
+\begin{figure}
+\centering
+\includegraphics[width=0.65\textwidth]{Noise-Exploration-MEG.eps}
+\caption{Raw simulated MEG signals (averaged
+over 20 trials) for the control and the schizophrenic network at 20 and 40 Hz driving frequencies 
+for three different levels of noise strength (0, 50 and 75 \% of the strength in the standard model).}\label{fig:NoiseExplorationMEG}
+\end{figure}
+
+\FloatBarrier
+
 \subsection{Exploration of the Discrepancies between Original and Reimplementation}
 In this section we explore possible scenarios that might explain the less pronounced main features in the reimplementation.
-
 We explore the influence of the background noise. The main mechanism behind the emergence of a 20 Hz component in response
-to 40 Hz drive in the schizophrenia network is the prolonged inhibition which suppresses activity in every second 40 Hz cycle. In the absence
+to 40 Hz drive in the schizophrenia network is the prolonged inhibition which suppresses activity in every second 40 Hz cycle. 
+
+
+
+
+In the absence
 of noise the network responds with a pure 20 Hz oscillation (see Figures \ref{fig:NoiseExplorationMEG} left upper panel and \ref{fig:NoiseExplorationPSD} left upper panel). However, the background noise
 gives sufficient input to some excitatory cells to overcome this suppression and also fire in between the 20 Hz cycles. This results in a mixed response, 
 where power is split between 20 Hz and 40 Hz. The ratio of this split depends on the strength of the noise. Therefore, we asked whether the less pronounced
@@ -577,34 +595,21 @@ in the 40 Hz component. This component is suppressed in the schizophrenia networ
 Summarising, a difference in the strength of the background noise might be an explanation for the discrepancy between original and reimplementation. However, only a reduction of noise solely for the schizophrenia network 
 fully replicates the original results. 
 
-\begin{figure}
-\centering
-\includegraphics{Noise-Exploration-MEG.eps}
-\caption{Replication of Figure 11: Single trial from the schizophrenia
-network. 20 Hz drive. Network entrains to 20 Hz without 40 Hz component,
-as can be seen in the frequency diagram, raster plot and MEG trace. note
-that the 40 Hz power in the power spectrum is a
-harmonic.}\label{fig:NoiseExplorationMEG}
-\end{figure}
 
 \begin{figure}
 \centering
-\includegraphics{Noise-Exploration-PSD.eps}
-\caption{Replication of Figure 11: Single trial from the schizophrenia
-network. 20 Hz drive. Network entrains to 20 Hz without 40 Hz component,
-as can be seen in the frequency diagram, raster plot and MEG trace. note
-that the 40 Hz power in the power spectrum is a
-harmonic.}\label{fig:NoiseExplorationPSD}
+\includegraphics[width=\textwidth]{Noise-Exploration-PSD.eps}
+\caption{Power spectra of the raw MEG signals from \ref{fig:NoiseExplorationMEG}}\label{fig:NoiseExplorationPSD}
 \end{figure}
 
 
-\FloatBarrier
+
 
 \section{Conclusion}\label{conclusion}
 
 Overall, we believe we have faithfully reproduced the main fetaures of
 the simple model from \autocite{Vierling2008}. However, we note that
-overall features a re a little bit less pronounced in our
+overall features are a little bit less pronounced in our
 reimplementation compared to the original model. We have explored possible explanations for this discrepancy
 and conclude that it might come from minor inconsistencies with respect to parameters in the original model. Nevertheless,
 the mechanism proposed in the original model could be reproduced and presents a possible explanation for deficits in 

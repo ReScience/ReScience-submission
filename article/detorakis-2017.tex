@@ -270,9 +270,10 @@ The model consists of linear differential equations, which describe the membrane
 and threshold potentials and internal currents. All the results provided in 
 \cite{mihalas:2009} have been obtained by using only two internal currents and
 thus we use the exact same number of internal currents in this work. The
-differential equations describe the subthreshold dynamics, while the 
-instantaneous threshold potential controls when the neuron firing an action 
-potential (spike) in a dynamic way. The ability of the MNN model to generate
+subthreshold dynamics are defined by a set of linear ordinary differential 
+equations, while an instantaneous threshold potential controls when the neuron
+firing an action potential (spike) in a dynamic way. The ability of the MNN 
+model to generate 
 such a diverse spiking behavior is due to the complex update rules. In this 
 work the MNN model has been implemented in Python (version 3.6.1) using 
 Numpy (version 1.13.1) and Matplotlib (version 2.0.2) packages. 
@@ -282,19 +283,35 @@ Numpy (version 1.13.1) and Matplotlib (version 2.0.2) packages.
 \section{Methods}\label{methods}
 
 In order to implement the model described in \cite{mihalas:2009}, we discretized
-the dynamical system using the Euler's integration scheme. The time step is 
-fixed to $0.1\, \Rm{ms}$ for all the simulations, and the simulation time
-varies according to figure 1 of the original paper. We provide all equations
-and parameters of the model in tables as it has been suggested
-by~\cite{nordlie:2009}. 
+the dynamical system using the forward Euler's integration scheme. The time step
+is fixed to $0.1\, \Rm{ms}$ for all the simulations, and the total simulation
+time $t_f$ varies according to figure 1 of the original paper. Our
+implementation differs from the one in the original paper, since in
+\cite{mihalas:2009}, authors numerically solve equation $3.5$ (algebraic 
+equation) under the constraint imposed by inequality $3.4$ and thus they
+compute the spike times. On the other hand, in this work we directly compute
+numerically the solution of the dynamical system defined by equations $2.1$
+and $2.2$ in \cite{mihalas:2009} (see tables~\ref{table:2} and~\ref{table:3}). 
+
+We provide all equations and parameters of the model in tables as it has been 
+suggested by~\cite{nordlie:2009}. 
 Table~\ref{table:1} provides the summary of the model. Tables~\ref{table:2}
 and~\ref{table:3} give the subthreshold dynamics (differential equations) 
 describing the membrane and the threshold potentials as well as the two internal
 currents and the update rules. The parameters for all the simulations are given
-in table~\ref{table:4}. Table~\ref{table:5} provides the external current
-intensities (and pulse durations), and initial conditions are described
-in table~\ref{table:6}. 
+in table~\ref{table:4}, while the external current intensities and pulse
+duration are provided in table~\ref{table:5}. The parameters in this work are 
+exactly the same used in the original paper (table 1, pg. $711$). We had to 
+infer the time intervals and the total simulation times for the pulses since
+they are not given explicitly in the original paper. Thus, we extracted the
+time intervals from figure $1$ of \cite{mihalas:2009} by visual inspection. 
+The initial conditions are given in table~\ref{table:6}. 
 
+All simulations ran on a Dell OptiPlex $7040$, equipped with a sixth
+generation i$7$ processor, $16\, \Rm{GB}$ of physical memory and running Arch
+Linux (x$86\_64$). The total execution time of all simulations was $2.41$
+seconds and the peak consumed memory was $162\, \Rm{MB}$\footnote{Python memory
+profiler used (\url{https://pypi.python.org/pypi/memory_profiler}).}\@. 
 
 %%
 \begin{table}[!htbp]
@@ -422,6 +439,7 @@ in table~\ref{table:6}.
 \end{table}
 %%
 
+\vspace{-1cm}
 
 %%
 \begin{table}[!htbp]
@@ -487,7 +505,7 @@ in table~\ref{table:6}.
     \label{table:5}
 \end{table}
 %%
-
+\vspace{-2cm}
 %%
 \begin{table}[!htbp]
     \centering
@@ -503,16 +521,10 @@ in table~\ref{table:6}.
     \end{tabular}
     \caption{{\bfseries \sffamily Initial conditions.} In all simulations
     have been used the same initial conditions, except from the one 
-    illustrated in figure~\ref{fig:1}H.}
+    illustrated in Figure~\ref{fig:1}H.}
     \label{table:6}
 \end{table}
 %%  
-
-All simulations ran on a Dell OptiPlex $7040$, equipped with a sixth
-generation i$7$ processor, $16\, \Rm{GB}$ of physical memory and running Arch
-Linux. The total execution time of all simulations was $2.41$ seconds and the
-peak consumed memory was $162\, \Rm{MB}$\footnote{Python memory profiler used
-    (\url{https://pypi.python.org/pypi/memory_profiler}).}\@. 
 
 \clearpage
 
@@ -522,15 +534,27 @@ All three figures from the original article have been successfully replicated.
 All the different spiking behaviors of the model are illustrated in 
 Figure~\ref{fig:1}, where the black solid line indicates the membrane potential
 ($V(t)$), the red dashed line illustrates the instantaneous threshold potentials
-($\Theta(t)$), and the gray line shows the input to the neuron ($I_e/C$).
+($\Theta(t)$), and the gray line shows the input to the neuron ($I_e/C$). 
+The $x$-axis scale in all the panels are exactly the same as in the original
+paper (indicating the total simulation time ($t_f$), while the $y$-axis scale 
+differs from the one in the original paper. In this work the $y$-axis scale
+is the same same for all the subplots ($[-95, -25]\, \Rm{mV}$), except from
+panels G and O ($[-145, -25]\, \Rm{mV}$).
+
 Figures~\ref{fig:2} and~\ref{fig:3} depict the phase space of the phasic
 spiking ($V(t)$ and $\Theta(t)$) and phasic bursting ($V(t)$,
-$I_1(t)$, and $I_2(t)$). All the figures express the same qualitative
-behavior as the original figures in~\cite{mihalas:2009}.
+$I_1(t)$, and $I_2(t)$). In both figures the blue curves and the black dots 
+indicate the trajectory of the system and spike events, respectively.
+In Figure~\ref{fig:2} the gray arrows show the evolution of the system
+(vector field of the system). Figure~\ref{fig:3} has a different orientation 
+from the original one but both illustrate the same trajectories and spike 
+events of the system. 
+All the figures express the same qualitative behavior as the original
+figures in~\cite{mihalas:2009}.
 
 \begin{figure}[htpb!]
     \centering
-    \includegraphics[width=1.1\textwidth]{figs/Figure01.pdf}
+    \includegraphics[width=0.9\textwidth]{figs/Figure01.pdf}
     \caption{{\bfseries \sffamily Neural responses of MNN.} Black solid lines
     indicate the membrane potential ($V(t)$), the red dashed lines show the
     threshold potentials ($\Theta(t)$), and the gray lines the external
@@ -584,9 +608,10 @@ behavior as the original figures in~\cite{mihalas:2009}.
 All figures in~\textcite{mihalas:2009} have been successfully replicated 
 with high fidelity. Overall, the whole reproducing process was smooth and
 without obscure points since most of the parameters are provided in the
-original article. Only the external current time intervals and the initial
-conditions are not provided explicitly and thus we had to extract that
-information from figure $1$ of the original article. To conclude, the
+original article. Only the time intervals for which the external current is
+applied to the model and the initial conditions are not provided explicitly.
+Therefore, we had to extract that information from figure $1$ of the original
+article. To conclude, the
 article~\cite{mihalas:2009} has been successfully reproduced without any
 discrepancy. 
 

@@ -3,61 +3,79 @@
 # This script implements the Mihalas-Niebur Neuron model based on the paper
 # S. Mihalas and E. Niebur, "A Generalized Linear Integrate-and-Fire Neural
 # Model Produces Diverse Spiking Behaviors", Neural Computation 21, 2009.
+# Copyright (C) 2017  Georgios Is. Detorakis
 #
-# Copyright (c) 2017 Georgios Is. Detorakis
-# All rights reserved.
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
 #
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
-# 1. Redistributions of source code must retain the above copyright
-#    notice, this list of conditions and the following disclaimer.
-# 2. Redistributions in binary form must reproduce the above copyright
-#    notice, this list of conditions and the following disclaimer in the
-#    documentation and/or other materials provided with the distribution.
-# 3. The name of the author may not be used to endorse or promote products
-#    derived from this software without specific prior written permission.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 #
-# THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
-# IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-# OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-# IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
-# INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
-# NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
-# THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+# 02110-1301, USA.
 import numpy as np
 # from memory_profiler import profile
 
 
-# Define simulation and model parameters dictionary
-params = {'k1': 0.2,             # I₁ decay term
-          'k2': 0.02,            # I₂ decay term
-          'b': 0.01,             # Θ decay term
-          'R1': 0.0,             # I₁ update constant
-          'R2': 1.0,             # I₂ update constant
-          'El': -70.0,           # Reverse potential
-          'Vr': -70.0,           # Resting potential
-          'Thetar': -60.0,       # Resting threshold
-          'a': 0.000,            # Specifier of spike response
-          'A1': 0.0,             # I₁ additive update constant
-          'A2': 0.0,             # I₂ additive update constant
-          'G': 0.05,             # Membrane potential decay term
-          'C': 1.0,              # Membrane capacitance
-          'ThetaInf': -50.0}     # Reverse threshold
+def default_parameters(**kwargs):
+    """ Sets and stores the default values for simulations in a dictionary.
+
+        Args:
+            **kwargs            : Keyword arguments for defining specific
+                                  values for the parameters
+
+        Return:
+            params (dict)       : Simulation parameters dictionary
+    """
+    params = dict()
+    k1, k2 = 0.2, 0.02
+    a, b = 0.0, 0.01
+    A1, A2 = 0.0, 0.0
+    R1, R2 = 0.0, 1.0
+    G, C = 0.05, 1.0
+    El, Vr = -70.0, -70.0
+    ThetaR, ThetaInf = -60.0, -50.0
+
+    params['k1'] = k1
+    params['k2'] = k2
+    params['a'] = a
+    params['b'] = b
+    params['A1'] = A1
+    params['A2'] = A2
+    params['R1'] = R1
+    params['R2'] = R2
+    params['El'] = El
+    params['Vr'] = Vr
+    params['Thetar'] = ThetaR
+    params['ThetaInf'] = ThetaInf
+    params['G'] = G
+    params['C'] = C
+
+    if kwargs is not None:
+        for key, value in kwargs.items():
+            if key in params:
+                params[key] = value
+            else:
+                print("Key {} not found! Default values are used!".format(key))
+    return params
 
 
 # @profile
-def mnn_model(pms=params, Iext=np.zeros((200,)), dt=1.0,
+def mnn_model(pms=None, Iext=np.zeros((200,)), dt=1.0,
               IC=(0.01, 0.001, -70.0, -50.0)):
     """ Main simulation function. Actual implementation of MNN model.
 
         Args:
-            time (int) : Total simulation duration
-            dt (float) : Euler's step
-            IC (float) : Initial conditions tuple (I1, I2, V, Theta)
+            params (dict)   : Parameters dictionary
+            Iext (ndarray)  : External current array
+            dt (float)      : Euler's step
+            IC (float)      : Initial conditions tuple (I1, I2, V, Theta)
 
         Return:
             sol (ndarray)    : A numpy array containing the time (T), the two
@@ -69,6 +87,9 @@ def mnn_model(pms=params, Iext=np.zeros((200,)), dt=1.0,
             spikes (ndarray)  : The spike trains.
     """
     sim_time = Iext.shape[0]                    # Simulation time
+
+    if pms is None:
+        pms = default_parameters()
 
     # ODEs Initial conditions
     I1 = IC[0] * np.ones((sim_time, ))          # Internal current 1

@@ -54,7 +54,7 @@ def astrocyte(t, ip3, calcium_a, h, ss, Vk, calcium_p, x, eet, nbk, Jrho_IN,
               Vmax, Kp, Pl, gtrpv, vtrpv, Castr, gamma, beta, kon, Kinh, 
               tautrpv, uM, gammacai, gammacae, eps12, kappa, v1trpv, v2trpv,
               Veet, calcium_a_min, keet, v5bk, Ca3bk, Ca4bk, v6bk, psibk,
-              v4bk, eetshift, gbk, vbk, gleak, vleak, **kwargs):
+              v4bk, eetshift, gbk, vbk, gleak, vleak, trpv=True, **kwargs):
     """Implements the equations for chemical transport in the astrocytic space
 
     Parameters
@@ -117,7 +117,10 @@ def astrocyte(t, ip3, calcium_a, h, ss, Vk, calcium_p, x, eet, nbk, Jrho_IN,
     Jleak = Pl * (1 - calcium_a/calcium_er) # eq 9
     Itrpv = gtrpv * ss * (Vk - vtrpv) # eq 10
     Jtrpv = -Itrpv/(Castr*gamma) # eq 10
-    calcium_a_dt = beta * (Jip3 - Jpump + Jleak + Jtrpv) # eq 5
+    if trpv:
+        calcium_a_dt = beta * (Jip3 - Jpump + Jleak + Jtrpv) # eq 5
+    else:
+        calcium_a_dt = beta * (Jip3 - Jpump + Jleak)
     h_dt = kon * (Kinh - (calcium_a + Kinh) * h) # eq 7
     tauca = tautrpv / (calcium_p/uM) # eq 11
     eps = (x - x_rel)/x_rel # eq 11
@@ -133,14 +136,17 @@ def astrocyte(t, ip3, calcium_a, h, ss, Vk, calcium_p, x, eet, nbk, Jrho_IN,
     Ibk = gbk * nbk * (Vk - vbk) # eq 15
     Ileak = gleak * (Vk - vleak) # eq 21
     Isigk = -JSigK * Castr * gamma # eq 20
-    Vk_dt = 1/Castr * (-Isigk - Ibk - Ileak - Itrpv) # eq 20
+    if trpv:
+        Vk_dt = 1/Castr * (-Isigk - Ibk - Ileak - Itrpv) # eq 20
+    else:
+        Vk_dt = 1/Castr * (-Isigk - Ibk - Ileak)
     return ip3_dt, calcium_a_dt, h_dt, ss_dt, eet_dt, nbk_dt, Vk_dt, Ibk, Jtrpv
 
 
 def perivascular_space(potassium_p, k, Vm, calcium_p, Ibk, Jtrpv, Castr,
                        gamma, gkir0, mM, vkir1, vkir2, Csmc, VRpa, VRps,
                        Rdecay, potassium_p_min, dp, mmHg, mV, v2, gca, vca,
-                       Cadecay, calcium_p_min, **kwargs):
+                       Cadecay, calcium_p_min, trpv=True, **kwargs):
     """Implements the equations for chemical transport in the perivascular
     space
 
@@ -172,18 +178,21 @@ def perivascular_space(potassium_p, k, Vm, calcium_p, Ibk, Jtrpv, Castr,
     float
         Value of Ica (eq 36) at current time step.
     """
-    Jbk = Ibk/(Castr*gamma)
-    gkir = gkir0 * np.sqrt(potassium_p/mM)
-    vkir = vkir1 * np.log10(potassium_p/mM) - vkir2
-    Ikir = gkir * k * (Vm - vkir)
-    Jkir = Ikir/(Csmc*gamma)
+    Jbk = Ibk/(Castr*gamma) # eq 22
+    gkir = gkir0 * np.sqrt(potassium_p/mM) # eq 25
+    vkir = vkir1 * np.log10(potassium_p/mM) - vkir2 # eq 26
+    Ikir = gkir * k * (Vm - vkir) # eq 24
+    Jkir = Ikir/(Csmc*gamma) # 22
     potassium_p_dt = Jbk/VRpa + Jkir/VRps - Rdecay * (potassium_p -\
-        potassium_p_min)
-    v1 = (-17.4-(12*(dp/mmHg)/200))*mV
-    minf = 0.5 * (1 + np.tanh((Vm-v1)/v2))
-    Ica = gca * minf * (Vm - vca)
-    Jca = -Ica/(Csmc*gamma)
-    calcium_p_dt = -Jtrpv/VRpa - Jca/VRps - Cadecay * (calcium_p - calcium_p_min)
+        potassium_p_min) # eq 22
+    v1 = (-17.4-12*(dp/mmHg)/200)*mV # eq 38
+    minf = 0.5 * (1 + np.tanh((Vm-v1)/v2)) # eq 37
+    Ica = gca * minf * (Vm - vca) # eq 36
+    Jca = Ica/(Csmc*gamma) # not defined in manuscript
+    if trpv:
+        calcium_p_dt = Jtrpv/VRpa + Jca/VRps - Cadecay * (calcium_p - calcium_p_min) # eq 23
+    else:
+        calcium_p_dt = Jca/VRps - Cadecay * (calcium_p - calcium_p_min) # eq 23
     return potassium_p_dt, calcium_p_dt, vkir, Ikir, Ica
 
 
@@ -574,6 +583,76 @@ def nvu_trpv(t, y, Jrho_IN, x_rel, r_f, units, param):
     return [potassium_s_dt, ip3_dt, calcium_a_dt, h_dt, ss_dt, eet_dt, nbk_dt,
             Vk_dt, potassium_p_dt, calcium_p_dt, k_dt, Vm_dt, n_dt, x_dt,
             calcium_smc_dt, omega_dt, yy_dt]
+    
+    
+def nvu_notrpv(t, y, Jrho_IN, x_rel, units, param):
+    """Same as nvu(), but trpv channels are deleted
+
+    Parameters
+    --------------
+    t : float
+        Time.
+    y : array
+        Array containing current solution values.
+    Jrho_IN : array
+        Array containing model input values.
+    x_rel : float
+        Value of relaxed vessel circumference at time t.
+    r_f : function
+        Function returning values for vessel radius at time t.
+    units : dict
+        Dictionary containing values for units.
+    param : dict
+        Dictionary containing values for parameters.
+
+    Returns
+    ---------
+    array
+        Array containing values of ODEs for all variables in the neurovascular
+        unit at time t.
+    """
+    potassium_s = y[0]
+    ip3 = y[1]
+    calcium_a = y[2]
+    h = y[3]
+    ss = y[4]
+    eet = y[5]
+    nbk = y[6]
+    Vk = y[7]
+    potassium_p = y[8]
+    calcium_p = y[9]
+    k = y[10]
+    Vm = y[11]
+    n = y[12]
+    x = y[13]
+    calcium_smc = y[14]
+    omega = y[15]
+    yy = y[16]
+    
+    # Synaptic space
+    potassium_s_dt, JSigK = synapse(t, potassium_s, Jrho_IN, **param)    
+    
+    # Astrocytic space
+    ip3_dt, calcium_a_dt, h_dt, ss_dt, eet_dt, nbk_dt, Vk_dt, Ibk, Jtrpv =\
+        astrocyte(t, ip3, calcium_a, h, ss, Vk, calcium_p, x, eet, nbk,
+                  Jrho_IN, x_rel, JSigK, trpv=False, **units, **param)    
+    
+    # Perivascular space
+    potassium_p_dt, calcium_p_dt, vkir, Ikir, Ica = perivascular_space(
+            potassium_p, k, Vm, calcium_p, Ibk, Jtrpv, trpv=False, **units,
+            **param)   
+    
+    # Ion currents
+    k_dt, Vm_dt, n_dt = ion_currents(Vm, k, calcium_smc, n, vkir, Ica, Ikir,
+                                     **units, **param)
+    
+    # Vessel mechanics
+    x_dt, calcium_smc_dt, omega_dt, yy_dt = vessel_mechanics(t, calcium_smc, x,
+                                            yy, omega, Ica, **units, **param)
+    
+    return [potassium_s_dt, ip3_dt, calcium_a_dt, h_dt, ss_dt, eet_dt, nbk_dt,
+            Vk_dt, potassium_p_dt, calcium_p_dt, k_dt, Vm_dt, n_dt, x_dt,
+            calcium_smc_dt, omega_dt, yy_dt]
 
 
 def run_simulation(time, y0, *args, atol=1e-7, rtol=1e-7, mode=''):
@@ -607,6 +686,8 @@ def run_simulation(time, y0, *args, atol=1e-7, rtol=1e-7, mode=''):
         ode15s = ode(nvu_k)
     elif mode == 'trpv':
         ode15s = ode(nvu_trpv)
+    elif mode == 'notrpv':
+        ode15s = ode(nvu_notrpv)
     ode15s.set_f_params(*args)
     ode15s.set_integrator(integrator, atol=atol, rtol=rtol)
     ode15s.set_initial_value(y0, t=time[0])
@@ -659,6 +740,71 @@ def plot_solution(t, sol, fig_dims, uM, mV, mM, um, fname='', **kwargs):
     axarr[2, 1].plot(t, sol[:,14]/uM, label="", lw=2)
     axarr[2, 1].set_ylabel("Ca2+ smc (uM)")
     axarr[3, 1].plot(t, sol[:,13]/(2*np.pi*um), label="", lw=2)
+    axarr[3, 1].set_ylabel("r (um)")
+    
+    f.suptitle("time (s)", y=0.05)
+    
+    # Fine-tune figure; hide x ticks for top plots
+    plt.setp([a.get_xticklabels() for a in axarr[0,:]], visible=False)
+    plt.setp([a.get_xticklabels() for a in axarr[1,:]], visible=False)
+    plt.setp([a.get_xticklabels() for a in axarr[2,:]], visible=False)
+
+    # Fine-tune figure; make subplots farther from each other.
+    f.subplots_adjust(wspace=0.3, hspace=0.2)
+    if fname == '':
+        plt.show()
+    else:
+        plt.savefig(fname, dpi=600, bbox_inches='tight')
+        
+        
+def plot_solutions(t, sol1, sol2, fig_dims, uM, mV, mM, um, fname='', **kwargs):
+    """Plot two solutions together.
+
+    Parameters
+    --------------
+    t : array
+        Time.
+    sol : array
+        Array containing model solution.
+    fig_dims : tuple
+        Figure dimensions.
+    """
+    plt.rcParams['axes.labelsize'] = 9
+    plt.rcParams['xtick.labelsize'] = 9
+    plt.rcParams['ytick.labelsize'] = 9
+    plt.rcParams['legend.fontsize'] = 9
+    plt.rcParams['font.family'] = 'sans-serif'
+    plt.rcParams['font.serif'] = ['Arial']
+    
+    f, axarr = plt.subplots(4, 2)
+    f.set_size_inches(fig_dims[0], h=fig_dims[1])
+    
+    # left side
+    axarr[0, 0].plot(t, sol2[:,0]/uM, label="", lw=2, ls='--', color='k')
+    axarr[0, 0].plot(t, sol1[:,0]/uM, label="", lw=2)
+    axarr[0, 0].set_ylabel("K+ syn (uM)")
+    axarr[1, 0].plot(t, sol2[:,1]/uM, label="", lw=2, ls='--', color='k')
+    axarr[1, 0].plot(t, sol1[:,1]/uM, label="", lw=2)
+    axarr[1, 0].set_ylabel("IP3 (uM)")
+    axarr[2, 0].plot(t, sol2[:,2]/uM, label="", lw=2, ls='--', color='k')
+    axarr[2, 0].plot(t, sol1[:,2]/uM, label="", lw=2)
+    axarr[2, 0].set_ylabel("Ca2+ ast (uM)")
+    axarr[3, 0].plot(t, sol2[:,5]/uM, label="", lw=2, ls='--', color='k')
+    axarr[3, 0].plot(t, sol1[:,5]/uM, label="", lw=2)
+    axarr[3, 0].set_ylabel("EET (uM)")
+
+    # right side
+    axarr[0, 1].plot(t, sol2[:,7]/mV, label="", lw=2, ls='--', color='k')
+    axarr[0, 1].plot(t, sol1[:,7]/mV, label="", lw=2)
+    axarr[0, 1].set_ylabel("Vk (mV)")
+    axarr[1, 1].plot(t, sol2[:,8]/mM, label="", lw=2, ls='--', color='k')
+    axarr[1, 1].plot(t, sol1[:,8]/mM, label="", lw=2)
+    axarr[1, 1].set_ylabel("K+ pvs (mM)")
+    axarr[2, 1].plot(t, sol2[:,14]/uM, label="", lw=2, ls='--', color='k')
+    axarr[2, 1].plot(t, sol1[:,14]/uM, label="", lw=2)
+    axarr[2, 1].set_ylabel("Ca2+ smc (uM)")
+    axarr[3, 1].plot(t, sol2[:,13]/(2*np.pi*um), label="", lw=2, ls='--', color='k')
+    axarr[3, 1].plot(t, sol1[:,13]/(2*np.pi*um), label="", lw=2)
     axarr[3, 1].set_ylabel("r (um)")
     
     f.suptitle("time (s)", y=0.05)

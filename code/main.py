@@ -112,6 +112,7 @@ def main(fparam, fig_dims):
     y0 = init(r0)
     x_rel = y0[13]
     sol = np.zeros(len(y0))
+    sol_nt = np.zeros(len(y0))
 
     # simulation tolerance values
     atol = 1e-7
@@ -135,12 +136,21 @@ def main(fparam, fig_dims):
     t = np.linspace(t1, t2, nt)    
     sol = nvu.run_simulation(t, y0, Jrho_IN, x_rel, units, param, atol=atol, rtol=rtol)
     
+    # Simulation without TRPV channels
+    t1 = 0
+    t2 = 50 
+    nt = 200
+    Jrho_IN = K_glut_release(t1, t2, **units)
+    t = np.linspace(t1, t2, nt)    
+    sol_nt = nvu.run_simulation(t, y0, Jrho_IN, x_rel, units, param, atol=atol, rtol=rtol, mode='notrpv')
+    
     #nvu.plot_input(Jrho_IN, fig_dims, fname='../article/figures/input.png', **units)
 #    nvu.plot_input(Jrho_IN, fig_dims, **units)
     
     # Plot solution
-    #nvu.plot_solution(t, sol, fig_dims, fname='../article/figures/fig1.png', **units)
-    nvu.plot_solution(t, sol, fig_dims, **units)
+#    nvu.plot_solution(t, sol, fig_dims, fname='../article/figures/fig1.png', **units)
+#    nvu.plot_solutions(t, sol, sol_nt, fig_dims, fname='../article/figures/no_trpv.png', **units)
+    nvu.plot_solutions(t, sol, sol_nt, fig_dims, fname='../article/figures/no_trpv_Jtrpv.png', **units)
     
 
 if __name__ == "__main__":

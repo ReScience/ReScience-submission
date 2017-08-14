@@ -100,7 +100,7 @@ def main(fparam, fig_dims):
     sol[:,13] = 2*np.pi*r_f(t)
 
     # Plot solution
-    plot_Vk(t, sol, fig_dims, r0, **units)
+#    nvu.plot_Vk(t, sol, fig_dims, r0, fname='../article/figures/Vk_inflation.png', **units)
     
 
 if __name__ == "__main__":

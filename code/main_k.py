@@ -105,7 +105,7 @@ def main(fparam, fig_dims):
     sol = nvu.run_simulation(t, y0, Jrho_IN, x_rel, k, units, param, atol=atol, rtol=rtol, mode='k')
 
     # Plot solution
-    nvu.plot_vasodilation(t, sol, fig_dims, x_rel, **units)
+    nvu.plot_vasodilation(t, sol, fig_dims, x_rel, fname='../article/figures/pinacidil_2000uM.png', **units)
     
 
 if __name__ == "__main__":

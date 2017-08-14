@@ -936,3 +936,50 @@ def plot_Vk(t, sol, fig_dims, r0, um, mV, fname='', **kwargs):
         plt.show()
     else:
         plt.savefig(fname, dpi=600, bbox_inches='tight')
+        
+        
+def plot_currents(t, sol, fig_dims, pA, JSigKkNa, KKoa, Castr, gamma, gbk, vbk,
+                  gtrpv, vtrpv, fname='', **kwargs):
+    """Plot artery radial strain and perivascular Ca2+.
+
+    Parameters
+    --------------
+    t : array
+        Time.
+    sol : array
+        Array containing model solution.
+    fig_dims : tuple
+        Figure dimensions.
+    x_rel : float
+        Value of the relaxed vessel circumference.
+    """
+    plt.rcParams['axes.labelsize'] = 9
+    plt.rcParams['xtick.labelsize'] = 9
+    plt.rcParams['ytick.labelsize'] = 9
+    plt.rcParams['legend.fontsize'] = 9
+    plt.rcParams['font.family'] = 'sans-serif'
+    plt.rcParams['font.serif'] = ['Arial']
+    
+    potassium_s = sol[:,1]
+    ss = sol[:,4]
+    nbk = sol[:,6]
+    Vk = sol[:,7]
+    JSigK = JSigKkNa * potassium_s/(potassium_s + KKoa)
+    Isigk = -JSigK * Castr * gamma
+    Ibk = gbk * nbk * (Vk - vbk)
+    Itrpv = gtrpv * ss * (Vk - vtrpv)
+    
+    f, ax1 = plt.subplots()
+    f.set_size_inches(fig_dims[0], h=fig_dims[1]/3)
+    
+    ax1.plot(t, Isigk/pA, label="Isigk", lw=2)
+    ax1.plot(t, Ibk/pA, label="Ibk", lw=2)
+    ax1.plot(t, Itrpv/pA, label="Itrpv", lw=2)
+    ax1.legend()
+    ax1.set_ylabel("current (pA)")
+    ax1.set_xlabel("time (s)")
+    
+    if fname == '':
+        plt.show()
+    else:
+        plt.savefig(fname, dpi=600, bbox_inches='tight')

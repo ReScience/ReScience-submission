@@ -150,7 +150,9 @@ def main(fparam, fig_dims):
     # Plot solution
 #    nvu.plot_solution(t, sol, fig_dims, fname='../article/figures/fig1.png', **units)
 #    nvu.plot_solutions(t, sol, sol_nt, fig_dims, fname='../article/figures/no_trpv.png', **units)
-    nvu.plot_solutions(t, sol, sol_nt, fig_dims, fname='../article/figures/no_trpv_Jtrpv.png', **units)
+#    nvu.plot_solutions(t, sol, sol_nt, fig_dims, fname='../article/figures/no_trpv.png', **units)
+    
+#    nvu.plot_currents(t, sol, fig_dims, fname='../article/figures/astr_currents.png', **param, **units)
     
 
 if __name__ == "__main__":

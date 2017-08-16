@@ -272,7 +272,7 @@ and threshold potentials and internal currents. All the results provided in
 thus we use the exact same number of internal currents in this work. The
 subthreshold dynamics are defined by a set of linear ordinary differential 
 equations, while an instantaneous threshold potential controls when the neuron
-firing an action potential (spike) in a dynamic way. The ability of the MNN 
+fires an action potential (spike) in a dynamic way. The ability of the MNN 
 model to generate 
 such a diverse spiking behavior is due to the complex update rules. In this 
 work the MNN model has been implemented in Python (version 3.6.1) using 
@@ -283,7 +283,7 @@ Numpy (version 1.13.1) and Matplotlib (version 2.0.2) packages.
 \section{Methods}\label{methods}
 
 In order to implement the model described in \cite{mihalas:2009}, we discretized
-the dynamical system using the forward Euler's integration scheme. The time step
+the dynamical system using the forward Euler integration scheme. The time step
 is fixed to $0.1\, \Rm{ms}$ for all the simulations, and the total simulation
 time $t_f$ varies according to figure 1 of the original paper. Our
 implementation differs from the one in the original paper, since in
@@ -535,10 +535,10 @@ All the different spiking behaviors of the model are illustrated in
 Figure~\ref{fig:1}, where the black solid line indicates the membrane potential
 ($V(t)$), the red dashed line illustrates the instantaneous threshold potentials
 ($\Theta(t)$), and the gray line shows the input to the neuron ($I_e/C$). 
-The $x$-axis scale in all the panels are exactly the same as in the original
+The $x$-axis scales in all panels are exactly the same as in the original
 paper (indicating the total simulation time ($t_f$), while the $y$-axis scale 
 differs from the one in the original paper. In this work the $y$-axis scale
-is the same same for all the subplots ($[-95, -25]\, \Rm{mV}$), except from
+is the same same for all the subplots ($[-95, -25]\, \Rm{mV}$), except for
 panels G and O ($[-145, -25]\, \Rm{mV}$).
 
 Figures~\ref{fig:2} and~\ref{fig:3} depict the phase space of the phasic

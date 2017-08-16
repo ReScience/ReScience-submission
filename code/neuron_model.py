@@ -86,24 +86,24 @@ def mnn_model(pms=None, Iext=np.zeros((200,)), dt=1.0,
                                potential at the spike-event times.
             spikes (ndarray)  : The spike trains.
     """
-    sim_time = Iext.shape[0]                    # Simulation time
+    sim_steps = Iext.shape[0]                    # Total simulation steps
 
     if pms is None:
         pms = default_parameters()
 
     # ODEs Initial conditions
-    I1 = IC[0] * np.ones((sim_time, ))          # Internal current 1
-    I2 = IC[1] * np.ones((sim_time, ))          # Internal current 2
-    V = IC[2] * np.ones((sim_time, ))           # Membrane potential
-    Theta = IC[3] * np.ones((sim_time, ))       # Threshold potential
+    I1 = IC[0] * np.ones((sim_steps, ))          # Internal current 1
+    I2 = IC[1] * np.ones((sim_steps, ))          # Internal current 2
+    V = IC[2] * np.ones((sim_steps, ))           # Membrane potential
+    Theta = IC[3] * np.ones((sim_steps, ))       # Threshold potential
 
     # Auxiliary vectors
-    theta_ = np.zeros((sim_time, ))                 # Threshold track
-    time_ = np.zeros((sim_time, ))                  # Time vector
+    theta_ = np.zeros((sim_steps, ))                 # Threshold track
+    time_ = np.zeros((sim_steps, ))                  # Time vector
 
     spikes = []                                 # Spike-event times
     # Forward Euler integration of MNN
-    for t in range(1, sim_time):
+    for t in range(1, sim_steps):
         # ODEs
         I1[t] = I1[t-1] + dt * (-pms['k1'] * I1[t-1])
         I2[t] = I2[t-1] + dt * (-pms['k2'] * I2[t-1])

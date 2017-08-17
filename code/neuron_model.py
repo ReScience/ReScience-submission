@@ -67,7 +67,7 @@ def default_parameters(**kwargs):
 
 
 # @profile
-def mnn_model(pms=None, Iext=np.zeros((200,)), dt=1.0,
+def mnn_model(pms=None, Iext=None, dt=1.0,
               IC=(0.01, 0.001, -70.0, -50.0)):
     """ Main simulation function. Actual implementation of MNN model.
 
@@ -86,6 +86,9 @@ def mnn_model(pms=None, Iext=np.zeros((200,)), dt=1.0,
                                potential at the spike-event times.
             spikes (ndarray)  : The spike trains.
     """
+    if Iext is None:
+        Iext = np.zeros((200, ))
+
     sim_steps = Iext.shape[0]                    # Total simulation steps
 
     if pms is None:

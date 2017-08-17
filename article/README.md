@@ -1,26 +1,24 @@
 ### Required tools for producing the pdf
 
-You'll need [pandoc](http://pandoc.org) (a universal document converter) and a
-full [TeX distribution](https://www.tug.org/texlive/).
+You'll need [pandoc](http://pandoc.org) (a universal document converter) and a full [TeX distribution](https://www.tug.org/texlive/).
 
-For pandoc, you'll also need the
-[pandoc-crossref](https://github.com/lierdakil/pandoc-crossref) filter that you can
-easily install with:
+For pandoc, you'll also need the [pandoc-crossref](https://github.com/lierdakil/pandoc-crossref) filter that you can easily install with:
 
 ```
 $ cabal update
 $ cabal install pandoc-crossref
 ```
 
-### How to build the PDF ?
+### How to build the PDF?
 
 In a console, type:
 
 ```
-pandoc --standalone --filter ~/.cabal/bin/pandoc-crossref --template=rescience-template.tex --latex-engine=xelatex --biblatex --bibliography=your_article_name.bib -M "crossrefYaml=crossref.yaml" --output your_article_name.tex your_article_name.md
-xelatex your_article_name
-biber your_article_name
-xelatex your_article_name
-xelatex your_article_name
+pandoc --standalone --filter ~/.cabal/bin/pandoc-crossref --template=rescience-template.tex --latex-engine=xelatex --biblatex --bibliography=article.bib -M "crossrefYaml=crossref.yaml" --output article.tex article.md
+xelatex article
+biber article
+xelatex article
+xelatex article
 ```
 
+As a shortcut, if you have `GNU make` installed, you can simply execute `make` in a console and all commands above will be executed.

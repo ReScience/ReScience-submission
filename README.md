@@ -1,55 +1,25 @@
 
-### ReScience submission repository
+# Replication of Hinton & Nowlan (1987) "How Learning Can Guide Evolution"
 
-This is the submission repository for the [Re**Science** journal](https://rescience.github.io).
+This is a repository with the code and article submitted to the [Re**Science** journal](https://rescience.github.io). 
 
-### How to submit an article ?
+The reference for the original article (APA style):  
+[Hinton, G. E., & Nowlan, S. J. (1987). How learning can guide evolution. Complex systems, 1(3), 495-502.](http://www.complex-systems.com/pdf/01-3-6.pdf)
 
+The structure of the repository is the following. Folder `article` contains a brief description of my replication of the evolutionary simulations from the original article (see `article/stojic2017.pdf`).
 
-1. Create a [github](https://github.com) account
-
-2. [Fork](https://help.github.com/articles/fork-a-repo/) the [ReScience submission](https://github.com/ReScience/ReScience-submission) repository
-
-3. Clone this new repository into your desktop environment
-
-   ```
-   $ git clone https://github.com/YOUR-USERNAME/ReScience-submission
-   ```
-
-4. Create a branch (the branch name should be author names separated with dashes)
-
-   ```
-   $ git checkout -b AUTHOR1-AUTHOR2
-   ```
+Folder `code` contains main script `simulation.R`, written in R that runs the simulation, produces the summary data in CSV format that is saved in `data` folder. Script `utils.R` loads required packages and defines additional useful functions. Data in `data` folder is used by `genFigure2.R` in the `code` folder to produce the figures used in the replication article. Folder `notebook` does not contain anything.
 
 
-5. Add your code & article (see [author guidelines](https://rescience.github.io/write)) and commit your changes:
+## How to run the simulations yourself?
 
-   ```
-   $ git commit -a -m "Some comment"
-   ```
+The code has been developed on Linux operating system. To execute the code you will need to install [R](https://www.r-project.org/) and additionally install following packages:
 
+```{R}
+packages <- c('ggplot2', 'dplyr', 'reshape2', 
+              'doParallel', 'foreach', 'doRNG')
+lapply(packages, library, character.only = TRUE)
+```
 
-6. [Push](https://help.github.com/articles/pushing-to-a-remote/) to github
+More details on operating system and R is available in `code/README.md`.
 
-   ```
-   $ git push origin AUTHOR1-AUTHOR2
-   ```
-
-7. Issue a [pull request](https://help.github.com/articles/using-pull-requests/) (PR) to Re**Science** with title "Review Request" and insert the following text in the description:
-
-  ```
-  **AUTHOR**
-
-  Dear @ReScience/editors,
-
-  I request a review for the reproduction of the following paper:
-
-  * References of the paper holding results you're replicating
-
-  I believe the original results have been faithfully reproduced as explained in the accompanying article.
-  ```
-
-8. Assign the PR to an editor from the [editorial board](https://rescience.github.io/board).
-
-9. Answer questions and requests made in the PR conversation page.

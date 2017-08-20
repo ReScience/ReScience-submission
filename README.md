@@ -16,7 +16,7 @@ Folder `code` contains main script `simulation.R`, written in R that runs the si
 The code has been developed on Linux operating system. To execute the code you will need to install [R](https://www.r-project.org/) and additionally install following packages:
 
 ```{R}
-packages <- c('ggplot2', 'dplyr', 'reshape2', 
+packages <- c('ggplot2', 'dplyr', 'reshape2', 'ggrepel',
               'doParallel', 'foreach', 'doRNG')
 lapply(packages, library, character.only = TRUE)
 ```

@@ -68,7 +68,9 @@ plotFrame <- left_join(plotFrame_means, plotFrame_ses,
 # plot of all 1000 epochs
 noEpochs <- 1000
 relFrequencies1000 <- 
-    ggplot(plotFrame, 
+    ggplot(
+        mutate(plotFrame, 
+            lineLabel = ifelse(Epoch == 700, as.character(alleleType), NA)), 
         aes(x = Epoch, y = proportion_mean)) +
     geom_line(aes(group = alleleType, linetype = alleleType)) + 
     geom_ribbon(
@@ -77,11 +79,17 @@ relFrequencies1000 <-
             ymax = ifelse((proportion_mean + proportion_se) > 1, 1, 
                           proportion_mean + proportion_se), 
         group = alleleType)) + 
-    scale_x_continuous("Generations",
+    geom_label_repel( 
+        aes(x = Epoch, y = proportion_mean, label = lineLabel),
+        colour = "black", 
+        segment.color = "black", segment.size = 0.2, force = 10,
+        size = fontSize,
+        inherit.aes = FALSE) + 
+    scale_x_continuous("\nGenerations",
                      limits = c(1, noEpochs),
                      breaks = c(1, seq(0, noEpochs, 100)[2:length(seq(0, noEpochs, 100))]),
                      labels = c(1, seq(0, noEpochs, 100)[2:length(seq(0, noEpochs, 100))])) +
-    scale_y_continuous("Relative frequency of allele",
+    scale_y_continuous("Relative frequency of allele\n",
                        limits = c(0, 1),
                        breaks = seq(0, 1, 0.1)) +
     scale_linetype_manual("",
@@ -89,14 +97,16 @@ relFrequencies1000 <-
                           labels = c("Correct alleles", 
                                      "Incorrect alleles",
                                      "Undecided alleles")) +
-    pdftheme
+    pdftheme + 
+    theme(legend.position = "none")
 
 
 # plot of first 50 epochs, same as in the article
 noEpochs <- 50
 relFrequencies50 <- 
     ggplot(
-        filter(plotFrame, Epoch <= noEpochs), 
+        filter(plotFrame, Epoch <= noEpochs) %>%
+        mutate(lineLabel = ifelse(Epoch == 45, as.character(alleleType), NA)), 
         aes(x = Epoch, y = proportion_mean)) +
     geom_line(aes(group = alleleType, linetype = alleleType)) + 
     geom_ribbon(
@@ -105,11 +115,17 @@ relFrequencies50 <-
             ymax = ifelse((proportion_mean + proportion_se) > 1, 1, 
                           proportion_mean + proportion_se), 
         group = alleleType)) + 
-    scale_x_continuous("Generations",
+    geom_label_repel( 
+        aes(x = Epoch, y = proportion_mean, label = lineLabel),
+        colour = "black", 
+        segment.color = "black", segment.size = 0.2, force = 10,
+        size = fontSize,
+        inherit.aes = FALSE) + 
+    scale_x_continuous("\nGenerations",
                      limits = c(1, noEpochs),
                      breaks = c(1, seq(0, noEpochs, 10)[2:length(seq(0, noEpochs, 10))]),
                      labels = c(1, seq(0, noEpochs, 10)[2:length(seq(0, noEpochs, 10))])) +
-    scale_y_continuous("Relative frequency of allele",
+    scale_y_continuous("Relative frequency of allele\n",
                        limits = c(0, 1),
                        breaks = seq(0, 1, 0.1)) +
     scale_linetype_manual("",
@@ -117,7 +133,8 @@ relFrequencies50 <-
                           labels = c("Correct alleles", 
                                      "Incorrect alleles",
                                      "Undecided alleles")) +
-    pdftheme
+    pdftheme + 
+    theme(legend.position = "none")
 
 
 # ----------------------------------------------------------------------

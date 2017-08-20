@@ -7,11 +7,14 @@ Executing the main script `simulation.R` script will produce all the data, but b
 
 The code has been tested on Linux machine:  
 ~~~
-Operating system: Ubuntu 17.04 x86_64
+Distributor ID: Ubuntu
+Description:    Ubuntu 17.04
+Release:    17.04
+Codename:   zesty
 Kernel: Linux 4.12.7
 ~~~
 
-R session information:  
+R `sessionInfo()` output, with all necesary packages loaded:  
 ~~~
 R version 3.4.0 (2017-04-21)
 Platform: x86_64-pc-linux-gnu (64-bit)
@@ -35,15 +38,15 @@ attached base packages:
 
 other attached packages:
  [1] doRNG_1.6.6       rngtools_1.2.4    pkgmaker_0.22     registry_0.3     
- [5] doParallel_1.0.10 iterators_1.0.8   foreach_1.4.3     reshape2_1.4.2   
- [9] dplyr_0.5.0       ggplot2_2.2.1    
+ [5] doParallel_1.0.10 iterators_1.0.8   foreach_1.4.3     ggrepel_0.6.5    
+ [9] reshape2_1.4.2    dplyr_0.5.0       ggplot2_2.2.1    
 
 loaded via a namespace (and not attached):
  [1] Rcpp_0.12.10     magrittr_1.5     munsell_0.4.3    colorspace_1.3-2
  [5] xtable_1.8-2     R6_2.2.0         stringr_1.2.0    plyr_1.8.4      
  [9] tools_3.4.0      grid_3.4.0       gtable_0.2.0     DBI_0.6-1       
 [13] lazyeval_0.2.0   assertthat_0.1   digest_0.6.12    tibble_1.3.0    
-[17] codetools_0.2-15 stringi_1.1.5    compiler_3.4.0   scales_0.4.1        
+[17] codetools_0.2-15 stringi_1.1.5    compiler_3.4.0   scales_0.4.1          
 ~~~
 
 

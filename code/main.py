@@ -145,10 +145,10 @@ def main(fparam, fig_dims):
     sol_nt = nvu.run_simulation(t, y0, Jrho_IN, x_rel, units, param, atol=atol, rtol=rtol, mode='notrpv')
     
     #nvu.plot_input(Jrho_IN, fig_dims, fname='../article/figures/input.png', **units)
-#    nvu.plot_input(Jrho_IN, fig_dims, **units)
+    nvu.plot_input(Jrho_IN, fig_dims, **units)
     
     # Plot solution
-#    nvu.plot_solution(t, sol, fig_dims, fname='../article/figures/fig1.png', **units)
+    nvu.plot_solution(t, sol, fig_dims, **units)
 #    nvu.plot_solutions(t, sol, sol_nt, fig_dims, fname='../article/figures/no_trpv.png', **units)
 #    nvu.plot_solutions(t, sol, sol_nt, fig_dims, fname='../article/figures/no_trpv.png', **units)
     

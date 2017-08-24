@@ -144,8 +144,8 @@ def main(fparam, fig_dims):
     sol[:,7] = Vk_f(t)
     
     # Plot solution
-    nvu.plot_solution(t, sol, fig_dims, fname='../article/figures/fig2.png', **units)
-#    nvu.plot_solution(t, sol, fig_dims, **units)
+#    nvu.plot_solution(t, sol, fig_dims, fname='../article/figures/fig2.png', **units)
+    nvu.plot_solution(t, sol, fig_dims, **units)
     
 
 if __name__ == "__main__":

@@ -135,11 +135,11 @@ def astrocyte(t, ip3, calcium_a, h, ss, Vk, calcium_p, x, eet, nbk, Jrho_IN,
     nbk_dt = phibk * (ninfbk - nbk) # eq 16
     Ibk = gbk * nbk * (Vk - vbk) # eq 15
     Ileak = gleak * (Vk - vleak) # eq 21
-    Isigk = -JSigK * Castr * gamma # eq 20
+    Isigk = JSigK * Castr * gamma # eq 20
     if trpv:
-        Vk_dt = 1/Castr * (-Isigk - Ibk - Ileak - Itrpv) # eq 20
+        Vk_dt = 1/Castr * (Isigk - Ibk - Ileak - Itrpv) # eq 20
     else:
-        Vk_dt = 1/Castr * (-Isigk - Ibk - Ileak)
+        Vk_dt = 1/Castr * (Isigk - Ibk - Ileak)
     return ip3_dt, calcium_a_dt, h_dt, ss_dt, eet_dt, nbk_dt, Vk_dt, Ibk, Jtrpv
 
 
@@ -190,7 +190,7 @@ def perivascular_space(potassium_p, k, Vm, calcium_p, Ibk, Jtrpv, Castr,
     Ica = gca * minf * (Vm - vca) # eq 36
     Jca = Ica/(Csmc*gamma) # not defined in manuscript
     if trpv:
-        calcium_p_dt = Jtrpv/VRpa + Jca/VRps - Cadecay * (calcium_p - calcium_p_min) # eq 23
+        calcium_p_dt = -Jtrpv/VRpa + Jca/VRps - Cadecay * (calcium_p - calcium_p_min) # eq 23
     else:
         calcium_p_dt = Jca/VRps - Cadecay * (calcium_p - calcium_p_min) # eq 23
     return potassium_p_dt, calcium_p_dt, vkir, Ikir, Ica
@@ -978,6 +978,10 @@ def plot_currents(t, sol, fig_dims, pA, JSigKkNa, KKoa, Castr, gamma, gbk, vbk,
     ax1.legend()
     ax1.set_ylabel("current (pA)")
     ax1.set_xlabel("time (s)")
+
+    print(min(Isigk/pA), max(Isigk/pA))
+    print(min(Ibk/pA), max(Ibk/pA))
+    print(min(Itrpv/pA), max(Itrpv/pA))
     
     if fname == '':
         plt.show()

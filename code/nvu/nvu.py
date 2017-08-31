@@ -116,7 +116,7 @@ def astrocyte(t, ip3, calcium_a, h, ss, Vk, calcium_p, x, eet, nbk, Jrho_IN,
     Jpump = Vmax * calcium_a**2 / (calcium_a**2 + Kp**2) # eq 8
     Jleak = Pl * (1 - calcium_a/calcium_er) # eq 9
     Itrpv = gtrpv * ss * (Vk - vtrpv) # eq 10
-    Jtrpv = -Itrpv/(Castr*gamma) # eq 10
+    Jtrpv = Itrpv/(Castr*gamma) # eq 10
     if trpv:
         calcium_a_dt = beta * (Jip3 - Jpump + Jleak + Jtrpv) # eq 5
     else:
@@ -188,11 +188,11 @@ def perivascular_space(potassium_p, k, Vm, calcium_p, Ibk, Jtrpv, Castr,
     v1 = (-17.4-12*(dp/mmHg)/200)*mV # eq 38
     minf = 0.5 * (1 + np.tanh((Vm-v1)/v2)) # eq 37
     Ica = gca * minf * (Vm - vca) # eq 36
-    Jca = Ica/(Csmc*gamma) # not defined in manuscript
+    Jca = -Ica/(Csmc*gamma) # not defined in manuscript
     if trpv:
-        calcium_p_dt = Jtrpv/VRpa + Jca/VRps - Cadecay * (calcium_p - calcium_p_min) # eq 23
+        calcium_p_dt = -Jtrpv/VRpa - Jca/VRps - Cadecay * (calcium_p - calcium_p_min) # eq 23
     else:
-        calcium_p_dt = Jca/VRps - Cadecay * (calcium_p - calcium_p_min) # eq 23
+        calcium_p_dt = -Jca/VRps - Cadecay * (calcium_p - calcium_p_min) # eq 23
     return potassium_p_dt, calcium_p_dt, vkir, Ikir, Ica
 
 

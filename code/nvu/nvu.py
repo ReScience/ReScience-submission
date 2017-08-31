@@ -190,7 +190,7 @@ def perivascular_space(potassium_p, k, Vm, calcium_p, Ibk, Jtrpv, Castr,
     Ica = gca * minf * (Vm - vca) # eq 36
     Jca = Ica/(Csmc*gamma) # not defined in manuscript
     if trpv:
-        calcium_p_dt = Jtrpv/VRpa + Jca/VRps - Cadecay * (calcium_p - calcium_p_min) # eq 23
+        calcium_p_dt = -Jtrpv/VRpa + Jca/VRps - Cadecay * (calcium_p - calcium_p_min) # eq 23
     else:
         calcium_p_dt = Jca/VRps - Cadecay * (calcium_p - calcium_p_min) # eq 23
     return potassium_p_dt, calcium_p_dt, vkir, Ikir, Ica
@@ -983,49 +983,6 @@ def plot_currents(t, sol, fig_dims, pA, JSigKkNa, KKoa, Castr, gamma, gbk, vbk,
     print(min(Ibk/pA), max(Ibk/pA))
     print(min(Itrpv/pA), max(Itrpv/pA))
     
-    if fname == '':
-        plt.show()
-    else:
-        plt.savefig(fname, dpi=600, bbox_inches='tight')
-        
-        
-def plot_effect(t, sol, Jrho_IN, fig_dims, um, uM, s, fname='', **kwargs):
-    """Plot solution.
-
-    Parameters
-    --------------
-    t : array
-        Time.
-    sol : array
-        Array containing model solution.
-    fig_dims : tuple
-        Figure dimensions.
-    """
-    plt.rcParams['axes.labelsize'] = 9
-    plt.rcParams['xtick.labelsize'] = 9
-    plt.rcParams['ytick.labelsize'] = 9
-    plt.rcParams['legend.fontsize'] = 9
-    plt.rcParams['font.family'] = 'sans-serif'
-    plt.rcParams['font.serif'] = ['Arial']
-    
-    f, axarr = plt.subplots(2, 1)
-    f.set_size_inches(fig_dims[0], h=fig_dims[1])
-    
-    # left side
-    axarr[0].plot(Jrho_IN[:,0], Jrho_IN[:,1]/(uM/s), label="K+", lw=2)
-    axarr[0].plot(Jrho_IN[:,0], Jrho_IN[:,2], label="Glu", lw=2)
-    axarr[0].set_ylabel("Glu (1) / K+ (uM/s)")
-    axarr[0].legend()
-    axarr[1].plot(t, sol[:,13]/(2*np.pi*um), label="", lw=2)
-    axarr[1].set_ylabel("r (um)")
-    
-    f.suptitle("time (s)", y=0.05)
-    
-    # Fine-tune figure; hide x ticks for top plots
-    plt.setp([a.get_xticklabels() for a in axarr], visible=False)
-
-    # Fine-tune figure; make subplots farther from each other.
-    f.subplots_adjust(wspace=0.3, hspace=0.2)
     if fname == '':
         plt.show()
     else:

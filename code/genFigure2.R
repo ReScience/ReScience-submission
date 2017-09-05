@@ -15,6 +15,9 @@
 # below you see example of my path to the folder
 # setwd("/home/hstojic/Research/replications/las_HintonNowlan1987_repl/code")
 
+# house keeping
+rm(list = ls())
+
 # load libraries and auxiliary functions
 source("utils.R")
 
@@ -26,9 +29,13 @@ evoRes <- read.csv(file = "../data/simulation.csv", stringsAsFactors = FALSE)
 # Reshaping the data
 # ----------------------------------------------------------------------
 
-# reshaping data for plotting
+# adding nice names for the data
 colnames(evoRes) <- c("Simulation", "Correct", "Incorrect", "Undecided")
 
+# detect the number of simulations in the data
+noSim <- max(evoRes$Simulation)
+
+# computing means
 plotFrame_means <- evoRes %>% 
     group_by(Simulation) %>% 
     mutate(Epoch = 1:n()) %>%
@@ -43,14 +50,15 @@ plotFrame_means <- evoRes %>%
         value.name = "proportion_mean",
         variable.name = "alleleType")
 
+# computing standard errors
 plotFrame_ses <- evoRes %>% 
     group_by(Simulation) %>% 
     mutate(Epoch = 1:n()) %>%
     group_by(Epoch) %>% 
     summarize(
-        Correct = sd(Correct)/100,
-        Incorrect = sd(Incorrect)/100,
-        Undecided = sd(Undecided)/100) %>%
+        Correct = sd(Correct)/sqrt(noSim),
+        Incorrect = sd(Incorrect)/sqrt(noSim),
+        Undecided = sd(Undecided)/sqrt(noSim)) %>%
     melt( 
         id.vars = "Epoch",
         measure.vars = c("Correct", "Incorrect", "Undecided"),
@@ -70,19 +78,15 @@ noEpochs <- 1000
 relFrequencies1000 <- 
     ggplot(
         mutate(plotFrame, 
-            lineLabel = ifelse(Epoch == 700, as.character(alleleType), NA)), 
+            lineLabel = ifelse(Epoch == 0.8*noEpochs, 
+                as.character(alleleType), NA)), 
         aes(x = Epoch, y = proportion_mean)) +
     geom_line(aes(group = alleleType, linetype = alleleType)) + 
-    geom_ribbon(
-        aes(ymin = ifelse((proportion_mean - proportion_se) < 0, 0,
-                          proportion_mean - proportion_se), 
-            ymax = ifelse((proportion_mean + proportion_se) > 1, 1, 
-                          proportion_mean + proportion_se), 
-        group = alleleType)) + 
     geom_label_repel( 
         aes(x = Epoch, y = proportion_mean, label = lineLabel),
-        colour = "black", 
-        segment.color = "black", segment.size = 0.2, force = 10,
+        colour = "black", segment.alpha = 1,
+        segment.colour = "black", segment.size = 0.5, force = 1,
+        min.segment.length = unit(0.1, "lines"),
         size = fontSize,
         inherit.aes = FALSE) + 
     scale_x_continuous("\nGenerations",
@@ -100,25 +104,32 @@ relFrequencies1000 <-
     pdftheme + 
     theme(legend.position = "none")
 
+# if there is more than 1 simulation we plot confidence interval as well
+if (noSim > 1) {
+    relFrequencies1000 <- relFrequencies1000 +  
+        geom_ribbon(
+            aes(ymin = ifelse((proportion_mean - proportion_se) < 0, 0,
+                              proportion_mean - proportion_se), 
+                ymax = ifelse((proportion_mean + proportion_se) > 1, 1, 
+                              proportion_mean + proportion_se), 
+            group = alleleType), alpha = 0.2) 
+}
+
 
 # plot of first 50 epochs, same as in the article
 noEpochs <- 50
 relFrequencies50 <- 
     ggplot(
         filter(plotFrame, Epoch <= noEpochs) %>%
-        mutate(lineLabel = ifelse(Epoch == 45, as.character(alleleType), NA)), 
+        mutate(lineLabel = ifelse(Epoch == 0.8*noEpochs, 
+            as.character(alleleType), NA)), 
         aes(x = Epoch, y = proportion_mean)) +
     geom_line(aes(group = alleleType, linetype = alleleType)) + 
-    geom_ribbon(
-        aes(ymin = ifelse((proportion_mean - proportion_se) < 0, 0,
-                          proportion_mean - proportion_se), 
-            ymax = ifelse((proportion_mean + proportion_se) > 1, 1, 
-                          proportion_mean + proportion_se), 
-        group = alleleType)) + 
     geom_label_repel( 
         aes(x = Epoch, y = proportion_mean, label = lineLabel),
-        colour = "black", 
-        segment.color = "black", segment.size = 0.2, force = 10,
+        colour = "black", segment.alpha = 1,
+        segment.colour = "black", segment.size = 0.5, force = 1,
+        min.segment.length = unit(0.1, "lines"),
         size = fontSize,
         inherit.aes = FALSE) + 
     scale_x_continuous("\nGenerations",
@@ -136,15 +147,39 @@ relFrequencies50 <-
     pdftheme + 
     theme(legend.position = "none")
 
+# if there is more than 1 simulation we plot confidence interval as well
+if (noSim > 1) {
+    relFrequencies50 <- relFrequencies50 +  
+        geom_ribbon(
+            aes(ymin = ifelse((proportion_mean - proportion_se) < 0, 0,
+                              proportion_mean - proportion_se), 
+                ymax = ifelse((proportion_mean + proportion_se) > 1, 1, 
+                              proportion_mean + proportion_se), 
+            group = alleleType), alpha = 0.2) 
+}
+
 
 # ----------------------------------------------------------------------
 # Saving figures
 # ----------------------------------------------------------------------
+
+### PDFs
 
 cairo_pdf("../article/Figure2.pdf", height = 4, width = 7, onefile = TRUE)
 print(relFrequencies50)
 dev.off()
 
 cairo_pdf("../article/Figure2_1000.pdf", height = 4, width = 7, onefile = TRUE)
+print(relFrequencies1000)
+dev.off()
+
+
+### SVGs
+
+svg("../article/Figure2.svg", height = 4, width = 7, onefile = TRUE)
+print(relFrequencies50)
+dev.off()
+
+svg("../article/Figure2_1000.svg", height = 4, width = 7, onefile = TRUE)
 print(relFrequencies1000)
 dev.off()

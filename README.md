@@ -13,13 +13,8 @@ Folder `code` contains main script `simulation.R`, written in R that runs the si
 
 ## How to run the simulations yourself?
 
-The code has been developed on Linux operating system. To execute the code you will need to install [R](https://www.r-project.org/) and additionally install following packages:
+The code has been developed on Linux operating system. To execute the code you will need to install [R](https://www.r-project.org/) and couple of R packages. More details on operating system and R is available in `code/README.md`.
 
-```{R}
-packages <- c('ggplot2', 'dplyr', 'reshape2', 'ggrepel',
-              'doParallel', 'foreach', 'doRNG')
-lapply(packages, library, character.only = TRUE)
-```
-
-More details on operating system and R is available in `code/README.md`.
-
+Note:  
+1. Simulations take some time - on a 16 core computer it takes about 8h. For this reason, the data is already provided in `data` directory.   
+2. If you execute `code/simulation.R` it will automatically try to install needed versions of the packages and potentially overwrite your version if you have some of them installed. Code might very well work with your version but I cannot guarantee it.  

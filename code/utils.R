@@ -10,10 +10,22 @@
 # Loading packages
 # ----------------------------------------------------------------------
 
-# packages I usually use for creating figures 
-packages <- c('ggplot2', 'dplyr', 'reshape2', 'ggrepel',
-              'doParallel', 'foreach', 'doRNG')
-lapply(packages, library, character.only = TRUE)
+# installing the packages, attempting to install the exact version 
+if ("devtools" %in% rownames(installed.packages()) == FALSE) {
+    install.packages("devtools")
+    library(devtools)
+}
+
+packages <- c('ggplot2' = "2.2.1", 'dplyr' = "0.5.0", 'reshape2' = "1.4.2", 
+              'ggrepel' = "0.6.5", 'doParallel' = "1.0.10", 
+              'foreach' = "1.4.3", 'doRNG' = "1.6.6")
+for (p in names(packages)) {
+    install_version(p, version = packages[[p]], 
+        repos = "http://cran.us.r-project.org")
+}
+
+# loading the packages 
+lapply(names(packages), library, character.only = TRUE)
 
 
 # ----------------------------------------------------------------------
@@ -21,7 +33,6 @@ lapply(packages, library, character.only = TRUE)
 # ----------------------------------------------------------------------
 
 # font setup
-# loadfonts()
 fontSetup <- "Helvetica"
 fontSize <- 3.15 
 pointSize <- 1.5

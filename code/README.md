@@ -2,6 +2,8 @@
 
 Executing the main script `simulation.R` script will produce all the data, but beware, simulations will take some time - on a 16 core computer it takes about 8h. For this reason, the data is already provided in `../data` directory.
 
+`utils.R` specifies all the packages used in the simulation and for producing the figures. Note that it will attempt to install exact version of the packages with which this code was developed, so it might overwrite your version if you have installed some of these packages. It will also take a bit of time to install all of them.
+
 
 ### Details on dependencies
 
@@ -39,14 +41,15 @@ attached base packages:
 other attached packages:
  [1] doRNG_1.6.6       rngtools_1.2.4    pkgmaker_0.22     registry_0.3     
  [5] doParallel_1.0.10 iterators_1.0.8   foreach_1.4.3     ggrepel_0.6.5    
- [9] reshape2_1.4.2    dplyr_0.5.0       ggplot2_2.2.1    
+ [9] reshape2_1.4.2    dplyr_0.5.0       ggplot2_2.2.1     devtools_1.12.0  
 
 loaded via a namespace (and not attached):
- [1] Rcpp_0.12.10     magrittr_1.5     munsell_0.4.3    colorspace_1.3-2
- [5] xtable_1.8-2     R6_2.2.0         stringr_1.2.0    plyr_1.8.4      
+ [1] Rcpp_0.12.10     magrittr_1.5     munsell_0.4.3    xtable_1.8-2    
+ [5] colorspace_1.3-2 R6_2.2.0         stringr_1.2.0    plyr_1.8.4      
  [9] tools_3.4.0      grid_3.4.0       gtable_0.2.0     DBI_0.6-1       
-[13] lazyeval_0.2.0   assertthat_0.1   digest_0.6.12    tibble_1.3.0    
-[17] codetools_0.2-15 stringi_1.1.5    compiler_3.4.0   scales_0.4.1          
+[13] withr_1.0.2      lazyeval_0.2.0   assertthat_0.1   digest_0.6.12   
+[17] tibble_1.3.0     codetools_0.2-15 memoise_1.0.0    stringi_1.1.5   
+[21] compiler_3.4.0   scales_0.4.1           
 ~~~
 
 

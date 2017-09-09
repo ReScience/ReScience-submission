@@ -10,18 +10,22 @@
 # Loading packages
 # ----------------------------------------------------------------------
 
-# installing the packages, attempting to install the exact version 
-if ("devtools" %in% rownames(installed.packages()) == FALSE) {
-    install.packages("devtools")
-    library(devtools)
-}
-
+# list of needed packages
 packages <- c('ggplot2' = "2.2.1", 'dplyr' = "0.5.0", 'reshape2' = "1.4.2", 
               'ggrepel' = "0.6.5", 'doParallel' = "1.0.10", 
               'foreach' = "1.4.3", 'doRNG' = "1.6.6")
+
+# installing the packages, attempting to install the exact version, if not
+# already present 
+if ("devtools" %in% rownames(installed.packages()) == FALSE) {
+    install.packages("devtools")
+}
+library(devtools)
 for (p in names(packages)) {
-    install_version(p, version = packages[[p]], 
-        repos = "http://cran.us.r-project.org")
+    if (packages[[p]] != installed.packages()[, "Version"][[p]]) {
+        install_version(p, version = packages[[p]], 
+            repos = "http://cran.us.r-project.org")
+    }
 }
 
 # loading the packages 

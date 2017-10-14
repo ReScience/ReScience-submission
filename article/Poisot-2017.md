@@ -1,10 +1,8 @@
 ---
-Title: "This is the title"
+Title: "[Re] On the coexistence of specialists and generalists"
 Author:
-  - name: Name Surname
+  - name: Timothée Poisor
     affiliation: 1
-  - name: Name Surname,
-    affiliation: 2, 3
 Address:
   - code:    1
     address: Affiliation Dept/Program/Center, Institution Name, City, State, Country
@@ -13,7 +11,7 @@ Address:
   - code:    3
     address: Affiliation Dept/Program/Center, Institution Name, City, State, Country
 Contact:
-  - corresponding-author@mail.com
+  - timothee.poisot@umontreal.ca
 Editor:
   - Name Surname
 Reviewer:

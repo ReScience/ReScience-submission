@@ -4,28 +4,30 @@ using StatsBase
 pyplot()
 
 function habitat_preference(N,K;trials=20)
-   p = rand(3)
-   for iteration in 1:trials
-      l, m, n = sample(1:3, 3, replace=false)
-      Kl1, Kl2 = K[l,1], K[l,2]
-      Nl, Nm, Nn = N[[l,m,n]]
-      pl, pm, pn = p[[l,m,n]]
-      initdiff = 5000.0
-      for test_p in linspace(0.0,1.0,5000)
-         pl = test_p
-         attempt_p = [test_p, pm, pn]
-         attempt_N = [Nl, Nm, Nn]
-         diff_1 = (attempt_p.*attempt_N)./Kl1
-         diff_2 = ((1.-attempt_p).*attempt_N)./Kl2
-         diff = abs(sum(diff_1)-sum(diff_2))
-         if diff < initdiff
-            initdiff = diff
-            p[l] = pl
-         end
-      end
-   end
-   return p
+    p = rand(3)
+    for iteration in 1:trials
+        l, m, n = sample(1:3, 3, replace=false)
+        Kl1, Kl2 = K[l,1], K[l,2]
+        Nl, Nm, Nn = N[[l,m,n]]
+        pl, pm, pn = p[[l,m,n]]
+        initdiff = 5000.0
+        for test_p in linspace(0.0,1.0,1000)
+            pl = test_p
+            attempt_p = [test_p, pm, pn]
+            attempt_N = [Nl, Nm, Nn]
+            diff_1 = (attempt_p.*attempt_N)./Kl1
+            diff_2 = ((1.-attempt_p).*attempt_N)./Kl2
+            diff = abs(sum(diff_1)-sum(diff_2))
+            if diff < initdiff
+                initdiff = diff
+                p[l] = pl
+            end
+        end
+    end
+    return p
 end
+
+
 
 function generate_K(k1, k2, a, b, sync)
    rnd1 = rand()

@@ -1,5 +1,5 @@
 ---
-Title: "[Re] On the coexistence of specialists and generalists"
+Title: "On the coexistence of specialists and generalists"
 Author:
   - name: Timothée Poisor
     affiliation: 1

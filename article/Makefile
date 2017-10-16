@@ -1,4 +1,4 @@
-SOURCE   = Name-YEAR
+SOURCE   = Poisot-2017
 MDFILE   = $(SOURCE).md
 BIBFILE  = bibliography.bib
 TEXFILE  = $(SOURCE).tex

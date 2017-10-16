@@ -8,7 +8,7 @@ for i in eachindex(K)
    K1 = [0.5,1.5].*K[i]
    out[i,1] = K[i]/k2
    avg_spe_1, avg_spe_2, avg_gen = 0.0, 0.0, 0.0
-   nrep = 5
+   nrep = 10
    for rep in 1:nrep
       o = WY94(50, 50, 50, T=100, K1=K1, K2=K2, linked=false)
       m = mean(o[end-100:end,:],1)

@@ -8,7 +8,7 @@ for i in eachindex(R)
    out[i,1] = R[i]*2
    avg_spe, avg_spe_l = 0.0, 0.0
    avg_gen, avg_gen_l = 0.0, 0.0
-   nrep = 5
+   nrep = 10
    for rep in 1:nrep
       o = WY94(50, 50, 50, T=100, K1=K1, K2=K2, linked=false)
       ol = WY94(50, 50, 50, T=100, K1=K1, K2=K2, linked=true)

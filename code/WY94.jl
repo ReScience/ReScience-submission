@@ -11,7 +11,7 @@ function habitat_preference(N,K;trials=20)
         Nl, Nm, Nn = N[[l,m,n]]
         pl, pm, pn = p[[l,m,n]]
         initdiff = 5000.0
-        for test_p in linspace(0.0,1.0,1000)
+        for test_p in linspace(0.0,1.0,2000)
             pl = test_p
             attempt_p = [test_p, pm, pn]
             attempt_N = [Nl, Nm, Nn]

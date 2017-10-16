@@ -9,7 +9,7 @@ for i in eachindex(B)
    out[i,1] = b
    avg_spe, avg_spe_s = 0.0, 0.0
    avg_gen, avg_gen_s = 0.0, 0.0
-   nrep = 5
+   nrep = 10
    for rep in 1:nrep
       o = WY94(50, 50, 50, b=b, T=100, K1=k, K2=k, linked=false)
       os = WY94(50, 50, 50, b=b, T=100, K1=ks, K2=ks, linked=false)

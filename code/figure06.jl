@@ -8,7 +8,7 @@ for i in eachindex(G)
    out[i,1] = g
    avg_spe = 0.0
    avg_gen = 0.0
-   nrep = 5
+   nrep = 10
    for rep in 1:nrep
       o = WY94(50, 50, 50, g=g, T=100, K1=k, K2=k)
       m = mean(o[end-100:end,:],1)

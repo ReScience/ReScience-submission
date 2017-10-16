@@ -9,13 +9,13 @@ TEMPLATE = rescience-template.tex
 	cp ../code/figure*pdf .
         # @echo "Processing $<"
 	@pandoc --standalone                          \
+                --filter ~/.cabal/bin/pandoc-crossref \
                 --template=$(TEMPLATE)                \
                 --latex-engine=xelatex                \
                 --biblatex                            \
                 --bibliography=$(BIBFILE)             \
                 -M "crossrefYaml=crossref.yaml"       \
-                --output $(TEXFILE) $(MDFILE)         \
-                #--filter ~/.cabal/bin/pandoc-crossref \
+                --output $(TEXFILE) $(MDFILE)
 
 %.pdf: $(TEXFILE) $(BIBFILE) $(TEMPLATE)
 	@echo " [1/4] Processing $(TEXFILE) (pass 1)"

@@ -27,6 +27,7 @@
 \usepackage{ragged2e}
 \usepackage{fontspec}
 \usepackage{fontawesome}
+\usepackage{amssymb,amsmath}
 \usepackage{caption}
 \usepackage{listings}
 \lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
@@ -66,7 +67,7 @@
    {colback=red, colframe=red!75!black,
      boxrule=0.5pt, arc=2pt, left=6pt, right=6pt, top=3pt, bottom=3pt}
 
-% fix for pandoc 1.14     
+% fix for pandoc 1.14
 \newcommand{\tightlist}{%
   \setlength{\itemsep}{1pt}\setlength{\parskip}{0pt}\setlength{\parsep}{0pt}}
 
@@ -104,7 +105,7 @@
 \renewcommand{\headrulewidth}{0pt}
 \fancyhead[L]{\hspace{-1cm}\includegraphics[width=4.0cm]{rescience-logo.pdf}}
 \fancyhead[C]{}
-\fancyhead[R]{} 
+\fancyhead[R]{}
 \renewcommand{\footrulewidth}{0.25pt}
 
 \fancyfoot[L]{\hypersetup{urlcolor=red}
@@ -153,7 +154,7 @@
                         \author[1]{Timothée Poisot}
                             \affil[1]{Département de Sciences Biologiques, Université de Montréal, Montréal,
 QC, Canada}
-            
+
 \date{\vspace{-5mm}
       \sffamily \small \href{mailto:timothee.poisot@umontreal.ca}{timothee.poisot@umontreal.ca}}
 
@@ -175,7 +176,7 @@ QC, Canada}
   {\bfseries Reviewers}\\
         Name Surname\\
         Name Surname\\
-  
+
   {\bfseries Received}  Sep, 1, 2015\\
   {\bfseries Accepted}  Sep, 1, 2015\\
   {\bfseries Published} Sep, 1, 2015\\
@@ -191,7 +192,7 @@ QC, Canada}
   \vspace{3mm}
 
   \hypersetup{urlcolor=white}
-  
+
     \vspace{-1mm}
   \begin{repobox}
     \bfseries\normalsize
@@ -241,7 +242,7 @@ in the maximum density that these species can reach in both habitats:
 \begin{equation}
 \mathbf{K} = \begin{bmatrix}
   K_1 & aK_1 \\
-  a_K2 & K_2 \\
+  aK_2 & K_2 \\
   bK_1 & b_K2
 \end{bmatrix} \,.
 \end{equation}
@@ -258,13 +259,13 @@ species choosing habitat 1. Values of \(\mathbf{p}\) are found by
 measuring the negative density effect of each species in each habitat:
 
 \begin{equation}
-D_{l1} = \frac{\sum_{i\in l,m,m}p_iN_i}{K_{l1}}
+D_{l1} = \frac{\sum_{i\in l,m,n}p_iN_i}{K_{l1}}
 \end{equation}
 
 and
 
 \begin{equation}
-D_{l2} = \frac{\sum_{i\in l,m,m}(1-p_i)N_i}{K_{l1}} \,.
+D_{l2} = \frac{\sum_{i\in l,m,n}(1-p_i)N_i}{K_{l1}} \,.
 \end{equation}
 
 The value of \(p_l\) for which \(D_{l1}=D_{l2}\) is
@@ -306,15 +307,50 @@ the next timestep is simply given by
 
 where \(\odot\) is the element-wise multiplication.
 
+\hypertarget{tbl:prm}{}
+\begin{longtable}[]{@{}llr@{}}
+\caption{\label{tbl:prm}Default parameters. Unless otherwise specified,
+these parameters have been used for all figures. }\tabularnewline
+\toprule
+Parameter & Meaning & Default value\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+Parameter & Meaning & Default value\tabularnewline
+\midrule
+\endhead
+\(r\) & \emph{per capita} growth rate & \(1.3\)\tabularnewline
+\(a\) & fitness cost of specialism & \(0.1\)\tabularnewline
+\(b\) & fitness cost of generalism & \(0.9\)\tabularnewline
+\(K_1\) & range of habitat quality (1) & \([200,200]\)\tabularnewline
+\(K_2\) & range of habitat quality (1) & \([100,100]\)\tabularnewline
+\(g\) & proportion picking a random habitat & \(0.0\)\tabularnewline
+\bottomrule
+\end{longtable}
+
 \section{Results}\label{results}
 
 Original sources were not available, and no attempts were made to
 contact the authors. For some non-stochastic situations, it is possible
 to calculate expected values by hand. The original manuscript does
 provide some of these values, and they were used to test this
-implementation. Figure 2A and 2B in the original manuscript provide a
-good diagnostic value, as they are based on non-stochastic situations.
-In \textcite{fig:02},
+implementation. All default parameter values are given in
+~\ref{tbl:prm}. In all figures, circles represent the generalist, upper
+and lower triangles represent the specialists of habitats 1 and 2
+(respectively), and a diamond is used when both specialists have the
+same behaviour.
+
+Figure 2A and 2B in the original manuscript provide a good diagnostic
+value, as they are based on non-stochastic situations. These are
+reproduced in ~\ref{fig:02}. As in the original simulations, the
+generalist alone overshoots its carrying capacity at \(t=5\), and the
+stabilizes at a value of \(N_3^\star = 270\). Note also that
+\(p_3 = 2/3\) , which represents the ratio of habitat qualities. When
+adding specialists at initial densities of \(N_1 = N_2 = 1\), we observe
+(i) that the preference of the generalist shifts towards habitat 1 to
+avoid competition in the smallest habitat, and (ii) the density of the
+specialist of habitat 2 stabilizes as soon as the generalist abandons
+habitat 2 (at \(t \approx 35\)).
 
 \begin{figure}
 \centering
@@ -324,72 +360,76 @@ alone (left), and following invasion by the two specialists at the
 generalist equilibrium (right).}\label{fig:02}
 \end{figure}
 
-Results should be compared with original results and you have to explain
-why you think they are the same or why they may differ (qualitative
-result vs quantitative result). Note that it is not necessary to redo
-all the original analysis of the results.
-
-\section{Conclusion}\label{conclusion}
-
-Conclusion, at the very minimum, should indicate very clearly if you
-were able to replicate original results. If it was not possible but you
-found the reason why (error in the original results), you should exlain
-it.
-
-\begin{longtable}[]{@{}llllll@{}}
-\caption{Table caption \{\#tbl:table\}}\tabularnewline
-\toprule
-\begin{minipage}[b]{0.16\columnwidth}\raggedright\strut
-Heading 1\strut
-\end{minipage} & \begin{minipage}[b]{0.16\columnwidth}\raggedright\strut
-\strut
-\end{minipage} & \begin{minipage}[b]{0.16\columnwidth}\raggedright\strut
-\strut
-\end{minipage} & \begin{minipage}[b]{0.16\columnwidth}\raggedright\strut
-Heading 2\strut
-\end{minipage} & \begin{minipage}[b]{0.16\columnwidth}\raggedright\strut
-\strut
-\end{minipage} & \begin{minipage}[b]{0.16\columnwidth}\raggedright\strut
-\strut
-\end{minipage}\tabularnewline
-\midrule
-\endfirsthead
-\toprule
-\begin{minipage}[b]{0.16\columnwidth}\raggedright\strut
-Heading 1\strut
-\end{minipage} & \begin{minipage}[b]{0.16\columnwidth}\raggedright\strut
-\strut
-\end{minipage} & \begin{minipage}[b]{0.16\columnwidth}\raggedright\strut
-\strut
-\end{minipage} & \begin{minipage}[b]{0.16\columnwidth}\raggedright\strut
-Heading 2\strut
-\end{minipage} & \begin{minipage}[b]{0.16\columnwidth}\raggedright\strut
-\strut
-\end{minipage} & \begin{minipage}[b]{0.16\columnwidth}\raggedright\strut
-\strut
-\end{minipage}\tabularnewline
-\midrule
-\endhead
-cell1 row1 & cell2 row 1 & cell3 row 1 & cell4 row 1 & cell5 row 1 &
-cell6 row 1\tabularnewline
-cell1 row2 & cell2 row 2 & cell3 row 2 & cell4 row 2 & cell5 row 2 &
-cell6 row 2\tabularnewline
-cell1 row3 & cell2 row 3 & cell3 row 3 & cell4 row 3 & cell5 row 3 &
-cell6 row 3\tabularnewline
-\bottomrule
-\end{longtable}
-
-A reference to table \textcite{tbl:table}. A reference to figure
-\textcite{fig:logo}. A reference to equation \textcite{eq:1}. A
-reference to citation \textcite{markdown}.
+In ~\ref{fig:03}, this implementation gives the same qualitative results
+as the original article. There are small quantitative differences in
+output, which are in my opinion explained by the initial population
+densities (which are not given in the original article). Absent
+variation in habitat quality, generalists cannot persist, and the
+specialists both reach \(N^\star = \bar K\). There is a value of
+variation for which the densities of specialists and generalists are
+equal (about 110 for tied variations, and 130 for independent
+variations).
 
 \begin{figure}
 \centering
-\includegraphics{rescience-logo.pdf}
-\caption{Figure caption}\label{fig:logo}
+\includegraphics{figure03.pdf}
+\caption{Consequences of increasing the range of variation of both
+\(K_1\) and \(K_2\). Dashed lines represent independent variation, and
+solid lines tied variations, as in the original article.}\label{fig:03}
 \end{figure}
 
-\[ A = \sqrt{\frac{B}{C}} \] \{\#eq:1\}
+In ~\ref{fig:04}, the same qualitative result (generalists increase in
+abundance when one habitat becomes larger). The quantitative differences
+can, again, be explained by changes in the initial population densities.
+Finally, the results in ~\ref{fig:05} and ~\ref{fig:06} can also be
+replicated.
+
+\begin{figure}
+\centering
+\includegraphics{figure04.pdf}
+\caption{Consequences of increasing the range of variation of both
+\(K_1\) and \(K_2\). Dashed lines represent independent variation, and
+solid lines tied variations, as in the original article.}\label{fig:04}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{figure05.pdf}
+\caption{Consequences of increasing the range of variation of both
+\(K_1\) and \(K_2\). Dashed lines represent independent variation, and
+solid lines tied variations, as in the original article.}\label{fig:05}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{figure06.pdf}
+\caption{Consequences of increasing the range of variation of both
+\(K_1\) and \(K_2\). Dashed lines represent independent variation, and
+solid lines tied variations, as in the original article.}\label{fig:06}
+\end{figure}
+
+\section{Conclusion}\label{conclusion}
+
+I believe that this implementation faithfully reproduces the results of
+\textcite{wils94csg}. A single run of the model (using 100 generations
+as in the original article) completes in
+\(\approx 5\times 10^{-3} \text{s}\). This makes this implementation
+usable for teaching, as it is not time consuming to generate results. As
+an example, I merged the output of ~\ref{fig:03} and ~\ref{fig:05}, to
+generate the response of Shannon's evenness (which measures the extent
+to which all species have the same density) to changes in the rate of
+variation \emph{and} generalist ability. The results are presented in
+~\ref{fig:surf}.
+
+\begin{figure}
+\centering
+\includegraphics{figureSurf.pdf}
+\caption{Response of the model to changing the ability of the generalist
+\emph{and} the range of variation. While the response to environmental
+change is bell-shaped when generalists are competitive (\(g\) close to
+unity), it becomes monotonously decreasing for generalists with lower
+competitive ability (\(g\) close to \(a\)).}\label{fig:surf}
+\end{figure}
 
 {\sffamily \small
   \printbibliography[title=References]

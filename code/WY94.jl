@@ -1,7 +1,7 @@
 using Plots
 using StatsBase
 
-gr()
+pyplot()
 
 function habitat_preference(N,K;trials=20)
    p = rand(3)

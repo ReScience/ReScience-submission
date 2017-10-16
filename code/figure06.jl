@@ -10,7 +10,7 @@ for i in eachindex(G)
    avg_gen = 0.0
    nrep = 5
    for rep in 1:nrep
-      o = WY94(50, 50, 50, g=g, T=300, K1=k, K2=k)
+      o = WY94(50, 50, 50, g=g, T=100, K1=k, K2=k)
       m = mean(o[end-100:end,:],1)
       avg_spe += (m[2]+m[3])/2
       avg_gen += m[4]

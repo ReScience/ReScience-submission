@@ -1,6 +1,6 @@
 include("WY94.jl")
 
-k=[20,180]
+k=[10,190]
 ks=[50,150]
 B = linspace(0.3, 1.0, 12)
 out = zeros((length(B), 5))
@@ -11,8 +11,8 @@ for i in eachindex(B)
    avg_gen, avg_gen_s = 0.0, 0.0
    nrep = 5
    for rep in 1:nrep
-      o = WY94(50, 50, 50, b=b, T=300, K1=k, K2=k, linked=false)
-      os = WY94(50, 50, 50, b=b, T=300, K1=ks, K2=ks, linked=false)
+      o = WY94(50, 50, 50, b=b, T=100, K1=k, K2=k, linked=false)
+      os = WY94(50, 50, 50, b=b, T=100, K1=ks, K2=ks, linked=false)
       m = mean(o[end-100:end,:],1)
       ms = mean(os[end-100:end,:],1)
       avg_spe += (m[2]+m[3])/2
@@ -28,8 +28,8 @@ end
 
 plot(out[:,1], out[:,2], m=:diamond, c=:black, lab="Specialists")
 plot!(out[:,1], out[:,3], m=:circle, c=:black, lab="Generalist")
-plot!(out[:,1], out[:,4], m=:diamond, c=:black, ls=:dash, lab="Specialists")
-plot!(out[:,1], out[:,5], m=:circle, c=:black, ls=:dash, lab="Generalist")
+plot!(out[:,1], out[:,4], m=:diamond, c=:black, ls=:dash, lab="Specialists", leg=false)
+plot!(out[:,1], out[:,5], m=:circle, c=:black, ls=:dash, lab="Generalist", leg=false)
 xaxis!("Ability of generalist")
 yaxis!("Averaged abundance")
 

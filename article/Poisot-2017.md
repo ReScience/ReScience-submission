@@ -1,15 +1,11 @@
 ---
 Title: "On the coexistence of specialists and generalists"
 Author:
-  - name: Timothée Poisor
+  - name: Timothée Poisot
     affiliation: 1
 Address:
   - code:    1
-    address: Affiliation Dept/Program/Center, Institution Name, City, State, Country
-  - code:    2
-    address: Affiliation Dept/Program/Center, Institution Name, City, State, Country
-  - code:    3
-    address: Affiliation Dept/Program/Center, Institution Name, City, State, Country
+    address: Département de Sciences Biologiques, Université de Montréal, Montréal, QC, Canada
 Contact:
   - timothee.poisot@umontreal.ca
 Editor:
@@ -18,7 +14,7 @@ Reviewer:
   - Name Surname
   - Name Surname
 Publication:
-  received:  Sep,  1, 2015
+  received:  Sep, 1, 2015
   accepted:  Sep, 1, 2015
   published: Sep, 1, 2015
   volume:    "**1**"
@@ -31,20 +27,37 @@ Repository:
   data:      
   notebook:  
 Reproduction:
-  - "Original article (title, authors, journal, doi)"
+  - "On the coexistence of specialists and generalists, David Sloan Wilson \& Jin Yoshimura, The American Naturalist 144:4, 692-707, 1994."
 Bibliography:
   bibliography.bib
-
 ---
 
 # Introduction
 
-The introduction should introduce the original paper and put it in context
-(e.g. is it an important paper in the domain ?). You must also specify if there
-was an implementation available somewhere and provide a link to it if relevant
-(and in such a case, you have to specify if the proposed replication is based
-on this original implementation). You should also introduce your implementation
-by listing language, tools, libraries, etc. and motivate choices if relevant.
+The coexistence of specialists and generalist within ecological communities is a
+long-standing question. @wils94csg have suggested that this coexistence can be
+understood when examined in the light of (i) differential fitness loss
+associated to specialism, (ii) active habitat selection, (iii) negative density
+dependence due to competition, and (iv) stochastic changes in habitat quality,
+that allow combinations of species to persist even though coexistence would not
+be possible in a purely deterministic world. Here I propose an implementation of
+this model in *Julia* [@beza17jfa], and show that it is able to reproduce most
+figures from the original manuscript.
+
+The @wils94csg model describes three species across two patches of habitat.
+Species 1 is a specialist of habitat 1, species 2 is a specialist of habitat 2,
+and species 3 is a generalist. This results in the maximum density that these
+species can reach in both habitats:
+
+\begin{equation}
+\mathbf{K} = \begin{bmatrix} K_1 & aK_1 \\ a_K2 & K_2 \\ bK_1 & b_K2
+\end{bmatrix} \,.
+\end{equation}
+
+In this matrix, $K_1$ is the quality of habitat 1, $K_2$ is the quality of
+habitat 2, $a$ is the fitness cost of the specialist in its non-optimal
+environment, and $b$ is the fitness cost of generalism. Note that $1 > b > a >
+0$.
 
 # Methods
 
@@ -59,14 +72,12 @@ The methods section should explain how you replicated the original results:
 If relevevant in your domain, you should also provide a new standardized
 description of the work.
 
-
 # Results
 
 Results should be compared with original results and you have to explain why
 you think they are the same or why they may differ (qualitative result vs
 quantitative result). Note that it is not necessary to redo all the original
 analysis of the results.
-
 
 # Conclusion
 

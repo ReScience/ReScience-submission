@@ -27,7 +27,7 @@ Repository:
   data:      
   notebook:  
 Reproduction:
-  - "On the coexistence of specialists and generalists, David Sloan Wilson \& Jin Yoshimura, The American Naturalist 144:4, 692-707, 1994."
+  - "On the coexistence of specialists and generalists, David Sloan Wilson and Jin Yoshimura, The American Naturalist 144:4, 692-707, 1994."
 Bibliography:
   bibliography.bib
 ---
@@ -50,7 +50,10 @@ and species 3 is a generalist. This results in the maximum density that these
 species can reach in both habitats:
 
 \begin{equation}
-\mathbf{K} = \begin{bmatrix} K_1 & aK_1 \\ a_K2 & K_2 \\ bK_1 & b_K2
+\mathbf{K} = \begin{bmatrix}
+  K_1 & aK_1 \\
+  a_K2 & K_2 \\
+  bK_1 & b_K2
 \end{bmatrix} \,.
 \end{equation}
 
@@ -59,18 +62,48 @@ habitat 2, $a$ is the fitness cost of the specialist in its non-optimal
 environment, and $b$ is the fitness cost of generalism. Note that $1 > b > a >
 0$.
 
+Species distribute themselves across habitats in a way that minimizes the
+negative effect of other species on their fitness. This is modelled by each
+species having a value $p_i$, which is the proportion of its species choosing
+habitat 1. Values of $\mathbf{p}$ are found by measuring the negative density
+effect of each species in each habitat:
+
+\begin{equation}
+D_{l1} = \frac{\sum_{i\in l,m,m}p_iN_i}{K_{l1}}
+\end{equation}
+
+and
+
+\begin{equation}
+D_{l2} = \frac{\sum_{i\in l,m,m}(1-p_i)N_i}{K_{l1}} \,.
+\end{equation}
+
+To find a value of $p_l$, we fix $p_m$ and $p_n$, and iterate over $p_l \in
+[0;1]$, to find the value of $p_l$ minimizing $|D_{l1}-D_{l2}|$. This procedure
+is repeated about 20 times.
+
+Once the values of $\mathbf{p}$ are found, we can measure the density of
+individuals in both habitats. Before we do so, there is a proportion $g$ of
+individuals that select habitats at random. Given a total population size of
+$N_i$, there are $N_i(g/2)$ individuals will go to either habitat, and
+$N_i(1-g)p_i$ will pick habitat 1. With this information, we can write the
+matrix describing habitat selection:
+
+\begin{equation}
+\mathbf{N} = \begin{bmatrix}
+  N_1(\frac{g}{2}+(1-g)p_1) & N_1(\frac{g}{2}+(1-g)(1-p_1))\\
+  N_2(\frac{g}{2}+(1-g)p_2) & N_2(\frac{g}{2}+(1-g)(1-p_2))\\
+  N_3(\frac{g}{2}+(1-g)p_3) & N_3(\frac{g}{2}+(1-g)(1-p_3))
+\end{bmatrix} \,.
+\end{equation}
+
+
 # Methods
 
-The methods section should explain how you replicated the original results:
-
-* did you use paper description
-* did you contact authors ?
-* did you use original sources ?
-* did you modify some parts ?
-* etc.
-
-If relevevant in your domain, you should also provide a new standardized
-description of the work.
+For some non-stochastic situations, it is possible to calculate expected values
+by hand. The original manuscript does provide some of these values, and they
+were used to test this implementation. Original sources were not available, and
+no attempts were made to contact the authors.
 
 # Results
 

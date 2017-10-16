@@ -31,6 +31,6 @@ plot!(out[:,1], out[:,3], m=:circle, c=:black, lab="Generalist")
 plot!(out[:,1], out[:,4], m=:diamond, c=:black, ls=:dash, lab="Specialists", leg=false)
 plot!(out[:,1], out[:,5], m=:circle, c=:black, ls=:dash, lab="Generalist", leg=false)
 xaxis!("Ability of generalist")
-yaxis!("Averaged abundance")
+yaxis!("Average density")
 
 savefig("figure05.pdf")

@@ -22,6 +22,6 @@ end
 plot(out[:,1], out[:,2], m=:diamond, c=:black, lab="Specialists")
 plot!(out[:,1], out[:,3], m=:circle, c=:black, lab="Generalist")
 xaxis!("Proportion of non-adaptive choice")
-yaxis!("Averaged abundance")
+yaxis!("Average density")
 
 savefig("figure06.pdf")

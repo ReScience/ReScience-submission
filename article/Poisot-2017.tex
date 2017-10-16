@@ -1,0 +1,397 @@
+\documentclass[10pt,a4paper,onecolumn]{article}
+% \usepackage[utf8]{inputenc}
+\usepackage{marginnote}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{authblk,etoolbox}
+\usepackage{titlesec}
+\usepackage{calc}
+\usepackage{hyperref}
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor=
+{
+      Timothée Poisot,
+  },
+            pdftitle=
+{
+[Re] On the coexistence of specialists and generalists
+},
+            colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=blue,
+            pdfborder={0 0 0}}
+\urlstyle{same}
+\usepackage{tcolorbox}
+\usepackage{ragged2e}
+\usepackage{fontspec}
+\usepackage{fontawesome}
+\usepackage{caption}
+\usepackage{listings}
+\lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
+
+
+
+%\usepackage{fancyvrb}
+%\VerbatimFootnotes
+%\usepackage{graphicx}
+%\usepackage{mdframed}
+%\newmdenv[backgroundcolor=lightgray]{Shaded}
+
+
+\usepackage{longtable,booktabs}
+
+\usepackage[
+  backend=biber,
+%  style=alphabetic,
+%  citestyle=numeric
+]{biblatex}
+\bibliography{bibliography.bib}
+
+
+
+% --- Macros ------------------------------------------------------------------
+\renewcommand*{\bibfont}{\small \sffamily}
+
+\definecolor{red}{HTML}{CF232B}
+\newcommand{\ReScience}{Re{\bfseries \textcolor{red}{Science}}}
+
+\newtcolorbox{rebox}
+   {colback=blue!5!white, colframe=blue!40!white,
+     boxrule=0.5pt, arc=2pt, fonttitle=\sffamily\scshape\bfseries,
+     left=6pt, right=20pt, top=6pt, bottom=6pt}
+
+\newtcolorbox{repobox}
+   {colback=red, colframe=red!75!black,
+     boxrule=0.5pt, arc=2pt, left=6pt, right=6pt, top=3pt, bottom=3pt}
+
+% fix for pandoc 1.14     
+\newcommand{\tightlist}{%
+  \setlength{\itemsep}{1pt}\setlength{\parskip}{0pt}\setlength{\parsep}{0pt}}
+
+% --- Style -------------------------------------------------------------------
+\renewcommand*{\bibfont}{\small \sffamily}
+\renewcommand{\captionfont}{\small\sffamily}
+\renewcommand{\captionlabelfont}{\bfseries}
+
+\makeatletter
+\renewcommand\@biblabel[1]{{\bf #1.}}
+\makeatother
+
+% --- Page layout -------------------------------------------------------------
+\usepackage[top=3.5cm, bottom=3cm, right=1.5cm, left=1.5cm,
+            headheight=2.2cm, reversemp, includemp, marginparwidth=4.5cm]{geometry}
+
+% --- Section/SubSection/SubSubSection ----------------------------------------
+\titleformat{\section}
+  {\normalfont\sffamily\Large\bfseries}
+  {}{0pt}{}
+\titleformat{\subsection}
+  {\normalfont\sffamily\large\bfseries}
+  {}{0pt}{}
+\titleformat{\subsubsection}
+  {\normalfont\sffamily\bfseries}
+  {}{0pt}{}
+\titleformat*{\paragraph}
+  {\sffamily\normalsize}
+
+
+% --- Header / Footer ---------------------------------------------------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\renewcommand{\headrulewidth}{0.50pt}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[L]{\hspace{-1cm}\includegraphics[width=4.0cm]{rescience-logo.pdf}}
+\fancyhead[C]{}
+\fancyhead[R]{} 
+\renewcommand{\footrulewidth}{0.25pt}
+
+\fancyfoot[L]{\hypersetup{urlcolor=red}
+              \sffamily \ReScience~$\vert$
+              \href{http://rescience.github.io}{rescience.github.io}
+              \hypersetup{urlcolor=blue}}
+\fancyfoot[C]{\sffamily 1 - \thepage}
+\fancyfoot[R]{\sffamily Sep 2015 $\vert$
+                        Volume \textbf{1} $\vert$
+                        Issue \textbf{1}}
+\pagestyle{fancy}
+\makeatletter
+\let\ps@plain\ps@fancy
+\fancyheadoffset[L]{4.5cm}
+\fancyfootoffset[L]{4.5cm}
+
+% --- Title / Authors ---------------------------------------------------------
+% patch \maketitle so that it doesn't center
+\patchcmd{\@maketitle}{center}{flushleft}{}{}
+\patchcmd{\@maketitle}{center}{flushleft}{}{}
+% patch \maketitle so that the font size for the title is normal
+\patchcmd{\@maketitle}{\LARGE}{\LARGE\sffamily}{}{}
+% patch the patch by authblk so that the author block is flush left
+\def\maketitle{{%
+  \renewenvironment{tabular}[2][]
+    {\begin{flushleft}}
+    {\end{flushleft}}
+  \AB@maketitle}}
+\makeatletter
+\renewcommand\AB@affilsepx{ \protect\Affilfont}
+%\renewcommand\AB@affilnote[1]{{\bfseries #1}\hspace{2pt}}
+\renewcommand\AB@affilnote[1]{{\bfseries #1}\hspace{3pt}}
+\makeatother
+\renewcommand\Authfont{\sffamily\bfseries}
+\renewcommand\Affilfont{\sffamily\small\mdseries}
+\setlength{\affilsep}{1em}
+
+\LetLtxMacro{\OldIncludegraphics}{\includegraphics}
+\renewcommand{\includegraphics}[2][]{\OldIncludegraphics[width=12cm, #1]{#2}}
+
+
+% --- Document ----------------------------------------------------------------
+\title{[Re] On the coexistence of specialists and generalists}
+
+    \usepackage{authblk}
+                        \author[1]{Timothée Poisot}
+                            \affil[1]{Département de Sciences Biologiques, Université de Montréal, Montréal,
+QC, Canada}
+            
+\date{\vspace{-5mm}
+      \sffamily \small \href{mailto:timothee.poisot@umontreal.ca}{timothee.poisot@umontreal.ca}}
+
+
+\setlength\LTleft{0pt}
+\setlength\LTright{0pt}
+
+
+\begin{document}
+\maketitle
+
+\marginpar{
+  %\hrule
+  \sffamily\small
+  %\vspace{2mm}
+  {\bfseries Editor}\\
+  Name Surname\\
+
+  {\bfseries Reviewers}\\
+        Name Surname\\
+        Name Surname\\
+  
+  {\bfseries Received}  Sep, 1, 2015\\
+  {\bfseries Accepted}  Sep, 1, 2015\\
+  {\bfseries Published} Sep, 1, 2015\\
+
+  {\bfseries Licence}   \href{http://creativecommons.org/licenses/by/4.0/}{CC-BY}
+
+  \begin{flushleft}
+  {\bfseries Competing Interests:}\\
+  The authors have declared that no competing interests exist.
+  \end{flushleft}
+
+  \hrule
+  \vspace{3mm}
+
+  \hypersetup{urlcolor=white}
+  
+    \vspace{-1mm}
+  \begin{repobox}
+    \bfseries\normalsize
+      \href{http://github.com/rescience/rescience-submission/article}{\faGithubAlt~Article repository}
+  \end{repobox}
+      \vspace{-1mm}
+  \begin{repobox}
+    \bfseries\normalsize
+      \href{http://github.com/rescience/rescience-submission/code}{\faGithubAlt~Code repository}
+  \end{repobox}
+        \hypersetup{urlcolor=blue}
+}
+
+\begin{rebox}
+\sffamily {\bfseries A reference implementation of}
+\small
+\begin{flushleft}
+\begin{itemize}
+    \item[→] On the coexistence of specialists and generalists, David Sloan Wilson
+and Jin Yoshimura, The American Naturalist 144:4, 692-707, 1994.
+  \end{itemize}\par
+\end{flushleft}
+\end{rebox}
+
+
+\section{Introduction}\label{introduction}
+
+The coexistence of specialists and generalist within ecological
+communities is a long-standing question. \textcite{wils94csg} have
+suggested that this coexistence can be understood when examined in the
+light of (i) differential fitness loss associated to specialism, (ii)
+active habitat selection, (iii) negative density dependence due to
+competition, and (iv) stochastic changes in habitat quality, that allow
+combinations of species to persist even though coexistence would not be
+possible in a purely deterministic world. Here I propose an
+implementation of this model in \emph{Julia} \autocite{beza17jfa}, and
+show that it is able to reproduce most figures from the original
+manuscript.
+
+\section{Methods}\label{methods}
+
+The \textcite{wils94csg} model describes three species across two
+patches of habitat. Species 1 is a specialist of habitat 1, species 2 is
+a specialist of habitat 2, and species 3 is a generalist. This results
+in the maximum density that these species can reach in both habitats:
+
+\begin{equation}
+\mathbf{K} = \begin{bmatrix}
+  K_1 & aK_1 \\
+  a_K2 & K_2 \\
+  bK_1 & b_K2
+\end{bmatrix} \,.
+\end{equation}
+
+In this matrix, \(K_1\) is the quality of habitat 1, \(K_2\) is the
+quality of habitat 2, \(a\) is the fitness cost of the specialist in its
+non-optimal environment, and \(b\) is the fitness cost of generalism.
+Note that \(1 > b > a > 0\).
+
+Species distribute themselves across habitats in a way that minimizes
+the negative effect of other species on their fitness. This is modelled
+by each species having a value \(p_i\), which is the proportion of its
+species choosing habitat 1. Values of \(\mathbf{p}\) are found by
+measuring the negative density effect of each species in each habitat:
+
+\begin{equation}
+D_{l1} = \frac{\sum_{i\in l,m,m}p_iN_i}{K_{l1}}
+\end{equation}
+
+and
+
+\begin{equation}
+D_{l2} = \frac{\sum_{i\in l,m,m}(1-p_i)N_i}{K_{l1}} \,.
+\end{equation}
+
+The value of \(p_l\) for which \(D_{l1}=D_{l2}\) is
+
+\begin{equation}
+p_l = - \frac{(K_{l1}+K_{l2})(N_mp_m+N_np_n)-K_{l1}(N_l+N_m+N_n)}{N_l(K_{l1}+K_{l2})} \,.
+\end{equation}
+
+We fix \(p_m\) and \(p_n\), and find the value of \(p_l\), while
+enforcing the constraint of \(0 \leq p_l \leq 1\). Repeating this
+procedure a few times for the different species yields the optimal
+values of \(\mathbf{p}\); we can measure the density of individuals in
+both habitats. Before we do so, there is a proportion \(g\) of
+individuals that select habitats at random. Given a total population
+size of \(N_i\), there are \(N_i(g/2)\) individuals will go to either
+habitat, and \(N_i(1-g)p_i\) will pick habitat 1. With this information,
+we can write the matrix describing habitat selection:
+
+\begin{equation}
+\mathbf{N} = \begin{bmatrix}
+  N_1(\frac{g}{2}+(1-g)p_1) & N_1(\frac{g}{2}+(1-g)(1-p_1))\\
+  N_2(\frac{g}{2}+(1-g)p_2) & N_2(\frac{g}{2}+(1-g)(1-p_2))\\
+  N_3(\frac{g}{2}+(1-g)p_3) & N_3(\frac{g}{2}+(1-g)(1-p_3))
+\end{bmatrix} \,.
+\end{equation}
+
+Finally, the fitness of every species in each habitat is given by
+
+\begin{equation}
+W_{ij} = \text{exp}\left[r\left(1-\frac{N_{i1}+N_{i2}+N_{i3}}{K_{ij}}\right)\right] \,,
+\end{equation}
+
+where \(r\) is the growth rate (assumed equal). The population size at
+the next timestep is simply given by
+
+\begin{equation}
+\mathbf{N}_{t+1} = \mathbf{W}\odot \mathbf{N}_{t} \,,
+\end{equation}
+
+where \(\odot\) is the element-wise multiplication.
+
+\section{Results}\label{results}
+
+Original sources were not available, and no attempts were made to
+contact the authors. For some non-stochastic situations, it is possible
+to calculate expected values by hand. The original manuscript does
+provide some of these values, and they were used to test this
+implementation. Figure 2A and 2B in the original manuscript provide a
+good diagnostic value, as they are based on non-stochastic situations.
+In \textcite{fig:02},
+
+\begin{figure}
+\centering
+\includegraphics{figure02.pdf}
+\caption{Population dynamics and habitat preference of the generalist
+alone (left), and following invasion by the two specialists at the
+generalist equilibrium (right).}\label{fig:02}
+\end{figure}
+
+Results should be compared with original results and you have to explain
+why you think they are the same or why they may differ (qualitative
+result vs quantitative result). Note that it is not necessary to redo
+all the original analysis of the results.
+
+\section{Conclusion}\label{conclusion}
+
+Conclusion, at the very minimum, should indicate very clearly if you
+were able to replicate original results. If it was not possible but you
+found the reason why (error in the original results), you should exlain
+it.
+
+\begin{longtable}[]{@{}llllll@{}}
+\caption{Table caption \{\#tbl:table\}}\tabularnewline
+\toprule
+\begin{minipage}[b]{0.16\columnwidth}\raggedright\strut
+Heading 1\strut
+\end{minipage} & \begin{minipage}[b]{0.16\columnwidth}\raggedright\strut
+\strut
+\end{minipage} & \begin{minipage}[b]{0.16\columnwidth}\raggedright\strut
+\strut
+\end{minipage} & \begin{minipage}[b]{0.16\columnwidth}\raggedright\strut
+Heading 2\strut
+\end{minipage} & \begin{minipage}[b]{0.16\columnwidth}\raggedright\strut
+\strut
+\end{minipage} & \begin{minipage}[b]{0.16\columnwidth}\raggedright\strut
+\strut
+\end{minipage}\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+\begin{minipage}[b]{0.16\columnwidth}\raggedright\strut
+Heading 1\strut
+\end{minipage} & \begin{minipage}[b]{0.16\columnwidth}\raggedright\strut
+\strut
+\end{minipage} & \begin{minipage}[b]{0.16\columnwidth}\raggedright\strut
+\strut
+\end{minipage} & \begin{minipage}[b]{0.16\columnwidth}\raggedright\strut
+Heading 2\strut
+\end{minipage} & \begin{minipage}[b]{0.16\columnwidth}\raggedright\strut
+\strut
+\end{minipage} & \begin{minipage}[b]{0.16\columnwidth}\raggedright\strut
+\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+cell1 row1 & cell2 row 1 & cell3 row 1 & cell4 row 1 & cell5 row 1 &
+cell6 row 1\tabularnewline
+cell1 row2 & cell2 row 2 & cell3 row 2 & cell4 row 2 & cell5 row 2 &
+cell6 row 2\tabularnewline
+cell1 row3 & cell2 row 3 & cell3 row 3 & cell4 row 3 & cell5 row 3 &
+cell6 row 3\tabularnewline
+\bottomrule
+\end{longtable}
+
+A reference to table \textcite{tbl:table}. A reference to figure
+\textcite{fig:logo}. A reference to equation \textcite{eq:1}. A
+reference to citation \textcite{markdown}.
+
+\begin{figure}
+\centering
+\includegraphics{rescience-logo.pdf}
+\caption{Figure caption}\label{fig:logo}
+\end{figure}
+
+\[ A = \sqrt{\frac{B}{C}} \] \{\#eq:1\}
+
+{\sffamily \small
+  \printbibliography[title=References]
+}
+\end{document}

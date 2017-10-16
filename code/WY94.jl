@@ -3,31 +3,19 @@ using StatsBase
 
 pyplot()
 
-function habitat_preference(N,K;trials=20)
-    p = rand(3)
-    for iteration in 1:trials
-        l, m, n = sample(1:3, 3, replace=false)
-        Kl1, Kl2 = K[l,1], K[l,2]
-        Nl, Nm, Nn = N[[l,m,n]]
-        pl, pm, pn = p[[l,m,n]]
-        initdiff = 5000.0
-        for test_p in linspace(0.0,1.0,2000)
-            pl = test_p
-            attempt_p = [test_p, pm, pn]
-            attempt_N = [Nl, Nm, Nn]
-            diff_1 = (attempt_p.*attempt_N)./Kl1
-            diff_2 = ((1.-attempt_p).*attempt_N)./Kl2
-            diff = abs(sum(diff_1)-sum(diff_2))
-            if diff < initdiff
-                initdiff = diff
-                p[l] = pl
-            end
-        end
-    end
-    return p
+function habitat_preference(N,K;trials=50)
+   p = [1.0, 0.0, rand()] # Because why not?
+   TN = sum(N)
+   for iteration in 1:trials
+      l, m, n = sample(1:3, 3, replace=false)
+      K1, K2 = K[l,1], K[l,2]
+      NUM = (K1+K2)*N[n]*p[n] + (K1+K2)*N[m]*p[m] - K1*N[l] - K1*N[m] - K1*N[n]
+      DEN = (K1+K2)*N[l]
+      RATIO = minimum([maximum([-(NUM/DEN), 0.0]), 1.0])
+      p[l] = DEN > 0.0 ? RATIO : 0.0
+   end
+   return p
 end
-
-
 
 function generate_K(k1, k2, a, b, sync)
    rnd1 = rand()
@@ -61,4 +49,10 @@ function WY94(N1, N2, N3; a=0.1, b=0.9, K1=[200,200], K2=[100,100], T=100, g=0.0
       output[(i+1),5:end] = p
    end
    return output
+end
+
+function shannon(n1, n2, n3)
+   t = n1 .+ n2 .+ n3
+   p1, p2, p3 = n1./t, n2./t, n3./t
+   return -(p1 .* log.(p1) .+ p2 .* log.(p2) .+ p3 .* log.(p3))./log(3)
 end

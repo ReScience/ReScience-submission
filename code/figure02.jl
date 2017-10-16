@@ -11,7 +11,7 @@ xaxis!(p1p, "Time")
 
 p2d = plot(o2[:,1], o2[:,4], m=:circle, c=:black, leg=false)
 plot!(p2d, o2[:,1], o2[:,2], m=:utriangle, c=:black, leg=false)
-plot!(p2d, o2[:,1], o2[:,3], m=:ltriangle, c=:black, leg=false)
+plot!(p2d, o2[:,1], o2[:,3], m=:dtriangle, c=:black, leg=false)
 
 p2p = plot(o2[:,1], o2[:,end], m=:circle, c=:black, leg=false)
 plot!(p2p, o2[:,1], o2[:,5], m=:utriangle, c=:black, leg=false)

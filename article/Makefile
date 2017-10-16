@@ -6,6 +6,7 @@ PDFFILE  = $(SOURCE).pdf
 TEMPLATE = rescience-template.tex
 
 %.tex: $(MDFILE)
+	cp ../code/figure*pdf .
         # @echo "Processing $<"
 	@pandoc --standalone                          \
                 --template=$(TEMPLATE)                \

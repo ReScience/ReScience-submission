@@ -178,7 +178,11 @@ in @fig:05 and @fig:06 can also be replicated.
 I believe that this implementation faithfully reproduces the results of
 @wils94csg. A single run of the model (using 100 generations as in the original
 article) completes in $\approx 5\times 10^{-3} \text{s}$. This makes this
-implementation usable for teaching, as it is not time consuming to generate results. As an example, I merged the output of @fig:03 and @fig:05, to generate the response of Shannon's evenness (which measures the extent to which all species have the same density) to changes in the rate of variation *and* generalist ability. The results are presented in @fig:surf.
+implementation usable for teaching, as it is not time consuming to generate
+results. As an example, I merged the output of @fig:03 and @fig:05, to generate
+the response of Shannon's evenness (which measures the extent to which all
+species have the same density) to changes in the rate of variation *and*
+generalist ability. The results are presented in @fig:surf.
 
 ![Response of the model to changing the ability of the generalist *and* the range of variation. While the response to environmental change is bell-shaped when generalists are competitive ($g$ close to unity), it becomes monotonously decreasing for generalists with lower competitive ability ($g$ close to $a$).](figureSurf.pdf){#fig:surf}
 

@@ -2,3 +2,4 @@ article/*.log
 article/*.aux
 article/*.bcf
 article/*.out
+article/*.run.xml

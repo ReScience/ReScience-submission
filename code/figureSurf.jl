@@ -13,13 +13,13 @@ for i in eachindex(b)
         k = [100.0, 100.0].+[-kvar[j], kvar[j]]
         for re in 1:length(hstore)
             s = WY94(3,3,3; K1=k, K2=k, b=b[i])
-            hstore[re] = mean(shannon(s[:,2],s[:,3],s[:,4]))
+            hstore[re] = mean(pielou(s[:,2],s[:,3],s[:,4]))
         end
         o[i,j] = mean(hstore)
     end
 end
 
-plot(2.0.*kvar, b, o, lt=:surface, c=:viridis, leg=false)
+plot(2.0.*kvar, b, o, lt=:surface, c=:viridis, leg=false, zlim=[0,1])
 xaxis!("Range of variation")
 yaxis!("Ability of generalist")
 

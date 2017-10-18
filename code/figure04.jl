@@ -23,7 +23,7 @@ end
 
 plot(out[:,1], out[:,2], m=:utriangle, c=:black, lab="Specialist 1")
 plot!(out[:,1], out[:,3], m=:dtriangle, c=:black, lab="Specialist 2")
-plot!(out[:,1], out[:,4], m=:circle, c=:black, ls=:dash, lab="Generalist", leg=false)
+plot!(out[:,1], out[:,4], m=:circle, c=:black, lab="Generalist", leg=false)
 xaxis!("Ratio of habitat quality", :log10)
 yaxis!("Average density", :log10)
 

@@ -19,8 +19,8 @@ for i in eachindex(G)
    out[i,3] = avg_gen/nrep
 end
 
-plot(out[:,1], out[:,2], m=:diamond, c=:black, lab="Specialists")
-plot!(out[:,1], out[:,3], m=:circle, c=:black, lab="Generalist")
+plot(out[:,1], out[:,2], m=:diamond, c=:black, lab="Specialists", leg=false)
+plot!(out[:,1], out[:,3], m=:circle, c=:black, lab="Generalist", leg=false)
 xaxis!("Proportion of non-adaptive choice")
 yaxis!("Average density")
 

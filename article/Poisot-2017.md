@@ -62,7 +62,20 @@ species can reach in both habitats:
 In this matrix, $K_1$ is the quality of habitat 1, $K_2$ is the quality of
 habitat 2, $a$ is the fitness cost of the specialist in its non-optimal
 environment, and $b$ is the fitness cost of generalism. Note that $1 > b > a >
-0$.
+0$. The initial value of $K_1$ is chosed randomly, using
+
+$$K_1 = K_{1,\text{min}} + \text{rnd}_1(K_{1,\text{max}}-K_{1,\text{min}})\,.$$
+
+If the variation of the two environments is linked, then
+
+$$K_2 = K_{2,\text{min}} + (1-\text{rnd}_1)(K_{2,\text{max}}-K_{2,\text{min}})\,.$$
+
+If the variation is independent, then
+
+$$K_2 = K_{2,\text{min}} + \text{rnd}_2(K_{2,\text{max}}-K_{2,\text{min}})\,.$$
+
+Both $\text{rnd}_1$ and $\text{rnd}_2$ are random numbers uniformly distributed
+in $[0,1]$.
 
 Species distribute themselves across habitats in a way that minimizes the
 negative effect of other species on their fitness. This is modelled by each
@@ -80,7 +93,7 @@ and
 D_{l2} = \frac{\sum_{i\in l,m,n}(1-p_i)N_i}{K_{l1}} \,.
 \end{equation}
 
-The value of $p_l$ for which $D_{l1}=D_{l2}$ is
+The value of $p_l$ for which $D_{l1}=D_{l2}$ (checked using @maxi14mca) is
 
 \begin{equation}
 p_l = - \frac{(K_{l1}+K_{l2})(N_mp_m+N_np_n)-K_{l1}(N_l+N_m+N_n)}{N_l(K_{l1}+K_{l2})} \,.
@@ -167,11 +180,11 @@ one habitat becomes larger). The quantitative differences can, again, be
 explained by changes in the initial population densities. Finally, the results
 in @fig:05 and @fig:06 can also be replicated.
 
-![Consequences of increasing the range of variation of both $K_1$ and $K_2$. Dashed lines represent independent variation, and solid lines tied variations, as in the original article.](figure04.pdf){#fig:04}
+![Consequences of changing the relative quality of habitats 1 and 2 on coexistence.](figure04.pdf){#fig:04}
 
-![Consequences of increasing the range of variation of both $K_1$ and $K_2$. Dashed lines represent independent variation, and solid lines tied variations, as in the original article.](figure05.pdf){#fig:05}
+![Consequences of changing $g$, the ability of the generalist, on coexistence. Dashed lines represent independent variation, and solid lines tied variations, as in the original article. Note that the direction of the axis is *reversed* with regard to the original figure.](figure05.pdf){#fig:05}
 
-![Consequences of increasing the range of variation of both $K_1$ and $K_2$. Dashed lines represent independent variation, and solid lines tied variations, as in the original article.](figure06.pdf){#fig:06}
+![Consequences of changing the proportion of individuals picking their habitat at random.](figure06.pdf){#fig:06}
 
 # Conclusion
 
@@ -180,10 +193,16 @@ I believe that this implementation faithfully reproduces the results of
 article) completes in $\approx 5\times 10^{-3} \text{s}$. This makes this
 implementation usable for teaching, as it is not time consuming to generate
 results. As an example, I merged the output of @fig:03 and @fig:05, to generate
-the response of Shannon's evenness (which measures the extent to which all
-species have the same density) to changes in the rate of variation *and*
-generalist ability. The results are presented in @fig:surf.
+the response of Pielou's evenness [@piel66sfm],
 
-![Response of the model to changing the ability of the generalist *and* the range of variation. While the response to environmental change is bell-shaped when generalists are competitive ($g$ close to unity), it becomes monotonously decreasing for generalists with lower competitive ability ($g$ close to $a$).](figureSurf.pdf){#fig:surf}
+$$
+J' = -\left(\sum_{i=1}^3\frac{N_i}{N}\text{ln}\frac{N_i}{N}\right)\frac{1}{\text{ln}\,3} \,,
+$$
+
+which measures the extent to which all species have the same density. It appears
+that $J'$, a measure of coexistence, changes in response to both the rate of
+variation *and* generalist ability. The results are presented in @fig:surf.
+
+![Response of the model to changing the ability of the generalist *and* the range of variation. While the response to environmental change is hump-shaped when generalists are competitive ($b$ close to unity), it becomes monotonously decreasing for generalists with lower competitive ability ($b$ close to $a$).](figureSurf.pdf){#fig:surf}
 
 # References

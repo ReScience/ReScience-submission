@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017) (preloaded format=xelatex 2017.10.17)  25 OCT 2017 19:42
+This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017) (preloaded format=xelatex 2017.10.17)  26 OCT 2017 13:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1452,6 +1452,12 @@ File: rescience-logo.pdf Graphic file (type QTm)
 ]
 File: rescience-logo.pdf Graphic file (type QTm)
  <use  "rescience-logo.pdf" > [2]
+Overfull \hbox (2.2298pt too wide) in paragraph at lines 374--379
+[]\TU/lmr/m/n/10 Here, we examine inborn errors of metabolism (IEMs) resulting 
+from loss-of-function
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 397--400
 
  []
@@ -1463,22 +1469,22 @@ File: ./Figures/PKU_network.pdf Graphic file (type QTm)
 File: rescience-logo.pdf Graphic file (type QTm)
 
 <use  "rescience-logo.pdf" > [4]
-Overfull \hbox (373.11223pt too wide) detected at line 524
+Overfull \hbox (373.11223pt too wide) detected at line 530
  [] 
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 510--529
+Underfull \hbox (badness 10000) in alignment at lines 515--535
 [] [] [] [] [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 529--534
+Underfull \hbox (badness 10000) in alignment at lines 535--540
 [] [] [] [] [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 534--540
+Underfull \hbox (badness 10000) in alignment at lines 540--546
 [] [] [] [] [] [] []
  []
 
@@ -1492,75 +1498,75 @@ File: rescience-logo.pdf Graphic file (type QTm)
 [6]
 File: rescience-logo.pdf Graphic file (type QTm)
  <use  "rescience-logo.pdf" > [7]
-Overfull \hbox (8.98978pt too wide) in paragraph at lines 701--710
+Overfull \hbox (8.98978pt too wide) in paragraph at lines 707--716
 []\TU/lmr/m/n/10 Additionally, we needed to manually add the information for S-
 Adenosylhomocysteine
  []
 
 
-Overfull \hbox (373.11223pt too wide) detected at line 719
+Overfull \hbox (373.11223pt too wide) detected at line 725
  [] 
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 712--723
+Underfull \hbox (badness 10000) in alignment at lines 718--729
 [] [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 723--727
+Underfull \hbox (badness 10000) in alignment at lines 729--733
 [] [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 727--735
+Underfull \hbox (badness 10000) in alignment at lines 733--741
 [] [] [] []
  []
 
 
-Overfull \hbox (373.11223pt too wide) detected at line 763
+Overfull \hbox (373.11223pt too wide) detected at line 769
  [] 
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 754--767
+Underfull \hbox (badness 10000) in alignment at lines 760--773
 [] [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 767--771
+Underfull \hbox (badness 10000) in alignment at lines 773--777
 [] [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 771--795
+Underfull \hbox (badness 10000) in alignment at lines 777--801
 [] [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 795--806
+Underfull \hbox (badness 10000) in alignment at lines 801--812
 [] [] [] []
  []
 
 File: rescience-logo.pdf Graphic file (type QTm)
 <use  "rescience-logo.pdf" > [8]
 LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <9> not available
-(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 809.
+(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 815.
 
 
 LaTeX Font Warning: Font shape `TU/lmss/m/sc' in size <9> not available
-(Font)              Font shape `TU/lmr/m/sc' tried instead on input line 809.
+(Font)              Font shape `TU/lmr/m/sc' tried instead on input line 815.
 
 File: rescience-logo.pdf Graphic file (type QTm)
 <use  "rescience-logo.pdf" > [9]
 File: rescience-logo.pdf Graphic file (type QTm)
  <use  "rescience-logo.pdf" > [10]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 811.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 811.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 817.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 817.
 
 (./Mondeel_Ogundipe_Westerhoff-2017.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 811.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 811.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 817.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 817.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.

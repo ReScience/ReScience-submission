@@ -1,91 +1,21 @@
+[![Binder](http://mybinder.org/badge.svg)](https://beta.mybinder.org/v2/gh/ThierryMondeel/ReScience-submission-Shlomi2009/Mondeel-Ogundipe-Westerhoff-2017)
 
-### ReScience submission repository
+## Replication of T. Shlomi, M.N. Cabili, E. Ruppin (2009) "Predicting metabolic biomarkers of human inborn errors of metabolism"
 
-This is the submission repository for the [Re**Science** journal](https://rescience.github.io).
+This is a repository with the code and article submitted to the [ReScience journal](rescience.github.io)
 
-### How to submit an article ?
-
-
-1. Create a [github](https://github.com) account
-
-2. [Fork](https://help.github.com/articles/fork-a-repo/) the [ReScience submission](https://github.com/ReScience/ReScience-submission) repository
-
-3. Clone this new repository into your desktop environment
-
-   ```
-   $ git clone https://github.com/YOUR-USERNAME/ReScience-submission
-   ```
-
-4. Create a branch (the branch name should be author names separated with dashes)
-
-   ```
-   $ git checkout -b AUTHOR1-AUTHOR2
-   ```
+The reference for the original article:
+T. Shlomi, M.N. Cabili, E. Ruppin, Predicting metabolic biomarkers of human inborn errors of metabolism, Mol. Syst. Biol. 5 (2009) 263. [doi:10.1038/msb.2009.22](http://doi.org/10.1038/msb.2009.22).
 
 
-5. Add your code & article (see [author guidelines](https://rescience.github.io/write)) and commit your changes:
+## Repository structure
+The article folder contains the description of our replication of the simulations underlying Figures 1 and 2 of the original article and in addition a brief discussion on the sensitivity of the approach to changes of settings in the method. (see article/stojic2017.pdf).
 
-   ```
-   $ git commit -a -m "Some comment"
-   ```
+The code folder is empty because we provide all our code in the notebook folder since nearly all relevant code is made available in Jupyter notebooks.
 
+## How to run the simulations yourself?
 
-6. [Push](https://help.github.com/articles/pushing-to-a-remote/) to github
+The code has been developed on a Mac operating system in Python 3.6. To execute the code on your own computer you will need to install the following Python modules:
+COBRApy, NumPy, SciPy, XlsxWriter, tqdm, lxml and xlrd.
 
-   ```
-   $ git push origin AUTHOR1-AUTHOR2
-   ```
-
-7. Issue a [pull request](https://help.github.com/articles/using-pull-requests/) (PR) to Re**Science** with title containing author(s) name and follow the template that will appear once you opened the pull request:
-
-  ```
-  **AUTHOR**
-
-  Dear @ReScience/editors,
-
-  I request a review for the following replication:
-
-  ### Original article
-
-  **Title:**  
-  **Author(s):**  
-  **Journal (or Conference):**  
-  **Year:**  
-  **DOI:**  
-  **PDF:**   
-
-  ### Replication
-
-  **Author(s)**:   
-  **Repository**:  
-  **PDF**:  
-  **Keywords**:  
-  **Language**:  
-  **Domain**:  
-
-  ### Results
-
-  * [ ] Article has been fully replicated
-  * [ ] Article has been partially replicated
-  * [ ] Article has not been replicated
-
-  ### Potential reviewers
-  <!-- If you know potential reviewers, you can tell us here -->
-  <!-- You can look at http://rescience.github.io/board for the -->
-  <!-- list of registered reviewers (but you can propose others) -->
-
-  ---
-
-  **EDITOR**
-
-  * [ ] Editor acknowledgment
-  * [ ] Reviewer 1 
-  * [ ] Reviewer 2
-  * [ ] Review 1 decision [accept/reject]
-  * [ ] Review 2 decision [accept/reject]
-  * [ ] Editor decision [accept/reject]
-  ```
-
-8. You can suggest reviewers from [editorial board](https://rescience.github.io/board).
-
-9. Answer questions and requests made in the PR conversation page.
+Alternatively, use the MyBinder service, through the button at the top of this ReadMe file, to open an ananymous, personal cloud environment where all software is automatically installed and you will be able to run through all the notebooks there. 

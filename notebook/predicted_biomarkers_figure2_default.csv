@@ -1,0 +1,18 @@
+,IEM,Affected reactions,Elevated,Reduced,Elevated sub-threshold,Reduced sub-threshold
+0,S-Adenosylhomocysteine hydrolase,"['SEAHCYSHYD', 'AHCi']",['L-Methionine'],['L-Cysteine'],[],"['L-Glutamine', 'L-Proline', 'L-Asparagine', 'Glycine', 'L-Alanine', 'L-Serine', 'L-Glutamate']"
+1,Alkaptonuria,['HGNTOR'],['L-Tyrosine'],[],"['L-Serine', 'L-Alanine', 'Glycine', 'L-Glutamate', 'L-Proline', 'L-Glutamine', 'L-Asparagine']",[]
+2,Arginase deficiency,['ARGN'],[],[],[],[]
+3,Cystinuria,"['CYSTSERex', 'SERLYSNaex']",[],[],[],[]
+4,Lysinuric protein intolerance,['SERLYSNaex'],[],[],[],[]
+5,Glutamate formiminotransferase deficiency,"['FTCD', 'GluForTx']",['L-Histidine'],[],[],"['L-Glutamine', 'L-Proline', 'L-Asparagine', 'L-Glutamate', 'L-Alanine', 'Glycine', 'L-Serine']"
+6,Histidinemia,['HISDr'],['L-Histidine'],[],[],"['L-Glutamine', 'L-Proline', 'L-Asparagine', 'L-Glutamate', 'L-Alanine', 'Glycine', 'L-Serine']"
+7,Homocystinuria,"['CYSTS', 'MTHFR3', 'METS']",['L-Methionine'],['L-Cysteine'],[],"['L-Glutamine', 'L-Proline', 'L-Asparagine', 'L-Alanine', 'Glycine', 'L-Serine']"
+8,Hyperprolinemia type I,"['PRO1xm', 'PROD2m']",[],[],[],[]
+9,maple syrup urine disease,"['OIVD2m', 'OIVD1m', 'OIVD3m']","['L-Valine', 'L-Leucine', 'L-Isoleucine']",[],[],"['L-Glutamine', 'L-Proline', 'L-Asparagine', 'L-Alanine', 'Glycine', 'L-Serine', 'L-Glutamate']"
+10,Methionine adenosyltransferase deficiency,"['SELMETAT', 'METAT']",['L-Methionine'],['L-Cysteine'],[],"['L-Glutamine', 'L-Proline', 'L-Asparagine', 'Glycine', 'L-Alanine', 'L-Serine', 'L-Glutamate']"
+11,methylmalonic acidemia (MMA),"['CBLATm', 'CBL2tm', 'MMMm']",['L-Isoleucine'],[],[],"['L-Glutamine', 'L-Proline', 'L-Asparagine', 'Glycine', 'L-Alanine', 'L-Serine', 'L-Glutamate']"
+12,phenylketonuria,['PHETHPTOX2'],['L-Phenylalanine'],['L-Tyrosine'],"['L-Serine', 'L-Glutamate', 'Glycine', 'L-Alanine', 'L-Proline', 'L-Glutamine', 'L-Asparagine']",[]
+13,Tetrahydrobiopterin deficiency,['DHPR'],[],[],"['L-Serine', 'L-Glutamate', 'L-Alanine', 'Glycine', 'L-Proline', 'L-Glutamine', 'L-Asparagine']",[]
+14,Tyrosinemia type 1,['FUMAC'],['L-Tyrosine'],[],"['L-Serine', 'L-Alanine', 'Glycine', 'L-Glutamate', 'L-Proline', 'L-Glutamine', 'L-Asparagine']",[]
+15,Tyrosinemia type III,"['PPOR', '34HPPOR']",['L-Tyrosine'],[],"['L-Serine', 'L-Alanine', 'Glycine', 'L-Glutamate', 'L-Glutamine', 'L-Proline', 'L-Asparagine']",[]
+16,Glycine encephalopathy/ nonketotic hyperglycinemia / NKH,"['GCC2am', 'GCC2bim', 'GCC2cm', 'GCCam', 'GCCbim', 'GCCcm']",[],[],['Glycine'],[]

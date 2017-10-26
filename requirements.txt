@@ -1,0 +1,8 @@
+xlrd
+lxml
+tqdm
+matplotlib
+scipy
+cobra
+
+

@@ -193,7 +193,7 @@ I believe that this implementation faithfully reproduces the results of
 article) completes in $\approx 5\times 10^{-3} \text{s}$. This makes this
 implementation usable for teaching, as it is not time consuming to generate
 results. As an example, I merged the output of @fig:03 and @fig:05, to generate
-the response of Pielou's evenness [@piel66sfm],
+the response of Pielou's evenness [@piel66sps],
 
 $$
 J' = -\left(\sum_{i=1}^3\frac{N_i}{N}\text{ln}\frac{N_i}{N}\right)\frac{1}{\text{ln}\,3} \,,

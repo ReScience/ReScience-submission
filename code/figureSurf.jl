@@ -19,7 +19,7 @@ for i in eachindex(b)
     end
 end
 
-plot(2.0.*kvar, b, o, lt=:surface, c=:viridis, leg=false, zlim=[0,1])
+plot(2.0.*kvar, b, o, lt=:surface, c=:viridis, leg=false, zlim=[0,1], zlab="Pielou's evenness")
 xaxis!("Range of variation")
 yaxis!("Ability of generalist")
 

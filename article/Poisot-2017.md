@@ -180,11 +180,11 @@ one habitat becomes larger). The quantitative differences can, again, be
 explained by changes in the initial population densities. Finally, the results
 in @fig:05 and @fig:06 can also be replicated.
 
-![Consequences of changing the relative quality of habitats 1 and 2 on coexistence.](figure04.pdf){#fig:04}
+![Consequences of changing the relative quality of habitats 1 and 2 on coexistence. Circles represent the generalist, upper and lower triangles represent the specialists of habitats 1 and 2 (respectively), and a diamond is used when both specialists have the same behaviour.](figure04.pdf){#fig:04}
 
 ![Consequences of changing $g$, the ability of the generalist, on coexistence. Dashed lines represent independent variation, and solid lines tied variations, as in the original article. Circles represent the generalist, upper and lower triangles represent the specialists of habitats 1 and 2 (respectively), and a diamond is used when both specialists have the same behaviour. Note that the direction of the axis is *reversed* with regard to the original figure.](figure05.pdf){#fig:05}
 
-![Consequences of changing the proportion of individuals picking their habitat at random.](figure06.pdf){#fig:06}
+![Consequences of changing the proportion of individuals picking their habitat at random. Circles represent the generalist, upper and lower triangles represent the specialists of habitats 1 and 2 (respectively), and a diamond is used when both specialists have the same behaviour.](figure06.pdf){#fig:06}
 
 # Conclusion
 

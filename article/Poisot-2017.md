@@ -154,18 +154,19 @@ and 2 (respectively), and a diamond is used when both specialists have the same
 behaviour.
 
 Figure 2A and 2B in the original manuscript provide a good diagnostic value, as
-they are based on non-stochastic situations. These are reproduced in @fig:02. As
-in the original simulations, the generalist alone overshoots its carrying
-capacity at $t=5$, and the stabilizes at a value of $N_3^\star = 270$. Note also
-that $p_3 = 2/3$ , which represents the ratio of habitat qualities. When adding
-specialists at initial densities of $N_1 = N_2 = 1$, we observe (i) that the
-preference of the generalist shifts towards habitat 1 to avoid competition in
-the smallest habitat, and (ii) the density of the specialist of habitat 2
-stabilizes as soon as the generalist abandons habitat 2 (at $t \approx 35$).
+they are based on non-stochastic situations. These are reproduced in Fig.
+@fig:02. As in the original simulations, the generalist alone overshoots its
+carrying capacity at $t=5$, and the stabilizes at a value of $N_3^\star = 270$.
+Note also that $p_3 = 2/3$ , which represents the ratio of habitat qualities.
+When adding specialists at initial densities of $N_1 = N_2 = 1$, we observe (i)
+that the preference of the generalist shifts towards habitat 1 to avoid
+competition in the smallest habitat, and (ii) the density of the specialist of
+habitat 2 stabilizes as soon as the generalist abandons habitat 2 (at $t \approx
+35$).
 
 ![Population dynamics and habitat preference of the generalist alone (left), and following invasion by the two specialists at the generalist equilibrium (right). Circles represent the generalist, upper and lower triangles represent the specialists of habitats 1 and 2 (respectively), and a diamond is used when both specialists have the same behaviour.](figure02.pdf){#fig:02}
 
-In @fig:03, this implementation gives the same qualitative results as the
+In Fig. @fig:03, this implementation gives the same qualitative results as the
 original article. There are small quantitative differences in output, which are
 in my opinion explained by the initial population densities (which are not given
 in the original article). Absent variation in habitat quality, generalists
@@ -175,10 +176,10 @@ equal (about 110 for tied variations, and 130 for independent variations).
 
 ![Consequences of increasing the range of variation of both $K_1$ and $K_2$. Dashed lines represent independent variation, and solid lines tied variations, as in the original article. Circles represent the generalist, upper and lower triangles represent the specialists of habitats 1 and 2 (respectively), and a diamond is used when both specialists have the same behaviour.](figure03.pdf){#fig:03}
 
-In @fig:04, the same qualitative result (generalists increase in abundance when
-one habitat becomes larger). The quantitative differences can, again, be
+In Fig. @fig:04, the same qualitative result (generalists increase in abundance
+when one habitat becomes larger). The quantitative differences can, again, be
 explained by changes in the initial population densities. Finally, the results
-in @fig:05 and @fig:06 can also be replicated.
+in Fig. @fig:05 and Fig. @fig:06 can also be replicated.
 
 ![Consequences of changing the relative quality of habitats 1 and 2 on coexistence. Circles represent the generalist, upper and lower triangles represent the specialists of habitats 1 and 2 (respectively), and a diamond is used when both specialists have the same behaviour.](figure04.pdf){#fig:04}
 
@@ -192,8 +193,8 @@ I believe that this implementation faithfully reproduces the results of
 @wils94csg. A single run of the model (using 100 generations as in the original
 article) completes in $\approx 5\times 10^{-3} \text{s}$. This makes this
 implementation usable for teaching, as it is not time consuming to generate
-results. As an example, I merged the output of @fig:03 and @fig:05, to generate
-the response of Pielou's evenness [@piel66sps],
+results. As an example, I merged the output of Fig. @fig:03 and Fig. @fig:05, to
+generate the response of Pielou's evenness [@piel66sps],
 
 $$
 J' = -\left(\sum_{i=1}^3\frac{N_i}{N}\text{ln}\frac{N_i}{N}\right)\frac{1}{\text{ln}\,3} \,,
@@ -201,7 +202,7 @@ $$
 
 which measures the extent to which all species have the same density. It appears
 that $J'$, a measure of coexistence, changes in response to both the rate of
-variation *and* generalist ability. The results are presented in @fig:surf.
+variation *and* generalist ability. The results are presented in Fig. @fig:surf.
 
 ![Response of the model to changing the ability of the generalist *and* the range of variation. While the response to environmental change is hump-shaped when generalists are competitive ($b$ close to unity), it becomes monotonously decreasing for generalists with lower competitive ability ($b$ close to $a$).](figureSurf.pdf){#fig:surf}
 

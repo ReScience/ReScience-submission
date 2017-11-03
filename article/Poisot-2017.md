@@ -148,9 +148,9 @@ Original sources were not available, and no attempts were made to contact the
 authors. For some non-stochastic situations, it is possible to calculate
 expected values by hand. The original manuscript does provide some of these
 values, and they were used to test this implementation. All default parameter
-values are given in @tbl:prm. In all figures, circles represent the generalist,
-upper and lower triangles represent the specialists of habitats 1 and 2
-(respectively), and a diamond is used when both specialists have the same
+values are given in Table @tbl:prm. In all figures, circles represent the
+generalist, upper and lower triangles represent the specialists of habitats 1
+and 2 (respectively), and a diamond is used when both specialists have the same
 behaviour.
 
 Figure 2A and 2B in the original manuscript provide a good diagnostic value, as

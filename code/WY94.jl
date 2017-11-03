@@ -1,3 +1,5 @@
+srand(42)
+
 using Plots
 using StatsBase
 

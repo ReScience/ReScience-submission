@@ -1,0 +1,475 @@
+\documentclass[10pt,a4paper,onecolumn]{article}
+% * <aroquesilva@gmail.com> 2017-09-19T13:55:25.418Z:
+%
+% ^.
+% \usepackage[utf8]{inputenc}
+\usepackage{marginnote}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{authblk,etoolbox}
+\usepackage{titlesec}
+\usepackage{calc}
+\usepackage{hyperref}
+\usepackage{cleveref} %added by Renan
+\usepackage{multirow} %added by Rodrigo
+\usepackage{amsmath,amssymb} %added by Roque
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor=
+{
+      Renan O. Shimoura,
+      Nilton L. Kamiji,
+      Rodrigo F.O. Pena,
+  },
+            pdftitle=
+{
+[Re] The cell-type specific cortical microcircuit: relating structure and activity in a full-scale spiking network model
+},
+            colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=blue,
+            pdfborder={0 0 0}}
+\urlstyle{same}
+\usepackage{tcolorbox}
+\usepackage{ragged2e}
+\usepackage{fontspec}
+\usepackage{fontawesome}
+\usepackage{caption}
+\usepackage{listings}
+
+\newcommand{\blau}[1]{{\color{blue} #1}}
+\newcommand{\rot}[1]{{\color{red} #1}}
+
+\lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
+
+
+
+%\usepackage{fancyvrb}
+%\VerbatimFootnotes
+%\usepackage{graphicx}
+%\usepackage{mdframed}
+%\newmdenv[backgroundcolor=lightgray]{Shaded}
+
+
+\usepackage{longtable,booktabs}
+
+\usepackage[
+  backend=biber,
+%  style=alphabetic,
+%  citestyle=numeric
+]{biblatex}
+\bibliography{ShimouraR-KamijiNL-PenaRFO-CordeiroVL-RomaroC-CeballosCC-RoqueAC-2017.bib}
+
+% --- Macros ------------------------------------------------------------------
+\renewcommand*{\bibfont}{\small \sffamily}
+
+\definecolor{red}{HTML}{CF232B}
+\newcommand{\ReScience}{Re{\bfseries \textcolor{red}{Science}}}
+
+\newtcolorbox{rebox}
+   {colback=blue!5!white, colframe=blue!40!white,
+     boxrule=0.5pt, arc=2pt, fonttitle=\sffamily\scshape\bfseries,
+     left=6pt, right=20pt, top=6pt, bottom=6pt}
+
+\newtcolorbox{repobox}
+   {colback=red, colframe=red!75!black,
+     boxrule=0.5pt, arc=2pt, left=6pt, right=6pt, top=3pt, bottom=3pt}
+
+% fix for pandoc 1.14     
+\newcommand{\tightlist}{%
+  \setlength{\itemsep}{1pt}\setlength{\parskip}{0pt}\setlength{\parsep}{0pt}}
+
+% --- Style -------------------------------------------------------------------
+\renewcommand*{\bibfont}{\small \sffamily}
+\renewcommand{\captionfont}{\small\sffamily}
+\renewcommand{\captionlabelfont}{\bfseries}
+
+\makeatletter
+\renewcommand\@biblabel[1]{{\bf #1.}}
+\makeatother
+
+% --- Page layout -------------------------------------------------------------
+\usepackage[top=3.5cm, bottom=3cm, right=1.5cm, left=1.5cm,
+            headheight=2.2cm, reversemp, includemp, marginparwidth=4.5cm]{geometry}
+
+% --- Section/SubSection/SubSubSection ----------------------------------------
+\titleformat{\section}
+  {\normalfont\sffamily\Large\bfseries}
+  {}{0pt}{}
+\titleformat{\subsection}
+  {\normalfont\sffamily\large\bfseries}
+  {}{0pt}{}
+\titleformat{\subsubsection}
+  {\normalfont\sffamily\bfseries}
+  {}{0pt}{}
+\titleformat*{\paragraph}
+  {\sffamily\normalsize}
+
+
+% --- Header / Footer ---------------------------------------------------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\renewcommand{\headrulewidth}{0.50pt}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[L]{\hspace{-1cm}\includegraphics[width=4.0cm]{rescience-logo.pdf}}
+\fancyhead[C]{}
+\fancyhead[R]{} 
+\renewcommand{\footrulewidth}{0.25pt}
+
+\fancyfoot[L]{\hypersetup{urlcolor=red}
+              \sffamily \ReScience~$\vert$
+              \href{http://rescience.github.io}{rescience.github.io}
+              \hypersetup{urlcolor=blue}}
+\fancyfoot[C]{\sffamily 1 - \thepage}
+\fancyfoot[R]{\sffamily Nov 2017 $\vert$
+                        Volume \textbf{1} $\vert$
+                        Issue \textbf{1}}
+\pagestyle{fancy}
+\makeatletter
+\let\ps@plain\ps@fancy
+\fancyheadoffset[L]{4.5cm}
+\fancyfootoffset[L]{4.5cm}
+
+% --- Title / Authors ---------------------------------------------------------
+% patch \maketitle so that it doesn't center
+\patchcmd{\@maketitle}{center}{flushleft}{}{}
+\patchcmd{\@maketitle}{center}{flushleft}{}{}
+% patch \maketitle so that the font size for the title is normal
+\patchcmd{\@maketitle}{\LARGE}{\LARGE\sffamily}{}{}
+% patch the patch by authblk so that the author block is flush left
+\def\maketitle{{%
+  \renewenvironment{tabular}[2][]
+    {\begin{flushleft}}
+    {\end{flushleft}}
+  \AB@maketitle}}
+\makeatletter
+\renewcommand\AB@affilsepx{ \protect\Affilfont}
+%\renewcommand\AB@affilnote[1]{{\bfseries #1}\hspace{2pt}}
+\renewcommand\AB@affilnote[1]{{\bfseries #1}\hspace{3pt}}
+\makeatother
+\renewcommand\Authfont{\sffamily\bfseries}
+\renewcommand\Affilfont{\sffamily\small\mdseries}
+\setlength{\affilsep}{1em}
+
+\LetLtxMacro{\OldIncludegraphics}{\includegraphics}
+\renewcommand{\includegraphics}[2][]{\OldIncludegraphics[width=12cm, #1]{#2}}
+
+
+% --- Document ----------------------------------------------------------------
+\title{[Re] The cell-type specific cortical microcircuit: relating structure and activity in a full-scale spiking network model}
+
+    \usepackage{authblk}
+                    \author[1]{Renan O. Shimoura}
+                    \author[1]{Nilton L. Kamiji}
+                    \author[1]{Rodrigo F.O. Pena}
+                    \author[1]{Vinicius L. Cordeiro}
+                    \author[1,2]{Cesar C. Ceballos}
+                    \author[1]{Cecilia Romaro}
+                    \author[1]{Antonio C. Roque}
+                    \affil[1]{Faculty of Philosophy, Sciences and Letters at Ribeir\~{a}o Preto, Department of Physics, University of S\~{a}o Paulo, Ribeir\~{a}o Preto, S\~{a}o Paulo, Brazil}
+                    \affil[2]{Department of Physiology, Ribeir\~ao Preto Medical School, School of Medicine, University of S\~ao Paulo, Ribeir\~ao Preto, Brazil}
+            
+\date{\vspace{-5mm}
+      \sffamily \small \href{mailto:antonior@usp.br}{antonior@usp.br}}
+
+
+\setlength\LTleft{0pt}
+\setlength\LTright{0pt}
+
+
+\begin{document}
+\maketitle
+
+\marginpar{
+  %\hrule
+  \sffamily\small
+  %\vspace{2mm}
+  {\bfseries Editor}\\
+  Name Surname\\
+
+  {\bfseries Reviewers}\\
+        Name Surname\\
+        Name Surname\\
+  
+  {\bfseries Received}  Month, day, year\\
+  {\bfseries Accepted}  Month, day, year\\
+  {\bfseries Published} Month, day, year\\
+
+  {\bfseries Licence}   \href{http://creativecommons.org/licenses/by/4.0/}{CC-BY}
+
+  \begin{flushleft}
+  {\bfseries Competing Interests:}\\
+  The authors have declared that no competing interests exist.
+  \end{flushleft}
+
+  \hrule
+  \vspace{3mm}
+
+  \hypersetup{urlcolor=white}
+  
+    \vspace{-1mm}
+  \begin{repobox}
+    \bfseries\normalsize
+      \href{http://github.com/rescience/rescience-submission/article}{\faGithubAlt~Article repository}
+  \end{repobox}
+      \vspace{-1mm}
+  \begin{repobox}
+    \bfseries\normalsize
+      \href{http://github.com/rescience/rescience-submission/code}{\faGithubAlt~Code repository}
+  \end{repobox}
+        \hypersetup{urlcolor=blue}
+}
+
+\begin{rebox}
+\sffamily {\bfseries A reference implementation of}
+\small
+\begin{flushleft}
+\begin{itemize}
+    \item[→] The cell-type specific cortical microcircuit: relating structure and activity in a full-scale spiking network model, T.C. Potjans,  M. Diesmann, Cerebral Cortex, 24 (3): 785-806, 2014. DOI: 10.1093/cercor/bhs358
+  \end{itemize}\par
+\end{flushleft}
+\end{rebox}
+
+
+\section{Introduction}\label{introduction}
+Most theoretical studies of cortical activity are based on networks of randomly connected units \cite{brunel2000,vogels2005,kriener2014,ostojic2014} 
+or with architectures artificially
+built from random networks \cite{tomov2014}. In spite of the usefulness of these models, in order to understand the interplay between network structure and cortical dynamics it is essential to have computational models which accurately represent the cortical network architecture. Recently, Potjans and Diesmann \cite{potjans2014} developed a network model of the local cortical microcircuit based on extensive experimental data on the intrinsic circuitry of striate cortex \cite{thomson2002,binzegger2004}.
+The model contains two cell types (excitatory and inhibitory) distributed over four layers, L2/3, L4, L5, and L6, and represents the cortical network below a surface area of 1 $mm^{2}$ (a scheme is shown in Fig.~\ref{fig:diagram_net}).
+
+ \begin{figure}[htbp]
+ \centering
+ \includegraphics[scale=0.4]{diagram.pdf}
+ \caption{Schematic representation of the cortical network model (adapted from \cite{potjans2014}).
+ The model consists of four layers (L2/3, L4, L5 and L6), each one populated with excitatory (triangles) and inhibitory (circles) neurons (Table \ref{table:population}). Arrows represent connections with probabilities $>$ 0.04: excitatory in red and inhibitory in blue (Table \ref{table:conectivity}). Black arrows represent background inputs.}\label{fig:diagram_net}
+ \end{figure}
+ 
+The original implementation was based on the NEST simulator \cite{gewaltig2007} and the source code is available at the Open Source Brain platform \cite{potjans2014pyNEST}.
+Here, we reimplemented the full model in the Brian 2 simulator \cite{goodman2009} without direct reference to the original source code. 
+
+\section{Methods}\label{methods}
+
+In this work, we replicated in Brian 2 every detail of the Potjans-Diesmann model as described in their original article \cite{potjans2014}. Hereafter, we will refer to the original NEST implementation of the Potjans-Diesmann model \cite{potjans2014} as reference (or original) article.  In this section we explain how this reimplementation was done. Further statistical analyses were performed using SciPy, NumPy, and Matplotlib libraries for the Python language.
+ 
+\subsection{Neurons}
+
+Network neurons are described by the leaky integrate-and-fire (LIF) neuron model. The subthreshold membrane voltage of neuron $i$ obeys the equation
+\begin{equation}
+\label{Eq:LIF}
+\dot{V}_i(t) = -\left( V_i(t) - V_{\rm reset} \right) /\tau_m + I_i(t)/C_m,
+\end{equation}
+where $\tau_m$ is the membrane time constant, $C_m$ is the membrane capacitance, $V_{\rm reset}$ is the reset potential, and $I_i(t)$ is the total input current. When $V_i(t) \geq V_{\rm th}$ the neuron emits a spike and the voltage is reset to $V_{\rm reset}$, remaining fixed at $V_{\rm reset}$ for a refractory period $\tau_{\rm ref}$. The total input current $I_i(t)$ is divided into external $I_{i, \rm ext}(t)$ and synaptic $I_{i, \rm syn}(t)$. Whenever an excitatory (or inhibitory) neuron $j$ presynaptic to neuron $i$ fires at time $t_{j}^{f}$, the synaptic current to neuron $i$ changes at time $t_{j}^{f}+d_e$ (or $d_i$) by an amount $w$ (or $-g w$), where $w$ is the excitatory synaptic weight, $g$ is the relative weight of the inhibitory synapse, $d_e$ is the excitatory synapse transmission delay, and $d_i$ is the inhibitory synapse transmission delay. In the absence of synaptic inputs the synaptic current changes as
+\begin{equation}
+\label{Eq:Isyn}
+\dot{I}_{i, \rm syn}(t) = -I_{i, \rm syn}(t)/\tau_{\rm syn} 
+\end{equation}
+\noindent where $\tau_{\rm syn}$ is the postsynaptic current time constant (parameter values are shown in Table \ref{table:parameters}).
+
+\begin{table}[!ht]
+  \caption{\label{table:parameters} Neuron and synaptic parameters. Neuron and synaptic parameters used in our simulations according to \cite{potjans2014}.}
+ \begin{center}
+  \begin{tabular}{lccccccccc}
+   \toprule
+   \midrule
+ membrane time constant & $\tau_m$ & 10 ms \tabularnewline
+ refractory period & $\tau_{ref}$ & 2 ms \tabularnewline
+ postsynaptic current time constant & $\tau_{syn}$ & 0.5 ms \tabularnewline
+ membrane capacitance & $C_m$ & 250 pF\tabularnewline
+ reset voltage & $V_{\rm reset}$ & -65 mV\tabularnewline
+ threshold voltage & $V_{\rm th}$ & -50 mV\tabularnewline
+ excitatory synaptic weight & $w$ & $\mathcal{N}$($\mu = 87.8, \sigma = 8.8$) pA \tabularnewline
+ relative inhibitory synaptic weight & $g$ & 4 \tabularnewline
+ excitatory synaptic transmission delay & $d_e$ & $\mathcal{N}$($\mu=1.5 , \sigma = 0.75$) ms \tabularnewline
+ inhibitory synaptic transmission delay & $d_i$ & $\mathcal{N}$($\mu = 0.8 , \sigma = 0.4$) ms \tabularnewline
+ initial membrane potential & $V_0$ & $\mathcal{N}$($\mu=-58.0, \sigma=10.0$) mV \tabularnewline
+   \bottomrule
+  \end{tabular}
+ \end{center}
+\end{table}
+
+\subsection{Network}
+The procedure to set up the network connections is the following: 
+\begin{itemize}
+\item Start with a set of neurons $N=$ 77,169, with model parameter described in Table~\ref{table:parameters}.
+
+\item The $N$ neurons are distributed over the eight different populations, L23e, L23i, etc, according to the numbers shown in Table~\ref{table:population}.
+
+\item For each one of the sixty-four possible combinations of two from the eight cell populations, the total number $K$ of synapses is calculated using equation~(\ref{Eq:Ksyn}) (compare with equation~(1) of the original article), where $N_{pre/post}$ are the sizes of presynaptic/postsynaptic populations and $C_a$ is the corresponding connection probability given in Table~\ref{table:conectivity} (the subindex $a$ stands for `anatomical' in the terminology of the original article).
+
+\begin{equation}
+\label{Eq:Ksyn}
+K = \frac{\log(1 - C_a)}{\log(1-1/(N_{pre}N_{post}))}
+\end{equation}
+
+\item For every one of the sixty-four two-cell populations, the $K$ synapses determined above are created by uniformly and randomly choosing $K$ pairs of neurons (one from each population) and placing a connection between them. This is done with repetition to allow the creation of multiple synaptic contacts between any pair of neurons. 
+
+\item The synaptic weight for connections originating from excitatory neurons is set to $w$ and the synaptic weight for connections from inhibitory neurons is set to $-gw$. In addition, the synaptic weight for connections from neurons of layer L4e to L23e is doubled \cite{potjans2014,wagatsuma2011}.
+\end{itemize}
+
+\begin{table}[!ht]
+  \caption{\label{table:population} Layer population sizes (extracted from \cite{potjans2014}). Neurons were distributed over four different layers (L23, L4, L5 and L6), and for each layer they were divided into excitatory (L23e, L4e, L5e and L6e) and inhibitory (L23i, L4i, L5i and L6i) subpopulations.}
+ \begin{center}
+  \begin{tabular}{cccccccc}
+   \toprule
+   \midrule
+ L23e & L23i & L4e & L4i & L5e & L5i & L6e & L6i\tabularnewline
+ 20683 & 5834 & 21915 & 5479 & 4850 & 1065 & 14395 & 2948\tabularnewline
+   \bottomrule
+  \end{tabular}
+ \end{center}
+\end{table}
+
+\begin{table}[!ht]
+\caption{\label{table:conectivity} Connectivity matrix between the different populations of the model (extracted from \cite{potjans2014}). The connectivity matrix describes the probabilities of the target-specific connections between populations of neurons.
+}
+\begin{center}
+\begin{tabular}{lccccccccc}
+ \toprule
+ \midrule
+ &  &  &  &  & from &  &  &  & \tabularnewline
+  \midrule
+ &  & L23e & L23i & L4e & L4i & L5e & L5i & L6e & L6i\tabularnewline
+ \midrule
+ & L23e & 0.101 & 0.169 & 0.044 & 0.082 & 0.032 & 0 & 0.008 & 0\tabularnewline
+ & L23i & 0.135 & 0.137 & 0.032 & 0.052 & 0.075 & 0 & 0.004 & 0\tabularnewline
+ & L4e & 0.008 & 0.006 & 0.050 & 0.135 & 0.007 & 0.0003 & 0.045 & 0\tabularnewline
+ to & L4i & 0.069 & 0.003 & 0.079 & 0.160 & 0.003 & 0 & 0.106 & 0\tabularnewline
+ & L5e & 0.100 & 0.062 & 0.051 & 0.006 & 0.083 & 0.373 & 0.020 & 0\tabularnewline
+ & L5i & 0.055 & 0.027 & 0.026 & 0.002 & 0.060 & 0.316 & 0.009 & 0\tabularnewline
+ & L6e & 0.016 & 0.007 & 0.021 & 0.017 & 0.057 & 0.020 & 0.040 & 0.225\tabularnewline
+ & L6i & 0.036 & 0.001 & 0.003 & 0.001 & 0.028 & 0.008 & 0.066 & 0.144\tabularnewline
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+The ordinary differential equations were solved with the exact integration method for linear equations available in Brian 2 with a time step $\Delta t=0.1$ ms. All simulations were carried out in a cluster with 4 nodes each equipped with 2 Intel Xeon processors. 
+
+\subsection{External input}
+
+We chose from the reference paper three different types of external (``background") inputs: 
+
+\begin{enumerate}
+\item \textbf{Layer specific}: Neurons from each layer receive specific background spike-trains drawn from an $8$ Hz Poisson distribution. The number of inputs per neuron is given in the first row of Table \ref{table:externalinput}.
+\item \textbf{Layer independent}: Spike-trains are drawn from an $8$ Hz Poisson distribution as above, but now the number of inputs per neuron is the same for all the excitatory layers and the same for all the inhibitory layers as shown in the second row of Table \ref{table:externalinput}.
+\item \textbf{DC input}: The Poissonian background is replaced by constant DC currents to all neurons. The number of inputs per neuron follows the layer specific configuration (first row in Table \ref{table:externalinput}). 
+%\item \textbf{Frequency sweep}: External spikes are drawn from Poisson distributions with frequency values in the range from 3 to 15 Hz. The number of inputs per neuron follows the layer specific configuration (first row in Table \ref{table:externalinput}).
+\end{enumerate}
+
+\begin{table}[!ht]
+\caption{\label{table:externalinput} Estimated numbers of external inputs per neurons in all network layers. The total number of external inputs is rounded.
+}
+\begin{center}
+\begin{tabular}{lcccccccccc}
+ \toprule
+ \midrule
+ & L23e & L23i & L4e & L4i & L5e & L5i & L6e & L6i %& Th
+ \tabularnewline
+ \midrule
+ Layer specific & 1600 & 1500 & 2100 & 1900 & 2000 & 1900 & 2900 & 2100 \tabularnewline
+ Layer independent & 2000 & 1850 & 2000 & 1850 & 2000 & 1850 & 2000 & 1850 \tabularnewline
+ Background rate  & & & & 8 Hz \tabularnewline
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsection{Measures}
+
+Here, we define the measures used to characterize the layer-specific activity of the network. They are the same ones used in the original article.  
+
+The spike train of a neuron $i$ is represented by a sequence of temporal events (sum of delta functions). The firing rate over an interval $T$ is obtained by summing the number of spikes during that interval and dividing by $T$ (spike-count firing rate). The average firing rate of a population of $N$ neurons is computed by calculating the firing rates of the neurons and dividing by $N$. With this procedure we calculated the average firing rates of the eight populations in the network.
+
+To characterize irregularity in the network we use the coefficient of variation (CV) of the interspike interval (ISI) distribution. The $\rm CV_{\rm i}$ for each neuron $i$ is computed as the ratio of the standard deviation over the mean of its ISI distribution. Exponential distributions have $\rm CV \approx 1$ while more regular distributions have $\rm CV<1$. 
+
+Synchrony is characterized by the variability of the histogram of population spiking activity (bin size = 3 ms). The synchrony index is computed as the variance of the spike count histogram divided by its mean.
+
+The degree of asynchronous and irregular activity in a population is quantified by a measure called AIness\%. This is the percentage of the population with mean firing rate $<$ 30 Hz, irregularity between 0.7 and 1.2, and synchrony $<$ 8. 
+
+To compare the distributions of firing rates and CVs obtained from simulations in Brian 2 and NEST we use the Kolmogorov-Smirnov statistical test. To apply this non-parametric test, cumulated histograms were constructed with bins chosen by the Doane method \cite{doane1976}.
+
+\section{Results}\label{results}
+
+In the following, we present results of the replicated studies (with the same data sampling sizes) done in the reference article for the network with parameters as defined in Methods. We did not replicate analyses which involve changes in the network structure.
+
+\subsection{Spontaneous Activity}
+The simulated spontaneous activity is asynchronous and irregular (Fig.~\ref{fig:fig2}\textbf{A}) and the cell-type specific firing rates are in agreement with the ones observed in the reference article, including the lowest rates for the excitatory cells of layers 2/3 and 6 and the highest rates for L5 cells (Fig.~\ref{fig:fig2}\textbf{B}). For all layers the inhibitory cell firing rates exceed the ones of excitatory cells. The firing rate variabilities (Fig.~\ref{fig:fig2}\textbf{B}) and the single-cell firing rate irregularities (Fig.~\ref{fig:fig2}\textbf{C}) are also similar to the ones reported in the original article. The irregularity measure is $>$ 0.80 for all cell populations (Fig.~\ref{fig:fig2}\textbf{C}). The profile of the synchrony of spiking activity across the cell populations is also consistent with the one reported in the reference article. The highest degree of synchrony is found in L5e and the lowest one in L6. 
+
+\begin{figure}[!ht]
+ \centering
+ \includegraphics[scale=0.001]{fig2.pdf}
+ \caption{Spontaneous cell-type specific activity (to be compared with Fig.6 from the original article). In this simulation, $g=4$ and background rate is layer-specific ($8$ Hz). (A) Raster plot of spiking activity for 0.4 s of all cell layers (from top to bottom; dark color: Excitatory cells, light color: Inhibitory cells). Number of displayed spike trains corresponds to 2.5\% of the total number of neurons (preserving relative number of cells per layer). (B–D) Statistics based on samples of 1000 neurons per layer recorded for 60 s. (B) Single-cell firing rate boxplot. Triangles indicate population mean firing rates, crosses show outliers. (C) Irregularity of single-cell firing rates. (D) Synchrony of spiking activity.}\label{fig:fig2}
+\end{figure}
+
+In order to compare the Brian 2 with the NEST implementations of the Potjans-Diesmann model, we used the available pyNEST code \cite{potjans2014pyNEST} to run NEST simulations of the model with the same parameters given in Methods. The comparisons were made in terms of the cumulative distributions of the CVs of ISIs and the firing rates of the eight cell populations in the network (plots not shown here but as in Figs.~\ref{fig:fig3} and~\ref{fig:fig4} below). The p-value (two-sample Kolmogorov-Smirnov test) was higher than 0.6 for all comparisons meaning that no significant difference was found between NEST and Brian 2 simulations. 
+
+Besides the creation of the network connections by the procedure described above, which is the one used in the original article, it is also possible to connect the neurons in the network using the alternative expression for the total number of synapses between two cell populations,
+
+\begin{equation}
+\label{Eq:Ksyn_alt}
+K = C_a(N_{pre}N_{post}),
+\end{equation}
+\noindent which comes from the first-order Taylor series approximation to the connection probability $C_{a}$ as explained in the original article (see equation (2) and following text in the original article). 
+
+%inbuilt Brian 2 randomization option in the $connect(i,j,p)$ function. In other words, there are two ways of using the $connect$ function to create the network connections: in one way the user prescribes a list of pre- and postsynaptic pairs and feeds the function with this list. In the other way the user feeds $i$ and $j$ with the pre- and postsynaptic populations and $p$ acts as the connection probability among these populations. Here we used the first way to connect the neurons and perform the comparison between NEST and Brian 2 simulations, but we also tested the second way and found that it brings different results as shown in Figs.~\ref{fig:cv_hists} and~\ref{fig:f_hists}.
+% * <aroquesilva@gmail.com> 2017-11-07T21:03:53.535Z:
+%
+% ^.
+To test for possible effects of using this approximate equation, we constructed the network in Brian 2 using equation~(\ref{Eq:Ksyn_alt}) instead of~(\ref{Eq:Ksyn}). We found that the use of the approximate equation brings discrepancies in comparison with the original model. The comparisons were made in terms of the cumulative distributions of the CVs of ISIs (Fig.~\ref{fig:fig3}) and the firing rates (Fig.~\ref{fig:fig4}) of the eight cell populations for simulations of the original model based on the pyNEST code \cite{potjans2014pyNEST} and the Brian 2 code with $K$ calculated from equation~(\ref{Eq:Ksyn_alt}). 
+
+Most of the layer-specific comparisons yielded p-values higher than 0.6 as before, indicating no significant differences. However, the p-value of the comparison between the CV of ISIs for the layer 5 excitatory neurons was $0.07$, and the p-values of the comparisons between the firing rates of excitatory cells from layers 2/3 and 6 were, respectively, $0.10$ and $0.08$. Therefore, in the cases of excitatory cells of layers 2/3, 5 and 6 there were statistically significant differences in the firing properties of neurons. The major discrepancy was found for L5e cells, which in the replicated Brian 2 version using equation~(\ref{Eq:Ksyn_alt}) have firing rate 12.2 $\pm$ 6.1 Hz while in the original version their mean firing rate is 7.8 $\pm$ 5.1 Hz.
+
+\begin{figure}[!ht]
+ \centering
+ \includegraphics[scale=0.01]{fig3.pdf}
+ \caption{Cumulative distribution of CVs of ISIs for the eight cell populations (indicated atop each panel) for simulations implemented in Brian 2 using equation~(\ref{Eq:Ksyn_alt}) (blue) and in NEST using equation~(\ref{Eq:Ksyn}) (orange). NEST code taken from \cite{potjans2014pyNEST}.}\label{fig:fig3}
+\end{figure}
+ 
+\begin{figure}[!ht]
+ \centering
+ \includegraphics[scale=0.01]{fig4.pdf}
+ \caption{Cumulative distribution of firing rate for the eight cell populations (indicated atop each panel) for simulations implemented in Brian 2 using equation~(\ref{Eq:Ksyn_alt}) (blue) and in NEST using equation~(\ref{Eq:Ksyn}) (orange). NEST code taken from \cite{potjans2014pyNEST}.}\label{fig:fig4}
+\end{figure}
+
+The differences found highlight the importance of using the exact expression for the connection probability $C_{a}$ given in equation (1) of the original article (which corresponds to equation~(\ref{Eq:Ksyn}) of this text)  in simulations of the Potjans-Diesmann model.      
+
+We now return to the reimplementation of the Potjans-Diesmann model in Brian 2 using equation~(\ref{Eq:Ksyn}), which will be kept for the rest of this replication work. 
+ 
+\subsection{Dependence of Spontaneous Activity on External Inputs}
+
+In agreement with the results obtained in the reference article, the activity features of the Brian 2 implementation are also robust to changes in the external inputs. These are shown in Fig.~\ref{fig:fig5}A, in which the Poissonian inputs are replaced by constant DC currents, and in Fig.~\ref{fig:fig5}B, in which the layer-dependent Poissonian inputs are replaced by layer-independent inputs. In the latter case, the absence of activity in L6e resulting from the layer-independent inputs indicates the importance of realistic input structure to yield plausible activity in all layers.
+
+\begin{figure}[!ht]
+ \centering
+ \includegraphics[scale=0.01]{fig5.pdf}
+ \caption{Raster plot of spiking activity over a 0.4 s period and average firing rate for different types of external input (to be compared with Figs. 7A and 7B of the original article). Color codes and sample cell sizes as in Fig. \rot{\ref{fig:fig2}}. (A1--A2) DC input. (B1--B2) Layer independent input.}\label{fig:fig5}
+\end{figure}
+
+\subsection{Stability of Network Activity}
+
+The activity features obtained in the original article by changing the relative strength of inhibitory synapses and the background rate are reproduced in our reimplementation (Fig.~\ref{fig:fig6}). 
+
+The asynchronous and irregular activity of the reimplemented network model, as characterized by the AIness\%, is similar to the one found in the reference article for background rates >5 Hz and relative inhibitory synaptic strengths >4 Hz. In comparison with the reference article, the relative order of excitatory firing rates is maintained for every combination between background rate and relative synaptic strength, with highest values in L5 and smallest in L2/3 and L6. Similarly to the original article, the firing rate of L4e cells is the most sensitive to variations in the background rate whereas the firing rate of L5e cells is the most sensitive to variations in the relative inhibitory synaptic strength $g$.   
+ 
+\begin{figure}[!ht]
+ \centering
+ \includegraphics[scale=0.01]{fig6.pdf}
+ \caption{Network activity dependence on background rate and relative inhibitory weight (to be compared with Fig. 8 of the original article). (A) Mean population firing rates of excitatory neurons in layers 2/3 (dashed line), 4 (triangles), 5 (stars) and 6 (squares) as a function of the background rate for fixed $g=4$. (B) AIness\% (see Methods) as a function of the background rate and the relative inhibitory synaptic strength $g$. Labeled dashed contour lines indicate areas where 25\%, 50\% and 75\% of all populations fire in an asynchronous and irregular mode at low rate. (C) Mean population firing rates of excitatory neurons as a function of the relative inhibitory synaptic strength $g$ for fixed background rate $8$ Hz (markers as in (A)).}\label{fig:fig6}
+\end{figure}
+
+\section{Conclusion}\label{conclusion}
+Using the Brian 2 reimplementation of the Potjans-Diesmann model we were able to reproduce the main results of the original article \cite{potjans2014}. The spontaneous activity of the network reimplementation is asynchronous and irregular as evaluated by the different measures used to characterize spiking behavior. 
+
+We also have shown the importance of using the exact expression in equation (1) of the original article instead of the approximate one in equation (2) in implementations of the model. The use of the approximate expression leads to mean firing rates of L5e neurons significantly higher than in the original implementation of the model.  
+
+The successful replication of the results of the reference article confirms the correctness of the original implementation of the model. 
+
+\section{Acknowledgements}\label{acknowledgements}
+The authors would like to thank Prof. Markus Diesmann for valuable comments on the manuscript. This research was supported by the S\~{a}o Paulo State Research Foundation (FAPESP) grant No.2013/07699-0 for the Research, Innovation and Dissemination Center for Neuromathematics, FAPESP grant 2016/03855-5 to NLK, FAPESP scholarship 2017/07688-9 to RS, FAPESP scholarship 2013/25667-8 to RP and FAPESP scholarship 2017/05874-0 to VC. ACR is partially supported by the CNPq fellowship grant 306251/2014-0. RP and ACR are also part of FAPESP 2015/50122-0 and DFG-GRTK 1740/2. CCC, and CR are supported by a CAPES PhD scholarship. 
+
+{\sffamily \small
+   \printbibliography[title=References]
+}
+
+\end{document}

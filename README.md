@@ -6,7 +6,7 @@ This is the submission repository for the [Re**Science** journal](https://rescie
 
 ### Reference implementation of: 
 
-> The cell-type specific cortical microcircuit: relating structure and activity in a full-scale > > spiking network model. (2014)
+> The cell-type specific cortical microcircuit: relating structure and activity in a full-scale spiking network model. (2014)
 
 The source code is written in Python (version 2.7.5) Brian (version 2.0.1) using Numpy (version
 1.11.1) Pandas (version 0.19.2) and Matplotlib (version 2.0.0).

@@ -52,7 +52,7 @@ We use pip, a package management system, to install the Python modules described
 To install pip in Ubuntu type in a terminal:
 
 ```
-sudo apt-get install pip
+sudo apt-get install python-pip
 ```
 
 Upgrade pip to the latest version:

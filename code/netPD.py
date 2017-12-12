@@ -19,67 +19,44 @@
 # Main parameters of simulation is defined in this code.
 # ----------------------------------------------------------------------------
 
-import matplotlib
-matplotlib.use('Agg')
-
 from brian2 import *
 from netParams import *
 import neuronModels as neuronMod
 import netModels as netMod
 
-# Seting the simulation to run with openmp
-#set_device('cpp_standalone', directory='PD')
-#prefs.devices.cpp_standalone.openmp_threads = 10
+def runParams(tsim=1.0, bg_type=0, stim=0, w_ex=87.8, g=4.0, bg_freq=8.0, filename=None):
 
-###############################################################################
-# Simulation parameters
-###############################################################################
-defaultclock.dt = 0.1*ms    # timestep of numerical integration method
-tsim = 1.0*second           # time of simulation
+    ###############################################################################
+    # Simulation parameters
+    ###############################################################################
+    defaultclock.dt = 0.1*ms    # timestep of numerical integration method
 
-# background type
-bg_type = 0                 # 0 = layer-specific
-                            # 1 = layer-independent
+    # neuron model
+    eqs = neuronMod.LIFmodel
+    reset = neuronMod.resetLIF
+    tau_m, tau_ref, Cm, v_r, v_th = neuronMod.LIFparams()
 
-# stimulation
-stim = 0                    # 0 = turn on the background noise
-                            # 1 = DC current experiment
-                            # 2 = background noise + DC current
+    ###############################################################################
+    # Creating neurons
+    ###############################################################################
+    neurons = NeuronGroup(N, eqs, threshold='v>v_th', reset=reset, \
+                            method='linear', refractory=tau_ref)
 
-# neuron model
-eqs = neuronMod.LIFmodel
-reset = neuronMod.resetLIF
-tau_m, tau_ref, Cm, v_r, v_th = neuronMod.LIFparams()
+    # seting initial values for membrane potential and currents
+    neurons.v = 'v_r + 0.1*v_r*randn()'
+    neurons.I = 0.0*pA      # initial value for synaptic currents
+    neurons.Iext = 0.0*pA   # constant external current
 
-# synapse parameters
-w_ex = 87.8*pA			   # excitatory weight
-g = 4.0             	   # inhibitory weight balance
+    pop, con, bg_in, smon_net = netMod.PDnet(neurons, stim, bg_type, w_ex, g, bg_freq)
 
-# fixed seed of pseudo random numbers to test reproducibility
-seed(1)
+    ###############################################################################
+    # Running the simulation
+    ###############################################################################
+    net = Network(collect())
+    net.add(neurons,pop, con, bg_in)    # Adding objects to the simulation
+    net.run(tsim*second, report='stdout')
 
-###############################################################################
-# Creating neurons
-###############################################################################
-neurons = NeuronGroup(N, eqs, threshold='v>v_th', reset=reset, \
-                        method='linear', refractory=tau_ref)
-
-# seting initial values for membrane potential and currents
-neurons.v = 'v_r + 0.1*v_r*randn()'
-neurons.I = 0.0*pA      # initial value for synaptic currents
-neurons.Iext = 0.0*pA   # constant external current
-
-pop, con, bg_in, smon_net = netMod.PDnet(neurons, stim, bg_type, w_ex, g)
-
-###############################################################################
-# Running the simulation
-###############################################################################
-net = Network(collect())
-net.add(neurons,pop, con, bg_in)    # Adding objects to the simulation
-net.run(tsim, report='stdout')
-
-###############################################################################
-# Saving raster plot
-###############################################################################
-savetxt('data_raster_g' + str(g) + '_w' + str(w_ex/pA) + '.dat',\
-            c_[smon_net.i,smon_net.t/ms],fmt="%i %.2f")
+    ###############################################################################
+    # Saving raster plot
+    ###############################################################################
+    savetxt(filename, c_[smon_net.i,smon_net.t/ms],fmt="%i %.2f")

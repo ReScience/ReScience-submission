@@ -30,6 +30,8 @@ def LIFparams():
 	return tau_m, tau_ref, Cm, v_r, v_th
 
 # Leaky integrate-and-fire model equations
+# dv/dt: equation 1 from the article
+# dI/dt: equation 2 from the article
 LIFmodel = '''
 	dv/dt = (-v + v_r)/tau_m + (I+Iext)/Cm : volt (unless refractory)
 	dI/dt = -I/tau_syn : amp

@@ -22,17 +22,44 @@
 
 from netParams import *
 
-def PDnet(NeuronGroup, stim, bg_type, w_ex, g):
+def PDnet(NeuronGroup, stim, bg_type, w_ex, g, bg_freq):
 
+	w_ex = w_ex*pA		   # excitatory synaptic weight
 	std_w_ex = 0.1*w_ex        # standard deviation weigth
 
 	# Background number per layer
 	if bg_type == 0:
-		# layer-specific
+		# layer-specific:
 		bg_layer = bg_layer_specific
-	else:
-		# layer-independent
+	elif bg_type == 1:
+		# layer-independent:
 		bg_layer = bg_layer_independent
+	elif bg_type == 2:
+		bg_layer = zeros(8)
+		#layer-independent-random:
+		for i in range(0,8,2):
+		    # range of the number of inputs given to an excitatory population:
+		    exc_bound_A = bg_layer_specific[i]
+		    exc_bound_B = bg_layer_independent[i]
+		    diff_exc = abs(exc_bound_A-exc_bound_B)
+
+		    # randomly choosing a number for the external input to an excitatory population:
+		    if exc_bound_A<=exc_bound_B: exc_input = exc_bound_A + rand()*diff_exc
+		    elif exc_bound_A>exc_bound_B: exc_input = exc_bound_B + rand()*diff_exc
+
+		    # range of the number of inputs given to an inhibitory population:
+		    if i!=6: inh_bound_A = ((1-0.1)/(1+0.1))*exc_input		# eq. 4 from the article
+		    else: inh_bound_A = ((1-0.2)/(1+0.2))*exc_input		# eq. 4 from the article
+		    inh_bound_B = exc_input
+		    diff_inh = abs(inh_bound_A-inh_bound_B)
+
+		    # randomly choosing a number for the external input to an inhibitory population:
+		    if inh_bound_A<=inh_bound_B: inh_input = inh_bound_A + rand()*diff_inh
+		    else: inh_input = inh_bound_B + rand()*diff_inh
+
+		    # array created to save the values:
+		    bg_layer[i] = int(exc_input)
+		    bg_layer[i+1] = int(inh_input)
 
 	pop = [] # Stores NeuronGroups, one for each population
 	for r in range(0, 8):
@@ -75,7 +102,10 @@ def PDnet(NeuronGroup, stim, bg_type, w_ex, g):
 	for c in range(0, 8):
 		for r in range(0, 8):
 
+			# number of synapses calculated with equation 5 from the article
 			#nsyn = int(n_layer[c]*n_layer[r]*table[r][c])
+
+			# number of synapses calculated with equation 3 from the article
 			nsyn = int(log(1.0-table[r][c])/log(1.0 - (1.0/float(n_layer[c]*n_layer[r]))))
 			pre_index = randint(n_layer[c], size=nsyn)
 			post_index = randint(n_layer[r], size=nsyn)
@@ -102,14 +132,13 @@ def PDnet(NeuronGroup, stim, bg_type, w_ex, g):
 					con[-1].w = 'clip((w_ex + std_w_ex*randn()),w_ex*0.0, w_ex*inf)'
 					con[-1].delay = 'clip(d_in + std_d_in*randn(), 0.1*ms, d_in*inf)'
 
-
 	###########################################################################
 	# Creating poissonian background inputs
 	###########################################################################
 	bg_in  = []
 	if (stim==0 or stim==2):
 		for r in range(0, 8):
-			bg_in.append(PoissonInput(pop[r], 'I', bg_layer[r], 8*Hz, weight=w_ex))
+			bg_in.append(PoissonInput(pop[r], 'I', bg_layer[r], bg_freq*Hz, weight=w_ex))
 
 	###########################################################################
 	# Creating spike monitors

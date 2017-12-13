@@ -178,23 +178,23 @@ python netRun.py 0 60.0
 To run protocol 1 for 60 seconds type in the console:
 
 ```
-python netRun.py 0 60.0
+python netRun.py 1 60.0
 ```
 
 To run protocol 2 for 5 seconds type in the console:
 
 ```
-python netRun.py 0 5.0
+python netRun.py 2 5.0
 ```
 
 To run protocol 3 for 10 seconds type in the console:
 
 ```
-python netRun.py 0 10.0
+python netRun.py 3 10.0
 ```
 
-Observe that protocols 2 and 3 vary over several parameters and this way cost sometime.
-Instead of running the simulation in serial which is default, one can run the range of parameters in parallel by simple attributing **False** to the variable **serial** (line 74 in netRun.py).
+Observe that protocols 2 and 3 vary over several parameters and this way cost some time.
+Instead of running the simulation in serial which is default, one can run the range of parameters in parallel by simply attributing **False** to the variable **serial** (line 74 in netRun.py).
 The number of cores can be set in the variable **num_cores** (line 75 in netRun.py).
 **Obs**: in this case the memory cost is multiplied by num_cores.
 
@@ -219,7 +219,7 @@ python netRun.py 0 60.0
 Change the filename:
 
 ```
-mv ../data/data_raster_g4.0_bgrate8.0default.dat ../data/raster_brian_approx.dat
+mv ../data/data_raster_g4.0_bgrate8.0default.dat ../data/raster_brian_noapprox.dat
 ```
 
 For the case where the number of synapses is defined by Eq. (5) open the netModels.py, comment line 109 and uncomment line 106:
@@ -240,7 +240,7 @@ python netRun.py 0 60.0
 Change the filename:
 
 ```
-mv ../data/data_raster_g4.0_bgrate8.0default.dat ../data/raster_brian_noapprox.dat
+mv ../data/data_raster_g4.0_bgrate8.0default.dat ../data/raster_brian_approx.dat
 ```
 
 To run statistical test use ks_test.py. This function will load data from the folder (../data/). Use

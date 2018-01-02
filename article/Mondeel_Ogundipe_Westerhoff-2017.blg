@@ -1,25 +1,25 @@
 [0] Config.pm:354> INFO - This is Biber 2.7
 [0] Config.pm:357> INFO - Logfile is 'Mondeel_Ogundipe_Westerhoff-2017.blg'
-[48] biber-darwin:303> INFO - === Thu Oct 26, 2017, 13:14:02
-[74] Biber.pm:359> INFO - Reading 'Mondeel_Ogundipe_Westerhoff-2017.bcf'
-[176] Biber.pm:835> INFO - Found 9 citekeys in bib section 0
-[189] Biber.pm:3670> INFO - Processing section 0
-[206] Biber.pm:3840> INFO - Looking for bibtex format file 'bibliography.bib' for section 0
-[210] bibtex.pm:1435> INFO - Decoding LaTeX character macros into UTF-8
-[221] bibtex.pm:1292> INFO - Found BibTeX data source 'bibliography.bib'
-[248] Utils.pm:164> WARN - ISBN '1744-4292 (Electronic)' in entry 'Shlomi2009' is invalid - run biber with '--validate_datamodel' for details.
-[249] Utils.pm:164> WARN - month field 'apr' in entry 'Shlomi2009' is not an integer - this will probably not sort properly.
-[251] Utils.pm:164> WARN - ISBN '1096-7176 (Print)$\backslash$r1096-7176 (Linking)' in entry 'Mahadevan2003' is invalid - run biber with '--validate_datamodel' for details.
-[255] Utils.pm:164> WARN - month field 'feb' in entry 'Duarte2007' is not an integer - this will probably not sort properly.
-[270] Utils.pm:164> WARN - ISBN '1546-1696 (Electronic)$\backslash$r1087-0156 (Linking)' in entry 'Thiele2013' is invalid - run biber with '--validate_datamodel' for details.
-[276] Utils.pm:164> WARN - ISBN '1367-4811' in entry 'Noor2012' is invalid - run biber with '--validate_datamodel' for details.
-[276] Utils.pm:164> WARN - month field 'aug' in entry 'Noor2012' is not an integer - this will probably not sort properly.
-[279] Utils.pm:164> WARN - ISBN '0002-9297 (Print)' in entry 'McKusick2007' is invalid - run biber with '--validate_datamodel' for details.
-[279] Utils.pm:164> WARN - month field 'apr' in entry 'McKusick2007' is not an integer - this will probably not sort properly.
-[297] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[297] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[298] Biber.pm:3499> INFO - Sorting list 'nty/global/' of type 'entry' with scheme 'nty' and locale 'en-US'
-[298] Biber.pm:3505> INFO - No sort tailoring available for locale 'en-US'
-[311] bbl.pm:608> INFO - Writing 'Mondeel_Ogundipe_Westerhoff-2017.bbl' with encoding 'UTF-8'
-[315] bbl.pm:712> INFO - Output to Mondeel_Ogundipe_Westerhoff-2017.bbl
-[315] Biber.pm:109> INFO - WARNINGS: 9
+[40] biber-darwin:303> INFO - === Tue Jan  2, 2018, 13:22:45
+[61] Biber.pm:359> INFO - Reading 'Mondeel_Ogundipe_Westerhoff-2017.bcf'
+[151] Biber.pm:835> INFO - Found 9 citekeys in bib section 0
+[164] Biber.pm:3670> INFO - Processing section 0
+[178] Biber.pm:3840> INFO - Looking for bibtex format file 'bibliography.bib' for section 0
+[182] bibtex.pm:1435> INFO - Decoding LaTeX character macros into UTF-8
+[191] bibtex.pm:1292> INFO - Found BibTeX data source 'bibliography.bib'
+[213] Utils.pm:164> WARN - ISBN '1744-4292 (Electronic)' in entry 'Shlomi2009' is invalid - run biber with '--validate_datamodel' for details.
+[214] Utils.pm:164> WARN - month field 'apr' in entry 'Shlomi2009' is not an integer - this will probably not sort properly.
+[216] Utils.pm:164> WARN - ISBN '1096-7176 (Print)$\backslash$r1096-7176 (Linking)' in entry 'Mahadevan2003' is invalid - run biber with '--validate_datamodel' for details.
+[219] Utils.pm:164> WARN - month field 'feb' in entry 'Duarte2007' is not an integer - this will probably not sort properly.
+[234] Utils.pm:164> WARN - ISBN '1546-1696 (Electronic)$\backslash$r1087-0156 (Linking)' in entry 'Thiele2013' is invalid - run biber with '--validate_datamodel' for details.
+[241] Utils.pm:164> WARN - ISBN '1367-4811' in entry 'Noor2012' is invalid - run biber with '--validate_datamodel' for details.
+[241] Utils.pm:164> WARN - month field 'aug' in entry 'Noor2012' is not an integer - this will probably not sort properly.
+[244] Utils.pm:164> WARN - ISBN '0002-9297 (Print)' in entry 'McKusick2007' is invalid - run biber with '--validate_datamodel' for details.
+[244] Utils.pm:164> WARN - month field 'apr' in entry 'McKusick2007' is not an integer - this will probably not sort properly.
+[266] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[266] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[266] Biber.pm:3499> INFO - Sorting list 'nty/global/' of type 'entry' with scheme 'nty' and locale 'en-US'
+[266] Biber.pm:3505> INFO - No sort tailoring available for locale 'en-US'
+[279] bbl.pm:608> INFO - Writing 'Mondeel_Ogundipe_Westerhoff-2017.bbl' with encoding 'UTF-8'
+[283] bbl.pm:712> INFO - Output to Mondeel_Ogundipe_Westerhoff-2017.bbl
+[284] Biber.pm:109> INFO - WARNINGS: 9

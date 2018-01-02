@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017) (preloaded format=xelatex 2017.10.17)  26 OCT 2017 13:14
+This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017) (preloaded format=xelatex 2017.10.17)  2 JAN 2018 13:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1452,121 +1452,110 @@ File: rescience-logo.pdf Graphic file (type QTm)
 ]
 File: rescience-logo.pdf Graphic file (type QTm)
  <use  "rescience-logo.pdf" > [2]
-Overfull \hbox (2.2298pt too wide) in paragraph at lines 374--379
-[]\TU/lmr/m/n/10 Here, we examine inborn errors of metabolism (IEMs) resulting 
-from loss-of-function
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 397--400
-
- []
-
 File: rescience-logo.pdf Graphic file (type QTm)
+
 <use  "rescience-logo.pdf" > [3]
-File: ./Figures/PKU_network.pdf Graphic file (type QTm)
- <use  "./Figures/PKU_network.pdf" >
 File: rescience-logo.pdf Graphic file (type QTm)
+ <use  "rescience-logo.pdf" > [4]
+File: ./Figures/PKU_network.pdf Graphic file (type QTm)
 
-<use  "rescience-logo.pdf" > [4]
-Overfull \hbox (373.11223pt too wide) detected at line 530
+<use  "./Figures/PKU_network.pdf" >
+File: rescience-logo.pdf Graphic file (type QTm)
+ <use  "rescience-logo.pdf" > [5]
+Overfull \hbox (373.11223pt too wide) detected at line 569
  [] 
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 515--535
+Underfull \hbox (badness 10000) in alignment at lines 554--574
 [] [] [] [] [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 535--540
+Underfull \hbox (badness 10000) in alignment at lines 574--579
 [] [] [] [] [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 540--546
+Underfull \hbox (badness 10000) in alignment at lines 579--585
 [] [] [] [] [] [] []
  []
 
 File: rescience-logo.pdf Graphic file (type QTm)
-<use  "rescience-logo.pdf" > [5]
+<use  "rescience-logo.pdf" > [6]
 File: Figures/scheme_shlomi2009_figure1.png Graphic file (type QTm)
 
 <use  "Figures/scheme_shlomi2009_figure1.png" >
 File: rescience-logo.pdf Graphic file (type QTm)
  <use  "rescience-logo.pdf" >
-[6]
-File: rescience-logo.pdf Graphic file (type QTm)
- <use  "rescience-logo.pdf" > [7]
-Overfull \hbox (8.98978pt too wide) in paragraph at lines 707--716
+[7]
+Overfull \hbox (8.98978pt too wide) in paragraph at lines 747--756
 []\TU/lmr/m/n/10 Additionally, we needed to manually add the information for S-
 Adenosylhomocysteine
  []
 
 
-Overfull \hbox (373.11223pt too wide) detected at line 725
+Overfull \hbox (373.11223pt too wide) detected at line 765
  [] 
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 718--729
+Underfull \hbox (badness 10000) in alignment at lines 758--769
 [] [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 729--733
+Underfull \hbox (badness 10000) in alignment at lines 769--773
 [] [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 733--741
-[] [] [] []
- []
-
-
-Overfull \hbox (373.11223pt too wide) detected at line 769
- [] 
- []
-
-
-Underfull \hbox (badness 10000) in alignment at lines 760--773
-[] [] [] []
- []
-
-
-Underfull \hbox (badness 10000) in alignment at lines 773--777
-[] [] [] []
- []
-
-
-Underfull \hbox (badness 10000) in alignment at lines 777--801
-[] [] [] []
- []
-
-
-Underfull \hbox (badness 10000) in alignment at lines 801--812
+Underfull \hbox (badness 10000) in alignment at lines 773--781
 [] [] [] []
  []
 
 File: rescience-logo.pdf Graphic file (type QTm)
 <use  "rescience-logo.pdf" > [8]
-LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <9> not available
-(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 815.
+Overfull \hbox (373.11223pt too wide) detected at line 809
+ [] 
+ []
 
 
-LaTeX Font Warning: Font shape `TU/lmss/m/sc' in size <9> not available
-(Font)              Font shape `TU/lmr/m/sc' tried instead on input line 815.
+Underfull \hbox (badness 10000) in alignment at lines 800--813
+[] [] [] []
+ []
+
+
+Underfull \hbox (badness 10000) in alignment at lines 813--817
+[] [] [] []
+ []
+
+
+Underfull \hbox (badness 10000) in alignment at lines 817--841
+[] [] [] []
+ []
+
+
+Underfull \hbox (badness 10000) in alignment at lines 841--851
+[] [] [] []
+ []
 
 File: rescience-logo.pdf Graphic file (type QTm)
 <use  "rescience-logo.pdf" > [9]
-File: rescience-logo.pdf Graphic file (type QTm)
- <use  "rescience-logo.pdf" > [10]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 817.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 817.
+LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <9> not available
+(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 854.
 
-(./Mondeel_Ogundipe_Westerhoff-2017.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 817.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 817.
+
+LaTeX Font Warning: Font shape `TU/lmss/m/sc' in size <9> not available
+(Font)              Font shape `TU/lmr/m/sc' tried instead on input line 854.
+
+File: rescience-logo.pdf Graphic file (type QTm)
+<use  "rescience-logo.pdf" > [10]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 856.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 856.
+ (./Mondeel_Ogundipe_Westerhoff-2017.aux)
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 856.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 856.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -1577,12 +1566,12 @@ xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 38316 strings out of 493005
- 723524 string characters out of 6134595
- 1167007 words of memory out of 5000000
- 41845 multiletter control sequences out of 15000+600000
+ 38319 strings out of 493005
+ 723608 string characters out of 6134595
+ 1169368 words of memory out of 5000000
+ 41848 multiletter control sequences out of 15000+600000
  12081 words of font info for 71 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 54i,16n,73p,10392b,4519s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 54i,16n,73p,10392b,4473s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 Output written on Mondeel_Ogundipe_Westerhoff-2017.pdf (10 pages).

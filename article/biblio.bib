@@ -1,27 +1,22 @@
 @article{Poirazi2003a,
-abstract = {The pyramidal neuron is the principal cell type in the mammalian forebrain, but its function remains poorly understood. Using a detailed compartmental model of a hippocampal CA1 pyramidal cell, we recorded responses to complex stimuli consisting of dozens of high-frequency activated synapses distributed throughout the apical dendrites. We found the cell's firing rate could be predicted by a simple formula that maps the physical components of the cell onto those of an abstract two-layer "neural network." In the first layer, synaptic inputs drive independent sigmoidal subunits corresponding to the cell's several dozen long, thin terminal dendrites. The subunit outputs are then summed within the main trunk and cell body prior to final thresholding. We conclude that insofar as the neural code is mediated by average firing rate, a two-layer neural network may provide a useful abstraction for the computing function of the individual pyramidal neuron.},
-author = {Poirazi, Panayiota and Brannon, Terrence and Mel, B.W.},
-file = {:home/romain/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Poirazi, Brannon, Mel - 2003 - Pyramidal neuron as two-layer neural network.pdf:pdf},
+author = {Poirazi, Panayiota and Brannon, Terrence and Mel, Bartlett W.},
 issn = {0896-6273},
 journal = {Neuron},
-keywords = {Biophysical Phenomena,Biophysics,Calcium,Dendrites,Electric Conductivity,Electrophysiology,Folder - Poster A Cosyne 2010,Folder - TacReport2010,Lu,Mathematics,Models- Biological,Nerve Net,Potassium Channels,Pyramidal Cells,Sodium Channels,Synapses},
-mendeley-tags = {Biophysical Phenomena,Biophysics,Calcium,Dendrites,Electric Conductivity,Electrophysiology,Folder - Poster A Cosyne 2010,Folder - TacReport2010,Lu,Mathematics,Models- Biological,Nerve Net,Potassium Channels,Pyramidal Cells,Sodium Channels,Synapses},
 month = {mar},
 number = {6},
 pages = {989--999},
 publisher = {Elsevier},
-title = {{Pyramidal neuron as two-layer neural network}},
-url = {http://www.ncbi.nlm.nih.gov/pubmed/12670427 http://www.sciencedirect.com/science/article/pii/S0896627303001491},
+doi = {10.1016/S0896-6273(03)00149-1},
+title = {Pyramidal neuron as two-layer neural network},
 volume = {37},
 year = {2003}
 }
+
 @article{Stimberg2014,
-abstract = {Simulating biological neuronal networks is a core method of research in computational neuroscience. A full specification of such a network model includes a description of the dynamics and state changes of neurons and synapses, as well as the synaptic connectivity patterns and the initial values of all parameters. A standard approach in neuronal modeling software is to build network models based on a library of pre-defined components and mechanisms; if a model component does not yet exist, it has to be defined in a special-purpose or general low-level language and potentially be compiled and linked with the simulator. Here we propose an alternative approach that allows flexible definition of models by writing textual descriptions based on mathematical notation. We demonstrate that this approach allows the definition of a wide range of models with minimal syntax. Furthermore, such explicit model descriptions allow the generation of executable code for various target languages and devices, since the description is not tied to an implementation. Finally, this approach also has advantages for readability and reproducibility, because the model description is fully explicit, and because it can be automatically parsed and transformed into formatted descriptions. The presented approach has been implemented in the Brian2 simulator.},
-author = {Stimberg, Marcel and Goodman, Dan F M and Benichoux, Victor and Brette, Romain},
+author = {Stimberg, Marcel and Goodman, Dan F. M. and Benichoux, Victor and Brette, Romain},
 doi = {10.3389/fninf.2014.00006},
-file = {:home/romain/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Stimberg et al. - 2014 - Equation-oriented specification of neural models for simulations.pdf:pdf},
 issn = {1662-5196},
-journal = {Frontiers in neuroinformatics},
+journal = {Front. Neuroinform.},
 number = {February},
 pages = {6},
 pmid = {24550820},
@@ -30,28 +25,49 @@ volume = {8},
 year = {2014}
 }
 @article{Memmesheimer2012,
-abstract = {Despite the current debate about the computational role of experimentally observed precise spike patterns it is still theoretically unclear under which conditions and how they may emerge in neural circuits. Here, we study spiking neural networks with non-additive dendritic interactions that were recently uncovered in single-neuron experiments. We show that supra-additive dendritic interactions enable the persistent propagation of synchronous activity already in purely random networks without superimposed structures and explain the mechanism underlying it. This study adds a novel perspective on the dynamics of networks with nonlinear interactions in general and presents a new viable mechanism for the occurrence of patterns of precisely timed spikes in recurrent networks.},
-annote = {I like this simple story plot. The main question raised by this manuscript is the following. How highly synchronous activity within a population can arise? One possibility suppose the existence of precisely coupled feed-forward structures, the so-called "synfire-chains". No experimental work has shown, however, that such "synfire-chains" exist in vivo. He presents another hypothesis, that such precise coupling are due to supra-linear summation in dendrites. He shows in this article that reliable coordination in the network can be obtained without precise connectivity, random connectivity is sufficient.
-
-I do not understand why the thing is working as there is only one dendrites and the neuron is not compartimentalized into distinct subunits.
-
-We could try to reproduce the result with an automaton
-
-He nicely explained in the first section result the model and how it takes into account non-linear integration.},
 author = {Memmesheimer, Raoul Martin and Timme, Marc},
 doi = {10.1371/journal.pcbi.1002384},
 editor = {Graham, Lyle J.},
-file = {:home/romain/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Memmesheimer, Timme - 2012 - Non-Additive Coupling Enables Propagation of Synchronous Spiking Activity in Purely Random Networks.pdf:pdf},
 issn = {1553734X},
 journal = {PLoS Computational Biology},
-keywords = {Biology,Computational neuroscience,Neuroscience,Research Article},
 month = {apr},
 number = {4},
 pages = {e1002384},
 pmid = {22532791},
 publisher = {Public Library of Science},
 title = {{Non-additive coupling enables propagation of synchronous spiking activity in purely random networks}},
-url = {http://dx.plos.org/10.1371/journal.pcbi.1002384},
 volume = {8},
 year = {2012}
+}
+
+@article{Goodman2009,
+	title = {The {Brian} simulator},
+	volume = {3},
+	doi = {10.3389/neuro.01.026.2009},
+	journal = {Front. Neurosci.},
+	author = {Goodman, Dan F. M. and Brette, Romain},
+	year = {2009}
+}
+
+@article{Muller2015,
+	title = {Python in neuroscience},
+	volume = {9},
+	issn = {1662-5196},
+	doi = {10.3389/fninf.2015.00011},
+	journal = {Front. Neuroinform.},
+	author = {Muller, Eilif and Bednar, James A. and Diesmann, Markus and Gewaltig, Marc-Oliver and Hines, Michael and Davison, Andrew P.},
+	year = {2015}
+}
+
+@article{Softky1994,
+	title = {Sub-millisecond coincidence detection in active dendritic trees},
+	volume = {58},
+	issn = {0306-4522},
+	doi = {10.1016/0306-4522(94)90154-6},
+	number = {1},
+	journal = {Neuroscience},
+	author = {Softky, William},
+	month = jan,
+	year = {1994},
+	pages = {13--41}
 }

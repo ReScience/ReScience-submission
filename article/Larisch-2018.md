@@ -1,19 +1,13 @@
 ---
-Title: "This is the title"
+Title: "Connectivity reflects coding: a model of voltage-based STDP with homeostasis"
 Author:
-  - name: Name Surname
+  - name: René Larisch
     affiliation: 1
-  - name: Name Surname,
-    affiliation: 2, 3
 Address:
   - code:    1
-    address: Affiliation Dept/Program/Center, Institution Name, City, State, Country
-  - code:    2
-    address: Affiliation Dept/Program/Center, Institution Name, City, State, Country
-  - code:    3
-    address: Affiliation Dept/Program/Center, Institution Name, City, State, Country
+    Professorship for Artificial Intelligence, Department of Computer Science, Chemnitz University of Technology, D-09107 Chemnitz, Germany
 Contact:
-  - corresponding-author@mail.com
+  - rene.larisch@informatik.tu-chemnitz.de
 Editor:
   - Name Surname
 Reviewer:
@@ -31,15 +25,17 @@ Repository:
   article:   "http://github.com/rescience/rescience-submission/article"
   code:      "http://github.com/rescience/rescience-submission/code"
   data:      
-  notebook:  
+  notebook:   
 Reproduction:
-  - "Original article (title, authors, journal, doi)"
+  - "Connectivity reflects coding: a model of voltage-based STDP with homeostasis, C. Clopath, L. Büsing, E. Vasilaki and W. Gerstner, In: Nature Neuroscience 13.3 (2010), pp. 344–352, doi= 10.1038/nn.2479"
 Bibliography:
   bibliography.bib
 
 ---
 
 # Introduction
+
+This is a reimplementation of @Clopath2010 .
 
 The introduction should introduce the original paper and put it in context
 (e.g. is it an important paper in the domain ?). You must also specify if there
@@ -74,7 +70,7 @@ analysis of the results.
 
 Conclusion, at the very minimum, should indicate very clearly if you were able
 to replicate original results. If it was not possible but you found the reason
-why (error in the original results), you should exlain it.
+why (error in the original results), you should explain it.
 
 
 Heading 1                          Heading 2

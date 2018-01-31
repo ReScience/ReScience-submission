@@ -1,0 +1,95 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.6 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \sortlist[entry]{nty/global}
+    \entry{Clopath2010}{article}{}
+      \name{author}{4}{}{%
+        {{hash=326600b0ad340d8e0cd5df377b62e046}{%
+           family={Clopath},
+           family_i={C\bibinitperiod},
+           given={Claudia},
+           given_i={C\bibinitperiod}}}%
+        {{hash=bafa5b1de4e3e787ecbf326afc20da43}{%
+           family={Büsing},
+           family_i={B\bibinitperiod},
+           given={Lars},
+           given_i={L\bibinitperiod}}}%
+        {{hash=bd253b1d4bcddee511abff53bb43be4d}{%
+           family={Vasilaki},
+           family_i={V\bibinitperiod},
+           given={Eleni},
+           given_i={E\bibinitperiod}}}%
+        {{hash=6b2c6d8dbc66b301f2a7077d805f0ba7}{%
+           family={Gerstner},
+           family_i={G\bibinitperiod},
+           given={Wulfram},
+           given_i={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{af5e492b9178114a1c577e398e519fe0}
+      \strng{fullhash}{a1ca5d807136958d75c49ff75644484f}
+      \field{sortinit}{C}
+      \field{sortinithash}{59f25d509f3381b07695554a9f35ecb2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{1546-1726 (Electronic){\$}\backslash{\$}n1097-6256 (Linking)}
+      \field{issn}{1097-6256}
+      \field{journaltitle}{Nature Neuroscience}
+      \field{number}{3}
+      \field{title}{{Connectivity reflects coding: a model of voltage-based STDP with homeostasis}}
+      \field{volume}{13}
+      \field{year}{2010}
+      \field{pages}{344\bibrangedash 352}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1038/nn.2479
+      \endverb
+      \verb{url}
+      \verb http://www.nature.com/doifinder/10.1038/nn.2479
+      \endverb
+    \endentry
+    \entry{markdown}{misc}{}
+      \name{author}{2}{}{%
+        {{hash=81f9937d242978bf6b5bef61bbb7972f}{%
+           family={Gruber},
+           family_i={G\bibinitperiod},
+           given={John},
+           given_i={J\bibinitperiod}}}%
+        {{hash=044176fb833c1638f7abe20cde6a3077}{%
+           family={Swartz},
+           family_i={S\bibinitperiod},
+           given={Aaron},
+           given_i={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{66fc337306fb3dafd18f1b2eb14afe1b}
+      \strng{fullhash}{66fc337306fb3dafd18f1b2eb14afe1b}
+      \field{sortinit}{G}
+      \field{sortinithash}{1c854ef9177a91bf894e66485bdbd3ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{The Markdown format}
+      \field{year}{2004}
+      \verb{url}
+      \verb http://daringfireball.net/projects/markdown/syntax
+      \endverb
+    \endentry
+  \endsortlist
+\endrefsection
+\endinput
+

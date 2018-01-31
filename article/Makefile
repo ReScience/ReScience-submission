@@ -1,4 +1,4 @@
-SOURCE   = Name-YEAR
+SOURCE   = Larisch-2018
 MDFILE   = $(SOURCE).md
 BIBFILE  = bibliography.bib
 TEXFILE  = $(SOURCE).tex

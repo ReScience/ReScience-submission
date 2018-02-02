@@ -40,10 +40,9 @@ $ pip install -r requirements.txt
 
 ## Running the code
 
-To run a reduced set of simulations (with coarser parameter exploration and less trials per parameter setting), navigate to the ``Scripts`` directory and run the ``main.py`` script:
+To run a reduced set of simulations (with coarser parameter exploration and less trials per parameter setting), navigate to the ``code`` directory and run the ``main.py`` script:
 
 ```console
-$ cd Scripts
 $ python main.py
 ```
 

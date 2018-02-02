@@ -46,7 +46,7 @@ To run a reduced set of simulations (with coarser parameter exploration and less
 $ python main.py
 ```
 
-This will run the simulations and produce the figures in the `../Figs` directory. It will also report the progress of the simulation. To disable any output, run the script with the `-q` or `--quiet` option.
+This will run the simulations and produce the figures in the `../article/Figs` directory. It will also report the progress of the simulation. To disable any output, run the script with the `-q` or `--quiet` option.
 
 To run the full set of simulations that were used in the paper (which will take several hours), run:
 

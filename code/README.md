@@ -65,7 +65,7 @@ Two of Brian's default settings where changed:
 
 ### Result caching
 
-The code uses joblib's "lightweight pipelining" approach (see [joblib documentation](https://pythonhosted.org/joblib/)), i.e. the code is written as if plotting the results for a figure meant running all the simulations/analysis functions again every time (as opposed to having a separate phases which each phase storing the results to disk). In reality, results from certain functions (annotated with ``@mem.cache`` in the code) will be transparently cached to disk and automatically reused. Running the full exploration a second time (e.g. to change some of the analysis or to change the way the results are plotted) will therefore only take a short time. Note that this cache will be stored in the `Scripts` directory under `__joblib_cache__` and will take up around 5GB of disk space for the full parameter exploration.
+The code uses joblib's "lightweight pipelining" approach (see [joblib documentation](https://pythonhosted.org/joblib/)), i.e. the code is written as if plotting the results for a figure meant running all the simulations/analysis functions again every time (as opposed to having a separate phases which each phase storing the results to disk). In reality, results from certain functions (annotated with ``@mem.cache`` in the code) will be transparently cached to disk and automatically reused. Running the full exploration a second time (e.g. to change some of the analysis or to change the way the results are plotted) will therefore only take a short time. Note that this cache will be stored in the `code` directory under `__joblib_cache__` and will take up around 5GB of disk space for the full parameter exploration.
 
 ### Parallelization
 

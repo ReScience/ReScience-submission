@@ -24,7 +24,7 @@ from netParams import *
 import neuronModels as neuronMod
 import netModels as netMod
 
-def runParams(tsim=1.0, bg_type=0, stim=0, w_ex=87.8, g=4.0, bg_freq=8.0, filename=None):
+def runParams(tsim=1.0, bg_type=0, stim=0, w_ex=87.8, g=4.0, bg_freq=8.0, nsyn_type=0, thal='OFF', filename=None):
 
     ###############################################################################
     # Simulation parameters
@@ -43,18 +43,42 @@ def runParams(tsim=1.0, bg_type=0, stim=0, w_ex=87.8, g=4.0, bg_freq=8.0, filena
                             method='linear', refractory=tau_ref)
 
     # seting initial values for membrane potential and currents
-    neurons.v = 'v_r + 0.1*v_r*randn()'
+    neurons.v = '-58.0*mV + 10.0*mV*randn()'
     neurons.I = 0.0*pA      # initial value for synaptic currents
     neurons.Iext = 0.0*pA   # constant external current
 
-    pop, con, bg_in, smon_net = netMod.PDnet(neurons, stim, bg_type, w_ex, g, bg_freq)
+    pop, con, bg_in, smon_net, thal_input, thal_con = netMod.PDnet(neurons, stim, \
+                                            bg_type, w_ex, g, bg_freq, nsyn_type, thal)
 
     ###############################################################################
     # Running the simulation
     ###############################################################################
     net = Network(collect())
-    net.add(neurons,pop, con, bg_in)    # Adding objects to the simulation
-    net.run(tsim*second, report='stdout')
+
+    if (thal == 'OFF'):
+        net.add(neurons,pop, con, bg_in)    # Adding objects to the simulation
+        net.run(tsim*second, report='stdout')
+
+    elif (thal == 'ON'):
+        w_thal = w_ex*pA            # excitatory synaptic weight from thalamus
+        std_w_thal = w_thal*0.1     # standard deviation weigth
+        net.add(neurons,pop, con, bg_in, thal_input, thal_con)    # Adding objects to the simulation
+
+        for repeat in range(0,int(tsim)):
+            net.run(0.7*second,report='stdout')
+            gc.collect()    #garbage collector to clean memory
+
+            # Adding thalamic input
+            for r in range(0,8):
+                thal_con[r].w = 'clip((w_thal + std_w_thal*randn()),w_thal*0.0, w_thal*inf)'
+            net.run(0.01*second, report='stdout')
+            gc.collect()    #garbage collector to clean memory
+
+            # Removing thalamic input
+            for r in range(0,8):
+                thal_con[r].w = 0
+            net.run(0.29*second, report='stdout')
+            gc.collect()    #garbage collector to clean memory
 
     ###############################################################################
     # Saving raster plot

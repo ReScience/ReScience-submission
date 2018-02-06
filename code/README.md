@@ -34,7 +34,7 @@ To run multiple simulations in parallel we use Joblib and Multiprocessing.
 
 ## Packages installation
 
-**To assure that all data and figures will be generated as presented in the article, we recommend to follow the instructions bellow and use the modules in the same versions described here. Although the code also works in newer versions, for Pandas v.0.2.0 (or newer) some colors are not displayed as presented in the article (e.g. figure 2 barplots might be displayed only in blue).**
+**To assure that all data and figures will be generated as presented in the article, we recommend to follow the instructions below and use the modules in the same versions described here. Although the code also works in newer versions, for Pandas v.0.2.0 (or newer) some colors are not displayed as presented in the article (e.g. figure 2 barplots might be displayed only in blue).**
 
 ### Python installation
 The network simulation is implemented with Python (v.2.7.5). Although, there is no restriction for more recent versions (Tested in Python v.3.6.3).
@@ -82,8 +82,10 @@ pip install --user joblib==0.11
 or
 
 ```
-pip install --user brian2 matplotlib numpy pandas scipy joblib
+pip install --user brian2 matplotlib==2.0.0 numpy==1.11.1 pandas==0.19.2 scipy==0.19.0 joblib==0.11
 ```
+
+All software packages are also available in the anaconda distribution, and in brian-team channel (see below).
 
 ### Alternative installation (using Anaconda)
 
@@ -154,12 +156,14 @@ python netRun.py ARG1 ARG2
 ```
 
 where ARG1 and ARG2 are command line arguments, passed to the script to specify the experimental protocol and the simulation time in seconds, respectively.
-The experimental protocols are specified bellow:
+The experimental protocols are specified below:
 
 protocol = 0:   Spontaneous activity (figure 2)
 protocol = 1:   DC input and layer-independent experiments (figures 5A and 5B)
 protocol = 2:   Layer-independent randomized to generate histograms in figure 5C
 protocol = 3:   Dependence of network activity on the background firing rate and the relative inhibitory synaptic strength (figure 6)
+protocol = 4:   comparison of spontaneous activity using equations 3 or 4 from paper to calculate the number of synapses between populations
+protocol = 5:   response to transient thalamic input (figure 7)
 
 After running the simulations, every data generated will be saved in the data folder (../data/) and the figures will be saved in the figures folder (./figures/).
 
@@ -198,55 +202,16 @@ Instead of running the simulation in serial which is default, one can run the ra
 The number of cores can be set in the variable **num_cores** (line 75 in netRun.py).
 **Obs**: in this case the memory cost is multiplied by num_cores.
 
-To generate data to run statistical test (Kolmogorov-Smirnov) and create the histograms in figure 3 and 4 from the article is necessary to comment/uncomment lines 106/109 in netModels.py which correspond to Eq. (5) and (3), respectively.
-For the case where the number of synapses is defined by Eq. (3) open the netModels.py, comment line 106 and uncomment line 109:
+To run protocol 4 for 60 seconds type in the console:
 
 ```
-line 106: #nsyn = int(n_layer[c]*n_layer[r]*table[r][c])
-
-line 109: nsyn = int(log(1.0-table[r][c])/log(1.0 - (1.0/float(n_layer[c]*n_layer[r]))))
-
-```
-
-Run the default protocol:
-
-```
-python netRun.py 0 60.0
-```
-
-**Obs**: to disable the option to generate a figure similar to figure 2 comment line 95 in netRun.py.
-
-Change the filename:
-
-```
-mv ../data/data_raster_g4.0_bgrate8.0default.dat ../data/raster_brian_noapprox.dat
-```
-
-For the case where the number of synapses is defined by Eq. (5) open the netModels.py, comment line 109 and uncomment line 106:
-
-
-```
-line 106: nsyn = int(n_layer[c]*n_layer[r]*table[r][c])
-
-line 109: #nsyn = int(log(1.0-table[r][c])/log(1.0 - (1.0/float(n_layer[c]*n_layer[r]))))
-```
-
-Run the default protocol:
-
-```
-python netRun.py 0 60.0
-```
-
-Change the filename:
-
-```
-mv ../data/data_raster_g4.0_bgrate8.0default.dat ../data/raster_brian_approx.dat
-```
-
-To run statistical test use ks_test.py. This function will load data from the folder (../data/). Use
-
-```
-python ks_test.py
+python netRun.py 4 60.0
 ```
 
 **Obs**: to compare data from NEST it is necessary to run the original code available at http: //www.opensourcebrain.org/projects/potjansdiesmann2014.
+
+To run protocol 5 for 100 seconds type in the console:
+
+```
+python netRun.py 5 100.0
+```

@@ -55,9 +55,18 @@ stim = 0:       turn on the background noise
        1:       DC current experiment
        2:       background noise + DC current
 
+# max number of synapses between populations
+nsyn_type = 0:  no approximation (eq. 3)
+nsyn_type = 1:  approximation (eq. 5)
+
 # networks variables changed for different protocols:
 g    => inhibitory weight balance
-bg   => background rate'''
+bg   => background rate
+
+# thalamic input
+thal = "ON"     turn on the thalamic input transient
+thal = "OFF"    turn off the thalamic input transient
+'''
 ###############################################################################
 
 protocol = int(sys.argv[1])
@@ -72,17 +81,25 @@ seed(s)
 
 # choose serial = False to run multiple simulations in parallel
 serial = False
-num_cores = 10              # number of cores to run in parallel
+num_cores = 8              # number of cores to run in parallel
 
 ###############################################################################
 # Simulation protocols
 ###############################################################################
 '''
 protocol = 0:   spontaneous activity (figure 2)
+
 protocol = 1:   DC input and layer-independent experiments (figures 5A and 5B)
+
 protocol = 2:   layer-independent randomized to generate histograms in figure 5C
+
 protocol = 3:   dependence of network activity on the background firing rate (bg)
                 and the relative inhibitory synaptic strength (g) (figure 6)
+
+protocol = 4:   comparison of spontaneous activity using equations 3 or 4 from
+                paper to calculate the number of synapses between populations
+
+protocol = 5:   response to transient thalamic input
 
 You can find below the sets of parameters defined to each different experiment.
 '''
@@ -141,3 +158,21 @@ elif protocol==3:
 
     fig.datafig6(tsim)
     fig.createfig6()
+
+elif protocol==4:
+    bg_type = 0
+    stim = 0
+    netPD.runParams(tsim=tsim, bg_type=bg_type, stim=stim, nsyn_type=0 ,filename=filename(g, bg, '_noapprox'))
+    gc.collect()    #garbage collector to clean memory
+
+    netPD.runParams(tsim=tsim, bg_type=bg_type, stim=stim, nsyn_type=1 ,filename=filename(g, bg, '_approx'))
+    gc.collect()    #garbage collector to clean memory
+
+    fig.ks_test(tsim)
+
+elif protocol==5:
+    bg_type = 0
+    stim = 1
+    netPD.runParams(tsim=tsim, bg_type=bg_type, stim=stim, thal='ON', filename=filename(g, bg, '_thal'))
+    gc.collect()    #garbage collector to clean memory
+    fig.createfig7(tsim, filename(g, bg, '_thal'))

@@ -28,6 +28,7 @@ import matplotlib.gridspec as gridspec
 
 import pandas as pd
 import numpy as np
+import scipy.stats as sc
 
 # ----------------------------------------------------------------------------
 # Function description:
@@ -553,3 +554,324 @@ def createfig6():
 
     plt.tight_layout()
     plt.savefig('./figures/fig6.pdf', dpi=600)
+
+# ----------------------------------------------------------------------------
+# File description:
+#
+# KS calculated with Kolmogorov-Smirnov statistic.
+# Figures with cummulated histograms of firing rate and CV's distribution.
+# ----------------------------------------------------------------------------
+def ks_test(tsim):
+
+    ###############################################################################
+    # Filenames
+    ###############################################################################
+    filename = (['../data/data_raster_g4.0_bgrate8.0_approx.dat',\
+                '../data/data_raster_g4.0_bgrate8.0_noapprox.dat'])
+
+    ###############################################################################
+    # Parameters
+    ###############################################################################
+
+    n = 77169       # total number of neurons
+
+    # cortical layer labels: e for excitatory; i for inhibitory
+    lname = ['L23e', 'L23i', 'L4e', 'L4i', 'L5e', 'L5i','L6e', 'L6i']
+
+    # number of neurons by layer
+    n_layer = [0, 20683, 5834, 21915, 5479, 4850, 1065, 14395, 2948];
+    l_bins = np.cumsum(n_layer) # cumulative number of neurons by layer
+
+    # dataframe to store CV's and firing rates
+    measures = pd.DataFrame()
+
+    for k in range(0,2):
+
+        # loading data
+        data = pd.read_csv(filename[k], sep=" ", header=None, names=['i','t'])
+
+        # grouping spiking times for each neuron
+        keys,values = data.sort_values(['i','t']).values.T
+        ukeys,index=np.unique(keys,True)
+        arrays=np.split(values,index[1:])
+        spk_neuron = pd.DataFrame({'i':ukeys,'t':[list(a) for a in arrays]})
+
+        # creating a flag to identify cortical layers
+        spk_neuron['layer'] = pd.cut(spk_neuron['i'], l_bins, labels=lname, right=False)
+        data['layer'] = pd.cut(data['i'], l_bins, labels=lname, right=False)
+
+        # cleaning variables
+        del keys, values, ukeys, index, arrays
+
+        ###############################################################################
+        # Interspike intervals + coefficient of variation
+        ###############################################################################
+        # interspike intervals
+        isi = []
+        isi = [np.diff(spk_neuron.t[i]) for i in range(len(spk_neuron))]
+
+        # coefficient of variation
+        aux = []
+        aux = [np.std(isi[i])/np.mean(isi[i]) if len(isi[i])>1 else np.nan\
+                for i in range(len(spk_neuron))]
+
+        cv = np.zeros(n)*np.nan
+        cv[spk_neuron.i.astype(int)] = aux
+
+        if k == 1:
+            measures['cv_noaprox'] = cv
+        else:
+            measures['cv_aprox'] = cv
+
+        ###############################################################################
+        # Firing rates
+        ###############################################################################
+        aux = []
+        aux = [float(len(spk_neuron.t[i]))/tsim for i in range(len(spk_neuron))]
+
+        freq = np.zeros(n)
+        freq[spk_neuron.i.astype(int)] = aux
+
+        if k == 1:
+            measures['f_noaprox'] = freq
+        else:
+            measures['f_aprox'] = freq
+
+        # cleaning variables
+        del data, spk_neuron
+
+    measures['layer'] = pd.cut(measures.index, l_bins, labels=lname, right=False)
+
+    # arrays to store the p-value from Kolmogorov-Smirnov test
+    ks_cv = np.zeros(8)
+    ks_f = np.zeros(8)
+
+    p_cv = np.zeros(8)
+    p_f = np.zeros(8)
+
+    # create figures to plot cummulative histograms
+    fig1, ax1 = plt.subplots(nrows=2, ncols=4, figsize=(10,6))
+    fig2, ax2 = plt.subplots(nrows=2, ncols=4, figsize=(10,6))
+
+    for i in range(0,8):
+
+        # grid positions for the graph
+        xgrid = int(i%2)
+        ygrid = int(i/2)
+
+        ################################################################
+        # CV's distribution comparison
+        ################################################################
+        plt.figure(1)
+        plt.subplot2grid((2,4),(xgrid,ygrid))
+        plt.title(lname[i])
+
+        # excluding NAN values
+        aux1 = measures.groupby('layer')['cv_aprox'].get_group(lname[i])
+        aux1 = aux1[~np.isnan(aux1)]
+
+        aux2 = measures.groupby('layer')['cv_noaprox'].get_group(lname[i])
+        aux2 = aux2[~np.isnan(aux2)]
+
+        # CV's histograms
+        cv1,edges1 = np.histogram(aux1,bins='doane',range=(0,2.0))
+        cv2,edges2 = np.histogram(aux2,bins=np.linspace(0,2.0,len(edges1)))
+
+        # cummulated histograms
+        cv1 = np.cumsum(cv1)
+        cv2 = np.cumsum(cv2)
+
+        # normalizing cummulated histograms
+        cv1 = cv1/float(max(cv1))
+        cv2 = cv2/float(max(cv2))
+
+        # plot data
+        plt.plot(edges1[:-1],cv1,'--', label='Brian2, K from Eq.(5)')
+        plt.plot(edges2[:-1],cv2,label='Brian2, K from Eq.(3)')
+        if (i==0): plt.legend(loc=4)
+        if (i>1): plt.yticks([])
+        if (i%2==0): plt.xticks([])
+        plt.autoscale(enable=True, axis='x', tight=True)
+
+        # Kolmogorov-Smirnov statistical test
+        ks_cv[i] = (np.sqrt(float(len(cv1)*len(cv2))/float(len(cv1)+len(cv2))))*max(abs(np.subtract(cv1,cv2)))
+
+        del aux1, aux2, cv1, cv2
+
+        ################################################################
+        # firing rate distribution comparison
+        ################################################################
+        plt.figure(2)
+        plt.subplot2grid((2,4),(xgrid,ygrid))
+        plt.title(lname[i])
+
+        # excluding NAN values
+        aux1 = measures.groupby('layer')['f_aprox'].get_group(lname[i])
+        aux1 = aux1[~np.isnan(aux1)]
+
+        aux2 = measures.groupby('layer')['f_noaprox'].get_group(lname[i])
+        aux2 = aux2[~np.isnan(aux2)]
+
+        # firing rate histograms
+        f1,edges1 = np.histogram(aux1,bins='doane',range=(0,max(aux1)))
+        f2,edges2 = np.histogram(aux2,bins=np.linspace(0,max(aux1),len(edges1)))
+
+        # cummulated histograms
+        f1 = np.cumsum(f1)
+        f2 = np.cumsum(f2)
+
+        # normalizing cummulated histograms
+        f1 = f1/float(max(f1))
+        f2 = f2/float(max(f2))
+
+        # plot data
+        plt.plot(edges1[:-1],f1,'--', label='Brian2, K from Eq.(5)')
+        plt.plot(edges1[:-1],f2,label='Brian2, K from Eq.(3)')
+        if (i==0): plt.legend(loc=4)
+        if (i>1): plt.yticks([])
+        plt.autoscale(enable=True, axis='x', tight=True)
+
+        # Kolmogorov-Smirnov statistical test
+        ks_f[i] = (np.sqrt(float(len(f1)*len(f2))/float(len(f1)+len(f2))))*max(abs(np.subtract(f1,f2)))
+
+        del aux1, aux2, f1, f2
+
+    # formating figures:ks_2samp
+    plt.figure(1)
+    fig1.add_subplot(111, frameon=False)
+    plt.tick_params(labelcolor='none', top='off', bottom='off', left='off', right='off')
+    plt.xlabel('CV', fontsize=12, labelpad=10)
+    plt.ylabel('cumulative distribution',fontsize=12, labelpad=12)
+    plt.tight_layout()
+    plt.savefig('./figures/fig3.pdf',dpi=600)
+
+    plt.figure(2)
+    fig2.add_subplot(111, frameon=False)
+    plt.tick_params(labelcolor='none', top='off', bottom='off', left='off', right='off')
+    plt.xlabel('firing rate [Hz]', fontsize=12, labelpad=10)
+    plt.ylabel('cumulative distribution',fontsize=12, labelpad=12)
+    plt.tight_layout()
+    plt.savefig('./figures/fig4.pdf',dpi=600)
+
+    # save Kolmogorov-Smirnov test results
+    np.savetxt('../data/ks_cv.dat',ks_cv)
+    np.savetxt('../data/ks_freq.dat',ks_f)
+
+# ----------------------------------------------------------------------------
+# Function description:
+#
+# Code to construct figure 7: A) Raster plot; B) Spike-counts averaged over 100
+# different applications of thalamic stimuli.
+# ----------------------------------------------------------------------------
+def createfig7(tsim, filename):
+
+    ###############################################################################
+    # Loading data and defining parameters
+    ###############################################################################
+    data = pd.read_csv(filename, sep=" ", header=None, names=['i','t'])
+
+    # cortical layer labels: e for excitatory; i for inhibitory
+    lname = ['L23e', 'L23i', 'L4e', 'L4i', 'L5e', 'L5i','L6e', 'L6i']
+
+    # number of neurons by layer
+    n_layer = [0, 20683, 5834, 21915, 5479, 4850, 1065, 14395, 2948]
+    l_bins = np.cumsum(n_layer) # cumulative number of neurons by layer
+    N = np.sum(n_layer)         # total number of neurons
+
+    # graphs color codes: different colors for different layers
+    dotsize = 2.0
+    dotcolor = np.array([[0.0, 0.0, 255.0],
+                        [102.0, 178.0, 255.0],
+                        [255.0, 128.0, 0.0],
+                        [255.0, 178.0, 102.0],
+                        [0.0,   128.0, 0.0],
+                        [153.0, 255.0, 153.0],
+                        [255.0, 0.0,   0.0],
+                        [255.0, 153.0, 153.0]])/255.0
+
+    # grouping spiking times for each neuron
+    keys,values = data.sort_values(['i','t']).values.T
+    ukeys,index=np.unique(keys,True)
+    arrays=np.split(values,index[1:])
+
+    spk_neuron = pd.DataFrame({'i':range(0,N),'t':[[]]*N})
+    spk_neuron.iloc[ukeys.astype(int),1] = arrays
+
+    # creating a flag to identify cortical layers
+    spk_neuron['layer'] = pd.cut(spk_neuron['i'], l_bins, labels=lname, right=False)
+    data['layer'] = pd.cut(data['i'], l_bins, labels=lname, right=False)
+
+    # sampling data:
+    psample = 0.025 # percentage of neurons by layer for the raster plot
+
+    # measures DataFrame:
+    measures_layer = pd.DataFrame(index=lname)
+
+    # cleaning variables
+    del keys, values, ukeys, index, arrays
+
+    # figure size for the graphs
+    fig, axes = plt.subplots(nrows=4, ncols=3, figsize=(10.0,8.0))
+
+    ###############################################################################
+    # Raster plot
+    ###############################################################################
+    plt.subplot2grid((4,3),(0,0),rowspan=4)
+    plt.gca().set_yticklabels([])
+    acum_index = 0
+
+    for i in range(len(lname)):
+        index_start = l_bins[i]
+        index_end = l_bins[i]+int(psample*n_layer[i+1])
+
+        x = data.t[data.i.isin(range(index_start,index_end))]
+        y = data.i[data.i.isin(range(index_start,index_end))] + acum_index - index_start
+
+        plt.plot(x,y,'.',markersize=dotsize,color=dotcolor[i])
+
+        # layers labels
+        xpos = tsim*1000.0-312
+        ypos = acum_index + (index_end-index_start)/2.0
+        plt.text(xpos,ypos,lname[i],horizontalalignment='center', fontsize=12, rotation=30)
+
+        acum_index = acum_index + (index_end-index_start)
+
+    plt.xlim(tsim*1000.0-310,tsim*1000.0-290)
+    plt.ylim(0,acum_index)
+    plt.xlabel('time [ms]')
+    plt.ylabel(' ')
+    plt.gca().invert_yaxis()
+    ax = plt.gca()
+    ax.yaxis.set_visible(False)
+
+    ###############################################################################
+    # Population spike counts averaged over 100 instantiations of input
+    ###############################################################################
+    spk_count = []
+    bins = np.arange(0,tsim*1000.0+.5,.5)
+
+    for i in range(len(lname)):
+        index_start = l_bins[i]
+        index_end = l_bins[i]+int(psample*n_layer[i+1])
+        count, division = np.histogram(data.t[data.i.isin(np.arange(index_start,index_end))],bins=bins)
+        count = sum(np.split(count,int(tsim)))/float(tsim)
+        spk_count.append([count])
+
+    measures_layer['spk_count'] = spk_count
+
+    for i in range(0,len(lname),2):
+        plt.subplot2grid((4,3),(i/2,1),colspan=2)
+        plt.plot(np.arange(-10,30,0.5),measures_layer.spk_count[i][0][1380:1460], ls='steps', label=lname[i])
+        plt.plot(np.arange(-10,30,0.5),measures_layer.spk_count[i+1][0][1380:1460], ls='steps', label=lname[i+1])
+        plt.legend()
+        if i != 6:
+            ax = plt.gca()
+            ax.xaxis.set_visible(False)
+        else:
+            ax = plt.gca()
+            ax.yaxis.set_visible(True)
+        plt.ylim(0,13)
+
+    plt.tight_layout()
+    plt.subplots_adjust(left=0.07)
+    plt.savefig('./figures/fig7.pdf', dpi=600)

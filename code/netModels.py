@@ -22,10 +22,10 @@
 
 from netParams import *
 
-def PDnet(NeuronGroup, stim, bg_type, w_ex, g, bg_freq):
+def PDnet(NeuronGroup, stim, bg_type, w_ex, g, bg_freq, nsyn_type, thal):
 
-	w_ex = w_ex*pA		   # excitatory synaptic weight
-	std_w_ex = 0.1*w_ex        # standard deviation weigth
+	w_ex = w_ex*pA		   	# excitatory synaptic weight
+	std_w_ex = 0.1*w_ex     # standard deviation weigth
 
 	# Background number per layer
 	if bg_type == 0:
@@ -79,16 +79,8 @@ def PDnet(NeuronGroup, stim, bg_type, w_ex, g, bg_freq):
 
 	# equations executed only when presynaptic spike occurs:
 	# for excitatory connections
-	pre_eq_exc1 = '''
+	pre_eq = '''
 			I_post += w
-			'''
-	# synaptic weight from L4e to L2/3e is doubled
-	pre_eq_exc2 = '''
-			I_post += 2*w
-			'''
-	# for inhibitory connections
-	pre_eq_inh = '''
-			I_post -= g*w
 			'''
 
 	con = [] # Stores connections
@@ -102,11 +94,13 @@ def PDnet(NeuronGroup, stim, bg_type, w_ex, g, bg_freq):
 	for c in range(0, 8):
 		for r in range(0, 8):
 
-			# number of synapses calculated with equation 5 from the article
-			#nsyn = int(n_layer[c]*n_layer[r]*table[r][c])
+			if (nsyn_type==0):
+				# number of synapses calculated with equation 3 from the article
+				nsyn = int(log(1.0-table[r][c])/log(1.0 - (1.0/float(n_layer[c]*n_layer[r]))))
+			elif (nsyn_type==1):
+				# number of synapses calculated with equation 5 from the article
+				nsyn = int(n_layer[c]*n_layer[r]*table[r][c])
 
-			# number of synapses calculated with equation 3 from the article
-			nsyn = int(log(1.0-table[r][c])/log(1.0 - (1.0/float(n_layer[c]*n_layer[r]))))
 			pre_index = randint(n_layer[c], size=nsyn)
 			post_index = randint(n_layer[r], size=nsyn)
 
@@ -117,19 +111,20 @@ def PDnet(NeuronGroup, stim, bg_type, w_ex, g, bg_freq):
 				if (c % 2) == 0:
 					# Synaptic weight from L4e to L2/3e is doubled
 					if c == 2 and r == 0:
-						con.append(Synapses(pop[c], pop[r], model=syn_model, on_pre=pre_eq_exc2))
+						con.append(Synapses(pop[c], pop[r], model=syn_model, on_pre=pre_eq))
 						con[-1].connect(i = pre_index, j = post_index)
+						con[-1].w = '2.0*clip((w_ex + std_w_ex*randn()),w_ex*0.0, w_ex*inf)'
 					else:
-						con.append(Synapses(pop[c], pop[r], model=syn_model, on_pre=pre_eq_exc1))
+						con.append(Synapses(pop[c], pop[r], model=syn_model, on_pre=pre_eq))
 						con[-1].connect(i = pre_index, j = post_index)
-					con[-1].w = 'clip((w_ex + std_w_ex*randn()),w_ex*0.0, w_ex*inf)'
+						con[-1].w = 'clip((w_ex + std_w_ex*randn()),w_ex*0.0, w_ex*inf)'
 					con[-1].delay = 'clip(d_ex + std_d_ex*randn(), 0.1*ms, d_ex*inf)'
 
 				# Inhibitory connections
 				else:
-					con.append(Synapses(pop[c], pop[r], model=syn_model, on_pre=pre_eq_inh))
+					con.append(Synapses(pop[c], pop[r], model=syn_model, on_pre=pre_eq))
 					con[-1].connect(i = pre_index, j = post_index)
-					con[-1].w = 'clip((w_ex + std_w_ex*randn()),w_ex*0.0, w_ex*inf)'
+					con[-1].w = '-g*clip((w_ex + std_w_ex*randn()),w_ex*0.0, w_ex*inf)'
 					con[-1].delay = 'clip(d_in + std_d_in*randn(), 0.1*ms, d_in*inf)'
 
 	###########################################################################
@@ -140,9 +135,21 @@ def PDnet(NeuronGroup, stim, bg_type, w_ex, g, bg_freq):
 		for r in range(0, 8):
 			bg_in.append(PoissonInput(pop[r], 'I', bg_layer[r], bg_freq*Hz, weight=w_ex))
 
+	###############################################################################
+	# Creating thalamic neurons as poissonian inputs
+	###############################################################################
+	thal_con = []
+	thal_input = []
+	if thal=="ON":
+		thal_input = PoissonGroup(n_layer[8], rates=120.0*Hz)	#from PD paper: rates=15Hz
+		for r in range(0,8):
+			thal_con.append(Synapses(thal_input, pop[r], model=syn_model, on_pre=pre_eq))
+			thal_con[-1].connect(p=table[r][8])
+			thal_con[-1].w = 0.0
+
 	###########################################################################
 	# Creating spike monitors
 	###########################################################################
 	smon_net = SpikeMonitor(NeuronGroup)
 
-	return pop, con, bg_in, smon_net
+	return pop, con, bg_in, smon_net, thal_input ,thal_con

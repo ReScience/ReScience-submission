@@ -1,91 +1,62 @@
-
-### ReScience submission repository
-
-This is the submission repository for the [Re**Science** journal](https://rescience.github.io).
-
-### How to submit an article ?
+## Introductions
 
 
-1. Create a [github](https://github.com) account
+Reference implementation of
 
-2. [Fork](https://help.github.com/articles/fork-a-repo/) the [ReScience submission](https://github.com/ReScience/ReScience-submission) repository
+Gancarz, G., Grossberg, S. "A Neural Model of the Saccade Generator in the Reticular Formation." 
+Neural Networks 11, no. 7-8 (October 1998): 1159-74. doi:10.1016/S0893-6080(98)00096-3.
 
-3. Clone this new repository into your desktop environment
+The model has been implemented in the NEST simulator (2.16.0-beta) using Python (2.7.12) as interface. Extensive documentation can be found on the official website [(http://nest-initiative.org/)](http://nest-initiative.org/).
 
-   ```
-   $ git clone https://github.com/YOUR-USERNAME/ReScience-submission
-   ```
+## NEST Simulator installation instructions
 
-4. Create a branch (the branch name should be author names separated with dashes)
+## Linux
 
-   ```
-   $ git checkout -b AUTHOR1-AUTHOR2
-   ```
+1. Create a folder wherein you would like to install NEST (the path to which we refer to by`$NEST`) 
 
+2. Download the latest version of NEST (2.16.0-beta): [https://github.com/nest/nest-simulator/archive/master.zip](https://github.com/nest/nest-simulator/archive/master.zip)
 
-5. Add your code & article (see [author guidelines](https://rescience.github.io/write)) and commit your changes:
+3. Extract the contents of the zip file into the previously created folder (i.e. `$NEST/nest-simulator-master`)
 
-   ```
-   $ git commit -a -m "Some comment"
-   ```
+4. Create folders `nest-simulator-master.build` and `nest-simulator-master.install` on the same level as `nest-simulator-master`
 
+5. Configure and build NEST inside the build directory:
 
-6. [Push](https://help.github.com/articles/pushing-to-a-remote/) to github
+```shell
+$ cmake -DCMAKE_INSTALL_PREFIX=$NEST/nest-simulator-master.install -DCMAKE-C_COMPILER=gcc 
+-DCMAKE_CXX_COMPILER=g++ -Dwith-mpi=ON ../nest-simulator-master
 
-   ```
-   $ git push origin AUTHOR1-AUTHOR2
-   ```
+$ make
+$ make install
+```
 
-7. Issue a [pull request](https://help.github.com/articles/using-pull-requests/) (PR) to Re**Science** with title containing author(s) name and follow the template that will appear once you opened the pull request:
+6. Add the script `/install/path/bin/nest_vars.sh` to your `.bashrc` file to automatically set paths to the NEST executable and the NEST Pthon module.
 
-  ```
-  **AUTHOR**
+## Windows
+Windows and Linux differ considerably. This is the reason why it is difficult to compile NEST natively under Windows. However, it is still possible to use NEST under Windows using one of the following methods:
 
-  Dear @ReScience/editors,
+### Virtual Machines
 
-  I request a review for the following replication:
+A virtual machine is a software that lets you use Linux on top of Windows. Popular virtual machine packages are VirtualBox and VMWare. Once you have installed a virtual machine package, you can download OVA images containing NEST and import them into your virtual machine.
 
-  ### Original article
+### Cygwin
 
-  **Title:**  
-  **Author(s):**  
-  **Journal (or Conference):**  
-  **Year:**  
-  **DOI:**  
-  **PDF:**   
+Cywin is a software layer which emulates Unix system calls. NEST should compile and install under Cygwin with the generic installation instructions, but we have not tested this for a long time and do not support NEST under Cygwin at present. Compilation under Cygwin is very slow, but the execution times are comparable to an equivalent Linux installation
 
-  ### Replication
+## Scripts
 
-  **Author(s)**:   
-  **Repository**:  
-  **PDF**:  
-  **Keywords**:  
-  **Language**:  
-  **Domain**:  
+Each experiment (simulation) reported in Gancarz & Grossberg (1998) is implemented as a separate Python script.
 
-  ### Results
+```shell
+$ python Exp1.py
+$ python Exp2.py
+$ python Exp3.py
+$ python Exp4.py
+$ python Exp5.py
+$ python Exp6.py
+$ python Exp7a.py
+$ python Exp7b.py
+$ python Exp8.py
+$ python Exp9.py
+```
 
-  * [ ] Article has been fully replicated
-  * [ ] Article has been partially replicated
-  * [ ] Article has not been replicated
-
-  ### Potential reviewers
-  <!-- If you know potential reviewers, you can tell us here -->
-  <!-- You can look at http://rescience.github.io/board for the -->
-  <!-- list of registered reviewers (but you can propose others) -->
-
-  ---
-
-  **EDITOR**
-
-  * [ ] Editor acknowledgment
-  * [ ] Reviewer 1 
-  * [ ] Reviewer 2
-  * [ ] Review 1 decision [accept/reject]
-  * [ ] Review 2 decision [accept/reject]
-  * [ ] Editor decision [accept/reject]
-  ```
-
-8. You can suggest reviewers from [editorial board](https://rescience.github.io/board).
-
-9. Answer questions and requests made in the PR conversation page.

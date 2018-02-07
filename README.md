@@ -29,7 +29,7 @@ $ make
 $ make install
 ```
 
-6. Add the script `$NEST/nest-simulator-master.install/bin/nest_vars.sh` to your `.bashrc` file to automatically set paths to the NEST executable and the NEST Python module.
+6. Source the script `$NEST/nest-simulator-master.install/bin/nest_vars.sh` in your `.bashrc` file to automatically set paths to the NEST executable and the NEST Python module.
 
 ## Windows
 Windows and Linux differ considerably. This is the reason why it is difficult to compile NEST natively under Windows. However, it is still possible to use NEST under Windows using one of the following methods:

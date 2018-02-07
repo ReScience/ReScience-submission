@@ -38,7 +38,7 @@ nest.SetKernelStatus({'resolution': dt, 'use_wfr': False})
 ###########################################
 
 # neuron parameters
-# alpha				: upper limit for piecewise linear unit (2nd threshold for threshold_lin_rate)
+# alpha				: upper limit for a piecewise linear unit (2nd threshold for threshold_lin_rate)
 # g_in				: gain in multiplicative coupling for inhibitory input
 # lambda			: passive decay rate 
 # linear_summation	: if false, gain function is applied to input before summation; if true, it is applied afterwards
@@ -147,7 +147,7 @@ for i in range(0,4):
     nest.Connect(gL[i], OPN, 'all_to_all', {
                 'model': 'rate_connection_instantaneous', 'weight': -1.0})
 
-# to output functions
+# to auxiliary units
     nest.Connect(LLBN[i], gL[i], 'all_to_all', {
                 'model': 'rate_connection_instantaneous', 'weight': 1.0})
 
@@ -157,7 +157,7 @@ nest.Connect(Bias, OPN, 'all_to_all', {
 nest.Connect(EXT, OPN, 'all_to_all', {
                 'model': 'rate_connection_instantaneous', 'weight': 1.})
 
-# to output functions (cont'd)
+# to auxiliary units (cont'd)
 nest.Connect(OPN, gP, 'all_to_all', {
                 'model': 'rate_connection_instantaneous', 'weight': 1.0})
 nest.Connect(SC, gS, 'all_to_all', {

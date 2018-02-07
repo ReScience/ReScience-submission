@@ -1,7 +1,9 @@
 ### Code repository
 
-Don't forget to choose a license. You're free to use one from a set of
-well-understood licenses including BSD, GPL or Apache.
+This repository contains 11 files.
 
-See [the Debian Free Software Guidelines](https://www.debian.org/social_contract#guidelines)
-for a [list of licenses](https://www.debian.org/legal/licenses/).
+- `setup_model.py` a Python script setting up the saccade generator model
+- `Exp1.py` - `Exp9.py` (experiment seven is split into `Exp7a.py` and `Exp7b.py`)
+
+
+This software requires NEST 2.16.0 or later.

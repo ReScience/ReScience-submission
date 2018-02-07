@@ -64,7 +64,7 @@ We provide an implementation of the saccade generator (SG); a rate neuron model 
 
 # Methods
 
-The SG model described by Gancarz & Grossberg [@Gancarz1998] consists of a horizontal and a vertical component each with two long-lead burst neurons (LLBNs), excitatory burst neurons (EBNs), inhibitory burst neurons (IBNs), and tonic neurons (TNs). Within each component, the two directions (left-right, down-up) interact antagonistically. Additionally, both components share a single omnipause neuron (OPN) which tonically inhibits each EBN to suppress unwanted saccades. In what follows we briefly describe the dynamics of neurons within the horizontal component (equivalent descriptions apply to the vertical component).
+The SG model described by Gancarz & Grossberg [@Gancarz1998] consists of a horizontal and a vertical component each with two long-lead burst neurons (LLBNs), excitatory burst neurons (EBNs), inhibitory burst neurons (IBNs), and tonic neurons (TNs). Within each component, the two directions (left-right, down-up) interact antagonistically. Additionally, both components share a single omnipause neuron (OPN) which tonically inhibits each EBN to suppress unwanted saccades. While this constitutes the core SG model, the superior collicuus (SC) is relevant for some simulations. In what follows we briefly describe the dynamics of neurons within the horizontal component (equivalent descriptions apply to the vertical component).
 
 ### Long-lead burst neurons
 
@@ -75,7 +75,7 @@ $$
 \tau\frac{dL_l}{dt} &= -1.3L_l+I_l-2B_l \\\\
 \tau\frac{dL_r}{dt} &= -1.3L_r+I_r-2B_r \\
 \end{array}
-$$
+$${#eq:llbn}
 
 ### Excitatory burst neurons
 
@@ -86,12 +86,12 @@ $$
 \tau\frac{dE_l}{dt} &= -3.5E_l+(2-E_l)(5E_l+1)-(E_l+1)(10L_r+20g(P))) \\\\
 \tau\frac{dE_r}{dt} &= -3.5E_r+(2-E_r)(5E_r+1)-(E_r+1)(10L_l+20g(P))) \\
 \end{array}
-$$
-with a nonlinear gain function $g(x)$ given by
+$${#eq:ebn}
+with a nonlinear gain function $g(\cdot)$ given by
 
 $$
 g(x) = \frac{x^4}{0.1^4+x^4} \textrm{.}
-$$
+$${#eq:gain}
 
 ### Inhibitory burst neurons
 
@@ -102,7 +102,7 @@ $$
 \tau\frac{dB_l}{dt} &= -2.4B_l+3E_l \\\\
 \tau\frac{dB_r}{dt} &= -2.4B_r+3E_r \\
 \end{array}
-$$
+$${#eq:ibn}
 
 ### Omnipause neuron
 
@@ -110,8 +110,8 @@ The omnipause neuron ($P$) receives inhibitory input from all LLBNs:
 
 $$
 \tau\frac{dP}{dt} = -0.2P+(1-P)(1.2+J)-3.5(P+0.4)(g(L_l)+g(L_r)+g(L_u)+g(L_d))
-$$
-where $J$ represents external electrical stimulation.
+$${#eq:opn}
+where $J$ represents external electrical stimulation and $g(\cdot)$ again given by equation @eq:gain.
 
 ### Tonic neurons
 
@@ -122,12 +122,38 @@ $$
 \tau\frac{dT_l}{dt} &= 0.1(E_l-E_r) \\\\
 \tau\frac{dT_r}{dt} &= 0.1(E_r-E_l) \textrm{.} \\
 \end{array}
-$$
+$${#eq:tn}
 Horizontal eye position ($\theta$) depends on activity of the right TN; i.e. $\theta = 260(T_r-0.5)$.
+
+### Superior colliculus
+
+The superior colliculus ($A$) receives electrical stimulation F 
+
+$$
+\tau \frac{dA}{dt} =-A+F(t) \textrm{.}
+$${#eq:sc}
+
+### SC input to the saccade generator
+For a range of simulations, external input to the saccade generator is obtained by applying a nonlinearity $f(\cdot)$ given by
+$$
+f(x) = 
+\left\{
+ \begin{array}{lll}
+    0 \quad &\textrm{if} \quad x<0 \\
+    x \quad &\textrm{if} \quad 0<x<1 \\
+    1 \quad &\textrm{if} \quad x \geq 1 \\
+  \end{array}
+\right.\
+$${#eq:pw}
+to the activity $A$ of the SC and scaling the result by a weight $W$ such that
+
+$$
+I = Wf(A)\textrm{.}
+$${#eq:stim}
 
 In implementing this model, we largely followed the descriptions provided in the original publication with a number of well-motivated exceptions. Specifically, the original model description has two features which cannot be straightforwardly translated to NEST. First, a nonlinear gain function is applied to a subset of inputs to EBNs and the OPN while a linear gain function is applied to their remaining inputs. Since NEST only applies a single gain function per neuron to each of its inputs, we opted for using a linear gain function for EBNs and the OPN. Furthermore, we passed those inputs requiring an additional nonlinear gain function through an auxiliary unit instantaneously applying the desired nonlinearity before passing the result on to EBNs and the OPN. Second, constant input to a neuron was not hard-coded but rather provided by an appropriately weighted bias node. Neither of these changes lead to discrepancies with original results.
 
-In all simulations we used the Exponential Euler method for numerical integration of rate neurons [@Hahne2016] at a time step of $0.05\,\mathrm{ms}$ and a time constant of $50\,\mathrm{ms}$. It should be noted that rates of all neurons were initialized to zero and were thus not at resting equilibrium. In order to address this, the model was allowed to evolve for $100\,\mathrm{ms}$, to relax towards equilibrium before applying any input. Furthermore, we always simulated the full model; i.e. both its horizontal and vertical components even if input was applied only to one of the two.
+In all simulations we used the Exponential Euler method for numerical integration of rate neurons [@Hahne2017] at a time step of $0.05\,\mathrm{ms}$ and a time constant of $50\,\mathrm{ms}$. It should be noted that rates of all neurons were initialized to zero and were thus not at resting equilibrium. In order to address this, the model was allowed to evolve for $100\,\mathrm{ms}$, to relax towards equilibrium before applying any input. Furthermore, we always simulated the full model; i.e. both its horizontal and vertical components even if input was applied only to one of the two.
 
 # Results
 
@@ -176,35 +202,17 @@ The sixth simulation reported in the original publication was designed to replic
 ![**Effect of stimulation frequency on saccade (A) amplitude, (B) duration, and (C) velocity.** 
 Saccade amplitude (A) saturated before saccade velocity (C). A range of unitless values varying between 1 and 2.4 at increments of 0.2 were applied to the SC (reflecting stimulation at different frequencies). The connection weight from SC to LLBN was $\mathrm{W=2}$ and stimulation duration was $125\,\mathrm{ms}$.](figures/fig6.eps){#fig:fig_6 height="37.5%" width="75%"}
 
-The seventh simulation shows that saccade velocity and duration can be traded while keeping amplitude constant. To produce a high-velocity saccade, the SC was stimulated at a high frequency. Similarly, to produce a low-velocity saccade, the SC was stimulated at a low frequency. Figure @fig:fig_7 shows the results of our simulation. In line with the original publication, the saccade amplitude reflected by TN activity was identical after high- and low-frequency saccades thus confirming the reported effect. However, we observe differences in the specific details of our implementation with respect to the original, starting with the shape of the input curves. While the rise of the input curves in the original publication and our implementation coincide well, the decay in our curves started later and proceeded with a shorter time constant ($\approx25\,\mathrm{ms}$, i.e. half the simulation time constant). This resulted in more total input to the model in our implementation and hence lead to the generation of a second saccade not observed in the original publication. When repeating our simulation using an ad-hoc solution to create matching input curves (by halving the time constant after external stimulation), we observed results identical to those reported in the original publication. We proceeded to investigate the origin of the discrepancy with regard to the shapes of the input curves. First, we tested whether discrepancies were specific to our NEST implementation by solving the expressions describing the input analytically. Specifically, according to equations A13-A15 of [@Gancarz1998] the input $I$ is described by
-$$
-\begin{array}{lll}
-	\tau \frac{dA}{dt} &=-A+F(t)\\
-	f(x) &=
-	\left\{
-	\begin{array}{lll}
-		0 \quad &\textrm{if} \quad x<0 \\
-		x \quad &\textrm{if} \quad 0<x<1 \\
-		1 \quad &\textrm{if} \quad x \geq 1 \\
-	\end{array}
-	\right. \\
-	I(t) &=Wf(A)
-\end{array}
-$$
-\
-with the stimulus
-$$
-F(t)=
-\left\{
-\begin{array}{lll}
-	0 \quad &\textrm{if} \quad t<{t}_{on} \\
-	F \quad &\textrm{if} \quad {t}_{on}<t<{t}_{off} \textrm{.} \\
-	0 \quad &\textrm{if} \quad t \geq {t}_{off} \\
-\end{array}
-\right.
-$$
-\
-Given this, the analytic expression for $I(t)$ is
+![**Trading saccade velocity for duration.** 
+Duration and velocity of a saccade can be traded while keeping amplitude constant. To produce a high velicity saccade an input of $\mathrm{F=3}$ was applied to the SC for $68\,\mathrm{ms}$ ($82\,\mathrm{ms}$ in the original publication). To produce a low velicity saccade an input of $\mathrm{F=1.3}$ for $117\,\mathrm{ms}$. Given the shape of the input curve produced by our implementation of the original equations (A), a second saccade can be observed for both high and low velocity saccades. If the input curves reported in the original manuscript were recreated in an ad-hoc fashion (B), the responses of all model neurons matched those in [@Gancarz1998]](figures/fig7.eps){#fig:fig_7
+height="90%" width="90%"}
+
+![**Smooth staircase eye movements.** 
+Activity profiles of SG neurons accompanying smooth eyes movement as a result of strong ($\mathrm{I=3}$) sustained ($300\,\mathrm{ms}$) input.](figures/fig8.eps){#fig:fig_8 height="56.2%" width="70%"}
+
+![**Interrupted saccade resulting from OPN stimulation.** 
+OPN stimulation interrupted the saccade, which remained accurate nonetheless. An  input of ($\mathrm{I=0.7}$) was applied to the LLBN for $100\,\mathrm{ms}$. At $45\,\mathrm{ms}$ after onset of the input, the OPN was stimulated ($\mathrm{J=1.8}$) for $5\,\mathrm{ms}$. The dashed line shows TN activity for an uninterrupted saccade.](figures/fig9.eps){#fig:fig_9 height="60%" width="46.2%"}
+
+The seventh simulation shows that saccade velocity and duration can be traded while keeping amplitude constant. To produce a high-velocity saccade, the SC was stimulated at a high frequency. Similarly, to produce a low-velocity saccade, the SC was stimulated at a low frequency. Figure @fig:fig_7 shows the results of our simulation. In line with the original publication, the saccade amplitude reflected by TN activity was identical after high- and low-frequency saccades thus confirming the reported effect. However, we observe differences in the specific details of our implementation with respect to the original, starting with the shape of the input curves. While the rise of the input curves in the original publication and our implementation coincide well, the decay in our curves started later and proceeded with a shorter time constant ($\approx25\,\mathrm{ms}$, i.e. half the simulation time constant). This resulted in more total input to the model in our implementation and hence lead to the generation of a second saccade not observed in the original publication. When repeating our simulation using an ad-hoc solution to create matching input curves (by halving the time constant after external stimulation), we observed results identical to those reported in the original publication. We proceeded to investigate the origin of the discrepancy with regard to the shapes of the input curves. First, we tested whether discrepancies were specific to our NEST implementation by solving the expressions describing the input analytically. Specifically, the analytic expression of the input $I(t)$ described by equations @eq:sc - @eq:stim is
 $$
 I(t)=
 \left\{
@@ -214,22 +222,10 @@ I(t)=
 	W \cdot f(F \cdot (1-{e}^{-({t}_{off}-{t}_{on})/ \tau}) \cdot {e}^{-(t-{t}_{off})/ \tau}) \quad &\textrm{if} \quad t \geq {t}_{off} \\
 \end{array}
 \right.
-$$ {#eq:1}
-Evaluating the analytic expression given parameter values reported in the original manuscript exactly reproduced our numerical results and thus produced curves equally deviatng from those shown in the original publication. Next, we contacted one of the original authors to rule out the possibility that we used erroneous parameter settings but no mistake was pointed out to us. The origin of the discrepancy thus remains unclear. However, it is likely it stems from the description of the input rather than from problems with the SG model itself.
-
-![**Trading saccade velocity for duration.** 
-Duration and velocity of a saccade can be traded while keeping amplitude constant. To produce a high velicity saccade an input of $\mathrm{F=3}$ was applied to the SC for $68\,\mathrm{ms}$ ($82\,\mathrm{ms}$ in the original publication). To produce a low velicity saccade an input of $\mathrm{F=1.3}$ for $117\,\mathrm{ms}$. Given the shape of the input curve produced by our implementation of the original equations (A), a second saccade can be observed for both high and low velocity saccades. If the input curves reported in the original manuscript were recreated in an ad-hoc fashion (B), the responses of all model neurons matched those in [@Gancarz1998]](figures/fig7.eps){#fig:fig_7
-height="75%" width="75%"}
+$$ {#eq:analytic}
+Evaluating the analytic expression given parameter values reported in the original manuscript exactly reproduced our numerical results and thus produced curves equally deviating from those shown in the original publication. Next, we contacted one of the original authors to rule out the possibility that we used erroneous parameter settings but no mistake was pointed out to us. The origin of the discrepancy thus remains unclear. However, it is likely it stems from the description of the input rather than from problems with the SG model itself.
 
 The eighth simulation reported by Gancarz & Grossberg [@Gancarz1998] shows how strong sustained input to the SG produces smooth eye movements. Our results, shown in figure @fig:fig_8, reproduced these findings as they strongly resembled those shown in figure 11 of the original publication. Specifically, an initial burst exhibited by the EBN was followed by sustained lower activity. This was due to inhibitory feedback being insufficient to silence the LLBN when input remains continuously strong and resulted, in turn, in the observed smooth eye movement.
-
-![**Smooth staircase eye movements.** 
-Activity profiles of SG neurons accompanying smooth eyes movement as a result of strong ($\mathrm{I=3}$) sustained ($300\,\mathrm{ms}$) input.](figures/fig8.eps){#fig:fig_8 height="46.2%" width="60%"}
-
-![**Interrupted saccade resulting from OPN stimulation.** 
-OPN stimulation interrupted the saccade, which remained accurate nonetheless. An  input of ($\mathrm{I=0.7}$) was applied to the LLBN for $100\,\mathrm{ms}$. At $45\,\mathrm{ms}$ after onset of the input, the OPN was stimulated ($\mathrm{J=1.8}$) for $5\,\mathrm{ms}$. The dashed line shows TN activity for an uninterrupted saccade.](figures/fig9.eps){#fig:fig_9 height="70%" width="46.2%"}
-
-\clearpage
 
 The final simulation showcases the evolution of activity exhibited by SG neurons when the OPN is briefly electrically stimulated while a constant input is applied to the LLBN. External stimulation temporarily restored activation in the OPN and hence also inhibition of the EBN, leading to an interruption of the saccade. As is shown in figure @fig:fig_9, the saccade remained accurate despite this disruption. This is in agreement with results shown in figure 12 of the original publication.
 

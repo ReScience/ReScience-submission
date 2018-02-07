@@ -25,44 +25,44 @@ from matplotlib import rcParams
 
 
 ###########################################
-#### 		set up model				 ##
+#### 		set up model		 ##
 ###########################################
 
 execfile('setup_model.py')
 
 
 ###########################################
-#### 			auxiliary				 ##
+#### 		auxiliary		 ##
 ###########################################
 
 # additional variables
 cm2inch		= .394 			# inch/cm
 t_relax 	= 100  			# ms
-r			= np.zeros(15)	# EBN activity
-a			= np.zeros(15)	# saccade angle
+r		= np.zeros(15)		# EBN activity
+a		= np.zeros(15)		# saccade angle
 
 # figure setup
 rcParams.update({'figure.autolayout': True})
 
 fig_name	= '../article/figures/fig5.eps'
 fig_size 	= np.multiply([8.5,8.5],cm2inch)
-ppi			= 1200
+ppi		= 1200
 face	 	= 'white'
 edge	 	= 'white'
 fig 		= pl.figure(facecolor = face, edgecolor = edge, figsize = fig_size)
-ax 			= fig.add_subplot(1,1,1, projection='polar')
+ax 		= fig.add_subplot(1,1,1, projection='polar')
 ax.set_rticks([.02, .1, 1.8])
 
 
 ###########################################
-#### 		set up experiment			 ##
+#### 	   set up experiment		 ##
 ###########################################
 
 # input & external electric stimulation
-I			= [[.2, 0., .63, .0],[0., 0., .7, 0.],[0., .2, .63, 0.],[0., .45, .45, 0.],
-				[0., .7, 0., 0.],[0., .45, 0., .45],[0., .2, 0., .63],[0., 0., 0., .7],
-				[.2, 0., 0., .63],[.45, 0., 0., .45],[0.63, 0., 0., .2],[0.7, 0., 0., 0.],
-				[0.63, 0., .2, 0.],[0.45, 0., .45, 0.]]
+I		= [[.2, 0., .63, .0],[0., 0., .7, 0.],[0., .2, .63, 0.],[0., .45, .45, 0.],
+		[0., .7, 0., 0.],[0., .45, 0., .45],[0., .2, 0., .63],[0., 0., 0., .7],
+		[.2, 0., 0., .63],[.45, 0., 0., .45],[0.63, 0., 0., .2],[0.7, 0., 0., 0.],
+		[0.63, 0., .2, 0.],[0.45, 0., .45, 0.]]
 J   		= 0.
 
 # timing protocol (in ms)
@@ -78,17 +78,17 @@ T       	= np.linspace(t_start,t_end,t_steps)
 
 
 ###########################################
-#### 	set up recording devices 		 ##
+#### 	set up recording devices 	 ##
 ###########################################
 
-MM 			= [None]*14
+MM 		= [None]*14
 for s in range(0,14):
 	MM[s] = nest.Create('multimeter')
 	nest.SetStatus(MM[s], {'interval': dt, 'record_from': ['rate']})
 
 
 ###########################################
-#### 			relaxation				 ##
+#### 		relaxation		 ##
 ###########################################
 
 # let system reach equilibrium
@@ -97,14 +97,14 @@ for s in range(0,14):
 
 
 ###########################################
-#### 	connect recording devices  		 ##
+#### 	connect recording devices  	 ##
 ###########################################
 
 	nest.Connect(MM[s], EBN[0], syn_spec = {'delay': dt})
 
 
 ###########################################
-#### 			simulation				 ##
+#### 		simulation		 ##
 ###########################################
 
 # pre-stimulus period
@@ -127,7 +127,7 @@ for s in range(0,14):
 
 
 ###########################################
-#### 			create figure			 ##
+#### 		create figure		 ##
 ###########################################
 
 # gather data from recording device
@@ -138,8 +138,8 @@ for s in range(0,14):
 # compute output variables (angle given by stimulus, radius given by EBN response)
 	a[s] 	= np.math.atan2(I[s][3]-I[s][2],I[s][1]-I[s][0])
 	r[s] 	= np.mean(np.maximum(voltages[np.where(senders == EBN[0])],0.))
-r[-1] = r[0]
-a[-1] = a[0]
+r[-1] 	= r[0]
+a[-1] 	= a[0]
 
 #plot
 ax.plot(a, r,'-ko',linewidth=2)

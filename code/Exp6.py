@@ -21,14 +21,14 @@ from scipy.signal import argrelextrema
 
 
 ###########################################
-#### 		set up model				 ##
+#### 		set up model		 ##
 ###########################################
 
 execfile('setup_model.py')
 
 
 ###########################################
-#### 			auxiliary				 ##
+#### 		auxiliary		 ##
 ###########################################
 
 # additional variables
@@ -36,9 +36,9 @@ cm2inch		= .394			# inch/cm
 t_relax 	= 100  			# ms
 g_pos		= 260.			# gain eye position	
 threshold	= 30. 			# eye velocity marking onset of saccade		
-Amplitude	= np.zeros(8)	# saccade amplitude
-Duration	= np.zeros(8)	# saccade duration
-Velocity	= np.zeros(8)	# saccade velocity
+Amplitude	= np.zeros(8)		# saccade amplitude
+Duration	= np.zeros(8)		# saccade duration
+Velocity	= np.zeros(8)		# saccade velocity
 
 # figure setup
 rcParams.update({'figure.autolayout': True})
@@ -48,7 +48,7 @@ fig_size 	= np.multiply([17.6,8.5],cm2inch)
 fig_rows 	= 1
 fig_cols 	= 3
 fig_plots	= fig_rows*fig_cols
-ppi			= 1200
+ppi		= 1200
 face	 	= 'white'
 edge	 	= 'white'
 
@@ -69,12 +69,12 @@ ax[0].text(-0.075, 1.1, 'A', transform=ax[0].transAxes, size=16, weight='bold')
 ax[1].text(-0.075, 1.1, 'B', transform=ax[1].transAxes, size=16, weight='bold')
 ax[2].text(-0.075, 1.1, 'C', transform=ax[2].transAxes, size=16, weight='bold')
 ###########################################
-#### 		set up experiment			 ##
+#### 	    set up experiment		 ##
 ###########################################
 
 # input & external electric stimulation
-F			= np.linspace(1.,2.4,8)
-W 			= 2.
+F		= np.linspace(1.,2.4,8)
+W 		= 2.
 J   		= 0.
 nest.Connect(gS, LLBN[1], 'all_to_all', {'model': 'rate_connection_instantaneous', 'weight': W})
 
@@ -91,17 +91,17 @@ T       	= np.linspace(t_start,t_end,t_steps)
 
 
 ###########################################
-#### 	set up recording devices 		 ##
+#### 	set up recording devices 	 ##
 ###########################################
 
-MM 			= [None]*8
+MM 		= [None]*8
 for s in range(0,8):
 	MM[s] = nest.Create('multimeter')
 	nest.SetStatus(MM[s], {'interval': dt, 'record_from': ['rate']})
 
 
 ###########################################
-#### 			relaxation				 ##
+#### 		relaxation		 ##
 ###########################################
 
 # let system reach equilibrium
@@ -109,14 +109,14 @@ for s in range(0,8):
 	nest.Simulate(t_relax)
 
 ###########################################
-#### 	connect recording devices  		 ##
+#### 	connect recording devices  	 ##
 ###########################################
 
 	nest.Connect(MM[s], TN[1], syn_spec = {'delay': dt})
 
 
 ###########################################
-#### 			simulation				 ##
+#### 		simulation		 ##
 ###########################################
 
 # pre-stimulus period
@@ -138,7 +138,7 @@ for s in range(0,8):
 
 
 ###########################################
-#### 			create figure			 ##
+#### 		create figure		 ##
 ###########################################
 
 # gather data from recording device
@@ -147,18 +147,18 @@ for s in range(0,8):
 	voltages = data[0]['events']['rate']
 
 # compute output variables
-	a   	 = g_pos*(voltages[np.where(senders == TN[1])]-.5)  # amplitude (degree)	
-	v   	 = np.diff(a)/(1e-3*dt)						   		# velocity (degree/sec)
+	a   	 = g_pos*(voltages[np.where(senders == TN[1])]-.5)  	# amplitude (degree)	
+	v   	 = np.diff(a)/(1e-3*dt)					# velocity (degree/sec)
 
 	greater  = np.where(v>threshold)
 	lesser   = np.where(v<threshold)
-	on  	 = greater[0][0]							   		# saccade onset
-	ID 		 = np.where(lesser[0][:]>greater[0][0])						 
-	if (ID[0].size==0):								 	   		# if velocity did not drop below threshold
-		off 	  = argrelextrema(v, np.less)			   		# find local minima to identify offset
+	on  	 = greater[0][0]					# saccade onset
+	ID 	 = np.where(lesser[0][:]>greater[0][0])						 
+	if (ID[0].size==0):						# if velocity did not drop below threshold
+		off 	  = argrelextrema(v, np.less)			# find local minima to identify offset
 		off 	  = off[0][(len(off[0]))-1]	
 	else:
-		off 	  = lesser[0][ID[0][0]] 				   		# otherwise offset is given by the first moment the velocity drops below threshold	    
+		off 	  = lesser[0][ID[0][0]] 			# otherwise offset is given by the first moment the velocity drops below threshold	    
 	
 	Amplitude[s] = a[off]-a[on]
 	Duration[s]  = T[off]-T[on]	

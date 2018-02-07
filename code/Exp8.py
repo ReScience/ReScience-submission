@@ -20,14 +20,14 @@ from matplotlib import rcParams
 
 
 ###########################################
-#### 		set up model				 ##
+#### 		set up model		 ##
 ###########################################
 
 execfile('setup_model.py')
 
 
 ###########################################
-#### 			auxiliary				 ##
+#### 		auxiliary		 ##
 ###########################################
 
 # additional variables
@@ -42,11 +42,11 @@ fig_size 	= np.multiply([17.6,11.6],cm2inch)
 fig_rows 	= 5
 fig_cols 	= 1
 fig_plots	= fig_rows*fig_cols
-ppi			= 1200
+ppi		= 1200
 face	 	= 'white'
 edge	 	= 'white'
 
-ax 		 	= [None]*fig_plots
+ax 		= [None]*fig_plots
 fig 		= pl.figure(facecolor = face, edgecolor = edge, figsize = fig_size)
 for i in range(0,fig_plots):
 	ax[i] 	= fig.add_subplot(fig_rows,fig_cols,i+1)
@@ -58,11 +58,11 @@ for i in range(0,fig_plots):
 
 
 ###########################################
-#### 		set up experiment			 ##
+#### 	     set up experiment		 ##
 ###########################################
 
 # input & external electrict stimulation
-I  			= 3.
+I  		= 3.
 J   		= 0.
 
 # timing protocol (in ms)
@@ -77,7 +77,7 @@ t_steps 	= int((t_end-t_start)/dt)-1
 T       	= np.linspace(t_start,t_end,t_steps)
 
 ###########################################
-#### 	set up recording devices 		 ##
+#### 	set up recording devices 	 ##
 ###########################################
 
 multimeter	= nest.Create('multimeter')
@@ -85,7 +85,7 @@ nest.SetStatus(multimeter, {'interval': dt, 'record_from': ['rate']})
 
 
 ###########################################
-#### 			relaxation				 ##
+#### 		relaxation		 ##
 ###########################################
 
 # let system reach equilibrium
@@ -94,7 +94,7 @@ nest.Simulate(t_relax)
 
 
 ###########################################
-#### 	connect recording devices  		 ##
+#### 	connect recording devices  	 ##
 ###########################################
 
 nest.Connect(multimeter, OPN, syn_spec	   = {'delay': dt})
@@ -105,7 +105,7 @@ nest.Connect(multimeter, TN[0], syn_spec   = {'delay': dt})
 
 
 ###########################################
-#### 			simulation				 ##
+#### 		simulation		 ##
 ###########################################
 
 # pre-stimulus period
@@ -122,7 +122,7 @@ nest.Simulate(postStim)
 
 
 ###########################################
-#### 			create figure			 ##
+#### 		create figure		 ##
 ###########################################
 
 # gather data from recording device

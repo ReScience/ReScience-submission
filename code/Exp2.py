@@ -21,14 +21,14 @@ from matplotlib import rcParams
 
 
 ###########################################
-#### 		set up model				 ##
+#### 		set up model		 ##
 ###########################################
 
 execfile('setup_model.py')
 
 
 ###########################################
-#### 			auxiliary				 ##
+#### 		auxiliary		 ##
 ###########################################
 
 # additional variables
@@ -43,11 +43,11 @@ fig_size 	= np.multiply([17.6,8.5],cm2inch)
 fig_rows 	= 1
 fig_cols 	= 2
 fig_plots	= fig_rows*fig_cols
-ppi			= 1200
+ppi		= 1200
 face	 	= 'white'
 edge	 	= 'white'
 
-ax 		 	= [None]*fig_plots
+ax 		= [None]*fig_plots
 fig 		= pl.figure(facecolor = face, edgecolor = edge, figsize = fig_size)
 for i in range(0,fig_plots):
 	col 	= np.mod(i,2)	
@@ -61,11 +61,11 @@ ax[0].text(-0.075, 1.1, 'A', transform=ax[0].transAxes, size=16, weight='bold')
 ax[1].text(-0.075, 1.1, 'B', transform=ax[1].transAxes, size=16, weight='bold')
 
 ###########################################
-#### 		set up experiment			 ##
+#### 		set up experiment	 ##
 ###########################################
 
 # input & external electric stimulation
-I  			= [1.,1.75,2.5] 
+I  		= [1.,1.75,2.5] 
 J   		= 0.
 
 # timing protocol (in ms)
@@ -81,17 +81,17 @@ T       	= np.linspace(t_start,t_end,t_steps)
 
 
 ###########################################
-#### 	set up recording devices 		 ##
+#### 	set up recording devices 	 ##
 ###########################################
 
-MM			= [None]*3
+MM		= [None]*3
 for s in range(0,3):
 	MM[s] = nest.Create('multimeter')
 	nest.SetStatus(MM[s], {'interval': dt, 'record_from': ['rate']})
 
 
 ###########################################
-#### 			relaxation				 ##
+#### 		relaxation		 ##
 ###########################################
 
 # let system reach equilibrium
@@ -100,7 +100,7 @@ for s in range(0,3):
 
 
 ###########################################
-#### 	connect recording devices  		 ##
+#### 	connect recording devices  	 ##
 ###########################################
 
 	nest.Connect(MM[s], LLBN[0], syn_spec = {'delay': dt})
@@ -108,7 +108,7 @@ for s in range(0,3):
 
 
 ###########################################
-#### 			simulation				 ##
+#### 		simulation		 ##
 ###########################################
 
 # pre-stimulus period
@@ -125,7 +125,7 @@ for s in range(0,3):
 
 
 ###########################################
-#### 			create figure			 ##
+#### 		create figure		 ##
 ###########################################
 
 # gather data from recording device

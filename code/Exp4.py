@@ -20,32 +20,32 @@ from matplotlib import rcParams
 from scipy.signal import argrelextrema
 
 ###########################################
-#### 		set up model				 ##
+#### 		set up model		 ##
 ###########################################
 
 execfile('setup_model.py')
 
 
 ###########################################
-#### 			auxiliary				 ##
+#### 		auxiliary		 ##
 ###########################################
 
 # additional variables
 cm2inch		= .394 # inch/cm
 t_relax 	= 100  # ms
 g_pos		= 260. # gain eye position
-sr 			= 40   # sampling rate
+sr 		= 40   # sampling rate
 
 # figure setup
 rcParams.update({'figure.autolayout': True})
 
 fig_name	= '../article/figures/fig4.eps'
 fig_size 	= np.multiply([8.5,11.6],cm2inch)
-ppi			= 1200
+ppi		= 1200
 face	 	= 'white'
 edge	 	= 'white'
 fig 		= pl.figure(facecolor = face, edgecolor = edge, figsize = fig_size)
-ax 			= fig.add_subplot(1,1,1)
+ax 		= fig.add_subplot(1,1,1)
 
 ax.set_xlim([0.,10.])
 ax.set_ylim([0.,15.5])
@@ -54,13 +54,13 @@ ax.set_ylabel('vertical eye position (deg)')
 
 
 ###########################################
-#### 		set up experiment			 ##
+#### 	   set up experiment		 ##
 ###########################################
 
 # input & external electric stimulation
-I_horizontal = .20
-I_vertical   = .33 
-J   		 = .0
+I_horizontal 	= .20
+I_vertical   	= .33 
+J   		= .0
 
 # timing protocol (in ms)
 preStim  	 =   0
@@ -75,7 +75,7 @@ T       	 = np.linspace(t_start,t_end,t_steps)
 
 
 ###########################################
-#### 	set up recording devices 		 ##
+#### 	set up recording devices 	 ##
 ###########################################
 
 multimeter	 = nest.Create('multimeter')
@@ -83,7 +83,7 @@ nest.SetStatus(multimeter, {'interval': dt, 'record_from': ['rate']})
 
 
 ###########################################
-#### 			relaxation				 ##
+#### 		relaxation		 ##
 ###########################################
 
 # let system reach equilibrium
@@ -91,7 +91,7 @@ nest.SetStatus(multimeter, {'interval': dt, 'record_from': ['rate']})
 nest.Simulate(t_relax)
 
 ###########################################
-#### 	connect recording devices  		 ##
+#### 	connect recording devices  	 ##
 ###########################################
 
 nest.Connect(multimeter, TN[1], syn_spec = {'delay': dt})
@@ -99,7 +99,7 @@ nest.Connect(multimeter, TN[3], syn_spec = {'delay': dt})
 
 
 ###########################################
-#### 			simulation				 ##
+#### 		simulation		 ##
 ###########################################
 
 # pre-stimulus period
@@ -118,7 +118,7 @@ nest.Simulate(postStim)
 
 
 ###########################################
-#### 			create figure			 ##
+#### 		create figure		 ##
 ###########################################
 
 # gather data from recording device

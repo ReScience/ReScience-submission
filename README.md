@@ -1,4 +1,4 @@
-## Introductions
+## Introduction
 
 
 Reference implementation of
@@ -25,12 +25,11 @@ The model has been implemented in the NEST simulator (2.16.0-beta) using Python 
 ```shell
 $ cmake -DCMAKE_INSTALL_PREFIX=$NEST/nest-simulator-master.install -DCMAKE-C_COMPILER=gcc 
 -DCMAKE_CXX_COMPILER=g++ -Dwith-mpi=ON ../nest-simulator-master
-
 $ make
 $ make install
 ```
 
-6. Add the script `/install/path/bin/nest_vars.sh` to your `.bashrc` file to automatically set paths to the NEST executable and the NEST Pthon module.
+6. Add the script `/install/path/bin/nest_vars.sh` to your `.bashrc` file to automatically set paths to the NEST executable and the NEST Python module.
 
 ## Windows
 Windows and Linux differ considerably. This is the reason why it is difficult to compile NEST natively under Windows. However, it is still possible to use NEST under Windows using one of the following methods:
@@ -47,16 +46,15 @@ Cywin is a software layer which emulates Unix system calls. NEST should compile 
 
 Each experiment (simulation) reported in Gancarz & Grossberg (1998) is implemented as a separate Python script.
 
-```shell
-$ python Exp1.py
-$ python Exp2.py
-$ python Exp3.py
-$ python Exp4.py
-$ python Exp5.py
-$ python Exp6.py
-$ python Exp7a.py
-$ python Exp7b.py
-$ python Exp8.py
-$ python Exp9.py
-```
+- Exp1.py
+- Exp2.py
+- Exp3.py
+- Exp4.py
+- Exp5.py
+- Exp6.py
+- Exp7a.py (input as described in original publication)
+- Exp7b.py (adjusted input)
+- Exp8.py
+- Exp9.py
+
 

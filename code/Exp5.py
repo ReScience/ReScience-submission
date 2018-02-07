@@ -135,7 +135,7 @@ for s in range(0,14):
 	senders  = data[0]['events']['senders']
 	voltages = data[0]['events']['rate']
 
-# compute output variables 
+# compute output variables (angle given by stimulus, radius given by EBN response)
 	a[s] 	= np.math.atan2(I[s][3]-I[s][2],I[s][1]-I[s][0])
 	r[s] 	= np.mean(np.maximum(voltages[np.where(senders == EBN[0])],0.))
 r[-1] = r[0]

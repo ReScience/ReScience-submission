@@ -13,7 +13,7 @@
 # Simulates reimplemented saccade generation (SG) model of Gancarz & Grossberg (1998).
 # Generates Fig. 9: Interrupted saccade resulting from OPN stimulation (figure 12 in original publication). 
 # Input to left side of saccade generator was set to 0.7 for 100 ms. 
-# OPN stimulation J was set to 1.8 for 5 ms.
+# OPN stimulation J was set to 1.8 for 5 ms starting at 45 ms after input onset.
 # -----------------------------------------------------------------------------
 
 import pylab as pl

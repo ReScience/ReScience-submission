@@ -137,6 +137,7 @@ data		= nest.GetStatus(multimeter)
 senders 	= data[0]['events']['senders']
 voltages	= data[0]['events']['rate']
 
+# compute input vector
 Input 		= np.zeros((2,t_end-t_start))
 Input[0][preStim+1:preStim+Stim] = I
 

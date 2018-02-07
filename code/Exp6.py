@@ -153,13 +153,13 @@ for s in range(0,8):
 	greater  = np.where(v>threshold)
 	lesser   = np.where(v<threshold)
 	on  	 = greater[0][0]							   		# saccade onset
-	ID 		  = np.where(lesser[0][:]>greater[0][0])						 
-	if (ID[0].size==0):								 	   		# if velocity did not drop below threhsold
+	ID 		 = np.where(lesser[0][:]>greater[0][0])						 
+	if (ID[0].size==0):								 	   		# if velocity did not drop below threshold
 		off 	  = argrelextrema(v, np.less)			   		# find local minima to identify offset
 		off 	  = off[0][(len(off[0]))-1]	
 	else:
-		
-		off 	  = lesser[0][ID[0][0]] 				   		# offset is determined by first moment velocity if drops below threshold	    
+		off 	  = lesser[0][ID[0][0]] 				   		# otherwise offset is given by the first moment the velocity drops below threshold	    
+	
 	Amplitude[s] = a[off]-a[on]
 	Duration[s]  = T[off]-T[on]	
 	Velocity[s]  = np.max(v)

@@ -11,7 +11,7 @@
 # File description:
 # 
 # As Exp7a with the difference that generation of the input is adjusted to exactly reproduce
-# the curve shown in the original publication (by reducing the time constant after stimulus offset). 
+# the curve shown in the original publication (by reducing the input time constant after stimulus offset). 
 # -----------------------------------------------------------------------------
 
 import pylab as pl

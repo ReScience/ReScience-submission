@@ -67,7 +67,7 @@ J   		= 0.
 
 # timing protocol (in ms)
 preStim  	= 100
-Stim     	= 250
+Stim     	= 300
 postStim 	=  50
 
 # time vector T

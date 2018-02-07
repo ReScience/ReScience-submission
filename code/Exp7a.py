@@ -11,12 +11,14 @@
 # File description:
 # 
 # Simulates reimplemented saccade generation (SG) model of Gancarz & Grossberg (1998).
-# Generates Fig. 7: Trading saccade velocity for duration (figure 10 in original publication).
-# Only the shape of the input signal to the model was varied.
+# Generates Fig. 7a: Trading saccade velocity for duration (figure 10 in original publication).
+#
 # The weight W was set equal to 2. For the high velocity trial (dashed line), stimulation frequency F was 3,
 # and stimulation duration was 62 ms. 
 # For the low velocity trial (solid line), F was 1.3, and stimulation duration was 117 ms.
 #
+# The input curve is computed as described in the original publication. However, its shape does not match
+# to the one shown in the original publication. This leads to undesired second saccade.
 # -----------------------------------------------------------------------------
 
 import pylab as pl
@@ -68,7 +70,7 @@ linecycler 	= cycle(lines)
 ###########################################
 #### 		set up experiment			 ##
 ###########################################
-# input & external electrict stimulation
+# input & external electric stimulation
 F			= [3.,1.3]
 W 			= 2.
 J   		= 0.

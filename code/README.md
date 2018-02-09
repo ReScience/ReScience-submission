@@ -40,14 +40,13 @@ $ pip install -r requirements.txt
 
 ## Running the code
 
-To run a reduced set of simulations (with coarser parameter exploration and less trials per parameter setting), navigate to the ``Scripts`` directory and run the ``main.py`` script:
+To run a reduced set of simulations (with coarser parameter exploration and less trials per parameter setting), navigate to the ``code`` directory and run the ``main.py`` script:
 
 ```console
-$ cd Scripts
 $ python main.py
 ```
 
-This will run the simulations and produce the figures in the `../Figs` directory. It will also report the progress of the simulation. To disable any output, run the script with the `-q` or `--quiet` option.
+This will run the simulations and produce the figures in the `../article/Figs` directory. It will also report the progress of the simulation. To disable any output, run the script with the `-q` or `--quiet` option.
 
 To run the full set of simulations that were used in the paper (which will take several hours), run:
 
@@ -62,11 +61,11 @@ $ python main.py --long
 Two of Brian's default settings where changed:
 
 * Brian's preference `codegen.target` was explicitly set to `cython`. While this is the default code generation target on Python 3 (if Cython is available), on Python 2 Brian defaults to `weave` (if available). However, `weave`  is not compatible with multiple simulations run in parallel, as used for this paper (see Brian's ["Known Issues page"](http://brian2.readthedocs.io/en/2.1.2/introduction/known_issues.html#parallel-brian-simulations-with-the-weave-code-generation-target))
-* By default, Brian logs debugging information to a file what will be deleted when the Python interpreter exists, provided that no error occurred during the run. Given the large number of simulations that are run for the results of this paper, this log file can become very large (several GB) because it repeatedly logs detailed debug output for each of the models/simulations. To avoid this, we added a `brian_preferences` file (see [Brian docs](http://brian2.readthedocs.io/en/2.1.2/advanced/preferences.html#preference-files)) that switches off logging (as explained [here](http://brian2.readthedocs.io/en/2.1.2/advanced/logging.html#preferences))
+* By default, Brian logs debugging information to a file that will be deleted when the Python interpreter exists, provided that no error occurred during the run. Given the large number of simulations that are run for the results of this paper, this log file can become very large (several GB) because it repeatedly logs detailed debug output for each of the models/simulations. To avoid this, we added a `brian_preferences` file (see [Brian docs](http://brian2.readthedocs.io/en/2.1.2/advanced/preferences.html#preference-files)) that switches off logging (as explained [here](http://brian2.readthedocs.io/en/2.1.2/advanced/logging.html#preferences))
 
 ### Result caching
 
-The code uses joblib's "lightweight pipelining" approach (see [joblib documentation](https://pythonhosted.org/joblib/)), i.e. the code is written as if plotting the results for a figure meant running all the simulations/analysis functions again every time (as opposed to having a separate phases which each phase storing the results to disk). In reality, results from certain functions (annotated with ``@mem.cache`` in the code) will be transparently cached to disk and automatically reused. Running the full exploration a second time (e.g. to change some of the analysis or to change the way the results are plotted) will therefore only take a short time. Note that this cache will be stored in the `Scripts` directory under `__joblib_cache__` and will take up around 5GB of disk space for the full parameter exploration.
+The code uses joblib's "lightweight pipelining" approach (see [joblib documentation](https://pythonhosted.org/joblib/)), i.e. the code is written as if plotting the results for a figure meant running all the simulations/analysis functions again every time (as opposed to having a separate phases which each phase storing the results to disk). In reality, results from certain functions (annotated with ``@mem.cache`` in the code) will be transparently cached to disk and automatically reused. Running the full exploration a second time (e.g. to change some of the analysis or to change the way the results are plotted) will therefore only take a short time. Note that this cache will be stored in the `code` directory under `__joblib_cache__` and will take up around 5GB of disk space for the full parameter exploration.
 
 ### Parallelization
 

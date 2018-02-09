@@ -17,7 +17,7 @@ from plot import plot_population_activity, plot_markov, plot_grid
 # explorations in parallel)
 br2.prefs.codegen.target = 'cython'
 
-FIG_FOLDER = "../Figs/"
+FIG_FOLDER = "../article/Figs/"
 
 main_seeds = [3982293089, 1861487226, 2570878100, 3472600360, 2780156760]
 

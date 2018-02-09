@@ -22,7 +22,6 @@ $ cabal install pandoc-crossref
 In a console, type:
 
 ```
-pandoc --standalone --filter ~/.cabal/bin/pandoc-crossref --template=rescience-template.tex --latex-engine=xelatex --biblatex --bibliography=bibliography.bib -M "crossrefYaml=crossref.yaml" --output Name-YEAR.tex Name-YEAR.md
 xelatex Name-YEAR
 biber Name-YEAR
 xelatex Name-YEAR

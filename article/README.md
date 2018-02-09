@@ -22,11 +22,11 @@ $ cabal install pandoc-crossref
 In a console, type:
 
 ```
-pandoc --standalone --filter ~/.cabal/bin/pandoc-crossref --template=rescience-template.tex --latex-engine=xelatex --biblatex --bibliography=bibliography.bib -M "crossrefYaml=crossref.yaml" --output Name-YEAR.tex Name-YEAR.md
-xelatex Name-YEAR
-biber Name-YEAR
-xelatex Name-YEAR
-xelatex Name-YEAR
+pandoc --standalone --filter ~/.cabal/bin/pandoc-crossref --template=rescience-template.tex --pdf-engine=xelatex --biblatex --bibliography=bibliography.bib -M "crossrefYaml=crossref.yaml" --output Bavard-Thero-2018.tex Bavard-Thero-2018.md
+xelatex Bavard-Thero-2018
+biber Bavard-Thero-2018
+xelatex Bavard-Thero-2018
+xelatex Bavard-Thero-2018
 ```
 
 Alternativaley, you can also type `make` after having edited the Makefile.

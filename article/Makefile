@@ -1,4 +1,4 @@
-SOURCE   = Name-YEAR
+SOURCE   = Bavard-Thero-2018
 MDFILE   = $(SOURCE).md
 BIBFILE  = bibliography.bib
 TEXFILE  = $(SOURCE).tex
@@ -10,7 +10,7 @@ TEMPLATE = rescience-template.tex
 	@pandoc --standalone                          \
                 --filter ~/.cabal/bin/pandoc-crossref \
                 --template=$(TEMPLATE)                \
-                --latex-engine=xelatex                \
+                --pdf-engine=xelatex                \
                 --biblatex                            \
                 --bibliography=$(BIBFILE)             \
                 -M "crossrefYaml=crossref.yaml"       \

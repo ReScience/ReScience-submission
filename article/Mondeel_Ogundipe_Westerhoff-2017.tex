@@ -156,13 +156,15 @@
 
     \usepackage{authblk}
                         \author[1,*]{Thierry D.G.A. Mondeel}
-                    \author[1]{Vivian Ogundipe}
-                    \author[1, 2, 3]{Hans V. Westerhoff}
+                    \author[2]{Vivian Ogundipe}
+                    \author[1, 3, 4]{Hans V. Westerhoff}
                             \affil[1]{Synthetic Systems Biology and Nuclear Organization, Swammerdam Institute
 for Life Sciences, University of Amsterdam, The Netherlands}
-                    \affil[2]{Molecular Cell Physiology, Amsterdam Institute for Molecules, Medicines
+                    \affil[2]{Department of Cell Biology, University Medical Center Groningen,
+University of Groningen, The Netherlands}
+                    \affil[3]{Molecular Cell Physiology, Amsterdam Institute for Molecules, Medicines
 and Systems, VU University Amsterdam, The Netherlands}
-                    \affil[3]{Manchester Centre for Integrative Systems Biology, School of Chemical
+                    \affil[4]{Manchester Centre for Integrative Systems Biology, School of Chemical
 Engineering and Analytical Science, The University of Manchester, UK}
             
 \date{\vspace{-5mm}
@@ -289,7 +291,7 @@ et al. proposed a threshold of at least 10\% difference in the lower or
 upper bounds of the wild-type vs.~the mutant flux intervals.
 
 Each biomarker will be associated with a prediction for being either
-elevated or decreased in the mutant case, as comparted to the wild type.
+elevated or decreased in the mutant case, as compared to the wild type.
 A biomarker is considered to have an increased, or reduced,
 extracellular concentration in the mutant case if, when plotting the
 wild-type and mutant flux-variability intervals on a horizontal axis,
@@ -355,13 +357,13 @@ asking for the allowable flux range through reaction \(v_i\) regardless
 of the value of the objective function (although the sign has to be
 maintained). The latter, i.e. \(\phi=0\), is the case considered in the
 method by Shlomi et al. The choice of \(\phi\) matters because when
-\(phi \neq 0\) we are requiring flux to flow through the set of
-objective reactions. This may entail a forced directionality through
-reactions that are required to ultimately produce flux in the objective
-reactions. These additional limitation in freedom of the flux pattern
-may subsequently impact the biomarker predictions. The approach
-discussed here entails predictions purely based on the network topology
-and therefore sets \(\phi = 0\).
+\(\phi \neq 0\) we are requiring flux to flow through the set of
+objective reactions (unless \(Z_{\text{max}} = 0\)). This may entail a
+forced directionality through reactions that are required to ultimately
+produce flux in the objective reactions. These additional limitations in
+the freedom of the flux pattern may subsequently impact the biomarker
+predictions. The approach discussed here entails predictions purely
+based on the network topology and therefore sets \(\phi = 0\).
 
 \subsection{Reference implementation}\label{reference-implementation}
 
@@ -373,21 +375,21 @@ but this was also performed in MATLAB.
 
 We here present an implementation of the biomarker prediction method
 originally proposed by Shlomi et al., programmed in Python, and
-reproduce the results presented in Figure 1A-B and 2 of the original
+reproduce the results presented in Figure 1A-B, 2 and 3 of the original
 publication. These figures concern the method's application to a simple
 metabolic map and then to a set of \(17\) amino acid metabolism
 disorders. Our Python module provides the biomarker prediction algorithm
 and is agnostic of the map used. It can therefore be applied to other
 maps than the human metabolic reconstruction considered by Shlomi et al.
 Jupyter notebooks are provided that generate the illustrative map and
-reproduce all results referred to in Figures 1A-B and 2 of Shlomi et al.
-Our implementation is based on information given in the original paper.
-However, some details critical to the reproduction were left unexplained
-there and are highlighted here. We also include a more detailed
-discussion of one of the amino acid IEMs to examine the robustness of
-the predictions made using this approach. We feel this adds to the
-utility of this reference implementation and the understanding of the
-approach introduced by Shlomi et al.
+reproduce all results referred to in Figures 1A-B, 2 and 3 of Shlomi et
+al. Our implementation is based on information given in the original
+paper. However, some details critical to the reproduction were left
+unexplained there and are highlighted here. We also include a more
+detailed discussion of one of the amino acid IEMs to examine the
+robustness of the predictions made using this approach. We feel this
+adds to the utility of this reference implementation and the
+understanding of the approach introduced by Shlomi et al.
 
 \section{Methods}\label{methods}
 
@@ -480,7 +482,7 @@ optimum of zero.
 In this section we start with an analysis of the sensitivity of the
 method which was not clearly discussed in the original publication but
 is easily facilitated with our reference implementation. Subsequently,
-we discuss the reproduction of Figures 1 and 2 from the original
+we discuss the reproduction of Figures 1, 2 and 3 from the original
 publication.
 
 \subsection{Robustness of the flux variability
@@ -506,7 +508,7 @@ metabolic network surrounding the phenylalanine hydroxylase (PAH) enzyme
 that malfunctions in PKU. Unless stated otherwise, the simulations are
 performed with a medium that allows efflux through all exchange
 reactions with an upper bound of \(1000\) and influx through all
-exchange reactions with a lower bound of \(1\) and we use the default
+exchange reactions with a lower bound of \(-1\) and we use the default
 settings, including a 10\% significance threshold. The only considered
 biomarkers are the \(20\) proteinogenic amino acids. We will consider
 six cases in total. The results are summarized in Table
@@ -729,7 +731,7 @@ in Figure ~\ref{fig:Shlomi2009_figure_1}B and this paper is accompanied
 by a Jupyter notebook reproducing the biomarker prediction. In our
 analysis, all exchange reactions were given inward bounds of \(-10\) and
 outward bounds of \(+1000\) so that the internal reaction bounds (of
-\(\pm 1000\)) are never reached. Our Table ~\ref{tbl:toy_model_results}
+\(\pm 1000\)) are never reached. Figure ~\ref{fig:Shlomi2009_figure_1}B
 shows that all exchangeable metabolites except M5 and M7 are predicted
 to be robust biomarkers.
 
@@ -758,7 +760,7 @@ It is worthwhile to note, with an eye on the sensitivity of this
 approach to the various settings, that we needed to set the medium
 composition very specifically. Shlomi et al. did not report on their
 chosen medium in their publication but we were able to reproduce their
-results by setting all inward flux bounds to \(1\) and all outward flux
+results by setting all inward flux bounds to \(-1\) and all outward flux
 bounds to \(1000\).
 
 We made use of the Excel file included as supplementary information in
@@ -848,7 +850,7 @@ Glycine encephalopathy & GCC2am, GCC2bim, & &\tabularnewline
 Illustration of the subnetwork of Recon 1 relevant to the effect of
 homocystinuria on the metabolism and transport of methionine. Nodes
 represent metabolites and edges represent reactions. For simplicity,
-only abbreviations of metabolite names are given in the Figure. The full
+only abbreviations of metabolite names are given in the figure. The full
 names are: L-Methionine (met), S-Adenosyl-L-methionine (amet),
 S-Adenosyl-L-homocysteine (ahcys), L-Homocysteine (hcys), L-Serine
 (ser), L-Cystathionine (cyst), L-Cysteine (cys),

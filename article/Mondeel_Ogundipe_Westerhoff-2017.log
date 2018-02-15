@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017) (preloaded format=xelatex 2017.10.17)  14 FEB 2018 17:34
+This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017) (preloaded format=xelatex 2017.10.17)  15 FEB 2018 12:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1459,22 +1459,18 @@ File: rescience-logo.pdf Graphic file (type QTm)
 <use  "rescience-logo.pdf" > [1
 
 ]
-
-LaTeX Warning: Reference `fig:Shlomi2009_figure_3' on page 2 undefined on input
- line 298.
-
 File: rescience-logo.pdf Graphic file (type QTm)
-<use  "rescience-logo.pdf" > [2]
-File: rescience-logo.pdf Graphic file (type QTm)
- <use  "rescience-logo.pdf" > [3]
+ <use  "rescience-logo.pdf" > [2]
 File: rescience-logo.pdf Graphic file (type QTm)
 
-<use  "rescience-logo.pdf" > [4]
+<use  "rescience-logo.pdf" > [3]
+File: rescience-logo.pdf Graphic file (type QTm)
+ <use  "rescience-logo.pdf" > [4]
 File: ./Figures/PKU_network.pdf Graphic file (type QTm)
- <use  "./Figures/PKU_network.pdf" >
-File: rescience-logo.pdf Graphic file (type QTm)
 
-<use  "rescience-logo.pdf" > [5]
+<use  "./Figures/PKU_network.pdf" >
+File: rescience-logo.pdf Graphic file (type QTm)
+ <use  "rescience-logo.pdf" > [5]
 Overfull \hbox (373.11223pt too wide) detected at line 591
  [] 
  []
@@ -1513,46 +1509,73 @@ Adenosylhomocysteine
  []
 
 
-Overfull \hbox (373.11223pt too wide) detected at line 813
+Overfull \hbox (373.11223pt too wide) detected at line 797
  [] 
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 804--817
+Underfull \hbox (badness 10000) in alignment at lines 788--801
 [] [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 817--821
+Underfull \hbox (badness 10000) in alignment at lines 801--805
 [] [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 821--845
+Underfull \hbox (badness 10000) in alignment at lines 805--829
 [] [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 845--855
+Underfull \hbox (badness 10000) in alignment at lines 829--839
 [] [] [] []
+ []
+
+File: Figures/Reproduction_Shlomi_fig_3.png Graphic file (type QTm)
+<use  "Figures/Reproduction_Shlomi_fig_3.png" >
+Underfull \hbox (badness 1742) in paragraph at lines 866--866
+[]\TU/lmss/bx/n/9 Figure 3: |\TU/lmss/m/n/9 Reproduction of Figure 3 in [[][]7[
+][]]. (A) Illustration of the subnetwork of
+ []
+
+
+Underfull \hbox (badness 1097) in paragraph at lines 866--866
+\TU/lmss/m/n/9 Recon 1 relevant to the effect of homocystinuria on the metaboli
+sm and transport of
+ []
+
+
+Underfull \hbox (badness 1237) in paragraph at lines 866--866
+\TU/lmss/m/n/9 methionine. Nodes represent metabolites and edges represent reac
+tions. For simplic-
+ []
+
+
+Underfull \hbox (badness 1137) in paragraph at lines 866--866
+\TU/lmss/m/n/9 ity, only abbreviations of metabolite names are given in the Fig
+ure. The full names
  []
 
 File: rescience-logo.pdf Graphic file (type QTm)
 <use  "rescience-logo.pdf" > [9]
+File: rescience-logo.pdf Graphic file (type QTm)
+ <use  "rescience-logo.pdf" > [10]
 LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <9> not available
-(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 858.
+(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 896.
 
 
 LaTeX Font Warning: Font shape `TU/lmss/m/sc' in size <9> not available
-(Font)              Font shape `TU/lmr/m/sc' tried instead on input line 858.
+(Font)              Font shape `TU/lmr/m/sc' tried instead on input line 896.
 
 File: rescience-logo.pdf Graphic file (type QTm)
-<use  "rescience-logo.pdf" > [10]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 860.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 860.
+<use  "rescience-logo.pdf" > [11]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 898.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 898.
  (./Mondeel_Ogundipe_Westerhoff-2017.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 860.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 860.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 898.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 898.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -1566,12 +1589,12 @@ xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 38430 strings out of 493005
- 724905 string characters out of 6134595
- 1167018 words of memory out of 5000000
- 41933 multiletter control sequences out of 15000+600000
+ 38433 strings out of 493005
+ 725008 string characters out of 6134595
+ 1169643 words of memory out of 5000000
+ 41935 multiletter control sequences out of 15000+600000
  18544 words of font info for 94 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  54i,16n,73p,10392b,4473s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on Mondeel_Ogundipe_Westerhoff-2017.pdf (10 pages).
+Output written on Mondeel_Ogundipe_Westerhoff-2017.pdf (11 pages).

@@ -5,7 +5,7 @@ Author:
     affiliation: 1
 Address:
   - code:    1
-    Professorship for Artificial Intelligence, Department of Computer Science, Chemnitz University of Technology, D-09107 Chemnitz, Germany
+    address: Professorship for Artificial Intelligence, Department of Computer Science, Chemnitz University of Technology, D-09107 Chemnitz, Germany
 Contact:
   - rene.larisch@informatik.tu-chemnitz.de
 Editor:
@@ -14,12 +14,12 @@ Reviewer:
   - Name Surname
   - Name Surname
 Publication:
-  received:  Sep,  1, 2015
-  accepted:  Sep, 1, 2015
-  published: Sep, 1, 2015
+  received:  Feb,  1, 2018
+  accepted:  Feb, 1, 2018
+  published: Feb, 1, 2018
   volume:    "**1**"
   issue:     "**1**"
-  date:      Sep 2015
+  date:      Feb 2018
   number: 1
 Repository:
   article:   "http://github.com/rescience/rescience-submission/article"
@@ -35,14 +35,38 @@ Bibliography:
 
 # Introduction
 
-This is a reimplementation of @Clopath2010 .
+Since the first describing of spike timing-dependent plasticity (STDP) [@Bi1998],
+different description of STDP are published to reproduce different experimental findings.
+The early implementations, so called pair-based STDP learning rules,
+failed on reproducing some experimental observations,
+like from triplet or quadruplets experiments [@Pfister2006].
 
-The introduction should introduce the original paper and put it in context
-(e.g. is it an important paper in the domain ?). You must also specify if there
-was an implementation available somewhere and provide a link to it if relevant
-(and in such a case, you have to specify if the proposed replication is based
-on this original implementation). You should also introduce your implementation
-by listing language, tools, libraries, etc. and motivate choices if relevant.
+Here, we introduce a reimplementation of the @Clopath2010 STDP model,
+what is enable to reproduce experimental findings of triplet studies.
+The proposed model try to be more biological plausible than previous models with
+a theoretical approach, to be a voltage based STDP model.
+This means, that the occur of long term depression (LTD) or long term potentiation (LTP) depends on the
+postsynaptic membrane voltage.
+Clopath and colleagues could show that their learning rule
+can develop stable weights, as it is necessary for learning receptive fields of V1 simple cells.
+To achieve stable weights, they implemented a homeostatic mechanism to
+adjust the amount of generated LTD, over the relation between the average postsynaptic
+membrane potential and a reference value.
+Furthermore, their model lead to two different connection structures,
+depending on the spiking behavior of the neurons [@Clopath2010].
+If neurons fire high at the same time, they build strong bidirectional connections (rate code).
+If neurons fire in a specific temporary order, they connection structure follow that order (temporal code).
+They used a adaptive exponential integrate-and-fire (AdEx) neuron model.
+
+Their model is reimplemented in Python (v2.7) and with help of the neuronal
+simulator ANNarchy [@Vitay2015] (v4.6). For the analysis and the figures
+we used numpy (v1.11.0) and matplotlib (v1.5.1). Not only the voltage based
+STDP learing rule is reimplemented, even the AdEx neuron model.
+In the supplementary material of the original publication is the matlab source code for a simple example
+published. Besides them, it exists a matlab implementation to demonstrate the
+stable learning of weights on modeldb (http://modeldb.yale.edu/144566).
+The matlab implementation was used as a reference for the here presented one,
+and used for evaluation of the correctness.
 
 # Methods
 
@@ -54,7 +78,7 @@ The methods section should explain how you replicated the original results:
 * did you modify some parts ?
 * etc.
 
-If relevevant in your domain, you should also provide a new standardized
+If relevant in your domain, you should also provide a new standardized
 description of the work.
 
 
@@ -85,9 +109,8 @@ Table: Table caption {#tbl:table}
 A reference to table @tbl:table.
 A reference to figure @fig:logo.
 A reference to equation @eq:1.
-A reference to citation @markdown.
 
-![Figure caption](rescience-logo.pdf){#fig:logo}
+![Figure caption for Free!](rescience-logo.pdf){#fig:logo}
 
 $$ A = \sqrt{\frac{B}{C}} $$ {#eq:1}
 

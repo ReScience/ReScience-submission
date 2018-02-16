@@ -180,54 +180,57 @@ ABD: EveryShipout initializing macros ABD: EverySelectfont initializing macros
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
 
-Underfull \hbox (badness 10000) in paragraph at lines 209--209
+Underfull \hbox (badness 10000) in paragraph at lines 208--208
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 209--209
+Underfull \hbox (badness 10000) in paragraph at lines 208--208
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 209--209
+Underfull \hbox (badness 10000) in paragraph at lines 208--208
 
 
 LaTeX Font Warning: Font shape `EU1/FontAwesome(0)/bx/n' undefined
-(Font)              using `EU1/FontAwesome(0)/m/n' instead on input line 209.
+(Font)              using `EU1/FontAwesome(0)/m/n' instead on input line 208.
 
 <use  "rescience-logo.pdf" > [1]
-Overfull \hbox (373.11223pt too wide) detected at line 274
+Overfull \hbox (373.11223pt too wide) detected at line 301
  [] 
 
-Underfull \hbox (badness 10000) in alignment at lines 273--278
+Underfull \hbox (badness 10000) in alignment at lines 300--305
 [] [] [] [] [] []
 
-Underfull \hbox (badness 10000) in alignment at lines 278--282
+Underfull \hbox (badness 10000) in alignment at lines 305--309
 [] [] [] [] [] []
 
-Underfull \hbox (badness 10000) in alignment at lines 282--290
+Underfull \hbox (badness 10000) in alignment at lines 309--317
 [] [] [] [] [] []
-<use  "rescience-logo.pdf" >
+<use  "rescience-logo.pdf" > <use  "rescience-logo.pdf" > [2]
 
 LaTeX Font Warning: Font shape `EU1/lmss/m/sc' in size <9> not available
-(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 305.
+(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 331.
 
-<use  "rescience-logo.pdf" > [2] (./Larisch-2018.aux)
+<use  "rescience-logo.pdf" > [3] (./Larisch-2018.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
  )
 (see the transcript file for additional information)
-Output written on Larisch-2018.pdf (2 pages).
+Output written on Larisch-2018.pdf (3 pages).
 Transcript written on Larisch-2018.log.
 INFO - This is Biber 2.4
 INFO - Logfile is 'Larisch-2018.blg'
 INFO - Reading 'Larisch-2018.bcf'
-INFO - Found 2 citekeys in bib section 0
+INFO - Found 4 citekeys in bib section 0
 INFO - Processing section 0
 INFO - Looking for bibtex format file 'bibliography.bib' for section 0
 INFO - Decoding LaTeX character macros into UTF-8
 INFO - Found BibTeX data source 'bibliography.bib'
 WARN - ISBN '1546-1726 (Electronic){\$}\backslash{\$}n1097-6256 (Linking)' in entry 'Clopath2010' is invalid - run biber with '--validate_datamodel' for details.
-INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
 INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
 INFO - Sorting list 'nty/global' of type 'entry' with scheme 'nty' and locale 'en-US'
 INFO - No sort tailoring available for locale 'en-US'
 INFO - Writing 'Larisch-2018.bbl' with encoding 'UTF-8'
@@ -415,42 +418,42 @@ ABD: EveryShipout initializing macros ABD: EverySelectfont initializing macros
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
 
-Underfull \hbox (badness 10000) in paragraph at lines 209--209
+Underfull \hbox (badness 10000) in paragraph at lines 208--208
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 209--209
+Underfull \hbox (badness 10000) in paragraph at lines 208--208
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 209--209
+Underfull \hbox (badness 10000) in paragraph at lines 208--208
 
 
 LaTeX Font Warning: Font shape `EU1/FontAwesome(0)/bx/n' undefined
-(Font)              using `EU1/FontAwesome(0)/m/n' instead on input line 209.
+(Font)              using `EU1/FontAwesome(0)/m/n' instead on input line 208.
 
 <use  "rescience-logo.pdf" > [1]
-Overfull \hbox (373.11223pt too wide) detected at line 274
+Overfull \hbox (373.11223pt too wide) detected at line 301
  [] 
 
-Underfull \hbox (badness 10000) in alignment at lines 273--278
+Underfull \hbox (badness 10000) in alignment at lines 300--305
 [] [] [] [] [] []
 
-Underfull \hbox (badness 10000) in alignment at lines 278--282
+Underfull \hbox (badness 10000) in alignment at lines 305--309
 [] [] [] [] [] []
 
-Underfull \hbox (badness 10000) in alignment at lines 282--290
+Underfull \hbox (badness 10000) in alignment at lines 309--317
 [] [] [] [] [] []
-<use  "rescience-logo.pdf" >
+<use  "rescience-logo.pdf" > <use  "rescience-logo.pdf" > [2]
 
 LaTeX Font Warning: Font shape `EU1/lmss/m/sc' in size <9> not available
-(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 305.
+(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 331.
 
-<use  "rescience-logo.pdf" > [2] (./Larisch-2018.aux)
+<use  "rescience-logo.pdf" > [3] (./Larisch-2018.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  )
 (see the transcript file for additional information)
-Output written on Larisch-2018.pdf (2 pages).
+Output written on Larisch-2018.pdf (3 pages).
 Transcript written on Larisch-2018.log.
 This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex)
  restricted \write18 enabled.
@@ -634,40 +637,40 @@ ABD: EveryShipout initializing macros ABD: EverySelectfont initializing macros
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
 
-Underfull \hbox (badness 10000) in paragraph at lines 209--209
+Underfull \hbox (badness 10000) in paragraph at lines 208--208
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 209--209
+Underfull \hbox (badness 10000) in paragraph at lines 208--208
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 209--209
+Underfull \hbox (badness 10000) in paragraph at lines 208--208
 
 
 LaTeX Font Warning: Font shape `EU1/FontAwesome(0)/bx/n' undefined
-(Font)              using `EU1/FontAwesome(0)/m/n' instead on input line 209.
+(Font)              using `EU1/FontAwesome(0)/m/n' instead on input line 208.
 
 <use  "rescience-logo.pdf" > [1]
-Overfull \hbox (373.11223pt too wide) detected at line 274
+Overfull \hbox (373.11223pt too wide) detected at line 301
  [] 
 
-Underfull \hbox (badness 10000) in alignment at lines 273--278
+Underfull \hbox (badness 10000) in alignment at lines 300--305
 [] [] [] [] [] []
 
-Underfull \hbox (badness 10000) in alignment at lines 278--282
+Underfull \hbox (badness 10000) in alignment at lines 305--309
 [] [] [] [] [] []
 
-Underfull \hbox (badness 10000) in alignment at lines 282--290
+Underfull \hbox (badness 10000) in alignment at lines 309--317
 [] [] [] [] [] []
-<use  "rescience-logo.pdf" >
+<use  "rescience-logo.pdf" > <use  "rescience-logo.pdf" > [2]
 
 LaTeX Font Warning: Font shape `EU1/lmss/m/sc' in size <9> not available
-(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 305.
+(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 331.
 
-<use  "rescience-logo.pdf" > [2] (./Larisch-2018.aux)
+<use  "rescience-logo.pdf" > [3] (./Larisch-2018.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  )
 (see the transcript file for additional information)
-Output written on Larisch-2018.pdf (2 pages).
+Output written on Larisch-2018.pdf (3 pages).
 Transcript written on Larisch-2018.log.

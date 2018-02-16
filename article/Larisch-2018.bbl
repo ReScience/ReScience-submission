@@ -19,6 +19,44 @@
 
 \refsection{0}
   \sortlist[entry]{nty/global}
+    \entry{Bi1998}{article}{}
+      \name{author}{2}{}{%
+        {{hash=8a57ec5f1e4994c27e39e9e4b485a448}{%
+           family={Bi},
+           family_i={B\bibinitperiod},
+           given={Guo-qiang},
+           given_i={G\bibinithyphendelim q\bibinitperiod}}}%
+        {{hash=56f7e07f9d80fd4df063bc3a005dfb78}{%
+           family={Poo},
+           family_i={P\bibinitperiod},
+           given={Mu-ming},
+           given_i={M\bibinithyphendelim m\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Society for Neuroscience}%
+      }
+      \strng{namehash}{8d9303818d704e1d0af267e985d2f8e3}
+      \strng{fullhash}{8d9303818d704e1d0af267e985d2f8e3}
+      \field{sortinit}{B}
+      \field{sortinithash}{4ecbea03efd0532989d3836d1a048c32}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{In cultures of dissociated rat hippocampal neurons, persistent potentiation and depression of glutamatergic synapses were induced by correlated spiking of presynaptic and postsynaptic neurons. The relative timing between the presynaptic and postsynaptic spiking determined the direction and the extent of synaptic changes. Repetitive postsynaptic spiking within a time window of 20 msec after presynaptic activation resulted in long-term potentiation (LTP), whereas postsynaptic spiking within a window of 20 msec before the repetitive presynaptic activation led to long-term depression (LTD). Significant LTP occurred only at synapses with relatively low initial strength, whereas the extent of LTD did not show obvious dependence on the initial synaptic strength. Both LTP and LTD depended on the activation of NMDA receptors and were absent in cases in which the postsynaptic neurons were GABAergic in nature. Blockade of L-type calcium channels with nimodipine abolished the induction of LTD and reduced the extent of LTP. These results underscore the importance of precise spike timing, synaptic strength, and postsynaptic cell type in the activity-induced modification of central synapses and suggest that Hebb{’}s rule may need to incorporate a quantitative consideration of spike timing that reflects the narrow and asymmetric window for the induction of synaptic modification.}
+      \field{issn}{0270-6474}
+      \field{journaltitle}{Journal of Neuroscience}
+      \field{number}{24}
+      \field{title}{Synaptic Modifications in Cultured Hippocampal Neurons: Dependence on Spike Timing, Synaptic Strength, and Postsynaptic Cell Type}
+      \field{volume}{18}
+      \field{year}{1998}
+      \field{pages}{10464\bibrangedash 10472}
+      \range{pages}{9}
+      \verb{eprint}
+      \verb http://www.jneurosci.org/content/18/24/10464.full.pdf
+      \endverb
+      \verb{url}
+      \verb http://www.jneurosci.org/content/18/24/10464
+      \endverb
+    \endentry
     \entry{Clopath2010}{article}{}
       \name{author}{4}{}{%
         {{hash=326600b0ad340d8e0cd5df377b62e046}{%
@@ -64,29 +102,90 @@
       \verb http://www.nature.com/doifinder/10.1038/nn.2479
       \endverb
     \endentry
-    \entry{markdown}{misc}{}
+    \entry{Pfister2006}{article}{}
       \name{author}{2}{}{%
-        {{hash=81f9937d242978bf6b5bef61bbb7972f}{%
-           family={Gruber},
+        {{hash=087012de035696b9d26ae98571c645cc}{%
+           family={Pfister},
+           family_i={P\bibinitperiod},
+           given={Jean-pascal},
+           given_i={J\bibinithyphendelim p\bibinitperiod}}}%
+        {{hash=6b2c6d8dbc66b301f2a7077d805f0ba7}{%
+           family={Gerstner},
            family_i={G\bibinitperiod},
-           given={John},
-           given_i={J\bibinitperiod}}}%
-        {{hash=044176fb833c1638f7abe20cde6a3077}{%
-           family={Swartz},
-           family_i={S\bibinitperiod},
-           given={Aaron},
-           given_i={A\bibinitperiod}}}%
+           given={Wulfram},
+           given_i={W\bibinitperiod}}}%
       }
-      \strng{namehash}{66fc337306fb3dafd18f1b2eb14afe1b}
-      \strng{fullhash}{66fc337306fb3dafd18f1b2eb14afe1b}
-      \field{sortinit}{G}
-      \field{sortinithash}{1c854ef9177a91bf894e66485bdbd3ed}
+      \name{editor}{3}{}{%
+        {{hash=448e9c874a02562019991c06386e18b7}{%
+           family={Weiss},
+           family_i={W\bibinitperiod},
+           given={Y.},
+           given_i={Y\bibinitperiod}}}%
+        {{hash=94ff018e41504874fcbc2457ae70c7aa}{%
+           family={Schölkopf},
+           family_i={S\bibinitperiod},
+           given={B.},
+           given_i={B\bibinitperiod}}}%
+        {{hash=3ce0b4a9e9a5ae0cfea69aa920751dec}{%
+           family={Platt},
+           family_i={P\bibinitperiod},
+           given={J.\bibnamedelimi C.},
+           given_i={J\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {MIT Press}%
+      }
+      \strng{namehash}{fad6a3fd931d8b15ffb6c9abca95cb33}
+      \strng{fullhash}{fad6a3fd931d8b15ffb6c9abca95cb33}
+      \field{sortinit}{P}
+      \field{sortinithash}{c0a4896d0e424f9ca4d7f14f2b3428e7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{title}{The Markdown format}
-      \field{year}{2004}
+      \field{booktitle}{Advances in Neural Information Processing Systems 18}
+      \field{title}{Beyond Pair-Based STDP: a Phenomenological Rule for Spike Triplet and Frequency Effects}
+      \field{year}{2006}
+      \field{pages}{1081\bibrangedash 1088}
+      \range{pages}{8}
       \verb{url}
-      \verb http://daringfireball.net/projects/markdown/syntax
+      \verb http://papers.nips.cc/paper/2923-beyond-pair-based-stdp-a-phenomenological-rule-for-spike-triplet-and-frequency-effects.pdf
+      \endverb
+    \endentry
+    \entry{Vitay2015}{article}{}
+      \name{author}{3}{}{%
+        {{hash=f20c399dce7c2c92f429007ffa1ecdbc}{%
+           family={Vitay},
+           family_i={V\bibinitperiod},
+           given={Julien},
+           given_i={J\bibinitperiod}}}%
+        {{hash=f0d30bead21c4ac74d22790b113d9dd8}{%
+           family={Dinkelbach},
+           family_i={D\bibinitperiod},
+           given={Helge},
+           given_i={H\bibinitperiod}}}%
+        {{hash=fe5636c305119dad3bb6deb320e5d9f8}{%
+           family={Hamker},
+           family_i={H\bibinitperiod},
+           given={Fred},
+           given_i={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{8476223dae91ee412c1dbc9978683311}
+      \strng{fullhash}{8476223dae91ee412c1dbc9978683311}
+      \field{sortinit}{V}
+      \field{sortinithash}{d18f5ce25ce0b5ca7f924e3f6c04870e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1662-5196}
+      \field{journaltitle}{Frontiers in Neuroinformatics}
+      \field{title}{ANNarchy: a code generation approach to neural simulations on parallel hardware}
+      \field{volume}{9}
+      \field{year}{2015}
+      \field{pages}{19}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.3389/fninf.2015.00019
+      \endverb
+      \verb{url}
+      \verb https://www.frontiersin.org/article/10.3389/fninf.2015.00019
       \endverb
     \endentry
   \endsortlist

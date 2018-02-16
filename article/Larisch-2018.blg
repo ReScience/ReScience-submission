@@ -1,17 +1,17 @@
 [0] Config.pm:340> INFO - This is Biber 2.4
 [0] Config.pm:343> INFO - Logfile is 'Larisch-2018.blg'
-[42] biber:287> INFO - === Mi Jan 31, 2018, 14:23:22
-[140] Biber.pm:348> INFO - Reading 'Larisch-2018.bcf'
-[286] Biber.pm:742> INFO - Found 2 citekeys in bib section 0
-[292] Biber.pm:3151> INFO - Processing section 0
-[322] Biber.pm:3308> INFO - Looking for bibtex format file 'bibliography.bib' for section 0
-[326] bibtex.pm:1113> INFO - Decoding LaTeX character macros into UTF-8
-[330] bibtex.pm:974> INFO - Found BibTeX data source 'bibliography.bib'
-[353] Utils.pm:147> WARN - ISBN '1546-1726 (Electronic){\$}\backslash{\$}n1097-6256 (Linking)' in entry 'Clopath2010' is invalid - run biber with '--validate_datamodel' for details.
-[386] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[386] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[386] Biber.pm:3028> INFO - Sorting list 'nty/global' of type 'entry' with scheme 'nty' and locale 'en-US'
-[386] Biber.pm:3032> INFO - No sort tailoring available for locale 'en-US'
-[389] bbl.pm:519> INFO - Writing 'Larisch-2018.bbl' with encoding 'UTF-8'
-[399] bbl.pm:615> INFO - Output to Larisch-2018.bbl
-[399] Biber.pm:109> INFO - WARNINGS: 1
+[44] biber:287> INFO - === Fr Feb 16, 2018, 17:02:44
+[142] Biber.pm:348> INFO - Reading 'Larisch-2018.bcf'
+[290] Biber.pm:742> INFO - Found 4 citekeys in bib section 0
+[297] Biber.pm:3151> INFO - Processing section 0
+[326] Biber.pm:3308> INFO - Looking for bibtex format file 'bibliography.bib' for section 0
+[344] bibtex.pm:1113> INFO - Decoding LaTeX character macros into UTF-8
+[360] bibtex.pm:974> INFO - Found BibTeX data source 'bibliography.bib'
+[405] Utils.pm:147> WARN - ISBN '1546-1726 (Electronic){\$}\backslash{\$}n1097-6256 (Linking)' in entry 'Clopath2010' is invalid - run biber with '--validate_datamodel' for details.
+[456] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[456] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[456] Biber.pm:3028> INFO - Sorting list 'nty/global' of type 'entry' with scheme 'nty' and locale 'en-US'
+[456] Biber.pm:3032> INFO - No sort tailoring available for locale 'en-US'
+[463] bbl.pm:519> INFO - Writing 'Larisch-2018.bbl' with encoding 'UTF-8'
+[492] bbl.pm:615> INFO - Output to Larisch-2018.bbl
+[493] Biber.pm:109> INFO - WARNINGS: 1

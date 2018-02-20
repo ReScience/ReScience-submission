@@ -251,13 +251,12 @@ Shlomi et al. illustrated the method first on a virtual metabolic map
 and further validated their technique using the reconstruction of the
 human metabolic map Recon1 \autocite{Duarte2007} empirically with
 respect to known biomarkers, but did not provide any formal proof. For a
-set of 17 IEMs that affect amino acid metabolism, they found a 56\%
-fraction of the biomarkers that are correctly predicted and a fraction
-of 76\% of predicted biomarkers that were predicted correctly in terms
-of whether they increased or decreased in concentration. Thiele et al.
-\autocite{Thiele2013} later found an even higher precision using
-essentially the same FVA methodology on an updated version of the
-metabolic reconstruction.
+set of 17 IEMs that affect amino acid metabolism, they found 56\% of the
+biomarkers that are correctly predicted and 76\% of predicted biomarkers
+that were predicted correctly in terms of whether they increased or
+decreased in concentration. Thiele et al. \autocite{Thiele2013} later
+found an even higher precision using essentially the same FVA
+methodology on an updated version of the metabolic reconstruction.
 
 Below, we first introduce the essential vocabulary and concepts
 necessary for understanding the method proposed by Shlomi et al.
@@ -267,10 +266,9 @@ necessary for understanding the method proposed by Shlomi et al.
 Exchange reactions are reactions in the metabolic network that allow
 import and/or export of metabolites from the metabolic map. Exchange
 reactions are represented by non-mass-balanced pseudoreactions, e.g.
-\(X \leftrightarrow \varnothing\), where \(X\) is understood to
-originate from or efflux to the biofluids. Positive flux indicates net
-secretion of \(X\) by the cell and negative flux indicates the net
-uptake of \(X\).
+\(X \leftrightarrow \varnothing\). Positive flux indicates net secretion
+of \(X\) by the cell and negative flux indicates the net uptake of
+\(X\).
 
 We define boundary metabolites to be metabolites that are involved in
 exchange reactions with the environment, i.e.~they serve as inputs
@@ -313,7 +311,7 @@ a specific exchange reaction \(v_i\) entails the following linear
 programming problem:
 
 \begin{align}
-\text{Maximize } &\pm v_i, \text{ such that for all } k \nonumber \\
+\text{Min } v_i \text{ or Max } &v_i, \text{ such that for all } k \nonumber \\
 \bm{S} \bm{v} &= \bm{0} \nonumber \\
 Z  &\geq \phi Z_{\text{max}} \nonumber \\
 \alpha_k \leq & ~ v_k \leq \beta_k 
@@ -333,15 +331,13 @@ reaction that is to be maximized, whereas the index \(k\) is used to
 index the bound constraints that exist for each reaction, including
 \(v_i\). \(v_i\) may be maximized in the forward (positive flux) or the
 reverse (negative flux) direction if allowed by the bounds on \(v_i\).
-This is indicated by the \(\pm\) symbol. \(\bm{S}\) is the stoichiometry
-matrix for the metabolic network of size \(m \times r\) where \(m\) is
-the number of metabolites and \(r\) the number of reactions. The
-numeric, typically integer, elements of \(\bm{S}\) represent the
-stoichiometry coefficients of each metabolite \(m\) in each reaction
-\(r\). Consequently, for large networks, this matrix is sparse (has many
-zero entries). \(Z = \bm{c}^T \bm{v}\) is the objective function defined
-for the map, entailing a linear combination, defined by column vector
-\(\bm{c}\), of one or more reactions. The vector \(\bm{c}\) is an
+For a network with \(m\) metabolites and \(r\) reactions, i.e.~fluxes,
+\(\bm{S}\) is the stoichiometry matrix for the network of size
+\(m \times r\). The numeric, typically integer, elements of \(\bm{S}\)
+represent the stoichiometry coefficients of each metabolite \(m\) in
+each reaction \(r\). \(Z = \bm{c}^T \bm{v}\) is the objective function
+defined for the map, entailing a linear combination, defined by column
+vector \(\bm{c}\), of one or more reactions. The vector \(\bm{c}\) is an
 indicator of objective reactions, i.e.~it contains a value of \(1\) in
 rows corresponding to fluxes that are to be included in the objective,
 and zeros in all other rows. Due to the vector multiplication
@@ -610,17 +606,17 @@ Reduced\tabularnewline
 
 Returning to the example of phenylketonuria, we simulated this for Recon
 2.2 using the synchronous approach. Column 3 in Table
-{[}tbl:PKU\_results{]} shows that the result now agrees with the Recon 1
+~\ref{tbl:PKU_results} shows that the result now agrees with the Recon 1
 asynchronous predictions. Using Recon 1, we came to the correct
 prediction because it contains only one reaction (`PHETHPTOX2') linked
 to the PKU gene, i.e.~only phenylalanine hydroxylase (Entrez ID: 5053,
 HGNC:8582):
 
-\begin{align*}
-&\text{(6R)-L-erythro-5,6,7,8-tetrahydrobiopterin} + \text{L-phenylalanine} + \text{O}_2 \\
-&\leftrightarrow \\
-&\text{4a-hydroxy-L-erythro-5,6,7,8-tetrahydrobiopterin} + \text{L-tyrosine}
-\end{align*}
+\begin{gather*}
+\text{(6R)-L-erythro-5,6,7,8-tetrahydrobiopterin} + \text{L-phenylalanine} + \text{O}_2 \\
+\updownarrow \\
+\text{4a-hydroxy-L-erythro-5,6,7,8-tetrahydrobiopterin} + \text{L-tyrosine}
+\end{gather*}
 
 In Recon 1, the 4a-hydroxytetrahydrobiopterin produced may dehydrate to
 6,7-dihydrobiopterin by the action of the `THBPT4ACAMDASE' reaction
@@ -629,11 +625,11 @@ addition to the PAH and PCBD1 catalyzed reactions indicated above, the
 overall reaction where the spontaneous dehydration reaction is included,
 again attributed to phenylalanine hydroxylase:
 
-\begin{align*}
-&\text{(6R)-L-erythro-5,6,7,8-tetrahydrobiopterin} + \text{L-phenylalanine} + \text{O}_2 \\
-&\leftrightarrow \\
-&\text{6,7-dihydrobiopterin} + \text{L-tyrosine} + \text{H}_2\text{O}.
-\end{align*}
+\begin{gather*}
+\text{(6R)-L-erythro-5,6,7,8-tetrahydrobiopterin} + \text{L-phenylalanine} + \text{O}_2 \\
+ \updownarrow \\
+\text{6,7-dihydrobiopterin} + \text{L-tyrosine} + \text{H}_2\text{O}.
+\end{gather*}
 
 These details are included in the pathway summary in our Figure
 ~\ref{fig:PKU_network}. When the reactions affected by the PKU gene are
@@ -719,7 +715,7 @@ nature of the example serves to explain the reasoning behind the method
 and also helped us validate our implementation of the method. This
 repository provides an SBML file of the network, the Jupyter notebook
 that generates it and a Jupyter notebook reproducing the biomarker
-prediction.
+prediction. The image itself was produced using Adobe Illustrator.
 
 The network in Figure ~\ref{fig:Shlomi2009_figure_1}A consists of seven
 metabolites, \(6\) of which (i.e.~all except M3) have exchange
@@ -760,8 +756,8 @@ It is worthwhile to note, with an eye on the sensitivity of this
 approach to the various settings, that we needed to set the medium
 composition very specifically. Shlomi et al. did not report on their
 chosen medium in their publication but we were able to reproduce their
-results by setting all inward flux bounds to \(-1\) and all outward flux
-bounds to \(1000\).
+results by setting all inward flux bounds to \(-10\) and all outward
+flux bounds to \(1000\).
 
 We made use of the Excel file included as supplementary information in
 \autocite{Shlomi2009} and included it in this repository as well. The
@@ -865,18 +861,37 @@ enzyme commision number if available. We highlighted the mutations for
 Homocystinuria (dysfunctional CBS) and hypermethioninemia (dysfunctional
 AHCY). (B) Prediction of concentration changes of methionine in
 homocystinuria and S-adenosylhomocysteine hydrolase deficiency based on
-the biomarker prediction algorithm.}\label{fig:Shlomi2009_figure_3}
+the biomarker prediction algorithm. The wild-type (WT) interval is
+indicated in black, the mutant interval in red. Each interval is
+associated with a numeric interval predicted by the biomarker prediction
+algorithm and with a qualitative prediction for the level of the
+metabolite in the biofluids (see methods). H.C. is an abbreviation for a
+highly confident biomarker, see main
+text.}\label{fig:Shlomi2009_figure_3}
 \end{figure}
 
 Figure 3 in the original publication entailed an in-depth look at the
-results highlighted in Figure 2 for methionine metabolism. We reproduced
-this Figure as Figure ~\ref{fig:Shlomi2009_figure_3}. The numerical
-results illustrated in ~\ref{fig:Shlomi2009_figure_3}B may be reproduced
-using the notebook `Reproduce\_figure2\_Shlomi2009', the detailed
-results may be inspected using the last cell of that notebook. We note
-that in the original publication the WT interval for the CBS IEM was
-drawn as an interval whereas our results indicate an interval of
-\([-1,-1]\).
+effect of inborn errors in AHCY and CBS on methionine metabolism. We
+reproduced this Figure as Figure ~\ref{fig:Shlomi2009_figure_3}. We used
+Adobe Illustrator to redraw the network from the original publication
+and based the intervals in panel B on the numerical results the
+algorithm predicts. The qualitative results are already contained in
+~\ref{tbl:amino_acid_iems}. The numerical results illustrated in
+~\ref{fig:Shlomi2009_figure_3}B may be reproduced using the notebook
+\emph{Reproduce\_figure\_2\_and\_3\_Shlomi2009.ipynb}. For clarity we
+included a section in the notebook that details the results relevant to
+Figure ~\ref{fig:Shlomi2009_figure_3}B.
+
+We note that in early versions of this reproduction we were utilising a
+medium that allowed influx of \(-1\) for all medium components, as
+opposed to \(-10\) now. It turns out that a setting of \(-1\) does
+accurately reproduce the results for Figure 2, but not for Figure 3. For
+the CBS IEM the WT interval would correspond to \([-1,-1]\) and would
+therefore be a point instead of a wide interval as Shlomi et al. draw
+it. We included this simulation in the last cell of the notebook
+\emph{Reproduce\_figure\_2\_and\_3\_Shlomi2009.ipynb} This is another
+example of the inherent sensitivity of the approach to various settings
+in the algorithm.
 
 \section{Conclusion}\label{conclusion}
 
@@ -893,6 +908,11 @@ discrepancies between the gene-reaction mappings listed in the
 supplementary Excel file and the actual gene-reaction mappings in the
 metabolic network. However, trial and error and manual curation solved
 these issues.
+
+We hope this reference implementation is useful to the community and can
+serve as a starting point for further implementations of this approach
+and serves as a warning of the accompanying sensitivities to various
+algorithm settings we have lain out in this manuscript.
 
 {\sffamily \small
   \printbibliography[title=References]

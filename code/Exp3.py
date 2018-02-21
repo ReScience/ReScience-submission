@@ -21,14 +21,14 @@ from matplotlib import rcParams
 
 
 ###########################################
-#### 		set up model				 ##
+#### 		set up model		 ##
 ###########################################
 
 execfile('setup_model.py')
 
 
 ###########################################
-#### 			auxiliary				 ##
+#### 		auxiliary		 ##
 ###########################################
 
 # additional variables
@@ -41,11 +41,11 @@ rcParams.update({'figure.autolayout': True})
 
 fig_name	= '../article/figures/fig3.eps'
 fig_size 	= np.multiply([11.6,11.6],cm2inch)
-ppi			= 1200
+ppi		= 1200
 face	 	= 'white'
 edge	 	= 'white'
 fig 		= pl.figure(facecolor = face, edgecolor = edge, figsize = fig_size)
-ax 			= fig.add_subplot(1,1,1)
+ax 		= fig.add_subplot(1,1,1)
 
 ax.axhline(color='k',linestyle='--')
 ax.axvline(color='k',linestyle='--')
@@ -58,13 +58,13 @@ ax.set_ylabel('vertical eye position (deg)')
 
 
 ###########################################
-#### 		set up experiment			 ##
+#### 	    set up experiment	 	##
 ###########################################
 
 # input & external electric stimulation
-I_h			= [.67,.70,.74,.75,.70]
+I_h		= [.67,.70,.74,.75,.70]
 I_v  		= [.08,.22,.40,.60,.90] 
-J			= 0.
+J		= 0.
 
 # timing protocol (in ms)
 preStim  	=  0
@@ -79,17 +79,17 @@ T       	= np.linspace(t_start,t_end,t_steps)
 
 
 ###########################################
-#### 	set up recording devices 		 ##
+#### 	set up recording devices 	 ##
 ###########################################
 
-MM 			= [None]*5
+MM 		= [None]*5
 for s in range(0,5):
 	MM[s] = nest.Create('multimeter')
 	nest.SetStatus(MM[s], {'interval': dt, 'record_from': ['rate']})
 
 
 ###########################################
-#### 			relaxation				 ##
+#### 		relaxation		 ##
 ###########################################
 
 # let system reach equilibrium
@@ -97,7 +97,7 @@ for s in range(0,5):
 	nest.Simulate(t_relax)
 
 ###########################################
-#### 	connect recording devices  		 ##
+#### 	connect recording devices  	 ##
 ###########################################
 
 	nest.Connect(MM[s], TN[1], syn_spec = {'delay': dt})
@@ -105,7 +105,7 @@ for s in range(0,5):
 
 
 ###########################################
-#### 			simulation				 ##
+#### 		simulation		 ##
 ###########################################
 
 # pre-stimulus period
@@ -126,7 +126,7 @@ for s in range(0,5):
 
 
 ###########################################
-#### 			create figure			 ##
+#### 		create figure		 ##
 ###########################################
 
 # gather data from recording device

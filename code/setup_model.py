@@ -41,9 +41,9 @@ nest.SetKernelStatus({'resolution': dt, 'use_wfr': False})
 # alpha				: upper limit for a piecewise linear unit (2nd threshold for threshold_lin_rate)
 # g_in				: gain in multiplicative coupling for inhibitory input
 # lambda			: passive decay rate 
-# linear_summation	: if false, gain function is applied to input before summation; if true, it is applied afterwards
-# mult_coupling 	: if false, neuron does not exhibit multiplicative coupling; if true, it is does
-# rectify_output	: if false, activations updated according to numerical integration; if true, activations are rectified after each update
+# linear_summation		: if false, gain function is applied to input before summation; if true, it is applied afterwards
+# mult_coupling 		: if false, neuron does not exhibit multiplicative coupling; if true, it is does
+# rectify_output		: if false, activations updated according to numerical integration; if true, activations are rectified after each update
 # theta 			: lower limit for threshold (piecewise) linear unit (1st thresold for threshold_lin_rate)
 # theta_ex			: offset in multiplicative coupling for excitatory input
 # theta_in			: offset in multiplicative coupling for inhibitory input	
@@ -118,7 +118,7 @@ for i in range(0,4):
     
 
 ###########################################
-#### 			connections				 ##
+#### 		connections		 ##
 ###########################################
 
 k 		= [1,0,3,2]

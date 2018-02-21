@@ -241,19 +241,31 @@ formation}, G. Gancarz, S. Grossberg, Neural Networks, 1159-1174, 1998
 
 \section{Introduction}\label{introduction}
 
-We provide an implementation of the saccade generator (SG); a rate
-neuron model of neural circuitry in the reticular formation proposed by
-Gancarz \& Grossberg \autocite{Gancarz1998}. The SG is an integral part
-of the eye movement system \autocite{Grossberg2012} and as such vital
-for developing large-scale architectures of visuo-motor integration. For
-this reason it is of interest to implement the model in a publicly
-available, widely used, and actively developed neural simulation
-framework such as NEST \autocite{Gewaltig2007}. We show that the model
-translates well to the NEST framework as our implementation faithfully
-reproduces all simulation results reported in the original publication.
-Our code uses the Python interface \autocite{Eppler2008} for legibility
-with both model and analysis scripts being implemented using Python
-2.7.12.
+In 2013 the European Comission launched the Human Brain Project
+(\href{https://www.humanbrainproject.eu/en/}{HBP}) tasked to build a
+research infrastructure spurring pan-european collaboration.
+Collaboration at such a scale, involving both empirically-oriented and
+theoretical neuroscientists, offers the unique opportunity to develop
+large-scale models of the brain. Specifically, individual research
+groups might develop models of distinct brain regions which can
+subsequently be combined into a unified whole. To facilitate this
+colaboration, the HBP encourages the utilization of publicly available,
+widely used, and actively developed neural simulation frameworks such as
+NEST \autocite{Gewaltig2007}. In light of this, the NEST framework has
+recently been extended to support simulation of functionally inspired
+rate neuron models in addition to biologically grounded spiking neuron
+models \autocite{Hahne2017}. Here we make use of this new functionality
+of the NEST framework (v2.16.0) to provide an implementation of the
+saccade generator (SG); a rate neuron model of neural circuitry in the
+reticular formation proposed by Gancarz \& Grossberg
+\autocite{Gancarz1998}. The SG is an integral part of the eye movement
+system \autocite{Grossberg2012} and as such vital for developing
+large-scale architectures of visuo-motor integration. We show that the
+model translates well to the NEST framework as our implementation
+faithfully reproduces all simulation results reported in the original
+publication. Our code uses the Python interface \autocite{Eppler2008}
+for legibility with both model and analysis scripts being implemented
+using Python 2.7.12.
 
 \section{Methods}\label{methods}
 
@@ -289,8 +301,8 @@ inhibitory input from the omnipause neuron (\(P\)):
 
 \begin{equation}
 \begin{array}{ll}
-\tau\frac{dE_l}{dt} &= -3.5E_l+(2-E_l)(5E_l+1)-(E_l+1)(10L_r+20g(P))) \\\\
-\tau\frac{dE_r}{dt} &= -3.5E_r+(2-E_r)(5E_r+1)-(E_r+1)(10L_l+20g(P))) \\
+\tau\frac{dE_l}{dt} &= -3.5E_l+(2-E_l)(5L_l+1)-(E_l+1)(10L_r+20g(P))) \\\\
+\tau\frac{dE_r}{dt} &= -3.5E_r+(2-E_r)(5L_r+1)-(E_r+1)(10L_l+20g(P))) \\
 \end{array}
 \label{eq:ebn}\end{equation} with a nonlinear gain function \(g(\cdot)\)
 given by
@@ -377,15 +389,19 @@ Second, constant input to a neuron was not hard-coded but rather
 provided by an appropriately weighted bias node. Neither of these
 changes lead to discrepancies with original results.
 
-In all simulations we used the Exponential Euler method for numerical
-integration of rate neurons \autocite{Hahne2017} at a time step of
-\(0.05\,\mathrm{ms}\) and a time constant of \(50\,\mathrm{ms}\). It
-should be noted that rates of all neurons were initialized to zero and
-were thus not at resting equilibrium. In order to address this, the
-model was allowed to evolve for \(100\,\mathrm{ms}\), to relax towards
-equilibrium before applying any input. Furthermore, we always simulated
-the full model; i.e.~both its horizontal and vertical components even if
-input was applied only to one of the two.
+In all simulations we used the Exponential Euler (EE) method for
+numerical integration of all except of tonic neurons
+\autocite{Hahne2017} at a time step of \(0.05\,\mathrm{ms}\) and a time
+constant of \(50\,\mathrm{ms}\). Tonic neurons were integrated using the
+Euler-Maruyama (EM) method since they do not exhibit passive decay
+leading to division-by-zero when using the EE method. It should be noted
+that initial firing rates of neurons were not at resting equilibrium. In
+order to address this, the model was allowed to evolve for
+\(100\,\mathrm{ms}\), to relax towards equilibrium before applying any
+input. Furthermore, as in the original publication, all activations were
+bounded from below at zero. Finally, we always simulated the full model;
+i.e.~both its horizontal and vertical components even if input was
+applied only to one of the two.
 
 \section{Results}\label{results}
 
@@ -672,8 +688,9 @@ traded while keeping its amplitude constant.
 In conclusion, our reproduction confirms the results of the original
 publication and shows that an implementation in the NEST framework is
 feasible. This allows for the straightforward integration of the saccade
-generator into models of the visuo-motor system forming the interface
-between sensory processing and motor control.
+generator with computational models of other components of the
+visuo-motor system (e.g.~salience computation) within a shared
+framework.
 
 \section{Acknowledgments}\label{acknowledgments}
 
@@ -681,6 +698,90 @@ All network simulations carried out with NEST
 (http://www.nest-simulator.org). This research was funded by the
 European Union's Horizon 2020 Research and Innovation Programme under
 Grant Agreement No. 7202070 (HBP SGA1).
+
+\section{Appendix}\label{appendix}
+
+\subsection{A1 - Rate neurons in NEST}\label{a1---rate-neurons-in-nest}
+
+For a detailed, comprehensive, treatment of rate-based neuron models in
+NEST see Hahne et al.\autocite{Hahne2017}. Here we provide only a brief
+overview to facilitate readability/interpretability of the code provided
+with this publication. In general, rate-based neurons in NEST consist of
+two components; a neuron and a gain function.
+
+\subsubsection{Neuron}\label{neuron}
+
+Two types of neuron base classes exist in NEST v2.16.0:
+\texttt{rate\_neuron} and\\
+\texttt{rate\_transformer\_node}. The \texttt{rate\_neuron} implements
+continuous rate dynamics with and without multiplicative coupling. It
+can apply a nonlinear gain function to its inputs either before or after
+their weighted summation. It is numerically integrated using the EE
+method unless a neuron does not exhibit exponential decay in which case
+the EM method is used. Furthermore, rates can be bounded (from below at
+zero) or unbounded. Finally, noise (in the form of a Wiener process) can
+be added to its input or to its output. The \texttt{rate\_neuron} has a
+total of seven parameters (see table \ref{tbl:table_2}) and two further
+properties \texttt{rate} (current firing rate) and \texttt{noise}
+(current noise level).
+
+\begin{longtable}[]{@{}lll@{}}
+\caption{\texttt{rate\_neuron} parameters.
+\label{tbl:table_2}}\tabularnewline
+\toprule
+parameter & default value & description\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+parameter & default value & description\tabularnewline
+\midrule
+\endhead
+\texttt{tau} & \(10\,\mathrm{ms}\) & time constant\tabularnewline
+\texttt{lambda} & \(1\) & passive decay rate\tabularnewline
+\texttt{std} & \(1\) & noise standard deviation\tabularnewline
+\texttt{mean} & \(0\) & mean firing rate\tabularnewline
+\texttt{linear\_summation} & \texttt{true} & if true, apply gain
+function after summation\tabularnewline
+\texttt{rectify\_output} & \texttt{false} & if true, multiplicative
+coupling\tabularnewline
+\texttt{mult\_coupling} & \texttt{false} & if true, rate is
+bounded\tabularnewline
+\bottomrule
+\end{longtable}
+
+For the implementation of this neuron see
+\texttt{rate\_neuron\_ipn\_impl.h} and\\
+\texttt{rate\_neuron\_opn\_impl.h} in
+\texttt{../nest/nest-simulator-master/models} for input and output
+noise, respectively.
+
+The \texttt{rate\_transformer\_node} instantaneously applies a
+nonlinearity to its inputs but does not exhibit temporal dynamics. It
+can be used to apply different nonlinearities to different inputs to a
+single neuron. This class has only the \texttt{rate} property and no
+parameters. For its implementation see
+\texttt{rate\_transformer\_node\_impl.h} in
+\texttt{../nest/nest-simulator-master/models}.
+
+\subsubsection{Gain function}\label{gain-function}
+
+Five gain functions exist in NEST v2.16.0: \texttt{lin\_rate},
+\texttt{sigmoid\_rate},\\
+\texttt{sigmoid\_rate\_gg\_1998}, \texttt{tanh\_rate}, and
+\texttt{threshold\_lin\_rate}. Documentation of each gain function is
+given in the header file with the corresponding name within
+\texttt{../nest/nest-simulator-master/models}. We added
+\texttt{sigmoid\_rate\_gg\_1998} specifically for the reimplementation
+of the saccade generator presented here.
+
+Gain functions are combined with a neuron class to obtain a specific
+neuron model. For instance, the combination of the \texttt{lin\_rate}
+gain function with the \texttt{rate\_neuron\_ipn} class gives the
+\texttt{lin\_rate\_ipn} neuron model. The parameters of a model are a
+combination of all parameters of the neuron base class and all
+parameters of the gain function. Within Python the command
+\texttt{nest.Models()} lists all existing model types including all
+implemented combinations of gain function and neuron class.
 
 {\sffamily \small
   \printbibliography[title=References]

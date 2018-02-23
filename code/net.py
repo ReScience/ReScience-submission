@@ -83,10 +83,14 @@ thetaLTP = -45.3
 aLTD = 0.00014
 aLTP = 0.00008
 wMin = 0.0
-wMax =2.0
+wMax =3.0
+transmit = 0.0
 """
+# notice the additional transmit variable (wich shoudl be 1 or 0)
+# to transmit or not an EPSP to the postsynaptic neuron
+
 #post.vmean
 #*(post.vmean/urefsquare)
 ffSyn = Synapse( parameters = parameterFF,
     equations= equatSTDP,
-    pre_spike='''g_target += w*0.0''')
+    pre_spike='''g_target += w*transmit''')

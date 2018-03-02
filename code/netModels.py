@@ -131,7 +131,7 @@ def PDnet(NeuronGroup, stim, bg_type, w_ex, g, bg_freq, nsyn_type, thal):
 	# Creating poissonian background inputs
 	###########################################################################
 	bg_in  = []
-	if (stim==0 or stim==2):
+	if (stim==0):
 		for r in range(0, 8):
 			bg_in.append(PoissonInput(pop[r], 'I', bg_layer[r], bg_freq*Hz, weight=w_ex))
 

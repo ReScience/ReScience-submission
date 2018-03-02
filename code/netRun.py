@@ -43,7 +43,8 @@ def runParamsParallel(s=1, g=4, bg_type=0, bg_freq=8.0, stim=0, tsim=1.0, filena
     gc.collect()
 
 ###############################################################################
-'''Protocols parameters:
+'''
+Protocols parameters:
 
 # background type
 bg_type = 0:    layer-specific
@@ -53,7 +54,6 @@ bg_type = 0:    layer-specific
 # stimulation
 stim = 0:       turn on the background noise
        1:       DC current experiment
-       2:       background noise + DC current
 
 # max number of synapses between populations
 nsyn_type = 0:  no approximation (eq. 3)
@@ -80,7 +80,7 @@ s = 1000
 seed(s)
 
 # choose serial = False to run multiple simulations in parallel
-serial = False
+serial = True
 num_cores = 8              # number of cores to run in parallel
 
 ###############################################################################

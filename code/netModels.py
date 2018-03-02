@@ -66,7 +66,7 @@ def PDnet(NeuronGroup, stim, bg_type, w_ex, g, bg_freq, nsyn_type, thal):
 		pop.append(NeuronGroup[nn_cum[r]:nn_cum[r+1]])
 
 		# DC-current normalized by population
-		if (stim == 1 or stim == 2):
+		if (stim == 1):
 			NeuronGroup.Iext[pop[r]] = 0.3512*pA*bg_layer[r]
 
 	###########################################################################

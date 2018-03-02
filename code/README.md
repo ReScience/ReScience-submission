@@ -28,6 +28,10 @@ This is a reference implementation of the following model:
 
 **Multiprocessing:** 0.70a1
 
+**Weave** 0.15.0
+
+**Cython** 0.23.4
+
 The network model is implemented using the simulator for spiking neural networks Brian 2, which is written in Python.
 For data processing and visualization we use Matplotlib, NumPy, Pandas and Scipy.
 To run multiple simulations in parallel we use Joblib and Multiprocessing.
@@ -78,6 +82,8 @@ pip install --user numpy==1.11.1
 pip install --user pandas==0.19.2
 pip install --user scipy==0.19.0
 pip install --user joblib==0.11
+pip install --user weave==0.15.0
+pip install --user cython==0.23.4
 ```
 or
 
@@ -177,7 +183,7 @@ To run protocol 0 for 60 seconds type in the console:
 python netRun.py 0 60.0
 ```
 
-**Obs**: there is the possibility to run the code in parallel using openmp implemented by Brian2. To do so uncomment lines 32-33. Nevertheless, all simulations were done without it.
+**Obs**: there is the possibility to run the code in parallel using openmp implemented by Brian 2. To do so uncomment lines 32-33. Nevertheless, all simulations were done without it.
 
 To run protocol 1 for 60 seconds type in the console:
 
@@ -198,8 +204,8 @@ python netRun.py 3 10.0
 ```
 
 Observe that protocols 2 and 3 vary over several parameters and this way cost some time.
-Instead of running the simulation in serial which is default, one can run the range of parameters in parallel by simply attributing **False** to the variable **serial** (line 74 in netRun.py).
-The number of cores can be set in the variable **num_cores** (line 75 in netRun.py).
+Instead of running the simulation in serial which is default, one can run the range of parameters in parallel by simply attributing **False** to the variable **serial** (line 83 in netRun.py).
+The number of cores can be set in the variable **num_cores** (line 84 in netRun.py).
 **Obs**: in this case the memory cost is multiplied by num_cores.
 
 To run protocol 4 for 60 seconds type in the console:

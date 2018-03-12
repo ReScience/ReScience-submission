@@ -1,7 +1,10 @@
 """
 Definition of the model with the neuronal simulator ANNarchy.
 Original model by Clopath et al. 2010.
-The implementation based on the matlab code, available on modeldb.
+The implementation based on the matlab code, available on modeldb
+(https://senselab.med.yale.edu/modeldb/showModel.cshtml?model=144566).
+Note: The homeostatic mechanism are fixed, as it is needed for the
+plasticity experiments
 """
 
 from ANNarchy import *

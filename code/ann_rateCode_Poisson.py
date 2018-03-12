@@ -4,9 +4,9 @@ mp.use('Agg')
 import matplotlib.pyplot as plt
 from ANNarchy import *
 import numpy as np
-from net import *
+#from net_fix import *
+from net_homeostatic import *
 from matplotlib import cm
-from cmap import myCmap
 """
 Python script for reproduce the rate code task from the Clopath et al. 2010
 publication (Fig. 4 a). Netowrk consists of ten, recurrent connected neurons.
@@ -39,21 +39,21 @@ projTen_Ten = Projection(
 ).connect_all_to_all(weights = 0.1,allow_self_connections=True)
 # set network parameter
 projTen_Ten.wMax= 0.25
-projTen_Ten.vmean= 90.0
-
+#projTen_Ten.vmean= 60.0
+projTen_Ten.uref= 80.0
 #------------------------------main function-----------------------------------#
 def run():
     # compile the network with ANNarchy
     compile()
     # number of experiment repetitions
-    repeats = 10
+    repeats = 20
     w = np.zeros((repeats,10,10)) #
     print('Start rate code experiment')
     for r in xrange(repeats):
         # repeat in 100 times to get the 100s as in Clopath et al. 2010
         for i in xrange(100):
             # set the different firint rates
-            poisPop.rates = np.linspace(2,20,10)
+            poisPop.rates = np.linspace(20,2,10)
             # simulate the network for 1000 ms
             simulate(duration)
             # save the changes in the weights
@@ -69,6 +69,12 @@ def run():
     """
     Adapt the output like in Clopath et al. 2010.
     Depending on the connection, set another number to get another color.
+
+    prepare a matrix of weights with different values for the different
+    connections as mentioned in the Clopath et al., 2010 publication
+    weak connections (< (2/3 of max. weight)) == 0
+    strong unidirectional (> (2/3 of max. weight)) connections == 1.0
+    strong bidirectional (> (2/3 of max. weight)) connections == 2.0
     """
     # Weak connection (under 2/3 of maximum weight) have the value = 0.0
     maxima = (np.nanmax(w)*2./3.)
@@ -98,18 +104,12 @@ def run():
     # unidirectional are ligth green
     # bidirectional are dark green
     plt.figure()
-    plt.imshow(img.T,interpolation='none',cmap= mp.cm.get_cmap('summer_r'),vmin=0,vmax=2)
+    plt.imshow(img.T,interpolation='none',cmap= mp.cm.get_cmap('summer_r',3),vmin=0,vmax=2)
     plt.xlabel('Neuron Pre')
     plt.ylabel('Neuron Post')
+    plt.colorbar()
     plt.savefig('rate_Code_Weights.png')
 
-    # plot the original weight matrix
-    plt.figure()
-    plt.imshow(w,interpolation='none',cmap=plt.get_cmap('summer_r'))
-    plt.colorbar()
-    plt.xlabel('Neuron Post')
-    plt.ylabel('Neuron Pre')
-    plt.savefig('rate_Code_Matrix.png')
     print("finish")
 #------------------------------------------------------------------------------#
 if __name__ == "__main__":

@@ -3,12 +3,17 @@ mp.use('TKAgg')
 import matplotlib.pyplot as plt
 import numpy as np
 from ANNarchy import *
-setup(dt=1.0,seed=101)
-from net import *
+setup(dt=1.0)
+# import of the model and learning rule, defined in net.py
+from net_homeostatic import *
 
 """
 Python script to reproduce the stable learning taks
 of the Clopath et al. 2010 publication.
+See Fig.5 a in original publication.
+Algorithm based on Matlab code of the Clopath et al. 2010 model.
+Available on modelDB:
+https://senselab.med.yale.edu/modeldb/showModel.cshtml?model=144566
 """
 #--------------- define the presynaptic neuron model --------------------------#
 """
@@ -33,15 +38,15 @@ neuron = Neuron(parameters = params,
                             state = 1""",
                 spike = """g_vm > VTrest""")
 #-----------------------global variables---------------------------------------#
-nb_pre = 500
-nb_post= 1
-duration = 100 #ms
-nb_epochs = 1000
-maxFr = 100
+nb_pre = 500 # number of input neurons
+nb_post= 1 # number of post synaptic neuron
+duration = 100 #ms # number of time steps per epoch in ms
+nb_epochs = 1000 # number of epochs per input pattern
 #-----------------------population defintions----------------------------------#
 pre_pop = Population(geometry=nb_pre,neuron=neuron)
 post_pop= Population(geometry=nb_post,neuron=spkNeurV1)
 #-----------------------projection definitions---------------------------------#
+# Projection object to initialise the synapse with the learning rule
 projInp_N = Projection(
     pre = pre_pop,
     post= post_pop,
@@ -49,7 +54,7 @@ projInp_N = Projection(
     synapse = ffSyn
 ).connect_all_to_all(weights = Uniform(0.0,2.0))
 #----------------------------define input--------------------------------------#
-# input parameters
+# input parameters as in Matlab source code
 sigma = 10
 in_max = 0.015
 in_min = 0.0001
@@ -68,39 +73,31 @@ for i in range(nb_pattern):
     mup = 1+(i)*nb_pre/nb_pattern;
     input_patterns[i,:] = gau[mup:mup+nb_pre]
 
-compile()
+
+compile()# Compile the network
+# set parameters analoug to the parameters in the Matlab source code
 projInp_N.transmit = 4.0
-projInp_N.urefsquare = 60.0
-projInp_N.aLTP = 10*0.00008#0.00018#0.00008
-projInp_N.aLTD = 10*0.00014#0.00014
+ # learning speed ten times higher to speed up the learning
+projInp_N.aLTP = 10*0.00008
+projInp_N.aLTD = 10*0.00014
 projInp_N.wMax =3.0
 
-#monPre = Monitor(pre_pop,'Spike')
-#mon = Monitor(post_pop,'vm')
+# monitor object to save the weight, after each epoch to save memory
 monW = Monitor(projInp_N,'w',period=duration)
 
 # start the simulation
 for t in range(1,duration*nb_epochs):
-    inp = ((np.random.rand(nb_pre))< input_patterns[patterns[t]])*1
+    inp = ((np.random.rand(nb_pre))< input_patterns[int(patterns[t])])*1
     pre_pop.g_vm = -60+(inp*30)
     simulate(1)
-print('Finish!')
 
-print(np.max(projInp_N.w))
-
-#n_vm = mon.get('vm')
+# get the weights from monitor
 w = monW.get('w')
-#pre_spike = monPre.get('Spike')
-
-#print(np.sum(pre_spike))
-print(np.shape(w))
-
-#plt.figure()
-#plt.plot(n_vm)
-#plt.savefig('vm_stable.png')
-
+# plot the weights during time
 plt.figure()
 plt.imshow(np.squeeze(w).T)
-plt.xlabel('Time step')
+plt.xlabel('Number of epoch')
 plt.ylabel('Synapse index')
 plt.savefig('weights_stable.png')
+
+print('Finish with simulation!')

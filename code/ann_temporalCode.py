@@ -4,7 +4,7 @@ mp.use('Agg')
 import matplotlib.pyplot as plt
 from ANNarchy import *
 import numpy as np
-from net import *
+from net_homeostatic import *
 
 """
 Python script for reproduce the rate code task from the Clopath et al. 2010
@@ -17,12 +17,12 @@ In the original publication, the resulting weights are averaged over 100s.
 
 ###global parameter###
 duration = 200 #ms
-#----------------------defint time points of spikes-----------------------------#
+#----------------------defint time points of spikes----------------------------#
 spike_times =[[1],[2],[3],[4],[5],[6],[7],[8],[9],[10]]
-#-----------------------population defintions-----------------------------------#
+#-----------------------population defintions----------------------------------#
 inpPop = SpikeSourceArray(spike_times=spike_times)
 pop_Ten = Population(geometry=10,neuron=spkNeurV1, name="pop_Ten")
-#-----------------------projection definitions----------------------------------
+#-----------------------projection definitions---------------------------------#
 projInp_Ten = Projection(
     pre = inpPop,
     post=pop_Ten,
@@ -62,6 +62,17 @@ def run():
 
     img = np.ones((10,10))
 
+    """
+    Adapt the output like in Clopath et al. 2010.
+    Depending on the connection, set another number to get another color.
+
+    prepare a matrix of weights with different values for the different
+    connections as mentioned in the Clopath et al., 2010 publication
+    weak connections (< (2/3 of max. weight)) == 0
+    strong unidirectional (> (2/3 of max. weight)) connections == 1.0
+    strong bidirectional (> (2/3 of max. weight)) connections == 2.0
+    """
+
     maxima = (np.nanmax(w)*2./3.)
     idx = np.where(w < maxima)
     img[idx[0],idx[1]] = 0.0
@@ -75,16 +86,10 @@ def run():
             if ix2 == (ix[1],ix[0]):
                 img[ix[0],ix[1]] = 2.0
                 img[ix[1],ix[0]] = 2.0
-
+    # set selfconnection weights to nan, because they not exist
     for i in xrange(10):
         w[i][i] = np.nan
         img[i,i]= np.nan
-
-    plt.figure()
-    plt.imshow(w,interpolation='none',cmap=plt.get_cmap('summer_r',3))
-    plt.colorbar()
-    plt.savefig('temporal_Code_w.png')
-
 
     plt.figure()
     plt.imshow(img.T,interpolation='none',cmap=plt.get_cmap('summer_r',3),vmin=0,vmax=2)

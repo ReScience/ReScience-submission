@@ -4,8 +4,7 @@ mp.use('Agg')
 import matplotlib.pyplot as plt
 from ANNarchy import *
 import numpy as np
-from net import *
-
+from net_fix import *
 """
 Python code to reproduce the pairing repition task in Clopath et al. 2010.
 Pairs of pre-post and post-pre spikes for different pairing repition frequencies.

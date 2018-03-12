@@ -4,7 +4,7 @@ mp.use('Agg')
 import matplotlib.pyplot as plt
 from ANNarchy import *
 import numpy as np
-from net import *
+from net_fix import *
 
 """
 Python script to reproduce the STDP window protocol.

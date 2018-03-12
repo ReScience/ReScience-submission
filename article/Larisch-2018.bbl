@@ -150,6 +150,45 @@
       \verb http://papers.nips.cc/paper/2923-beyond-pair-based-stdp-a-phenomenological-rule-for-spike-triplet-and-frequency-effects.pdf
       \endverb
     \endentry
+    \entry{Sjoestroem2001}{article}{}
+      \name{author}{3}{}{%
+        {{hash=cb422acc76be098a92f4ff3682cf8493}{%
+           family={Sjöström},
+           family_i={S\bibinitperiod},
+           given={Per\bibnamedelima Jesper},
+           given_i={P\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=e8329e901984e1878b2332bae85dbcdc}{%
+           family={Turrigiano},
+           family_i={T\bibinitperiod},
+           given={Gina\bibnamedelima G},
+           given_i={G\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=7f07779888c6e1ce618fef6068bb318f}{%
+           family={Nelson},
+           family_i={N\bibinitperiod},
+           given={Sacha\bibnamedelima B},
+           given_i={S\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+      }
+      \strng{namehash}{c9f814c22a64d9c6f0e684cb3fc35c83}
+      \strng{fullhash}{c9f814c22a64d9c6f0e684cb3fc35c83}
+      \field{sortinit}{S}
+      \field{sortinithash}{fd1e7c5ab79596b13dbbb67f8d70fb5a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0896-6273}
+      \field{journaltitle}{Neuron}
+      \field{number}{6}
+      \field{title}{Rate, Timing, and Cooperativity Jointly Determine Cortical Synaptic Plasticity}
+      \field{volume}{32}
+      \field{year}{2001}
+      \field{pages}{1149\bibrangedash 1164}
+      \range{pages}{16}
+      \verb{doi}
+      \verb https://doi.org/10.1016/S0896-6273(01)00542-6
+      \endverb
+      \verb{url}
+      \verb http://www.sciencedirect.com/science/article/pii/S0896627301005426
+      \endverb
+    \endentry
     \entry{Vitay2015}{article}{}
       \name{author}{3}{}{%
         {{hash=f20c399dce7c2c92f429007ffa1ecdbc}{%

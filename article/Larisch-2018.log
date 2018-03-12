@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2018.1.29)  16 FEB 2018 17:02
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2018.1.29)  12 MAR 2018 17:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1365,44 +1365,47 @@ File: rescience-logo.pdf Graphic file (type QTm)
 <use  "rescience-logo.pdf" > [1
 
 ]
-Overfull \hbox (373.11223pt too wide) detected at line 301
+File: rescience-logo.pdf Graphic file (type QTm)
+ <use  "rescience-logo.pdf" > [2]
+Overfull \hbox (373.11223pt too wide) detected at line 370
  [] 
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 300--305
+Underfull \hbox (badness 10000) in alignment at lines 369--374
 [] [] [] [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 305--309
+Underfull \hbox (badness 10000) in alignment at lines 374--378
 [] [] [] [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 309--317
+Underfull \hbox (badness 10000) in alignment at lines 378--386
 [] [] [] [] [] []
  []
 
 File: rescience-logo.pdf Graphic file (type QTm)
 <use  "rescience-logo.pdf" >
-File: rescience-logo.pdf Graphic file (type QTm)
- <use  "rescience-logo.pdf" > [2]
 LaTeX Font Info:    Font shape `EU1/lmss/m/it' in size <9> not available
-(Font)              Font shape `EU1/lmss/m/sl' tried instead on input line 331.
+(Font)              Font shape `EU1/lmss/m/sl' tried instead on input line 400.
 
 
 
 LaTeX Font Warning: Font shape `EU1/lmss/m/sc' in size <9> not available
-(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 331.
+(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 400.
 
 File: rescience-logo.pdf Graphic file (type QTm)
 <use  "rescience-logo.pdf" > [3]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 333.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 333.
- (./Larisch-2018.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 333.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 333.
+File: rescience-logo.pdf Graphic file (type QTm)
+ <use  "rescience-logo.pdf" > [4]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 402.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 402.
+
+(./Larisch-2018.aux)
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 402.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 402.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -1412,12 +1415,12 @@ Package logreq Info: Writing requests to 'Larisch-2018.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 39543 strings out of 495579
- 732300 string characters out of 6187322
- 1055810 words of memory out of 5000000
- 42394 multiletter control sequences out of 15000+600000
+ 39557 strings out of 495579
+ 732511 string characters out of 6187322
+ 1058235 words of memory out of 5000000
+ 42408 multiletter control sequences out of 15000+600000
  7848 words of font info for 52 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 54i,16n,73p,10376b,1046s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 54i,16n,73p,10376b,1133s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on Larisch-2018.pdf (3 pages).
+Output written on Larisch-2018.pdf (4 pages).

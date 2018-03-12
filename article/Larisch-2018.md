@@ -58,17 +58,72 @@ If neurons fire high at the same time, they build strong bidirectional connectio
 If neurons fire in a specific temporary order, they connection structure follow that order (temporal code).
 They used a adaptive exponential integrate-and-fire (AdEx) neuron model.
 
-Their model is reimplemented in Python (v2.7) and with help of the neuronal
-simulator ANNarchy [@Vitay2015] (v4.6). For the analysis and the figures
-we used numpy (v1.11.0) and matplotlib (v1.5.1). Not only the voltage based
-STDP learing rule is reimplemented, even the AdEx neuron model.
-In the supplementary material of the original publication is the matlab source code for a simple example
-published. Besides them, it exists a matlab implementation to demonstrate the
-stable learning of weights on modeldb (http://modeldb.yale.edu/144566).
-The matlab implementation was used as a reference for the here presented one,
-and used for evaluation of the correctness.
+
 
 # Methods
+## Overview
+From the original model exists a matlab implementation to demonstrate the
+stable learning of weights on modeldb (http://modeldb.yale.edu/144566).
+This model reimplementation is written in Python (v2.7) and with help of the neuronal
+simulator ANNarchy [@Vitay2015] (v4.6).
+For the analysis and the figures we used numpy (v1.11.0) and matplotlib (v1.5.1).
+Not only the voltage based STDP learning rule is reimplemented, even the AdEx neuron model.
+In the supplementary material of the original publication is the matlab source code for a simple example
+published.
+
+The reimplementation is mainly orientated on the description of neuron model and learning rule in the original publication [@Clopath2010].
+Because of the lack on a further description of the homeostatic mechanism and a more precise description of the neuron after a emitted spike,
+the available matlab code is the second reference for this reimplementation.
+
+## Model description
+
+The neuron model is mainly borrowed from the description the matlab source code.
+Different as mentioned in the publication, after a spike is the membrane potential
+set to $29.4mV$, one millisecond later to $29.4mV + 3.462mV$ and another millisecond later to $E_{L} + 15mV + 6.0984mV$ .
+This so called 'resolution trick' is to simulate the spike upswing for $2ms$ after a spike is emitted.
+Beside this, the equations of the neuron model and the values of the parameters are equal to the description in the original paper and not presented here.
+
+Here, only a short description about the learning dynamic is given. For further information read the original publication by @Clopath2010.
+The discussed learning rule consists of a term for long term depression (LTD) (Eq. @eq:LTD) and long term potentiation (LTP) (Eq. @eq:LTP).
+
+$$ LTP_{Term} = A_{LTP} \bar{x}_i (u - \theta_+)_+ (\bar{u}_+ - \theta_-)_+ $$ {#eq:LTP}
+
+LTP occurs if the presynaptic spike trace ( $\bar{x}_i$) is above zero, the membrane potential $u$ over the threshold $\theta_+$ and the
+membrane potential trace $\bar{u}_-$ is above $\theta_-$.
+This happens if the postsynaptic neuron spikes short after the presynaptic neuron or if the membrane potential is long enough high,
+that $\bar{u}_-$ exceed $\theta_-$.
+
+$$ LTD_{Term} = A_{LTD} (\frac{\bar{\bar{u}}}{u_{ref}^2}) X_i (\bar{u}_{-} - \theta_{-})_+ $$ {#eq:LTD}
+
+If the presynaptic neuron spikes, the spike counter ($X_i$) is set to one, otherwise it is zero.
+Further, if the second trace of the postsynaptic membrane potential above $\theta_{-}$ LTD occurs.
+This can happen when the presynaptic neurons spikes after the postsynaptic.
+The strength of the LTD term, and with that the balance between LTP and LTD, is adjusted over the ratio between $\bar{\bar{u}}$ and the reference value ($u_{ref}^2$),
+what implements a homeostatic mechanism.
+
+$$ \tau_{\bar{\bar{u}}}\frac{d \bar{\bar{u}}}{dt} =  [(u-E_L)^2] - \bar{\bar{u}}$$ {#eq:homeo}
+
+// Membrane potential plot and weight distribution plot
+
+These mechanism is computed over the quadratic distance of the membrane potential and the resting potential $E_L$ (Eq. @eq:homeo).
+Further, with a higher activity increases the $\bar{\bar{u}}$ and a higher amount of LTD occur and the weights decreases.
+In contrast, a lower activity decreases the amount of LTD and the weights can increases.
+Over the ratio with $u_{ref}^2$, this mechanism can enforce the connections to decrease down to the minimum weight bound or increase to the maximum
+weight bound.
+This make a hard upper and lower bound for the weights necessary and leads to a binomial distribution of the weights.
+
+$$ \frac{dw_i}{dt} = -LTD_{Term} + LTP_{Term} $$ {#eq:STDP}
+
+All parameters of the neuron model and the basis set of parameters for the learning rule are taken from the original publication.
+Unfortunately, some parameters of the learning rule differs from experiment to experiment. Mainly the value of the homeostatic mechanism and the
+maximum weight is different. A table with the different parameters for the different task is .
+
+
+In the original publication, the authors reproduce some experimental observations,
+made in the visual cortex of rats [@Sjoestroem2001].
+Further, they investigated the emerged structure of the connectivity depending
+on the input activity.
+
 
 The methods section should explain how you replicated the original results:
 
@@ -77,9 +132,6 @@ The methods section should explain how you replicated the original results:
 * did you use original sources ?
 * did you modify some parts ?
 * etc.
-
-If relevant in your domain, you should also provide a new standardized
-description of the work.
 
 
 # Results

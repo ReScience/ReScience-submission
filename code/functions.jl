@@ -27,8 +27,9 @@ function Specialistdynamic(c::Float64,N::Float64, P::Float64)
     pescape = prob(N,P)
     Pt = c*N*(1-pescape)
     return Pt
-
+end
   
+"""
 ***Probability of escaping mortality from natural ennemies***
 
 - `N`: Initial host population size 

@@ -230,29 +230,31 @@
 \end{rebox}
 
 \section*{Introduction}
-Dendritic non-linearities increase neurons' computation capacity, turning them into complex computing units \cite{Poirazi2003a}. However network studies are usually based on point neuron models that do not incorporate dendrites and their non-linearities. In contrast, the study replicated here \cite{Memmesheimer2012} uses a simple point-neuron model that contains an effective description of dendrites by a non-linear summation of its excitatory synaptic input. Due to the simplicity of the model, both large-scale parameter exploration of a medium-sized network, as well as an analytical investigation of its properties are feasible.
+Dendritic non-linearities increase neurons' computation capacity, turning them into complex computing units \cite{Poirazi2003a}. However, network studies are usually based on point neuron models that do not incorporate dendrites and their non-linearities. In contrast, the study replicated here \cite{Memmesheimer2012} uses a simple point-neuron model that contains an effective description of dendrites by a non-linear summation of its excitatory synaptic input. Due to the simplicity of the model, both large-scale parameter exploration of a medium-sized network, as well as an analytical investigation of its properties are feasible.
 
 The original study was based on simulation and analysis code in C and Mathematica, but this code is not publicly available. Here, we replicate the study using the neural simulator Brian~2 \cite{Goodman2009,Stimberg2014}, a simulator based on the Python language that has become a common choice in computational neuroscience \cite{Muller2015}. This simulator offers a good trade-off between flexibility and performance and is therefore a suitable choice for this study of a non-standard neuron model.
 
 \section*{Methods}
 \subsection*{Neural network model}
-The simulations in the original paper were done in phase representation, but our implementation uses the more standard representation in terms of the neurons' membrane potential. The membrane potential dynamic $V_i$ (measured relative to the resting potential) of neuron $i$ is described by (a slightly rewritten version equivalent to equation (1) of \cite{Memmesheimer2012}):
+The simulations in the original paper were done in phase representation, but our implementation uses the more standard representation in terms of the neurons' membrane potential. The membrane potential $V_i$ of neuron $i$, measured relative to the resting potential, is described by:
 
 \begin{equation}
-\tau_m \frac{dV_i(t)}{dt} = - V_i(t) + V_0 + \sigma \big( \sum_{j\in E_i} w_\text{ex} \epsilon_{j}(t-\tau) \big) - \sum_{j \in I_i} w_\text{in}\epsilon_{j}(t-\tau),
+\label{eq:neuron_model}
+\tau_m \frac{dV_i(t)}{dt} = - V_i(t) + V_0 + \sigma \left( \sum_{j\in E_i} w_\text{ex} \epsilon_{j}(t-\tau) \right) - \sum_{j \in I_i} w_\text{in}\epsilon_{j}(t-\tau),
 \end{equation}
-where $V(t)$ is the membrane voltage at time $t$, $\tau_m$ the membrane time constant, $V_0$ the displacement of the membrane potential due to a constant external input, $w_\text{ex}$ and $w_\text{in}$ respectively the excitatory and inhibitory weights, $\tau$ the transmission delay, and $E_i$ and $I_i$ the indices of neurons that connect with respectively excitatory and inhibitory weights to neuron $i$. If the membrane potential crosses a threshold $\Theta$, it emits the spike and its membrane potential is reset to its resting potential, i.e. $\SI{0}{\milli\volt}$. The function $\epsilon_{j}$ is 1 whenever neuron $j$ spikes, and 0 otherwise
+where $V(t)$ is the membrane voltage at time $t$, $\tau_m$ the membrane time constant, $V_0$ the displacement of the membrane potential due to a constant external input, $w_\text{ex}$ and $w_\text{in}$ respectively the excitatory and inhibitory weights, $\tau$ the transmission delay, and $E_i$ and $I_i$ the indices of neurons that connect with respectively excitatory and inhibitory weights to neuron $i$. If the membrane potential crosses a threshold $\Theta$, it emits the spike and its membrane potential is reset to its resting potential, i.e. $\SI{0}{\milli\volt}$. The function $\epsilon_{j}$ is 1 whenever neuron $j$ spikes, and 0 otherwise. Equation~\ref{eq:neuron_model} is an alternative, mathematically equivalent formulation of equation (1) of \cite{Memmesheimer2012}.
 
-The originality of this model lays in a filtering of the excitatory inputs by the function $\sigma$ to model dendritic non-linearities. The study considers two functions $\sigma$ (see Fig.~1 of the original paper and insets in Fig.~\ref{fig:markov}). Linear coupling, defined by $\sigma(x)=x$, and non-linear coupling with:
-\[
+The originality of this model lays in a filtering of the excitatory inputs by the function $\sigma$ to model dendritic non-linearities. The study considers two functions $\sigma$ (see Fig.~1 of the original paper and insets in Fig.~\ref{fig:markov_corrected}). Linear coupling, defined by $\sigma(x)=x$, and non-linear coupling with:
+\begin{equation}
     \sigma(x)= 
 \begin{cases}
-    x,              & \text{if } x\leq V_a\\
-    V_a + \frac{V_c-V_a}{V_b-V_a} (x - V_a), & \text{if } V_a<x \leq V_b\\
-    V_c,            & \text{otherwise}
+    x              & \text{, if } x\leq V_a\\
+    V_a + \frac{V_c-V_a}{V_b-V_a} (x - V_a), & \text{, if } V_a<x \leq V_b\\
+    V_c            & \text{, otherwise.}
 \end{cases}
-\]
-For this non-linear function, the biological interpretation is that below a first threshold $V_a$, excitatory inputs are propagated passively by the dendrite and sum linearly. Above this threshold, they trigger a dendritic spike, resulting in an amplified somatic voltage. If they are even higher and cross the threshold $V_b$, they stop increasing the somatic voltage and saturate. Note that this non-linearity only affects spikes received synchronously as has been observed experimentally. With the introduction of this non-linearity, the modelled point neuron becomes an effective model of a neuron with one non-linear dendrite.
+\label{eq:non-linear}
+\end{equation}
+For this non-linear function, the biological interpretation is that below a first threshold $V_a$, excitatory inputs are propagated passively by the dendrite and sum linearly. Above this threshold, they trigger a dendritic spike, resulting in an amplified somatic voltage. If they are even higher and cross the threshold $V_b$, they stop increasing the somatic voltage and saturate. Note that this non-linearity only affects spikes received synchronously as has been observed experimentally \cite{Softky1994}. With the introduction of this non-linearity, the modelled point neuron becomes an effective model of a neuron with one non-linear dendrite.
 
 The network consists of $N$ neurons, where a directed synaptic connection between a pair of neurons is established with probability $p_0$. Each of these connections is taken to be excitatory with probability $p_\text{ex}$, and inhibitory otherwise. Note that this connection scheme implies that neurons cannot be separated into groups of excitatory and inhibitory neurons, a neuron typically projects with both excitatory and inhibitory connections to other neurons.
 
@@ -270,6 +272,7 @@ The parameter values used in the original study as well as in our replication ar
   Inhibitory connection weight & $w_\text{in}$ & \SI{0.2}{\milli\volt} & (varied in Fig.~\ref{fig:grid})\\
   Membrane time constant & $ \tau_m $ & \SI{8}{\milli\second} &\\
   Firing threshold & $\Theta$ & \SI{16}{\milli\volt} &\\
+  External input & $V_0$ & \SI{17.6}{\milli\volt}&(effect on $V$)\\
   Synaptic delay & $\tau$ & \SI{5}{\milli\second} & (but see Implementation section)\\
   Threshold for supra-linear summation & $V_a$ & \SI{2}{\milli\volt} \\
   Threshold for saturation & $V_b$ & \SI{4}{\milli\volt} \\
@@ -300,7 +303,14 @@ inh_syn = br2.Synapses(G, G, 'w : volt (constant, shared)',
 \end{code}
 Note that the delay has been set as one time step (\verb|dt|) less than \SI{5}{\milli\second}. This is because in Brian, when a neuron receives synaptic input, this input can only trigger a threshold crossing of the receiving neuron in the following time step. To get chains of propagated synchronous spikes every \SI{5}{\milli\second} as in the original study, we therefore have to reduce the delay by one time step.
 
-For non-linearly coupled networks, we have to use a slightly more complicated approach where we sum up all the received excitatory input in a variable \verb|ve|, apply the non-linear function $\sigma$ to this input, and then reset the variable \verb|ve| back to 0 to prepare for the next time step. In Brian syntax (the definition of the inhibitory synapses is identical to the linearly coupled network):
+We used a the predefined \verb|clip| function to implemented non-linear coupling into a network. The function clips a value to a given range, following the syntax
+\begin{code}
+clip(value, lower_bound, upper_bound)
+\end{code}
+
+We employed this functions on the received excitatory inputs stored in a placed holder variable \verb|ve|. The variable corresponds to x in eq.~\ref{eq:non-linear}. We then reset the variable \verb|ve| back to 0 to prepare for the next time step. In Brian syntax (the definition of the inhibitory synapses is identical to the linearly coupled network):
+
+
 \begin{code}
 eq = """dV/dt = -gamma*V + V0 : volt
         ve : volt
@@ -314,25 +324,29 @@ G.run_regularly('''
                 ve = 0*mV
                 ''', when='after_synapses')
 \end{code}
-The \verb|run_regularly| operation that is run every time step to implement the non-linear $\sigma$ function refers to the predefined \verb|clip| function which clips the value to a given range, following the syntax
-\begin{code}
-clip(value, lower_bound, upper_bound)
-\end{code}
-To facilitate simulation, we use the \emph{joblib} library to automatically store results and to distribute computation over processor cores. Several simulation and analysis functions are annotated with a \verb|@mem.cache| decorator, meaning that their input arguments and outputs will be automatically stored to disk and calling the function will return the stored values if available. This feature does not only ease development (e.g. plotting functions can be changed without re-running the underlying simulations), but also allows to interrupt long-running parameter explorations without losing the results obtained so far. The same result could be achieved by manually storing results to disk, but joblib's caching mechanism helps to avoid common errors (e.g. to re-use an old result obtained with an outdated version of the code) while keeping the code readable. To reduce the total simulation time, the grid exploration in Fig.~\ref{fig:grid}, and the analysis of group size evolution in Fig.~\ref{fig:markov} have been distributed over processor cores using joblib's \verb|Parallel| construct. For the simulations presented in Fig.~\ref{fig:grid}, multiple repetitions for the same combination of synaptic weights are distributed over processor cores, for the simulations presented in Fig.~\ref{fig:markov}, simulations are evaluated in parallel over group sizes. In both cases, a number of $C-1$ parallel processes is used, where $C$ is the number of processor cores in the user's system.
+
+The \verb|run_regularly| operation applies the non-linearity to the summed input at every time step.
+
+In addition to random initial conditions, i.e. random initial values of the membrane potential, the simulation includes 1--50 random spikes ``initially in transit''. The original article does not go into further details about their implementation, so we decided to use the following: at the beginning of the simulation, a uniformly distributed number between 1 and 50 is drawn to determine the total number of initial spikes. These spikes are ``in transit'', meaning that they are modelled as arising from events before the start of the simulation. Since the synaptic delay in the network is \SI{5}{\milli\second}, we draw the arrival times for these spikes between \SI{0}{\milli\second} and \SI{5}{\milli\second}. Consistent with the probability for excitatory connections in the network ($p_\text{ex}=0.5$), we take half of these spikes as arising from excitatory and half from inhibitory sources, modelling their effect as described above.
+
+To facilitate simulation, we use the \emph{joblib} library to automatically store results and to distribute computation over processor cores. Several simulation and analysis functions are annotated with a \verb|@mem.cache| decorator, meaning that their input arguments and outputs will be automatically stored to disk and calling the function will return the stored values if available. This feature does not only ease development (e.g. plotting functions can be changed without re-running the underlying simulations), but also allows to interrupt long-running parameter explorations without losing the results obtained so far. The same result could be achieved by manually storing results to disk, but joblib's caching mechanism helps to avoid common errors (e.g. to re-use an old result obtained with an outdated version of the code) while keeping the code readable. To reduce the total simulation time, the grid exploration in Fig.~\ref{fig:grid}, and the analysis of group size evolution in Fig.~\ref{fig:markov_corrected} have been distributed over processor cores using joblib's \verb|Parallel| construct. For the simulations presented in Fig.~\ref{fig:grid}, multiple repetitions for the same combination of synaptic weights are distributed over processor cores, for the simulations presented in Fig.~\ref{fig:markov_corrected}, simulations are evaluated in parallel over group sizes. In both cases, a number of $C-1$ parallel processes is used, where $C$ is the number of processor cores in the user's system.
 
 We wanted reproducible simulations despite the use of random connectivity and initial conditions. Setting a single global seed was not sufficient because we used parallel simulations executed in non-deterministic order. Instead, we used a set of pre-determined seeds, one for each figure, and used those ``meta-seeds'' to generate a set of random seeds for each individual simulation.
 
-For the grid search presented in Fig.~\ref{fig:grid}, we varied inhibitory and excitatory synaptic weights between \SI{0.16}{\milli\volt} and \SI{0.4}{\milli\volt} (given that each neuron receives on average 150 excitatory and 150 inhibitory inputs, this corresponds to a ``total weight'' between \SI{24}{\milli\volt} and \SI{60}{\milli\volt}, as used on the axes of Fig.~\ref{fig:grid}), using 100 steps for each variable (comparable to the 96 steps used in the original publication). Each network was simulated 10 times with different initial conditions (synaptic connections and initial membrane potential values), whereas the original publication used 20 simulations per weight combination and additionally added ``1--50 random spikes initially in transit''.
+For the grid search presented in Fig.~\ref{fig:grid}, we varied inhibitory and excitatory synaptic weights between \SI{0.16}{\milli\volt} and \SI{0.4}{\milli\volt}. Given that each neuron receives on average 150 excitatory and 150 inhibitory inputs, this corresponds to a ``total weight'' between \SI{24}{\milli\volt} and \SI{60}{\milli\volt}, as used on the axes of Fig.~\ref{fig:grid}. We used a resolution of 100 steps for each variable, comparable to the 96 steps used in the original publication. Each network was simulated 10 times with different initial conditions (synaptic connections and initial membrane potential values), whereas the original publication used 20 simulations per weight combination.
 
-To numerically derive the evolution of synchronous pulse sizes presented in Fig.~\ref{fig:markov} (for the semi-analytical approach, see the next section), we performed simulations of \SI{56}{\milli\second} each. During each simulation, we stimulated the network at 50ms with a synchronous pulse of activity, consisting of between 1 and 176 neurons (varied in steps of 5 -- the original study used group sizes between 1 and 181 varied in steps of 6). We then observed the number of active neurons at \SI{55}{\milli\second}, i.e. at one $\tau$ after the stimulation. For each stimulation group size, we ran the simulations 50 times with different initial conditions, consistent with the original study.
+To numerically derive the evolution of synchronous pulse sizes presented in Fig.~\ref{fig:markov_corrected} (for the semi-analytical approach, see the next section), we performed simulations of \SI{56}{\milli\second} each. During each simulation, we stimulated the network at \SI{50}{\milli\second} with a synchronous pulse of activity, consisting of between 1 and 181 neurons (varied in steps of 5 -- the original study used group sizes in the same range varied in steps of 6). We then observed the number of active neurons at \SI{55}{\milli\second}, i.e. at one $\tau$ after the stimulation. For each stimulation group size, we ran the simulations 50~times with different initial conditions, consistent with the original study. To achieve a better quantitative match with the original study, we applied a correction for the stimulation group size $g'_0$ and the observed group size $g'_1$ in the next iteration (for the uncorrected results, see Fig.~\ref{fig:markov}). We refer to the corrected values as $\hat{g}_0$ and $\hat{g}_1$, respectively. These corrections are necessary because of the background activity and our clock-based simulation method and are motivated as follows.  The activity of the full network in the absence of stimulation is about \SI{55}{\kilo\hertz} (see Fig.~\ref{fig:raster}). Given that our simulation uses a time step of \SI{0.1}{\milli\second}, this means that at every time step about 5.5 neurons on average are synchronously active. When we stimulate a network with a pulse of $g'_0$ synchronous neurons, the actual number of synchronously active neurons is therefore higher than this stimulation. Similarly, we have to correct the size of the observed group in the next iteration. In contrast to the simulation strategy of the original publication that could make use of an ``infinite precision'' to detect synchronous spikes triggered by the stimulation, our simulation will also detect all the synchronous spikes resulting from the background activity. In the corrected values shown in Fig.~\ref{fig:markov_corrected} we therefore used the actually observed synchronous spikes $\hat{g}'_0 \geq g'_0$ at the time of the stimulation, and the number of added spikes due to the stimulation $\hat{g}'_1 = g'_{1 \text{stim}} - g'_{1 \text{no stim}}$, where $g'_{1 \text{stim}}$ is the number of synchronous spikes we observe in a network with stimulation, and $g'_{1 \text{no stim}}$ the number of observed spikes in a network without stimulation. Both networks are simulated with the same random seed and therefore have the same network connectivity and the same initial conditions; the only difference lies in the presence or absence of external synchronous stimulation. Note that the correction for $\hat{g}'_1$ slightly ``overcorrects'', as it discards all spikes that are resulting from background activity, even those that also would have been triggered by the stimulation.
 
 \subsection*{Semi-analytical and analytical methods}
-We did not attempt to replicate the analytical solution for the evolution of synchronous pulses based on diffusion approximation (blue dots in Fig.~4 of \cite{Memmesheimer2012}).
-To calculate the semi-analytical solutions for Fig.~\ref{fig:markov}, based on a numerical estimate of the distribution $P(V)$, we proceeded as follows. First, we ran $2\times 50$ (once for the linear, once for the non-linear network) simulations of \SI{250}{\milli\second} each of a network with the default parameters but without any additional synchronous stimulation.  We binned all membrane potential values over all time steps and neurons into 100 bins in the voltage interval $[-\Theta/8, \Theta]$, to obtain an estimate of $P(V)$, the distribution of the membrane potential. From this distribution we can estimate the probability $F$ that an additional input $\epsilon$ drives the neuron over its threshold (or equivalently, that the neuron is less than $\epsilon$ away from its threshold):
+We did not attempt to replicate the analytical solution for the evolution of synchronous pulses based on diffusion approximation (blue dots in Fig.~4 of \cite{Memmesheimer2012}), since the original publication did not give a detailed description of this approach. However, we replicate the semi-analytical work that was described in more detail.
+
+To calculate the semi-analytical solutions for Fig.~\ref{fig:markov_corrected}, based on a numerical estimate of the distribution $P(V)$, we proceeded as follows. First, we ran $2\times 50$ (once for the linear, once for the non-linear network) simulations of \SI{250}{\milli\second}. Each of these simulations was randomly connected and had random initial conditions, but received no additional synchronous stimulation. The original study additionally simulated each of the 100 networks 10 times, with the same synaptic connectivity but differing in the initial conditions. We then binned all membrane potential values over all time steps and neurons into 100 bins in the voltage interval $[-\Theta/8, \Theta]$ to obtain an estimate of $P(V)$, the distribution of the membrane potential. Note that the original study did not further specify how $P(V)$ was estimated from the simulation results.
+
+We then calculate the expected synchronous group size after one iteration as in the original publication. To make this calculation clearer, we now describe its derivation in detail. From the distribution $P(V)$ we can estimate the probability $F$ that an additional input $\epsilon$ drives the neuron over its threshold (or equivalently, that the neuron is less than $\epsilon$ away from its threshold):
 \begin{equation}
 F(\epsilon) = P(V>\Theta-\epsilon) = \int_{\Theta-\epsilon}^{\Theta}P(V)dV
 \end{equation}
-Let $\epsilon(n_\text{ex}, n_\text{in})$ be the total input to a neuron that receives $n_\text{ex}$ excitatory and $n_\text{in}$ inhibitory spikes, i.e. $\epsilon(n_\text{ex}, n_\text{in}) = \sigma(n_\text{ex}w_\text{ex}) + n_\text{in}w_\text{in}$. Let us assume that in the last iteration $g_i$ neurons spiked and that these neurons are refractory now, i.e. that $N-g_i$ neurons are available to spike in this iteration. To calculate the probability for a single (non-refractory) neuron $j$ to spike in response to these $g_i$ neurons, we will first calculate the probability that out of the $g_i$ neurons that spiked, exactly $n_\text{ex}$ neurons are connected with excitatory connections and $n_\text{in}$ neurons are connected with inhibitory connections to neuron $j$. There are $\binom{g_i}{n_\text{ex} + n_\text{in}}$ possibilities to chose $n_\text{ex} + n_\text{in}$ out of $g_i$ neurons, and $\binom{n_\text{ex} + n_\text{in}}{n_\text{ex}}$ possibilities to divide these neurons into groups of size $n_\text{ex}$ and $n_\text{in}$. This yields the total number of combinations $c(g_i, n_\text{ex}, n_\text{in})$:
+Let $\epsilon(n_\text{ex}, n_\text{in})$ be the total input to a neuron that receives $n_\text{ex}$ excitatory and $n_\text{in}$ inhibitory spikes, i.e. $\epsilon(n_\text{ex}, n_\text{in}) = \sigma(n_\text{ex}w_\text{ex}) + n_\text{in}w_\text{in}$. Let us assume that in the previous iteration $g_i$ neurons spiked and that these neurons are refractory now, i.e. that $N-g_i$ neurons are available to spike in this iteration. To calculate the probability for a single (non-refractory) neuron $j$ to spike in response to these $g_i$ neurons, we will first calculate the probability that out of the $g_i$ neurons that spiked, exactly $n_\text{ex}$ neurons are connected with excitatory connections and $n_\text{in}$ neurons are connected with inhibitory connections to neuron $j$. There are $\binom{g_i}{n_\text{ex} + n_\text{in}}$ possibilities to chose $n_\text{ex} + n_\text{in}$ out of $g_i$ neurons, and $\binom{n_\text{ex} + n_\text{in}}{n_\text{ex}}$ possibilities to divide these neurons into groups of size $n_\text{ex}$ and $n_\text{in}$. This yields the total number of combinations $c(g_i, n_\text{ex}, n_\text{in})$:
 \begin{equation}
 c(g_i, n_\text{ex}, n_\text{in}) = \binom{g_i}{n_\text{ex} + n_\text{in}}\binom{n_\text{ex} + n_\text{in}}{n_\text{ex}} = \frac{g_i!}{n_\text{ex}!n_\text{in}!(g_i - n_\text{ex} - n_\text{in})!}
 \end{equation}
@@ -344,7 +358,7 @@ Finally, we need to sum these probabilities up over all possible values for $n_\
 \begin{equation}
 P^s(g_i) = \sum_{n_\text{ex}=1}^{g_i}\sum_{n_\text{in}=0}^{g_i-n_\text{ex}} F\big(\epsilon(n_\text{ex}, n_\text{in})\big) c(g_i, n_\text{ex}, n_\text{in}) p(g_i, n_\text{ex}, n_\text{in})
 \end{equation}
-In Fig.~\ref{fig:markov}, we plot the expected value of spiking neurons during the next iteration, i.e.:
+In Fig.~\ref{fig:markov_corrected}, we plot the expected value of spiking neurons during the next iteration, given a certain initial synchronous pulse $g_i'$:
 \begin{equation}
 E(g_{i+1}|g_i = g_i') = (N - g_i') P^s(g_i')
 \end{equation}
@@ -371,9 +385,27 @@ To confirm the equivalence of our network's behaviour with the original study ov
 \begin{equation}
 R = U_1 + U_2;\quad G = E + U_2;\quad B = S,
 \end{equation}
-where $U_1$, and $U_2$ stand for the fraction of trials displaying unstable network activity before respectively after onset of propagation, and $S$ and $E$ for the fraction of trials displaying stable background activity with respectively without persistent propagation. We obtained this scheme directly from the authors of the original study, it was only coarsely described in the original publication. Combining individual results in this way does not necessarily lead to easily interpretable colours, but using a different scheme, e.g. colouring according to the class that occurred the most often, leads to visually similar results (not shown).
+where $U_1$, and $U_2$ stand for the fraction of trials displaying unstable network activity before respectively after onset of propagation, and $S$ and $E$ for the fraction of trials displaying stable background activity with respectively without persistent propagation. We obtained this scheme directly from the authors of the original study, it was only coarsely described in the original publication. Combining individual results in this way does not necessarily lead to easily interpretable colours, but using a different scheme, e.g. colouring according to the class that occurred the most often, leads to visually similar results (Fig.~\ref{fig:grid_max}).
 
-Our replication does not reproduce all details of the original plots (in particular at the top of the plots), but looks very similar on a coarse scale. Importantly, it strongly supports the original paper's main conclusion that non-linearly coupled networks have a large parameter range of stable propagation (i.e., blue-coloured points), while linearly coupled networks do not. The minor differences in our replication could be due to either our use of a clock-based simulation method, or to the slightly different initial conditions (no spikes ``in transit'').
+\begin{figure}
+\centering
+\begin{subfigure}[t]{0.33\textwidth}
+\caption{}\vspace{-1ex}
+\includegraphics[width=\textwidth]{Figs/grid_l_dt_100us_gs100_mean.pdf}
+\end{subfigure}%
+\begin{subfigure}[t]{0.33\textwidth}
+\caption{}\vspace{-1ex}
+\includegraphics[width=\textwidth]{Figs/grid_nl_dt_100us_gs100_mean.pdf}
+\end{subfigure}
+\begin{subfigure}[t]{0.33\textwidth}
+\caption{}\vspace{-1ex}
+\includegraphics[width=\textwidth]{Figs/grid_nl_dt_100us_gs75_mean.pdf}
+\end{subfigure}
+\caption{\label{fig:grid}
+\textbf{Qualitative network behaviour as a function of excitatory and inhibitory connection strength for linearly (A) and non-linearly (B, C) coupled networks.} For each combination, we initiated synchronous activity with 100 (A, B) or 75 (C) neurons and assessed the stability of the temporal evolution. Blue colouring indicates stable propagation of synchrony, red indicates unstable background activity before onset of propagation, yellow indicates unstable background activity after onset of propagation, and green colouring indicates the absence of propagation (see Methods for details).\\
+Replication of Fig.~3 in \cite{Memmesheimer2012} (\url{https://doi.org/10.1371/journal.pcbi.1002384.g003})}
+\end{figure}
+
 \begin{table}
 \begin{tabular}{ c  l  p{0.32\textwidth}}
   \toprule
@@ -388,22 +420,99 @@ Our replication does not reproduce all details of the original plots (in particu
 \caption{Classification of network behaviour for Fig.~\ref{fig:grid}. Here, $a_b$ refers to the background activity, the number of neurons active during a \SI{1}{\milli\second} time bin, ignoring the time steps at $t_\text{p}^k = t_\text{stim} + k\cdot\tau$, i.e. time steps that follow the synchronous stimulation by multiples of the synaptic delay. The variable $g_\text{p}$ refers to the number of successful propagations of the synchronous activity, i.e. the number of time steps $t_\text{p}^k$ where the number of active neurons exceeds the maximal background activity $a_b$.}\label{tab:color}
 \end{table}
 
+Our replication does not reproduce all the quantitative details of the original plots. The parameter range where simulations are only unstable after they receive the synchronous stimulation (yellow) is smaller than in the original article. For linear networks, we do observe almost no simulations classified in this category, while the original article has a thin line of such classifications between the stable regime without propagation (green) and the regime where simulations are unstable even without stimulation (red). Similarly, for non-linearly coupled networks the parameter exploration in the original article shows for each inhibitory connection weight a range of excitatory connection weights of about \SI{5}{\milli\volt} where the network is unstable only after the synchronous stimulation (yellow). In contrast, our simulations show a much smaller such zone when the inhibitory connection strength is small (Fig.~\ref{fig:grid}B). It seems that these differences mostly stem from the fact that the transition to the regime where simulations are unstable without stimulation (red) happens for lower excitatory and higher inhibitory connection strength in our simulations than in the original article, i.e. that the red zone is shifted towards the bottom left. This is particularly evident for strong excitatory and inhibitory connections in non-linearly coupled networks (bottom right in Fig.~\ref{fig:grid}B and C) which are unstable in our simulations, but stable or only unstable after stimulation in the original publication. Simulating the parameter combination corresponding to the point in the bottom right corner of the plot at different time resolutions (Fig.~\ref{fig:raster_strong}), we find that this difference does indeed seem to be triggered by limited time resolution in the model. The forced synchronisation of all spikes to a grid of \SI{0.1}{\milli\second}, together with the homogeneity of the synaptic delays, leads to strong oscillations in our simulation (Fig.~\ref{fig:raster_strong}A), which is consequently classified as unstable. When we use a simulation time step of \SI{0.01}{\milli\second}, these osciallations disappear and the network activity therefore gets classified as ``stable without persistent propagation''.  Finally, non-linearly coupled networks show a discontinuity for weak inhibitory connection strengths in the original publication. For increasing excitatory connection strengths, network behaviour goes from stable (blue) to unstable after stimulation (yellow) to unstable before stimulation (red), but then get classified again as stable (blue) in a small range of parameters before finally transitioning to unstable activity (yellow and red). We do not observe this in our simulations, but simulations with a finer time resolution (Fig.~\ref{fig:grid_detail}C) indicate that this difference could be caused by the limited time resolution of our simulations as well.
+
+Despite these differences, the qualitative network behaviour looks very similar on a coarse scale. Importantly, it strongly supports the original paper's main conclusion that non-linearly coupled networks have a large parameter range of stable propagation (i.e., blue-coloured points), while linearly coupled networks do not. The differences in our replication are most likely due to our use of a clock-based simulation method with a limited time resolution (see Fig.~\ref{fig:grid_detail} and Fig.~\ref{fig:raster_strong}). In principle, another reason could be implementation details of the initial ``spikes in transit'' that were not fully specified in the original article, but this seems unlikely since completely removing them did not change the results in a noticeable way (not shown).
+
+
+
 \begin{figure}
 \centering
 \begin{subfigure}[t]{0.5\textwidth}
 \caption{}\vspace{-1ex}
-\includegraphics[width=\textwidth]{Figs/grid_l_dt_100us_mean.pdf}
+\includegraphics[width=\textwidth]{Figs/markov_l_dt_100us_corrected.pdf}
 \end{subfigure}%
 \begin{subfigure}[t]{0.5\textwidth}
 \caption{}\vspace{-1ex}
-\includegraphics[width=\textwidth]{Figs/grid_nl_dt_100us_mean.pdf}
+\includegraphics[width=\textwidth]{Figs/markov_nl_dt_100us_corrected.pdf}
 \end{subfigure}
-\caption{\label{fig:grid}
-\textbf{Qualitative network behaviour as a function of excitatory and inhibitory connection strength for linearly (A) and non-linearly (B) coupled networks.} For each combination, we initiated synchronous activity with 100 neurons and assessed the stability of the temporal evolution. Blue colouring indicates stable propagation of synchrony, red indicates unstable background activity before onset of propagation, yellow indicates unstable background activity after onset of propagation, and green colouring indicates the absence of propagation (see Methods for details).\\
-Replication of Fig.~3a and b in \cite{Memmesheimer2012} (\url{https://doi.org/10.1371/journal.pcbi.1002384.g003})}
+\caption{\label{fig:markov_corrected}
+\textbf{Evolution of synchronous pulses in linearly (A) and non-linearly (B) coupled networks.} To numerically estimate the probability distribution, we show occurrences of pulse-sizes $g'_1$ in response to a pulse of size $g'_0$ by grey lines; green squares represent the corresponding mean response group sizes.\\
+Replication of Fig.~4 in \cite{Memmesheimer2012} (\url{https://doi.org/10.1371/journal.pcbi.1002384.g004})}
+\end{figure}
+
+Finally, we looked at the evolution of synchronous group sizes for one combination of synaptic weights ($w_\text{ex}=w_\text{in}=\SI{0.2}{\milli\volt}$) in detail (Fig.~\ref{fig:markov_corrected}). The results confirms our previous conclusion that we can faithfully replicate the network behaviour which shows identical qualitative behaviour; the group size consistently declines with each iteration in linearly coupled networks (Fig.~\ref{fig:markov_corrected}A), whereas it increases for intermediate group sizes and declines otherwise in non-linearly coupled networks (Fig.~\ref{fig:markov_corrected}B). Quantitatively, the semi-analytical results also match well. Based on the plotted values in the original publication (Fig.~4 in \cite{Memmesheimer2012}), the curve based on the semi-analytical solution crosses the identity line at about 85 ($G_1$) and 135 ($G_2$) for non-linearly coupled networks, peaking in between for $g'_0\approx125$ and $g'_1\approx139$. In our simulations, it crosses the line at about 86 and 134, and peaks at $g'_0\approx126$ and $g'_1\approx137$. As in the original article, our numerical results show slightly lower values for the group size in the next iteration, with the biggest difference for values around the peak of the function for non-linearly coupled networks (Fig.~\ref{fig:markov_corrected}B). However, we see a quantitative difference for low initial group sizes. In these simulations, the original publication shows a close match between the numerical results and the semi-analytical solution. In our simulation, the semi-analytical solution overestimates the numerical one.
+Be reminded that to obtain this good quantitative match, we had to apply a correction to the numerical results, as explained in the implementation section (for the uncorrected values, see Fig.~\ref{fig:markov}).
+
+Despite the small quantitative differences, our work strengthens the original result by demonstrating a qualitative difference between linearly coupled and non-linearly coupled networks.
+
+\section*{Discussion}
+
+We managed to qualitatively reproduce the main results of Raoul-Martin Memmes\-heimer and Marc Timme \cite{Memmesheimer2012} despite some quantitative differences. The grid search over parameters showed a higher prevalence of networks with unstable activity before the onset of stimulation compared to the original study. In the analysis of the evolution of synchronous pulses of different sizes, our results need a correction for the use of a clock-based simulation method to show a good quantative match with the original results. However, a marked difference remains for small initial group sizes. The differences we see are most likely due to our use of a clock-based instead of event-driven simulations, as it forces all activity to a temporal grid of finite precision. However, the main qualitative finding---non-linearly coupled networks have a large parameter range supporting persistent propagation of synchronous activity whereas linearly coupled networks do not---remains if we use finer (\SI{0.05}{\milli\second}) or coarser (\SI{0.2}{\milli\second}, \SI{0.5}{\milli\second}) temporal resolutions (data not shown).
+
+The reusable code we provide with this work paves the way to future studies of networks of non-linearly coupled integrate-and-fire neurons. It gives researchers the means to verify that the original study's conclusion hold under variations of its model assumptions, such as the details of the connectivity scheme or the synaptic model. This article has already provided a first such verification, demonstrating that the original studies main findings do not critically depend on the event-based method and the entailing ``perfect time resolution''. Finally, we hope that the provided code can also serve as a basis for future studies of functional paradigms going beyond the mere propagation of synchronous activity.
+
+\section*{Acknowledgements}
+We would like to thank Raoul Martin Memmesheimer for providing implementation details about the original study. This work has received funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement No 640891 (DREAM Project).
+
+{\sffamily \small
+   \printbibliography[title=References]
+%}
+\clearpage
+\appendix
+\section*{Supplementary Figures}
+\begin{figure}[h]
+\centering
+\begin{subfigure}[t]{0.33\textwidth}
+\caption{}\vspace{-1ex}
+\includegraphics[width=\textwidth]{Figs/grid_l_dt_100us_gs100.pdf}
+\end{subfigure}%
+\begin{subfigure}[t]{0.33\textwidth}
+\caption{}\vspace{-1ex}
+\includegraphics[width=\textwidth]{Figs/grid_nl_dt_100us_gs100.pdf}
+\end{subfigure}
+\begin{subfigure}[t]{0.33\textwidth}
+\caption{}\vspace{-1ex}
+\includegraphics[width=\textwidth]{Figs/grid_nl_dt_100us_gs75.pdf}
+\end{subfigure}
+\caption{\label{fig:grid_max}
+\textbf{Most-often observed qualitative network behaviour as a function of excitatory and inhibitory connection
+strength} All conventions as in Fig.~\ref{fig:grid}, but points are coloured according the observed qualitative behaviour that occurred the most often among the 10 independent simulations for given connection strengths.}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}[t]{0.33\textwidth}
+\caption{}\vspace{-1ex}
+\includegraphics[width=\textwidth]{Figs/grid_nl_dt_100us_gs100_mean_detail.pdf}
+\end{subfigure}%
+\begin{subfigure}[t]{0.33\textwidth}
+\caption{}\vspace{-1ex}
+\includegraphics[width=\textwidth]{Figs/grid_nl_dt_50us_gs100_mean_detail.pdf}
+\end{subfigure}
+\begin{subfigure}[t]{0.33\textwidth}
+\caption{}\vspace{-1ex}
+\includegraphics[width=\textwidth]{Figs/grid_nl_dt_10us_gs100_mean_detail.pdf}
+\end{subfigure}
+\caption{\label{fig:grid_detail}
+\textbf{Zoom on qualitative network behaviour with different simulation time steps.} Color code as in Fig.~\ref{fig:grid}. Results are shown for a smaller range of connection strengths than in Fig.~\ref{fig:grid}, and only for non-linearly coupled networks with an synchronous stimulation of 100 neurons. The total inhibitory connection strength was varied between \SI{24}{\milli\volt} and \SI{34.55}{\milli\volt}, the total excitatory connection strength was varied between \SI{34.91}{\milli\volt} and \SI{45.45}{\milli\volt}, i.e. the parameter range corresponds to a square region at the top of Fig.~\ref{fig:grid}B. Simulations where performed with simulation time steps of \SI{0.1}{\milli\second} (A; also the value used for all other simulations shown), \SI{0.05}{\milli\second} (B), and \SI{0.01}{\milli\second} (C).}
 \end{figure}
 
 \begin{figure}
+\centering
+\begin{subfigure}[t]{0.5\textwidth}
+\caption{}\vspace{-1ex}
+\includegraphics[width=\textwidth]{Figs/spikes_nl_strong_dt_100us.pdf}
+\end{subfigure}%
+\begin{subfigure}[t]{0.5\textwidth}
+\caption{}\vspace{-1ex}
+\includegraphics[width=\textwidth]{Figs/spikes_nl_strong_dt_10us.pdf}
+\end{subfigure}
+\caption{\label{fig:raster_strong}
+\textbf{Propagation of synchronous spiking in strongly connected networks when simulated with a time step of \SI{0.1}{\milli\second} (A), or \SI{0.01}{\milli\second} (B)}. All conventions as in Fig.~\ref{fig:raster}, but for strong recurrent connections ($w_\text{ex} = w_\text{in} = \SI{0.4}{\milli\volt}$). Both simulated networks use non-linearly coupling, the network shown in panel (B) is simulated with a 10-times finer temporal resolution compared to the other results shown.}
+\end{figure}
+
+\begin{figure}[h]
 \centering
 \begin{subfigure}[t]{0.5\textwidth}
 \caption{}\vspace{-1ex}
@@ -414,23 +523,6 @@ Replication of Fig.~3a and b in \cite{Memmesheimer2012} (\url{https://doi.org/10
 \includegraphics[width=\textwidth]{Figs/markov_nl_dt_100us.pdf}
 \end{subfigure}
 \caption{\label{fig:markov}
-\textbf{Evolution of synchronous pulses in linearly (A) and non-linearly (B) coupled networks.} To numerically estimate the probability distribution, we show occurrences of pulse-sizes $g'_1$ in response to a pulse of size $g'_0$ by grey lines; green squares represent the corresponding mean response group sizes.\\
-Replication of Fig.~4 in \cite{Memmesheimer2012} (\url{https://doi.org/10.1371/journal.pcbi.1002384.g004})}
+\textbf{Evolution of synchronous pulses without correction in linearly (A) and non-linearly (B) coupled networks.} All conventions as in Fig.~\ref{fig:markov_corrected}. The numerical results shown here (gray lines and green squares) are not corrected for the bias introduced by the clock-driven integration method (see text for details).}
 \end{figure}
-
-Finally, we looked at the evolution of synchronous group sizes for one combination of synaptic weights ($w_\text{ex}=w_\text{in}=\SI{0.2}{\milli\volt}$) in detail (Fig.~\ref{fig:markov}). The results confirms our previous conclusion that we can faithfully replicate the network behaviour. They match both qualitatively and quantitatively, the group size consistently declines with each iteration in linearly coupled networks (Fig.~\ref{fig:markov}A), whereas it increases for intermediate group sizes and declines otherwise in non-linearly coupled networks (Fig.~\ref{fig:markov}B). While the semi-analytic solution (red dotted line) shows a good match to the numerical results (grey lines, means as green dots), it shows some quantitative differences to the semi-analytic solution presented in Fig.~4 of the original article. In particular, our semi-analytical solution seems to mostly slightly underestimate the size of the group in the next iteration while the semi-analytical solution presented in the original article seems to slightly overestimate it.
-
-\section*{Discussion}
-
-We managed to qualitatively reproduce the main results of Raoul-Martin Memmes\-heimer and Marc Timme \cite{Memmesheimer2012} despite some slight quantitative differences. These difference could be due to our use of clock-based instead of event-driven simulations, as it forces all activity to a temporal grid of finite precision. We tried finer (\SI{0.05}{\milli\second}) and coarser (\SI{0.2}{\milli\second}, \SI{0.5}{\milli\second}) temporal resolutions and obtained qualitatively the same results (not shown). Another potential source for the differences is that our initial conditions do not include spikes ``in transit'' at the start of the simulation, which might further contribute to the quantitative differences we see.
-
-The reusable code we provide with this work paves the way to future studies of networks of non-linearly coupled integrate-and-fire neurons. It gives researchers the means to verify that the original study's conclusion hold under variations of its model assumptions, such as the details of the connectivity scheme or the synaptic model. This article has already provided a first such verification, demonstrating that the original studies main findings do not critically depend on the event-based method and the entailing ``perfect time resolution''. Finally, we hope that the provided code can also serve as a basis for future studies of functional paradigms going beyond the mere propagation of synchronous activity.
-
-\section*{Acknowledgements}
-We would like to thank Raoul Martin Memmesheimer for providing implementation details about the original study. This work has received funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement No 640891 (DREAM Project).
-
-{\sffamily \small
-   \printbibliography[title=References]
-%}
-
 \end{document}

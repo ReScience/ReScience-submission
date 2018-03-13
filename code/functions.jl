@@ -11,7 +11,6 @@
 
 Return : `pescape`: Probability of escaping mortality from natural ennemies
 """
-
 function prob(N::Float64,P::Float64, a::Float64, m::Float64, th::Float64)
     num = a*P
     den = m*(1+a*th*N)
@@ -29,7 +28,6 @@ end
 
 Return : `Nt`: Population size at the next generation
 """
-
 function hostdynamic(N::Float64,P::Float64, F::Float64, D::Float64)
     pescape = prob(N,P)
     Nt = F*N*pescape*D

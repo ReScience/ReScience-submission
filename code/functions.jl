@@ -9,7 +9,7 @@
 
 Return : `P`: Generalist parasitoids population size
 """
-function Generalistdynamic(h::Float64,b::Float64, N::Float64)
+function generalist_dyn(h::Float64,b::Float64, N::Float64)
     P = h*(1-exp(-N/B))
     return P
 end
@@ -23,8 +23,8 @@ end
 
 Return : `Pt`: Specialist parasitoids population size
 """
-function Specialistdynamic(c::Float64,N::Float64, P::Float64)
-    pescape = prob(N,P)
+function specialist_dyn(c::Float64,N::Float64, P::Float64)
+    pescape = escape_probability(N,P)
     Pt = c*N*(1-pescape)
     return Pt
 end
@@ -40,7 +40,7 @@ end
 
 Return : `pescape`: Probability of escaping mortality from natural ennemies
 """
-function prob(N::Float64,P::Float64, a::Float64, m::Float64, th::Float64)
+function escape_probability(N::Float64,P::Float64, a::Float64, m::Float64, th::Float64)
     num = a*P
     den = m*(1+a*th*N)
     pescape = (1+num/den)^-m
@@ -57,8 +57,8 @@ end
 
 Return : `Nt`: Population size at the next generation
 """
-function hostdynamic(N::Float64,P::Float64, F::Float64, D::Float64)
-    pescape = prob(N,P)
+function host_dyn(N::Float64,P::Float64, F::Float64, D::Float64)
+    pescape = escape_probability(N,P)
     Nt = F*N*pescape*D
     return Nt
 end

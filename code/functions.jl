@@ -1,4 +1,12 @@
-# list of functions
+"""
+TODO
+"""
+function timestep(N::Float64, P::Float64, p; parasite_dyn=specialist_dyn)
+    Nt = host_dyn(N, P, p)
+    Pt = parasite_dyn(N, P, p)
+    return (Nt, Pt)
+end
+
 
 """
 ***Generalist parasitoids population size(Initial population size of female parasitoids) ***

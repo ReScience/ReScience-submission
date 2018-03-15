@@ -9,9 +9,9 @@
 
 Return : `P`: Generalist parasitoids population size
 """
-function generalist_dyn(h::Float64,b::Float64, N::Float64)
-    P = h*(1-exp(-N/B))
-    return P
+function generalist_dyn(N::Float64, P::Float64, p)
+    Pt = p.h*(1-exp(-N/p.B))
+    return Pt
 end
 
 """
@@ -23,28 +23,10 @@ end
 
 Return : `Pt`: Specialist parasitoids population size
 """
-function specialist_dyn(c::Float64,N::Float64, P::Float64)
-    pescape = escape_probability(N,P)
-    Pt = c*N*(1-pescape)
+function specialist_dyn(N::Float64, P::Float64, p)
+    pescape = escape_probability(N,P,p)
+    Pt = p.c*N*(1-pescape)
     return Pt
-end
-  
-"""
-***Probability of escaping mortality from natural ennemies***
-
-- `N`: Initial host population size 
-- `P`: Initial parasitoid population size
-- `a`: Searching efficiency (per capita)
-- `m`: Extent of clumping of the parasitoid attacks
-- `th`: Handling time (as a proportion of the total time)
-
-Return : `pescape`: Probability of escaping mortality from natural ennemies
-"""
-function escape_probability(N::Float64,P::Float64, a::Float64, m::Float64, th::Float64)
-    num = a*P
-    den = m*(1+a*th*N)
-    pescape = (1+num/den)^-m
-    return pescape
 end
 
 """
@@ -57,10 +39,28 @@ end
 
 Return : `Nt`: Population size at the next generation
 """
-function host_dyn(N::Float64,P::Float64, F::Float64, D::Float64)
+function host_dyn(N::Float64,P::Float64, p)
     pescape = escape_probability(N,P)
-    Nt = F*N*pescape*D
+    Nt = p.F*N*pescape*p.D
     return Nt
+end
+
+"""
+***Probability of escaping mortality from natural ennemies***
+
+- `N`: Initial host population size 
+- `P`: Initial parasitoid population size
+- `a`: Searching efficiency (per capita)
+- `m`: Extent of clumping of the parasitoid attacks
+- `th`: Handling time (as a proportion of the total time)
+
+Return : `pescape`: Probability of escaping mortality from natural ennemies
+"""
+function escape_probability(N::Float64,P::Float64, p)
+    num = p.a*P
+    den = p.m*(1+p.a*p.th*N)
+    pescape = (1+num/den)^-p.m
+    return pescape
 end
 
 """

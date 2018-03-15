@@ -69,7 +69,7 @@ end
 Return : `Nt`: Population size at the next generation
 """
 function host_dyn(N::Float64,P::Float64, p)
-    pescape = escape_probability(N,P)
+    pescape = escape_probability(N,P,p)
     Nt = p.F*N*pescape*p.D
     return Nt
 end

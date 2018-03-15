@@ -1,4 +1,33 @@
-# list of functions
+"""
+TODO
+"""
+function simulation(N::Float64, P::Float64; t::Int64=50, f=specialist_dyn, F=4.0, D=0.5, c=1.0, a=0.5, h=10.0, b=25.0, th=0.0, m=0.2)
+    # Parameters
+    p = @NT(F=F, D=D, c=c, a=a, h=h, b=b, th=th, m=m)
+    # Matrix to store the output
+    dynamics = zeros(Float64, (t+1,3))
+    dynamics[1,2] = N
+    dynamics[1,3] = P
+    # Iterations
+    for current_time in 1:t
+        N_next, P_next = timestep(dynamics[current_time,2], dynamics[current_time,3], p; parasite_dyn=f)
+        dynamics[current_time+1,1] = current_time
+        dynamics[current_time+1,2] = N_next
+        dynamics[current_time+1,3] = P_next
+    end
+    # Return
+    return dynamics
+end
+
+"""
+TODO
+"""
+function timestep(N::Float64, P::Float64, p; parasite_dyn=specialist_dyn)
+    Nt = host_dyn(N, P, p)
+    Pt = parasite_dyn(N, P, p)
+    return (Nt, Pt)
+end
+
 
 """
 ***Generalist parasitoids population size(Initial population size of female parasitoids) ***
@@ -9,9 +38,9 @@
 
 Return : `P`: Generalist parasitoids population size
 """
-function generalist_dyn(h::Float64,b::Float64, N::Float64)
-    P = h*(1-exp(-N/B))
-    return P
+function generalist_dyn(N::Float64, P::Float64, p)
+    Pt = p.h*(1-exp(-N/p.B))
+    return Pt
 end
 
 """
@@ -23,28 +52,10 @@ end
 
 Return : `Pt`: Specialist parasitoids population size
 """
-function specialist_dyn(c::Float64,N::Float64, P::Float64)
-    pescape = escape_probability(N,P)
-    Pt = c*N*(1-pescape)
+function specialist_dyn(N::Float64, P::Float64, p)
+    pescape = escape_probability(N,P,p)
+    Pt = p.c*N*(1-pescape)
     return Pt
-end
-  
-"""
-***Probability of escaping mortality from natural ennemies***
-
-- `N`: Initial host population size 
-- `P`: Initial parasitoid population size
-- `a`: Searching efficiency (per capita)
-- `m`: Extent of clumping of the parasitoid attacks
-- `th`: Handling time (as a proportion of the total time)
-
-Return : `pescape`: Probability of escaping mortality from natural ennemies
-"""
-function escape_probability(N::Float64,P::Float64, a::Float64, m::Float64, th::Float64)
-    num = a*P
-    den = m*(1+a*th*N)
-    pescape = (1+num/den)^-m
-    return pescape
 end
 
 """
@@ -57,10 +68,28 @@ end
 
 Return : `Nt`: Population size at the next generation
 """
-function host_dyn(N::Float64,P::Float64, F::Float64, D::Float64)
-    pescape = escape_probability(N,P)
-    Nt = F*N*pescape*D
+function host_dyn(N::Float64,P::Float64, p)
+    pescape = escape_probability(N,P,p)
+    Nt = p.F*N*pescape*p.D
     return Nt
+end
+
+"""
+***Probability of escaping mortality from natural ennemies***
+
+- `N`: Initial host population size 
+- `P`: Initial parasitoid population size
+- `a`: Searching efficiency (per capita)
+- `m`: Extent of clumping of the parasitoid attacks
+- `th`: Handling time (as a proportion of the total time)
+
+Return : `pescape`: Probability of escaping mortality from natural ennemies
+"""
+function escape_probability(N::Float64,P::Float64, p)
+    num = p.a*P
+    den = p.m*(1+p.a*p.th*N)
+    pescape = (1+num/den)^-p.m
+    return pescape
 end
 
 """

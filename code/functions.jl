@@ -62,3 +62,31 @@ function hostdynamic(N::Float64,P::Float64, F::Float64, D::Float64)
     Nt = F*N*pescape*D
     return Nt
 end
+
+"""
+***Per capita searching efficiency***
+
+- `N`: Host population size
+- `P`: Parasitoid population size
+- `S`: Survivors from parasitism
+
+Return : `A`: Per capita searching efficiency at generation t
+"""
+function efficiency(N::Float64,P::Float64, S::Float64)
+    prop = N/S
+    A = 1/P * log(prop)
+    return A
+end
+
+"""
+***Mortality per generation***
+
+- `N`: Host population size
+- `S`: Survivors from parasitism
+
+Return : `k`: mortality per generation
+"""
+function mortality(N::Float64,S::Float64)
+    k = log10(N/S)
+    return k
+end

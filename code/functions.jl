@@ -5,19 +5,16 @@ function simulation(N::Float64, P::Float64; t::Int64=50, f=specialist_dyn, F=4.0
     # Parameters
     p = @NT(F=F, D=D, c=c, a=a, h=h, b=b, th=th, m=m)
     # Matrix to store the output
-    dynamics = zeros(Float64, (t+1,4))
+    dynamics = zeros(Float64, (t+1,3))
     # Initial values
     dynamics[1,2] = N
     dynamics[1,3] = P
-    kvalue = mortality(N, P, p)
-    dynamics[1,4] = kvalue
     # Iterations
     for current_time in 1:t
         N_next, P_next, kvalue = timestep(dynamics[current_time,2], dynamics[current_time,3], p; parasite_dyn=f)
         dynamics[current_time+1,1] = current_time
         dynamics[current_time+1,2] = N_next
         dynamics[current_time+1,3] = P_next
-        dynamics[current_time+1,4] = kvalue
     end
     # Return
     return dynamics

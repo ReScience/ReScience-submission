@@ -6,7 +6,6 @@ function simulation(N::Float64, P::Float64; t::Int64=50, f=specialist_dyn, F=4.0
     p = @NT(F=F, D=D, c=c, a=a, h=h, b=b, th=th, m=m)
     # Matrix to store the output
     dynamics = zeros(Float64, (t+1,3))
-    # Initial values
     dynamics[1,2] = N
     dynamics[1,3] = P
     # Iterations

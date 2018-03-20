@@ -11,7 +11,7 @@ function simulation(N::Float64, P::Float64; t::Int64=50, f=specialist_dyn, F=4.0
     dynamics[1,3] = P
     # Iterations
     for current_time in 1:t
-        N_next, P_next, kvalue = timestep(dynamics[current_time,2], dynamics[current_time,3], p; parasite_dyn=f)
+        N_next, P_next = timestep(dynamics[current_time,2], dynamics[current_time,3], p; parasite_dyn=f)
         dynamics[current_time+1,1] = current_time
         dynamics[current_time+1,2] = N_next
         dynamics[current_time+1,3] = P_next
@@ -26,8 +26,7 @@ TODO
 function timestep(N::Float64, P::Float64, p; parasite_dyn=specialist_dyn)
     Nt = host_dyn(N, P, p)
     Pt = parasite_dyn(N, P, p)
-    kvalue = mortality(N, P, p)
-    return (Nt, Pt, kvalue)
+    return (Nt, Pt)
 end
 
 

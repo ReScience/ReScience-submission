@@ -674,7 +674,7 @@ def ks_test(tsim):
         aux2 = aux2[~np.isnan(aux2)]
 
         # CV's histograms
-        cv1,edges1 = np.histogram(aux1,bins='doane',range=(0,2.0))
+        cv1,edges1 = np.histogram(aux1,bins='sqrt',range=(0,2.0))
         cv2,edges2 = np.histogram(aux2,bins=np.linspace(0,2.0,len(edges1)))
 
         # cummulated histograms
@@ -713,7 +713,7 @@ def ks_test(tsim):
         aux2 = aux2[~np.isnan(aux2)]
 
         # firing rate histograms
-        f1,edges1 = np.histogram(aux1,bins='doane',range=(0,max(aux1)))
+        f1,edges1 = np.histogram(aux1,bins='sqrt',range=(0,max(aux1)))
         f2,edges2 = np.histogram(aux2,bins=np.linspace(0,max(aux1),len(edges1)))
 
         # cummulated histograms

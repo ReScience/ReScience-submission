@@ -1,4 +1,7 @@
 \documentclass[10pt,a4paper,onecolumn]{article}
+% * <aroquesilva@gmail.com> 2018-03-18T20:10:02.103Z:
+%
+% ^.
 % * <aroquesilva@gmail.com> 2017-09-19T13:55:25.418Z:
 %
 % ^.
@@ -181,7 +184,6 @@
 
 \begin{document}
 \maketitle
-
 \marginpar{
   %\hrule
   \sffamily\small
@@ -398,7 +400,7 @@ Synchrony is characterized by the variability of the histogram of population spi
 
 The degree of asynchronous and irregular activity in a population is quantified by a measure called AIness\%. This is the percentage of the population with mean firing rate $<$ 30 Hz, irregularity between 0.7 and 1.2, and synchrony $<$ 8. 
 
-To compare the distributions of firing rates and CVs obtained from simulations in Brian 2 and NEST we use the Kolmogorov-Smirnov statistical test (KS-statistics). To apply this non-parametric test, cumulated histograms were constructed with bins chosen by the Doane method \cite{doane1976}. 
+To compare the distributions of firing rates and CVs obtained from simulations in Brian 2 and NEST we use the Kolmogorov-Smirnov statistical test (KS-statistics). To apply this non-parametric test, cumulated histograms were constructed with bin size chosen as the square root of data size.
 
 \section{Results}\label{results}
 
@@ -410,21 +412,21 @@ The simulated spontaneous activity is asynchronous and irregular (Fig.~\ref{fig:
 \begin{figure}[!h]
  \centering
  \includegraphics[scale=0.001]{fig2.pdf}
- \caption{Spontaneous cell-type specific activity (to be compared with Fig.6 from the original article). In this simulation, $g=4$ and background rate is layer-specific ($8$ Hz). (\textbf{A}) Raster plot of spiking activity for 0.4 s of all cell layers (from top to bottom; dark color: Excitatory cells, light color: Inhibitory cells). Number of displayed spike trains corresponds to 2.5\% of the total number of neurons (preserving relative number of cells per layer). (\textbf{B--€“D}) Statistics based on samples of 1000 neurons per layer recorded for 60 s. (\textbf{B}) Single-cell firing rate boxplot. Triangles indicate population mean firing rates, crosses show outliers. (\textbf{C}) Irregularity of single-cell firing rates. (\textbf{D}) Synchrony of spiking activity.}\label{fig:fig2}
+ \caption{Spontaneous cell-type specific activity (to be compared with Fig.6 from the original article). In this simulation, $g=4$ and background rate is layer-specific ($8$ Hz). (\textbf{A}) Raster plot of spiking activity for 0.4 s of all cell layers (from top to bottom; dark color: Excitatory cells, light color: Inhibitory cells). Number of displayed spike trains corresponds to 2.5\% of the total number of neurons (preserving relative number of cells per layer). (\textbf{B--D}) Statistics based on samples of 1000 neurons per layer recorded for 60 s. (\textbf{B}) Single-cell firing rate boxplot. Triangles indicate population mean firing rates, crosses show outliers. (\textbf{C}) Irregularity of single-cell firing rates. (\textbf{D}) Synchrony of spiking activity.}\label{fig:fig2}
 \end{figure}
 
-In order to compare the Brian 2 with the NEST implementations of the Potjans-Diesmann model, we used the available pyNEST code \cite{potjans2014pyNEST} to run NEST simulations of the model with the same parameters given in Methods. The comparisons were made in terms of the cumulative distributions of the CVs of ISIs and the firing rates of the eight cell populations in the network (plots not shown here but as in Figs.~\ref{fig:fig3} and~\ref{fig:fig4} below). The two-sample Kolmogorov-Smirnov test pointed that no difference was found between NEST and Brian 2 simulations.
-
-\begin{figure}[!htp]
- \centering
- \includegraphics[scale=0.01]{fig3.pdf}
- \caption{Cumulative distribution of CVs of ISIs for the eight cell populations (indicated atop each panel) for simulations implemented in Brian 2 using equation~(\ref{Eq:Ksyn_alt}) (blue), in Brian 2 using equation~(\ref{Eq:Ksyn}) (green), and in NEST using equation~(\ref{Eq:Ksyn}) (orange). NEST code taken from \cite{potjans2014pyNEST}.}\label{fig:fig3}
-\end{figure}
+In order to compare the Brian 2 with the NEST implementations of the Potjans-Diesmann model, we used the available pyNEST code \cite{potjans2014pyNEST} to run NEST simulations of the model with the same parameters given in Methods. The comparisons were made in terms of the cumulative distributions of the CVs of ISIs (Fig.~\ref{fig:fig3}) and the firing rates (Fig.~\ref{fig:fig4}) of the eight cell populations in the network. The two-sample Kolmogorov-Smirnov test pointed that no difference was found between NEST and Brian 2 simulations, as observed by the close agreement of the cumulative histograms (orange lines with filled circles and green lines, respectively) in Figs.~\ref{fig:fig3} and \ref{fig:fig4}.
 
 Besides the creation of the network connections by the procedure described above, which is the one used in the original article, it is also possible to connect the neurons in the network using the alternative expression for the total number of synapses between two cell populations,
 
-\begin{figure}[!ht]
+\begin{figure}[!b]
  \centering
+ \includegraphics[scale=0.01]{fig3.pdf}
+ \caption{Cumulative distribution of CVs of ISIs for the eight cell populations (indicated atop each panel) for simulations implemented in Brian 2 using equation~(\ref{Eq:Ksyn_alt}) (blue), in Brian 2 using equation~(\ref{Eq:Ksyn}) (green), and in NEST using equation~(\ref{Eq:Ksyn}) (orange). NEST code taken from \cite{potjans2014pyNEST}.}\label{fig:fig3}
+% \end{figure}
+
+% \begin{figure}[!ht]
+%  \centering
  \includegraphics[scale=0.005]{fig4.pdf}
  \caption{Cumulative distribution of firing rate for the eight cell populations (indicated atop each panel) for simulations implemented in Brian 2 using equation~(\ref{Eq:Ksyn_alt}) (blue), in Brian 2 using equation~(\ref{Eq:Ksyn}) (green), and in NEST using equation~(\ref{Eq:Ksyn}) (orange). NEST code taken from \cite{potjans2014pyNEST}.}\label{fig:fig4}
 \end{figure}
@@ -435,11 +437,11 @@ Besides the creation of the network connections by the procedure described above
 \end{equation}
 \noindent which comes from the first-order Taylor series approximation to the connection probability $C_{a}$ as explained in the original article (see equation (2) and following text in the original article). 
 
-To test for possible effects of using this approximate equation, we constructed the network in Brian 2 using both equations (\ref{Eq:Ksyn_alt}) and (\ref{Eq:Ksyn}). We found that the use of the approximate equation brings discrepancies in comparison with the original model. The comparisons were made in terms of the cumulative distributions of the CVs of ISIs (Fig.~\ref{fig:fig3}) and the firing rates (Fig.~\ref{fig:fig4}) of the eight cell populations for simulations of the original model based on the pyNEST code \cite{potjans2014pyNEST} and the Brian 2 code with $K$ calculated from equations (\ref{Eq:Ksyn_alt}) and (\ref{Eq:Ksyn}). 
+To test for possible effects of using this approximate equation, we constructed the network in Brian 2 using both equations (\ref{Eq:Ksyn_alt}) and (\ref{Eq:Ksyn}). We found that the use of the approximate equation brings discrepancies in comparison with the original model. The comparisons were made in terms of the cumulative distributions of the CVs of ISIs (Fig.~\ref{fig:fig3}) and the firing rates (Fig.~\ref{fig:fig4}) of the eight cell populations for simulations of the Brian 2 code with $K$ calculated from equations (\ref{Eq:Ksyn_alt}) and (\ref{Eq:Ksyn}). 
 
-When comparing the network constructed in Brian 2 with equation~(\ref{Eq:Ksyn_alt}) and the one constructed in NEST, all layer-specific comparisons yielded KS-statistics lower than 1.14, indicating no significant differences (for an error $\alpha = 0.01$) between the firing rate and CV distributions. However, when comparing the mean firing rates and their standard deviations, in general, slightly differences were found being major for L5e cells, which in the replicated Brian 2 version using equation~(\ref{Eq:Ksyn_alt}) have mean firing rate 12.2 $\pm$ 6.1 Hz, while using equation~(\ref{Eq:Ksyn}) their mean firing rate is 7.8 $\pm$ 4.8 Hz and in the original version their mean firing rate is 7.8 $\pm$ 5.1 Hz.
+When comparing the network constructed in Brian 2 with equation~(\ref{Eq:Ksyn_alt}) and the one constructed with equation~(\ref{Eq:Ksyn}) (the same used in the original NEST code), the  KS-statistics for layer L5e in the CVs of ISIs (2.43), and layers L23e, L5e and L6e in the firing rate (2.96, 1.79 and 1.87, respectively), revealed significant differences between the two implemented networks ($\geq$ 1.63 for $\alpha=0.01$). For the remaining layers, all comparisons indicated no significant differences for the firing rate and CV distributions. These results are summarized in Figs.~\ref{fig:fig3} and \ref{fig:fig4}, where the cumulative histogram for simulations using equation~(\ref{Eq:Ksyn_alt}) are shown in blue dashed lines.
 
-The differences found highlight the importance of using the exact expression for the connection probability $C_{a}$ given in equation (1) of the original article (which corresponds to equation~(\ref{Eq:Ksyn}) of this text)  in simulations of the Potjans-Diesmann model. Observe the close agreement of the cumulative histograms when Brian 2 (K from equation~(\ref{Eq:Ksyn})) and NEST (K from equation~(\ref{Eq:Ksyn})) are compared.    
+The differences found highlight the importance of using the exact expression for the total number of synapses $K$ given in equation~(\ref{Eq:Ksyn}) (which corresponds to equation (1) of the original article)  in simulations of the Potjans-Diesmann model. 
 
 We now return to the reimplementation of the Potjans-Diesmann model in Brian 2 using equation~(\ref{Eq:Ksyn}), which will be kept for the rest of this replication work. 
  

@@ -1,5 +1,20 @@
 """
-TODO
+***Simulations for the host population and specialist parasitoid population dynamics for the first 50 generations***
+
+- `N`: Initial host population size
+- `P`: Initial parasitoid population size
+- `t`: Number of generations
+- `f`: Type of parasite chosen to to the simulations (specialist or generalist)
+- `F`: Finite rate of increase of the host population
+- `D`: Density independent mortality (as a probability of survival)
+- `c`: Number of parasitoids emerging from each host parasitized
+- `a`: Searching efficiency (per capita)
+- `h`: Saturation number of parasitoids
+- `b`: Rate of appoaching h
+- `th`: Handling time (as a proportion of the total time)
+- `m`: Extent of clumping of the parasitoid attacks
+
+Return : `dynamics`: Matrix containing the host and parasite density for the initial populations and for every generation simulated
 """
 function simulation(N::Float64, P::Float64; t::Int64=50, f=specialist_dyn, F=4.0, D=0.5, c=1.0, a=0.5, h=10.0, b=25.0, th=0.0, m=0.2)
     # Parameters

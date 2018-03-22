@@ -54,7 +54,7 @@ end
 Return : `P`: Generalist parasitoids population size
 """
 function generalist_dyn(N::Float64, P::Float64, p)
-    Pt = p.h*(1-exp(-N/p.B))
+    Pt = p.h*(1-exp(-N/p.b))
     return Pt
 end
 

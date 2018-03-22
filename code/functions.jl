@@ -96,7 +96,7 @@ end
 ***Mortality per generation***
 
 - `N`: Host population size
-- `P`: Survivors from parasitism
+- `P`: Parasitoid population size
 - `p`: parameters list
 
 Return : `kvalue`: mortality per generation
@@ -113,11 +113,13 @@ end
 
 - `N`: Host population size
 - `P`: Parasitoid population size
-- `S`: Survivors from parasitism
+- `p`: parameters list
 
 Return : `A`: Per capita searching efficiency at generation t
 """
-function efficiency(N::Float64,P::Float64, S::Float64)
+function efficiency(N::Float64,P::Float64, p)
+    pescape = escape_probability(N,P,p)
+    S = pescape * N
     prop = N/S
     A = 1.0/P * log(prop)
     return A

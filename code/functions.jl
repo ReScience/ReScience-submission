@@ -49,7 +49,7 @@ end
 
 - `h`: Saturation number of parasitoids
 - `b`: Rate of appoaching h
-- `N`: Initial host population size 
+- `N`: Initial host population size
 
 Return : `P`: Generalist parasitoids population size
 """
@@ -62,7 +62,7 @@ end
 ***Specialist parasitoids population size(Population size of female parasitoids at next generation) ***
 
 - `c`: Number of parasitoids emerging from each host parasitized
-- `N`: Initial host population size 
+- `N`: Initial host population size
 - `P`: Initial parasitoid population size
 
 Return : `Pt`: Specialist parasitoids population size
@@ -76,7 +76,7 @@ end
 """
 ***Insect population at next generation***
 
-- `N`: Initial host population size 
+- `N`: Initial host population size
 - `P`: Initial parasitoid population size
 - `F`: Finite rate of increase of the host population
 - `D`: Density independent mortality (as a probability of survival)
@@ -92,7 +92,7 @@ end
 """
 ***Probability of escaping mortality from natural ennemies***
 
-- `N`: Initial host population size 
+- `N`: Initial host population size
 - `P`: Initial parasitoid population size
 - `a`: Searching efficiency (per capita)
 - `m`: Extent of clumping of the parasitoid attacks
@@ -108,29 +108,34 @@ function escape_probability(N::Float64,P::Float64, p)
 end
 
 """
+***Mortality per generation***
+
+- `N`: Host population size
+- `P`: Parasitoid population size
+- `p`: parameters list
+
+Return : `kvalue`: mortality per generation
+"""
+function mortality(N::Float64,P::Float64, p)
+    pescape = escape_probability(N,P,p)
+    S = pescape * N
+    kvalue = log10(N/S)
+    return kvalue
+end
+
+"""
 ***Per capita searching efficiency***
 
 - `N`: Host population size
 - `P`: Parasitoid population size
-- `S`: Survivors from parasitism
+- `p`: parameters list
 
 Return : `A`: Per capita searching efficiency at generation t
 """
-function efficiency(N::Float64,P::Float64, S::Float64)
+function efficiency(N::Float64,P::Float64, p)
+    pescape = escape_probability(N,P,p)
+    S = pescape * N
     prop = N/S
-    A = 1/P * log(prop)
+    A = 1.0/P * log(prop)
     return A
-end
-
-"""
-***Mortality per generation***
-
-- `N`: Host population size
-- `S`: Survivors from parasitism
-
-Return : `k`: mortality per generation
-"""
-function mortality(N::Float64,S::Float64)
-    k = log10(N/S)
-    return k
 end

@@ -41,12 +41,15 @@ Bibliography:
 
 # Introduction
 
-The introduction should introduce the original paper and put it in context
+**The introduction should introduce the original paper and put it in context
 (e.g. is it an important paper in the domain ?). You must also specify if there
 was an implementation available somewhere and provide a link to it if relevant
 (and in such a case, you have to specify if the proposed replication is based
 on this original implementation). You should also introduce your implementation
-by listing language, tools, libraries, etc. and motivate choices if relevant.
+by listing language, tools, libraries, etc. and motivate choices if relevant.**
+
+Parasitism is a special case of predation. In both interactions, a species (parasitoid or predator) feeds on the other species (host or prey), acting as a regulating factor (Anderson and May, 1978). However, the population dynamics of both system are very different. Thompson (1924) was the first to propose a model to describe this host-parasitoid system. In his model, parasites are limited by the number of eggs they lay. Depending on the relative increase rate of hosts and parasites, either both population increase indefinitely or decrease to extinction. Later, Nicholson and Bailey (1935) proposed other models for which the rate of increase of parasite is limited by their capacity to find hosts. These were the base for many other models where parasites act as regulating factors (Hassell, 1978; Rockwook, 2015). 
+
 
 # Methods
 
@@ -60,6 +63,33 @@ The methods section should explain how you replicated the original results:
 
 If relevevant in your domain, you should also provide a new standardized
 description of the work.
+
+The formulas used in this paper to show the difficulty of detecting natural enemies as regulating factors are the same that were used in the original paper (Hassell, 1985). First of all, the equation of the host population dynamics is given as
+
+$$ N(*t+1*) = F * N(*t*) * f(*Nt,Pt*) * D $$ {#eq:1}
+
+where N(*t*) and N(*t+1*) represent the host population at generation *t* and at the next generation, *F* is the rate of increase of the population and *D* is the density independent probability of survival of the hosts (mortality). The specialist parasitoids population dynamics are represented by 
+
+$$ P(*t+1*) = c * N(*t*) * [1-f(*Nt, Pt*)] $$ {#eq:2}
+
+where P(*t*) and P(*t+1*) are the number of parasitoids at generation t* and at the next one, while *c* is the number of female parasitoids emerging from each host parasitized. In both Eq. 1 and Eq. 2, f(*Nt,Pt*) represents the probability of escaping mortality from natural enemies (parasitoids) and is given by Eq. 3.
+
+$$ f(*Nt,Pt*) = [1 + (a * P(*t*)) / (m * (1 + a * T*h* *N(*t*)))] ^-m $$ {#eq:3}
+
+where *a* is the per capita searching efficiency of the parasitoids, *m* is the extent of clumping of the parasitoids attacks and T*h* is the handling time as a proportion of the total time. This paper also explores the relationship between the hosts and a generalist parasitoid population. This population dynamic follows the equation
+
+$$ P(*t*) = h * (1 - exp^(-N(*t*)/b)) $$ {#eq:4}
+
+where *h* is the saturation number of parasitoids and *b* is the rate of approaching the saturation number.
+
+In the previous equations, the parameters were assumed to remain constant between successive generations. However, it might not be the case for every one of them because they can be depending on the density of parasitoids and hosts. The searching efficiency of the parasitoids is one of them. To calculate the searching efficiency *A* at a generation *t*, the following equation is used :
+
+$$ A = (1/P(*t*)) * ln(N(*t*)/S) $$ {#eq:5}
+
+where S is the number of hosts that survived parasitism. Finally, to assess the mortality linked to natural enemies (*k*), Eq. 6 will be used.
+
+$$ k = Log(N(*t*)/S) $$ {#eq:6}
+
 
 
 # Results

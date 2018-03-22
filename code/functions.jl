@@ -31,7 +31,7 @@ function simulation(N::Float64, P::Float64; t::Int64=50, f=specialist_dyn, F=4.0
         dynamics[current_time+1,3] = P_next
     end
     # Return
-    return dynamics
+    return dynamics, p
 end
 
 """

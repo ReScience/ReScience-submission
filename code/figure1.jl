@@ -18,4 +18,3 @@ plot(simulation2[:,2:3], xlabel = "Generations",
                          labels = ["N", "P"],
                          ylims = (0, 50),
                          ylabel = "Populations")
-

@@ -93,8 +93,11 @@ def run():
 
     plt.figure()
     plt.imshow(img.T,interpolation='none',cmap=plt.get_cmap('summer_r',3),vmin=0,vmax=2)
-    plt.colorbar()
-    plt.savefig('temporal_Code.png')
+    plt.xlabel('Neuron Post',fontsize=20)
+    plt.ylabel('Neuron Pre',fontsize=20)
+    plt.xticks(fontsize=15)
+    plt.yticks(fontsize=15)    
+    plt.savefig('temporal_Code.png',bbox_inches='tight')
     print("finish")
 #------------------------------------------------------------------------------------
 run()

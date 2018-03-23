@@ -52,7 +52,7 @@ projV1_V1 = Projection(
 #---- parameter adjustments ----#
 projV1_V1.thetaLTD = -60.6
 projV1_V1.vmean = 80.0
-projV1_V1.transmit = 1.0
+projV1_V1.transmit = 1.0 # to activate the transmission over the synapse
 #------------------------------main function------------------------------------
 def run():
 
@@ -83,17 +83,17 @@ def run():
     ax.xaxis.set_ticks_position('bottom')
     ax.yaxis.set_ticks_position('left')
 
-    plt.plot(np.linspace(0,14,len(ltd[0])),ltd[0],color='tomato',lw=3.0)
-    plt.plot(np.linspace(16,31,len(ltp[0])),ltp[0],color='steelblue',lw=3.0)
+    plt.plot(np.linspace(0,14,len(ltd[0])),ltd[0],color='tomato',lw=6.0)
+    plt.plot(np.linspace(16,31,len(ltp[0])),ltp[0],color='steelblue',lw=6.0)
     plt.plot((14,16), (ltd[0][-1],ltp[0][0]),color='k')
     plt.axhline(y=0.0, color='k',linestyle='--')
     plt.axvline(x=15,color='k',linestyle='--')
     plt.ylim(ymin=-0.005,ymax=0.005)
-    plt.yticks(np.linspace(-0.004,0.004,5),np.linspace(60,140,5))
-    plt.ylabel('Normalized weight (%)')
+    plt.yticks(np.linspace(-0.004,0.004,5),np.linspace(60,140,5),fontsize=20)
+    plt.ylabel('Normalized weight (%)',fontsize=25)
     plt.xlim(xmin=-3,xmax=33)
-    plt.xticks(np.linspace(5,25,3),np.linspace(-10,10,3))
-    plt.xlabel('T (ms)')
+    plt.xticks(np.linspace(5,25,3),np.linspace(-10,10,3),fontsize=20)
+    plt.xlabel('T (ms)',fontsize=25)
     plt.savefig('deltaW.png',bbox_inches='tight', pad_inches = 0.1)
 
     print("finish")

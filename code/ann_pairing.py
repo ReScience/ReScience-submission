@@ -15,7 +15,7 @@ which spikes to a certain time point.
 """
 
 ###global parameter###
-duration = 1000 #ms
+duration = 1000 #ms == 1 s
 #----------------------defint time points of spikes-----------------------------#
 spike_times1 =[[0]]
 spike_times2 =[[10]]
@@ -106,17 +106,18 @@ def run():
     ax.xaxis.set_ticks_position('bottom')
     ax.yaxis.set_ticks_position('left')
 
-    plt.plot(sumdW_prePost,color='steelblue',lw=3)
-    plt.plot(sumdW_postPre,color='tomato',lw=3)
+    plt.plot(sumdW_prePost,color='steelblue',lw=6)
+    plt.plot(sumdW_postPre,color='tomato',lw=6)
 
     upB = defW/100.* 150.
     loB = defW/100. * 50.0
 
 
-    plt.xlabel(r'$\rho$ [Hz]',fontsize=12)
-    plt.ylabel('Normalized weight (%)',fontsize=12)
+    plt.xlabel(r'$\rho$ [Hz]',fontsize=25)
+    plt.ylabel('Normalized weight (%)',fontsize=25)
     plt.xlim(0.0,50.0)
-    plt.yticks(np.linspace(loB,upB,3),range(50,200,50) )
+    plt.yticks(np.linspace(loB,upB,3),range(50,200,50),fontsize=20 )
+    plt.xticks(fontsize=20)
     plt.savefig('pairing.png',bbox_inches='tight', pad_inches = 0.1)
 
     print("finish")

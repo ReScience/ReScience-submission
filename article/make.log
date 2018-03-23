@@ -193,33 +193,54 @@ LaTeX Font Warning: Font shape `EU1/FontAwesome(0)/bx/n' undefined
 (Font)              using `EU1/FontAwesome(0)/m/n' instead on input line 208.
 
 <use  "rescience-logo.pdf" > [1] <use  "rescience-logo.pdf" > [2]
-Overfull \hbox (373.11223pt too wide) detected at line 370
+Overfull \hbox (2.62979pt too wide) in paragraph at lines 338--351
+[]\EU1/lmr/m/n/10 To validate the reimplementation, we reproduce the classical 
+spike timing-dependent
+
+Overfull \hbox (373.11223pt too wide) detected at line 405
  [] 
 
-Underfull \hbox (badness 10000) in alignment at lines 369--374
-[] [] [] [] [] []
+Underfull \hbox (badness 10000) in alignment at lines 403--409
+[] [] []
 
-Underfull \hbox (badness 10000) in alignment at lines 374--378
-[] [] [] [] [] []
+Underfull \hbox (badness 10000) in alignment at lines 409--413
+[] [] []
 
-Underfull \hbox (badness 10000) in alignment at lines 378--386
-[] [] [] [] [] []
-<use  "rescience-logo.pdf" >
+Underfull \hbox (badness 10000) in alignment at lines 413--423
+[] [] []
+<use  "rescience-logo.pdf" > [3]
+Overfull \hbox (373.11223pt too wide) detected at line 428
+ [] 
+
+Underfull \hbox (badness 10000) in alignment at lines 426--432
+[] [] []
+
+Underfull \hbox (badness 10000) in alignment at lines 432--436
+[] [] []
+
+Underfull \hbox (badness 10000) in alignment at lines 436--441
+[] [] []
+<use  "rescience-logo.pdf" > [4] <use  "./figures/deltaW.png" >
+<use  "./figures/pairing.png" >
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 448--453
+[][] [] 
+<use  "./figures/rate_Code_Weights.png" >
+<use  "./figures/temporal_Code.png" >
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 477--485
+[][] [] 
+<use  "./figures/weights_stable.png" >
 
 LaTeX Font Warning: Font shape `EU1/lmss/m/sc' in size <9> not available
-(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 400.
+(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 503.
 
-<use  "rescience-logo.pdf" > [3] <use  "rescience-logo.pdf" > [4]
-(./Larisch-2018.aux)
+<use  "rescience-logo.pdf" > [5] <use  "rescience-logo.pdf" > [6]
+<use  "rescience-logo.pdf" > [7] (./Larisch-2018.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
  )
 (see the transcript file for additional information)
-Output written on Larisch-2018.pdf (4 pages).
+Output written on Larisch-2018.pdf (7 pages).
 Transcript written on Larisch-2018.log.
 INFO - This is Biber 2.4
 INFO - Logfile is 'Larisch-2018.blg'
@@ -230,8 +251,8 @@ INFO - Looking for bibtex format file 'bibliography.bib' for section 0
 INFO - Decoding LaTeX character macros into UTF-8
 INFO - Found BibTeX data source 'bibliography.bib'
 WARN - ISBN '1546-1726 (Electronic){\$}\backslash{\$}n1097-6256 (Linking)' in entry 'Clopath2010' is invalid - run biber with '--validate_datamodel' for details.
-INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
 INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
 INFO - Sorting list 'nty/global' of type 'entry' with scheme 'nty' and locale 'en-US'
 INFO - No sort tailoring available for locale 'en-US'
 INFO - Writing 'Larisch-2018.bbl' with encoding 'UTF-8'
@@ -432,30 +453,54 @@ LaTeX Font Warning: Font shape `EU1/FontAwesome(0)/bx/n' undefined
 (Font)              using `EU1/FontAwesome(0)/m/n' instead on input line 208.
 
 <use  "rescience-logo.pdf" > [1] <use  "rescience-logo.pdf" > [2]
-Overfull \hbox (373.11223pt too wide) detected at line 370
+Overfull \hbox (2.62979pt too wide) in paragraph at lines 338--351
+[]\EU1/lmr/m/n/10 To validate the reimplementation, we reproduce the classical 
+spike timing-dependent
+
+Overfull \hbox (373.11223pt too wide) detected at line 405
  [] 
 
-Underfull \hbox (badness 10000) in alignment at lines 369--374
-[] [] [] [] [] []
+Underfull \hbox (badness 10000) in alignment at lines 403--409
+[] [] []
 
-Underfull \hbox (badness 10000) in alignment at lines 374--378
-[] [] [] [] [] []
+Underfull \hbox (badness 10000) in alignment at lines 409--413
+[] [] []
 
-Underfull \hbox (badness 10000) in alignment at lines 378--386
-[] [] [] [] [] []
-<use  "rescience-logo.pdf" >
+Underfull \hbox (badness 10000) in alignment at lines 413--423
+[] [] []
+<use  "rescience-logo.pdf" > [3]
+Overfull \hbox (373.11223pt too wide) detected at line 428
+ [] 
+
+Underfull \hbox (badness 10000) in alignment at lines 426--432
+[] [] []
+
+Underfull \hbox (badness 10000) in alignment at lines 432--436
+[] [] []
+
+Underfull \hbox (badness 10000) in alignment at lines 436--441
+[] [] []
+<use  "rescience-logo.pdf" > [4] <use  "./figures/deltaW.png" >
+<use  "./figures/pairing.png" >
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 448--453
+[][] [] 
+<use  "./figures/rate_Code_Weights.png" >
+<use  "./figures/temporal_Code.png" >
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 477--485
+[][] [] 
+<use  "./figures/weights_stable.png" >
 
 LaTeX Font Warning: Font shape `EU1/lmss/m/sc' in size <9> not available
-(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 400.
+(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 503.
 
-<use  "rescience-logo.pdf" > [3] <use  "rescience-logo.pdf" > [4]
-(./Larisch-2018.aux)
+<use  "rescience-logo.pdf" > [5] <use  "rescience-logo.pdf" > [6]
+<use  "rescience-logo.pdf" > [7] (./Larisch-2018.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  )
 (see the transcript file for additional information)
-Output written on Larisch-2018.pdf (4 pages).
+Output written on Larisch-2018.pdf (7 pages).
 Transcript written on Larisch-2018.log.
 This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex)
  restricted \write18 enabled.
@@ -652,28 +697,52 @@ LaTeX Font Warning: Font shape `EU1/FontAwesome(0)/bx/n' undefined
 (Font)              using `EU1/FontAwesome(0)/m/n' instead on input line 208.
 
 <use  "rescience-logo.pdf" > [1] <use  "rescience-logo.pdf" > [2]
-Overfull \hbox (373.11223pt too wide) detected at line 370
+Overfull \hbox (2.62979pt too wide) in paragraph at lines 338--351
+[]\EU1/lmr/m/n/10 To validate the reimplementation, we reproduce the classical 
+spike timing-dependent
+
+Overfull \hbox (373.11223pt too wide) detected at line 405
  [] 
 
-Underfull \hbox (badness 10000) in alignment at lines 369--374
-[] [] [] [] [] []
+Underfull \hbox (badness 10000) in alignment at lines 403--409
+[] [] []
 
-Underfull \hbox (badness 10000) in alignment at lines 374--378
-[] [] [] [] [] []
+Underfull \hbox (badness 10000) in alignment at lines 409--413
+[] [] []
 
-Underfull \hbox (badness 10000) in alignment at lines 378--386
-[] [] [] [] [] []
-<use  "rescience-logo.pdf" >
+Underfull \hbox (badness 10000) in alignment at lines 413--423
+[] [] []
+<use  "rescience-logo.pdf" > [3]
+Overfull \hbox (373.11223pt too wide) detected at line 428
+ [] 
+
+Underfull \hbox (badness 10000) in alignment at lines 426--432
+[] [] []
+
+Underfull \hbox (badness 10000) in alignment at lines 432--436
+[] [] []
+
+Underfull \hbox (badness 10000) in alignment at lines 436--441
+[] [] []
+<use  "rescience-logo.pdf" > [4] <use  "./figures/deltaW.png" >
+<use  "./figures/pairing.png" >
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 448--453
+[][] [] 
+<use  "./figures/rate_Code_Weights.png" >
+<use  "./figures/temporal_Code.png" >
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 477--485
+[][] [] 
+<use  "./figures/weights_stable.png" >
 
 LaTeX Font Warning: Font shape `EU1/lmss/m/sc' in size <9> not available
-(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 400.
+(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 503.
 
-<use  "rescience-logo.pdf" > [3] <use  "rescience-logo.pdf" > [4]
-(./Larisch-2018.aux)
+<use  "rescience-logo.pdf" > [5] <use  "rescience-logo.pdf" > [6]
+<use  "rescience-logo.pdf" > [7] (./Larisch-2018.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  )
 (see the transcript file for additional information)
-Output written on Larisch-2018.pdf (4 pages).
+Output written on Larisch-2018.pdf (7 pages).
 Transcript written on Larisch-2018.log.

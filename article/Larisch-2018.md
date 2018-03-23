@@ -78,7 +78,7 @@ the available matlab code is the second reference for this reimplementation.
 ## Model description
 
 The neuron model is mainly borrowed from the description the matlab source code.
-Different as mentioned in the publication, after a spike is the membrane potential
+After a spike is the membrane potential
 set to $29.4mV$, one millisecond later to $29.4mV + 3.462mV$ and another millisecond later to $E_{L} + 15mV + 6.0984mV$ .
 This so called 'resolution trick' is to simulate the spike upswing for $2ms$ after a spike is emitted.
 Beside this, the equations of the neuron model and the values of the parameters are equal to the description in the original paper and not presented here.
@@ -103,8 +103,6 @@ what implements a homeostatic mechanism.
 
 $$ \tau_{\bar{\bar{u}}}\frac{d \bar{\bar{u}}}{dt} =  [(u-E_L)^2] - \bar{\bar{u}}$$ {#eq:homeo}
 
-// Membrane potential plot and weight distribution plot
-
 These mechanism is computed over the quadratic distance of the membrane potential and the resting potential $E_L$ (Eq. @eq:homeo).
 Further, with a higher activity increases the $\bar{\bar{u}}$ and a higher amount of LTD occur and the weights decreases.
 In contrast, a lower activity decreases the amount of LTD and the weights can increases.
@@ -118,53 +116,140 @@ All parameters of the neuron model and the basis set of parameters for the learn
 Unfortunately, some parameters of the learning rule differs from experiment to experiment. Mainly the value of the homeostatic mechanism and the
 maximum weight is different. A table with the different parameters for the different task is .
 
+## Reimplemented Analysis
 
-In the original publication, the authors reproduce some experimental observations,
+In the original publication, the authors mentioned the possibility to reproduce spike timing triplet experiments,
 made in the visual cortex of rats [@Sjoestroem2001].
 Further, they investigated the emerged structure of the connectivity depending
-on the input activity.
+on the spiking behavior.
+
+To validate the reimplementation, we reproduce the classical spike timing-dependent
+learning window (Fig. 2a in [@Clopath2010]) and the frequency repetition task
+to reproduce a triplet experiment (Fig.2b in [@Clopath2010]).
+Further the influence of spiking order to connectivity
+(Fig.4a,down and Fig.4b,down in [@Clopath2010]).
+In the available matlab source code, they presenting stable learning of weights
+in rate code by 500 input neurons. The firing rate of these neurons follow
+a Gaussian distribution and the spike timing a Poisson process
+(similar to Fig.5a in [@Clopath2010]). This task is reimplemented as well.
+With this analysis, the functionality of the reimplementation is shown on the
+main feature of this learning rule, reproduce pair based and triplet STDP data,
+and the analysis of connection patterns, depending on the neuronal spiking behavior.
+
+The experiment protocols based on the description on the publication of @Clopath2010.
+The implementation of the learning rule was mainly orientated on the
+available matlab source code.
+Despite the effort to be so close as possible on
+the original implementation and description, the internal processing of the equations by ANNarchy
+can lead to a different execution order and with this, to other results.
+Further, the chosen integration time step can have an influence of the computation result.
+On all reimplemented analysis, a time step of $ dt= 1ms$ is chosen.
+Because of this, adaption on some parameters was
+necessary to reproduce the original results.
+For the connectivity experiments, the homeostatic mechanism follow Eq. @eq:homeo.
+
+To reproduce the STDP learning window, we create a list of discrete time points,
+where the pre- or postsynaptic neuron is active. The presynaptic neuron spikes
+every $50 ms$. The postsynaptic neurons spikes in a range from $1 ms$ to $15 ms$ before
+or after the presynaptic neuron.
+For the repetition frequency experiment, or the triplet experiment,
+the number of pre- and postsynaptic spike pairs increases from a pair frequency of
+$0.1 Hz$ to $50 Hz$. The time between a pre- and postsynaptic spike of a pair is
+$10 ms$. For this experiments, it was necessary to hold $\bar{\bar{u}}$ fix.
+The parameter changes in **Tab.** @tbl:table_FH.
+
+To evaluate the connectivity over the number of spikes, a small network with ten neurons
+connected to each other was build up.
+Every neuron receives input from one additional neuron, with Poisson distributed
+spike timing. Therefore, the PoissonPopulation population type of ANNarchy is used.
+The firing rate of every Poisson neuron is increased from two to twenty and with that,
+the firing rate of the ten corresponding neurons in the network.
+
+For temporal order of spiking, the Poisson neurons was replaced with the SpikeSourceArray population type from ANNarchy.
+With a given list of time steps it is possible to determine the exact spiking time point of the corresponding neuron.
+
+Because the reimplementation of the model based mainly on the matlab source code from  modelDB,
+the emergent of stable weights by presenting a Gaussian input over 500 presynaptic neurons and one postsynaptic neuron.
+The presynaptic population is implemented with the PoissonPopulation from ANNarchy to achieve a Poisson distributed
+spiking behavior, as mentioned in the original matlab implementation.
+Equal to the matlab source code, the learning rates ($A_{LTP}$ and $A_{LTD}$) are
+ten times faster to speed up the learning.
+
+The experiments for stable weight learning or to show a specific connectivity pattern
+require the original homeostatic mechanism.
+Changes to the default parameters are shown in **Tab.** @tbl:table_VH.
 
 
-The methods section should explain how you replicated the original results:
+Task                            Parameter Value             
+------------------------------- --------- -------------
+Rate based connectivity         $w_{max}$ $0.25 nA$
+Temporal based connectivity     $w_{max}$ $0.30 nA$
+Stable weight by Gaussian input $w_{max}$ $3.0 nA$
+Stable weight by Gaussian input $A_{LTD}$ $1.4*10^{-3}$
+Stable weight by Gaussian input $A_{LTP}$ $0.8*10^{-3}$
+------------------------------- --------- --------------
+Table: Changed parameter for connectivity experiments. {#tbl:table_VH}
 
-* did you use paper description
-* did you contact authors ?
-* did you use original sources ?
-* did you modify some parts ?
-* etc.
 
+Task                 Parameter       Value             
+-------------------- --------------- ----------
+STDP learning window $\bar{\bar{u}}$ $80 mV^2$
+STDP learning window $\theta_{-}$    $-60.0 mV$
+triplet experiment   $\bar{\bar{u}}$ $120 mV^2$
+-------------------- --------------- ----------
+Table: Changed parameter for weight change experiments. {#tbl:table_FH}
+
+\pagebreak
 
 # Results
 
-Results should be compared with original results and you have to explain why
-you think they are the same or why they may differ (qualitative result vs
-quantitative result). Note that it is not necessary to redo all the original
-analysis of the results.
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{./figures/deltaW.png}
+\includegraphics[width=0.5\textwidth]{./figures/pairing.png}
+\caption{ \textbf{Reproduce of experimental findings.}
+         \textbf{Left}, the classic STDP learning window. X-axis is the time of a postsynaptic spike in relation to the presynaptic spike.
+         \textbf{Right}, weight changes as a function of pair frequency repetition.
+         Therefore, pre-post pairs are the blue line and post-pre pairs the red line.}
+\label{Fig_exp}
+\end{figure}
 
+The \textbf{Fig. \ref{Fig_exp} left} shows the classic pair based spike timing learning window.
+If the postsynaptic neuron spikes before the presynaptic one, LTD occurs (red line).
+If the postsynaptic neuron spikes after the presynaptic one, LTP occurs (blue line).
+Therefore, the x-axis is the time difference between a pre- and postsynaptic spike, with reference to the postsynaptic spike.
+The resulting graph is very similar to the presented one in the original publication.
+A small different can be seen in the highest positive and negative change.
+This can be caused by a different internal processing of ANNarchy.
+
+The analysis of the pairing repetition frequency task is seen in \textbf{Fig. \ref{Fig_exp} right}.
+On lower repetition frequency, post-pre pairs (red line) lead to LTD. At a repetition frequency around $30 Hz$,
+the post-pre pairs are under the influence of the next post-pre pair and the post-pre-post triplets
+lead to LTP. If the repetition frequency of post-pre pairs around $50 Hz$, the same amount of LTP emerges as
+in pre-post pairs. Same results was shown in the original paper.
+
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{./figures/rate_Code_Weights.png}
+\includegraphics[width=0.5\textwidth]{./figures/temporal_Code.png}
+\caption{ \textbf{Different connectivity patterns.}
+         Depending on the activity emerge different connectivity patterns between the neurons.
+         The color scheme is different from them in the original publication.
+         Weak connections are yellow, strong unidirectional connections are bright green
+         and dark green are stron bidirectional connections.
+         \textbf{Left}, between neurons with similar high firing rates develop strong connections.
+         \textbf{Right}, connection pattern follow the temporal order of the occurred spikes.}
+\label{Fig_con}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=0.95\textwidth]{./figures/weights_stable.png}
+\caption{\textbf{Stable weights on Poisson distributed Input.} }
+\label{Fig_stab}
+\end{figure}
 
 # Conclusion
 
 Conclusion, at the very minimum, should indicate very clearly if you were able
 to replicate original results. If it was not possible but you found the reason
 why (error in the original results), you should explain it.
-
-
-Heading 1                          Heading 2
----------- ----------- ----------- ----------- ----------- -----------
-cell1 row1 cell2 row 1 cell3 row 1 cell4 row 1 cell5 row 1 cell6 row 1
-cell1 row2 cell2 row 2 cell3 row 2 cell4 row 2 cell5 row 2 cell6 row 2
-cell1 row3 cell2 row 3 cell3 row 3 cell4 row 3 cell5 row 3 cell6 row 3
----------- ----------- ----------- ----------- ----------- -----------
-
-Table: Table caption {#tbl:table}
-
-A reference to table @tbl:table.
-A reference to figure @fig:logo.
-A reference to equation @eq:1.
-
-![Figure caption for Free!](rescience-logo.pdf){#fig:logo}
-
-$$ A = \sqrt{\frac{B}{C}} $$ {#eq:1}
-
 
 # References

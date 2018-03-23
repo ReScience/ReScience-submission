@@ -39,8 +39,7 @@ projTen_Ten = Projection(
 ).connect_all_to_all(weights = 0.1,allow_self_connections=True)
 # set network parameter
 projTen_Ten.wMax= 0.25
-#projTen_Ten.vmean= 60.0
-projTen_Ten.uref= 80.0
+projTen_Ten.uref= 60.0
 #------------------------------main function-----------------------------------#
 def run():
     # compile the network with ANNarchy
@@ -105,10 +104,11 @@ def run():
     # bidirectional are dark green
     plt.figure()
     plt.imshow(img.T,interpolation='none',cmap= mp.cm.get_cmap('summer_r',3),vmin=0,vmax=2)
-    plt.xlabel('Neuron Pre')
-    plt.ylabel('Neuron Post')
-    plt.colorbar()
-    plt.savefig('rate_Code_Weights.png')
+    plt.xticks(fontsize=15)
+    plt.yticks(fontsize=15)
+    plt.xlabel('Neuron Post',fontsize=20)
+    plt.ylabel('Neuron Pre',fontsize=20)
+    plt.savefig('rate_Code_Weights.png',bbox_inches='tight')
 
     print("finish")
 #------------------------------------------------------------------------------#

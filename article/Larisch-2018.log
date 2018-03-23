@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2018.1.29)  23 MAR 2018 17:26
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2018.1.29)  23 MAR 2018 18:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1435,26 +1435,30 @@ Overfull \hbox (2.21999pt too wide) in paragraph at lines 477--485
 
 File: ./figures/weights_stable.png Graphic file (type QTm)
 <use  "./figures/weights_stable.png" >
-LaTeX Font Info:    Font shape `EU1/lmss/m/it' in size <9> not available
-(Font)              Font shape `EU1/lmss/m/sl' tried instead on input line 503.
-
-
-
-LaTeX Font Warning: Font shape `EU1/lmss/m/sc' in size <9> not available
-(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 503.
+Overfull \hbox (0.52667pt too wide) in paragraph at lines 526--541
+\EU1/lmr/m/n/10 The here proposed reimplementation of voltage based STDP learni
+ng rule from Clopath
+ []
 
 File: rescience-logo.pdf Graphic file (type QTm)
 <use  "rescience-logo.pdf" > [5]
 File: rescience-logo.pdf Graphic file (type QTm)
  <use  "rescience-logo.pdf" > [6]
-File: rescience-logo.pdf Graphic file (type QTm)
+LaTeX Font Info:    Font shape `EU1/lmss/m/it' in size <9> not available
+(Font)              Font shape `EU1/lmss/m/sl' tried instead on input line 543.
 
+
+
+LaTeX Font Warning: Font shape `EU1/lmss/m/sc' in size <9> not available
+(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 543.
+
+File: rescience-logo.pdf Graphic file (type QTm)
 <use  "rescience-logo.pdf" > [7]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 505.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 505.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 545.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 545.
  (./Larisch-2018.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 505.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 505.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 545.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 545.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -1466,10 +1470,10 @@ Package logreq Info: Writing requests to 'Larisch-2018.run.xml'.
 Here is how much of TeX's memory you used:
  39573 strings out of 495579
  732787 string characters out of 6187322
- 1060275 words of memory out of 5000000
+ 1061275 words of memory out of 5000000
  42417 multiletter control sequences out of 15000+600000
  7848 words of font info for 52 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 54i,16n,73p,10376b,1127s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 54i,16n,73p,10376b,1046s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 Output written on Larisch-2018.pdf (7 pages).

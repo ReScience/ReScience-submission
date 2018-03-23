@@ -229,11 +229,14 @@ Overfull \hbox (2.21999pt too wide) in paragraph at lines 448--453
 Overfull \hbox (2.21999pt too wide) in paragraph at lines 477--485
 [][] [] 
 <use  "./figures/weights_stable.png" >
+Overfull \hbox (0.52667pt too wide) in paragraph at lines 526--541
+\EU1/lmr/m/n/10 The here proposed reimplementation of voltage based STDP learni
+ng rule from Clopath
+<use  "rescience-logo.pdf" > [5] <use  "rescience-logo.pdf" > [6]
 
 LaTeX Font Warning: Font shape `EU1/lmss/m/sc' in size <9> not available
-(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 503.
+(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 543.
 
-<use  "rescience-logo.pdf" > [5] <use  "rescience-logo.pdf" > [6]
 <use  "rescience-logo.pdf" > [7] (./Larisch-2018.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -251,8 +254,8 @@ INFO - Looking for bibtex format file 'bibliography.bib' for section 0
 INFO - Decoding LaTeX character macros into UTF-8
 INFO - Found BibTeX data source 'bibliography.bib'
 WARN - ISBN '1546-1726 (Electronic){\$}\backslash{\$}n1097-6256 (Linking)' in entry 'Clopath2010' is invalid - run biber with '--validate_datamodel' for details.
-INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
 INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
 INFO - Sorting list 'nty/global' of type 'entry' with scheme 'nty' and locale 'en-US'
 INFO - No sort tailoring available for locale 'en-US'
 INFO - Writing 'Larisch-2018.bbl' with encoding 'UTF-8'
@@ -489,11 +492,14 @@ Overfull \hbox (2.21999pt too wide) in paragraph at lines 448--453
 Overfull \hbox (2.21999pt too wide) in paragraph at lines 477--485
 [][] [] 
 <use  "./figures/weights_stable.png" >
+Overfull \hbox (0.52667pt too wide) in paragraph at lines 526--541
+\EU1/lmr/m/n/10 The here proposed reimplementation of voltage based STDP learni
+ng rule from Clopath
+<use  "rescience-logo.pdf" > [5] <use  "rescience-logo.pdf" > [6]
 
 LaTeX Font Warning: Font shape `EU1/lmss/m/sc' in size <9> not available
-(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 503.
+(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 543.
 
-<use  "rescience-logo.pdf" > [5] <use  "rescience-logo.pdf" > [6]
 <use  "rescience-logo.pdf" > [7] (./Larisch-2018.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -733,11 +739,14 @@ Overfull \hbox (2.21999pt too wide) in paragraph at lines 448--453
 Overfull \hbox (2.21999pt too wide) in paragraph at lines 477--485
 [][] [] 
 <use  "./figures/weights_stable.png" >
+Overfull \hbox (0.52667pt too wide) in paragraph at lines 526--541
+\EU1/lmr/m/n/10 The here proposed reimplementation of voltage based STDP learni
+ng rule from Clopath
+<use  "rescience-logo.pdf" > [5] <use  "rescience-logo.pdf" > [6]
 
 LaTeX Font Warning: Font shape `EU1/lmss/m/sc' in size <9> not available
-(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 503.
+(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 543.
 
-<use  "rescience-logo.pdf" > [5] <use  "rescience-logo.pdf" > [6]
 <use  "rescience-logo.pdf" > [7] (./Larisch-2018.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.

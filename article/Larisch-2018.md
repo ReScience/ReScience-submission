@@ -233,23 +233,53 @@ in pre-post pairs. Same results was shown in the original paper.
 \caption{ \textbf{Different connectivity patterns.}
          Depending on the activity emerge different connectivity patterns between the neurons.
          The color scheme is different from them in the original publication.
-         Weak connections are yellow, strong unidirectional connections are bright green
-         and dark green are stron bidirectional connections.
+         Weak connections are yellow, strong unidirectional connections are light green
+         and dark green are strong bidirectional connections.
          \textbf{Left}, between neurons with similar high firing rates develop strong connections.
          \textbf{Right}, connection pattern follow the temporal order of the occurred spikes.}
 \label{Fig_con}
 \end{figure}
 
+Besides the replication of experimental findings of pair based and triplet STDP experiments,
+@Clopath2010 presented how the connectivity, they emerge by the proposed learning rule,
+is influenced by the spiking behavior of the neurons.
+Therefore, \textbf{Fig. \ref{Fig_con} left} shows the connection structure, if the neuron firing with different frequency.
+Here, the color scheme is different to them in the original publication.
+Weak connection ( above $\frac{3}{4}$ of the maximum activity) are yellow.
+Light green are strong unidirectional and dark green are strong bidirectional connections.
+Neurons with similar high firing rates develop strong bidirectional connections, because they are often active at the same time point.
+This suggest, that the learning is based on correlation between the neuronal activities.
+This corresponds with the connection pattern in the original paper.
+
+If the neurons firing in a specific temporal order, this is reflected in the connection pattern ( \textbf{Fig. \ref{Fig_con} left}).
+The connections are weak to neurons they fired a long time after or before the neuron.
+Meanwhile, the connections are strong to neurons they fired a short time after the neurons.
+This is similar to the analysis in the original paper.
+
 \begin{figure}
-\includegraphics[width=0.95\textwidth]{./figures/weights_stable.png}
+\includegraphics[width=1\textwidth]{./figures/weights_stable.png}
 \caption{\textbf{Stable weights on Poisson distributed Input.} }
 \label{Fig_stab}
 \end{figure}
+% was ist eine Epoche ?!
+
+The \textbf{Fig. \ref{Fig_stab}} shows the development of the weights over time, by presenting
+Gaussian shaped input. Around 500 epochs, stable weights begin to emerge.
+Similar can be observed in running the original matlab source code.
 
 # Conclusion
 
-Conclusion, at the very minimum, should indicate very clearly if you were able
-to replicate original results. If it was not possible but you found the reason
-why (error in the original results), you should explain it.
-
+The here proposed reimplementation of voltage based STDP learning rule from @Clopath2010,
+is be able to reproduce the experimental data and the emergent connectivity structures
+as proposed in the original paper.
+The description of the learning rule in the original publication is detailed to understand
+the different components of the learning rule.
+Certainly, two main components are described inadequate.
+The 'resolution trick' of the membrane potential and the equation for the
+homeostatic mechanism relevant $\bar{\bar{u}}$.
+Stable learning is only accessible with a good working homeostasis mechanism,
+what regulated the LTD amount. The dependency of $\bar{\bar{u}}$ make it necessary to
+implement the right behavior of the membrane potential, what needs the 'resolution trick'.
+So the reimplementation benefits from the release of the source code on modelDB.
+Nonetheless, the reimplementation with the ANNarchy frame work was successful. 
 # References

@@ -48,7 +48,11 @@ was an implementation available somewhere and provide a link to it if relevant
 on this original implementation). You should also introduce your implementation
 by listing language, tools, libraries, etc. and motivate choices if relevant.**
 
-Parasitism is a special case of predation. In both interactions, a species (parasitoid or predator) feeds on the other species (host or prey), acting as a regulating factor (Anderson and May, 1978). However, the population dynamics of both system are very different. Thompson (1924) was the first to propose a model to describe this host-parasitoid system. In his model, parasites are limited by the number of eggs they lay. Depending on the relative increase rate of hosts and parasites, either both population increase indefinitely or decrease to extinction. Later, Nicholson and Bailey (1935) proposed other models for which the rate of increase of parasite is limited by their capacity to find hosts. These were the base for many other models where parasites act as regulating factors (Hassell, 1978; Rockwook, 2015). 
+Parasitism is a special case of predation. In both interactions, a species (parasitoid or predator) feeds on the other species (host or prey), acting as a regulating factor (Anderson and May, 1978). However, the population dynamics of both system are very different. Thompson (1924) was the first to propose a model to describe this host-parasitoid system. In his model, parasites are limited by the number of eggs they lay. Depending on the relative increase rate of hosts and parasites, either both population increase indefinitely or decrease to extinction. Later, Nicholson and Bailey (1935) proposed other models for which the rate of increase of parasite is limited by their capacity to find hosts. These were the basis for many other models where parasites act as regulating factors (Hassell, 1978; Rockwook, 2015). 
+
+In 1983, Dempster proposed that natural enemies were not a density-dependant factor as important as thought at that time. In response to this article, Hassell (1985) analyzed a insect dynamic model in which the only regulating factor was natural enemies. He showed that the difficulties to the density-dependent effect of natural enemies was due to time delays and stochasticity. This paper is still considered a classic in fields of insect and parasitoid-host population dynamics.
+
+Here, we replicated Hassel's model from the original paper in *Julia*.
 
 
 # Methods

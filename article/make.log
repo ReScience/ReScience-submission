@@ -193,53 +193,57 @@ LaTeX Font Warning: Font shape `EU1/FontAwesome(0)/bx/n' undefined
 (Font)              using `EU1/FontAwesome(0)/m/n' instead on input line 208.
 
 <use  "rescience-logo.pdf" > [1] <use  "rescience-logo.pdf" > [2]
-Overfull \hbox (2.62979pt too wide) in paragraph at lines 338--351
+Overfull \hbox (2.62979pt too wide) in paragraph at lines 348--362
 []\EU1/lmr/m/n/10 To validate the reimplementation, we reproduce the classical 
 spike timing-dependent
-
-Overfull \hbox (373.11223pt too wide) detected at line 405
- [] 
-
-Underfull \hbox (badness 10000) in alignment at lines 403--409
-[] [] []
-
-Underfull \hbox (badness 10000) in alignment at lines 409--413
-[] [] []
-
-Underfull \hbox (badness 10000) in alignment at lines 413--423
-[] [] []
 <use  "rescience-logo.pdf" > [3]
-Overfull \hbox (373.11223pt too wide) detected at line 428
+Overfull \hbox (373.11223pt too wide) detected at line 419
  [] 
 
-Underfull \hbox (badness 10000) in alignment at lines 426--432
+Underfull \hbox (badness 10000) in alignment at lines 417--423
 [] [] []
 
-Underfull \hbox (badness 10000) in alignment at lines 432--436
+Underfull \hbox (badness 10000) in alignment at lines 423--427
 [] [] []
 
-Underfull \hbox (badness 10000) in alignment at lines 436--441
+Underfull \hbox (badness 10000) in alignment at lines 427--437
+[] [] []
+
+Overfull \hbox (373.11223pt too wide) detected at line 442
+ [] 
+
+Underfull \hbox (badness 10000) in alignment at lines 440--446
+[] [] []
+
+Underfull \hbox (badness 10000) in alignment at lines 446--450
+[] [] []
+
+Underfull \hbox (badness 10000) in alignment at lines 450--455
 [] [] []
 <use  "rescience-logo.pdf" > [4] <use  "./figures/deltaW.png" >
 <use  "./figures/pairing.png" >
-Overfull \hbox (2.21999pt too wide) in paragraph at lines 448--453
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 462--467
 [][] [] 
 <use  "./figures/rate_Code_Weights.png" >
 <use  "./figures/temporal_Code.png" >
-Overfull \hbox (2.21999pt too wide) in paragraph at lines 477--485
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 491--499
 [][] [] 
 <use  "./figures/weights_stable.png" >
-Overfull \hbox (0.52667pt too wide) in paragraph at lines 526--541
+Overfull \hbox (0.52667pt too wide) in paragraph at lines 540--554
 \EU1/lmr/m/n/10 The here proposed reimplementation of voltage based STDP learni
 ng rule from Clopath
 <use  "rescience-logo.pdf" > [5] <use  "rescience-logo.pdf" > [6]
+<./figures/ESF_CMYK_LOGO.EPS>
 
 LaTeX Font Warning: Font shape `EU1/lmss/m/sc' in size <9> not available
-(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 543.
+(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 565.
 
 <use  "rescience-logo.pdf" > [7] (./Larisch-2018.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
  )
 (see the transcript file for additional information)
@@ -456,49 +460,50 @@ LaTeX Font Warning: Font shape `EU1/FontAwesome(0)/bx/n' undefined
 (Font)              using `EU1/FontAwesome(0)/m/n' instead on input line 208.
 
 <use  "rescience-logo.pdf" > [1] <use  "rescience-logo.pdf" > [2]
-Overfull \hbox (2.62979pt too wide) in paragraph at lines 338--351
+Overfull \hbox (2.62979pt too wide) in paragraph at lines 348--362
 []\EU1/lmr/m/n/10 To validate the reimplementation, we reproduce the classical 
 spike timing-dependent
-
-Overfull \hbox (373.11223pt too wide) detected at line 405
- [] 
-
-Underfull \hbox (badness 10000) in alignment at lines 403--409
-[] [] []
-
-Underfull \hbox (badness 10000) in alignment at lines 409--413
-[] [] []
-
-Underfull \hbox (badness 10000) in alignment at lines 413--423
-[] [] []
 <use  "rescience-logo.pdf" > [3]
-Overfull \hbox (373.11223pt too wide) detected at line 428
+Overfull \hbox (373.11223pt too wide) detected at line 419
  [] 
 
-Underfull \hbox (badness 10000) in alignment at lines 426--432
+Underfull \hbox (badness 10000) in alignment at lines 417--423
 [] [] []
 
-Underfull \hbox (badness 10000) in alignment at lines 432--436
+Underfull \hbox (badness 10000) in alignment at lines 423--427
 [] [] []
 
-Underfull \hbox (badness 10000) in alignment at lines 436--441
+Underfull \hbox (badness 10000) in alignment at lines 427--437
+[] [] []
+
+Overfull \hbox (373.11223pt too wide) detected at line 442
+ [] 
+
+Underfull \hbox (badness 10000) in alignment at lines 440--446
+[] [] []
+
+Underfull \hbox (badness 10000) in alignment at lines 446--450
+[] [] []
+
+Underfull \hbox (badness 10000) in alignment at lines 450--455
 [] [] []
 <use  "rescience-logo.pdf" > [4] <use  "./figures/deltaW.png" >
 <use  "./figures/pairing.png" >
-Overfull \hbox (2.21999pt too wide) in paragraph at lines 448--453
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 462--467
 [][] [] 
 <use  "./figures/rate_Code_Weights.png" >
 <use  "./figures/temporal_Code.png" >
-Overfull \hbox (2.21999pt too wide) in paragraph at lines 477--485
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 491--499
 [][] [] 
 <use  "./figures/weights_stable.png" >
-Overfull \hbox (0.52667pt too wide) in paragraph at lines 526--541
+Overfull \hbox (0.52667pt too wide) in paragraph at lines 540--554
 \EU1/lmr/m/n/10 The here proposed reimplementation of voltage based STDP learni
 ng rule from Clopath
 <use  "rescience-logo.pdf" > [5] <use  "rescience-logo.pdf" > [6]
+<./figures/ESF_CMYK_LOGO.EPS>
 
 LaTeX Font Warning: Font shape `EU1/lmss/m/sc' in size <9> not available
-(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 543.
+(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 565.
 
 <use  "rescience-logo.pdf" > [7] (./Larisch-2018.aux)
 
@@ -703,49 +708,50 @@ LaTeX Font Warning: Font shape `EU1/FontAwesome(0)/bx/n' undefined
 (Font)              using `EU1/FontAwesome(0)/m/n' instead on input line 208.
 
 <use  "rescience-logo.pdf" > [1] <use  "rescience-logo.pdf" > [2]
-Overfull \hbox (2.62979pt too wide) in paragraph at lines 338--351
+Overfull \hbox (2.62979pt too wide) in paragraph at lines 348--362
 []\EU1/lmr/m/n/10 To validate the reimplementation, we reproduce the classical 
 spike timing-dependent
-
-Overfull \hbox (373.11223pt too wide) detected at line 405
- [] 
-
-Underfull \hbox (badness 10000) in alignment at lines 403--409
-[] [] []
-
-Underfull \hbox (badness 10000) in alignment at lines 409--413
-[] [] []
-
-Underfull \hbox (badness 10000) in alignment at lines 413--423
-[] [] []
 <use  "rescience-logo.pdf" > [3]
-Overfull \hbox (373.11223pt too wide) detected at line 428
+Overfull \hbox (373.11223pt too wide) detected at line 419
  [] 
 
-Underfull \hbox (badness 10000) in alignment at lines 426--432
+Underfull \hbox (badness 10000) in alignment at lines 417--423
 [] [] []
 
-Underfull \hbox (badness 10000) in alignment at lines 432--436
+Underfull \hbox (badness 10000) in alignment at lines 423--427
 [] [] []
 
-Underfull \hbox (badness 10000) in alignment at lines 436--441
+Underfull \hbox (badness 10000) in alignment at lines 427--437
+[] [] []
+
+Overfull \hbox (373.11223pt too wide) detected at line 442
+ [] 
+
+Underfull \hbox (badness 10000) in alignment at lines 440--446
+[] [] []
+
+Underfull \hbox (badness 10000) in alignment at lines 446--450
+[] [] []
+
+Underfull \hbox (badness 10000) in alignment at lines 450--455
 [] [] []
 <use  "rescience-logo.pdf" > [4] <use  "./figures/deltaW.png" >
 <use  "./figures/pairing.png" >
-Overfull \hbox (2.21999pt too wide) in paragraph at lines 448--453
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 462--467
 [][] [] 
 <use  "./figures/rate_Code_Weights.png" >
 <use  "./figures/temporal_Code.png" >
-Overfull \hbox (2.21999pt too wide) in paragraph at lines 477--485
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 491--499
 [][] [] 
 <use  "./figures/weights_stable.png" >
-Overfull \hbox (0.52667pt too wide) in paragraph at lines 526--541
+Overfull \hbox (0.52667pt too wide) in paragraph at lines 540--554
 \EU1/lmr/m/n/10 The here proposed reimplementation of voltage based STDP learni
 ng rule from Clopath
 <use  "rescience-logo.pdf" > [5] <use  "rescience-logo.pdf" > [6]
+<./figures/ESF_CMYK_LOGO.EPS>
 
 LaTeX Font Warning: Font shape `EU1/lmss/m/sc' in size <9> not available
-(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 543.
+(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 565.
 
 <use  "rescience-logo.pdf" > [7] (./Larisch-2018.aux)
 

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2018.1.29)  23 MAR 2018 18:12
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2018.1.29)  27 MAR 2018 18:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1367,49 +1367,49 @@ File: rescience-logo.pdf Graphic file (type QTm)
 ]
 File: rescience-logo.pdf Graphic file (type QTm)
  <use  "rescience-logo.pdf" > [2]
-Overfull \hbox (2.62979pt too wide) in paragraph at lines 338--351
+Overfull \hbox (2.62979pt too wide) in paragraph at lines 348--362
 []\EU1/lmr/m/n/10 To validate the reimplementation, we reproduce the classical 
 spike timing-dependent
  []
 
-
-Overfull \hbox (373.11223pt too wide) detected at line 405
- [] 
- []
-
-
-Underfull \hbox (badness 10000) in alignment at lines 403--409
-[] [] []
- []
-
-
-Underfull \hbox (badness 10000) in alignment at lines 409--413
-[] [] []
- []
-
-
-Underfull \hbox (badness 10000) in alignment at lines 413--423
-[] [] []
- []
-
 File: rescience-logo.pdf Graphic file (type QTm)
 <use  "rescience-logo.pdf" > [3]
-Overfull \hbox (373.11223pt too wide) detected at line 428
+Overfull \hbox (373.11223pt too wide) detected at line 419
  [] 
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 426--432
+Underfull \hbox (badness 10000) in alignment at lines 417--423
 [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 432--436
+Underfull \hbox (badness 10000) in alignment at lines 423--427
 [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 436--441
+Underfull \hbox (badness 10000) in alignment at lines 427--437
+[] [] []
+ []
+
+
+Overfull \hbox (373.11223pt too wide) detected at line 442
+ [] 
+ []
+
+
+Underfull \hbox (badness 10000) in alignment at lines 440--446
+[] [] []
+ []
+
+
+Underfull \hbox (badness 10000) in alignment at lines 446--450
+[] [] []
+ []
+
+
+Underfull \hbox (badness 10000) in alignment at lines 450--455
 [] [] []
  []
 
@@ -1420,7 +1420,7 @@ File: ./figures/deltaW.png Graphic file (type QTm)
 File: ./figures/pairing.png Graphic file (type QTm)
 
 <use  "./figures/pairing.png" >
-Overfull \hbox (2.21999pt too wide) in paragraph at lines 448--453
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 462--467
 [][] [] 
  []
 
@@ -1429,13 +1429,13 @@ File: ./figures/rate_Code_Weights.png Graphic file (type QTm)
 File: ./figures/temporal_Code.png Graphic file (type QTm)
 
 <use  "./figures/temporal_Code.png" >
-Overfull \hbox (2.21999pt too wide) in paragraph at lines 477--485
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 491--499
 [][] [] 
  []
 
 File: ./figures/weights_stable.png Graphic file (type QTm)
 <use  "./figures/weights_stable.png" >
-Overfull \hbox (0.52667pt too wide) in paragraph at lines 526--541
+Overfull \hbox (0.52667pt too wide) in paragraph at lines 540--554
 \EU1/lmr/m/n/10 The here proposed reimplementation of voltage based STDP learni
 ng rule from Clopath
  []
@@ -1444,21 +1444,32 @@ File: rescience-logo.pdf Graphic file (type QTm)
 <use  "rescience-logo.pdf" > [5]
 File: rescience-logo.pdf Graphic file (type QTm)
  <use  "rescience-logo.pdf" > [6]
+Invalid UTF-8 byte or sequence at line 561 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 561 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 561 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 561 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 561 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 561 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 561 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 561 replaced by U+FFFD.
+File: ./figures/ESF_CMYK_LOGO.EPS Graphic file (type eps)
+
+<./figures/ESF_CMYK_LOGO.EPS>
 LaTeX Font Info:    Font shape `EU1/lmss/m/it' in size <9> not available
-(Font)              Font shape `EU1/lmss/m/sl' tried instead on input line 543.
+(Font)              Font shape `EU1/lmss/m/sl' tried instead on input line 565.
 
 
 
 LaTeX Font Warning: Font shape `EU1/lmss/m/sc' in size <9> not available
-(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 543.
+(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 565.
 
 File: rescience-logo.pdf Graphic file (type QTm)
 <use  "rescience-logo.pdf" > [7]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 545.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 545.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 567.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 567.
  (./Larisch-2018.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 545.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 545.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 567.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 567.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -1468,10 +1479,10 @@ Package logreq Info: Writing requests to 'Larisch-2018.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 39573 strings out of 495579
- 732787 string characters out of 6187322
- 1061275 words of memory out of 5000000
- 42417 multiletter control sequences out of 15000+600000
+ 39579 strings out of 495579
+ 732871 string characters out of 6187322
+ 1061630 words of memory out of 5000000
+ 42421 multiletter control sequences out of 15000+600000
  7848 words of font info for 52 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  54i,16n,73p,10376b,1046s stack positions out of 5000i,500n,10000p,200000b,80000s

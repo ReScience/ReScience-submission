@@ -43,11 +43,11 @@ like from triplet or quadruplets experiments [@Pfister2006].
 
 Here, we introduce a reimplementation of the @Clopath2010 STDP model,
 what is enable to reproduce experimental findings of triplet studies.
-The proposed model try to be more biological plausible than previous models with
-a theoretical approach, to be a voltage based STDP model.
+They propose a biological motivated model with a voltage based learning rule.
 This means, that the occur of long term depression (LTD) or long term potentiation (LTP) depends on the
 postsynaptic membrane voltage.
-Clopath and colleagues could show that their learning rule
+Clopath and colleagues could reproduce different STDP experiments.
+Further, they could show that their learning rule
 can develop stable weights, as it is necessary for learning receptive fields of V1 simple cells.
 To achieve stable weights, they implemented a homeostatic mechanism to
 adjust the amount of generated LTD, over the relation between the average postsynaptic
@@ -57,7 +57,6 @@ depending on the spiking behavior of the neurons [@Clopath2010].
 If neurons fire high at the same time, they build strong bidirectional connections (rate code).
 If neurons fire in a specific temporary order, they connection structure follow that order (temporal code).
 They used a adaptive exponential integrate-and-fire (AdEx) neuron model.
-
 
 
 # Methods
@@ -77,14 +76,21 @@ the available matlab code is the second reference for this reimplementation.
 
 ## Model description
 
-The neuron model is mainly borrowed from the description the matlab source code.
-After a spike is the membrane potential
+$$ C\frac{du}{dt} = -g_L(u-E_L) + g_L \Delta_T e^{\frac{u-V_T}{\Delta_T}} - w_{ad} +z +I$$ {#eq:memb}
+
+The neuron model is mainly borrowed from the description the matlab source code (see **Eq.** @eq:memb).
+Therefore, $u$ is the membrane potential, $C$ the membrane capacitance, the leak conductance is $g_L$ and $E_L$ is the resting potential.
+The slope factor $\Delta_T$ and the spiking threshold $V_T$ are describing the behavior of the exponential term.
+If $u$ above $V_T$, the neuron spikes and the membrane potential increases exponentially.  
+Further, the membrane potential is
 set to $29.4mV$, one millisecond later to $29.4mV + 3.462mV$ and another millisecond later to $E_{L} + 15mV + 6.0984mV$ .
 This so called 'resolution trick' is to simulate the spike upswing for $2ms$ after a spike is emitted.
-Beside this, the equations of the neuron model and the values of the parameters are equal to the description in the original paper and not presented here.
+The depolarizing spike afterpotential is $z$ and the hyperpolarization current described by $w_{ad}$ and with $V_T$,
+they are variables. There description is similar to them in the original paper.
+Further, values of the parameters in the neuron model are equal to the description in the original paper and not presented here.
 
 Here, only a short description about the learning dynamic is given. For further information read the original publication by @Clopath2010.
-The discussed learning rule consists of a term for long term depression (LTD) (Eq. @eq:LTD) and long term potentiation (LTP) (Eq. @eq:LTP).
+The discussed learning rule consists of a term for long term depression (LTD) (**Eq.** @eq:LTD) and long term potentiation (LTP) (**Eq.** @eq:LTP).
 
 $$ LTP_{Term} = A_{LTP} \bar{x}_i (u - \theta_+)_+ (\bar{u}_+ - \theta_-)_+ $$ {#eq:LTP}
 
@@ -103,7 +109,7 @@ what implements a homeostatic mechanism.
 
 $$ \tau_{\bar{\bar{u}}}\frac{d \bar{\bar{u}}}{dt} =  [(u-E_L)^2] - \bar{\bar{u}}$$ {#eq:homeo}
 
-These mechanism is computed over the quadratic distance of the membrane potential and the resting potential $E_L$ (Eq. @eq:homeo).
+These mechanism is computed over the quadratic distance of the membrane potential and the resting potential $E_L$ (**Eq.** @eq:homeo).
 Further, with a higher activity increases the $\bar{\bar{u}}$ and a higher amount of LTD occur and the weights decreases.
 In contrast, a lower activity decreases the amount of LTD and the weights can increases.
 Over the ratio with $u_{ref}^2$, this mechanism can enforce the connections to decrease down to the minimum weight bound or increase to the maximum
@@ -124,14 +130,14 @@ Further, they investigated the emerged structure of the connectivity depending
 on the spiking behavior.
 
 To validate the reimplementation, we reproduce the classical spike timing-dependent
-learning window (Fig. 2a in [@Clopath2010]) and the frequency repetition task
-to reproduce a triplet experiment (Fig.2b in [@Clopath2010]).
+learning window (**Fig.** 2a in [@Clopath2010]) and the frequency repetition task
+to reproduce a triplet experiment (**Fig.** 2b in [@Clopath2010]).
 Further the influence of spiking order to connectivity
-(Fig.4a,down and Fig.4b,down in [@Clopath2010]).
+(**Fig.** 4a, down and **Fig.** 4b, down in [@Clopath2010]).
 In the available matlab source code, they presenting stable learning of weights
 in rate code by 500 input neurons. The firing rate of these neurons follow
 a Gaussian distribution and the spike timing a Poisson process
-(similar to Fig.5a in [@Clopath2010]). This task is reimplemented as well.
+(similar to **Fig.** 5a in [@Clopath2010]). This task is reimplemented as well.
 With this analysis, the functionality of the reimplementation is shown on the
 main feature of this learning rule, reproduce pair based and triplet STDP data,
 and the analysis of connection patterns, depending on the neuronal spiking behavior.
@@ -143,10 +149,10 @@ Despite the effort to be so close as possible on
 the original implementation and description, the internal processing of the equations by ANNarchy
 can lead to a different execution order and with this, to other results.
 Further, the chosen integration time step can have an influence of the computation result.
-On all reimplemented analysis, a time step of $ dt= 1ms$ is chosen.
+On all reimplemented analysis, a time step of $dt= 1ms$ is chosen.
 Because of this, adaption on some parameters was
 necessary to reproduce the original results.
-For the connectivity experiments, the homeostatic mechanism follow Eq. @eq:homeo.
+For the connectivity experiments, the homeostatic mechanism follow **Eq.** @eq:homeo.
 
 To reproduce the STDP learning window, we create a list of discrete time points,
 where the pre- or postsynaptic neuron is active. The presynaptic neuron spikes
@@ -170,6 +176,8 @@ With a given list of time steps it is possible to determine the exact spiking ti
 
 Because the reimplementation of the model based mainly on the matlab source code from  modelDB,
 the emergent of stable weights by presenting a Gaussian input over 500 presynaptic neurons and one postsynaptic neuron.
+For every epoch are ten Gaussian patterns are created to determine
+the activity of the 500 input neurons. One epoch have the duration of $125ms$.
 The presynaptic population is implemented with the PoissonPopulation from ANNarchy to achieve a Poisson distributed
 spiking behavior, as mentioned in the original matlab implementation.
 Equal to the matlab source code, the learning rates ($A_{LTP}$ and $A_{LTD}$) are
@@ -258,14 +266,16 @@ This is similar to the analysis in the original paper.
 
 \begin{figure}
 \includegraphics[width=1\textwidth]{./figures/weights_stable.png}
-\caption{\textbf{Stable weights on Poisson distributed Input.} }
+\caption{\textbf{Stable weights on Poisson distributed Input.
+    Colors shows the weight value at the end of the current epoch from the presynaptic neuron to the single postsynaptic neuron.
+    Y-Axis is the presynaptic index and x-axis the number of epoch. } }
 \label{Fig_stab}
 \end{figure}
-% was ist eine Epoche ?!
 
 The \textbf{Fig. \ref{Fig_stab}} shows the development of the weights over time, by presenting
-Gaussian shaped input. Around 500 epochs, stable weights begin to emerge.
-Similar can be observed in running the original matlab source code.
+Gaussian shaped input.
+Around 500 epochs, stable weights begin to emerge.
+Similar can be observed by running the original matlab source code.
 
 # Conclusion
 
@@ -281,5 +291,11 @@ Stable learning is only accessible with a good working homeostasis mechanism,
 what regulated the LTD amount. The dependency of $\bar{\bar{u}}$ make it necessary to
 implement the right behavior of the membrane potential, what needs the 'resolution trick'.
 So the reimplementation benefits from the release of the source code on modelDB.
-Nonetheless, the reimplementation with the ANNarchy frame work was successful. 
+Nonetheless, the reimplementation with the ANNarchy frame work was successful.
+
+## Acknowledgment
+This work was supported by the European Social Fond (ESF) and Sächsische Aufbaubank (SAB)
+\begin{figure}[h!]
+\includegraphics[width=1\textwidth]{./figures/ESF_CMYK_LOGO.EPS}
+\end{figure}
 # References

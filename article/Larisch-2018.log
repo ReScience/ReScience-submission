@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2018.1.29)  27 MAR 2018 18:21
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2018.1.29)  28 MAR 2018 18:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1367,49 +1367,55 @@ File: rescience-logo.pdf Graphic file (type QTm)
 ]
 File: rescience-logo.pdf Graphic file (type QTm)
  <use  "rescience-logo.pdf" > [2]
-Overfull \hbox (2.62979pt too wide) in paragraph at lines 348--362
+Overfull \hbox (2.62979pt too wide) in paragraph at lines 355--369
 []\EU1/lmr/m/n/10 To validate the reimplementation, we reproduce the classical 
 spike timing-dependent
  []
 
+
+Overfull \hbox (0.80777pt too wide) in paragraph at lines 370--382
+[]\EU1/lmr/m/n/10 The experiment protocols are based on the description on the 
+publication of Clopath
+ []
+
 File: rescience-logo.pdf Graphic file (type QTm)
 <use  "rescience-logo.pdf" > [3]
-Overfull \hbox (373.11223pt too wide) detected at line 419
+Overfull \hbox (373.11223pt too wide) detected at line 427
  [] 
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 417--423
+Underfull \hbox (badness 10000) in alignment at lines 425--431
 [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 423--427
+Underfull \hbox (badness 10000) in alignment at lines 431--435
 [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 427--437
+Underfull \hbox (badness 10000) in alignment at lines 435--445
 [] [] []
  []
 
 
-Overfull \hbox (373.11223pt too wide) detected at line 442
+Overfull \hbox (373.11223pt too wide) detected at line 450
  [] 
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 440--446
+Underfull \hbox (badness 10000) in alignment at lines 448--454
 [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 446--450
+Underfull \hbox (badness 10000) in alignment at lines 454--458
 [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 450--455
+Underfull \hbox (badness 10000) in alignment at lines 458--463
 [] [] []
  []
 
@@ -1420,7 +1426,7 @@ File: ./figures/deltaW.png Graphic file (type QTm)
 File: ./figures/pairing.png Graphic file (type QTm)
 
 <use  "./figures/pairing.png" >
-Overfull \hbox (2.21999pt too wide) in paragraph at lines 462--467
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 470--475
 [][] [] 
  []
 
@@ -1429,13 +1435,13 @@ File: ./figures/rate_Code_Weights.png Graphic file (type QTm)
 File: ./figures/temporal_Code.png Graphic file (type QTm)
 
 <use  "./figures/temporal_Code.png" >
-Overfull \hbox (2.21999pt too wide) in paragraph at lines 491--499
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 500--508
 [][] [] 
  []
 
 File: ./figures/weights_stable.png Graphic file (type QTm)
 <use  "./figures/weights_stable.png" >
-Overfull \hbox (0.52667pt too wide) in paragraph at lines 540--554
+Overfull \hbox (0.52667pt too wide) in paragraph at lines 549--553
 \EU1/lmr/m/n/10 The here proposed reimplementation of voltage based STDP learni
 ng rule from Clopath
  []
@@ -1444,32 +1450,32 @@ File: rescience-logo.pdf Graphic file (type QTm)
 <use  "rescience-logo.pdf" > [5]
 File: rescience-logo.pdf Graphic file (type QTm)
  <use  "rescience-logo.pdf" > [6]
-Invalid UTF-8 byte or sequence at line 561 replaced by U+FFFD.
-Invalid UTF-8 byte or sequence at line 561 replaced by U+FFFD.
-Invalid UTF-8 byte or sequence at line 561 replaced by U+FFFD.
-Invalid UTF-8 byte or sequence at line 561 replaced by U+FFFD.
-Invalid UTF-8 byte or sequence at line 561 replaced by U+FFFD.
-Invalid UTF-8 byte or sequence at line 561 replaced by U+FFFD.
-Invalid UTF-8 byte or sequence at line 561 replaced by U+FFFD.
-Invalid UTF-8 byte or sequence at line 561 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 574 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 574 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 574 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 574 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 574 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 574 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 574 replaced by U+FFFD.
+Invalid UTF-8 byte or sequence at line 574 replaced by U+FFFD.
 File: ./figures/ESF_CMYK_LOGO.EPS Graphic file (type eps)
 
 <./figures/ESF_CMYK_LOGO.EPS>
 LaTeX Font Info:    Font shape `EU1/lmss/m/it' in size <9> not available
-(Font)              Font shape `EU1/lmss/m/sl' tried instead on input line 565.
+(Font)              Font shape `EU1/lmss/m/sl' tried instead on input line 578.
 
 
 
 LaTeX Font Warning: Font shape `EU1/lmss/m/sc' in size <9> not available
-(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 565.
+(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 578.
 
 File: rescience-logo.pdf Graphic file (type QTm)
 <use  "rescience-logo.pdf" > [7]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 567.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 567.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 580.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 580.
  (./Larisch-2018.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 567.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 567.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 580.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 580.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -1481,7 +1487,7 @@ Package logreq Info: Writing requests to 'Larisch-2018.run.xml'.
 Here is how much of TeX's memory you used:
  39579 strings out of 495579
  732871 string characters out of 6187322
- 1061630 words of memory out of 5000000
+ 1061659 words of memory out of 5000000
  42421 multiletter control sequences out of 15000+600000
  7848 words of font info for 52 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191

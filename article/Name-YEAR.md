@@ -94,6 +94,9 @@ where S is the number of hosts that survived parasitism. Finally, to assess the 
 
 $$ k = Log(N(*t*)/S) $$ {#eq:6}
 
+The objective in this paper is to reproduce every result from the original publication. Every figure from Hassell's paper will be reproduced, except for the Figure 2 and Figure 7, which only represent the curves from certain equations when a parameter is changed. Therefore, they are not necessary in order to show how difficult it is to detect the regulating effect of natural enemies on a host population. For every figure reproduced, we will use the exact same values that were used in the original paper for the different parameters.
+
+The software used to run the models and to generate the figures is Julia version 0.6.2 (Bezanson et al., 2017). All the coding used to replicate the original paper will be available with the article.
 
 
 # Results
@@ -131,3 +134,6 @@ $$ A = \sqrt{\frac{B}{C}} $$ {#eq:1}
 
 
 # References
+
+- Bezanson, J., Edelman, A., Karpinski, S., & Shah, V. B. (2017). Julia: A fresh approach to numerical computing. SIAM review, 59(1), 65-98.
+- Hassell, M. P. (1985). Insect natural enemies as regulating factors. The Journal of Animal Ecology, 323-334.

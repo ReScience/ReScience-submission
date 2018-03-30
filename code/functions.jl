@@ -16,20 +16,24 @@
 
 Return : `dynamics`: Matrix containing the host and parasite density for the initial populations and for every generation simulated
 """
-function simulation(N::Float64, P::Float64; t::Int64=50, f=specialist_dyn, F=4.0, D=0.5, c=1.0, a=0.5, h=10.0, b=25.0, th=0.0, m=0.2)
-    # Parameters
-    p = @NT(F=F, D=D, c=c, a=a, h=h, b=b, th=th, m=m)
+function simulation(N::Float64, P::Float64; t::Int64=50, f=specialist_dyn, F=4.0, D=0.5, c=1.0, a=0.5, h=10.0, b=25.0, th=0.0, m=0.2, D_sd=0.0, a_sd=0.0, h_sd=0.0, c_sd=0.0)
     # Matrix to store the output
     dynamics = zeros(Float64, (t+1,3))
     dynamics[1,2] = N
     dynamics[1,3] = P
     # Iterations
     for current_time in 1:t
+        current_D=randn()*D_sd+D
+        current_a=randn()*a_sd+a
+        current_h=randn()*h_sd+h
+        current_c=randn()*c_sd+c
+        p = @NT(F=F, D=current_D, c=current_c, a=current_a, h=current_h, b=b, th=th, m=m)
         N_next, P_next = timestep(dynamics[current_time,2], dynamics[current_time,3], p; parasite_dyn=f)
         dynamics[current_time+1,1] = current_time
         dynamics[current_time+1,2] = N_next
         dynamics[current_time+1,3] = P_next
-    end
+        end
+    p = @NT(F=F, D=D, c=c, a=a, h=h, b=b, th=th, m=m)
     # Return
     return dynamics, p
 end

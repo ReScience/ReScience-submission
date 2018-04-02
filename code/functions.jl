@@ -27,8 +27,8 @@ function simulation(N::Float64, P::Float64; t::Int64=50, f=specialist_dyn, F=4.0
         current_a=randn()*a_sd+a
         current_h=randn()*h_sd+h
         current_c=randn()*c_sd+c
-        p = @NT(F=F, D=current_D, c=current_c, a=current_a, h=current_h, b=b, th=th, m=m)
-        N_next, P_next = timestep(dynamics[current_time,2], dynamics[current_time,3], p; parasite_dyn=f)
+        current_p = @NT(F=F, D=current_D, c=current_c, a=current_a, h=current_h, b=b, th=th, m=m)
+        N_next, P_next = timestep(dynamics[current_time,2], dynamics[current_time,3], p=current_p; parasite_dyn=f)
         dynamics[current_time+1,1] = current_time
         dynamics[current_time+1,2] = N_next
         dynamics[current_time+1,3] = P_next

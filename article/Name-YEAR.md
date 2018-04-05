@@ -109,6 +109,12 @@ you think they are the same or why they may differ (qualitative result vs
 quantitative result). Note that it is not necessary to redo all the original
 analysis of the results.
 
+### The deterministic model
+The reproduced population dynamics for the host population and for the specialist parasitoids (Figures 3a and 3b) are very similar to the ones in Hassell's paper. When the level of clumping of parasitoid attacks is high, both populations decrease during the first 10 generations before they stabilise until the end of the simulation, with the host population twice as big as the specialist parasitoid population. When the extent of clumping is lower, both populations show decreasing oscillations during the 50 simulated generations. The difference between this article and the original publication resides in the Figure 3c and Figure 3d, where we standardized the axes of the graphs. At first sight, in Hassell's paper, the k-values in Figure 3c seem almost as high as in Figure 3d. However, when using the same scale for the two graphs, we can see that the k-values in the case of high clumping show much less variation than when the lower clumping is used.
+
+The simulations performed to study the relationship between the population dynamics of the hosts and the generalist parasitoids are also very similar to the ones done by Hassell. This show a density dependant relationship between the two populations, where the natural enemy regulates the host population until they both reach a stable equilibrium. This is also the conclusion when we observe the relation between the two populations in Figures 3a and 3c.
+
+
 
 # Conclusion
 

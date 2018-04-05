@@ -1,4 +1,12 @@
 """
+TODO
+"""
+function generate(x, σ)
+    @assert σ >= 0.0
+    return σ > 0.0 ? rand(TruncatedNormal(x,σ, 0.0, 100.0)) : x
+end
+
+"""
 ***Simulations for the host population and specialist parasitoid population dynamics for the first 50 generations***
 
 - `N`: Initial host population size
@@ -16,20 +24,31 @@
 
 Return : `dynamics`: Matrix containing the host and parasite density for the initial populations and for every generation simulated
 """
-function simulation(N::Float64, P::Float64; t::Int64=50, f=specialist_dyn, F=4.0, D=0.5, c=1.0, a=0.5, h=10.0, b=25.0, th=0.0, m=0.2)
-    # Parameters
-    p = @NT(F=F, D=D, c=c, a=a, h=h, b=b, th=th, m=m)
+function simulation(N::Float64, P::Float64; t::Int64=50, f=specialist_dyn, F=4.0, D=0.5, c=1.0, a=0.5, h=10.0, b=25.0, th=0.0, m=0.2, D_sd=0.0, a_sd=0.0, h_sd=0.0, c_sd=0.0)
     # Matrix to store the output
-    dynamics = zeros(Float64, (t+1,3))
+    dynamics = zeros(Float64, (t+1,7))
     dynamics[1,2] = N
     dynamics[1,3] = P
+    dynamics[1,4:7] = [D, a, h, c]
     # Iterations
     for current_time in 1:t
-        N_next, P_next = timestep(dynamics[current_time,2], dynamics[current_time,3], p; parasite_dyn=f)
+        current_D=generate(D, D_sd)
+        current_a=generate(a, a_sd)
+        current_h=generate(h, h_sd)
+        current_c=generate(c, c_sd)
+        current_p = @NT(F=F, D=current_D, c=current_c, a=current_a, h=current_h, b=b, th=th, m=m)
+        N_next, P_next = timestep(dynamics[current_time,2], dynamics[current_time,3], current_p; parasite_dyn=f)
+        # Population sizes
         dynamics[current_time+1,1] = current_time
         dynamics[current_time+1,2] = N_next
         dynamics[current_time+1,3] = P_next
+        # Real parameter values
+        dynamics[current_time,4] = current_D
+        dynamics[current_time,5] = current_a
+        dynamics[current_time,6] = current_h
+        dynamics[current_time,7] = current_c
     end
+    p = @NT(F=F, D=D, c=c, a=a, h=h, b=b, th=th, m=m)
     # Return
     return dynamics, p
 end

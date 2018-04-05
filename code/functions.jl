@@ -1,4 +1,12 @@
 """
+TODO
+"""
+function generate(x, σ)
+    @assert σ >= 0.0
+    return σ > 0.0 ? rand(Normal(x,σ)) : x
+end
+
+"""
 ***Simulations for the host population and specialist parasitoid population dynamics for the first 50 generations***
 
 - `N`: Initial host population size
@@ -23,10 +31,10 @@ function simulation(N::Float64, P::Float64; t::Int64=50, f=specialist_dyn, F=4.0
     dynamics[1,3] = P
     # Iterations
     for current_time in 1:t
-        current_D=randn()*D_sd+D
-        current_a=randn()*a_sd+a
-        current_h=randn()*h_sd+h
-        current_c=randn()*c_sd+c
+        current_D=generate(D, D_sd)
+        current_a=generate(a, a_sd)
+        current_h=generate(h, h_sd)
+        current_c=generate(c, c_sd)
         current_p = @NT(F=F, D=current_D, c=current_c, a=current_a, h=current_h, b=b, th=th, m=m)
         N_next, P_next = timestep(dynamics[current_time,2], dynamics[current_time,3], current_p; parasite_dyn=f)
         dynamics[current_time+1,1] = current_time

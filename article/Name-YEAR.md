@@ -30,8 +30,8 @@ Publication:
 Repository:
   article:   "http://github.com/rescience/rescience-submission/article"
   code:      "http://github.com/rescience/rescience-submission/code"
-  data:      
-  notebook:  
+  data:
+  notebook:
 Reproduction:
   - "Original article (title, authors, journal, doi)"
 Bibliography:
@@ -48,11 +48,14 @@ was an implementation available somewhere and provide a link to it if relevant
 on this original implementation). You should also introduce your implementation
 by listing language, tools, libraries, etc. and motivate choices if relevant.**
 
-Parasitism is a special case of predation. In both interactions, a species (parasitoid or predator) feeds on the other species (host or prey), acting as a regulating factor (Anderson and May, 1978). However, the population dynamics of both system are very different. Thompson (1924) was the first to propose a model to describe this host-parasitoid system. In his model, parasites are limited by the number of eggs they lay. Depending on the relative increase rate of hosts and parasites, either both population increase indefinitely or decrease to extinction. Later, Nicholson and Bailey (1935) proposed other models for which the rate of increase of parasite is limited by their capacity to find hosts. These were the basis for many other models where parasites act as regulating factors (Hassell, 1978; Rockwook, 2015). 
+Parasitism is a special case of predation. In both interactions, a species (parasitoid or predator) feeds on the other species (host or prey), acting as a regulating factor (Anderson and May, 1978). However, the population dynamics of both system are very different. Thompson (1924) was the first to propose a model to describe this host-parasitoid system. In his model, parasites are limited by the number of eggs they lay. Depending on the relative increase rate of hosts and parasites, either both population increase indefinitely or decrease to extinction. Later, Nicholson and Bailey (1935) proposed other models for which the rate of increase of parasite is limited by their capacity to find hosts. These were the basis for many other models where parasites act as regulating factors (Hassell, 1978; Rockwook, 2015).
 
 In 1983, Dempster proposed that natural enemies may not be an important regulating factor in insect dynamics. In fact, he failed to detect density-dependence due to natural enemies in most of the studies on Lepidoptera he reviewed. His proposition really contrasted with what was thought at the time. In response to this article, Hassell (1985) analyzed a insect dynamic model in which the only regulating factor was natural enemies. He showed that the difficulties to the density-dependent effect of natural enemies was due to time delays and stochasticity. This paper is still considered a classic in fields of insect and parasitoid-host population dynamics. **AJOUTER DES EXEMPLES DE CONTRIBUTION DE L'ARTICLE**
 
-We used information from Hassel (1985) to replicate the model. We recreated the figures central to the article and increased the number of simulations for the stochastic model. To our best knowledge, the original implementation was not available. The code for the simulations and the figures were written in *Julia*.
+We used information from @Hassel85 to replicate the model. We recreated the
+figures central to the article and increased the number of simulations for the
+stochastic model. To our best knowledge, the original implementation was not
+available. The code for the simulations and the figures were written in *Julia*.
 
 
 # Methods
@@ -72,7 +75,7 @@ The formulas used in this paper to show the difficulty of detecting natural enem
 
 $$ N(*t+1*) = F * N(*t*) * f(*Nt,Pt*) * D $$ {#eq:1}
 
-where N(*t*) and N(*t+1*) represent the host population at generation *t* and at the next generation, *F* is the rate of increase of the population and *D* is the density independent probability of survival of the hosts (mortality). The specialist parasitoids population dynamics are represented by 
+where N(*t*) and N(*t+1*) represent the host population at generation *t* and at the next generation, *F* is the rate of increase of the population and *D* is the density independent probability of survival of the hosts (mortality). The specialist parasitoids population dynamics are represented by
 
 $$ P(*t+1*) = c * N(*t*) * [1-f(*Nt, Pt*)] $$ {#eq:2}
 
@@ -128,12 +131,8 @@ A reference to figure @fig:logo.
 A reference to equation @eq:1.
 A reference to citation @markdown.
 
-![Figure caption](rescience-logo.pdf){#fig:logo}
+![Figure caption](figures/figure3.pdf){#fig:fig3}
 
 $$ A = \sqrt{\frac{B}{C}} $$ {#eq:1}
 
-
 # References
-
-- Bezanson, J., Edelman, A., Karpinski, S., & Shah, V. B. (2017). Julia: A fresh approach to numerical computing. SIAM review, 59(1), 65-98.
-- Hassell, M. P. (1985). Insect natural enemies as regulating factors. The Journal of Animal Ecology, 323-334.

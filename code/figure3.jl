@@ -41,4 +41,4 @@ xlabel!(fig3d, " ")
 ylabel!(fig3d, " ")
 
 plot(fig3a, fig3b, fig3c, fig3d, layout=(2,2), size=(900,900))
-savefig("figure3.pdf")
+savefig("article/figures/figure3.pdf")

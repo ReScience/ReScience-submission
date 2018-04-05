@@ -59,4 +59,4 @@ xlabel!(fig5f, "Host density (log 10)")
 ylabel!(fig5f, "k-value")
 
 plot(fig5a, fig5b, fig5c, fig5d, fig5e, fig5f, layout=(2,3), size=(1200,900))
-savefig("figure5.pdf")
+savefig("article/figures/figure5.pdf")

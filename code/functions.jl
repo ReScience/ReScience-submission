@@ -158,3 +158,9 @@ function efficiency(N::Float64,P::Float64, p)
     A = 1.0/P * log(prop)
     return A
 end
+
+function kvalue_by_generation(x, p)
+   t, N, P, D, a, h, c = x
+   current_p = @NT(F=p.F, D=D, c=c, a=a, h=h, b=p.b, th=p.th, m=p.m)
+   return mortality(N, P, current_p)
+end

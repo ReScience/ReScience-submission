@@ -1,12 +1,7 @@
 using NamedTuples
 using Plots
-
 include("functions.jl")
-
-function kvalue_by_generation(x, p)
-   t, N, P = x
-   return mortality(N, P, p)
-end
+include("seed.jl")
 
 # Simulation with specialist natural enemies with m=0.2
 sim1, params1 = simulation(50.0, 25.0, m=0.2, F=4.0, D=0.5, c=1.0, a=0.5, th = 0.0)

@@ -1,12 +1,7 @@
 using NamedTuples
 using Plots
-
 include("functions.jl")
-
-function kvalue_by_generation(x, p)
-   t, N, P = x
-   return mortality(N, P, p)
-end
+include("seed.jl")
 
 # Simulation with generalist natural enemies
 sim, params = simulation(50.0, 25.0, m=0.5, F=4.0, D=0.5, h=10.0, b=25.0, a=0.5,
@@ -27,5 +22,5 @@ fig4b = plot(log10.(sim[:,2]), kval,
 xlabel!(fig4b, "Host density (log 10)")
 ylabel!(fig4b, "k-value")
 
-plot(fig4a, fig4b, layout=(2,1), size=(900,900))
+plot(fig4a, fig4b, layout=(2,1), size=(500,900))
 savefig("figure4.pdf")

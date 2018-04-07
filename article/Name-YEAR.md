@@ -48,11 +48,11 @@ was an implementation available somewhere and provide a link to it if relevant
 on this original implementation). You should also introduce your implementation
 by listing language, tools, libraries, etc. and motivate choices if relevant.**
 
-Parasitism is a special case of predation. In both interactions, a species (parasitoid or predator) feeds on the other species (host or prey), acting as a regulating factor (Anderson and May, 1978). However, the population dynamics of both system are very different. Thompson (1924) was the first to propose a model to describe this host-parasitoid system. In his model, parasites are limited by the number of eggs they lay. Depending on the relative increase rate of hosts and parasites, either both population increase indefinitely or decrease to extinction. Later, Nicholson and Bailey (1935) proposed other models for which the rate of increase of parasite is limited by their capacity to find hosts. These were the basis for many other models where parasites act as regulating factors (Hassell, 1978; Rockwook, 2015).
+Parasitism is a special case of predation. In both interactions, a species (parasitoid or predator) feeds on the other species (host or prey), acting as a regulating factor (@Anderson78). However, the population dynamics of both system are very different. @Thompson24 was the first to propose a model to describe this host-parasitoid system. In his model, parasites are limited by the number of eggs they lay. Depending on the relative increase rate of hosts and parasites, either both population increase indefinitely or decrease to extinction. Later, @Nicholson35 proposed other models for which the rate of increase of parasite is limited by their capacity to find hosts. These were the basis for many other models where parasites act as regulating factors (@Hassell78; @Rockwook15).
 
-In 1983, Dempster proposed that natural enemies may not be an important regulating factor in insect dynamics. In fact, he failed to detect density-dependence due to natural enemies in most of the studies on Lepidoptera he reviewed. His proposition really contrasted with what was thought at the time. In response to this article, Hassell (1985) analyzed a insect dynamic model in which the only regulating factor was natural enemies. He showed that the difficulties to the density-dependent effect of natural enemies was due to time delays and stochasticity. This paper is still considered a classic in fields of insect and parasitoid-host population dynamics. **AJOUTER DES EXEMPLES DE CONTRIBUTION DE L'ARTICLE**
+In 1983, Dempster proposed that natural enemies may not be an important regulating factor in insect dynamics. In fact, he failed to detect density-dependence due to natural enemies in most of the studies on Lepidoptera he reviewed. His proposition really contrasted with what was thought at the time. In response to this article, @Hassell85 analyzed a insect dynamic model in which the only regulating factor was natural enemies. He showed that the difficulties to the density-dependent effect of natural enemies was due to time delays and stochasticity. This paper is still considered a classic in fields of insect and parasitoid-host population dynamics. **AJOUTER DES EXEMPLES DE CONTRIBUTION DE L'ARTICLE**
 
-We used information from @Hassel85 to replicate the model. We recreated the
+We used information from @Hassell85 to replicate the model. We recreated the
 figures central to the article and increased the number of simulations for the
 stochastic model. To our best knowledge, the original implementation was not
 available. The code for the simulations and the figures were written in *Julia*.
@@ -71,7 +71,7 @@ The methods section should explain how you replicated the original results:
 If relevevant in your domain, you should also provide a new standardized
 description of the work.
 
-The formulas used in this paper to show the difficulty of detecting natural enemies as regulating factors are the same that were used in the original paper (Hassell, 1985). First of all, the equation of the host population dynamics is given as
+The formulas used in this paper to show the difficulty of detecting natural enemies as regulating factors are the same that were used in the original paper of @Hassell85 . First of all, the equation of the host population dynamics is given as
 
 $$ N(*t+1*) = F * N(*t*) * f(*Nt,Pt*) * D $$ {#eq:1}
 
@@ -99,7 +99,7 @@ $$ k = Log(N(*t*)/S) $$ {#eq:6}
 
 The objective in this paper is to reproduce every result from the original publication. Every figure from Hassell's paper will be reproduced, except for the Figure 2 and Figure 7, which only represent the curves from certain equations when a parameter is changed. Therefore, they are not necessary in order to show how difficult it is to detect the regulating effect of natural enemies on a host population. For every figure reproduced, we will use the exact same values that were used in the original paper for the different parameters.
 
-The software used to run the models and to generate the figures is Julia version 0.6.2 (Bezanson et al., 2017). All the coding used to replicate the original paper will be available with the article.
+The software used to run the models and to generate the figures is Julia version 0.6.2 (@bezanson17) All the coding used to replicate the original paper will be available with the article.
 
 
 # Results

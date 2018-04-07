@@ -52,9 +52,7 @@ Parasitism is a special case of predation. In both interactions, a species (para
 
 In 1983, Dempster proposed that natural enemies may not be an important regulating factor in insect dynamics. In fact, he failed to detect density-dependence due to natural enemies in most of the studies on Lepidoptera he reviewed. His proposition really contrasted with what was thought at the time. In response to this article, @Hassell85 analyzed a insect dynamic model in which the only regulating factor was natural enemies. He showed that the difficulties to detect the density-dependent effect of natural enemies was due to time delays and stochasticity. This paper is still considered a classic in fields of insect and parasitoid-host population dynamics. **AJOUTER DES EXEMPLES DE CONTRIBUTION DE L'ARTICLE**
 
-We used information from @Hassell85 to replicate the model. We replicated the
-figures central to the article. In addition, we made new analysis to detect the density-dependent effect of natural enemies in the stochastic model. To our best knowledge, the original implementation was not
-available. The code for the simulations and the figures were written in *Julia*.
+We used information from @Hassell85 to replicate the model. We were able to replicate the results central to the article. In addition, we made new analysis to detect the density-dependent effect of natural enemies in the stochastic model. To our best knowledge, the original implementation was not available. The code for the simulations and the figures were written in *Julia*.
 
 
 # Methods

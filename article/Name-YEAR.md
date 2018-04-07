@@ -50,11 +50,10 @@ by listing language, tools, libraries, etc. and motivate choices if relevant.**
 
 Parasitism is a special case of predation. In both interactions, a species (parasitoid or predator) feeds on the other species (host or prey), acting as a regulating factor (@Anderson78). However, the population dynamics of both system are very different. @Thompson24 was the first to propose a model to describe this host-parasitoid system. In his model, parasites are limited by the number of eggs they lay. Depending on the relative increase rate of hosts and parasites, either both population increase indefinitely or decrease to extinction. Later, @Nicholson35 proposed other models for which the rate of increase of parasite is limited by their capacity to find hosts. These were the basis for many other models where parasites act as regulating factors (@Hassell78; @Rockwook15).
 
-In 1983, Dempster proposed that natural enemies may not be an important regulating factor in insect dynamics. In fact, he failed to detect density-dependence due to natural enemies in most of the studies on Lepidoptera he reviewed. His proposition really contrasted with what was thought at the time. In response to this article, @Hassell85 analyzed a insect dynamic model in which the only regulating factor was natural enemies. He showed that the difficulties to the density-dependent effect of natural enemies was due to time delays and stochasticity. This paper is still considered a classic in fields of insect and parasitoid-host population dynamics. **AJOUTER DES EXEMPLES DE CONTRIBUTION DE L'ARTICLE**
+In 1983, Dempster proposed that natural enemies may not be an important regulating factor in insect dynamics. In fact, he failed to detect density-dependence due to natural enemies in most of the studies on Lepidoptera he reviewed. His proposition really contrasted with what was thought at the time. In response to this article, @Hassell85 analyzed a insect dynamic model in which the only regulating factor was natural enemies. He showed that the difficulties to detect the density-dependent effect of natural enemies was due to time delays and stochasticity. This paper is still considered a classic in fields of insect and parasitoid-host population dynamics. **AJOUTER DES EXEMPLES DE CONTRIBUTION DE L'ARTICLE**
 
-We used information from @Hassell85 to replicate the model. We recreated the
-figures central to the article and increased the number of simulations for the
-stochastic model. To our best knowledge, the original implementation was not
+We used information from @Hassell85 to replicate the model. We replicated the
+figures central to the article. In addition, we made new analysis to detect the density-dependent effect of natural enemies in the stochastic model. To our best knowledge, the original implementation was not
 available. The code for the simulations and the figures were written in *Julia*.
 
 
@@ -113,7 +112,6 @@ analysis of the results.
 The reproduced population dynamics for the host population and for the specialist parasitoids (Figures 3a and 3b) are very similar to the ones in Hassell's paper. When the level of clumping of parasitoid attacks is high, both populations decrease during the first 10 generations before they stabilise until the end of the simulation, with the host population twice as big as the specialist parasitoid population. When the extent of clumping is lower, both populations show decreasing oscillations during the 50 simulated generations. The difference between this article and the original publication resides in the Figure 3c and Figure 3d, where we standardized the axes of the graphs. At first sight, in Hassell's paper, the k-values in Figure 3c seem almost as high as in Figure 3d. However, when using the same scale for the two graphs, we can see that the k-values in the case of high clumping show much less variation than when the lower clumping is used.
 
 The simulations performed to study the relationship between the population dynamics of the hosts and the generalist parasitoids are also very similar to the ones done by Hassell. This show a density dependant relationship between the two populations, where the natural enemy regulates the host population until they both reach a stable equilibrium. This is also the conclusion when we observe the relation between the two populations in Figures 3a and 3c.
-
 
 
 # Conclusion

@@ -99,7 +99,7 @@ $$ k = Log(N(*t*)/S) $$ {#eq:6}
 
 The objective in this paper is to reproduce every result from the original publication. Every figure from Hassell's paper will be reproduced, except for the Figure 2 and Figure 7, which only represent the curves from certain equations when a parameter is changed. Therefore, they are not necessary in order to show how difficult it is to detect the regulating effect of natural enemies on a host population. For every figure reproduced, we will use the exact same values that were used in the original paper for the different parameters.
 
-The software used to run the models and to generate the figures is Julia version 0.6.2 (@bezanson17) All the coding used to replicate the original paper will be available with the article.
+The software used to run the models and to generate the figures is Julia version 0.6.2 (@Bezanson17) All the coding used to replicate the original paper will be available with the article.
 
 
 # Results

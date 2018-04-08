@@ -20,6 +20,8 @@ fig5d = plot(log10.(sim1[:,2]), kval1,
    ylims=(0, 1.5))
 ylabel!(fig5d, "k-value")
 
+sim1_R2 = cor(vec(log10.(sim1[:,2])), vec(kval1))^2
+sim1_a, sim1_b = linreg(vec(log10.(sim1[:,2])), vec(kval1))
 
 # Simulation with specialist natural enemies with stochasticity on c
 sim2, params2 = simulation(50.0, 25.0, m=0.2, F=4.0, D=0.5, c=1.0, a=0.5, th= 0.0, m=0.5, f=specialist_dyn, c_sd=0.5)
@@ -37,6 +39,9 @@ fig5e = plot(log10.(sim2[:,2]), kval2,
    ylims=(0, 1.5))
 xlabel!(fig5e, "Host density (log 10)")
 
+sim2_R2 = cor(vec(log10.(sim2[:,2])), vec(kval2))^2
+sim2_a, sim2_b = linreg(vec(log10.(sim2[:,2])), vec(kval2))
+
 # Simulation with specialist natural enemies with stochasticity on a
 sim3, params3 = simulation(50.0, 25.0, m=0.2, F=4.0, D=0.5, c=1.0, a=0.5, th= 0.0, m=0.5, f=specialist_dyn, a_sd=0.5)
 # Fig 5c)
@@ -50,6 +55,9 @@ fig5f = plot(log10.(sim3[:,2]), kval3,
    leg=false, frame=:origin,
    xlims=(-0.5, 2.0),
    ylims=(0, 1.5))
+
+sim3_R2 = cor(vec(log10.(sim3[:,2])), vec(kval3))^2
+sim3_a, sim3_b = linreg(vec(log10.(sim3[:,2])), vec(kval3))
 
 plot(fig5a, fig5b, fig5c, fig5d, fig5e, fig5f, layout=(2,3), size=(1200,900))
 savefig("article/figures/figure5.pdf")

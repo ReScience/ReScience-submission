@@ -187,7 +187,12 @@ equal (about 110 for tied variations, and 130 for independent variations).
 In Fig. @fig:04, the same qualitative result (generalists increase in abundance
 when one habitat becomes larger). The quantitative differences can, again, be
 explained by changes in the initial population densities. Finally, the results
-in Fig. @fig:05 and Fig. @fig:06 can also be replicated.
+in Fig. @fig:05 and Fig. @fig:06 can also be replicated; it should be noted that
+for Fig. @fig:06, the lines cross at a different point, and diverge at different
+rates, than in the original paper. Additional analyses suggest that this depends
+on the number of timesteps used, as well as on the starting populations. The
+original manuscript does not provides these information, and so we will have to
+accept a *qualitative* replication of this result.
 
 ![Consequences of changing the relative quality of habitats 1 and 2 on coexistence. Circles represent the generalist, upper and lower triangles represent the specialists of habitats 1 and 2 (respectively), and a diamond is used when both specialists have the same behaviour.](figure04.pdf){#fig:04}
 

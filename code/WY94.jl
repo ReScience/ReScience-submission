@@ -36,7 +36,7 @@ end
 - `a` and `b` are the performances of the specialists and generalists
 - `sync` is a Boolean to determine whether the environments are linked or independant
 
-**Returns** the matrix of ``K``.
+**Returns** a 3 x 2 matrix (species x habitat) of carrying capacity
 """
 function generate_K(k1, k2, a, b, sync)
    @assert k1[2] >= k1[1]
@@ -58,6 +58,8 @@ end
 - `N1`, `N2`, `N3` are the population densities
 - `g` is the proportion chosing randomly
 - `p` is an array with ``p_1, p_2, p_3``
+
+**Returns** a 3 x 2 matrix (species x habitat) of population densities after habitat selection
 """
 function distribute_across(N1, N2, N3, g, p)
    @assert 0.0 <= g

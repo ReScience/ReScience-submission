@@ -216,6 +216,11 @@ $$
 which measures the extent to which all species have the same density. It appears
 that $J'$, a measure of coexistence, changes in response to both the rate of
 variation *and* generalist ability. The results are presented in Fig. @fig:surf.
+This figure is primarily intended to show that this model can still generate new
+insights when we vary multiple parameters: namely, the response of equitability
+to changes in multiple variables is non-linear, and maximum equitability is
+reach for high generalist ability but moderate range of variation (this was not
+predictable from the outputs of Figs. @fig:04 and @fig:05 alone).
 
 ![Response of the model to changing the ability of the generalist *and* the range of variation. While the response to environmental change is hump-shaped when generalists are competitive ($b$ close to unity), it becomes monotonously decreasing for generalists with lower competitive ability ($b$ close to $a$).](figureSurf.pdf){#fig:surf}
 

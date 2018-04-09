@@ -40,9 +40,11 @@ understood when examined in the light of (i) differential fitness loss
 associated to specialism, (ii) active habitat selection, (iii) negative density
 dependence due to competition, and (iv) stochastic changes in habitat quality,
 that allow combinations of species to persist even though coexistence would not
-be possible in a purely deterministic world. Here I propose an implementation of
-this model in *Julia* [@beza17jfa], and show that it is able to reproduce most
-figures from the original manuscript.
+be possible in a purely deterministic world. This was an influential paper in
+guiding subsequent research on the co-existence between specialists and
+generalists, as it showed a strong effect on the structure of environmental
+change. Here I propose an implementation of this model in *Julia* [@beza17jfa],
+and show that it is able to reproduce most figures from the original manuscript.
 
 # Methods
 
@@ -62,7 +64,7 @@ species can reach in both habitats:
 In this matrix, $K_1$ is the quality of habitat 1, $K_2$ is the quality of
 habitat 2, $a$ is the fitness cost of the specialist in its non-optimal
 environment, and $b$ is the fitness cost of generalism. Note that $1 > b > a >
-0$. The initial value of $K_1$ is chosed randomly, using
+0$. The initial value of $K_1$ is chosen randomly, using
 
 $$K_1 = K_{1,\text{min}} + \text{rnd}_1(K_{1,\text{max}}-K_{1,\text{min}})\,.$$
 

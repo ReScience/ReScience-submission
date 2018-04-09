@@ -102,13 +102,14 @@ p_l = - \frac{(K_{l1}+K_{l2})(N_mp_m+N_np_n)-K_{l1}(N_l+N_m+N_n)}{N_l(K_{l1}+K_{
 \end{equation}
 
 We fix $p_m$ and $p_n$, and find the value of $p_l$, while enforcing the
-constraint of $0 \leq p_l \leq 1$. Repeating this procedure a few times for the
-different species yields the optimal values of $\mathbf{p}$; we can measure the
-density of individuals in both habitats. Before we do so, there is a proportion
-$g$ of individuals that select habitats at random. Given a total population size
-of $N_i$, there are $N_i(g/2)$ individuals will go to either habitat, and
-$N_i(1-g)p_i$ will pick habitat 1. With this information, we can write the
-matrix describing habitat selection:
+constraint of $0 \leq p_l \leq 1$. Iterating this procedure a few times (10 was
+sufficient in all cases examined) for the different species yields the optimal
+values of $\mathbf{p}$; we can measure the density of individuals in both
+habitats. Before we do so, however, we allow a proportion $g$ of individuals
+that select habitats at random. Given a total population size of $N_i$, there
+are $N_i(g/2)$ individuals will go to either habitat, and $N_i(1-g)p_i$ will
+pick habitat 1. With this information, we can write the matrix describing
+habitat selection:
 
 \begin{equation}
 \mathbf{N} = \begin{bmatrix}
@@ -132,6 +133,11 @@ timestep is simply given by
 \end{equation}
 
 where $\odot$ is the element-wise multiplication.
+
+The entire sequence within a timestep is: generate $K$ for each patch; find
+preferences of species for both patches; distribute the species across patches;
+update population sizes based on the local fitness. This is iterated over as
+many timesteps as required to reach equilibrium.
 
 | Parameter | Meaning                             | Default value |
 |:----------|:------------------------------------|--------------:|

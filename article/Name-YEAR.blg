@@ -1,0 +1,18 @@
+[0] Config.pm:354> INFO - This is Biber 2.6
+[0] Config.pm:357> INFO - Logfile is 'Name-YEAR.blg'
+[30] biber:302> INFO - === Thu Apr 12, 2018, 09:25:37
+[43] Biber.pm:359> INFO - Reading 'Name-YEAR.bcf'
+[102] Biber.pm:823> INFO - Found 9 citekeys in bib section 0
+[113] Biber.pm:3658> INFO - Processing section 0
+[123] Biber.pm:3828> INFO - Looking for bibtex format file 'bibliography.bib' for section 0
+[124] bibtex.pm:1425> INFO - Decoding LaTeX character macros into UTF-8
+[125] bibtex.pm:1282> INFO - Found BibTeX data source 'bibliography.bib'
+[137] Utils.pm:164> WARN - I didn't find a database entry for 'Rockwook15' (section 0)
+[137] Utils.pm:164> WARN - I didn't find a database entry for 'markdown' (section 0)
+[148] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[148] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[148] Biber.pm:3487> INFO - Sorting list 'nty/global/' of type 'entry' with scheme 'nty' and locale 'en-US'
+[148] Biber.pm:3493> INFO - No sort tailoring available for locale 'en-US'
+[154] bbl.pm:597> INFO - Writing 'Name-YEAR.bbl' with encoding 'UTF-8'
+[155] bbl.pm:701> INFO - Output to Name-YEAR.bbl
+[156] Biber.pm:109> INFO - WARNINGS: 2

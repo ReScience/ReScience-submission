@@ -26,12 +26,12 @@ Return : `dynamics`: Matrix containing the host and parasite density for the ini
 """
 function simulation(N::Float64, P::Float64; t::Int64=50, f=specialist_dyn, F=4.0, D=0.5, c=1.0, a=0.5, h=10.0, b=25.0, th=0.0, m=0.2, D_sd=0.0, a_sd=0.0, h_sd=0.0, c_sd=0.0)
     # Matrix to store the output
-    dynamics = zeros(Float64, (t+1,7))
+    dynamics = zeros(Float64, (t+2,7))
     dynamics[1,2] = N
     dynamics[1,3] = P
     dynamics[1,4:7] = [D, a, h, c]
     # Iterations
-    for current_time in 1:t
+    for current_time in 1:(t+1)
         current_D=generate(D, D_sd)
         current_a=generate(a, a_sd)
         current_h=generate(h, h_sd)
@@ -50,7 +50,7 @@ function simulation(N::Float64, P::Float64; t::Int64=50, f=specialist_dyn, F=4.0
     end
     p = @NT(F=F, D=D, c=c, a=a, h=h, b=b, th=th, m=m)
     # Return
-    return dynamics, p
+    return dynamics[1:(end-1),:], p
 end
 
 """

@@ -58,7 +58,7 @@ parasites, either both population increase indefinitely or decrease to
 extinction. Later, @Nicholson35 proposed other models for which the rate of
 increase of parasite is limited by their capacity to find hosts. These were the
 basis for many other models where parasites act as regulating factors
-(@Hassell78; @Rockwook15).
+(@Hassell78; @Rockwood15).
 
 In 1983, Dempster proposed that natural enemies may not be an important
 regulating factor in insect dynamics. In fact, he failed to detect

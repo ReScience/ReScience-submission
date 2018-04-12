@@ -1,7 +1,3 @@
-using NamedTuples
-using Plots
-using Distributions
-include("functions.jl")
 include("seed.jl")
 
 # Simulation with specialist natural enemies with stochasticity on D
@@ -59,5 +55,5 @@ fig6f = plot(log10.(sim3[:,2]), kval3,
 sim3_R2 = cor(vec(log10.(sim3[:,2])), vec(kval3))^2
 sim3_a, sim3_b = linreg(vec(log10.(sim3[:,2])), vec(kval3))
 
-plot(fig6a, fig6b, fig6c, fig6d, fig6e, fig6f, layout=(2,3), size=(1200,900))
+plot(fig6a, fig6b, fig6c, fig6d, fig6e, fig6f, layout=(2,3), size=(1200,900), margin=1cm)
 savefig("article/figures/figure6.pdf")

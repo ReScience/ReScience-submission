@@ -1,6 +1,3 @@
-using NamedTuples
-using Plots
-include("functions.jl")
 include("seed.jl")
 
 # Simulation with generalist natural enemies
@@ -22,5 +19,5 @@ fig4b = plot(log10.(sim[:,2]), kval,
 xlabel!(fig4b, "Host density (log 10)")
 ylabel!(fig4b, "k-value")
 
-plot(fig4a, fig4b, layout=(2,1), size=(500,900))
+plot(fig4a, fig4b, layout=(2,1), size=(500,900), margin=1cm)
 savefig("article/figures/figure4.pdf")

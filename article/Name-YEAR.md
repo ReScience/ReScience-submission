@@ -114,11 +114,18 @@ $$P_t = h \times \left(1 - \text{exp}\left(-\frac{N_t}{b}\right)\right)$$ {#eq:4
 where $h$ is the saturation number of parasitoids and $b$ is the rate of
 approaching the saturation number.
 
-In order to determine if the natural enemies can be declared as density-dependent factors, the host population mortality $k$ will be plotted against population density for each simulated generation. The correlation coefficient $r$ of the resulting scatter plot will indicate the strength of the density-dependence of natural enemies. The higher $r$ is, the strongest the relation between hosts and parasites is. The host mortality is given by
+In order to determine if the natural enemies can be declared as
+density-dependent factors, the host population mortality $k$ will be plotted
+against population density for each simulated generation. The correlation
+coefficient $r$ of the resulting scatter plot will indicate the strength of the
+density-dependence of natural enemies. The higher $r$ is, the strongest the
+relation between hosts and parasites is. The host mortality is given by
 
-$$k = \text{log_10}\frac{N_t}{S}$$ {#eq:5}
+$$k = \text{log}_{10}\frac{N_t}{S}$$ {#eq:5}
 
-where $S$ is the number of hosts that survived parasitism. This number is given by the host population density multiplied by the probability of escaping mortality from natural enemies(@eq:6).
+where $S$ is the number of hosts that survived parasitism. This number is given
+by the host population density multiplied by the probability of escaping
+mortality from natural enemies (@eq:6).
 
 $$S = N_t \times f(N_t,P_t)$$ {#eq:6}
 

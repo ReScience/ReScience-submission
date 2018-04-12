@@ -193,6 +193,8 @@ Conclusion, at the very minimum, should indicate very clearly if you were able
 to replicate original results. If it was not possible but you found the reason
 why (error in the original results), you should exlain it.
 
+To sum up, we determine with the observation that, the distribution of correlation coefficient when stochasity present, is even lower than when there is no stochasticity, which show a weak density dependent relationship as we mentioned in the discussion. Besides this, We were able to replicate the results central to the article, and we draw the same conclusion as @Hassell85 said, with the present of stochasticity and time delay, the natural enemy as density dependent factor is considered to be undetectable from the analyse of existing life table.
+
 ![(a) and (b) Deterministic simulations of the host and specialist parasite population dynamics (Eq.1, Eq.2, Eq.3) using two different level of clumping in the parasitoid attacks: (a) m = 0.2; (b) m = 0.8. The other parameters used are the same in both (a) and (b): F = 4, D = 0.5, c = 1, a = 0.5 and T*h* = 0. (c) and (d) The relationship between the mortality caused each generation by parasitism (k-values) and the log10 host density for the fifty first generations, linked to (a) and (b) respectively.](figures/figure3.pdf){#fig:figure3}
 
 

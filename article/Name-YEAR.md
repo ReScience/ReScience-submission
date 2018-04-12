@@ -97,47 +97,47 @@ $$P_{t+1} = c \times N_t \times [1-f(N_t, P_t)]$$ {#eq:2}
 
 where $P_t$ and $P_{t+1}$ are the number of parasitoids at generation t* and at
 the next one, while *c* is the number of female parasitoids emerging from each
-host parasitized. In both Eq. 1 and Eq. 2, f(*Nt,Pt*) represents the probability
-of escaping mortality from natural enemies (parasitoids) and is given by Eq. 3.
+host parasitized. In both @eq:1 and @eq:2, $f(N_t,P_t)$ represents the
+probability of escaping mortality from natural enemies (parasitoids) and is
+given by @eq:3.
 
-$$ f(*Nt,Pt*) = [1 + (a * P(*t*)) / (m * (1 + a * T*h* *N(*t*)))] ^-m $$ {#eq:3}
+$$f(N_t,P_t) = [1 + (a \times P_t) / (m \times (1 + a \times T \times h \times N_t))]^{-m} $$ {#eq:3}
 
-where *a* is the per capita searching efficiency of the parasitoids, *m* is the
-extent of clumping of the parasitoids attacks and T*h* is the handling time as a
-proportion of the total time. This paper also explores the relationship between
-the hosts and a generalist parasitoid population. This population dynamic
-follows the equation
+where $a$ is the per capita searching efficiency of the parasitoids, $m$ is the
+extent of clumping of the parasitoids attacks and $T\times h$ is the handling
+time as a proportion of the total time. This paper also explores the
+relationship between the hosts and a generalist parasitoid population. This
+population dynamic follows the equation
 
-$$ P(*t*) = h * (1 - exp^(-N(*t*)/b)) $$ {#eq:4}
+$$P_t = h \times \left(1 - \text{exp}\left(-\frac{N_t}{b}\right)\right)$$ {#eq:4}
 
-where *h* is the saturation number of parasitoids and *b* is the rate of
+where $h$ is the saturation number of parasitoids and $b$ is the rate of
 approaching the saturation number.
 
 In the previous equations, the parameters were assumed to remain constant
 between successive generations. However, it might not be the case for every one
 of them because they can be depending on the density of parasitoids and hosts.
 The searching efficiency of the parasitoids is one of them. To calculate the
-searching efficiency *A* at a generation *t*, the following equation is used :
+searching efficiency $A$ at a generation $t$, the following equation is used :
 
-$$ A = (1/P(*t*)) * ln(N(*t*)/S) $$ {#eq:5}
+$$A = \frac{1}{P_t} \times \text{ln}\frac{N_t}{S}$$ {#eq:5}
 
-where S is the number of hosts that survived parasitism. Finally, to assess the
-mortality linked to natural enemies (*k*), Eq. 6 will be used.
+where $S$ is the number of hosts that survived parasitism. Finally, to assess
+the mortality linked to natural enemies ($k$), @eq:6 will be used.
 
-$$ k = Log(N(*t*)/S) $$ {#eq:6}
+$$k = \text{log}\frac{N_t}{S}$$ {#eq:6}
 
 The objective in this paper is to reproduce every result from the original
-publication. Every figure from Hassell's paper will be reproduced, except for
-the Figure 2 and Figure 7, which only represent the curves from certain
-equations when a parameter is changed. Therefore, they are not necessary in
-order to show how difficult it is to detect the regulating effect of natural
-enemies on a host population. For every figure reproduced, we will use the exact
-same values that were used in the original paper for the different parameters.
+publication. Every figure from the original paper will be reproduced, except for
+the Figure 2 and Figure 7, which only represent the functions for some equations
+when a parameter is changed. Therefore, they are not necessary in order to show
+how difficult it is to detect the regulating effect of natural enemies on a host
+population. For every figure reproduced, we will use the exact same values that
+were used in the original paper for the different parameters.
 
 The software used to run the models and to generate the figures is Julia version
-0.6.2 (@Bezanson17) All the coding used to replicate the original paper will be
-available with the article.
-
+0.6.2 (@Bezanson17) All the code used to replicate the original paper is
+available alongside the article.
 
 # Results
 

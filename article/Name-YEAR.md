@@ -1,5 +1,5 @@
 ---
-Title: "This is the title"
+Title: "Insect Natural Enemies as Regulating Factors"
 Author:
   - name: Name Surname
     affiliation: 1
@@ -95,8 +95,8 @@ specialist parasitoids population dynamics are represented by
 
 $$P_{t+1} = c \times N_t \times [1-f(N_t, P_t)]$$ {#eq:2}
 
-where $P_t$ and $P_{t+1}$ are the number of parasitoids at generation t* and at
-the next one, while *c* is the number of female parasitoids emerging from each
+where $P_t$ and $P_{t+1}$ are the number of parasitoids at generation $t$ and at
+the next one, while $c$ is the number of female parasitoids emerging from each
 host parasitized. In both @eq:1 and @eq:2, $f(N_t,P_t)$ represents the
 probability of escaping mortality from natural enemies (parasitoids) and is
 given by @eq:3.
@@ -219,8 +219,5 @@ A reference to citation @markdown.
 ![Figure 7 caption](figures/figure7.pdf){Figure 7: (a) - (c) Distribution of the values of correlation coefficient (r^2) obtained for the 5000 simulations done in Figure 5(d) to Figure 5(f) respectively. The dotted line represents the value of r^2 obtained by Hassell in his original paper.}
 
 ![Figure 8 caption](figures/figure8.pdf){Figure 8: (a) - (c) Distribution of the values of correlation coefficient (r^2) obtained for the 5000 simulations done in Figure 6(d) to Figure 6(f), respectively. The dotted line represents the value of r^2 obtained by Hassell in his original paper.}
-
-
-$$ A = \sqrt{\frac{B}{C}} $$ {#eq:1}
 
 # References

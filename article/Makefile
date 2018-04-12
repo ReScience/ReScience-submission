@@ -50,6 +50,5 @@ clean:
 	@rm -f $(SOURCE).blg
 	@rm -f $(SOURCE).log
 	@rm -f $(SOURCE).out
-        # @rm -f $(SOURCE).pdf
 	@rm -f $(SOURCE).tex
 	@rm -f $(SOURCE).run.xml

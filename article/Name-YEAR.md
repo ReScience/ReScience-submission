@@ -86,16 +86,16 @@ enemies as regulating factors are the same that were used in the original paper
 of @Hassell85 . First of all, the equation of the host population dynamics is
 given as
 
-$$ N(*t+1*) = F * N(*t*) * f(*Nt,Pt*) * D $$ {#eq:1}
+$$N_{t+1} = F \times N_t \times f(N_t,P_t) \times D$$ {#eq:1}
 
 where N(*t*) and N(*t+1*) represent the host population at generation *t* and at
 the next generation, *F* is the rate of increase of the population and *D* is
 the density independent probability of survival of the hosts (mortality). The
 specialist parasitoids population dynamics are represented by
 
-$$ P(*t+1*) = c * N(*t*) * [1-f(*Nt, Pt*)] $$ {#eq:2}
+$$P_{t+1} = c \times N_t \times [1-f(N_t, P_t)]$$ {#eq:2}
 
-where P(*t*) and P(*t+1*) are the number of parasitoids at generation t* and at
+where $P_t$ and $P_{t+1}$ are the number of parasitoids at generation t* and at
 the next one, while *c* is the number of female parasitoids emerging from each
 host parasitized. In both Eq. 1 and Eq. 2, f(*Nt,Pt*) represents the probability
 of escaping mortality from natural enemies (parasitoids) and is given by Eq. 3.

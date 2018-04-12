@@ -193,21 +193,6 @@ Conclusion, at the very minimum, should indicate very clearly if you were able
 to replicate original results. If it was not possible but you found the reason
 why (error in the original results), you should exlain it.
 
-
-Heading 1                          Heading 2
----------- ----------- ----------- ----------- ----------- -----------
-cell1 row1 cell2 row 1 cell3 row 1 cell4 row 1 cell5 row 1 cell6 row 1
-cell1 row2 cell2 row 2 cell3 row 2 cell4 row 2 cell5 row 2 cell6 row 2
-cell1 row3 cell2 row 3 cell3 row 3 cell4 row 3 cell5 row 3 cell6 row 3
----------- ----------- ----------- ----------- ----------- -----------
-
-Table: Table caption {#tbl:table}
-
-A reference to table @tbl:table.
-A reference to figure @fig:logo.
-A reference to equation @eq:1.
-A reference to citation @markdown.
-
 ![(a) and (b) Deterministic simulations of the host and specialist parasite population dynamics (Eq.1, Eq.2, Eq.3) using two different level of clumping in the parasitoid attacks: (a) m = 0.2; (b) m = 0.8. The other parameters used are the same in both (a) and (b): F = 4, D = 0.5, c = 1, a = 0.5 and T*h* = 0. (c) and (d) The relationship between the mortality caused each generation by parasitism (k-values) and the log10 host density for the fifty first generations, linked to (a) and (b) respectively.](figures/figure3.pdf){#fig:figure3}
 
 
@@ -221,8 +206,5 @@ A reference to citation @markdown.
 ![(a) - (c) Distribution of the values of correlation coefficient (r^2) obtained for the 5000 simulations done in Figure 5(d) to Figure 5(f) respectively. The dotted line represents the value of r^2 obtained by Hassell in his original paper.](figures/figure7.pdf){#fig:figure7}
 
 ![(a) - (c) Distribution of the values of correlation coefficient (r^2) obtained for the 5000 simulations done in Figure 6(d) to Figure 6(f), respectively. The dotted line represents the value of r^2 obtained by Hassell in his original paper.](figures/figure8.pdf){#fig:figure8}
-
-
-$$ A = \sqrt{\frac{B}{C}} $$ {#eq:1}
 
 # References

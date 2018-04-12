@@ -37,5 +37,5 @@ fig3d = plot(log10.(sim2[:,2]), kval2,
 xlabel!(fig3d, " ")
 ylabel!(fig3d, " ")
 
-plot(fig3a, fig3b, fig3c, fig3d, layout=(2,2), size=(900,900), margin=1cm)
+plot(fig3a, fig3b, fig3c, fig3d, layout=(2,2), size=(900,900), margin=5mm)
 savefig("article/figures/figure3.pdf")

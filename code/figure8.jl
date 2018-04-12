@@ -41,5 +41,5 @@ xlabel!(pl_h, "Correlation")
 pl_a = density(cor_a[2:end], xlim=(0,1.0), ylim=(0,10), frame=:origin, c=:black, fill=(0, :grey, 0.2), leg=false)
 vline!(pl_a, [first(cor_a)], lw=2, ls=:dot, c=:grey)
 
-plot(pl_D, pl_h, pl_a, layout=(1,3), size=(1200,400), margin=1cm)
+plot(pl_D, pl_h, pl_a, layout=(1,3), size=(1200,400), margin=5mm)
 savefig("article/figures/figure8.pdf")

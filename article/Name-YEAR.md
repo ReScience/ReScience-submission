@@ -1,5 +1,5 @@
 ---
-Title: "Insect Natural Enemies as Regulating Factors"
+Title: "This is the title"
 Author:
   - name: Name Surname
     affiliation: 1
@@ -95,8 +95,8 @@ specialist parasitoids population dynamics are represented by
 
 $$P_{t+1} = c \times N_t \times [1-f(N_t, P_t)]$$ {#eq:2}
 
-where $P_t$ and $P_{t+1}$ are the number of parasitoids at generation $t$ and at
-the next one, while $c$ is the number of female parasitoids emerging from each
+where $P_t$ and $P_{t+1}$ are the number of parasitoids at generation t* and at
+the next one, while *c* is the number of female parasitoids emerging from each
 host parasitized. In both @eq:1 and @eq:2, $f(N_t,P_t)$ represents the
 probability of escaping mortality from natural enemies (parasitoids) and is
 given by @eq:3.
@@ -114,18 +114,13 @@ $$P_t = h \times \left(1 - \text{exp}\left(-\frac{N_t}{b}\right)\right)$$ {#eq:4
 where $h$ is the saturation number of parasitoids and $b$ is the rate of
 approaching the saturation number.
 
-In the previous equations, the parameters were assumed to remain constant
-between successive generations. However, it might not be the case for every one
-of them because they can be depending on the density of parasitoids and hosts.
-The searching efficiency of the parasitoids is one of them. To calculate the
-searching efficiency $A$ at a generation $t$, the following equation is used :
+In order to determine if the natural enemies can be declared as density-dependent factors, the host population mortality $k$ will be plotted against population density for each simulated generation. The correlation coefficient $r$ of the resulting scatter plot will indicate the strength of the density-dependence of natural enemies. The higher $r$ is, the strongest the relation between hosts and parasites is. The host mortality is given by
 
-$$A = \frac{1}{P_t} \times \text{ln}\frac{N_t}{S}$$ {#eq:5}
+$$k = \text{log_10}\frac{N_t}{S}$$ {#eq:5}
 
-where $S$ is the number of hosts that survived parasitism. Finally, to assess
-the mortality linked to natural enemies ($k$), @eq:6 will be used.
+where $S$ is the number of hosts that survived parasitism. This number is given by the host population density multiplied by the probability of escaping mortality from natural enemies(@eq:6).
 
-$$k = \text{log}\frac{N_t}{S}$$ {#eq:6}
+$$S = N_t \times f(N_t,P_t)$$ {#eq:6}
 
 The objective in this paper is to reproduce every result from the original
 publication. Every figure from the original paper will be reproduced, except for
@@ -219,5 +214,8 @@ A reference to citation @markdown.
 ![(a) - (c) Distribution of the values of correlation coefficient (r^2) obtained for the 5000 simulations done in Figure 5(d) to Figure 5(f) respectively. The dotted line represents the value of r^2 obtained by Hassell in his original paper.](figures/figure7.pdf){#fig:figure7}
 
 ![(a) - (c) Distribution of the values of correlation coefficient (r^2) obtained for the 5000 simulations done in Figure 6(d) to Figure 6(f), respectively. The dotted line represents the value of r^2 obtained by Hassell in his original paper.](figures/figure8.pdf){#fig:figure8}
+
+
+$$ A = \sqrt{\frac{B}{C}} $$ {#eq:1}
 
 # References

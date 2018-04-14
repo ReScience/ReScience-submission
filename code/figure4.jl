@@ -11,6 +11,7 @@ fig4a = plot(sim[:,1],sim[:,2], label="Hosts", frame=:origin, lw=3)
 plot!(fig4a, sim[:,1],sim[:,3], label="Parasites", lw=3)
 xlabel!(fig4a, "Generation")
 ylabel!(fig4a, "Population size")
+annotate!(fig4a, 5, 45, text("(a)"))
 
 kval = mapslices((r) -> kvalue_by_generation(r, params), sim, 2)
 fig4b = plot(log10.(sim[:,2]), kval,
@@ -21,6 +22,7 @@ fig4b = plot(log10.(sim[:,2]), kval,
    ylims=(0, 1.5))
 xlabel!(fig4b, "Host density (log 10)")
 ylabel!(fig4b, "k-value")
+annotate!(fig4b, -0.25, 1.35, text("(b)"))
 
 plot(fig4a, fig4b, layout=(2,1), size=(500,900))
 savefig("article/figures/figure4.pdf")

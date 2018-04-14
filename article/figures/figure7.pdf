@@ -3,7 +3,7 @@
 1 0 obj
 <<
 /Creator (GKS)
-/CreationDate (D:20180406131137)
+/CreationDate (D:20180414152827)
 /Producer (GKS 5 PDF driver)
 >>
 endobj
@@ -56,7 +56,7 @@ endstream
 endobj
 6 0 obj
 <<
-/Length 32676
+/Length 33170
 >>
 stream
 0.00 0.00 m
@@ -832,6 +832,24 @@ S
 280.10 35.69 m
 280.10 388.19 l
 S
+[] 0 d
+1.6 w
+/GS255 gs
+0 0 0 RG
+0 0 0 rg
+BT
+/F4 21 Tf
+140.55 345.44 Td
+(D = 0.5 ± 0.5) Tj
+ET
+/GS255 gs
+0 0 0 RG
+0 0 0 rg
+BT
+/F4 21 Tf
+49.67 363.06 Td
+(\(a\)) Tj
+ET
 /GS255 gs
 1 1 1 rg
 q
@@ -1642,6 +1660,24 @@ S
 674.85 35.69 m
 674.85 388.19 l
 S
+[] 0 d
+1.6 w
+/GS255 gs
+0 0 0 RG
+0 0 0 rg
+BT
+/F4 21 Tf
+537.30 345.44 Td
+(c = 0.5 ± 0.5) Tj
+ET
+/GS255 gs
+0 0 0 RG
+0 0 0 rg
+BT
+/F4 21 Tf
+444.42 363.06 Td
+(\(b\)) Tj
+ET
 /GS255 gs
 1 1 1 rg
 q
@@ -2444,6 +2480,24 @@ S
 1069.60 35.69 m
 1069.60 388.19 l
 S
+[] 0 d
+1.6 w
+/GS255 gs
+0 0 0 RG
+0 0 0 rg
+BT
+/F4 21 Tf
+931.55 345.44 Td
+(a = 0.5 ± 0.5) Tj
+ET
+/GS255 gs
+0 0 0 RG
+0 0 0 rg
+BT
+/F4 21 Tf
+839.68 363.06 Td
+(\(c\)) Tj
+ET
 endstream
 endobj
 7 0 obj
@@ -2481,8 +2535,8 @@ xref
 0000000224 00000 n 
 0000000359 00000 n 
 0000000626 00000 n 
-0000033354 00000 n 
-0000034546 00000 n 
+0000033848 00000 n 
+0000035040 00000 n 
 0000000281 00000 n 
 trailer
 <<
@@ -2491,5 +2545,5 @@ trailer
 /Info 1 0 R
 >>
 startxref
-34719
+35213
 %%EOF

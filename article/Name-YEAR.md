@@ -175,25 +175,13 @@ observe the relation between the two populations in Figures 3a and 3c.
 
 # Discussion
 
-We replicated all the results from @Hassell85. However (as expected) we did not
-find the exact same results for the stochastic model. This can be explain by the
-stochasticity in the model and, maybe, the way Hassell calculated the mortality
-per generation (k-value). The latter was not explicitly explained in the
-original paper, so we had to calculate it from our own interpretation. We added
-two figures (Fig.7 and Fig.8) to take into account the variability in the
-stochastic models and we had results that matches those from @Hassell85.
+Overall, we were able to replicate every results from @Hassell85. Indeed, we did not find the exact the same dynamic for the stochastic model. The figure we added (fig:figure7 and fig:figure8) showed how adding stochasticity into the model can cause great variability in the output. This could explain why @Hassell85 detected natural enemies as density dependent factor in the model with generalist parasitoid and a stochastic density independent probability of survival (Fig.6d from the original paper), unlike us (fig:figure6). In fact, in this model, the correlation we found (fig:figure8) was sometimes very strong (r$\approx$0.9) and other times very weak (r$\approx$0.4). Also, the results we added strongly support the main argument from the article : adding stochasticity almost always obscures the density-dependent effect of natural enemies (fig:figure7 and fig:figure8).
 
-In all, we came up with the same conclusion that the original paper : the
-density-dependent effect from natural enemies is obscured by time delay and/or
-stochasticity.
+The model from the original paper was well detailed which allowed us to create our own implementation. The equation for the number of survivors from paritism (*S*) was the only one we needed to deduce from our own interpretation. This variable is used in the computation of the mortality (*k-value*) which is a well documented index. Therefore, this has not limited us in the replication of the article. 
 
 # Conclusion
 
-Conclusion, at the very minimum, should indicate very clearly if you were able
-to replicate original results. If it was not possible but you found the reason
-why (error in the original results), you should exlain it.
-
-To sum up, we determine with the observation that, the distribution of correlation coefficient when stochasity present, is even lower than when there is no stochasticity, which show a weak density dependent relationship as we mentioned in the discussion. Besides this, We were able to replicate the results central to the article, and we draw the same conclusion as @Hassell85 said, with the present of stochasticity and time delay, the natural enemy as density dependent factor is considered to be undetectable from the analyse of existing life table.
+In short, we were able to replicate the original results. Althought, we did not find the exact same dynamic for the stochastic models, we draw the same conclusions : the density-dependent effect from natural enemies is obscured by time delay and/or stochasticity. This makes it very difficult to detect natural enemies as regulating factors from life table data. In addition, we added density plots for the correlation coefficient from 5000 iterations of each stochastic model. This has allowed us to determine that the differences between our results and Hassell's were explained by the stochasticity of the models. Also, these new results add a strong support to the arguments of the original paper. To conclude, the reproduction of the reference article @Hassell85 was successful and we hoped it adds to the legacy left by this significant paper in the history of population dynamics.
 
 ![(a) and (b) Deterministic simulations of the host and specialist parasite population dynamics (Eq.1, Eq.2, Eq.3) using two different level of clumping in the parasitoid attacks: (a) m = 0.2; (b) m = 0.8. The other parameters used are the same in both (a) and (b): F = 4, D = 0.5, c = 1, a = 0.5 and T*h* = 0. (c) and (d) The relationship between the mortality caused each generation by parasitism (k-values) and the log10 host density for the fifty first generations, linked to (a) and (b) respectively.](figures/figure3.pdf){#fig:figure3}
 

@@ -57,7 +57,7 @@ In 1983, @Dempster83 proposed that natural enemies may not be an important
 regulating factor in insect dynamics. In fact, he failed to detect
 density-dependence due to natural enemies in most of the studies on Lepidoptera
 he reviewed. His proposition really contrasted with what was thought at the
-time. In response to this article, @Hassell85 analyzed a insect dynamic model in
+time. In response to this article, @Hassell85 analyzed an insect dynamic model in
 which the only regulating factor was natural enemies. He showed that the
 difficulties to detect the density-dependent effect of natural enemies was due
 to time delays and stochasticity. This paper is still considered a classic in
@@ -74,7 +74,7 @@ code for the simulations and the figures were written in *Julia* (@Bezanson17).
 
 # Methods
 
-The formulas used in this paper to show the difficulty of detecting natural
+The formulas used in this paper to show the difficulties of detecting natural
 enemies as regulating factors are the same that were used in the original paper
 of @Hassell85 . First of all, the host population dynamics is
 given as

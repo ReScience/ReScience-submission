@@ -151,14 +151,14 @@ analysis of the results.
 ### Deterministic model
 
 The reproduced population dynamics for the host population and for the
-specialist parasitoids (Figures 3a and 3b) are very similar to the ones in
+specialist parasitoids (@fig:figure3 (a) and (b)) are very similar to the ones in
 Hassell's paper. When the level of clumping of parasitoid attacks is high, both
 populations decrease during the first 10 generations before they stabilise until
 the end of the simulation, with the host population twice as big as the
 specialist parasitoid population. When the extent of clumping is lower, both
 populations show decreasing oscillations during the 50 simulated generations.
 The difference between this article and the original publication resides in the
-@fig:figure3 and Figure 3d, where we standardized the axes of the graphs. At first
+@fig:figure3 (c) and (d), where we standardized the axes of the graphs. At first
 sight, in Hassell's paper, the k-values in Figure 3c seem almost as high as in
 Figure 3d. However, when using the same scale for the two graphs, we can see
 that the k-values in the case of high clumping show much less variation than
@@ -166,14 +166,19 @@ when the lower clumping is used.
 
 The simulations performed to study the relationship between the population
 dynamics of the hosts and the generalist parasitoids are also very similar to
-the ones done by Hassell. This show a density dependant relationship between the
+the ones done by Hassell (@fig:figure4). This shows a density dependant relationship between the
 two populations, where the natural enemy regulates the host population until
 they both reach a stable equilibrium. This is also the conclusion when we
-observe the relation between the two populations in Figures 3a and 3c.
+observe the relation between the two populations in @fig:figure3 (a) and (c).
 
 ### Stochastic model
 
+When the models include stochasticity, the resulting population dynamics between hosts and parasites are much more different than when the models are deterministic. Overall, the results obtained in the replications are pretty similar than the ones from Hassell, except for @fig:figure6 (d), where the correlation between the mortality and the host density is not nearly as strong as in the original paper. Whether we look at the model for the specialist parasitoids or the one for the generalist parasitoids, both show irregular oscillations in the host-parasitoid population dynamics (@fig:figure5 and @fig:figure6, (a), (b) and (c)). The addition of stochastic parameters prevents the stabilization of host populations and makes it more difficult to identify parasitoids as a density-dependent control factor. The relationship between the k-values and the host density are similar in Hassell's publication and in ours (except in @fig:figure6 (d)). The simulations done in this paper tend to have a determination coefficient (R^2) a little higher than the one found by Hassell, but they are generally really close.
+
+Because the inclusion of stochastic parameters in the population dynamics causes variability in the outputs, the results from two successive simulations can be very different. In order to account for this variability and to show how it can affect the population dynamics of the hosts and parasites, @fig:figure7 and @fig:figure8 show the extent of the variation of the correlation coefficient ($r$) obtained in 5000 different simulations. A dotted line was added to represent the value of the correlation coefficient ($r$) that came out of the deterministic models. The values of r vary greatly for every stochastic parameter, but the one thing that stays constant is that in every case, the mean value of $r$ is lower in the stochastic models than in the deterministic models. This is in agreement with Hassell's results, and shows that stochasticity makes it harder to see the density dependence effect of the parasites, whether they are generalist or specialist.
+
 # Discussion
+
 
 Overall, we were able to replicate every results from @Hassell85. We found the exact same results for the deterministic model. We standardized the limits for the axis, which was not the case in the original paper. This allows a more convinient comparison of the different results. 
 
@@ -195,8 +200,8 @@ In short, we were able to replicate the original results. Althought, we did not 
 
 ![(a) - (c) Deterministic simulations of the host and generalist parasite population dynamics (same as in Figure 4a) except for one parameter that is treated as a normally distributed stochastic variable: (a) D = 0.5 ± 0.5, (b) h = 10 ± 5 and (c) a = 0.5 ± 0.5. The other parameters are the same as in Figure 3a. (d) - (f) The relationship between the mortality caused each generation by parasitism (k-values) and the log10 host density for the fifty first generations, linked to (a), (b) and (c) respectively. The regression statistics for each relationship go as follows: (d) *y* = 0.146 + 0.192*x*; *r^2* = 0.243. (e) *y* = 0.306 + 0.015*x*; *r^2* = 0.214. (f) *y* = 0.149 + 0.160*x*; *r^2* = 0.107.](figures/figure6.pdf){#fig:figure6}
 
-![(a) - (c) Distribution of the values of correlation coefficient (r^2) obtained for the 5000 simulations done in Figure 5(d) to Figure 5(f) respectively. The dotted line represents the value of r^2 obtained by Hassell in his original paper.](figures/figure7.pdf){#fig:figure7}
+![(a) - (c) Distribution of the values of correlation coefficient ($r$) obtained for the 5000 simulations done in Figure 5(d) to Figure 5(f) respectively. The dotted line represents the value of $r$ obtained in the deterministic model.](figures/figure7.pdf){#fig:figure7}
 
-![(a) - (c) Distribution of the values of correlation coefficient (r^2) obtained for the 5000 simulations done in Figure 6(d) to Figure 6(f), respectively. The dotted line represents the value of r^2 obtained by Hassell in his original paper.](figures/figure8.pdf){#fig:figure8}
+![(a) - (c) Distribution of the values of correlation coefficient ($r$) obtained for the 5000 simulations done in Figure 6(d) to Figure 6(f), respectively. The dotted line represents the value of $r$ obtained in the deterministic model.](figures/figure8.pdf){#fig:figure8}
 
 # References

@@ -1,13 +1,13 @@
 ---
-Title: "This is the title"
+Title: "[Re] Insect natural enemies as regulating factors"
 Author:
-  - name: Name Surname
+  - name: Dominique Caron
     affiliation: 1
   - name: Name Surname,
     affiliation: 2, 3
 Address:
   - code:    1
-    address: Affiliation Dept/Program/Center, Institution Name, City, State, Country
+    address: Departement de sciences biologiques, Université de Montréal, Montréal, Québec, Canada
   - code:    2
     address: Affiliation Dept/Program/Center, Institution Name, City, State, Country
   - code:    3

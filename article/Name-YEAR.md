@@ -75,7 +75,7 @@ controversial topic that aroused ecologists to debate for almost a decade
 
 We used information from @Hassell85 to replicate the model. We were able to
 replicate the results central to the article. In addition, we made new analysis
-to detect the density-dependent effect of natural enemies in the stochastic
+for the stochastic models that brings new supports to @Hassell85 arguments.
 model. To our best knowledge, the original implementation was not available. The
 code for the simulations and the figures were written in *Julia*.
 

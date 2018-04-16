@@ -57,4 +57,39 @@ Each experiment (simulation) reported in Gancarz & Grossberg (1998) is implement
 - Exp8.py
 - Exp9.py
 
+## Platform Information
+
+### OS & Architecture
+Linux #43~16.04.1-Ubuntu SMP Wed Mar 14 17:48:43 UTC 2018 x86_64 GNU/Linux
+### Hardware 
+flags: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti retpoline intel_ppin intel_pt tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+model name: Intel(R) Xeon(R) CPU E5-1650 v4 @ 3.60GHz
+vendor_id: GenuineIntel
+### C Compiler
+g++ (Ubuntu 5.4.0-6ubuntu1~16.04.9) 5.4.0 20160609
+Copyright (C) 2015 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+### Cmake
+version 3.5.1
+### NEST
+version 2.16.0-beta
+### Python 2.7
+Python: 2.7.14 |Anaconda, Inc.| (default, Oct 16 2017, 17:29:19) 
+[GCC 7.2.0]
+
+NumPy: 1.13.3
+
+SciPy: 0.19.1
+
+matplotlib: 2.1.0
+### Python 3.5
+Python: 3.5.2 (default, Nov 23 2017, 16:37:01) 
+[GCC 5.4.0 20160609]
+
+NumPy: 1.11.0
+
+SciPy: 0.17.0
+
+matplotlib: 1.5.1
 

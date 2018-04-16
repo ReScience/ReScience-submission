@@ -3,15 +3,14 @@ Title: "[Re] Insect natural enemies as regulating factors"
 Author:
   - name: Dominique Caron
     affiliation: 1
-  - name: Name Surname,
-    affiliation: 2, 3
+  - name: Vincent Lessard
+    affiliation: 1
+  - name: Qile Wu
+    affiliation: 1
 Address:
   - code:    1
     address: Departement de sciences biologiques, Université de Montréal, Montréal, Québec, Canada
-  - code:    2
-    address: Affiliation Dept/Program/Center, Institution Name, City, State, Country
-  - code:    3
-    address: Affiliation Dept/Program/Center, Institution Name, City, State, Country
+  - 
 Contact:
   - corresponding-author@mail.com
 Editor:
@@ -43,13 +42,13 @@ Bibliography:
 
 Parasitism is a special case of predation. In both interactions, a species
 (parasitoid or predator) feeds on the other species (host or prey), acting as a
-regulating factor (@Anderson78). However, the population dynamics of both system
+regulating factor (@Anderson78). However, the population dynamics of both systems
 are very different. @Thompson24 was the first to propose a model to describe
 this host-parasitoid system. In his model, parasites are limited by the number
 of eggs they lay. Depending on the relative increase rate of hosts and
 parasites, either both population increase indefinitely or decrease to
 extinction. Later, @Nicholson35 proposed other models for which the rate of
-increase of parasite is limited by their capacity to find hosts. These were the
+increase of the parasites is limited by their capacity to find hosts. These were the
 basis for many other models where parasites act as regulating factors
 (@Hassell78; @Rockwood15).
 
@@ -61,28 +60,27 @@ time. In response to this article, @Hassell85 analyzed an insect dynamic model i
 which the only regulating factor was natural enemies. He showed that the
 difficulties to detect the density-dependent effect of natural enemies was due
 to time delays and stochasticity. This paper is still considered a classic in
-fields of insect and parasitoid-host population dynamics. It introduced an
+fields of insect and host-parasitoid population dynamics. It introduced an
 important argument on the role of natural enemies on insect populations, a
 controversial topic that aroused ecologists to debate for almost a decade
 (@Turchin90).
 
+# Methods
+
 We used information from @Hassell85 to replicate the model. We were able to
 replicate the results central to the article. In addition, we made new analyses
 for the stochastic models that bring new supports to @Hassell85 arguments.
-model. To our best knowledge, the original implementation was not available. The
-code for the simulations and the figures were written in *Julia* (@Bezanson17).
-
-# Methods
+To our best knowledge, the original implementation was not available.
 
 The formulas used in this paper to show the difficulties of detecting natural
 enemies as regulating factors are the same that were used in the original paper
-of @Hassell85 . First of all, the host population dynamics is
+of @Hassell85 . First of all, the host population dynamics are
 given as
 
 $$N_{t+1} = F \times N_t \times f(N_t,P_t) \times D$$ {#eq:1}
 
-where N(*t*) and N(*t+1*) represent the host population at generation *t* and at
-the next generation, $F$ is the rate of increase of the population and *D* is
+where $N(*t*)$ and $N(*t+1*)$ represent the host population at generation $t$ and at
+the next generation, $F$ is the rate of increase of the population and $D$ is
 the density independent probability of survival of the hosts (mortality). The
 specialist parasitoids population dynamics are represented by
 
@@ -100,7 +98,7 @@ where $a$ is the per capita searching efficiency of the parasitoids, $m$ is the
 extent of clumping of the parasitoids attacks and $T\times h$ is the handling
 time as a proportion of the total time. This paper also explores the
 relationship between the hosts and a generalist parasitoid population. Generalist
-parasite dynamic follows the equation
+parasite dynamics follows the equation
 
 $$P_t = h \times \left(1 - \text{exp}\left(-\frac{N_t}{b}\right)\right)$$ {#eq:4}
 
@@ -108,7 +106,7 @@ where $h$ is the saturation number of parasitoids and $b$ is the rate of
 approaching this saturation number.
 
 To determine if the natural enemies can be declared as
-density-dependent factors, the host population mortality due to parasitism $k-value$ is plotted
+density-dependent factors, the host population mortality due to parasitism ($k-value$) is plotted
 against population density for each simulated generation. The correlation
 coefficient $r$ of the resulting scatter plot indicates the strength of the
 density-dependence of natural enemies. The higher $r$ is, the strongest the
@@ -123,13 +121,13 @@ mortality from natural enemies (@eq:6).
 $$S = N_t \times f(N_t,P_t)$$ {#eq:6}
 
 The objective in this paper is to reproduce the main results of the original
-publication. Therefore, we did not reproduce figures 1, 2 and 7. Figure 1
-schematic representation of an insect life cycle. Figures 2 and figure 7 represent relationship between parameters and population size/proportion of parasited host. Therefore, they are not necessary in order to show
+publication. Therefore, we did not reproduce figures 1, 2 and 7. Figure 1 was a
+schematic representation of an insect life cycle. Figure 2 and Figure 7 represent relationship between parameters and population size/proportion of parasited host. Therefore, they are not necessary in order to show
 how difficult it is to detect the regulating effect of natural enemies on a host
 population. For every figure reproduced, we will use the exact same values that
 were used in the original paper for the different parameters.
 
-The software used to run the models and to generate the figures is Julia version
+The software used to code and run the models and to generate the figures is *Julia* version
 0.6.2 (@Bezanson17) All the code used to replicate the original paper is
 available alongside the article.
 
@@ -159,22 +157,22 @@ observe the relation between the two populations in @fig:figure3 (a) and (c).
 
 ### Stochastic model
 
-When the models include stochasticity, the resulting population dynamics between hosts and parasites are very different compared to the deterministic models. Overall, the results obtained in the replications are pretty similar to the original paper, except for @fig:figure6 (d), where the correlation between the mortality and the host density is not nearly as strong as in the original paper. Whether we look at the model for the specialist parasitoids or the one for the generalist parasitoids, both show irregular oscillations in the host-parasitoid population dynamics (@fig:figure5 and @fig:figure6, (a), (b) and (c)). The addition of stochastic parameters prevents the stabilization of host populations and makes it more difficult to identify parasitoids as a density-dependent control factor. The relationships between the k-values and the host density are similar in Hassell's publication and in ours (except in @fig:figure6 (d)). However, the regression for these relationships in our replication tend to have a determination coefficient (R^2) an higher than the one found by Hassell, but they are generally really close.
+When the models include stochasticity, the resulting population dynamics between hosts and parasites are very different compared to the deterministic models. Overall, the results obtained in the replications are pretty similar to the original paper, except for @fig:figure6 (d), where the correlation between the mortality and the host density is not nearly as strong as in the original paper. Whether we look at the model for the specialist parasitoids or the one for the generalist parasitoids, both show irregular oscillations in the host-parasitoid population dynamics (@fig:figure5 and @fig:figure6, (a), (b) and (c)). The addition of stochastic parameters prevents the stabilization of host populations and makes it more difficult to identify parasitoids as a density-dependent control factor. The relationships between the $k-values$ and the host density are similar in Hassell's publication and in ours (except in @fig:figure6 (d)). However, the regression for these relationships in our replication tend to have a determination coefficient (R^2) higher than the one found by Hassell, but they are generally really close.
 
 Because the inclusion of stochastic parameters in the population dynamics causes variability in the outputs, the results from two successive simulations can be very different. In order to account for this variability and to show how it can affect the population dynamics of the hosts and parasites, we added @fig:figure7 and @fig:figure8. These figures show the extent of the variation of the correlation coefficient ($r$) obtained in 5000 different simulations. A dotted line was added to represent the value of the correlation coefficient ($r$) that came out of the deterministic models. The values of $r$ vary greatly for every stochastic parameter. In every case, the mean value of $r$ is lower in the stochastic models than in the deterministic models. This is in agreement with Hassell's results, and shows that stochasticity makes it harder to see the density dependence effect of the parasites, whether they are generalist or specialist.
 
 # Discussion
 
 
-Overall, we were able to replicate every results from @Hassell85. We found the exact same results for the deterministic model. We standardized the limits for the axis, which was not the case in the original paper. This allows a more convinient comparison of the different results. 
+Overall, we were able to replicate every results from @Hassell85. We found the exact same results for the deterministic model. We standardized the limits for the axes, which was not the case in the original paper. This allows a more convinient comparison of the different results. 
 
-Indeed, we did not find the exact the same dynamic for the stochastic model. The figure we added (fig:figure7 and fig:figure8) showed how adding stochasticity into the model can cause great variability in the output. This could explain why @Hassell85 detected natural enemies as density dependent factor in the model with generalist parasitoid and a stochastic density independent probability of survival (Fig.6d from the original paper), unlike us (fig:figure6). In fact, in this model, the correlation we found (fig:figure8) was sometimes very strong (r$\approx$0.9) and other times very weak (r$\approx$0.4). Also, the correlation between the mortality from parasitism (*k-value*) and host density (*N*) found in the stochastic model was almost always weaker than in the deterministic model (fig:figure7 and fig:figure8). Therefore, the results we added strongly support the main argument from the article : adding stochasticity almost always obscures the density-dependent effect of natural enemies. 
+Indeed, we did not find the exact the same dynamic for the stochastic model. The figures we added (@fig:figure7 and @fig:figure8) showed how adding stochasticity into the model can cause great variability in the output. This could explain why @Hassell85 detected natural enemies as density dependent factor in the model with generalist parasitoid and a stochastic density independent probability of survival (Fig.6d from the original paper), unlike us (@fig:figure6 (d)). In fact, in this model, the correlation we found (@fig:figure8) was sometimes very strong (r$\approx$0.9) and some other times very weak (r$\approx$0.4). Also, the correlation between the mortality from parasitism ($k-value$) and host density ($N$) found in the stochastic model was almost always weaker than in the deterministic model (@fig:figure7 and @fig:figure8). Therefore, the results we added strongly support the main argument from the original paper : adding stochasticity almost always obscures the density-dependent effect of natural enemies. 
 
-The model from the original paper was well detailed which allowed us to create our own implementation. The equation for the number of survivors from parasitism (*S*) was the only one we needed to deduce from our own interpretation. This variable is used in the computation of the mortality (*k-value*) which is a well documented index. Therefore, this has not limited us in the replication of the article. 
+The model from the original paper was well detailed, which allowed us to create our own implementation. The equation for the number of survivors from parasitism ($S$) was the only one we needed to deduce from our own interpretation. This variable is used in the computation of the mortality ($k-value$) which is a well documented index. Therefore, this has not limited us in the replication of the article. 
 
 # Conclusion
 
-In short, we were able to replicate the original results. Although, we did not find the exact same dynamic for the stochastic models, we draw the same conclusions : the density-dependent effect from natural enemies is obscured by time delays and/or stochasticity. This makes it very difficult to detect natural enemies as regulating factors from life table data. In addition, we added density plots for the correlation coefficient from 5000 iterations of each stochastic model. This has allowed us to determine that the differences between our results and Hassell's were explained by the stochasticity of the models. Also, these new results add a strong support to the arguments of the original paper. To conclude, the reproduction of the reference article @Hassell85 was successful and we hoped it adds to the legacy left by this significant paper in the history of population dynamics.
+In short, we were able to replicate the original results. Even if we did not find the exact same dynamics for the stochastic models, we draw the same conclusions : the density-dependent effect from natural enemies is obscured by time delays and/or stochasticity. This makes it very difficult to detect natural enemies as regulating factors from life table data. In addition, we added density plots for the correlation coefficient from 5000 iterations of each stochastic model. This has allowed us to determine that the differences between our results and Hassell's were explained by the stochasticity of the models. Also, these new results add a strong support to the arguments of the original paper. To conclude, the reproduction of the reference article @Hassell85 was successful and we hope it adds to the legacy left by this significant paper in the history of population dynamics.
 
 ![(a) and (b) Deterministic simulations of the host and specialist parasite population dynamics (Eq.1, Eq.2, Eq.3) using two different level of clumping in the parasitoid attacks: (a) m = 0.2; (b) m = 0.8. The other parameters used are the same in both (a) and (b): F = 4, D = 0.5, c = 1, a = 0.5 and T*h* = 0. (c) and (d) The relationship between the mortality caused each generation by parasitism (k-values) and the log10 host density for the fifty first generations, linked to (a) and (b) respectively.](figures/figure3.pdf){#fig:figure3}
 

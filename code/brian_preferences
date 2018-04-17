@@ -1,0 +1,11 @@
+# We switch off logging debug information to a file. While this file will
+# be automatically deleted in case no error occured, it can grow to several GB
+# of size during the run, due to the fact that we create a great number of
+# independent simulations.
+
+# Note that this preferences while will be used by Brian automatically. We
+# cannot set these preferences in the simulation script itself, because the
+# logging system will be set up as soon as the brian2 package is imported --
+# setting these preferences later in the script will therefore have no effect.
+logging.file_log = False
+logging.save_script = False

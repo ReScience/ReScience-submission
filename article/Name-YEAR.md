@@ -67,7 +67,7 @@ controversial topic that aroused ecologists to debate for almost a decade
 
 We used information from @Hassell85 to replicate the model. We were able to
 replicate the results central to the article. In addition, we made new analyses
-for the stochastic models that bring new supports to @Hassell85 arguments.To our
+for the stochastic models that bring new supports to @Hassell85 arguments. To our
 best knowledge, the original implementation was not available. The code for the
 simulations and the figures were written in *Julia* 
 

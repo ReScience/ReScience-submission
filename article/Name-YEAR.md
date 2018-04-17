@@ -65,12 +65,13 @@ important argument on the role of natural enemies on insect populations, a
 controversial topic that aroused ecologists to debate for almost a decade
 (@Turchin90).
 
-# Methods
-
 We used information from @Hassell85 to replicate the model. We were able to
 replicate the results central to the article. In addition, we made new analyses
-for the stochastic models that bring new supports to @Hassell85 arguments.
-To our best knowledge, the original implementation was not available.
+for the stochastic models that bring new supports to @Hassell85 arguments.To our
+best knowledge, the original implementation was not available. The code for the
+simulations and the figures were written in *Julia* 
+
+# Methods
 
 The formulas used in this paper to show the difficulties of detecting natural
 enemies as regulating factors are the same that were used in the original paper

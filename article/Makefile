@@ -1,4 +1,4 @@
-SOURCE   = Name-YEAR
+SOURCE   = Caron-Lessard-Wu-Poisot-2018
 MDFILE   = $(SOURCE).md
 BIBFILE  = bibliography.bib
 TEXFILE  = $(SOURCE).tex
@@ -7,10 +7,10 @@ TEMPLATE = rescience-template.tex
 
 %.tex: $(MDFILE)
         # @echo "Processing $<"
-	@pandoc --standalone                          \
-                --filter pandoc-crossref \
+	@pandoc --standalone                                \
+                --filter pandoc-crossref              \
                 --template=$(TEMPLATE)                \
-                --latex-engine=xelatex                \
+                --pdf-engine=xelatex                  \
                 --biblatex                            \
                 --bibliography=$(BIBFILE)             \
                 -M "crossrefYaml=crossref.yaml"       \

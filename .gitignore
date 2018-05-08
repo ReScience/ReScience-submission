@@ -1,0 +1,7 @@
+article/*.log
+article/*.aux
+article/*.bcf
+article/*.bbl
+article/*.blg
+article/*.out
+article/*.run.xml

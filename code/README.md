@@ -1,7 +1,14 @@
-### Code repository
+## Readme
 
-Don't forget to choose a license. You're free to use one from a set of
-well-understood licenses including BSD, GPL or Apache.
+One file per figure, type `make` to generate the PDF. The code is in `WY94.jl`.
 
-See [the Debian Free Software Guidelines](https://www.debian.org/social_contract#guidelines)
-for a [list of licenses](https://www.debian.org/legal/licenses/).
+## Platform info
+
+Platform: linux 4.13.5-200.fc26.x86_64
+wxMaxima: 5.40.0
+Julia: 0.6.0
+Machine and architecture: x86_64 64bit ELF
+CPU: Intel(R) Xeon(R) CPU E5-2620 v4 @ 2.10GHz
+Plots.jl: 0.13.1
+StatsBase.jl: 0.19.0
+PyPlot.jl: 2.3.2

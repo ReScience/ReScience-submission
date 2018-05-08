@@ -1,4 +1,4 @@
-SOURCE   = Name-YEAR
+SOURCE   = Poisot-2017
 MDFILE   = $(SOURCE).md
 BIBFILE  = bibliography.bib
 TEXFILE  = $(SOURCE).tex
@@ -6,11 +6,12 @@ PDFFILE  = $(SOURCE).pdf
 TEMPLATE = rescience-template.tex
 
 %.tex: $(MDFILE)
+	cp ../code/figure*pdf .
         # @echo "Processing $<"
 	@pandoc --standalone                          \
                 --filter ~/.cabal/bin/pandoc-crossref \
                 --template=$(TEMPLATE)                \
-                --latex-engine=xelatex                \
+                --pdf-engine=xelatex                \
                 --biblatex                            \
                 --bibliography=$(BIBFILE)             \
                 -M "crossrefYaml=crossref.yaml"       \

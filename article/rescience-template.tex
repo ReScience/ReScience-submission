@@ -1,6 +1,7 @@
 \documentclass[10pt,a4paper,onecolumn]{article}
 % \usepackage[utf8]{inputenc}
 \usepackage{marginnote}
+\usepackage{amssymb,amsmath}
 \usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{authblk,etoolbox}
@@ -76,7 +77,7 @@ $endif$
    {colback=red, colframe=red!75!black,
      boxrule=0.5pt, arc=2pt, left=6pt, right=6pt, top=3pt, bottom=3pt}
 
-% fix for pandoc 1.14     
+% fix for pandoc 1.14
 \newcommand{\tightlist}{%
   \setlength{\itemsep}{1pt}\setlength{\parskip}{0pt}\setlength{\parsep}{0pt}}
 
@@ -114,7 +115,7 @@ $endif$
 \renewcommand{\headrulewidth}{0pt}
 \fancyhead[L]{\hspace{-1cm}\includegraphics[width=4.0cm]{rescience-logo.pdf}}
 \fancyhead[C]{}
-\fancyhead[R]{} 
+\fancyhead[R]{}
 \renewcommand{\footrulewidth}{0.25pt}
 
 \fancyfoot[L]{\hypersetup{urlcolor=red}
@@ -223,7 +224,7 @@ $endif$
   \vspace{3mm}
 
   \hypersetup{urlcolor=white}
-  
+
   $if(Repository.article)$
   \vspace{-1mm}
   \begin{repobox}

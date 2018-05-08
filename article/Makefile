@@ -11,7 +11,7 @@ TEMPLATE = rescience-template.tex
 	@pandoc --standalone                          \
                 --filter ~/.cabal/bin/pandoc-crossref \
                 --template=$(TEMPLATE)                \
-                --latex-engine=xelatex                \
+                --pdf-engine=xelatex                \
                 --biblatex                            \
                 --bibliography=$(BIBFILE)             \
                 -M "crossrefYaml=crossref.yaml"       \

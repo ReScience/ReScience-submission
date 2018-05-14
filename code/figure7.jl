@@ -32,14 +32,20 @@ end
 
 pl_a = density(cor_a[2:end], xlim=(0,1.0), ylim=(0,10), frame=:origin, c=:black, fill=(0, :grey, 0.2), leg=false)
 vline!(pl_a, [first(cor_a)], lw=2, ls=:dot, c=:grey)
+annotate!(0.45, 9, text("a = 0.5 ± 0.5"))
+annotate!(pl_a, 0.05, 9.5, text("(c)"))
 
 pl_D = density(cor_D[2:end], xlim=(0,1.0), ylim=(0,10), frame=:origin, c=:black, fill=(0, :grey, 0.2), leg=false)
 vline!(pl_D, [first(cor_D)], lw=2, ls=:dot, c=:grey)
 ylabel!(pl_D, "Density")
+annotate!(0.45, 9, text("D = 0.5 ± 0.5"))
+annotate!(pl_D, 0.05, 9.5, text("(a)"))
 
 pl_c = density(cor_c[2:end], xlim=(0,1.0), ylim=(0,10), frame=:origin, c=:black, fill=(0, :grey, 0.2), leg=false)
 vline!(pl_c, [first(cor_c)], lw=2, ls=:dot, c=:grey)
 xlabel!(pl_c, "Correlation")
+annotate!(0.45, 9, text("c = 0.5 ± 0.5"))
+annotate!(pl_c, 0.05, 9.5, text("(b)"))
 
 plot(pl_D, pl_c, pl_a, layout=(1,3), size=(1200,400), margin=5mm)
 savefig("article/figures/figure7.pdf")

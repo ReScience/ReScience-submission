@@ -1,0 +1,15 @@
+[0] Config.pm:354> INFO - This is Biber 2.6
+[1] Config.pm:357> INFO - Logfile is 'Caron-Lessard-Wu-Poisot-2018.blg'
+[31] biber:302> INFO - === Mon May 14, 2018, 12:40:29
+[46] Biber.pm:359> INFO - Reading 'Caron-Lessard-Wu-Poisot-2018.bcf'
+[103] Biber.pm:823> INFO - Found 9 citekeys in bib section 0
+[116] Biber.pm:3658> INFO - Processing section 0
+[129] Biber.pm:3828> INFO - Looking for bibtex format file 'bibliography.bib' for section 0
+[130] bibtex.pm:1425> INFO - Decoding LaTeX character macros into UTF-8
+[132] bibtex.pm:1282> INFO - Found BibTeX data source 'bibliography.bib'
+[161] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[161] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[161] Biber.pm:3487> INFO - Sorting list 'nty/global/' of type 'entry' with scheme 'nty' and locale 'en-US'
+[161] Biber.pm:3493> INFO - No sort tailoring available for locale 'en-US'
+[169] bbl.pm:597> INFO - Writing 'Caron-Lessard-Wu-Poisot-2018.bbl' with encoding 'UTF-8'
+[171] bbl.pm:701> INFO - Output to Caron-Lessard-Wu-Poisot-2018.bbl

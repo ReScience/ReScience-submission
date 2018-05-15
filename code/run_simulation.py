@@ -2,7 +2,7 @@ from brian2 import *
 import time as time
 
 from plot_functions import make_figure_3, make_figure_4
-from create_input import create_input, make_pattern_presentation_array, copy_and_paste_jittered_pattern, add_noise, triple_input_runtime, remove_close_spikes
+from create_input import make_input, make_pattern_presentation_array, copy_and_paste_jittered_pattern, add_noise, triple_input_runtime, remove_close_spikes
 
 set_device('cpp_standalone', build_on_run=True, directory='STDP_standalone')
 
@@ -31,7 +31,7 @@ print('% spikes deleted =       ', spike_del*100)
 
 
 # parameters for making input - same as in Masquelier et al., 2008
-runduration = 10  # length of simulation [s], full length = 450
+runduration = 450  # length of simulation [s], full length = 450
 tripling = True  # instead of creating 450 s of unique input, make 150 s and concatenate those spikes
 number_neurons = 2000
 dt_createpattern = 0.001  # [s]

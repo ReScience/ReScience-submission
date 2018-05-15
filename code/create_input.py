@@ -1,32 +1,42 @@
 from brian2 import *
+from numba import jit
+import numpy
+
+@jit(nopython=True) # numba decorator compiles this function into low level code to run faster
+def make_single_train(min_rate, max_rate, max_time_wo_spike, max_change_speed, runduration, number_neurons, dt_createpattern):
+	runduration1 = min(runduration, 150)  # input will be tripled later, only need 150s
+	st = []
+	virtual_pre_sim_spike = - numpy.random.rand() * max_time_wo_spike
+	firing_rate = min_rate + numpy.random.rand() * (max_rate - min_rate)
+	rate_change = 2 * (numpy.random.rand() - .5) * max_change_speed
+	mtws = max_time_wo_spike
+	for t in numpy.arange(dt_createpattern, runduration1, dt_createpattern):
+		if numpy.random.rand() < dt_createpattern * firing_rate or \
+			(len(st) < 1 and t - virtual_pre_sim_spike > mtws) or \
+			(len(st) > 0 and t - st[-1] > mtws):
+			tmp = t - dt_createpattern * numpy.random.rand()
+			tmp = max(0, tmp)
+			tmp = min(runduration1, tmp)
+			st.append(tmp)
+			mtws = max_time_wo_spike
+		firing_rate = firing_rate + rate_change * dt_createpattern
+		rate_change = rate_change + 1 / 5 * 2 * (numpy.random.rand() - .5) * max_change_speed
+		rate_change = max(min(rate_change, max_change_speed), -max_change_speed)
+		firing_rate = max(min(firing_rate, max_rate), min_rate)
+	return array(st)
 
 
 def make_input(min_rate, max_rate, max_time_wo_spike, max_change_speed, runduration, number_neurons, dt_createpattern):
 	# make input spikes
-	spiketimes = empty(0)
-	afferents = empty(0)
+	spiketimes = []
+	afferents = []
 	runduration1 = min(runduration, 150)  # input will be tripled later, only need 150s
 	for n in range(number_neurons):
-		st = empty(0)
-		virtual_pre_sim_spike = - numpy.random.rand() * max_time_wo_spike
-		firing_rate = min_rate + numpy.random.rand() * (max_rate - min_rate)
-		rate_change = 2 * (numpy.random.rand() - .5) * max_change_speed
-		mtws = (1 - .0 * numpy.random.rand()) * max_time_wo_spike
-		for t in arange(dt_createpattern, runduration1, dt_createpattern):
-			if numpy.random.rand() < dt_createpattern * firing_rate or \
-					(len(st) < 1 and t - virtual_pre_sim_spike > mtws) or \
-					(len(st) > 0 and t - st[-1] > mtws):
-				tmp = t - dt_createpattern * numpy.random.rand()
-				tmp = max(0, tmp)
-				tmp = min(runduration1, tmp)
-				st = concatenate((st, array([tmp])))
-				mtws = (1 - .0 * numpy.random.rand()) * max_time_wo_spike
-			firing_rate = firing_rate + rate_change * dt_createpattern
-			rate_change = rate_change + 1 / 5 * 2 * (numpy.random.rand() - .5) * max_change_speed
-			rate_change = max(min(rate_change, max_change_speed), -max_change_speed)
-			firing_rate = max(min(firing_rate, max_rate), min_rate)
-		spiketimes = concatenate((spiketimes, st))
-		afferents = concatenate((afferents, n * ones(len(st))))
+		st = make_single_train(min_rate, max_rate, max_time_wo_spike, max_change_speed, runduration, number_neurons, dt_createpattern)
+		spiketimes.append(st)
+		afferents.append(n*ones(len(st)))
+	spiketimes = hstack(spiketimes)
+	afferents = hstack(afferents)
 	sortarray = argsort(spiketimes)
 	spiketimes = spiketimes[sortarray]
 	afferents = afferents[sortarray]
@@ -66,8 +76,8 @@ def copy_and_paste_jittered_pattern(times, indices, position_copypaste, patternl
 	ind = ind[ind < number_pat]
 	tim -= startCPindex * patternlength
 	# replace indices and times for 50ms when position_copypaste == 1 with ind, tim
-	indices1 = empty(0)
-	times1 = empty(0)
+	indices1 = []
+	times1 = []
 	counti2 = 0
 	for in2, i2 in enumerate(position_copypaste):
 		ind1 = copy(ind)
@@ -85,7 +95,7 @@ def copy_and_paste_jittered_pattern(times, indices, position_copypaste, patternl
 				tim1_add = numpy.random.rand(sum(invert(keep_array)))*patternlength
 				ind1 = concatenate((ind1, ind1_add))
 				tim1 = concatenate((tim1, tim1_add))
-			indices1 = concatenate((indices1, ind1))
+			indices1.append(ind1)
 			if jitter_sd > 0:
 				jitter = numpy.random.normal(0, jitter_sd, len(tim1))
 			else:
@@ -95,20 +105,22 @@ def copy_and_paste_jittered_pattern(times, indices, position_copypaste, patternl
 			if in2 == 0:
 				tim_jit[tim_jit < 0] = 0
 
-			times1 = concatenate((times1, tim_jit + in2 * patternlength))
+			times1.append(tim_jit + in2 * patternlength)
 			start_pattern1 = searchsorted(times, in2 * patternlength)
 			end_pattern1 = searchsorted(times, (in2 + 1) * patternlength)
 			tim_npat = times[start_pattern1:end_pattern1]
 			ind_npat = indices[start_pattern1:end_pattern1]
-			indices1 = concatenate((indices1, ind_npat[ind_npat >= number_pat]))
-			times1 = concatenate((times1, tim_npat[ind_npat >= number_pat]))
+			indices1.append(ind_npat[ind_npat >= number_pat])
+			times1.append(tim_npat[ind_npat >= number_pat])
 		else:
 			# find index where pattern window starts
 			start_pattern1 = searchsorted(times, in2 * patternlength)
 			# find index where pattern window ends
 			end_pattern1 = searchsorted(times, (in2 + 1) * patternlength)
-			indices1 = concatenate((indices1, indices[start_pattern1:end_pattern1]))
-			times1 = concatenate((times1, times[start_pattern1:end_pattern1]))
+			indices1.append(indices[start_pattern1:end_pattern1])
+			times1.append(times[start_pattern1:end_pattern1])
+	indices1 = hstack(indices1)
+	times1 = hstack(times1)
 	# sort input according to time
 	sortarray = times1.argsort()
 	indices1 = indices1[sortarray]
@@ -147,4 +159,3 @@ def remove_close_spikes(times, indices, dt):
 	times = times[keep_flag]
 	indices = indices[keep_flag]
 	return times, indices
-

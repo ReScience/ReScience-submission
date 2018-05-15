@@ -1,6 +1,8 @@
 from brian2 import *
 import time as time
 
+start_time = time.time()
+
 from plot_functions import make_figure_3, make_figure_4
 from create_input import make_input, make_pattern_presentation_array, copy_and_paste_jittered_pattern, add_noise, triple_input_runtime, remove_close_spikes
 
@@ -95,6 +97,7 @@ stdp_on_post = ('''LTDtrace = -aminus
 print('####################################')
 print('Create input')
 print('####################################')
+start_time_input = time.time()
 ### Make input
 print('Start making input with seed', random_seed, time.strftime('%H:%M'))
 seed(int(random_seed))
@@ -117,7 +120,7 @@ times = times * second
 patneurons = range(0, number_pat)
 nonpatneurons = range(number_pat, number_neurons)
 
-
+start_time_simulation = time.time()
 # Make neuron layers N0(input spikes) N1(2000 input neurons) N2(1 output neuron)
 N0 = SpikeGeneratorGroup(number_neurons, indices, times)
 N1 = NeuronGroup(number_neurons, '''du/dt  = -u/taum : 1''', threshold='u > T', reset='u = u_rest', refractory=0*ms, method='linear')
@@ -142,6 +145,7 @@ net = Network(collect())
 net.add(N0, N1, N2, N2spm, syn01, syn12)
 net.run(runduration * second, report='text')
 
+start_time_results = time.time()
 print('####################################')
 print('Results')
 print('####################################')
@@ -198,6 +202,10 @@ else:
 
 print('####################################')
 print('End of simulation')
+print('Input creation: %.2f s' % (start_time_simulation-start_time_input))
+print('Simulation: %.2f s' % (start_time_results-start_time_simulation))
+print('Results: %.2f s' % (time.time()-start_time_results))
+print('Total time: %.2f s' % (time.time()-start_time))
 print('####################################')
 print('Make figures')
 print('####################################')
@@ -206,4 +214,4 @@ make_figure_3(N2spm, latency)  # plot the latency of all output neuron spikes
 
 make_figure_4(N1spm, syn12, timing_pattern)  # plot the weights from the second to last pattern
 
-
+#show()

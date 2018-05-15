@@ -2,6 +2,27 @@ from brian2 import *
 from numba import jit
 import numpy
 
+if __name__=='__main__':
+	import time
+	def timeit(method):
+		def timed(*args, **kw):
+			ts = time.time()
+			result = method(*args, **kw)
+			te = time.time()
+
+			if 'log_time' in kw:
+				name = kw.get('log_name', method.__name__.upper())
+				kw['log_time'][name] = int((te - ts) * 1000)
+			else:
+				print('%r  %2.2f ms' %
+					  (method.__name__, (te - ts) * 1000))
+			return result
+
+		return timed
+else:
+	def timeit(method):
+		return method
+
 @jit(nopython=True) # numba decorator compiles this function into low level code to run faster
 def make_single_train(min_rate, max_rate, max_time_wo_spike, max_change_speed, runduration, number_neurons, dt_createpattern):
 	runduration1 = min(runduration, 150)  # input will be tripled later, only need 150s
@@ -26,6 +47,7 @@ def make_single_train(min_rate, max_rate, max_time_wo_spike, max_change_speed, r
 	return array(st)
 
 
+@timeit
 def make_input(min_rate, max_rate, max_time_wo_spike, max_change_speed, runduration, number_neurons, dt_createpattern):
 	# make input spikes
 	spiketimes = []
@@ -43,6 +65,7 @@ def make_input(min_rate, max_rate, max_time_wo_spike, max_change_speed, rundurat
 	return afferents, spiketimes
 
 
+@timeit
 def make_pattern_presentation_array(runduration, patternlength, pattern_freq):
 	# make array with a 1 (pattern) or 0 (not pattern) for each time window (window size = length of pattern (0.05s))
 	runduration1 = min(runduration, 150)
@@ -64,6 +87,7 @@ def make_pattern_presentation_array(runduration, patternlength, pattern_freq):
 	return position_copypaste
 
 
+@timeit
 def copy_and_paste_jittered_pattern(times, indices, position_copypaste, patternlength, jitter_sd, spike_del, number_pat):
 	# choose first segment as pattern to be copy-pasted
 	startCPindex = where(position_copypaste == 1)[0][0]
@@ -128,6 +152,7 @@ def copy_and_paste_jittered_pattern(times, indices, position_copypaste, patternl
 	return times1, indices1
 
 
+@timeit
 def add_noise(times, indices, times_add, indices_add):
 	# combine the basic activity and the 10Hz additional noise to one input
 	times = concatenate((times, times_add))
@@ -138,6 +163,7 @@ def add_noise(times, indices, times_add, indices_add):
 	return times, indices
 
 
+@timeit
 def triple_input_runtime(times, indices):
 	# To shorten time spent on creating input, 150s input is tripled to give 450s
 	times = concatenate((times, times + 150, times + 300))
@@ -145,10 +171,12 @@ def triple_input_runtime(times, indices):
 	return times, indices
 
 
+@timeit
+@jit(nopython=True)
 def remove_close_spikes(times, indices, dt):
 	# remove spikes that are too close in time, depends on time resolution chosen for simulation
-	last_spike = -2 * ones(len(set(indices)))
-	keep_flag = ones(len(times), dtype=bool)
+	last_spike = -2 * numpy.ones(int(numpy.amax(indices)+1))
+	keep_flag = numpy.ones(len(times), dtype=numpy.bool_)
 	# calculations of spike distance
 	for j, st in enumerate(times):
 		if st - last_spike[int(indices[j])] < dt:
@@ -159,3 +187,54 @@ def remove_close_spikes(times, indices, dt):
 	times = times[keep_flag]
 	indices = indices[keep_flag]
 	return times, indices
+
+
+if __name__=='__main__':
+	random_seed = 1
+	defaultclock.dt = 1e-4 * second  # length of time step for simulation
+
+	jitter_sd = 1  # amount of jitter
+	number_pat = 1000  # number of neurons that take part in the pattern presentation
+	pattern_freq = 0.25  # frequency at which the pattern is presented
+	spike_del = 0  # percentage of spikes within the pattern to be deleted
+	T = 0.5 * (1 - spike_del) * number_pat  # threshold
+	win = 1.9 * T / 2000  # initial weight for 2000 input neurons - this number was not changed
+
+	# parameters for making input - same as in Masquelier et al., 2008
+	runduration = 450  # length of simulation [s], full length = 450
+	tripling = True  # instead of creating 450 s of unique input, make 150 s and concatenate those spikes
+	number_neurons = 2000
+	dt_createpattern = 0.001  # [s]
+	number_npat = number_neurons - number_pat  # number of neurons not in pattern
+	patternlength = 0.05  # [s]
+	# parameters for basic spikes (2000 neurons, firing rate changes over time 0-90 Hz, avg 54Hz)
+	max_rate_pat = 90
+	min_rate_pat = 0
+	max_time_wo_spike_pat = 0.05
+	max_change_speed_pat = max_rate_pat / max_time_wo_spike_pat
+	# parameters for additional noise spikes (2000 neurons, firing rate does not change, avg 10 Hz)
+	max_rate_add = 10
+	min_rate_add = 10
+	max_time_wo_spike_add = 1000
+	max_change_speed_add = 0
+
+	print('Start making input with seed', random_seed, time.strftime('%H:%M'))
+	seed(int(random_seed))
+	indices, times = make_input(min_rate_pat, max_rate_pat, max_time_wo_spike_pat, max_change_speed_pat, runduration, number_neurons, dt_createpattern)
+	print('Start making noise with seed', random_seed, time.strftime('%H:%M'))
+	indices_add, times_add = make_input(min_rate_add, max_rate_add, max_time_wo_spike_add, max_change_speed_add, runduration, number_neurons, dt_createpattern)
+	position_copypaste = make_pattern_presentation_array(runduration, patternlength, pattern_freq)
+	print('Start copy paste pattern', time.strftime('%H:%M'))
+	times, indices = copy_and_paste_jittered_pattern(times, indices, position_copypaste, patternlength, jitter_sd, spike_del, number_pat)
+	print('Start adding noise', time.strftime('%H:%M'))
+	times, indices = add_noise(times, indices, times_add, indices_add)
+	if tripling and runduration > 300:
+		print('Starting tripling input', time.strftime('%H:%M'))
+		times, indices = triple_input_runtime(times, indices)
+		position_copypaste = concatenate((position_copypaste, position_copypaste, position_copypaste))
+	timing_pattern = where(position_copypaste > 0)[0] * patternlength
+	print('Start removing too-close spikes', time.strftime('%H:%M'))
+	times, indices = remove_close_spikes(times, indices, defaultclock.dt / second)
+	times = times * second
+	patneurons = range(0, number_pat)
+	nonpatneurons = range(number_pat, number_neurons)

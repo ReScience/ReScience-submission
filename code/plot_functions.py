@@ -19,7 +19,6 @@ def make_figure_3(N2spm, latency):
 	ylim([-2, 52])
 
 	tight_layout()
-	show()
 
 
 def make_figure_4(N1spm, syn12, timing_pattern):
@@ -45,5 +44,4 @@ def make_figure_4(N1spm, syn12, timing_pattern):
 	title('converged state')
 
 	tight_layout()
-	show()
 

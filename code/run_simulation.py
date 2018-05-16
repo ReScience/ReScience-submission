@@ -122,7 +122,11 @@ nonpatneurons = range(number_pat, number_neurons)
 
 start_time_simulation = time.time()
 # Make neuron layers N0(input spikes) N1(2000 input neurons) N2(1 output neuron)
-N0 = SpikeGeneratorGroup(number_neurons, indices, times)
+# Carry out the sort by hand because it's more efficient than the brian version
+I = lexsort((indices, times))
+indices = indices[I]
+times = times[I]
+N0 = SpikeGeneratorGroup(number_neurons, indices, times, sorted=True)
 N1 = NeuronGroup(number_neurons, '''du/dt  = -u/taum : 1''', threshold='u > T', reset='u = u_rest', refractory=0*ms, method='linear')
 N1spm = SpikeMonitor(N1)
 N2 = NeuronGroup(1, eqs, threshold='u > T', reset=eqs_reset, refractory=refract * ms, method='linear')
@@ -136,6 +140,10 @@ syn12 = Synapses(N1, N2, model=stdp_model, on_pre=stdp_on_pre, on_post=stdp_on_p
 syn12.connect(i=range(0, number_neurons), j=0)
 syn12.wi = win
 syn12stm = StateMonitor(syn12, ['wi'], record=range(0, 2000), dt=100*ms)
+
+# Some speed hacks
+N0._previous_dt = N0.dt_[:]
+N0._spikes_changed = False
 
 print('####################################')
 print('Simulation')
@@ -214,4 +222,4 @@ make_figure_3(N2spm, latency)  # plot the latency of all output neuron spikes
 
 make_figure_4(N1spm, syn12, timing_pattern)  # plot the weights from the second to last pattern
 
-#show()
+show()

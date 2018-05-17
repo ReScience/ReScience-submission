@@ -1,8 +1,8 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2018.1.4)  9 FEB 2018 11:00
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2018.1.4)  17 MAY 2018 11:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**Bavard-Thero-2018.tex
+**Bavard-Thero-2018
 (./Bavard-Thero-2018.tex
 LaTeX2e <2016/02/01>
 Babel <3.9q> and hyphenation patterns for 81 language(s) loaded.
@@ -1387,7 +1387,7 @@ File: Figure3.png Graphic file (type QTm)
 
 <use  "Figure3.png" >
 LaTeX Font Info:    Font shape `EU1/lmss/m/it' in size <9> not available
-(Font)              Font shape `EU1/lmss/m/sl' tried instead on input line 384.
+(Font)              Font shape `EU1/lmss/m/sl' tried instead on input line 379.
 
 File: Figure4.png Graphic file (type QTm)
  <use  "Figure4.png" >
@@ -1401,11 +1401,11 @@ File: rescience-logo.pdf Graphic file (type QTm)
 File: rescience-logo.pdf Graphic file (type QTm)
 
 <use  "rescience-logo.pdf" > [5]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 410.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 410.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 405.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 405.
  (./Bavard-Thero-2018.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 410.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 410.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 405.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 405.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -1415,12 +1415,12 @@ Package logreq Info: Writing requests to 'Bavard-Thero-2018.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 39569 strings out of 493638
- 733067 string characters out of 6146797
- 1068162 words of memory out of 5000000
- 42545 multiletter control sequences out of 15000+600000
+ 39568 strings out of 493638
+ 733049 string characters out of 6146797
+ 1068172 words of memory out of 5000000
+ 42544 multiletter control sequences out of 15000+600000
  7840 words of font info for 51 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
- 54i,15n,73p,10381b,946s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 54i,15n,73p,10377b,1120s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 Output written on Bavard-Thero-2018.pdf (5 pages).

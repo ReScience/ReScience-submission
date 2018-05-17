@@ -2050,41 +2050,22 @@
   </bcf:bibdata>
   <bcf:section number="0">
     <bcf:citekey order="1">sutton1998introduction</bcf:citekey>
-    <bcf:citekey order="2">sutton1998introduction</bcf:citekey>
-    <bcf:citekey order="3">o2004dissociable</bcf:citekey>
-    <bcf:citekey order="4">o2004dissociable</bcf:citekey>
-    <bcf:citekey order="5">behrens2007learning</bcf:citekey>
-    <bcf:citekey order="6">behrens2007learning</bcf:citekey>
-    <bcf:citekey order="7">frank2004carrot</bcf:citekey>
-    <bcf:citekey order="8">frank2004carrot</bcf:citekey>
-    <bcf:citekey order="9">frank2007genetic</bcf:citekey>
-    <bcf:citekey order="10">frank2007genetic</bcf:citekey>
-    <bcf:citekey order="11">sharot2011unrealistic</bcf:citekey>
-    <bcf:citekey order="12">sharot2011unrealistic</bcf:citekey>
-    <bcf:citekey order="13">caze2013adaptive</bcf:citekey>
-    <bcf:citekey order="14">caze2013adaptive</bcf:citekey>
-    <bcf:citekey order="15">caze2013adaptive</bcf:citekey>
-    <bcf:citekey order="16">caze2013adaptive</bcf:citekey>
-    <bcf:citekey order="17">gershman2015learning</bcf:citekey>
-    <bcf:citekey order="18">gershman2015learning</bcf:citekey>
-    <bcf:citekey order="19">garrett2014robust</bcf:citekey>
-    <bcf:citekey order="20">garrett2014robust</bcf:citekey>
-    <bcf:citekey order="21">moutsiana2015human</bcf:citekey>
-    <bcf:citekey order="22">moutsiana2015human</bcf:citekey>
-    <bcf:citekey order="23">shah2016pessimistic</bcf:citekey>
-    <bcf:citekey order="24">shah2016pessimistic</bcf:citekey>
-    <bcf:citekey order="25">garrett2017optimistic</bcf:citekey>
-    <bcf:citekey order="26">garrett2017optimistic</bcf:citekey>
-    <bcf:citekey order="27">lefebvre2017behavioural</bcf:citekey>
-    <bcf:citekey order="28">lefebvre2017behavioural</bcf:citekey>
-    <bcf:citekey order="29">palminteri2017confirmation</bcf:citekey>
-    <bcf:citekey order="30">palminteri2017confirmation</bcf:citekey>
-    <bcf:citekey order="31">caze2013adaptive</bcf:citekey>
-    <bcf:citekey order="32">caze2013adaptive</bcf:citekey>
-    <bcf:citekey order="33">sutton1998introduction</bcf:citekey>
-    <bcf:citekey order="34">sutton1998introduction</bcf:citekey>
-    <bcf:citekey order="35">caze2013adaptive</bcf:citekey>
-    <bcf:citekey order="36">caze2013adaptive</bcf:citekey>
+    <bcf:citekey order="1">o2004dissociable</bcf:citekey>
+    <bcf:citekey order="1">behrens2007learning</bcf:citekey>
+    <bcf:citekey order="2">frank2004carrot</bcf:citekey>
+    <bcf:citekey order="2">frank2007genetic</bcf:citekey>
+    <bcf:citekey order="2">sharot2011unrealistic</bcf:citekey>
+    <bcf:citekey order="3">caze2013adaptive</bcf:citekey>
+    <bcf:citekey order="4">caze2013adaptive</bcf:citekey>
+    <bcf:citekey order="5">gershman2015learning</bcf:citekey>
+    <bcf:citekey order="6">garrett2014robust</bcf:citekey>
+    <bcf:citekey order="6">moutsiana2015human</bcf:citekey>
+    <bcf:citekey order="6">shah2016pessimistic</bcf:citekey>
+    <bcf:citekey order="6">garrett2017optimistic</bcf:citekey>
+    <bcf:citekey order="6">lefebvre2017behavioural</bcf:citekey>
+    <bcf:citekey order="6">palminteri2017confirmation</bcf:citekey>
+    <bcf:citekey order="7">sutton1998introduction</bcf:citekey>
+    <bcf:citekey order="8">caze2013adaptive</bcf:citekey>
   </bcf:section>
   <bcf:sortlist section="0" name="nty/global" type="entry" sortscheme="nty" sortnamekeyscheme="global">
   <bcf:sorting>

@@ -103,8 +103,8 @@
            family_i={S\bibinitperiod},
            given={Lauren\bibnamedelima C},
            given_i={L\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
-        {{hash=7c1de5c7971bf39e572ecfbbef4ed61f}{%
-           family={O'reilly},
+        {{hash=a6447655d7793945cf1146a23c3dd56a}{%
+           family={O'Reilly},
            family_i={O\bibinitperiod},
            given={Randall\bibnamedelima C},
            given_i={R\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
@@ -112,8 +112,8 @@
       \list{publisher}{1}{%
         {American Association for the Advancement of Science}%
       }
-      \strng{namehash}{882282f7e8f505a8d85c32365df5b51e}
-      \strng{fullhash}{882282f7e8f505a8d85c32365df5b51e}
+      \strng{namehash}{e77ffc461da84b8b0494a7ed0cae3347}
+      \strng{fullhash}{e77ffc461da84b8b0494a7ed0cae3347}
       \field{sortinit}{F}
       \field{sortinithash}{c6a7d9913bbd7b20ea954441c0460b78}
       \field{labelnamesource}{author}
@@ -347,8 +347,8 @@
     \endentry
     \entry{o2004dissociable}{article}{}
       \name{author}{6}{}{%
-        {{hash=4577f25ea5a7cf9accd87f0111d18735}{%
-           family={O'doherty},
+        {{hash=a63fb717d9c732ea5c5e8d6910acb936}{%
+           family={O'Doherty},
            family_i={O\bibinitperiod},
            given={John},
            given_i={J\bibinitperiod}}}%
@@ -381,8 +381,8 @@
       \list{publisher}{1}{%
         {American Association for the Advancement of Science}%
       }
-      \strng{namehash}{51accc39fd9ad3e134178ef5720ff5cb}
-      \strng{fullhash}{a721e35a4eaa2a21f41344c6907e87b9}
+      \strng{namehash}{fc60bda9c93fc22c1638550e0ec4a1fc}
+      \strng{fullhash}{64311c08cfba837bd146c40e8660ac9c}
       \field{sortinit}{O}
       \field{sortinithash}{7803d2715d5e795e70382b084ab8d00e}
       \field{labelnamesource}{author}

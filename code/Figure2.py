@@ -1,86 +1,56 @@
 import numpy as np
-import random
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
+from CoreFunctions import *
 
-# There are four different probabilities p for positive outcomes (r = 1). The probability for negative outcomes (r = -1) for the same stimulus is therefore 1-p.
 # In the "low-reward" task, the best action has a probability for a positive outcome of 0.2, and the other action of 0.1. 
 # In the "high-reward' task, these two probabilities are respectively 0.9 and 0.8.
-ProbabilityOfPositiveOutcome = np.matrix([[.2, .1], [.9, .8]])
+ProbabilityOfPositiveOutcome = np.matrix([[.1, .2], [.8, .9]])
 
-# Each task lasts for 800 trials and there are 5,000 iterations.
+# Each task lasts for 800 trials and there are 5,000 iterations (or runs) of 800 trials each.
 NumberOfTrials = 800
 NumberOfIterations = 5000
 
-# The temperature parameter beta is set to 0.3 for all three learners (optimistic, rational and pessimistic).
+# The temperature parameter beta is fixed at 0.3 for all three models (optimistic, rational and pessimistic).
 beta = 0.3
 
-# LearnerIdx refers to the identity of the learner: 0 for optimistic, 1 for rational and 2 for pessimistic
-for learnerIdx in range(3):
+# For the optimistic learner, the positive and negative learning rates are fixed at respectively 0.4 and 0.1
+# For the rational learner, both positive and negative learning rates are fixed at 0.1
+# For the pessimistic learner, the positive and negative learning rates are fixed at respectively 0.1 and 0.4
+Alphas = np.matrix([[.4, .1], [.1, .1], [.1, .4]])
 
-	# For the optimistic learner, the postive learning rate is set at 0.4, and the negative one at 0.1.
-	if learnerIdx == 0:
-		alphaPos, alphaNeg = .4, .1
+# modelIdx refers to the identity of the model: 0 for optimistic, 1 for rational and 2 for pessimistic
+for modelIdx in range(3):
 
-	# For the rational learner, both positive and negative learning rates are set to 0.1.
-	elif learnerIdx == 1:
-		alphaPos, alphaNeg = .1, .1
-
-	# For the pessimistic learner, the postive learning rate is set at 0.1, and the negative one at 0.4.
-	else:
-		alphaPos, alphaNeg = .1, .4
-
-	# We will compute the performance on each trial for all the iterations, and the probability of switching action after 800 trials.
+	# We will compute the performance on each trial for all the iterations and models, and the proportion of choice switch after 800 trials.
 	performance = np.nan * np.ones((NumberOfTrials, NumberOfIterations, len(ProbabilityOfPositiveOutcome)))
 	switch = np.nan * np.ones((NumberOfIterations, len(ProbabilityOfPositiveOutcome)))
 
 	# ConditionIdx refers to the task: 0 for the low-reward task, 1 for the high-reward task.
 	for conditionIdx in range(len(ProbabilityOfPositiveOutcome)):
 
-		NumberOfPositiveOutcomesBestAction = int(ProbabilityOfPositiveOutcome[conditionIdx, 0] * NumberOfTrials)
-		NumberOfNegativeOutcomesBestAction = NumberOfTrials - NumberOfPositiveOutcomesBestAction
-        
-		NumberOfPositiveOutcomesWorstAction = int(ProbabilityOfPositiveOutcome[conditionIdx, 1] * NumberOfTrials)
-		NumberOfNegativeOutcomesWorstAction = NumberOfTrials - NumberOfPositiveOutcomesWorstAction        
-
 		for iterationIdx in range(NumberOfIterations):
             
-            # The initial Q-values are set to 0. (The first element is the Q-value associated with the worst action, and the second with the best action.)
-			Q = np.zeros(2)
+            # The initial Q-values are fixed at 0. (The first element is the Q-value associated with the worst action, and the second with the best action.)
+			Q = np.zeros(2)        
 
-			# We create a vector for the outcomes (r = 1 or r = -1) that will be observed on each trial.
-			OutcomesBestAction = np.concatenate((np.ones((NumberOfPositiveOutcomesBestAction,), dtype=np.int), - np.ones((NumberOfNegativeOutcomesBestAction,), dtype=np.int)))
-			random.shuffle(OutcomesBestAction)
-
-			OutcomesWorstAction = np.concatenate((np.ones((NumberOfPositiveOutcomesWorstAction,), dtype=np.int), - np.ones((NumberOfNegativeOutcomesWorstAction,), dtype=np.int)))
-			random.shuffle(OutcomesWorstAction)            
-
+			# t is the trial index
 			for t in range(NumberOfTrials):
-                
-				ProbabilityToChooseBestAction = 1/(1+np.exp((Q[0]-Q[1])/beta))
-				if random.random() < ProbabilityToChooseBestAction:
-					action = 1 # the chosen action is the best one.
-					Outcome = OutcomesBestAction[t]
-				else:
-					action = 0 # the chosen action is the worst one.
-					Outcome = OutcomesWorstAction[t]
-				performance[t, iterationIdx, conditionIdx] = action
-                
-				deltaQ = Outcome - Q[action]
-				Q[action] += alphaPos * deltaQ * (deltaQ >= 0) + alphaNeg * deltaQ * (deltaQ < 0)
+				choice = randomChoice(Q, beta)
+				performance[t, iterationIdx, conditionIdx] = choice
+				reward = randomReward(ProbabilityOfPositiveOutcome[conditionIdx, choice])
+				Q[choice] += updateAsymmetricLearner(Q[choice], reward, Alphas[modelIdx,0], Alphas[modelIdx,1])
 
-			ProbabilityToChooseBestAction = 1/(1+np.exp((Q[0]-Q[1])/beta))
-			if random.random() < ProbabilityToChooseBestAction:
-				switch[iterationIdx, conditionIdx] = 1 - action
-			else:
-				switch[iterationIdx, conditionIdx] = action
+			# Finally we compute if the model will switch choices or not after 800 trials
+			nextChoice = randomChoice(Q, beta)
+			switch[iterationIdx, conditionIdx] = 1 * (nextChoice != choice)
 
-	if learnerIdx == 0:
-		meanPerformanceOptimisticLow, meanPerformanceOptimisticHigh = np.mean(performance[:,:,0], axis=1), np.mean(performance[:,:,1], axis=1)
-		switchOptimistic = np.mean(switch, axis=0)
-	elif learnerIdx == 1:
-		meanPerformanceRationalLow, meanPerformanceRationalHigh = np.mean(performance[:,:,0], axis=1), np.mean(performance[:,:,1], axis=1)
-		switchRational = np.mean(switch, axis=0)
+	if modelIdx == 0:
+		meanPerformanceOptimisticLow,  meanPerformanceOptimisticHigh  = np.mean(performance[:,:,0], axis=1), np.mean(performance[:,:,1], axis=1)
+		switchOptimistic  = np.mean(switch, axis=0)
+	elif modelIdx == 1:
+		meanPerformanceRationalLow,    meanPerformanceRationalHigh    = np.mean(performance[:,:,0], axis=1), np.mean(performance[:,:,1], axis=1)
+		switchRational    = np.mean(switch, axis=0)
 	else:
 		meanPerformancePessimisticLow, meanPerformancePessimisticHigh = np.mean(performance[:,:,0], axis=1), np.mean(performance[:,:,1], axis=1)
 		switchPessimistic = np.mean(switch, axis=0)
@@ -101,7 +71,6 @@ plt.ylabel('p(best choice)')
 
 plt.xticks([0, 100, 200, 300, 400, 500, 600, 700, 800], ('0','','','','400','','','','800'))
 plt.xlabel('trials')
-
 
 # The right panel of figure 2A:
 plt.subplot(3,2,2)

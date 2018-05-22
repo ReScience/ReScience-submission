@@ -1,0 +1,679 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.8 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \sortlist[entry]{nty/global/}
+    \entry{Duarte2007}{article}{}
+      \name{author}{8}{}{%
+        {{hash=fa9e924a006f70e44802162f297dbfce}{%
+           family={Duarte},
+           familyi={D\bibinitperiod},
+           given={Natalie\bibnamedelima C.},
+           giveni={N\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=58ebd19474a3c90d155b7aee89e38e7d}{%
+           family={Becker},
+           familyi={B\bibinitperiod},
+           given={Scott\bibnamedelima a},
+           giveni={S\bibinitperiod\bibinitdelim a\bibinitperiod}}}%
+        {{hash=017f77684d6304e24279c3bac9aa45b7}{%
+           family={Jamshidi},
+           familyi={J\bibinitperiod},
+           given={Neema},
+           giveni={N\bibinitperiod}}}%
+        {{hash=2e0f1047352d52b2df4e335ddb5885c5}{%
+           family={Thiele},
+           familyi={T\bibinitperiod},
+           given={Ines},
+           giveni={I\bibinitperiod}}}%
+        {{hash=dc5ede6ac1c6c0d747f72a5e3363472e}{%
+           family={Mo},
+           familyi={M\bibinitperiod},
+           given={Monica\bibnamedelima L.},
+           giveni={M\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=c6bf858548a982fd17ef2757b6e4e484}{%
+           family={Vo},
+           familyi={V\bibinitperiod},
+           given={Thuy\bibnamedelima D.},
+           giveni={T\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=e2a65555a8482616c81aaec009170a2a}{%
+           family={Srivas},
+           familyi={S\bibinitperiod},
+           given={Rohith},
+           giveni={R\bibinitperiod}}}%
+        {{hash=5b5bf3d8827d279c0b5180fc8db350fb}{%
+           family={Palsson},
+           familyi={P\bibinitperiod},
+           given={Bernhard\bibnamedelima {Ø}},
+           giveni={B\bibinitperiod\bibinitdelim Ø\bibinitperiod}}}%
+      }
+      \strng{namehash}{a96934f634635401395bd3bd348fdfd6}
+      \strng{fullhash}{9f37f7a86baa0714edcf77e32d1582ea}
+      \strng{authornamehash}{a96934f634635401395bd3bd348fdfd6}
+      \strng{authorfullhash}{9f37f7a86baa0714edcf77e32d1582ea}
+      \field{sortinit}{D}
+      \field{sortinithash}{d10b5413de1f3d197b20897dd0d565bb}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Metabolism is a vital cellular process, and its malfunction is a major contributor to human disease. Metabolic networks are complex and highly interconnected, and thus systems-level computational approaches are required to elucidate and understand metabolic genotype-phenotype relationships. We have manually reconstructed the global human metabolic network based on Build 35 of the genome annotation and a comprehensive evaluation of {>}50 years of legacy data (i.e., bibliomic data). Herein we describe the reconstruction process and demonstrate how the resulting genome-scale (or global) network can be used (i) for the discovery of missing information, (ii) for the formulation of an in silico model, and (iii) as a structured context for analyzing high-throughput biological data sets. Our comprehensive evaluation of the literature revealed many gaps in the current understanding of human metabolism that require future experimental investigation. Mathematical analysis of network structure elucidated the implications of intracellular compartmentalization and the potential use of correlated reaction sets for alternative drug target identification. Integrated analysis of high-throughput data sets within the context of the reconstruction enabled a global assessment of functional metabolic states. These results highlight some of the applications enabled by the reconstructed human metabolic network. The establishment of this network represents an important step toward genome-scale human systems biology.}
+      \field{isbn}{0610772104}
+      \field{issn}{0027-8424}
+      \field{journaltitle}{Proceedings of the National Academy of Sciences of the United States of America}
+      \field{month}{2}
+      \field{number}{6}
+      \field{title}{{Global reconstruction of the human metabolic network based on genomic and bibliomic data.}}
+      \field{volume}{104}
+      \field{year}{2007}
+      \field{pages}{1777\bibrangedash 1782}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1073/pnas.0610772104
+      \endverb
+      \verb{file}
+      \verb :Users/thierry/Documents/Mendeley Desktop/Duarte et al.{\_}2007{\_}Global reconstruction of the human metabolic network based on genomic and bibliomic data.pdf:pdf
+      \endverb
+      \keyw{read}
+    \endentry
+    \entry{Ebrahim2013}{article}{}
+      \name{author}{4}{}{%
+        {{hash=b05043062488d7f7270498dc64290c72}{%
+           family={Ebrahim},
+           familyi={E\bibinitperiod},
+           given={Ali},
+           giveni={A\bibinitperiod}}}%
+        {{hash=6280bfd7b1ee4883f5236920a54ffb0f}{%
+           family={Lerman},
+           familyi={L\bibinitperiod},
+           given={Joshua\bibnamedelima A},
+           giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=f6020e774ea6b6141c252663e2a0a44b}{%
+           family={Palsson},
+           familyi={P\bibinitperiod},
+           given={Bernhard\bibnamedelima O},
+           giveni={B\bibinitperiod\bibinitdelim O\bibinitperiod}}}%
+        {{hash=b5ced956ab0ada19f4f8ce9af24d9a42}{%
+           family={Hyduke},
+           familyi={H\bibinitperiod},
+           given={Daniel\bibnamedelima R},
+           giveni={D\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {BMC Systems Biology}%
+      }
+      \strng{namehash}{8c37dff68aee37fd2ad486d7b38b8c12}
+      \strng{fullhash}{3afdad84e06d950ee244ccd8f6ed8e18}
+      \strng{authornamehash}{8c37dff68aee37fd2ad486d7b38b8c12}
+      \strng{authorfullhash}{3afdad84e06d950ee244ccd8f6ed8e18}
+      \field{sortinit}{E}
+      \field{sortinithash}{07bbd5a529b5beaa311df5be05b874bc}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1752-0509}
+      \field{journaltitle}{BMC Systems Biology}
+      \field{number}{1}
+      \field{title}{{COBRApy: COnstraints-Based Reconstruction and Analysis for Python}}
+      \field{volume}{7}
+      \field{year}{2013}
+      \field{pages}{74}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1186/1752-0509-7-74
+      \endverb
+      \verb{file}
+      \verb :Users/thierry/Documents/Mendeley Desktop/Ebrahim et al.{\_}2013{\_}COBRApy COnstraints-Based Reconstruction and Analysis for Python.pdf:pdf
+      \endverb
+      \keyw{Constraint-based modeling,Gene expression,Genome-scale,Metabolism,Network reconstruction,constraint-based modeling,gene expression,genome-scale,metabolism,network reconstruction}
+    \endentry
+    \entry{Mahadevan2003}{article}{}
+      \name{author}{2}{}{%
+        {{hash=8d996b485fd428aca3a225f61019c730}{%
+           family={Mahadevan},
+           familyi={M\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+        {{hash=2c08b125328279f00ec057656feff213}{%
+           family={Schilling},
+           familyi={S\bibinitperiod},
+           given={C.\bibnamedelimi H.},
+           giveni={C\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+      }
+      \strng{namehash}{0d5a1103851745e875c84813988e807e}
+      \strng{fullhash}{0d5a1103851745e875c84813988e807e}
+      \strng{authornamehash}{0d5a1103851745e875c84813988e807e}
+      \strng{authorfullhash}{0d5a1103851745e875c84813988e807e}
+      \field{sortinit}{M}
+      \field{sortinithash}{c26a05ef03e4429073ed5c825140fac3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Genome-scale constraint-based models of several organisms have now been constructed and are being used for model driven research. A key issue that may arise in the use of such models is the existence of alternate optimal solutions wherein the same maximal objective (e.g., growth rate) can be achieved through different flux distributions. Herein, we investigate the effects that alternate optimal solutions may have on the predicted range of flux values calculated using currently practiced linear (LP) and quadratic programming (QP) methods. An efficient LP-based strategy is described to calculate the range of flux variability that can be present in order to achieve optimal as well as suboptimal objective states. Sample results are provided for growth predictions of E. coli using glucose, acetate, and lactate as carbon substrates. These results demonstrate the extent of flux variability to be highly dependent on environmental conditions and network composition. In addition we examined the impact of alternate optima for growth under gene knockout conditions as calculated using QP-based methods. It was observed that calculations using QP-based methods can show significant variation in growth rate if the flux variability among alternate optima is high. The underlying biological significance and general source of such flux variability is further investigated through the identification of redundancies in the network (equivalent reaction sets) that lead to alternate solutions. Collectively, these results illustrate the variability inherent in metabolic flux distributions and the possible implications of this heterogeneity for constraint-based modeling approaches. These methods also provide an efficient and robust method to calculate the range of flux distributions that can be derived from quantitative fermentation data. {©} 2003 Elsevier Inc. All rights reserved.}
+      \field{isbn}{1096-7176 (Print)$\backslash$r1096-7176 (Linking)}
+      \field{issn}{10967176}
+      \field{journaltitle}{Metabolic Engineering}
+      \field{number}{4}
+      \field{title}{{The effects of alternate optimal solutions in constraint-based genome-scale metabolic models}}
+      \field{volume}{5}
+      \field{year}{2003}
+      \field{pages}{264\bibrangedash 276}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1016/j.ymben.2003.09.002
+      \endverb
+      \keyw{Alternate optima,Escherichia coli,Flux variability,In silico model,Spectrum analysis}
+    \endentry
+    \entry{McKusick2007}{article}{}
+      \name{author}{1}{}{%
+        {{hash=85d64fe48a3150bfd5278e6b4cb5f592}{%
+           family={McKusick},
+           familyi={M\bibinitperiod},
+           given={Victor\bibnamedelima A},
+           giveni={V\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \strng{namehash}{85d64fe48a3150bfd5278e6b4cb5f592}
+      \strng{fullhash}{85d64fe48a3150bfd5278e6b4cb5f592}
+      \strng{authornamehash}{85d64fe48a3150bfd5278e6b4cb5f592}
+      \strng{authorfullhash}{85d64fe48a3150bfd5278e6b4cb5f592}
+      \field{sortinit}{M}
+      \field{sortinithash}{c26a05ef03e4429073ed5c825140fac3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Last year marked the 40th anniversary of the publication of the first print edition of Mendelian Inheritance in Man (MIM). 1 This seems an appropriate juncture at which to review its origins, evolution, and present status, including and particularly those of its online version, OMIM (Online Mendelian Inheritance in Man). This is an opportunity, at the same time, to review in brief the rapid progress in an important part of medical genetics and genomics, as chronicled in MIM/OMIM over these 40 years, and to contemplate the future challenges of OMIM. Description of MIM/OMIM MIM 1 and 2 is a comprehensive knowledgebase of human genes and genetic disorders. It consists of full-text overviews of genes and genetic phenotypes, particularly disorders, and is useful to students, researchers, and clinicians. It was initiated in the early 1960s as a trilogy of catalogs of autosomal dominant, autosomal recessive, and X-linked phenotypes. It has been maintained as an electronic file since 1964 and has been published in 12 print editions fig. 1 the first in 1966, the most recent (in three volumes) in 1998. (Various editions of MIM were translated into Russian 1976, Spanish 1976, and Mandarin 1996; see fig. 2 In 1987, it became generally available on the Internet, under the designation OMIM, from the Welch Medical Library at Johns Hopkins University. Since December 1995, it has been distributed on the World Wide Web from the National Center for Biotechnology Information (NCBI) of the National Library of Medicine. This knowledgebase is updated daily. Authoring and editing are headquartered at Johns Hopkins University School of Medicine.}
+      \field{isbn}{0002-9297 (Print)}
+      \field{issn}{00029297}
+      \field{journaltitle}{The American Journal of Human Genetics}
+      \field{month}{4}
+      \field{number}{4}
+      \field{title}{{Mendelian Inheritance in Man and Its Online Version, OMIM}}
+      \field{volume}{80}
+      \field{year}{2007}
+      \field{pages}{588\bibrangedash 604}
+      \range{pages}{17}
+      \verb{doi}
+      \verb 10.1086/514346
+      \endverb
+      \verb{file}
+      \verb :Users/thierry/Documents/Mendeley Desktop/McKusick{\_}2007{\_}Mendelian Inheritance in Man and Its Online Version, OMIM.pdf:pdf
+      \endverb
+      \keyw{and its online version,mendelian inheritance in man,omim,spectives in human genetics}
+    \endentry
+    \entry{Noor2012}{article}{}
+      \name{author}{6}{}{%
+        {{hash=a5dfa5eaf997d540eefd077c226d6a43}{%
+           family={Noor},
+           familyi={N\bibinitperiod},
+           given={Elad},
+           giveni={E\bibinitperiod}}}%
+        {{hash=ae4129b04ab3d0c000c330d82ccb72e9}{%
+           family={Bar-Even},
+           familyi={B\bibinithyphendelim E\bibinitperiod},
+           given={Arren},
+           giveni={A\bibinitperiod}}}%
+        {{hash=4f49522499aa219dd6496f21d490ee54}{%
+           family={Flamholz},
+           familyi={F\bibinitperiod},
+           given={Avi},
+           giveni={A\bibinitperiod}}}%
+        {{hash=7f572267c0a6b121e5ba4cb4c23fc0ff}{%
+           family={Lubling},
+           familyi={L\bibinitperiod},
+           given={Yaniv},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=34f1618871c623e09c2beb83e8898bd0}{%
+           family={Davidi},
+           familyi={D\bibinitperiod},
+           given={Dan},
+           giveni={D\bibinitperiod}}}%
+        {{hash=9fed56718464421f939e0b0d84997792}{%
+           family={Milo},
+           familyi={M\bibinitperiod},
+           given={Ron},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{8409f74ef2f5006f6b9350a1693676b9}
+      \strng{fullhash}{19ae7a0d4528193fb8afaf971023eca4}
+      \strng{authornamehash}{8409f74ef2f5006f6b9350a1693676b9}
+      \strng{authorfullhash}{19ae7a0d4528193fb8afaf971023eca4}
+      \field{sortinit}{N}
+      \field{sortinithash}{1163c28585427c673ad5a010cbf82f52}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{MOTIVATION The laws of thermodynamics describe a direct, quantitative relationship between metabolite concentrations and reaction directionality. Despite great efforts, thermodynamic data suffer from limited coverage, scattered accessibility and non-standard annotations. We present a framework for unifying thermodynamic data from multiple sources and demonstrate two new techniques for extrapolating the Gibbs energies of unmeasured reactions and conditions. RESULTS Both methods account for changes in cellular conditions (pH, ionic strength, etc.) by using linear regression over the $\Delta$G(○) of pseudoisomers and reactions. The Pseudoisomeric Reactant Contribution method systematically infers compound formation energies using measured K' and pK(a) data. The Pseudoisomeric Group Contribution method extends the group contribution method and achieves a high coverage of unmeasured reactions. We define a continuous index that predicts the reversibility of a reaction under a given physiological concentration range. In the characteristic physiological range 3$\mu$M-3mM, we find that roughly half of the reactions in Escherichia coli's metabolism are reversible. These new tools can increase the accuracy of thermodynamic-based models, especially in non-standard pH and ionic strengths. The reversibility index can help modelers decide which reactions are reversible in physiological conditions. AVAILABILITY Freely available on the web at: http://equilibrator.weizmann.ac.il. Website implemented in Python, MySQL, Apache and Django, with all major browsers supported. The framework is open-source (code.google.com/p/milo-lab), implemented in pure Python and tested mainly on Linux. CONTACT ron.milo@weizmann.ac.il SUPPLEMENTARY INFORMATION Supplementary data are available at Bioinformatics online.}
+      \field{isbn}{1367-4811}
+      \field{issn}{1367-4811}
+      \field{journaltitle}{Bioinformatics (Oxford, England)}
+      \field{month}{8}
+      \field{number}{15}
+      \field{title}{{An integrated open framework for thermodynamics of reactions that combines accuracy and coverage.}}
+      \field{volume}{28}
+      \field{year}{2012}
+      \field{pages}{2037\bibrangedash 2044}
+      \range{pages}{8}
+      \verb{doi}
+      \verb 10.1093/bioinformatics/bts317
+      \endverb
+      \verb{file}
+      \verb :Users/thierry/Documents/Mendeley Desktop/Noor et al.{\_}2012{\_}An integrated open framework for thermodynamics of reactions that combines accuracy and coverage.pdf:pdf
+      \endverb
+    \endentry
+    \entry{Sahoo2012}{article}{}
+      \name{author}{4}{}{%
+        {{hash=17d05c9d950ef97addd90057f87f04c0}{%
+           family={Sahoo},
+           familyi={S\bibinitperiod},
+           given={Swagatika},
+           giveni={S\bibinitperiod}}}%
+        {{hash=91baeb6300fa5f9e1d66c372cc72feed}{%
+           family={Franzson},
+           familyi={F\bibinitperiod},
+           given={Leifur},
+           giveni={L\bibinitperiod}}}%
+        {{hash=bd42f0990d3c0764c749ab6428cf65a6}{%
+           family={Jonsson},
+           familyi={J\bibinitperiod},
+           given={Jon\bibnamedelima J.},
+           giveni={J\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=2e0f1047352d52b2df4e335ddb5885c5}{%
+           family={Thiele},
+           familyi={T\bibinitperiod},
+           given={Ines},
+           giveni={I\bibinitperiod}}}%
+      }
+      \strng{namehash}{967486c9d7d0ddbc6a75db79b103b581}
+      \strng{fullhash}{ec4425f6a58f39efb7e459f2a64bd449}
+      \strng{authornamehash}{967486c9d7d0ddbc6a75db79b103b581}
+      \strng{authorfullhash}{ec4425f6a58f39efb7e459f2a64bd449}
+      \field{sortinit}{S}
+      \field{sortinithash}{3c1547c63380458f8ca90e40ed14b83e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1742-206X}
+      \field{journaltitle}{Molecular BioSystems}
+      \field{number}{10}
+      \field{title}{{A compendium of inborn errors of metabolism mapped onto the human metabolic network}}
+      \field{volume}{8}
+      \field{year}{2012}
+      \field{pages}{2545}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1039/c2mb25075f
+      \endverb
+      \verb{file}
+      \verb :Users/thierry/Documents/Mendeley Desktop/Sahoo et al.{\_}2012{\_}Molecular BioSystems A compendium of inborn errors of metabolism mapped onto the human metabolic network w z.pdf:pdf
+      \endverb
+    \endentry
+    \entry{Shlomi2009}{article}{}
+      \name{author}{3}{}{%
+        {{hash=4eb5a4261f45c390e0fce85bb2d7480b}{%
+           family={Shlomi},
+           familyi={S\bibinitperiod},
+           given={Tomer},
+           giveni={T\bibinitperiod}}}%
+        {{hash=057438ab5c7b0d4bcd58f436f354f000}{%
+           family={Cabili},
+           familyi={C\bibinitperiod},
+           given={Moran\bibnamedelima N},
+           giveni={M\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+        {{hash=1b53b5f21cdfcffa4afebd72c43a079c}{%
+           family={Ruppin},
+           familyi={R\bibinitperiod},
+           given={Eytan},
+           giveni={E\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Nature Publishing Group}%
+      }
+      \strng{namehash}{bf2134e232856ed085aedb6c9f9e223f}
+      \strng{fullhash}{bf2134e232856ed085aedb6c9f9e223f}
+      \strng{authornamehash}{bf2134e232856ed085aedb6c9f9e223f}
+      \strng{authorfullhash}{bf2134e232856ed085aedb6c9f9e223f}
+      \field{sortinit}{S}
+      \field{sortinithash}{3c1547c63380458f8ca90e40ed14b83e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Early diagnosis of inborn errors of metabolism is commonly performed through biofluid metabolomics, which detects specific metabolic biomarkers whose concentration is altered due to genomic mutations. The identification of new biomarkers is of major importance to biomedical research and is usually performed through data mining of metabolomic data. After the recent publication of the genome-scale network model of human metabolism, we present a novel computational approach for systematically predicting metabolic biomarkers in stochiometric metabolic models. Applying the method to predict biomarkers for disruptions of red-blood cell metabolism demonstrates a marked correlation with altered metabolic concentrations inferred through kinetic model simulations. Applying the method to the genome-scale human model reveals a set of 233 metabolites whose concentration is predicted to be either elevated or reduced as a result of 176 possible dysfunctional enzymes. The method's predictions are shown to significantly correlate with known disease biomarkers and to predict many novel potential biomarkers. Using this method to prioritize metabolite measurement experiments to identify new biomarkers can provide an order of a 10-fold increase in biomarker detection performance.}
+      \field{isbn}{1744-4292 (Electronic)}
+      \field{issn}{1744-4292}
+      \field{journaltitle}{Molecular Systems Biology}
+      \field{month}{4}
+      \field{number}{263}
+      \field{title}{{Predicting metabolic biomarkers of human inborn errors of metabolism}}
+      \field{volume}{5}
+      \field{year}{2009}
+      \field{pages}{263}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1038/msb.2009.22
+      \endverb
+      \verb{file}
+      \verb :Users/thierry/Documents/Mendeley Desktop/Shlomi, Cabili, Ruppin{\_}2009{\_}Predicting metabolic biomarkers of human inborn errors of metabolism.pdf:pdf
+      \endverb
+      \keyw{constraint-based modeling,disease biomarkers,human metabolism,inborn error of}
+    \endentry
+    \entry{Swainston2016}{article}{}
+      \name{author}{6}{}{%
+        {{hash=0aac9a14ced965329094c170b899ca5b}{%
+           family={Swainston},
+           familyi={S\bibinitperiod},
+           given={Neil},
+           giveni={N\bibinitperiod}}}%
+        {{hash=d76b49f5385d12ca831d682e4cd4aa1a}{%
+           family={Smallbone},
+           familyi={S\bibinitperiod},
+           given={Kieran},
+           giveni={K\bibinitperiod}}}%
+        {{hash=3a13633b8ddc6feb5564b281063883a9}{%
+           family={Hefzi},
+           familyi={H\bibinitperiod},
+           given={Hooman},
+           giveni={H\bibinitperiod}}}%
+        {{hash=22010303ef52dcfdeaad9f1beed962a6}{%
+           family={Dobson},
+           familyi={D\bibinitperiod},
+           given={Paul\bibnamedelima D},
+           giveni={P\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=63b366f55a9dc6277c89168064ffa425}{%
+           family={Orellana},
+           familyi={O\bibinitperiod},
+           given={Camila\bibnamedelima A},
+           giveni={C\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=2b5c843a51d0fdf13de3da5353a47928}{%
+           family={Thomas},
+           familyi={T\bibinitperiod},
+           given={Alex},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{8d97ed156ae121ad484b1be646207f3e}
+      \strng{fullhash}{4807fafa10d63ee7e9a65b2b69d52e74}
+      \strng{authornamehash}{8d97ed156ae121ad484b1be646207f3e}
+      \strng{authorfullhash}{4807fafa10d63ee7e9a65b2b69d52e74}
+      \field{sortinit}{S}
+      \field{sortinithash}{3c1547c63380458f8ca90e40ed14b83e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{{Recon 2.2: from reconstruction to model of human metabolism}}
+      \field{year}{2016}
+      \verb{doi}
+      \verb 10.1007/s11306-016-1051-4
+      \endverb
+      \verb{file}
+      \verb :Users/thierry/Documents/Mendeley Desktop/Swainston et al.{\_}2016{\_}Recon 2.2 from reconstruction to model of human metabolism.pdf:pdf
+      \endverb
+    \endentry
+    \entry{Thiele2013}{article}{}
+      \name{author}{46}{}{%
+        {{hash=2e0f1047352d52b2df4e335ddb5885c5}{%
+           family={Thiele},
+           familyi={T\bibinitperiod},
+           given={Ines},
+           giveni={I\bibinitperiod}}}%
+        {{hash=0aac9a14ced965329094c170b899ca5b}{%
+           family={Swainston},
+           familyi={S\bibinitperiod},
+           given={Neil},
+           giveni={N\bibinitperiod}}}%
+        {{hash=256bdbb9ae7a68dce73ce269379d2b10}{%
+           family={Fleming},
+           familyi={F\bibinitperiod},
+           given={Ronan\bibnamedelimb M\bibnamedelima T},
+           giveni={R\bibinitperiod\bibinitdelim M\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
+        {{hash=8cdd7188991be7d340ef98564871f3c8}{%
+           family={Hoppe},
+           familyi={H\bibinitperiod},
+           given={Andreas},
+           giveni={A\bibinitperiod}}}%
+        {{hash=17d05c9d950ef97addd90057f87f04c0}{%
+           family={Sahoo},
+           familyi={S\bibinitperiod},
+           given={Swagatika},
+           giveni={S\bibinitperiod}}}%
+        {{hash=1a17bfc5faffa5318fde0e4901ea395d}{%
+           family={Aurich},
+           familyi={A\bibinitperiod},
+           given={Maike\bibnamedelima K},
+           giveni={M\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+        {{hash=4c3acd198c39f8db8922cc19cc94836a}{%
+           family={Haraldsdottir},
+           familyi={H\bibinitperiod},
+           given={Hulda},
+           giveni={H\bibinitperiod}}}%
+        {{hash=15574bfb1b5a41c16056c61ae58a6fa8}{%
+           family={Mo},
+           familyi={M\bibinitperiod},
+           given={Monica\bibnamedelima L},
+           giveni={M\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=f639e51ca9002f0b1c5b53c53dc4c80f}{%
+           family={Rolfsson},
+           familyi={R\bibinitperiod},
+           given={Ottar},
+           giveni={O\bibinitperiod}}}%
+        {{hash=dcf35eb201700ef0a9f710026eab349e}{%
+           family={Stobbe},
+           familyi={S\bibinitperiod},
+           given={Miranda\bibnamedelima D},
+           giveni={M\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=b4d0fb9bb6c1ccd8e98ce3a8eea1d9fb}{%
+           family={Thorleifsson},
+           familyi={T\bibinitperiod},
+           given={Stefan\bibnamedelima G},
+           giveni={S\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=109cb96e1a52f58b24e3746df574ea9e}{%
+           family={Agren},
+           familyi={A\bibinitperiod},
+           given={Rasmus},
+           giveni={R\bibinitperiod}}}%
+        {{hash=3dbc56820d8f1676bfda8a86c074cec3}{%
+           family={Bölling},
+           familyi={B\bibinitperiod},
+           given={Christian},
+           giveni={C\bibinitperiod}}}%
+        {{hash=02a9bbf796fe12299f0608ed9462e8ad}{%
+           family={Bordel},
+           familyi={B\bibinitperiod},
+           given={Sergio},
+           giveni={S\bibinitperiod}}}%
+        {{hash=e745cb54da309ffe29fd35d92030377e}{%
+           family={Chavali},
+           familyi={C\bibinitperiod},
+           given={Arvind\bibnamedelima K},
+           giveni={A\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+        {{hash=73c6cd937b7630549ce47a48f09ceda3}{%
+           family={Dobson},
+           familyi={D\bibinitperiod},
+           given={Paul},
+           giveni={P\bibinitperiod}}}%
+        {{hash=891d71fa852476f378a067f08dfca6a9}{%
+           family={Dunn},
+           familyi={D\bibinitperiod},
+           given={Warwick\bibnamedelima B},
+           giveni={W\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+        {{hash=776bd07becff688d6e79e34b349b79c5}{%
+           family={Endler},
+           familyi={E\bibinitperiod},
+           given={Lukas},
+           giveni={L\bibinitperiod}}}%
+        {{hash=0db33f07607c6584ff6a322ef49938e9}{%
+           family={Hala},
+           familyi={H\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+        {{hash=46f3e48d5c3a1410b18eadac8585468d}{%
+           family={Hucka},
+           familyi={H\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+        {{hash=49dc08a625b27f76e9cf756a8cc7ec2c}{%
+           family={Hull},
+           familyi={H\bibinitperiod},
+           given={Duncan},
+           giveni={D\bibinitperiod}}}%
+        {{hash=128839f008b2f45d7f6cfa7726946932}{%
+           family={Jameson},
+           familyi={J\bibinitperiod},
+           given={Daniel},
+           giveni={D\bibinitperiod}}}%
+        {{hash=017f77684d6304e24279c3bac9aa45b7}{%
+           family={Jamshidi},
+           familyi={J\bibinitperiod},
+           given={Neema},
+           giveni={N\bibinitperiod}}}%
+        {{hash=e48d723dfe0e87029ed0a25e21a0d397}{%
+           family={Jonsson},
+           familyi={J\bibinitperiod},
+           given={Jon\bibnamedelima J},
+           giveni={J\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=67e3357ddcbe60d5c5aaa319917d071a}{%
+           family={Juty},
+           familyi={J\bibinitperiod},
+           given={Nick},
+           giveni={N\bibinitperiod}}}%
+        {{hash=80a7e53f0ea086c12bf47636d7af8855}{%
+           family={Keating},
+           familyi={K\bibinitperiod},
+           given={Sarah},
+           giveni={S\bibinitperiod}}}%
+        {{hash=5981ace27c669a095f46027690e13f27}{%
+           family={Nookaew},
+           familyi={N\bibinitperiod},
+           given={Intawat},
+           giveni={I\bibinitperiod}}}%
+        {{hash=8bb1df681358f802290ac36f86677931}{%
+           family={{Le Novère}},
+           familyi={L\bibinitperiod},
+           given={Nicolas},
+           giveni={N\bibinitperiod}}}%
+        {{hash=77e78679e5e711747ca1d79e477d78af}{%
+           family={Malys},
+           familyi={M\bibinitperiod},
+           given={Naglis},
+           giveni={N\bibinitperiod}}}%
+        {{hash=1d89b50122bc374aaf4be63511d32b66}{%
+           family={Mazein},
+           familyi={M\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod}}}%
+        {{hash=d0078438b4ec01f57a34a68b86fea034}{%
+           family={Papin},
+           familyi={P\bibinitperiod},
+           given={Jason\bibnamedelima A},
+           giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=29ce0400e2a0270f132f84a8e0bb65e1}{%
+           family={Price},
+           familyi={P\bibinitperiod},
+           given={Nathan\bibnamedelima D},
+           giveni={N\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=c57a62feca9979a29cba52b26ec85211}{%
+           family={Selkov},
+           familyi={S\bibinitperiod},
+           given={Evgeni},
+           giveni={E\bibinitperiod}}}%
+        {{hash=25a316886d95675575b9835b0baabfa6}{%
+           family={Sigurdsson},
+           familyi={S\bibinitperiod},
+           given={Martin\bibnamedelima I},
+           giveni={M\bibinitperiod\bibinitdelim I\bibinitperiod}}}%
+        {{hash=2ae1bd04de84e039c47a9fb528ee8bec}{%
+           family={Simeonidis},
+           familyi={S\bibinitperiod},
+           given={Evangelos},
+           giveni={E\bibinitperiod}}}%
+        {{hash=b34879986d1643878d3f725679c66a0a}{%
+           family={Sonnenschein},
+           familyi={S\bibinitperiod},
+           given={Nikolaus},
+           giveni={N\bibinitperiod}}}%
+        {{hash=d76b49f5385d12ca831d682e4cd4aa1a}{%
+           family={Smallbone},
+           familyi={S\bibinitperiod},
+           given={Kieran},
+           giveni={K\bibinitperiod}}}%
+        {{hash=0352544f1c0efaf5869af885f4d09f56}{%
+           family={Sorokin},
+           familyi={S\bibinitperiod},
+           given={Anatoly},
+           giveni={A\bibinitperiod}}}%
+        {{hash=1388d15eaaf5068b177671f3dc2c7361}{%
+           family={Beek},
+           familyi={B\bibinitperiod},
+           given={Johannes\bibnamedelimb H\bibnamedelimb G\bibnamedelima M},
+           giveni={J\bibinitperiod\bibinitdelim H\bibinitperiod\bibinitdelim G\bibinitperiod\bibinitdelim M\bibinitperiod},
+           prefix={van},
+           prefixi={v\bibinitperiod}}}%
+        {{hash=bf7c2bfdf9eb6252f7381b7efe721fac}{%
+           family={Weichart},
+           familyi={W\bibinitperiod},
+           given={Dieter},
+           giveni={D\bibinitperiod}}}%
+        {{hash=38cdb99f65ca2a1a142dbd7ef74f7f58}{%
+           family={Goryanin},
+           familyi={G\bibinitperiod},
+           given={Igor},
+           giveni={I\bibinitperiod}}}%
+        {{hash=7367c4123d321556d38803b11cd83308}{%
+           family={Nielsen},
+           familyi={N\bibinitperiod},
+           given={Jens},
+           giveni={J\bibinitperiod}}}%
+        {{hash=e6d1963f970f9c7627df764caba49851}{%
+           family={Westerhoff},
+           familyi={W\bibinitperiod},
+           given={Hans\bibnamedelima V},
+           giveni={H\bibinitperiod\bibinitdelim V\bibinitperiod}}}%
+        {{hash=d9b8a97ca6475a724c752469b314275e}{%
+           family={Kell},
+           familyi={K\bibinitperiod},
+           given={Douglas\bibnamedelima B},
+           giveni={D\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+        {{hash=075686383394e8aa7ef64f9716c609c6}{%
+           family={Mendes},
+           familyi={M\bibinitperiod},
+           given={Pedro},
+           giveni={P\bibinitperiod}}}%
+        {{hash=5b5bf3d8827d279c0b5180fc8db350fb}{%
+           family={Palsson},
+           familyi={P\bibinitperiod},
+           given={Bernhard\bibnamedelima {Ø}},
+           giveni={B\bibinitperiod\bibinitdelim Ø\bibinitperiod}}}%
+      }
+      \strng{namehash}{76b0eb45280b7480d402ac1b7a0e78af}
+      \strng{fullhash}{6139b3ce36e7bdd65ca936c833171610}
+      \strng{authornamehash}{76b0eb45280b7480d402ac1b7a0e78af}
+      \strng{authorfullhash}{6139b3ce36e7bdd65ca936c833171610}
+      \field{sortinit}{T}
+      \field{sortinithash}{2e5c2f51f7fa2d957f3206819bf86dc3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Multiple models of human metabolism have been reconstructed, but each represents only a subset of our knowledge. Here we describe Recon 2, a community-driven, consensus 'metabolic reconstruction', which is the most comprehensive representation of human metabolism that is applicable to computational modeling. Compared with its predecessors, the reconstruction has improved topological and functional features, including ∼2× more reactions and ∼1.7× more unique metabolites. Using Recon 2 we predicted changes in metabolite biomarkers for 49 inborn errors of metabolism with 77{\%} accuracy when compared to experimental data. Mapping metabolomic data and drug information onto Recon 2 demonstrates its potential for integrating and analyzing diverse data types. Using protein expression data, we automatically generated a compendium of 65 cell type-specific models, providing a basis for manual curation or investigation of cell-specific metabolic properties. Recon 2 will facilitate many future biomedical studies and is freely available at http://humanmetabolism.org/.}
+      \field{isbn}{1546-1696 (Electronic)$\backslash$r1087-0156 (Linking)}
+      \field{issn}{1546-1696}
+      \field{journaltitle}{Nature biotechnology}
+      \field{number}{5}
+      \field{title}{{A community-driven global reconstruction of human metabolism.}}
+      \field{volume}{31}
+      \field{year}{2013}
+      \field{pages}{419\bibrangedash 425}
+      \range{pages}{7}
+      \verb{doi}
+      \verb 10.1038/nbt.2488
+      \endverb
+      \verb{file}
+      \verb :Users/thierry/Documents/Mendeley Desktop/Thiele et al.{\_}2013{\_}A community-driven global reconstruction of human metabolism.pdf:pdf
+      \endverb
+    \endentry
+  \endsortlist
+\endrefsection
+\endinput
+

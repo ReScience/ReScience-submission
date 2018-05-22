@@ -1,0 +1,18 @@
+,IEM,Affected reactions,Elevated,Reduced,Elevated sub-threshold,Reduced sub-threshold
+0,S-Adenosylhomocysteine hydrolase,"['AHCi', 'SEAHCYSHYD']",['L-Methionine'],['L-Cysteine'],[],"['L-Glutamine', 'L-Asparagine']"
+1,Alkaptonuria,['HGNTOR'],['L-Tyrosine'],[],"['L-Asparagine', 'L-Glutamine']",[]
+2,Arginase deficiency,['ARGN'],[],[],[],[]
+3,Cystinuria,"['CYSTSERex', 'SERLYSNaex']",[],[],[],[]
+4,Lysinuric protein intolerance,['SERLYSNaex'],[],[],[],[]
+5,Glutamate formiminotransferase deficiency,"['FTCD', 'GluForTx']",['L-Histidine'],[],[],"['L-Glutamine', 'L-Asparagine']"
+6,Histidinemia,['HISDr'],['L-Histidine'],[],[],"['L-Glutamine', 'L-Asparagine']"
+7,Homocystinuria,"['CYSTS', 'MTHFR3', 'METS']",['L-Methionine'],['L-Cysteine'],[],"['L-Glutamine', 'L-Asparagine']"
+8,Hyperprolinemia type I,"['PRO1xm', 'PROD2m']",[],[],[],[]
+9,maple syrup urine disease,"['OIVD2m', 'OIVD1m', 'OIVD3m']","['L-Valine', 'L-Leucine', 'L-Isoleucine']",[],[],"['L-Glutamine', 'L-Asparagine']"
+10,Methionine adenosyltransferase deficiency,"['METAT', 'SELMETAT']",['L-Methionine'],['L-Cysteine'],[],"['L-Glutamine', 'L-Asparagine']"
+11,methylmalonic acidemia (MMA),"['CBLATm', 'CBL2tm', 'MMMm']",['L-Isoleucine'],[],[],"['L-Glutamine', 'L-Asparagine']"
+12,phenylketonuria,['PHETHPTOX2'],['L-Phenylalanine'],['L-Tyrosine'],[],"['L-Asparagine', 'L-Glutamine']"
+13,Tetrahydrobiopterin deficiency,['DHPR'],[],[],[],[]
+14,Tyrosinemia type 1,['FUMAC'],['L-Tyrosine'],[],"['L-Asparagine', 'L-Glutamine']",[]
+15,Tyrosinemia type III,"['PPOR', '34HPPOR']",['L-Tyrosine'],[],"['L-Glutamine', 'L-Asparagine']",[]
+16,Glycine encephalopathy/ nonketotic hyperglycinemia / NKH,"['GCC2am', 'GCC2bim', 'GCC2cm', 'GCCam', 'GCCbim', 'GCCcm']",[],[],[],[]

@@ -1,0 +1,25 @@
+[0] Config.pm:354> INFO - This is Biber 2.7
+[0] Config.pm:357> INFO - Logfile is 'Mondeel_Ogundipe_Westerhoff-2017.blg'
+[42] biber-darwin:303> INFO - === Tue Feb 20, 2018, 13:06:04
+[67] Biber.pm:359> INFO - Reading 'Mondeel_Ogundipe_Westerhoff-2017.bcf'
+[194] Biber.pm:835> INFO - Found 9 citekeys in bib section 0
+[211] Biber.pm:3670> INFO - Processing section 0
+[226] Biber.pm:3840> INFO - Looking for bibtex format file 'bibliography.bib' for section 0
+[230] bibtex.pm:1435> INFO - Decoding LaTeX character macros into UTF-8
+[241] bibtex.pm:1292> INFO - Found BibTeX data source 'bibliography.bib'
+[268] Utils.pm:164> WARN - ISBN '1744-4292 (Electronic)' in entry 'Shlomi2009' is invalid - run biber with '--validate_datamodel' for details.
+[269] Utils.pm:164> WARN - month field 'apr' in entry 'Shlomi2009' is not an integer - this will probably not sort properly.
+[271] Utils.pm:164> WARN - ISBN '1096-7176 (Print)$\backslash$r1096-7176 (Linking)' in entry 'Mahadevan2003' is invalid - run biber with '--validate_datamodel' for details.
+[274] Utils.pm:164> WARN - month field 'feb' in entry 'Duarte2007' is not an integer - this will probably not sort properly.
+[290] Utils.pm:164> WARN - ISBN '1546-1696 (Electronic)$\backslash$r1087-0156 (Linking)' in entry 'Thiele2013' is invalid - run biber with '--validate_datamodel' for details.
+[298] Utils.pm:164> WARN - ISBN '1367-4811' in entry 'Noor2012' is invalid - run biber with '--validate_datamodel' for details.
+[298] Utils.pm:164> WARN - month field 'aug' in entry 'Noor2012' is not an integer - this will probably not sort properly.
+[301] Utils.pm:164> WARN - ISBN '0002-9297 (Print)' in entry 'McKusick2007' is invalid - run biber with '--validate_datamodel' for details.
+[301] Utils.pm:164> WARN - month field 'apr' in entry 'McKusick2007' is not an integer - this will probably not sort properly.
+[321] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[321] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[321] Biber.pm:3499> INFO - Sorting list 'nty/global/' of type 'entry' with scheme 'nty' and locale 'en-US'
+[321] Biber.pm:3505> INFO - No sort tailoring available for locale 'en-US'
+[332] bbl.pm:608> INFO - Writing 'Mondeel_Ogundipe_Westerhoff-2017.bbl' with encoding 'UTF-8'
+[336] bbl.pm:712> INFO - Output to Mondeel_Ogundipe_Westerhoff-2017.bbl
+[336] Biber.pm:109> INFO - WARNINGS: 9

@@ -91,9 +91,9 @@ plt.xlabel('trials')
 gs = gridspec.GridSpec(3, 4)
 plt.subplot(gs[2, 1:-1])
 
-plt.bar([1,6], switchOptimistic, width = 1, edgecolor = 'k', color='g')
-plt.bar([2,7], switchRational, width = 1, edgecolor = 'k', color='b')
-plt.bar([3,8], switchPessimistic, width = 1, edgecolor = 'k', color='r')
+plt.bar([1,6], switchOptimistic, width = 1, align = 'center', edgecolor = 'k', color='g')
+plt.bar([2,7], switchRational, width = 1, align = 'center', edgecolor = 'k', color='b')
+plt.bar([3,8], switchPessimistic, width = 1, align = 'center',"" edgecolor = 'k', color='r')
 
 plt.axis([.5, 8.5, 0, 1])
 plt.locator_params(axis='y',nbins=6)

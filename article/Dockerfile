@@ -13,6 +13,8 @@ RUN apt-get update
 RUN apt-get install fonts-lmodern
 RUN apt-get -y install texlive-fonts-extra
 RUN apt-get -y install fonts-font-awesome
+RUN apt-get update
+RUN apt-get -y install biber --fix-missing
 WORKDIR /root
-ENTRYPOINT ["pandoc"]
-CMD ["--help"]
+ENTRYPOINT ["./build-in-docker.sh"]
+#CMD ["--help"]

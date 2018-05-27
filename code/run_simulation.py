@@ -33,7 +33,7 @@ def run_sim(run_idx, pararow=0, only_success=False):
 		number_pat = int(para[pararow, 3])
 		pattern_freq = para[pararow, 4]
 		spike_del = para[pararow, 5]
-		T = para[pararow, 6]  #  0.5*(1-spike_del)*number_pat
+		T = para[pararow, 6]  # 0.5*(1-spike_del)*number_pat
 		number_neurons = 2000
 
 

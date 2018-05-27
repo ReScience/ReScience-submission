@@ -1,6 +1,7 @@
 from brian2 import *
 from numba import jit
 import numpy
+from numpy import array
 
 
 @jit(nopython=True) # numba decorator compiles this function into low level code to run faster
@@ -24,7 +25,7 @@ def make_single_train(min_rate, max_rate, max_time_wo_spike, max_change_speed, r
 		rate_change = rate_change + 1 / 5 * 2 * (numpy.random.rand() - .5) * max_change_speed
 		rate_change = max(min(rate_change, max_change_speed), -max_change_speed)
 		firing_rate = max(min(firing_rate, max_rate), min_rate)
-	return array(st)
+	return st
 
 
 def make_input(min_rate, max_rate, max_time_wo_spike, max_change_speed, runduration, number_neurons, dt_createpattern):
@@ -33,7 +34,7 @@ def make_input(min_rate, max_rate, max_time_wo_spike, max_change_speed, rundurat
 	afferents = []
 	runduration1 = min(runduration, 150)  # input will be tripled later, only need 150s
 	for n in range(number_neurons):
-		st = make_single_train(min_rate, max_rate, max_time_wo_spike, max_change_speed, runduration, number_neurons, dt_createpattern)
+		st = numpy.array(make_single_train(min_rate, max_rate, max_time_wo_spike, max_change_speed, runduration, number_neurons, dt_createpattern))
 		spiketimes.append(st)
 		afferents.append(n*ones(len(st)))
 	spiketimes = hstack(spiketimes)

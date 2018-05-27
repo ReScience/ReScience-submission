@@ -53,7 +53,7 @@ The packages required to run this implementation and the versions on which they 
 
 #### Installing packages
 
-We advise to create a seperate environment to make sure that package versions match and the code runs successfully. 
+We advise to create a separate environment to make sure that package versions match and the code runs successfully. 
 
 To install packages manually, one can use Anaconda 
 
@@ -94,9 +94,9 @@ Usage: python main.py --new True
 
 **figure_6.py** : creates figure 6, by default running this script will run 10 repetitions of 3 different time step sizes. can be run independently from other figures
 
-**figure_7CD.py** : creates figure 1, can be run independently from other figures. Note that this figure might differ from the one in the text due to the all-to-all STDP rule beind less reliable at finding the pattern.
+**figure_7CD.py** : creates figure 7CD, can be run independently from other figures. Note that this figure might differ from the one in the text due to the all-to-all STDP rule beind less reliable at finding the pattern.
 
-**figure_8.py** : creates figure 1, can be run independently from other figures
+**figure_8.py** : creates figure 8, can be run independently from other figures
 
 **run_simulation.py** : runs the main pattern finding algorithm and creates figures 3, 4, 7AB, can be run independently from other figures
 

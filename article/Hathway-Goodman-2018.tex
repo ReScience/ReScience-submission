@@ -12,7 +12,7 @@
             pdfauthor=
 {
       Pamela Hathway,
-      Dan Goodman,,
+      Dan F. M. Goodman,,
   },
             pdftitle=
 {
@@ -28,7 +28,7 @@ in Continuous Spike Trains
 \usepackage{tcolorbox}
 \usepackage{ragged2e}
 \usepackage{fontspec}
-\defaultfontfeatures{Path = /usr/local/texlive/2018/texmf-dist/fonts/opentype/public/fontawesome/}
+%\defaultfontfeatures{Path = /usr/local/texlive/2018/texmf-dist/fonts/opentype/public/fontawesome/}
 \usepackage{fontawesome}
 \usepackage{caption}
 \usepackage{listings}
@@ -155,7 +155,7 @@ in Continuous Spike Trains}
 
     \usepackage{authblk}
                         \author[1]{Pamela Hathway}
-                    \author[1]{Dan Goodman,}
+                    \author[1]{Dan F. M. Goodman,}
                             \affil[1]{Department of Electrical and Electronic Engineering, Imperial College,
 London, UK}
             
@@ -227,32 +227,32 @@ ONE 3(1): e1377, 2008. https://doi.org/10.1371/journal.pone.0001377
 
 Neurons communicate through repeated, specifically timed action
 potential sequences (spike patterns) to convey information
-\cite{Fellous2004, Prut1998}. Since neuronal activity is noisy and
+\autocites{Fellous2004}{Prut1998}. Since neuronal activity is noisy and
 neurons are likely involved in a multitude of spike patterns of various
 lengths and extent, it can be hard to find spike patterns at first
 glance. The more neurons are recorded, the more difficult the task
 becomes due to the exponential increase of possible combinations of
-spikes that could make up a pattern \cite{Buonomano2009}. It is unclear
-how neurons in the brain may extract relevant information from such
-input. In a 2008 paper, Masquelier and colleagues demonstrated that a
-single neuron with spike timing dependent plasticity (STDP) synapses is
-able to find the start of a repeating pattern in noisy (artificial) data
-\cite{Masq2008}.
+spikes that could make up a pattern \autocite{Buonomano2009}. It is
+unclear how neurons in the brain may extract relevant information from
+such input. In a 2008 paper, Masquelier and colleagues demonstrated that
+a single neuron with afferent synapses exhibiting spike timing dependent
+plasticity (STDP) is able to find the start of a repeating pattern in
+noisy (artificial) data \autocite{Masq2008}.
 
 \textcite{Masq2008} use a simple feedforward network in which 2000 input
 neurons connect to one output neuron via excitatory STDP synapses. Half
 of the input neurons spike according to a spike pattern of 50 ms length
-for about 25\% of the time. Finding the pattern is additionally made
-difficult by jittering the pattern spikes, adding random noise spikes to
-all neurons, and a constant population rate as well as no differences in
-overall firing rate between neurons.
+for about 25\% of the time. Finding the pattern is made more difficult
+by jittering the pattern spikes, adding random noise spikes to all
+neurons, and ensuring a constant population rate as well as no
+differences in overall firing rate between neurons.
 
 We replicated their findings using the spiking neural network simulator
-Brian \cite{Goodman2009, Stimberg2014}, whereas the the original study
-implemented the simulations in Matlab, with the main functions being
-computed in C/C++ through mex files. In addition, we examined some of
-the implementation parameters and investigated whether they were
-essential to the success of the algorithm.
+Brian \autocites{Goodman2009}{Stimberg2014}, whereas the the original
+study implemented the simulations in Matlab, with the main functions
+being computed in C/C++ through mex files. In addition, we examined some
+of the implementation details and parameters and investigated whether
+they were essential to the success of the algorithm.
 
 \section{Methods}\label{methods}
 
@@ -262,7 +262,7 @@ attempted to stay as true as possible to the original study. Simulation
 parameters were taken from the text and we additionally obtained the
 source code for the standard parameter configuration from the authors to
 ensure equivalency of the implementations. The source code for deleting
-spikes within the pattern (Figure ~\ref{fig:para} E) was not provided.
+spikes within the pattern (Fig.~\ref{fig:para} E) was not provided.
 
 \subsection{Running simulations}\label{running-simulations}
 
@@ -275,7 +275,7 @@ calculated over the last 150 s of the simulation).
 
 \hypertarget{tbl:param}{}
 \begin{longtable}[]{@{}lrr@{}}
-\caption{\label{tbl:param}Parameter variations}\tabularnewline
+\caption{\label{tbl:param}Parameter variations }\tabularnewline
 \toprule
 parameters & standard & variations\tabularnewline
 \midrule
@@ -300,31 +300,34 @@ instantaneous firing rate (30-90 Hz, 64 Hz on average) with no
 refractory period.
 
 The absence of a refractory period in the input neurons has the effect
-inter spike intervals can be as small as 10\(^{-9}\) s in some cases.
-The original implementation calculates the simulation variables (output
-neuron voltage etc.) at every input neuron or output neuron spike, so
-such small inter spike intervals are not a problem.
+that inter spike intervals can be as small as 10\(^{-9}\) s in some
+cases. The original implementation uses an event-based simulation method
+in which the simulation variables (output neuron voltage etc.) are
+calculated at every input neuron or output neuron spike, and so such
+small inter spike intervals are not a problem.
 
 Brian on the other hand uses discrete time steps for its simulations and
 updates its simulation variables once per time step. In order to convert
 the original spike trains into Brian, we had to modify the spike trains
 slightly: whenever two spikes from the same neuron happened in the same
 time step, we deleted the second spike. At a resolution of 10\(^{-4}\) s
-(standard time step) this affected 0.25\% of all spikes and 0.0025\% at
-a resolution of 10\(^{-6}\) s. Deleting spikes does not affect the
-amount of incoming voltage significantly since the initial firing rate
-of the output neuron is the same with or without the close spikes.
+(standard time step) this affected 0.25\% of all spikes, and at a
+resolution of 10\(^{-6}\) s it affected 0.0025\%. Deleting spikes does
+not affect the input drive to the neuron significantly since the initial
+firing rate of the output neuron is the same with or without the close
+spikes.
 
 \subsection{Leaky Integrate and Fire
 neuron}\label{leaky-integrate-and-fire-neuron}
 
 The original study models the potential of the output neuron with the
-Gerstner's Spike Response model (SRM) \cite{Gerstner2002}, which uses
-kernels to calculate the effect of incoming spikes on the postsynaptic
-voltage. Brian on the other hand uses differential equations to model
-the system parameters and evaluates those equations for each time step.
-We converted the kernels of the posystnaptic potential and the spike
-afterpotential into the following differential equations:
+Gerstner's Spike Response model (SRM) \autocite{Gerstner2002}, which
+uses kernels to calculate the effect of incoming spikes on the
+postsynaptic voltage. Brian on the other hand uses differential
+equations to model the system parameters and evaluates those equations
+for each time step. We converted the kernels of the posystnaptic
+potential and the spike afterpotential into the following differential
+equations:
 
 \begin{equation}\frac{du}{dt} = \frac{Xx - u}{\tau_{m}} + \frac{Aa}{\tau_{s}} \label{eq:u} \label{eq:1}\end{equation}
 
@@ -332,22 +335,23 @@ afterpotential into the following differential equations:
 
 \begin{equation}\frac{da}{dt} = -\frac{A}{\tau_{s}}\label{eq:3}\end{equation}
 
-The values for the parameters can be found in Table ~\ref{tbl:param}.
-Equation ~\ref{eq:1} describes the postsynaptic membrane potential,
-which is influenced by presynaptic excitatory postsynaptic potentials
-(EPSPs, first term) and a negative afterpotential after a spike (second
-term). In the event of a presynaptic spike, x is set to 1, which
-initiates the voltage increase in the postsynaptic neuron. When the
-postsynaptic voltage reaches the threshold, a spike occurs: the voltage
-u is set to twice the threshold, all EPSPs are flushed (all x set to 0)
-and the negative afterpotential is set into motion (a is set to 1).
-Presynaptic spikes had the same effect on the postsynaptic neuron
-potential as in the original publication as shown in Figure
-~\ref{fig:pot}.
+The values for the parameters can be found in Tbl.~\ref{tbl:param}.
+Eq.~\ref{eq:1} describes the postsynaptic membrane potential, which is
+influenced by presynaptic excitatory postsynaptic potentials (EPSPs,
+first term) and a negative afterpotential after a spike (second term).
+In the event of a presynaptic spike, \(x\) is increased by 1
+(\(x\leftarrow x+1\)), which initiates the voltage increase in the
+postsynaptic neuron. When the postsynaptic voltage reaches the
+threshold, a spike occurs: the voltage \(u\) is set to twice the
+threshold (\(u\leftarrow 2T\)), all EPSPs are flushed (all \(x\) set to
+0, \(x\leftarrow 0\)) and the negative afterpotential is set into motion
+(\(a\) is set to 1, \(a\leftarrow 1\)). Presynaptic spikes had the same
+effect on the postsynaptic neuron potential as in the original
+publication as shown in Fig.~\ref{fig:pot}.
 
 \hypertarget{tbl:simt}{}
 \begin{longtable}[]{@{}lrllr@{}}
-\caption{\label{tbl:simt}Simulation parameters}\tabularnewline
+\caption{\label{tbl:simt}Simulation parameters }\tabularnewline
 \toprule
 LIF neuron & value & \ldots{}\ldots{}\ldots{}\ldots{}\ldots{} & STDP &
 value\tabularnewline
@@ -376,11 +380,11 @@ A & -3 T & & \(w_{max}\) & 1\tabularnewline
 \centering
 \includegraphics{figures/fig1_potentials.pdf}
 \caption{Postsynaptic potential. The postsynaptic potential of the
-replication implementation behaves the same as in the original study as.
+replication implementation behaves the same as in the original study.
 Both show the same EPSP shapes and the negative afterpotential after a
 postsynaptic spike. \textbf{A}) The postsynaptic potential of the
 original study was calculated using the equations given in the original
-paper. \textbf{B}) The postsynpatic potential in the replication
+paper. \textbf{B}) The postsynaptic potential in the replication
 implementation was calculated from the differential equations specified
 in section \textbf{Leaky Integrate and Fire neuron}}\label{fig:pot}
 \end{figure}
@@ -389,23 +393,22 @@ in section \textbf{Leaky Integrate and Fire neuron}}\label{fig:pot}
 Plasticity}\label{spike-timing-dependent-plasticity}
 
 For synaptic plasticity, the original study uses the reduced nearest
-neighbor rule (RNN) cite\{Morrison2008\} - a more restrictive version of
-the nearest neighbor (NN) STDP rule. In the standard NN rule, every
+neighbor rule (RNN) \autocite{Morrison2008} - a more restrictive version
+of the nearest neighbor (NN) STDP rule. In the standard NN rule, every
 spike causes a weight change (with the amount depending on the timing of
 the nearest spike), while for RNN a weight change only happens for the
 first postsynaptic spike immediately following a presynaptic spike (or
 vice versa). This means that for NN, there can be a series of
-potentiations or depressions, whereas for rNN potentiations and
-depressions strictly alternate (due to neurons being forced to spike at
-least once every 50 ms, see \cite{Masq2008}).
+potentiations or depressions, whereas for RNN potentiations and
+depressions strictly alternate.
 
-A visualisation of three STDP rules is shown in Figure ~\ref{fig:stdp}:
-the RNN, the standard NN and the all-to-all (ATA) rule, in which all
-pairs of spikes are considered to calculate the weight change. A case is
+A visualisation of three STDP rules is shown in Fig.~\ref{fig:stdp}: the
+RNN, the standard NN and the all-to-all (ATA) rule, in which all pairs
+of spikes are considered to calculate the weight change. A case is
 considered in which the presynaptic neuron (the input neurons in this
 study) spikes more often than the postsynaptic neuron (the output neuron
 in this study), leading to synaptic weight decreases for ATA and NN, but
-no visible net change under RNN (Figure ~\ref{fig:stdp}\textbf{C}).
+no visible net change under RNN (Fig.~\ref{fig:stdp} \textbf{C}).
 
 \begin{figure}
 \centering
@@ -429,9 +432,9 @@ net weight change.}\label{fig:stdp}
 The ability to find repeating patterns was reproduced in the replication
 implementation. We could qualitatively reproduce all results of the
 original paper and show the reproduced figures relevant to the model
-behaviour: latency development (Figure ~\ref{fig:lat}), pattern
-specificity after convergence (Figure ~\ref{fig:conv}), and robustness
-(Figure ~\ref{fig:para}). In addition, we comment on some implementation
+behaviour: latency development (Fig.~\ref{fig:lat}), pattern specificity
+after convergence (Fig.~\ref{fig:conv}), and robustness
+(Fig.~\ref{fig:para}). In addition, we comment on some implementation
 details that turned out to be relevant to replicating the original study
 successfully: simulation time step, learning rule, EPSP shape.
 
@@ -445,10 +448,11 @@ that spike is set to 0 as in the original paper.
 In order to assess the time of pattern finding, we used the same spike
 train (standard conditions) as input for both the original code and in
 the replication implementation. The latency development looks similar in
-both implementations (see Figure ~\ref{fig:lat}). The time until a
-stable state arises is longer in the replication implementation (1400
+both implementations (see Fig.~\ref{fig:lat}). The time until a stable
+state arises is longer in the replication implementation (1400
 discharges instead of 700 or 20 s instead of 13.5 s). This discrepancy
-is due to the introduction of discrete time steps.
+is due to the size of the discrete time steps used (see section
+\textbf{Implementation details}).
 
 \begin{figure}
 \centering
@@ -456,19 +460,20 @@ is due to the introduction of discrete time steps.
 \caption{Latency. Comparing the latency development of the original
 study (\textbf{A}) and the replication implementation (\textbf{B}). In
 both implementations, the timing of the output spike in relation to the
-start of the pattern is random at first, but becomes selective after a
-few hundred discharges. From then on the postsynaptic neuron always
-spikes only within the pattern (no spikes at latency = 0). The number of
-discharges until this happens is smaller in the original paper than in
-the replication implementation.}\label{fig:lat}
+start of the pattern (vertical axis, set to latency=0 if output spike
+happens outside the pattern) is random at first, but becomes selective
+after a few hundred discharges. From then on the postsynaptic neuron
+always spikes only within the pattern (no spikes at latency = 0). The
+number of discharges until this happens is smaller in the original paper
+than in the replication implementation.}\label{fig:lat}
 \end{figure}
 
 At the end of the simulation, the synaptic weights that are maximally
 potentiated (close to w\(_{max}\) = 1) belong exclusively to neurons
 involved in the pattern, whereas weights from neurons not involved in
-the pattern are depressed nearly completely (see Figure
-~\ref{fig:conv}). Neurons that spike at the beginning of the pattern are
-potentiated, causing the postsynaptic neuron to spike at a low latency.
+the pattern are depressed nearly completely (see Fig.~\ref{fig:conv}).
+Neurons that spike at the beginning of the pattern are potentiated,
+causing the postsynaptic neuron to spike at a low latency.
 
 \begin{figure}
 \centering
@@ -476,12 +481,12 @@ potentiated, causing the postsynaptic neuron to spike at a low latency.
 \caption{Weights at converged state. The weights in the converged state
 look very similar in the the original study (\textbf{A)}) and the
 replication implementation (\textbf{B)}). Weights from neurons not
-involved in the pattern are close to 0 (neurons 1000-1999), whereas
-weights from some neurons involved in the pattern (neurons 0-999) are
-close to 1 (maximum value). The weights of neurons that spike at the
-beginning of the pattern are nearly all close to 1 and their added
-postsynaptic potentials cause a spike at the beginning of the pattern
-(blue rectangle).}\label{fig:conv}
+involved in the pattern are close to 0 (black, neurons 1000-1999),
+whereas weights from some neurons involved in the pattern (neurons
+0-999) are close to 1 (white, maximum value). The weights of neurons
+that spike at the beginning of the pattern are nearly all close to 1 and
+their added postsynaptic potentials cause a spike at the beginning of
+the pattern (blue rectangle).}\label{fig:conv}
 \end{figure}
 
 Both latency development and the potentiation of only synaptic weights
@@ -495,11 +500,11 @@ the original paper, but despite the very similar implementations, there
 were some differences.
 
 The replication implementation behaves the same as the original study
-when subjected to different amounts of jitter (Figure ~\ref{fig:para}
-\textbf{B}), various proportions of pattern neuron (Figure
-~\ref{fig:para} \textbf{C}), different initial weights (Figure
-~\ref{fig:para} \textbf{D}) and when a percentage of spikes within the
-pattern are deleted (Figure ~\ref{fig:para} \textbf{E}).
+when subjected to different amounts of jitter (Fig.~\ref{fig:para}
+\textbf{B}), various proportions of neurons involved in the pattern
+(Fig.~\ref{fig:para} \textbf{C}), different initial weights
+(Fig.~\ref{fig:para} \textbf{D}) and when a percentage of spikes within
+the pattern are deleted (Fig.~\ref{fig:para} \textbf{E}).
 
 \begin{figure}
 \centering
@@ -511,14 +516,14 @@ against different pattern presentation frequencies (\textbf{A}), jitter
 pattern (\textbf{E}). For each parameter combination 100 simulations
 were run and the number of successful runs are reported as percentage of
 success. The replication implementation was run at two different time
-steps: 10\(^{-6}\) s (solid black lines) and 10\(^{-4}\) s (dashed black
+steps: 10\(^{-4}\) s (solid black lines) and 10\(^{-6}\) s (dashed black
 lines). The results from the original study were calculated using the
 source code provided (solid green lines in \textbf{A}, \textbf{B},
 \textbf{C}, \textbf{D}) or estimated from the original publication
 (dashed green line in \textbf{E}).}\label{fig:para}
 \end{figure}
 
-At a high pattern repetition frequency of 0.5 (Figure ~\ref{fig:para}
+At a high pattern repetition frequency of 0.5 (Fig.~\ref{fig:para}
 \textbf{A}), when the pattern is presented every 100 ms for 50 ms, the
 performance of the replication differs from the original: at larger time
 steps of 10\(^{-4}\) s the replication version does not perform as well
@@ -539,31 +544,31 @@ successful runs.}\label{fig:find}
 
 We noticed that small implementation details can affect the behaviour of
 the network significantly. We summarised the relevant details in Table
-~\ref{tbl:impl}\}.
+tbl.~\ref{tbl:impl}.
 
 \subsubsection{Simulation time step}\label{simulation-time-step}
 
 In the standard parameter configuration, the time step chosen does not
 have an effect on overall pattern finding success, as long as the time
-step is shorter or equal to 10\(^{-4}\) s. At larger time steps
-(10\(^{-3}\) s), no specificity emerges, instead there is a systematic
+step is less than or equal to 10\(^{-4}\) s. At larger time steps
+(10\(^{-3}\) s), no specificity emerges. Instead there is a systematic
 potentiation of all synaptic weights leading to very high firing rates
 in the output neuron. In contrast, success rates are above 95\% for
 10\(^{-4}\) s, 10\(^{-5}\) s, 10\(^{-6}\) s, and 10\(^{-7}\) s.
 
 Although the success rate stays roughly the same, the time until the
-pattern is found (no spikes outside of the pattern happen after this
-time point) increases with larger time step size. An example can be seen
-in Figure ~\ref{fig:lat}: the pattern is found after about 700 output
-neuron spikes in the original publication (left) and after about 1400 in
-the replication implementation (right) at a time step of 10\(^{-4}\) s
-for the same input. At smaller times steps (10\(^{-6}\) s), the pattern
-is found after about 700 discharges - the same as in the original
-publication (Figure ~\ref{fig:find}).
+pattern is found (defined as the time after which no output spikes
+happen outside of the pattern) increases with larger time step size. An
+example can be seen in Fig.~\ref{fig:lat}: the pattern is found after
+about 700 output neuron spikes in the original publication (left) and
+after about 1400 in the replication implementation (right) at a time
+step of 10\(^{-4}\) s for the same input. At smaller times steps
+(10\(^{-6}\) s), the pattern is found after about 700 discharges - the
+same as in the original publication (Fig.~\ref{fig:find}).
 
 \hypertarget{tbl:impl}{}
 \begin{longtable}[]{@{}lrr@{}}
-\caption{\label{tbl:impl}Implementation details}\tabularnewline
+\caption{\label{tbl:impl}Implementation details }\tabularnewline
 \toprule
 & works & does not work\tabularnewline
 \midrule
@@ -592,19 +597,20 @@ The spike trains used here involve neurons with a continuously high
 firing rate in the input neurons (on average 64 Hz, min 30 Hz, max 90
 Hz) and a significantly lower firing rate in the output neuron (63 Hz
 initially, 5Hz after reaching specificity). This means that input
-neurons fire often in the time between output neuron spikes. Therefore -
-with any other than the reduced NN learning rule - the input neurons
-will experience a decrease in weight a lot more often (every time an
-input neuron spikes) than an increase in weight (every time the
-postsynaptic neuron spikes). This leads to a strong overall depression
-of the synaptic weights in the first few seconds of the simulation. With
-the parameters specified in \textcite{Masq2008} and an ATA or a
-conventional NN learning rule, the output neuron stops firing after a
-few seconds because the output neuron voltage does not reach the voltage
-threshold necessary to evoke an output neuron spike anymore (see Figure
-~\ref{fig:meanw}\}). In the case of the standard parameters, the output
-neuron stops firing after less than one second. When no output neuron
-spikes occur, learning cannot take place and no specificity can emerge.
+neurons fire often in the time between output neuron spikes. Therefore,
+with any other than the reduced NN learning rule, the input neurons will
+experience a decrease in weight a lot more often (every time an input
+neuron spikes) than an increase in weight (every time the postsynaptic
+neuron spikes). This leads to a strong overall depression of the
+synaptic weights in the first few seconds of the simulation. With the
+parameters specified in \textcite{Masq2008} and an ATA or a conventional
+NN learning rule, the output neuron stops firing after a few seconds
+because the output neuron voltage does not reach the voltage threshold
+necessary to evoke an output neuron spike anymore (see
+Fig.~\ref{fig:meanw}). In the case of the standard parameters, the
+output neuron stops firing after less than one second. When no output
+neuron spikes occur, learning cannot take place and no specificity can
+emerge.
 
 \begin{figure}
 \centering
@@ -614,7 +620,7 @@ the ATA and the NN rules lead to a very rapid depression of all synapses
 leading to silence in the output neuron. \textbf{B)} In contrast, the
 average weight of all neurons declines at a much slower rate for the RNN
 rule. \textbf{C)} and \textbf{D)} When tweaking the ATA rule (increasing
-a\(_{+}\) substantially) it is possible to achieve a behaviour that
+\(a_{+}\) substantially) it is possible to achieve a behaviour that
 resembles pattern finding. For a short amount of time the output neuron
 becomes specific to the pattern, but loses this ability again and does
 not regain it.}\label{fig:meanw}
@@ -622,33 +628,70 @@ not regain it.}\label{fig:meanw}
 
 In the case of an ATA learning rule, a behaviour resembling pattern
 finding can be evoked under the right circumstances: reducing the
-learning rate by a factor of 5 and increasing the value of a\(_{+}\)
-(the maximum weight increase) to double the value of a\(_{-}\) (the
+learning rate by a factor of 5 and increasing the value of \(a_{+}\)
+(the maximum weight increase) to double the value of \(a_{-}\) (the
 maximum weight decrease). This setup works because the large amount of
 depression (on every input spike) is counteracted by large potentiation
-(due to the increased a\(_{+}\)). In such runs, the output neuron will
-reach specificity and trace back through the latency and then starts
-firing outside of the pattern again. This system is not stable since the
-ATA rule leads to ``too much learning'' as the synaptic weights change
-after every single spike. A further reduction in the learning rule will
-not results in pattern specificity at all.
+(due to the increased \(a_{+}\)). In such runs, the output neuron will
+correctly reach specificity and trace back through the latency, but then
+starts firing outside of the pattern again. This system is not stable
+since the ATA rule leads to ``too much learning'' as the synaptic
+weights change after every single spike. A further reduction in the
+learning rule will not result in pattern specificity at all.
 
-The standard NN learning rule, although exhibiting slower learning when
-compared to the ATA rule, is unable to accomplish any pattern finding
-because the limitation of potentiation to a certain maximum value means
-that depression will always outweigh potentiation as it occurs far more
-often.
+We were unable to find parameters for the standard NN learning rule that
+allowed for pattern finding, despite this rule exhibiting slower
+learning when compared to the ATA rule. In the case of both the ATA and
+NN learning rules, it seems likely that stable pattern finding relies on
+a precise balance of \(a_{+}\) and \(a_{-}\), with runaway potentiation
+or depression likely if the balance is wrong. By contrast, the RNN rule
+is automatically balanced and is not subject to this issue.
+
+\subsubsection{\texorpdfstring{Effect of learning rule at
+\(\Delta t=0\)}{Effect of learning rule at \textbackslash{}Delta t=0}}\label{effect-of-learning-rule-at-delta-t0}
+
+The timing of the output neuron spikes is slightly different in the
+original study and the replication. In the original study spike times of
+the input and output neurons are not restricted to fixed multiples of
+the timestep, so it is extremely unlikely that two neurons will spike at
+the same time. In Brian, the output neuron spikes at the beginning of a
+time step and will therefore happen in the same time bin as some input
+neuron spikes leading to a time difference between the spikes of
+\(\Delta t=0\) where the STDP rule is undefined. Brian treats these
+input neuron spikes as if they happened just before the output neuron
+spike (\(\Delta t<0\), due to the scheduling of events in Brian) and
+will therefore increase all those weights instead of increasing some and
+decreasing others. This higher number of potentiations makes it more
+difficult for the system to systematically depress unimportant weights
+in order to become selective to the pattern. If the learning rule is
+modified so that the synaptic weight is increased as well as depressed
+when input neuron and output neuron spikes happen during the same time
+step (effectively causing a smaller weight increase), the pattern is
+found earlier, at around 17 s or 850 spikes (for a time step of
+\(10^{-4}s\)) which is close to the performance for smaller time steps
+(\(10^{-6}s\)) and the original paper (both 14 s or 700 spikes). We
+didn't use this modified learning rule in the rest of the paper because
+it differs from the implementation used in the majority of modelling
+papers.
+
+This difficulty to depress non-relevant input neurons is the reason for
+the lower success rate at a high pattern presentation frequency at large
+time steps (\(10^{-4}\) s) as seen in Fig.~\ref{fig:para} \textbf{A}).
+The time until the pattern is found during this condition is notably
+longer (\textgreater{}30 s instead of 20 s) and points towards towards
+the difficulties of the system to properly depress the synaptic weights
+of the non-pattern neurons.
 
 \subsubsection{EPSP shape}\label{epsp-shape}
 
 The kernels used in the original study simulate a gradual increase of
-the postsynaptic neuron voltage as can be seen in Figure ~\ref{fig:pot}.
+the postsynaptic neuron voltage as can be seen in Fig.~\ref{fig:pot}.
 Other studies sometimes also model the effect of the presynaptic spike
 as an immediate jump in postsynaptic voltage instead of that gradual
 increase. In this system, using an immediate increase in postsynaptic
-voltage does not lead to stable finding. This might have to to with the
-fact that the kernel shape and the immediate increase exhibit slightly
-different spike times as seen in Figure ~\ref{fig:epsps}.
+voltage does not lead to stable pattern finding. This might have to to
+with the fact that the kernel shape and the immediate increase exhibit
+slightly different spike times as seen in Fig.~\ref{fig:epsps}.
 
 \begin{figure}
 \centering
@@ -659,7 +702,7 @@ is slightly different (green and black dots).}\label{fig:epsps}
 \end{figure}
 
 When modelling the immediate voltage increase, one needs to set the
-height of the voltage increase (for Figure ~\ref{fig:epsps} \(\Delta u\)
+magnitude of the voltage increase (for Fig.~\ref{fig:epsps} \(\Delta u\)
 was set to 1.2). It is very difficult to find the \(\Delta u\) that
 corresponds to the same amount of voltage increase from the kernel. If
 the value of \(\Delta u\) is too small, then the output neuron stops
@@ -675,55 +718,27 @@ We could successfully replicate the results from \textcite{Masq2008} - a
 neuron with STDP synapses could reliably find a repeating spike pattern
 and afterwards spike only when the pattern is presented. The time when
 the pattern is found depends on the time step size chosen for the
-simulation, whereas the success of reliably finding the pattern relies
-on the precise learning rule and the shape of the EPSPs. Reproducing the
+simulation, whereas the success of reliably finding the pattern requires
+the precise learning rule and the shape of the EPSPs. Reproducing the
 paper was made easy by the fact that simulation parameters were stated
 in the text and the source code was shared by the authors of the paper
 on request.
 
 \textbf{Introducing discrete time steps.} To run the simulations in
 Brian, we introduced discrete time steps. This did not affect pattern
-finding abilities (as long as the time steps are smaller than
-\(10^{-3}\) s), but it did increase the time until a pattern was found
-for large time steps (\(10^{-4}\) s), but not for small time steps
+finding abilities (as long as the time steps are \(10^{-4}\) s or
+smaller), but it did increase the time until a pattern was found for
+large time steps (\(10^{-4}\) s), but not for small time steps
 (\(10^{-6}\) s).
 
-We verified that the delay in finding did not stem from neither the
-deletion of some input spikes (to avoid input neurons spiking twice in
-one time step) nor the spike timing being at the start of each 0.1 ms
-time bin. When we fed those modified input spikes in the source code,
-timing of finding the pattern was not affected. The delay therefore
-stems from forcing the output neuron to spike at the beginning of a time
-step and the associated consequences for STDP learning.
-
-The timing of the output neuron spikes is slightly different in the
-original study and the replication. In the original study spike times of
-the input and output neurons are unique, so no two neurons will spike at
-the same time. In Brian, the output neuron reaches spikes at the
-beginning of a time step and will therefore happen in the same time bin
-as some input neuron spikes. Brian treats these input neuron spikes as
-if happening just before the output neuron spike (due to scheduling of
-events in Brian) and will increase all those weights instead of
-increasing some and decreasing others. This higher number of
-potentiations makes it more difficult for the system to systematically
-depress unimportant weights in order to become selective to the pattern.
-If the learning rule is modified so that the synaptic weight is
-increased as well as depressed when input neuron and output neuron
-spikes happen during the same time step (effectively causing a smaller
-weight increase), finding the pattern occurs earlier, at around 17 s or
-850 spikes which is close to the performance for smaller time steps and
-the original paper (both 14 s or 700 spikes). This modification of the
-learning rule is less successful at continuously spiking during the
-pattern in longer simulations, it was therefore only used as a proof of
-concept.
-
-This difficulty to depress non-relevant input neurons is the reason for
-the lower success rate at a high pattern presentation frequency at large
-time steps (\(10^{-4}\) s) as seen in Figure ~\ref{fig:para}
-\textbf{A}). The time until the pattern is found during this condition
-is notably longer (\textgreater{}30 s instead of 20 s) and points
-towards towards the difficulties of the system to properly depress the
-synaptic weights of the non-pattern neurons.
+We verified that the delay in pattern finding did not stem from either
+the deletion of some input spikes (to avoid input neurons spiking twice
+in one time step) or the spike timing being at the start of each 0.1 ms
+time bin. When we fed those modified input spikes to the original
+implementation, the timing of finding the pattern was not affected. The
+delay therefore stems from forcing the output neuron to spike at the
+beginning of a time step and the associated consequences for STDP
+learning.
 
 Running the simulations using discrete time steps does not negatively
 impact pattern finding abilities, but delays pattern finding for large

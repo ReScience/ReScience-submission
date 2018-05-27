@@ -2,26 +2,6 @@ from brian2 import *
 from numba import jit
 import numpy
 
-if __name__=='__main__':
-	import time
-	def timeit(method):
-		def timed(*args, **kw):
-			ts = time.time()
-			result = method(*args, **kw)
-			te = time.time()
-
-			if 'log_time' in kw:
-				name = kw.get('log_name', method.__name__.upper())
-				kw['log_time'][name] = int((te - ts) * 1000)
-			else:
-				print('%r  %2.2f ms' %
-					  (method.__name__, (te - ts) * 1000))
-			return result
-
-		return timed
-else:
-	def timeit(method):
-		return method
 
 @jit(nopython=True) # numba decorator compiles this function into low level code to run faster
 def make_single_train(min_rate, max_rate, max_time_wo_spike, max_change_speed, runduration, number_neurons, dt_createpattern):
@@ -47,7 +27,6 @@ def make_single_train(min_rate, max_rate, max_time_wo_spike, max_change_speed, r
 	return array(st)
 
 
-@timeit
 def make_input(min_rate, max_rate, max_time_wo_spike, max_change_speed, runduration, number_neurons, dt_createpattern):
 	# make input spikes
 	spiketimes = []
@@ -65,7 +44,6 @@ def make_input(min_rate, max_rate, max_time_wo_spike, max_change_speed, rundurat
 	return afferents, spiketimes
 
 
-@timeit
 def make_pattern_presentation_array(runduration, patternlength, pattern_freq):
 	# make array with a 1 (pattern) or 0 (not pattern) for each time window (window size = length of pattern (0.05s))
 	runduration1 = min(runduration, 150)
@@ -87,7 +65,6 @@ def make_pattern_presentation_array(runduration, patternlength, pattern_freq):
 	return position_copypaste
 
 
-@timeit
 def copy_and_paste_jittered_pattern(times, indices, position_copypaste, patternlength, jitter_sd, spike_del, number_pat):
 	# choose first segment as pattern to be copy-pasted
 	startCPindex = where(position_copypaste == 1)[0][0]
@@ -152,7 +129,6 @@ def copy_and_paste_jittered_pattern(times, indices, position_copypaste, patternl
 	return times1, indices1
 
 
-@timeit
 def add_noise(times, indices, times_add, indices_add):
 	# combine the basic activity and the 10Hz additional noise to one input
 	times = concatenate((times, times_add))
@@ -163,7 +139,6 @@ def add_noise(times, indices, times_add, indices_add):
 	return times, indices
 
 
-@timeit
 def triple_input_runtime(times, indices):
 	# To shorten time spent on creating input, 150s input is tripled to give 450s
 	times = concatenate((times, times + 150, times + 300))
@@ -171,7 +146,6 @@ def triple_input_runtime(times, indices):
 	return times, indices
 
 
-@timeit
 @jit(nopython=True)
 def remove_close_spikes(times, indices, dt):
 	# remove spikes that are too close in time, depends on time resolution chosen for simulation
@@ -183,7 +157,7 @@ def remove_close_spikes(times, indices, dt):
 			keep_flag[j] = False
 		else:
 			last_spike[int(indices[j])] = st
-	print('Number of spikes to be deleted: ', len(indices) - sum(keep_flag))
+	# print('    Number of spikes to be deleted: ', len(indices) - sum(keep_flag), 'or', round(100*(len(indices) - sum(keep_flag))/len(indices), 2), '%')
 	times = times[keep_flag]
 	indices = indices[keep_flag]
 	return times, indices

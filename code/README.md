@@ -141,7 +141,7 @@ row     win     jit     # pat neur      pat freq        % deleted
 
 #### Running on a cluster 
 
-The files that were used to run on the Imperial College HPC cx1 cluster with a PBS queue system are provided under code/cluster (main_cluster.py and run_main_cluster.sh). Please note that the paths in both files (line 9 in run_main_cluster.sh and lines 14-15 in main_cluster.py) need to be changed. 
+The files that were used to run on the Imperial College HPC cx1 cluster with a PBS queue system are provided under code/cluster (main_cluster.py and run_main_cluster.sh). Please note that the paths in both files (line 9 in run_main_cluster.sh and lines 24-25 in main_cluster.py) need to be changed. 
 
 The runs are initiated with 
 

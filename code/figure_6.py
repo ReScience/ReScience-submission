@@ -1,3 +1,13 @@
+# -----------------------------------------------------------------------------
+# Distributed under the GNU General Public License.
+#
+# Contributors: Pamela Hathway p.hathway16@imperial.ac.uk
+# ----------------------------------------------------------------------------- 
+# Creates figure 6 either from scratch (default) or using saved data (to switch,
+# comment out lines 266-267 and comment in line 265). 
+# This script can be run independently.
+# -----------------------------------------------------------------------------
+
 from brian2 import *
 import pickle as pickle
 

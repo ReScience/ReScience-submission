@@ -1,3 +1,12 @@
+# -----------------------------------------------------------------------------
+# Distributed under the GNU General Public License.
+#
+# Contributors: Pamela Hathway p.hathway16@imperial.ac.uk
+# ----------------------------------------------------------------------------- 
+# Functions to create figures 3, 4, 7AB
+# This script cannot be run independently but is called by run_simulation.py
+# -----------------------------------------------------------------------------
+
 from brian2 import *
 
 

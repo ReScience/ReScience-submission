@@ -1,3 +1,12 @@
+# -----------------------------------------------------------------------------
+# Distributed under the GNU General Public License.
+#
+# Contributors: Pamela Hathway p.hathway16@imperial.ac.uk
+# -----------------------------------------------------------------------------
+# These functions are called by run_simulation.py to create the spike trains. 
+# This script can be run independently.
+# -----------------------------------------------------------------------------
+
 from brian2 import *
 from numba import jit
 import numpy

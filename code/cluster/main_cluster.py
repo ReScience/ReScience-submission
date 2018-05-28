@@ -1,3 +1,11 @@
+# -----------------------------------------------------------------------------
+# Distributed under the GNU General Public License.
+#
+# Contributors: Pamela Hathway p.hathway16@imperial.ac.uk
+# ----------------------------------------------------------------------------- 
+# Runs the main pattern finding algorithm and saved the results.
+# -----------------------------------------------------------------------------
+
 from brian2 import *
 import time as time
 import argparse

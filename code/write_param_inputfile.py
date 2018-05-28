@@ -1,3 +1,13 @@
+# -----------------------------------------------------------------------------
+# Distributed under the GNU General Public License.
+#
+# Contributors: Pamela Hathway p.hathway16@imperial.ac.uk
+# ----------------------------------------------------------------------------- 
+# Writes the parameter file that stores the combinations of parameters used for 
+# Figure 5.
+# This script can be run independently.
+# -----------------------------------------------------------------------------
+
 from brian2 import *
 
 

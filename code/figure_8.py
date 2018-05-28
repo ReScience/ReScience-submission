@@ -1,3 +1,12 @@
+# -----------------------------------------------------------------------------
+# Distributed under the GNU General Public License.
+#
+# Contributors: Pamela Hathway p.hathway16@imperial.ac.uk
+# ----------------------------------------------------------------------------- 
+# Creates figure 8
+# This script can be run independently.
+# -----------------------------------------------------------------------------
+
 from brian2 import *
 
 

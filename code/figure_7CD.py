@@ -1,3 +1,12 @@
+# -----------------------------------------------------------------------------
+# Distributed under the GNU General Public License.
+#
+# Contributors: Pamela Hathway p.hathway16@imperial.ac.uk
+# ----------------------------------------------------------------------------- 
+# Creates figure 7 CD
+# This script can be run independently.
+# -----------------------------------------------------------------------------
+
 from brian2 import *
 import time as time
 

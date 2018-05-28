@@ -1,3 +1,13 @@
+# -----------------------------------------------------------------------------
+# Distributed under the GNU General Public License.
+#
+# Contributors: Pamela Hathway p.hathway16@imperial.ac.uk
+# ----------------------------------------------------------------------------- 
+# Creates figure 5 either from scratch (default) or using saved data (to switch,
+# comment out lines 225-226 and comment in line 224). 
+# This script can be run independently.
+# -----------------------------------------------------------------------------
+
 from brian2 import *
 import matplotlib.pyplot as plt
 import pickle as pickle

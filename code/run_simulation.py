@@ -182,18 +182,18 @@ def run_sim(run_idx, pararow=0, only_success=False):
 	syn12 = Synapses(N1, N2, model=stdp_model, on_pre=stdp_on_pre, on_post=stdp_on_post, method='linear')
 	syn12.connect(i=range(0, number_neurons), j=0)
 	syn12.wi = win
-	syn12stm = StateMonitor(syn12, ['wi'], record=range(0, 2000), dt=1*second)
+	syn12stm = StateMonitor(syn12, ['wi'], record=range(0, 2000), dt=0.5*second)
 	if only_success == False:
 		# NN
 		syn12nn = Synapses(N1, N2nn, model=stdp_model, on_pre=stdp_on_pre_nn, on_post=stdp_on_post_nn, method='linear')
 		syn12nn.connect(i=range(0, number_neurons), j=0)
 		syn12nn.wi = win
-		syn12nnstm = StateMonitor(syn12nn, ['wi'], record=range(0, 2000), dt=1*second)
+		syn12nnstm = StateMonitor(syn12nn, ['wi'], record=range(0, 2000), dt=0.5*second)
 		# ATA
 		syn12ata = Synapses(N1, N2ata, model=stdp_model, on_pre=stdp_on_pre_ata, on_post=stdp_on_post_ata, method='linear')
 		syn12ata.connect(i=range(0, number_neurons), j=0)
 		syn12ata.wi = win
-		syn12atastm = StateMonitor(syn12ata, ['wi'], record=range(0, 2000), dt=1*second)
+		syn12atastm = StateMonitor(syn12ata, ['wi'], record=range(0, 2000), dt=0.5*second)
 
 	# Some speed hacks
 	N0._previous_dt = N0.dt_[:]
@@ -235,7 +235,7 @@ def run_sim(run_idx, pararow=0, only_success=False):
 	# ### Analyse results
 	# calculate average latency of last 150s and print results
 	lat_end = latency[where(N2spm.t / second > runduration - eval_last_sec)[0]]
-	if len(lat_end) > 500:
+	if len(lat_end) > 0.8*eval_last_sec*pattern_freq/patternlength:
 		avg_lat = 1000*mean(lat_end[lat_end > 0])
 		if only_success == False:
 			print('    Avg latency               = ', round(avg_lat, 3))

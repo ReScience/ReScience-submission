@@ -11,7 +11,7 @@ Masquelier T, Guyonneau R, Thorpe SJ (2008) Spike Timing Dependent  Plasticity F
 
 
 
-The source code is written in Python (version 3.6.5) Brian (version 2.1.2) using Numpy (version 1.13.3) Numba (version 0.38.0) and Matplotlib (version 2.2.2).
+The source code is written in Python (version 3.6.5) and specifically using Brian (version 2.1.2), Numpy (version 1.13.3), Numba (version 0.38.0) and Matplotlib (version 2.2.2).
 
 - **article** -> This folder contains the accompanying text and how to compile it using docker.
 - **code** -> This folder contains the source code and instructions on how to run it.

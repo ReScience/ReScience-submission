@@ -1,6 +1,6 @@
 ## Running the code: quick guide
 
-To create a new environment with all necessary packages called HathwayGoodman, in a terminal and in the *code* directory type
+To create a new environment with all necessary packages called HathwayGoodman, in a terminal and in the *code* directory type (this requires Anaconda, does not work with Miniconda)
 
 ```bash
 $ conda update conda
@@ -31,7 +31,7 @@ Running all 25 sets of 100 repetitions for Fig 5 (22 sets) and for Fig 6 (3 sets
 
 Notes:
 
-Figure 7CD might not look like in the paper because the all-to-all rule is not as reliable at finding the pattern. Therefore it might be necessary to run figure_7CD.py a few times to see a similar figure as in the text.
+Figure 7CD might not look like in the article because the all-to-all rule is not as reliable at finding the pattern. Therefore it might be necessary to run figure_7CD.py a few times to see a similar figure to the one in the text.
 
  
 
@@ -39,7 +39,7 @@ Figure 7CD might not look like in the paper because the all-to-all rule is not a
 
 ## Running the code: in detail
 
-This implementation is written in Python and uses the spiking neural network simulator Brian 2, which also requires `numpy`, `sympy`, `cython`, `pyparsing`,`scipy`,`jinja2`, as well as numba and matplotlib.
+This implementation is written in Python 3 and uses the spiking neural network simulator Brian 2 - which in turn requires Numpy, Sympy, Cython, Pyparsing, Scipy, Jinja2 - as well as Numba and Matplotlib.
 
 The packages required to run this implementation and the versions on which they were tested on are:
 
@@ -54,6 +54,13 @@ The packages required to run this implementation and the versions on which they 
 #### Installing packages
 
 We advise to create a separate environment to make sure that package versions match and the code runs successfully. 
+
+Optional: An environment can be created in Anaconda using the environment.yml file (see above) or by creating and installing the packages separately.
+
+```bash
+$ conda create -n HathwayGoodman python=3.6
+$ source activate HathwayGoodman
+```
 
 To install packages manually, one can use Anaconda 
 
@@ -81,8 +88,8 @@ The source code was tested on
 All figures can be created independently by running
 
 **main.py** : this script creates all figures. if run without the "--new True" flag, Figures 5 and 6 will be created using the saved data in the data folder.
-Usage: python main.py
-Usage: python main.py --new True
+Usage: python main.py (ca. 5min)
+Usage: python main.py --new True (ca. 8 hours)
 
 **figure_1.py** : creates figure 1, can be run independently from other figures
 
@@ -94,7 +101,7 @@ Usage: python main.py --new True
 
 **figure_6.py** : creates figure 6, by default running this script will run 10 repetitions of 3 different time step sizes. can be run independently from other figures
 
-**figure_7CD.py** : creates figure 7CD, can be run independently from other figures. Note that this figure might differ from the one in the text due to the all-to-all STDP rule beind less reliable at finding the pattern.
+**figure_7CD.py** : creates figure 7CD, can be run independently from other figures. Note that this figure might differ from the one in the text due to the all-to-all STDP rule being less reliable at finding the pattern.
 
 **figure_8.py** : creates figure 8, can be run independently from other figures
 
@@ -104,7 +111,7 @@ Usage: python main.py --new True
 
 **write_param_inputfile.py** : writes the parameter file that stores the combinations of parameters used for Figure 5.
 
-The parameter combinations are stored in para.npy, which has the structure
+The parameter combinations are stored in para.npy, which has the following structure
 
 ```
 row     win     jit     # pat neur      pat freq        % deleted
@@ -149,7 +156,11 @@ The runs are initiated with
 qsub -J 0-2199 run_main_cluster.sh
 ```
 
-which runs the parameter of para.npy 100 times with different random seeds.
+which runs the parameter of para.npy 100 times with different random seeds and saves the results.
+
+Those files can then be analysed with analysis_main_cluster.py - after changing the paths  on lines 35-39 - which then plots the results as in figure 5. The analysis script might require the installation of some additional packages (re, glob).
+
+
 
 
 

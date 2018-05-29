@@ -48,10 +48,12 @@ if args['new'] == 'False':
 
 elif args['new'] == 'True':
     write_para_file()
-
+    
+	print('%s Preparing Figure 5' % time.strftime('%H:%M'))
     reps_per_combination = 10
     fig5 = fig_5_new(reps_per_combination)
 
+    print('%s Preparing Figure 6' % time.strftime('%H:%M'))
     reps_per_resolution = 10
     fig6 = fig_6_new(reps_per_resolution)
 

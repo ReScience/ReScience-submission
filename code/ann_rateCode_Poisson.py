@@ -7,6 +7,7 @@ import numpy as np
 #from net_fix import *
 from net_homeostatic import *
 from matplotlib import cm
+from cmap import myCmap
 """
 Python script for reproduce the rate code task from the Clopath et al. 2010
 publication (Fig. 4 a). Netowrk consists of ten, recurrent connected neurons.
@@ -103,7 +104,7 @@ def run():
     # unidirectional are ligth green
     # bidirectional are dark green
     plt.figure()
-    plt.imshow(img.T,interpolation='none',cmap= mp.cm.get_cmap('summer_r',3),vmin=0,vmax=2)
+    plt.imshow(img.T,interpolation='none',cmap= myCmap(),vmin=0,vmax=2)
     plt.xticks(fontsize=15)
     plt.yticks(fontsize=15)
     plt.xlabel('Neuron Post',fontsize=20)

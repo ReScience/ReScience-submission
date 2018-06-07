@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2018.1.29)  7 JUN 2018 14:27
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2018.1.29)  7 JUN 2018 17:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1389,60 +1389,60 @@ Package hyperref Warning: The anchor of a bookmark and its parent's must not
 
 File: rescience-logo.pdf Graphic file (type QTm)
 <use  "rescience-logo.pdf" > [2]
-Overfull \hbox (2.62979pt too wide) in paragraph at lines 438--453
+Overfull \hbox (2.62979pt too wide) in paragraph at lines 441--456
 []\EU1/lmr/m/n/10 To validate the reimplementation, we reproduce the classical 
 spike timing-dependent
  []
 
 File: rescience-logo.pdf Graphic file (type QTm)
 <use  "rescience-logo.pdf" > [3]
-Overfull \hbox (0.80777pt too wide) in paragraph at lines 457--464
+Overfull \hbox (0.80777pt too wide) in paragraph at lines 460--467
 []\EU1/lmr/m/n/10 The experiment protocols are based on the description on the 
 publication of Clopath
  []
 
 
-Overfull \hbox (373.11223pt too wide) detected at line 511
+Overfull \hbox (373.11223pt too wide) detected at line 514
  [] 
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 509--515
+Underfull \hbox (badness 10000) in alignment at lines 512--518
 [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 515--519
+Underfull \hbox (badness 10000) in alignment at lines 518--522
 [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 519--529
+Underfull \hbox (badness 10000) in alignment at lines 522--532
 [] [] []
  []
 
 File: rescience-logo.pdf Graphic file (type QTm)
 <use  "rescience-logo.pdf" > [4]
-Overfull \hbox (373.11223pt too wide) detected at line 534
+Overfull \hbox (373.11223pt too wide) detected at line 537
  [] 
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 532--538
+Underfull \hbox (badness 10000) in alignment at lines 535--541
 [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 538--542
+Underfull \hbox (badness 10000) in alignment at lines 541--545
 [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 542--547
+Underfull \hbox (badness 10000) in alignment at lines 545--550
 [] [] []
  []
 
-LaTeX Font Info:    Try loading font information for EU1+lmtt on input line 559
+LaTeX Font Info:    Try loading font information for EU1+lmtt on input line 562
 .
 (/usr/share/texlive/texmf-dist/tex/latex/euenc/eu1lmtt.fd
 File: eu1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
@@ -1452,7 +1452,7 @@ File: ./figures/deltaW.png Graphic file (type QTm)
 <use  "./figures/deltaW.png" >
 File: ./figures/pairing.png Graphic file (type QTm)
  <use  "./figures/pairing.png" >
-Overfull \hbox (2.21999pt too wide) in paragraph at lines 586--591
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 589--594
 [][] [] 
  []
 
@@ -1463,7 +1463,7 @@ File: ./figures/rate_Code_Weights.png Graphic file (type QTm)
 File: ./figures/temporal_Code.png Graphic file (type QTm)
 
 <use  "./figures/temporal_Code.png" >
-Overfull \hbox (2.21999pt too wide) in paragraph at lines 616--624
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 619--627
 [][] [] 
  []
 
@@ -1475,20 +1475,20 @@ File: rescience-logo.pdf Graphic file (type QTm)
 
 <use  "rescience-logo.pdf" > [7]
 LaTeX Font Info:    Font shape `EU1/lmss/m/it' in size <9> not available
-(Font)              Font shape `EU1/lmss/m/sl' tried instead on input line 691.
+(Font)              Font shape `EU1/lmss/m/sl' tried instead on input line 694.
 
 
 
 LaTeX Font Warning: Font shape `EU1/lmss/m/sc' in size <9> not available
-(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 691.
+(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 694.
 
 File: rescience-logo.pdf Graphic file (type QTm)
 <use  "rescience-logo.pdf" > [8]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 693.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 693.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 696.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 696.
  (./Larisch-2018.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 693.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 693.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 696.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 696.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -1500,7 +1500,7 @@ Package logreq Info: Writing requests to 'Larisch-2018.run.xml'.
 Here is how much of TeX's memory you used:
  40077 strings out of 495579
  740669 string characters out of 6187322
- 1073318 words of memory out of 5000000
+ 1074265 words of memory out of 5000000
  42908 multiletter control sequences out of 15000+600000
  7856 words of font info for 53 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191

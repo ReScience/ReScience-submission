@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from ANNarchy import *
 import numpy as np
 from net_homeostatic import *
-
+from cmap import myCmap
 """
 Python script for reproduce the rate code task from the Clopath et al. 2010
 publication (Fig. 4 b). Netowrk consists of ten, recurrent connected neurons.
@@ -92,11 +92,11 @@ def run():
         img[i,i]= np.nan
 
     plt.figure()
-    plt.imshow(img.T,interpolation='none',cmap=plt.get_cmap('summer_r',3),vmin=0,vmax=2)
+    plt.imshow(img.T,interpolation='none',cmap=myCmap(),vmin=0,vmax=2)
     plt.xlabel('Neuron Post',fontsize=20)
     plt.ylabel('Neuron Pre',fontsize=20)
     plt.xticks(fontsize=15)
-    plt.yticks(fontsize=15)    
+    plt.yticks(fontsize=15)
     plt.savefig('temporal_Code.png',bbox_inches='tight')
     print("finish")
 #------------------------------------------------------------------------------------

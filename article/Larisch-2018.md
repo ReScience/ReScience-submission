@@ -126,7 +126,7 @@ The amplitude of the LTD term, and with that the balance between LTP and LTD, is
 
 $$ \tau_{\bar{\bar{u}}}\frac{d \bar{\bar{u}}}{dt} =  [(u-E_L)^2] - \bar{\bar{u}}$$ {#eq:homeo}
 
-This mechanism is computed over the quadratic distance of the membrane potential and the resting potential $E_L$. **Sentence not very clear**
+Therefore, the homeostatic variable $\bar{\bar{u}}$ is computed over the quadratic difference between the postsynaptic membrane potential and the resting potential ($E_L$).
 With a higher activity, $\bar{\bar{u}}$ increases, leading to a higher amount of LTD and a weight decrease.
 In contrast, a lower activity decreases the amount of LTD and the weights can increase.
 Through the ratio of $\bar{\bar{u}}$ with $u_{ref}^2$, this mechanism can enforce the connections to decrease down to the minimum weight bound or increase to the maximum weight bound.
@@ -136,8 +136,8 @@ The weight change over time depends on the positive LTP and the negative LTD ter
 $$ \frac{dw}{dt} = -LTD_{Term} + LTP_{Term} $$ {#eq:STDP}
 
 All parameters of the neuron model and the basis set of parameters for the learning rule are taken from the original publication.
-Some parameters of the learning rule differ from experiment to experiment, in particular the value of the homeostatic mechanism (**be more precise**) and the
-maximum weight value.
+Some parameters of the learning rule differ from experiment to experiment, in particular the reference value of the homeostatic mechanism ($u_{ref}^2$),
+the learning rates for the LTP and LTD terms ($A_{LTP}$ and $A_{LTD}$), $\theta_{-}$ and the maximum weight value ($w_{max}$).
 A table with the different parameters for each task is presented in **Tab.** @tbl:table_FH and **Tab.** @tbl:table_VH.
 
 ## Reproduction of experiments
@@ -170,15 +170,15 @@ can lead to a different execution order. Therefore, differing results occurred.
 **Be more specific: what is different? why?**
 
 Further, the chosen integration time step can have an influence of the computation result.
-On all reimplemented analysis, a time step of $dt= 1ms$ is chosen. **Why? What is it in the original paper?**
-Because of that, some parameters had to be adapted to reproduce the original results. **Which ones?**
+In the original publication, no integration time step is mentioned. In the published Matlab source code is
+a time step of $dt= 1ms$ chosen, which we chose too.
 
-To reproduce the STDP learning window **Which Fig?**, we create a list of discrete time points where the pre- or postsynaptic neurons should emit spikes. The presynaptic neuron spikes every $50 ms$. The postsynaptic neurons spikes in a range from $1 ms$ to $15 ms$ before
+To reproduce the STDP learning window (see \textbf{Fig. \ref{Fig_exp}} left), we create a list of discrete time points where the pre- or postsynaptic neurons should emit spikes. The presynaptic neuron spikes every $50 ms$. The postsynaptic neurons spikes in a range from $1 ms$ to $15 ms$ before
 or after the presynaptic neuron.
-For the repetition frequency experiment or the triplet experiment **Figs?**,
+For the repetition frequency experiment or the triplet experiment (see \textbf{Fig. \ref{Fig_exp}} right),
 the number of pre- and postsynaptic spike pairs increases from a pair frequency of
 $0.1 Hz$ to $50 Hz$. The time between a pre- and postsynaptic spike of a pair is
-$10 ms$. To reproduce this experiments, it was necessary to set $\bar{\bar{u}}$ to a fixed value. **Is it different from the paper?**
+$10 ms$. To reproduce this experiments, it was necessary to set $\bar{\bar{u}}$ to a fixed value as mentioned in the original publication [@Clopath2010].
 The parameter changes are shown in **Tab.** @tbl:table_FH.
 
 To analyze the connectivity depending the number of spikes, a small network with ten neurons
@@ -277,9 +277,9 @@ in pre-post pairs. These results are similar to the original paper.
 \includegraphics[width=0.5\textwidth]{./figures/temporal_Code.png}
 \caption{ \textbf{Different connectivity patterns.}
          Depending on the spiking activity, different connectivity patterns emerge between the neurons.
-         The color scheme is different from the original publication.
-         Weak connections are yellow, strong unidirectional connections are light green
-         and dark green are strong bidirectional connections. **Why not use the same color code, then?**
+         The color scheme is similar to them in the original publication.
+         Weak connections are blue, strong unidirectional connections are yellow
+         and red are strong bidirectional connections.
          \textbf{Left}, Neurons with similar high firing rates develop strong bidirectional connections.
          \textbf{Right}, connection pattern follows the temporal order of the occurred spikes.}
 \label{Fig_con}
@@ -291,9 +291,9 @@ In addition to the replication of experimental findings of pair-based and triple
 @Clopath2010 presented how the synaptic connectivity, emerging from the proposed learning rule,
 is influenced by the spiking behavior of the neurons.
 \textbf{Fig. \ref{Fig_con} left} shows the obtained connection structure if neurons fire with different frequencies.
-Here, the color scheme is different from the original publication (**why?**).
-Weak connections ( above $\frac{3}{4}$ of the maximum activity) are yellow.
-Light green represents strongly unidirectional connections while dark green represents strong bidirectional connections.
+Here, the color scheme is similar to the original publication.
+Weak connections ( above $\frac{3}{4}$ of the maximum activity) are blue.
+Yellow represents strongly unidirectional connections while red represents strong bidirectional connections.
 Neurons with similarly high firing rates develop strong bidirectional connections, because they are often active at the same time.
 This suggests that learning is based on the correlation between the neuronal activities in a Hebbian manner.
 This is in line with the connection pattern presented in the original paper. (**be more quantitative there**)

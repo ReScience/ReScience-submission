@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2018.1.29)  28 MAR 2018 18:17
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2018.1.29)  7 JUN 2018 14:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -890,43 +890,61 @@ File: listings.cfg 2015/06/04 1.6 listings configuration
 ))
 Package: listings 2015/06/04 1.6 (Carsten Heinz)
 
-(/usr/share/texlive/texmf-dist/tex/latex/tools/longtable.sty
+(/usr/share/texlive/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+Package: fancyvrb 2008/02/07
+
+Style option: `fancyvrb' v2.7a, with DG/SPQR fixes, and firstline=lastline fix 
+<2008/02/07> (tvz)
+\FV@CodeLineNo=\count165
+\FV@InFile=\read4
+\FV@TabBox=\box60
+\c@FancyVerbLine=\count166
+\FV@StepNumber=\count167
+\FV@OutFile=\write6
+) (/usr/share/texlive/texmf-dist/tex/latex/framed/framed.sty
+Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
+\OuterFrameSep=\skip71
+\fb@frw=\dimen198
+\fb@frh=\dimen199
+\FrameRule=\dimen256
+\FrameSep=\dimen257
+) (/usr/share/texlive/texmf-dist/tex/latex/tools/longtable.sty
 Package: longtable 2014/10/28 v4.11 Multi-page Table package (DPC)
-\LTleft=\skip71
-\LTright=\skip72
-\LTpre=\skip73
-\LTpost=\skip74
-\LTchunksize=\count165
-\LTcapwidth=\dimen198
-\LT@head=\box60
-\LT@firsthead=\box61
-\LT@foot=\box62
-\LT@lastfoot=\box63
-\LT@cols=\count166
-\LT@rows=\count167
-\c@LT@tables=\count168
-\c@LT@chunks=\count169
+\LTleft=\skip72
+\LTright=\skip73
+\LTpre=\skip74
+\LTpost=\skip75
+\LTchunksize=\count168
+\LTcapwidth=\dimen258
+\LT@head=\box61
+\LT@firsthead=\box62
+\LT@foot=\box63
+\LT@lastfoot=\box64
+\LT@cols=\count169
+\LT@rows=\count170
+\c@LT@tables=\count171
+\c@LT@chunks=\count172
 \LT@p@ftn=\toks32
 )
 (/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2005/04/14 v1.61803 publication quality tables
-\heavyrulewidth=\dimen199
-\lightrulewidth=\dimen256
-\cmidrulewidth=\dimen257
-\belowrulesep=\dimen258
-\belowbottomsep=\dimen259
-\aboverulesep=\dimen260
-\abovetopsep=\dimen261
-\cmidrulesep=\dimen262
-\cmidrulekern=\dimen263
-\defaultaddspace=\dimen264
-\@cmidla=\count170
-\@cmidlb=\count171
-\@aboverulesep=\dimen265
-\@belowrulesep=\dimen266
-\@thisruleclass=\count172
-\@lastruleclass=\count173
-\@thisrulewidth=\dimen267
+\heavyrulewidth=\dimen259
+\lightrulewidth=\dimen260
+\cmidrulewidth=\dimen261
+\belowrulesep=\dimen262
+\belowbottomsep=\dimen263
+\aboverulesep=\dimen264
+\abovetopsep=\dimen265
+\cmidrulesep=\dimen266
+\cmidrulekern=\dimen267
+\defaultaddspace=\dimen268
+\@cmidla=\count173
+\@cmidlb=\count174
+\@aboverulesep=\dimen269
+\@belowrulesep=\dimen270
+\@thisruleclass=\count175
+\@lastruleclass=\count176
+\@thisrulewidth=\dimen271
 )
 (/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex.sty
 Package: biblatex 2016/03/03 v3.3 programmable bibliographies (PK/JW/AB)
@@ -937,7 +955,7 @@ B)
 
 (/usr/share/texlive/texmf-dist/tex/latex/logreq/logreq.sty
 Package: logreq 2010/08/04 v1.0 xml request logger
-\lrq@indent=\count174
+\lrq@indent=\count177
 
 (/usr/share/texlive/texmf-dist/tex/latex/logreq/logreq.def
 File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
@@ -945,135 +963,135 @@ File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
 (/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 )
-\c@tabx@nest=\count175
-\c@listtotal=\count176
-\c@listcount=\count177
-\c@liststart=\count178
-\c@liststop=\count179
-\c@citecount=\count180
-\c@citetotal=\count181
-\c@multicitecount=\count182
-\c@multicitetotal=\count183
-\c@instcount=\count184
-\c@maxnames=\count185
-\c@minnames=\count186
-\c@maxitems=\count187
-\c@minitems=\count188
-\c@citecounter=\count189
-\c@savedcitecounter=\count190
-\c@uniquelist=\count191
-\c@uniquename=\count192
-\c@refsection=\count193
-\c@refsegment=\count194
-\c@maxextratitle=\count195
-\c@maxextratitleyear=\count196
-\c@maxextrayear=\count197
-\c@maxextraalpha=\count198
-\c@abbrvpenalty=\count199
-\c@highnamepenalty=\count266
-\c@lownamepenalty=\count267
-\c@maxparens=\count268
-\c@parenlevel=\count269
-\blx@tempcnta=\count270
-\blx@tempcntb=\count271
-\blx@tempcntc=\count272
-\blx@maxsection=\count273
-\blx@maxsegment@0=\count274
-\blx@notetype=\count275
-\blx@parenlevel@text=\count276
-\blx@parenlevel@foot=\count277
-\blx@sectionciteorder@0=\count278
-\labelnumberwidth=\skip75
-\labelalphawidth=\skip76
-\biblabelsep=\skip77
-\bibitemsep=\skip78
-\bibnamesep=\skip79
-\bibinitsep=\skip80
-\bibparsep=\skip81
-\bibhang=\skip82
-\blx@bcfin=\read4
-\blx@bcfout=\write6
-\c@mincomprange=\count279
-\c@maxcomprange=\count280
-\c@mincompwidth=\count281
+\c@tabx@nest=\count178
+\c@listtotal=\count179
+\c@listcount=\count180
+\c@liststart=\count181
+\c@liststop=\count182
+\c@citecount=\count183
+\c@citetotal=\count184
+\c@multicitecount=\count185
+\c@multicitetotal=\count186
+\c@instcount=\count187
+\c@maxnames=\count188
+\c@minnames=\count189
+\c@maxitems=\count190
+\c@minitems=\count191
+\c@citecounter=\count192
+\c@savedcitecounter=\count193
+\c@uniquelist=\count194
+\c@uniquename=\count195
+\c@refsection=\count196
+\c@refsegment=\count197
+\c@maxextratitle=\count198
+\c@maxextratitleyear=\count199
+\c@maxextrayear=\count266
+\c@maxextraalpha=\count267
+\c@abbrvpenalty=\count268
+\c@highnamepenalty=\count269
+\c@lownamepenalty=\count270
+\c@maxparens=\count271
+\c@parenlevel=\count272
+\blx@tempcnta=\count273
+\blx@tempcntb=\count274
+\blx@tempcntc=\count275
+\blx@maxsection=\count276
+\blx@maxsegment@0=\count277
+\blx@notetype=\count278
+\blx@parenlevel@text=\count279
+\blx@parenlevel@foot=\count280
+\blx@sectionciteorder@0=\count281
+\labelnumberwidth=\skip76
+\labelalphawidth=\skip77
+\biblabelsep=\skip78
+\bibitemsep=\skip79
+\bibnamesep=\skip80
+\bibinitsep=\skip81
+\bibparsep=\skip82
+\bibhang=\skip83
+\blx@bcfin=\read5
+\blx@bcfout=\write7
+\c@mincomprange=\count282
+\c@maxcomprange=\count283
+\c@mincompwidth=\count284
 Package biblatex Info: Trying to load biblatex default data model...
 Package biblatex Info: ... file 'blx-dm.def' found.
 
 (/usr/share/texlive/texmf-dist/tex/latex/biblatex/blx-dm.def)
 Package biblatex Info: Trying to load biblatex custom data model...
 Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
-\c@afterword=\count282
-\c@savedafterword=\count283
-\c@annotator=\count284
-\c@savedannotator=\count285
-\c@author=\count286
-\c@savedauthor=\count287
-\c@bookauthor=\count288
-\c@savedbookauthor=\count289
-\c@commentator=\count290
-\c@savedcommentator=\count291
-\c@editor=\count292
-\c@savededitor=\count293
-\c@editora=\count294
-\c@savededitora=\count295
-\c@editorb=\count296
-\c@savededitorb=\count297
-\c@editorc=\count298
-\c@savededitorc=\count299
-\c@foreword=\count300
-\c@savedforeword=\count301
-\c@holder=\count302
-\c@savedholder=\count303
-\c@introduction=\count304
-\c@savedintroduction=\count305
-\c@namea=\count306
-\c@savednamea=\count307
-\c@nameb=\count308
-\c@savednameb=\count309
-\c@namec=\count310
-\c@savednamec=\count311
-\c@translator=\count312
-\c@savedtranslator=\count313
-\c@shortauthor=\count314
-\c@savedshortauthor=\count315
-\c@shorteditor=\count316
-\c@savedshorteditor=\count317
-\c@labelname=\count318
-\c@savedlabelname=\count319
-\c@institution=\count320
-\c@savedinstitution=\count321
-\c@lista=\count322
-\c@savedlista=\count323
-\c@listb=\count324
-\c@savedlistb=\count325
-\c@listc=\count326
-\c@savedlistc=\count327
-\c@listd=\count328
-\c@savedlistd=\count329
-\c@liste=\count330
-\c@savedliste=\count331
-\c@listf=\count332
-\c@savedlistf=\count333
-\c@location=\count334
-\c@savedlocation=\count335
-\c@organization=\count336
-\c@savedorganization=\count337
-\c@origlocation=\count338
-\c@savedoriglocation=\count339
-\c@origpublisher=\count340
-\c@savedorigpublisher=\count341
-\c@publisher=\count342
-\c@savedpublisher=\count343
-\c@language=\count344
-\c@savedlanguage=\count345
-\c@pageref=\count346
-\c@savedpageref=\count347
-\shorthandwidth=\skip83
-\shortjournalwidth=\skip84
-\shortserieswidth=\skip85
-\shorttitlewidth=\skip86
-\shortauthorwidth=\skip87
-\shorteditorwidth=\skip88
+\c@afterword=\count285
+\c@savedafterword=\count286
+\c@annotator=\count287
+\c@savedannotator=\count288
+\c@author=\count289
+\c@savedauthor=\count290
+\c@bookauthor=\count291
+\c@savedbookauthor=\count292
+\c@commentator=\count293
+\c@savedcommentator=\count294
+\c@editor=\count295
+\c@savededitor=\count296
+\c@editora=\count297
+\c@savededitora=\count298
+\c@editorb=\count299
+\c@savededitorb=\count300
+\c@editorc=\count301
+\c@savededitorc=\count302
+\c@foreword=\count303
+\c@savedforeword=\count304
+\c@holder=\count305
+\c@savedholder=\count306
+\c@introduction=\count307
+\c@savedintroduction=\count308
+\c@namea=\count309
+\c@savednamea=\count310
+\c@nameb=\count311
+\c@savednameb=\count312
+\c@namec=\count313
+\c@savednamec=\count314
+\c@translator=\count315
+\c@savedtranslator=\count316
+\c@shortauthor=\count317
+\c@savedshortauthor=\count318
+\c@shorteditor=\count319
+\c@savedshorteditor=\count320
+\c@labelname=\count321
+\c@savedlabelname=\count322
+\c@institution=\count323
+\c@savedinstitution=\count324
+\c@lista=\count325
+\c@savedlista=\count326
+\c@listb=\count327
+\c@savedlistb=\count328
+\c@listc=\count329
+\c@savedlistc=\count330
+\c@listd=\count331
+\c@savedlistd=\count332
+\c@liste=\count333
+\c@savedliste=\count334
+\c@listf=\count335
+\c@savedlistf=\count336
+\c@location=\count337
+\c@savedlocation=\count338
+\c@organization=\count339
+\c@savedorganization=\count340
+\c@origlocation=\count341
+\c@savedoriglocation=\count342
+\c@origpublisher=\count343
+\c@savedorigpublisher=\count344
+\c@publisher=\count345
+\c@savedpublisher=\count346
+\c@language=\count347
+\c@savedlanguage=\count348
+\c@pageref=\count349
+\c@savedpageref=\count350
+\shorthandwidth=\skip84
+\shortjournalwidth=\skip85
+\shortserieswidth=\skip86
+\shorttitlewidth=\skip87
+\shortauthorwidth=\skip88
+\shorteditorwidth=\skip89
 Package biblatex Info: Trying to load compatibility code...
 Package biblatex Info: ... file 'blx-compat.def' found.
 
@@ -1085,13 +1103,13 @@ Package biblatex Info: ... file 'biblatex_.def' found.
 
 (/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex_.def
 File: biblatex_.def 
-\c@textcitecount=\count348
-\c@textcitetotal=\count349
-\c@textcitemaxnames=\count350
-\c@biburlnumpenalty=\count351
-\c@biburlucpenalty=\count352
-\c@biburllcpenalty=\count353
-\c@smartand=\count354
+\c@textcitecount=\count351
+\c@textcitetotal=\count352
+\c@textcitemaxnames=\count353
+\c@biburlnumpenalty=\count354
+\c@biburlucpenalty=\count355
+\c@biburllcpenalty=\count356
+\c@smartand=\count357
 )
 Package biblatex Info: Trying to load bibliography style 'numeric'...
 Package biblatex Info: ... file 'numeric.bbx' found.
@@ -1103,8 +1121,8 @@ Package biblatex Info: ... file 'standard.bbx' found.
 
 (/usr/share/texlive/texmf-dist/tex/latex/biblatex/bbx/standard.bbx
 File: standard.bbx 2016/03/03 v3.3 biblatex bibliography style (PK/JW/AB)
-\c@bbx:relatedcount=\count355
-\c@bbx:relatedtotal=\count356
+\c@bbx:relatedcount=\count358
+\c@bbx:relatedtotal=\count359
 ))
 Package biblatex Info: Trying to load citation style 'numeric'...
 Package biblatex Info: ... file 'numeric.cbx' found.
@@ -1131,29 +1149,29 @@ File: biblatex.cfg
 )))
 (/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2010/09/12 v5.6 Page Geometry
-\Gm@cnth=\count357
-\Gm@cntv=\count358
-\c@Gm@tempcnt=\count359
-\Gm@bindingoffset=\dimen268
-\Gm@wd@mp=\dimen269
-\Gm@odd@mp=\dimen270
-\Gm@even@mp=\dimen271
-\Gm@layoutwidth=\dimen272
-\Gm@layoutheight=\dimen273
-\Gm@layouthoffset=\dimen274
-\Gm@layoutvoffset=\dimen275
+\Gm@cnth=\count360
+\Gm@cntv=\count361
+\c@Gm@tempcnt=\count362
+\Gm@bindingoffset=\dimen272
+\Gm@wd@mp=\dimen273
+\Gm@odd@mp=\dimen274
+\Gm@even@mp=\dimen275
+\Gm@layoutwidth=\dimen276
+\Gm@layoutheight=\dimen277
+\Gm@layouthoffset=\dimen278
+\Gm@layoutvoffset=\dimen279
 \Gm@dimlist=\toks33
 )
 (/usr/share/texlive/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
-\fancy@headwidth=\skip89
-\f@ncyO@elh=\skip90
-\f@ncyO@erh=\skip91
-\f@ncyO@olh=\skip92
-\f@ncyO@orh=\skip93
-\f@ncyO@elf=\skip94
-\f@ncyO@erf=\skip95
-\f@ncyO@olf=\skip96
-\f@ncyO@orf=\skip97
+\fancy@headwidth=\skip90
+\f@ncyO@elh=\skip91
+\f@ncyO@erh=\skip92
+\f@ncyO@olh=\skip93
+\f@ncyO@orh=\skip94
+\f@ncyO@elf=\skip95
+\f@ncyO@erf=\skip96
+\f@ncyO@olf=\skip97
+\f@ncyO@orf=\skip98
 )
 Package biblatex Info: Trying to load language 'english'...
 Package biblatex Info: ... file 'english.lbx' found.
@@ -1161,40 +1179,40 @@ Package biblatex Info: ... file 'english.lbx' found.
 (/usr/share/texlive/texmf-dist/tex/latex/biblatex/lbx/english.lbx
 File: english.lbx 2016/03/03 v3.3 biblatex localization (PK/JW/AB)
 )
-\@quotelevel=\count360
-\@quotereset=\count361
+\@quotelevel=\count363
+\@quotereset=\count364
 
 (./Larisch-2018.aux)
 \openout1 = `Larisch-2018.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 167.
-LaTeX Font Info:    ... okay on input line 167.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 167.
-LaTeX Font Info:    ... okay on input line 167.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 167.
-LaTeX Font Info:    ... okay on input line 167.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 167.
-LaTeX Font Info:    ... okay on input line 167.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 167.
-LaTeX Font Info:    ... okay on input line 167.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 167.
-LaTeX Font Info:    ... okay on input line 167.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 167.
-LaTeX Font Info:    ... okay on input line 167.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 167.
-LaTeX Font Info:    ... okay on input line 167.
-LaTeX Font Info:    Checking defaults for EU1/lmr/m/n on input line 167.
-LaTeX Font Info:    ... okay on input line 167.
-LaTeX Font Info:    Checking defaults for T3/cmr/m/n on input line 167.
-LaTeX Font Info:    Try loading font information for T3+cmr on input line 167.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 208.
+LaTeX Font Info:    ... okay on input line 208.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 208.
+LaTeX Font Info:    ... okay on input line 208.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 208.
+LaTeX Font Info:    ... okay on input line 208.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 208.
+LaTeX Font Info:    ... okay on input line 208.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 208.
+LaTeX Font Info:    ... okay on input line 208.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 208.
+LaTeX Font Info:    ... okay on input line 208.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 208.
+LaTeX Font Info:    ... okay on input line 208.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 208.
+LaTeX Font Info:    ... okay on input line 208.
+LaTeX Font Info:    Checking defaults for EU1/lmr/m/n on input line 208.
+LaTeX Font Info:    ... okay on input line 208.
+LaTeX Font Info:    Checking defaults for T3/cmr/m/n on input line 208.
+LaTeX Font Info:    Try loading font information for T3+cmr on input line 208.
  (/usr/share/texmf/tex/latex/tipa/t3cmr.fd
 File: t3cmr.fd 2001/12/31 TIPA font definitions
 )
-LaTeX Font Info:    ... okay on input line 167.
+LaTeX Font Info:    ... okay on input line 208.
 Package marginnote Info: \pdfoutput not 0 and \pdflastxpos available.
 (marginnote)             Extended position detection mode activated.
-\AtBeginShipoutBox=\box64
-Package hyperref Info: Link coloring ON on input line 167.
+\AtBeginShipoutBox=\box65
+Package hyperref Info: Link coloring ON on input line 208.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -1202,19 +1220,19 @@ Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count362
+\c@section@level=\count365
 )
-LaTeX Info: Redefining \ref on input line 167.
-LaTeX Info: Redefining \pageref on input line 167.
-LaTeX Info: Redefining \nameref on input line 167.
+LaTeX Info: Redefining \ref on input line 208.
+LaTeX Info: Redefining \pageref on input line 208.
+LaTeX Info: Redefining \nameref on input line 208.
 
 (./Larisch-2018.out) (./Larisch-2018.out)
-\@outlinefile=\write7
-\openout7 = `Larisch-2018.out'.
+\@outlinefile=\write8
+\openout8 = `Larisch-2018.out'.
 
 
 ABD: EveryShipout initializing macros ABD: EverySelectfont initializing macros
-LaTeX Info: Redefining \selectfont on input line 167.
+LaTeX Info: Redefining \selectfont on input line 208.
 .................................................
 . fontspec info: "setup-math"
 . 
@@ -1222,58 +1240,58 @@ LaTeX Info: Redefining \selectfont on input line 167.
 .................................................
 \symlegacymaths=\mathgroup4
 LaTeX Font Info:    Overwriting symbol font `legacymaths' in version `bold'
-(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 167.
-LaTeX Font Info:    Redeclaring math accent \acute on input line 167.
-LaTeX Font Info:    Redeclaring math accent \grave on input line 167.
-LaTeX Font Info:    Redeclaring math accent \ddot on input line 167.
-LaTeX Font Info:    Redeclaring math accent \tilde on input line 167.
-LaTeX Font Info:    Redeclaring math accent \bar on input line 167.
-LaTeX Font Info:    Redeclaring math accent \breve on input line 167.
-LaTeX Font Info:    Redeclaring math accent \check on input line 167.
-LaTeX Font Info:    Redeclaring math accent \hat on input line 167.
-LaTeX Font Info:    Redeclaring math accent \dot on input line 167.
-LaTeX Font Info:    Redeclaring math accent \mathring on input line 167.
-LaTeX Font Info:    Redeclaring math symbol \colon on input line 167.
-LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 167.
-LaTeX Font Info:    Redeclaring math symbol \Delta on input line 167.
-LaTeX Font Info:    Redeclaring math symbol \Theta on input line 167.
-LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 167.
-LaTeX Font Info:    Redeclaring math symbol \Xi on input line 167.
-LaTeX Font Info:    Redeclaring math symbol \Pi on input line 167.
-LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 167.
-LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 167.
-LaTeX Font Info:    Redeclaring math symbol \Phi on input line 167.
-LaTeX Font Info:    Redeclaring math symbol \Psi on input line 167.
-LaTeX Font Info:    Redeclaring math symbol \Omega on input line 167.
-LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 167.
-LaTeX Font Info:    Redeclaring symbol font `operators' on input line 167.
+(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 208.
+LaTeX Font Info:    Redeclaring math accent \acute on input line 208.
+LaTeX Font Info:    Redeclaring math accent \grave on input line 208.
+LaTeX Font Info:    Redeclaring math accent \ddot on input line 208.
+LaTeX Font Info:    Redeclaring math accent \tilde on input line 208.
+LaTeX Font Info:    Redeclaring math accent \bar on input line 208.
+LaTeX Font Info:    Redeclaring math accent \breve on input line 208.
+LaTeX Font Info:    Redeclaring math accent \check on input line 208.
+LaTeX Font Info:    Redeclaring math accent \hat on input line 208.
+LaTeX Font Info:    Redeclaring math accent \dot on input line 208.
+LaTeX Font Info:    Redeclaring math accent \mathring on input line 208.
+LaTeX Font Info:    Redeclaring math symbol \colon on input line 208.
+LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 208.
+LaTeX Font Info:    Redeclaring math symbol \Delta on input line 208.
+LaTeX Font Info:    Redeclaring math symbol \Theta on input line 208.
+LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 208.
+LaTeX Font Info:    Redeclaring math symbol \Xi on input line 208.
+LaTeX Font Info:    Redeclaring math symbol \Pi on input line 208.
+LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 208.
+LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 208.
+LaTeX Font Info:    Redeclaring math symbol \Phi on input line 208.
+LaTeX Font Info:    Redeclaring math symbol \Psi on input line 208.
+LaTeX Font Info:    Redeclaring math symbol \Omega on input line 208.
+LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 208.
+LaTeX Font Info:    Redeclaring symbol font `operators' on input line 208.
 LaTeX Font Info:    Encoding `OT1' has changed to `EU1' for symbol font
-(Font)              `operators' in the math version `normal' on input line 167.
+(Font)              `operators' in the math version `normal' on input line 208.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> EU1/lmr/m/n on input line 167.
+(Font)                  OT1/cmr/m/n --> EU1/lmr/m/n on input line 208.
 LaTeX Font Info:    Encoding `OT1' has changed to `EU1' for symbol font
-(Font)              `operators' in the math version `bold' on input line 167.
+(Font)              `operators' in the math version `bold' on input line 208.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> EU1/lmr/m/n on input line 167.
+(Font)                  OT1/cmr/bx/n --> EU1/lmr/m/n on input line 208.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  EU1/lmr/m/n --> EU1/lmr/m/n on input line 167.
+(Font)                  EU1/lmr/m/n --> EU1/lmr/m/n on input line 208.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> EU1/lmr/m/it on input line 167.
+(Font)                  OT1/cmr/m/it --> EU1/lmr/m/it on input line 208.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> EU1/lmr/bx/n on input line 167.
+(Font)                  OT1/cmr/bx/n --> EU1/lmr/bx/n on input line 208.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> EU1/lmss/m/n on input line 167.
+(Font)                  OT1/cmss/m/n --> EU1/lmss/m/n on input line 208.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> EU1/lmtt/m/n on input line 167.
+(Font)                  OT1/cmtt/m/n --> EU1/lmtt/m/n on input line 208.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  EU1/lmr/m/n --> EU1/lmr/bx/n on input line 167.
+(Font)                  EU1/lmr/m/n --> EU1/lmr/bx/n on input line 208.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> EU1/lmr/bx/it on input line 167.
+(Font)                  OT1/cmr/bx/it --> EU1/lmr/bx/it on input line 208.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> EU1/lmss/bx/n on input line 167.
+(Font)                  OT1/cmss/bx/n --> EU1/lmss/bx/n on input line 208.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> EU1/lmtt/bx/n on input line 167.
+(Font)                  OT1/cmtt/m/n --> EU1/lmtt/bx/n on input line 208.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: listings package is loaded.
 Package caption Info: longtable package is loaded.
@@ -1282,19 +1300,19 @@ Package caption Info: longtable package is loaded.
 Package: ltcaption 2013/06/09 v1.4-94 longtable captions (AR)
 )
 Package caption Info: End \AtBeginDocument code.
-\c@lstlisting=\count363
+\c@lstlisting=\count366
 Package biblatex Info: XeTeX detected.
 (biblatex)             Assuming input encoding 'utf8'.
 Package biblatex Info: Automatic encoding selection.
 (biblatex)             Assuming data encoding 'utf8'.
-\openout6 = `Larisch-2018.bcf'.
+\openout7 = `Larisch-2018.bcf'.
 
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'Larisch-2018.bbl' found.
 
 (./Larisch-2018.bbl)
-Package biblatex Info: Reference section=0 on input line 167.
-Package biblatex Info: Reference segment=0 on input line 167.
+Package biblatex Info: Reference section=0 on input line 208.
+Package biblatex Info: Reference segment=0 on input line 208.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
@@ -1331,151 +1349,146 @@ Package biblatex Info: Reference segment=0 on input line 167.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 168.
+(Font)              <12> on input line 209.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 168.
+(Font)              <8> on input line 209.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 168.
+(Font)              <6> on input line 209.
 
-Underfull \hbox (badness 10000) in paragraph at lines 208--208
+Underfull \hbox (badness 10000) in paragraph at lines 249--249
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 208--208
+Underfull \hbox (badness 10000) in paragraph at lines 249--249
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 208--208
+Underfull \hbox (badness 10000) in paragraph at lines 249--249
 
  []
 
 
 LaTeX Font Warning: Font shape `EU1/FontAwesome(0)/bx/n' undefined
-(Font)              using `EU1/FontAwesome(0)/m/n' instead on input line 208.
+(Font)              using `EU1/FontAwesome(0)/m/n' instead on input line 249.
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 208.
+(Font)              <9> on input line 249.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 208.
+(Font)              <5> on input line 249.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 220.
+(Font)              <7> on input line 261.
 File: rescience-logo.pdf Graphic file (type QTm)
 <use  "rescience-logo.pdf" > [1
 
 ]
+
+Package hyperref Warning: The anchor of a bookmark and its parent's must not
+(hyperref)                be the same. Added a new anchor on input line 313.
+
 File: rescience-logo.pdf Graphic file (type QTm)
- <use  "rescience-logo.pdf" > [2]
-Overfull \hbox (2.62979pt too wide) in paragraph at lines 355--369
+<use  "rescience-logo.pdf" > [2]
+Overfull \hbox (2.62979pt too wide) in paragraph at lines 438--453
 []\EU1/lmr/m/n/10 To validate the reimplementation, we reproduce the classical 
 spike timing-dependent
  []
 
-
-Overfull \hbox (0.80777pt too wide) in paragraph at lines 370--382
+File: rescience-logo.pdf Graphic file (type QTm)
+<use  "rescience-logo.pdf" > [3]
+Overfull \hbox (0.80777pt too wide) in paragraph at lines 457--464
 []\EU1/lmr/m/n/10 The experiment protocols are based on the description on the 
 publication of Clopath
  []
 
-File: rescience-logo.pdf Graphic file (type QTm)
-<use  "rescience-logo.pdf" > [3]
-Overfull \hbox (373.11223pt too wide) detected at line 427
+
+Overfull \hbox (373.11223pt too wide) detected at line 511
  [] 
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 425--431
+Underfull \hbox (badness 10000) in alignment at lines 509--515
 [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 431--435
+Underfull \hbox (badness 10000) in alignment at lines 515--519
 [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 435--445
-[] [] []
- []
-
-
-Overfull \hbox (373.11223pt too wide) detected at line 450
- [] 
- []
-
-
-Underfull \hbox (badness 10000) in alignment at lines 448--454
-[] [] []
- []
-
-
-Underfull \hbox (badness 10000) in alignment at lines 454--458
-[] [] []
- []
-
-
-Underfull \hbox (badness 10000) in alignment at lines 458--463
+Underfull \hbox (badness 10000) in alignment at lines 519--529
 [] [] []
  []
 
 File: rescience-logo.pdf Graphic file (type QTm)
 <use  "rescience-logo.pdf" > [4]
-File: ./figures/deltaW.png Graphic file (type QTm)
- <use  "./figures/deltaW.png" >
-File: ./figures/pairing.png Graphic file (type QTm)
+Overfull \hbox (373.11223pt too wide) detected at line 534
+ [] 
+ []
 
-<use  "./figures/pairing.png" >
-Overfull \hbox (2.21999pt too wide) in paragraph at lines 470--475
+
+Underfull \hbox (badness 10000) in alignment at lines 532--538
+[] [] []
+ []
+
+
+Underfull \hbox (badness 10000) in alignment at lines 538--542
+[] [] []
+ []
+
+
+Underfull \hbox (badness 10000) in alignment at lines 542--547
+[] [] []
+ []
+
+LaTeX Font Info:    Try loading font information for EU1+lmtt on input line 559
+.
+(/usr/share/texlive/texmf-dist/tex/latex/euenc/eu1lmtt.fd
+File: eu1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+File: ./figures/deltaW.png Graphic file (type QTm)
+
+<use  "./figures/deltaW.png" >
+File: ./figures/pairing.png Graphic file (type QTm)
+ <use  "./figures/pairing.png" >
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 586--591
 [][] [] 
  []
 
+File: rescience-logo.pdf Graphic file (type QTm)
+<use  "rescience-logo.pdf" > [5]
 File: ./figures/rate_Code_Weights.png Graphic file (type QTm)
-<use  "./figures/rate_Code_Weights.png" >
+ <use  "./figures/rate_Code_Weights.png" >
 File: ./figures/temporal_Code.png Graphic file (type QTm)
 
 <use  "./figures/temporal_Code.png" >
-Overfull \hbox (2.21999pt too wide) in paragraph at lines 500--508
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 616--624
 [][] [] 
  []
 
 File: ./figures/weights_stable.png Graphic file (type QTm)
 <use  "./figures/weights_stable.png" >
-Overfull \hbox (0.52667pt too wide) in paragraph at lines 549--553
-\EU1/lmr/m/n/10 The here proposed reimplementation of voltage based STDP learni
-ng rule from Clopath
- []
-
-File: rescience-logo.pdf Graphic file (type QTm)
-<use  "rescience-logo.pdf" > [5]
 File: rescience-logo.pdf Graphic file (type QTm)
  <use  "rescience-logo.pdf" > [6]
-Invalid UTF-8 byte or sequence at line 574 replaced by U+FFFD.
-Invalid UTF-8 byte or sequence at line 574 replaced by U+FFFD.
-Invalid UTF-8 byte or sequence at line 574 replaced by U+FFFD.
-Invalid UTF-8 byte or sequence at line 574 replaced by U+FFFD.
-Invalid UTF-8 byte or sequence at line 574 replaced by U+FFFD.
-Invalid UTF-8 byte or sequence at line 574 replaced by U+FFFD.
-Invalid UTF-8 byte or sequence at line 574 replaced by U+FFFD.
-Invalid UTF-8 byte or sequence at line 574 replaced by U+FFFD.
-File: ./figures/ESF_CMYK_LOGO.EPS Graphic file (type eps)
+File: rescience-logo.pdf Graphic file (type QTm)
 
-<./figures/ESF_CMYK_LOGO.EPS>
+<use  "rescience-logo.pdf" > [7]
 LaTeX Font Info:    Font shape `EU1/lmss/m/it' in size <9> not available
-(Font)              Font shape `EU1/lmss/m/sl' tried instead on input line 578.
+(Font)              Font shape `EU1/lmss/m/sl' tried instead on input line 691.
 
 
 
 LaTeX Font Warning: Font shape `EU1/lmss/m/sc' in size <9> not available
-(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 578.
+(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 691.
 
 File: rescience-logo.pdf Graphic file (type QTm)
-<use  "rescience-logo.pdf" > [7]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 580.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 580.
+<use  "rescience-logo.pdf" > [8]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 693.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 693.
  (./Larisch-2018.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 580.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 580.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 693.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 693.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -1485,12 +1498,12 @@ Package logreq Info: Writing requests to 'Larisch-2018.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 39579 strings out of 495579
- 732871 string characters out of 6187322
- 1061659 words of memory out of 5000000
- 42421 multiletter control sequences out of 15000+600000
- 7848 words of font info for 52 fonts, out of 8000000 for 9000
+ 40077 strings out of 495579
+ 740669 string characters out of 6187322
+ 1073318 words of memory out of 5000000
+ 42908 multiletter control sequences out of 15000+600000
+ 7856 words of font info for 53 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  54i,16n,73p,10376b,1046s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on Larisch-2018.pdf (7 pages).
+Output written on Larisch-2018.pdf (8 pages).

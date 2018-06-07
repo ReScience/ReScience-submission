@@ -2,7 +2,12 @@
 \BOOKMARK [1][-]{section.2}{Methods}{}% 2
 \BOOKMARK [2][-]{subsection.2.1}{Overview}{section.2}% 3
 \BOOKMARK [2][-]{subsection.2.2}{Model\040description}{section.2}% 4
-\BOOKMARK [2][-]{subsection.2.3}{Reimplemented\040Analysis}{section.2}% 5
-\BOOKMARK [1][-]{section.3}{Results}{}% 6
-\BOOKMARK [1][-]{section.4}{Conclusion}{}% 7
-\BOOKMARK [2][-]{subsection.4.1}{Acknowledgment}{section.4}% 8
+\BOOKMARK [3][-]{section*.1}{Neural\040model}{subsection.2.2}% 5
+\BOOKMARK [3][-]{equation.2.4}{Synaptic\040model}{subsection.2.2}% 6
+\BOOKMARK [2][-]{subsection.2.3}{Reproduction\040of\040experiments}{section.2}% 7
+\BOOKMARK [2][-]{subsection.2.4}{Reimplementation}{section.2}% 8
+\BOOKMARK [1][-]{section.3}{Results}{}% 9
+\BOOKMARK [2][-]{subsection.3.1}{Pair-based\040and\040triplet\040STDP\040experiments}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.2}{Connectivity\040analysis}{section.3}% 11
+\BOOKMARK [1][-]{section.4}{Conclusion}{}% 12
+\BOOKMARK [2][-]{subsection.4.1}{Acknowledgment}{section.4}% 13

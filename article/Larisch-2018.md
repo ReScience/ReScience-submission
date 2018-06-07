@@ -42,14 +42,16 @@ for example triplet or quadruplets experiments [@Pfister2006].
 
 @Clopath2010 introduced a STDP model able to reproduce the experimental findings of triplet studies.
 They propose a biologically-motivated model with a voltage-based learning rule, where the occurrence of long term depression (LTD) or long term potentiation (LTP) depends on the postsynaptic membrane voltage.
-Clopath and colleagues could reproduce different STDP experiments. **TODO: summarize which ones**
-Furthermore, they were able to show that their learning rule
+Clopath and colleagues could reproduce how the occurrence of LTD and LTP depends
+on the depolarizing of the postsynaptic membrane potential, as observed in voltage-clamp [@Ngezahayo2000] and stationary-depolarization experiments [@Artola1990].  
+Further, they could reproduce experimental finding from spike pair repetition and triplet experiments [@Sjoestroem2001].
+They were able to show that their learning rule
 can develop stable weights, as needed for learning the receptive fields of V1 simple cells.
 Therefore, they implemented a homeostatic mechanism to
 control the amount of generated LTD, based on the relationship between the average postsynaptic
 membrane potential and a reference value.
 Their model led to two different connectivity structures,
-depending on the spiking behavior of the neurons: if the neurons fire trongly at the same time, they build strong bidirectional connections (as in rate-coded Hebbian learning). If they fire in a specific temporal order, their connectivity structure follows that order (temporal coding).
+depending on the spiking behavior of the neurons: if the neurons fire strongly at the same time, they build strong bidirectional connections (as in rate-coded Hebbian learning). If they fire in a specific temporal order, their connectivity structure follows that order (temporal coding).
 
 # Methods
 
@@ -74,32 +76,50 @@ where $u$ is the membrane potential, $C$ the membrane capacitance, the leak cond
 The slope factor ($\Delta_T$) and the spiking threshold ($V_T$) are describing the behavior of the exponential term.
 
 If the membrane potential ($u$) is above $V_T$, the neuron spikes and the membrane potential increases exponentially.
-To simulate the spike upswing for $2ms$ after a spike is emitted, they used the so called 'resolution trick' **TODO: what is it?**.  
-The membrane potential is set to $29.4mV$,  one millisecond later to $29.4mV + 3.462mV$ and another millisecond later to $E_{L} + 15mV + 6.0984mV$ .
+To simulate the spike upswing for $2ms$ after a spike is emitted, they used the so called 'resolution trick'.
+For this, they simulated once the complete change in the membrane potential through a spike with high precision and integrated.
+For simulations, they used the integrated number and clamped the membrane potential for $2ms$.  
+This means, the membrane potential is set to $29.4mV$ after a spike,  one millisecond later to $29.4mV + 3.462mV$ and another millisecond later to $E_{L} + 15mV + 6.0984mV$ .
 
-The depolarizing spike afterpotential is $z$ and the hyperpolarization current described by $w_{ad}$.
-Together with the adaptive spiking threshold ($V_T$), they are changing over the time.
-Their descriptions are equal to those in the original paper. **TODO: give the equation**
-The values of the parameters of the neural model are taken from the original paper and are presented in the.
+The depolarizing spike afterpotential is $z$ and it decays over time to zero (see **Eq.** @eq:Z).
+$$ \tau_{z} \frac{dz}{dt} =-z  $$ {#eq:Z}
+The hyperpolarization current described by $w_{ad}$ (see **Eq.** @eq:wad).
+After a spike, $w_{ad}$ is increased by the amount $b$ and decays down to the resting potential $E_{L}$ otherwise.
+$$ \tau_{w_{ad}} \frac{dw_{ad}}{dt} = a(u-E_{L})-w_{ad}  $$ {#eq:wad}
+The adaptive spiking threshold ($V_T$) is set to $V_{T_{max}}$ after the neuron spiked and will decay to $V_{T_{rest}}$ (see **Eq.** @eq:VT).
+$$ \tau_{V_{T}} \frac{dV_{T}}{dt} =- (V_T - V_{T_{rest}})  $$ {#eq:VT}
+The values of the parameters of the neural model are taken from the original paper.
 
 ### Synaptic model {-}
-
-Here, only a short description about the learning dynamic is given. For further information read the original publication by @Clopath2010.
-
-**No, the article should be standalone, reproduce the equations**
 
 The proposed learning rule consists of two terms: a long term potentiation (LTP) term (**Eq.** @eq:LTP) controls increases in synaptic efficiency:
 
 $$ LTP_{Term} = A_{LTP} \, \bar{x}_i \, (u - \theta_+)_+ \, (\bar{u}_+ - \theta_-)_+ $$ {#eq:LTP}
 
-With this term, LTP occurs when the presynaptic spike trace ($\bar{x}_i$ **TODO: how is it computed?**) is above zero, the membrane potential $u$ is over the threshold $\theta_+$ and the membrane potential trace $\bar{u}_-$ is above $\theta_-$. This happens when the postsynaptic neuron spikes shortly after the presynaptic neuron or if the membrane potential is high long enough, so that $\bar{u}_-$ exceeds $\theta_-$.
+Therefore, $A_{LTP}$ is the learning rate for the LTP term.
+The parameters $\theta_{+}$ and $\theta_{-}$ are plasticity thresholds for the membrane potential ($u$),
+respectively for the over time averaged version ($\bar{u}_+$ (see **Eq.** @eq:barU)).
+The original paper they did not mentioned the meaning of both thresholds.
+With $\theta_{+} = -45.3mV$ it is above the spiking threshold.
+This suggest, that the threshold avoid the occurrence of LTP if the postsynaptic neuron not spiked already.
+With $\theta_{+} = E_{L}$, LTP only occurs if the membrane potential is above the resting potential.
 
-The long term depression (LTD) term (**Eq.** @eq:LTD) governs decreases in synaptic efficiency:
+$$ \tau_{+} \frac{d\bar{u}_+}{dt} = -\bar{u}_{+} + u $$ {#eq:barU}
+
+On every spike of the presynaptic neuron, the spike train $\bar{x}_i$ is increased by one and will decay over time with a time constant $\tau_{x}$ (see **Eq.** @eq:xbar).
+If the presynaptic neuron spikes to a time point $t$, the spike counter $X_i$ is $1$, otherwise $0$.
+
+$$ \tau_{x}\frac{d \bar{x}_i}{dt} = -\bar{x}_i + X_i $$ {#eq:xbar}
+
+With this term, LTP occurs when the presynaptic spike trace ($\bar{x}_i$) is above zero, the postsynaptic membrane potential $u$ is over the threshold $\theta_+$ and the membrane potential trace $\bar{u}_-$ is above $\theta_-$. This happens when the postsynaptic neuron spikes shortly after the presynaptic neuron or if the membrane potential is high long enough, so that $\bar{u}_-$ exceeds $\theta_-$.
+
+
+The second term is the long term depression (LTD) term (**Eq.** @eq:LTD) and governs decreases in synaptic efficiency:
 
 $$ LTD_{Term} = A_{LTD} \, (\frac{\bar{\bar{u}}}{u_{ref}^2}) \, X_i \, (\bar{u}_{-} - \theta_{-})_+ $$ {#eq:LTD}
 
-The presynaptic spike counter ($X_i$) is set to one after a spike and  zero otherwise.
-$\bar{u}_{-}$ is a second trace of the postsynaptic membrane potential.
+The presynaptic spike counter ($X_i$) is set to one after a spike and  zero otherwise (as mentioned above).
+$\bar{u}_{-}$ is a second trace of the postsynaptic membrane potential similar to $\bar{u}_{+}$, but with $\tau_{-} > \tau_{+}$.
 If it exceeds the $\theta_{-}$ threshold, and a presynaptic spike is emitted, LTD occurs. This happens when the presynaptic neurons spikes after the postsynaptic one.
 
 The amplitude of the LTD term, and with that the balance between LTP and LTD, is adjusted with respect to the ratio between $\bar{\bar{u}}$ and a reference value ($u_{ref}^2$), hence implementing a homeostatic mechanism (**Eq.** @eq:homeo).

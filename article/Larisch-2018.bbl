@@ -19,6 +19,43 @@
 
 \refsection{0}
   \sortlist[entry]{nty/global}
+    \entry{Artola1990}{article}{}
+      \name{author}{3}{}{%
+        {{hash=7c557f64fc906fcb6f3a69e94f794b02}{%
+           family={Artola},
+           family_i={A\bibinitperiod},
+           given={A.},
+           given_i={A\bibinitperiod}}}%
+        {{hash=64306e4af7b139b3baaed34337921b94}{%
+           family={Bröcher},
+           family_i={B\bibinitperiod},
+           given={S.},
+           given_i={S\bibinitperiod}}}%
+        {{hash=4bc27760567780ab6d9d61f646425470}{%
+           family={Singer},
+           family_i={S\bibinitperiod},
+           given={W.},
+           given_i={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{7e875976d36808207bf7fc1ab6ad4eda}
+      \strng{fullhash}{7e875976d36808207bf7fc1ab6ad4eda}
+      \field{sortinit}{A}
+      \field{sortinithash}{b685c7856330eaee22789815b49de9bb}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature}
+      \field{title}{Different voltage-dependent thresholds for inducing long-term depression and long-term potentiation in slices of rat visual cortex}
+      \field{volume}{347}
+      \field{year}{1990}
+      \field{pages}{69\bibrangedash 72}
+      \range{pages}{4}
+      \verb{doi}
+      \verb 10.1038/347069a0
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1038/347069a0
+      \endverb
+    \endentry
     \entry{Bi1998}{article}{}
       \name{author}{2}{}{%
         {{hash=8a57ec5f1e4994c27e39e9e4b485a448}{%
@@ -100,6 +137,52 @@
       \endverb
       \verb{url}
       \verb http://www.nature.com/doifinder/10.1038/nn.2479
+      \endverb
+    \endentry
+    \entry{Ngezahayo2000}{article}{}
+      \name{author}{3}{}{%
+        {{hash=af525fdda7d2e97e5b2b8b3cac215d18}{%
+           family={Ngezahayo},
+           family_i={N\bibinitperiod},
+           given={Anaclet},
+           given_i={A\bibinitperiod}}}%
+        {{hash=a5e956c2272314ad720e3ea469a657a9}{%
+           family={Schachner},
+           family_i={S\bibinitperiod},
+           given={Melitta},
+           given_i={M\bibinitperiod}}}%
+        {{hash=a2b1e25e7bcdb6295d8fa2d4d5668b1c}{%
+           family={Artola},
+           family_i={A\bibinitperiod},
+           given={Alain},
+           given_i={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Society for Neuroscience}%
+      }
+      \strng{namehash}{af0db5f5dbd191b5a9105de9f02aaf6c}
+      \strng{fullhash}{af0db5f5dbd191b5a9105de9f02aaf6c}
+      \field{sortinit}{N}
+      \field{sortinithash}{925374ca63e7594de7fafdb83e64d41d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Activity-dependent synaptic plasticity is critical for learning and memory. Considerable attention has been paid to mechanisms that increase or decrease synaptic efficacy, referred to as long-term potentiation (LTP) and long-term depression (LTD), respectively. It is becoming apparent that synaptic activity also modulates the ability to elicit subsequent synaptic changes. We provide direct experimental evidence that this modulation is attributable, at least in part, to variations in the level of postsynaptic depolarization required for inducing plasticity. In slices from adult hippocampal CA1, a brief pairing protocol known to produce LTP can also induce LTD. The voltage{–}response function for the induction of LTD and LTP in naive synapses exhibits three parts: at a postsynaptic membrane potential during pairing (Vm) <= -40 mV, no synaptic modification is obtained; at Vmbetween -40 and -20 mV, LTD is induced; and, finally, atVm \&gt; -20 mV, LTP is generated. This function varies with initial synaptic efficacy. In depressed synapses, Θ-, the Vm above which LTD is generated, is shifted toward more depolarizedVms and Θ+, the LTD{–}LTP crossover point or, equivalently, the Vmabove which LTP is induced, toward more polarizedVms. Conversely in potentiated synapses, Θ- is shifted toward more polarizedVms. Therefore synaptic activity changes synaptic efficacy and accordingly adjusts the voltages for eliciting subsequent synaptic modifications. The concomitant shifts in the voltages for inducing LTD and LTP in opposite directions promote synaptic potentiation and inhibit synaptic depression in depressed synapses and vice versa in potentiated synapses.}
+      \field{issn}{0270-6474}
+      \field{journaltitle}{Journal of Neuroscience}
+      \field{number}{7}
+      \field{title}{Synaptic Activity Modulates the Induction of Bidirectional Synaptic Changes in Adult Mouse Hippocampus}
+      \field{volume}{20}
+      \field{year}{2000}
+      \field{pages}{2451\bibrangedash 2458}
+      \range{pages}{8}
+      \verb{doi}
+      \verb 10.1523/JNEUROSCI.20-07-02451.2000
+      \endverb
+      \verb{eprint}
+      \verb http://www.jneurosci.org/content/20/7/2451.full.pdf
+      \endverb
+      \verb{url}
+      \verb http://www.jneurosci.org/content/20/7/2451
       \endverb
     \endentry
     \entry{Pfister2006}{article}{}

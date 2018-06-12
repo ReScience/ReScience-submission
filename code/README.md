@@ -148,7 +148,7 @@ row     win     jit     # pat neur      pat freq        % deleted
 
 #### Running on a cluster 
 
-The files that were used to run on the Imperial College HPC cx1 cluster with a PBS queue system are provided under code/cluster (main_cluster.py and run_main_cluster.sh). Please note that the paths in both files (line 9 in run_main_cluster.sh and lines 24-25 in main_cluster.py) need to be changed. 
+The files that were used to run on the Imperial College HPC cx1 cluster with a PBS queue system are provided under code/cluster (main_cluster.py and run_main_cluster.sh). Please note that the paths in both files (line 9 in run_main_cluster.sh and lines 24-25 in main_cluster.py) need to be changed to the /data directory on the cluster, where you want the results to be saved. 
 
 The runs are initiated with 
 
@@ -156,9 +156,11 @@ The runs are initiated with
 qsub -J 0-2199 run_main_cluster.sh
 ```
 
-which runs the parameter of para.npy 100 times with different random seeds and saves the results.
+which runs the parameter of para.npy 100 times with different random seeds and saves the results (one small file per run).
 
-Those files can then be analysed with analysis_main_cluster.py - after changing the paths  on lines 35-39 - which then plots the results as in figure 5. The analysis script might require the installation of some additional packages (re, glob).
+It is worth running only a few runs with the option -J 0-1 to check if all packages are installed on the cluster (e.g. numba might be unavailable - in that case comment out lines 13, 67, 210).
+
+The resulting files can then be analysed with analysis_main_cluster.py which then plots the results as in figure 5. This file can be run on the cluster (if the cluster can run matplotlib) or after copying the resulting files (2200 files, total ~ 1.25MB) into the /data folder on a local machine. 
 
 
 

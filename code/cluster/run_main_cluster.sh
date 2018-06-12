@@ -6,4 +6,4 @@
 
 module load anaconda3/personal
 
-python /THIS/PATH/NEEDS/TO/BE/CHANGED/run_main_cluster.py runid=$PBS_ARRAY_INDEX
+python /THIS/PATH/NEEDS/TO/BE/CHANGED/main_cluster.py runid=$PBS_ARRAY_INDEX

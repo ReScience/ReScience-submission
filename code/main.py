@@ -23,24 +23,19 @@ import matplotlib.pyplot as plt
 import argparse
 import time
 
-
 # ### get command line options
 ap = argparse.ArgumentParser()
 ap.add_argument("-n", "--new", required=False, default='False',
-	help="whether to run calculations for figures 5 and 6 (True) or use saved values (False, default)")
+                help="whether to run calculations for figures 5 and 6 (True) or use saved values (False, default)")
 args = vars(ap.parse_args())
-
 
 # ### plot figures from paper
 fig1 = fig_1()
 
-
 fig2 = fig_2()
-
 
 print('%s Preparing Figures 3, 4, 7AB' % time.strftime('%H:%M'))
 fig3, fig4, fig7AB = run_sim(0)
-
 
 if args['new'] == 'False':
     fig5 = fig_5_saved()
@@ -48,8 +43,8 @@ if args['new'] == 'False':
 
 elif args['new'] == 'True':
     write_para_file()
-    
-	print('%s Preparing Figure 5' % time.strftime('%H:%M'))
+
+    print('%s Preparing Figure 5' % time.strftime('%H:%M'))
     reps_per_combination = 10
     fig5 = fig_5_new(reps_per_combination)
 
@@ -60,13 +55,8 @@ elif args['new'] == 'True':
 else:
     'input for --new was not recognised. Please try again'
 
-
 fig7CD = fig_7CD(3)
-
 
 fig8 = fig_8()
 
-
 plt.show()
-
-

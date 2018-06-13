@@ -1,7 +1,5 @@
 ### Code repository
 
-Don't forget to choose a license. You're free to use one from a set of
-well-understood licenses including BSD, GPL or Apache.
+Here are all the codes needed to compute the 4 figures. Their names are self-explanatory.
 
-See [the Debian Free Software Guidelines](https://www.debian.org/social_contract#guidelines)
-for a [list of licenses](https://www.debian.org/legal/licenses/).
+The scripts were implemented on Python (version 3.6.3), with the Numpy (version 1.14.0) and Matplotlib (version 2.1.1) libraries. They were implemented and ran on Mac OS, and we were also able to run them on Ubuntu, with Python 2.7.12, Numpy 1.13.3 and Matplotlib 2.1.0.

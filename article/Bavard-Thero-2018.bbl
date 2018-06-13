@@ -1,0 +1,546 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.6 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \sortlist[entry]{nty/global}
+    \entry{behrens2007learning}{article}{}
+      \name{author}{4}{}{%
+        {{hash=769f859066de9812b241c70e1053e81f}{%
+           family={Behrens},
+           family_i={B\bibinitperiod},
+           given={Timothy\bibnamedelima EJ},
+           given_i={T\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=b6076227e2816a85f221ed937764102f}{%
+           family={Woolrich},
+           family_i={W\bibinitperiod},
+           given={Mark\bibnamedelima W},
+           given_i={M\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+        {{hash=d48776a4487ab9fe2bf3709644249613}{%
+           family={Walton},
+           family_i={W\bibinitperiod},
+           given={Mark\bibnamedelima E},
+           given_i={M\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=d043c0795afdb139a8dd1a041ba91030}{%
+           family={Rushworth},
+           family_i={R\bibinitperiod},
+           given={Matthew\bibnamedelima FS},
+           given_i={M\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Nature Publishing Group}%
+      }
+      \strng{namehash}{fa360a193744cc3bc85f1cfc3c48232b}
+      \strng{fullhash}{aeb9d9001fa15b9fe02cebcae04f953d}
+      \field{sortinit}{B}
+      \field{sortinithash}{4ecbea03efd0532989d3836d1a048c32}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature neuroscience}
+      \field{number}{9}
+      \field{title}{Learning the value of information in an uncertain world}
+      \field{volume}{10}
+      \field{year}{2007}
+      \field{pages}{1214}
+      \range{pages}{1}
+    \endentry
+    \entry{caze2013adaptive}{article}{}
+      \name{author}{2}{}{%
+        {{hash=f1acf8e99cdee374e255ad78a4ba04d8}{%
+           family={Cazé},
+           family_i={C\bibinitperiod},
+           given={Romain\bibnamedelima D},
+           given_i={R\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=0abbd5abc9d77199748c1baa922c0cf9}{%
+           prefix={van\bibnamedelima der},
+           prefix_i={v\bibinitperiod\bibinitdelim d\bibinitperiod},
+           family={Meer},
+           family_i={M\bibinitperiod},
+           given={Matthijs\bibnamedelima AA},
+           given_i={M\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{170b121f1e477dfb6fc8048e9911648f}
+      \strng{fullhash}{170b121f1e477dfb6fc8048e9911648f}
+      \field{sortinit}{C}
+      \field{sortinithash}{59f25d509f3381b07695554a9f35ecb2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Biological cybernetics}
+      \field{number}{6}
+      \field{title}{Adaptive properties of differential learning rates for positive and negative outcomes}
+      \field{volume}{107}
+      \field{year}{2013}
+      \field{pages}{711\bibrangedash 719}
+      \range{pages}{9}
+    \endentry
+    \entry{frank2004carrot}{article}{}
+      \name{author}{3}{}{%
+        {{hash=0131e7d1286ef802fabed4d1827e5cbf}{%
+           family={Frank},
+           family_i={F\bibinitperiod},
+           given={Michael\bibnamedelima J},
+           given_i={M\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=bdf0cf447608416c47587f1118c79d9b}{%
+           family={Seeberger},
+           family_i={S\bibinitperiod},
+           given={Lauren\bibnamedelima C},
+           given_i={L\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=a6447655d7793945cf1146a23c3dd56a}{%
+           family={O'Reilly},
+           family_i={O\bibinitperiod},
+           given={Randall\bibnamedelima C},
+           given_i={R\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Association for the Advancement of Science}%
+      }
+      \strng{namehash}{e77ffc461da84b8b0494a7ed0cae3347}
+      \strng{fullhash}{e77ffc461da84b8b0494a7ed0cae3347}
+      \field{sortinit}{F}
+      \field{sortinithash}{c6a7d9913bbd7b20ea954441c0460b78}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Science}
+      \field{number}{5703}
+      \field{title}{By carrot or by stick: cognitive reinforcement learning in parkinsonism}
+      \field{volume}{306}
+      \field{year}{2004}
+      \field{pages}{1940\bibrangedash 1943}
+      \range{pages}{4}
+    \endentry
+    \entry{frank2007genetic}{article}{}
+      \name{author}{5}{}{%
+        {{hash=0131e7d1286ef802fabed4d1827e5cbf}{%
+           family={Frank},
+           family_i={F\bibinitperiod},
+           given={Michael\bibnamedelima J},
+           given_i={M\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=be42da06a416503a183077aed268e917}{%
+           family={Moustafa},
+           family_i={M\bibinitperiod},
+           given={Ahmed\bibnamedelima A},
+           given_i={A\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=85614d648052b3daa77bad08e04a07b9}{%
+           family={Haughey},
+           family_i={H\bibinitperiod},
+           given={Heather\bibnamedelima M},
+           given_i={H\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=a378995c86fae03ad4ff51df8e166ab5}{%
+           family={Curran},
+           family_i={C\bibinitperiod},
+           given={Tim},
+           given_i={T\bibinitperiod}}}%
+        {{hash=6c8edf14dd379c63935b315434ff15d5}{%
+           family={Hutchison},
+           family_i={H\bibinitperiod},
+           given={Kent\bibnamedelima E},
+           given_i={K\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {National Acad Sciences}%
+      }
+      \strng{namehash}{209b8912fc93eaaf144df65471c10486}
+      \strng{fullhash}{435fcaefe3743adafda1c6b910793ccc}
+      \field{sortinit}{F}
+      \field{sortinithash}{c6a7d9913bbd7b20ea954441c0460b78}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Proceedings of the National Academy of Sciences}
+      \field{number}{41}
+      \field{title}{Genetic triple dissociation reveals multiple roles for dopamine in reinforcement learning}
+      \field{volume}{104}
+      \field{year}{2007}
+      \field{pages}{16311\bibrangedash 16316}
+      \range{pages}{6}
+    \endentry
+    \entry{garrett2014robust}{article}{}
+      \name{author}{2}{}{%
+        {{hash=1469b84154c6b1e7f725371376a7b40a}{%
+           family={Garrett},
+           family_i={G\bibinitperiod},
+           given={Neil},
+           given_i={N\bibinitperiod}}}%
+        {{hash=a131d2d07d1ed9ee86ebe787fd9cc4a8}{%
+           family={Sharot},
+           family_i={S\bibinitperiod},
+           given={Tali},
+           given_i={T\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Public Library of Science}%
+      }
+      \strng{namehash}{3faae9dcc2f38d369dcdc4773d84d58f}
+      \strng{fullhash}{3faae9dcc2f38d369dcdc4773d84d58f}
+      \field{sortinit}{G}
+      \field{sortinithash}{1c854ef9177a91bf894e66485bdbd3ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{PLoS One}
+      \field{number}{6}
+      \field{title}{How robust is the optimistic update bias for estimating self-risk and population base rates?}
+      \field{volume}{9}
+      \field{year}{2014}
+      \field{pages}{e98848}
+      \range{pages}{-1}
+    \endentry
+    \entry{garrett2017optimistic}{article}{}
+      \name{author}{2}{}{%
+        {{hash=1469b84154c6b1e7f725371376a7b40a}{%
+           family={Garrett},
+           family_i={G\bibinitperiod},
+           given={Neil},
+           given_i={N\bibinitperiod}}}%
+        {{hash=a131d2d07d1ed9ee86ebe787fd9cc4a8}{%
+           family={Sharot},
+           family_i={S\bibinitperiod},
+           given={Tali},
+           given_i={T\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{3faae9dcc2f38d369dcdc4773d84d58f}
+      \strng{fullhash}{3faae9dcc2f38d369dcdc4773d84d58f}
+      \field{sortinit}{G}
+      \field{sortinithash}{1c854ef9177a91bf894e66485bdbd3ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Consciousness and cognition}
+      \field{title}{Optimistic update bias holds firm: Three tests of robustness following Shah et al.}
+      \field{volume}{50}
+      \field{year}{2017}
+      \field{pages}{12\bibrangedash 22}
+      \range{pages}{11}
+    \endentry
+    \entry{gershman2015learning}{article}{}
+      \name{author}{1}{}{%
+        {{hash=8a2c5f564e9a9e6c47ebb75c25533e19}{%
+           family={Gershman},
+           family_i={G\bibinitperiod},
+           given={Samuel\bibnamedelima J},
+           given_i={S\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{8a2c5f564e9a9e6c47ebb75c25533e19}
+      \strng{fullhash}{8a2c5f564e9a9e6c47ebb75c25533e19}
+      \field{sortinit}{G}
+      \field{sortinithash}{1c854ef9177a91bf894e66485bdbd3ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Psychonomic bulletin \& review}
+      \field{number}{5}
+      \field{title}{Do learning rates adapt to the distribution of rewards?}
+      \field{volume}{22}
+      \field{year}{2015}
+      \field{pages}{1320\bibrangedash 1327}
+      \range{pages}{8}
+    \endentry
+    \entry{lefebvre2017behavioural}{article}{}
+      \name{author}{5}{}{%
+        {{hash=103ef6ae9e2da8d2d4cadf277f605ed3}{%
+           family={Lefebvre},
+           family_i={L\bibinitperiod},
+           given={Germain},
+           given_i={G\bibinitperiod}}}%
+        {{hash=c54f60e4159aefaa890fecc1d3a9dc0d}{%
+           family={Lebreton},
+           family_i={L\bibinitperiod},
+           given={Maël},
+           given_i={M\bibinitperiod}}}%
+        {{hash=9764ad6b2a3ce10e120fdf98b6ddffad}{%
+           family={Meyniel},
+           family_i={M\bibinitperiod},
+           given={Florent},
+           given_i={F\bibinitperiod}}}%
+        {{hash=b73227fafd7cfb77f1c8cbb1987da5f3}{%
+           family={Bourgeois-Gironde},
+           family_i={B\bibinithyphendelim G\bibinitperiod},
+           given={Sacha},
+           given_i={S\bibinitperiod}}}%
+        {{hash=fd523ac5ba4cee188fa197ec9c86e402}{%
+           family={Palminteri},
+           family_i={P\bibinitperiod},
+           given={Stefano},
+           given_i={S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Nature Publishing Group}%
+      }
+      \strng{namehash}{faebeb30a9f6d0046081de358bceeaee}
+      \strng{fullhash}{58c968ce70d21aad5fd9d47f45a55a13}
+      \field{sortinit}{L}
+      \field{sortinithash}{872351f18d0f736066eda0bf18bfa4f7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature Human Behaviour}
+      \field{number}{4}
+      \field{title}{Behavioural and neural characterization of optimistic reinforcement learning}
+      \field{volume}{1}
+      \field{year}{2017}
+      \field{pages}{0067}
+      \range{pages}{1}
+    \endentry
+    \entry{moutsiana2015human}{article}{}
+      \name{author}{5}{}{%
+        {{hash=e8331e84869ce5d7e8c157bf4386b033}{%
+           family={Moutsiana},
+           family_i={M\bibinitperiod},
+           given={Christina},
+           given_i={C\bibinitperiod}}}%
+        {{hash=fcbe58d9b4489e4b6659e04a8211341e}{%
+           family={Charpentier},
+           family_i={C\bibinitperiod},
+           given={Caroline\bibnamedelima J},
+           given_i={C\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=1469b84154c6b1e7f725371376a7b40a}{%
+           family={Garrett},
+           family_i={G\bibinitperiod},
+           given={Neil},
+           given_i={N\bibinitperiod}}}%
+        {{hash=34074be07dde491197d35b8b488dac8b}{%
+           family={Cohen},
+           family_i={C\bibinitperiod},
+           given={Michael\bibnamedelima X},
+           given_i={M\bibinitperiod\bibinitdelim X\bibinitperiod}}}%
+        {{hash=a131d2d07d1ed9ee86ebe787fd9cc4a8}{%
+           family={Sharot},
+           family_i={S\bibinitperiod},
+           given={Tali},
+           given_i={T\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Soc Neuroscience}%
+      }
+      \strng{namehash}{9282654285b05b3d1b54196eece6d4ae}
+      \strng{fullhash}{b37028065e078989c8f1297271f43e0e}
+      \field{sortinit}{M}
+      \field{sortinithash}{2684bec41e9697b92699b46491061da2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Neuroscience}
+      \field{number}{42}
+      \field{title}{Human frontal--subcortical circuit and asymmetric belief updating}
+      \field{volume}{35}
+      \field{year}{2015}
+      \field{pages}{14077\bibrangedash 14085}
+      \range{pages}{9}
+    \endentry
+    \entry{o2004dissociable}{article}{}
+      \name{author}{6}{}{%
+        {{hash=a63fb717d9c732ea5c5e8d6910acb936}{%
+           family={O'Doherty},
+           family_i={O\bibinitperiod},
+           given={John},
+           given_i={J\bibinitperiod}}}%
+        {{hash=ef0afbe0b4e15059c963e026fe213c34}{%
+           family={Dayan},
+           family_i={D\bibinitperiod},
+           given={Peter},
+           given_i={P\bibinitperiod}}}%
+        {{hash=2a5260fdff9cdabdfaeebfdf55ade0bc}{%
+           family={Schultz},
+           family_i={S\bibinitperiod},
+           given={Johannes},
+           given_i={J\bibinitperiod}}}%
+        {{hash=4b54a1ccf55519eb1977e18f08195899}{%
+           family={Deichmann},
+           family_i={D\bibinitperiod},
+           given={Ralf},
+           given_i={R\bibinitperiod}}}%
+        {{hash=9f452a84796a900973333b32a5f8bc61}{%
+           family={Friston},
+           family_i={F\bibinitperiod},
+           given={Karl},
+           given_i={K\bibinitperiod}}}%
+        {{hash=5badf7e719d8f6e58f74485440abe745}{%
+           family={Dolan},
+           family_i={D\bibinitperiod},
+           given={Raymond\bibnamedelima J},
+           given_i={R\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Association for the Advancement of Science}%
+      }
+      \strng{namehash}{fc60bda9c93fc22c1638550e0ec4a1fc}
+      \strng{fullhash}{64311c08cfba837bd146c40e8660ac9c}
+      \field{sortinit}{O}
+      \field{sortinithash}{7803d2715d5e795e70382b084ab8d00e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{science}
+      \field{number}{5669}
+      \field{title}{Dissociable roles of ventral and dorsal striatum in instrumental conditioning}
+      \field{volume}{304}
+      \field{year}{2004}
+      \field{pages}{452\bibrangedash 454}
+      \range{pages}{3}
+    \endentry
+    \entry{palminteri2017confirmation}{article}{}
+      \name{author}{4}{}{%
+        {{hash=fd523ac5ba4cee188fa197ec9c86e402}{%
+           family={Palminteri},
+           family_i={P\bibinitperiod},
+           given={Stefano},
+           given_i={S\bibinitperiod}}}%
+        {{hash=103ef6ae9e2da8d2d4cadf277f605ed3}{%
+           family={Lefebvre},
+           family_i={L\bibinitperiod},
+           given={Germain},
+           given_i={G\bibinitperiod}}}%
+        {{hash=3023d0e7a1bb57c82fea256b42c54b8c}{%
+           family={Kilford},
+           family_i={K\bibinitperiod},
+           given={Emma\bibnamedelima J},
+           given_i={E\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=f6728dceb81571ed47f223a90befac40}{%
+           family={Blakemore},
+           family_i={B\bibinitperiod},
+           given={Sarah-Jayne},
+           given_i={S\bibinithyphendelim J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Public Library of Science}%
+      }
+      \strng{namehash}{277b40b4f190b58a16de21eec2df7a09}
+      \strng{fullhash}{bf3c28200730c050c9865f26333e5a68}
+      \field{sortinit}{P}
+      \field{sortinithash}{c0a4896d0e424f9ca4d7f14f2b3428e7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{PLoS computational biology}
+      \field{number}{8}
+      \field{title}{Confirmation bias in human reinforcement learning: Evidence from counterfactual feedback processing}
+      \field{volume}{13}
+      \field{year}{2017}
+      \field{pages}{e1005684}
+      \range{pages}{-1}
+    \endentry
+    \entry{shah2016pessimistic}{article}{}
+      \name{author}{5}{}{%
+        {{hash=209e51ee2092e850be8e305ddf97804e}{%
+           family={Shah},
+           family_i={S\bibinitperiod},
+           given={Punit},
+           given_i={P\bibinitperiod}}}%
+        {{hash=0f36257b0892089cdc6ca13e73fd8ba2}{%
+           family={Harris},
+           family_i={H\bibinitperiod},
+           given={Adam\bibnamedelima JL},
+           given_i={A\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=bf0ffc9c5e093d4d8b5630ecb5022125}{%
+           family={Bird},
+           family_i={B\bibinitperiod},
+           given={Geoffrey},
+           given_i={G\bibinitperiod}}}%
+        {{hash=ec0684bcee59e6f6826375e3feb23ae1}{%
+           family={Catmur},
+           family_i={C\bibinitperiod},
+           given={Caroline},
+           given_i={C\bibinitperiod}}}%
+        {{hash=e2f6b6e375fc33ee574223a9b37ad6a9}{%
+           family={Hahn},
+           family_i={H\bibinitperiod},
+           given={Ulrike},
+           given_i={U\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{a91078c96a436a082c8f7941aa1595ac}
+      \strng{fullhash}{26de02fa6dd4664cd37b930193e9d111}
+      \field{sortinit}{S}
+      \field{sortinithash}{fd1e7c5ab79596b13dbbb67f8d70fb5a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Cognitive Psychology}
+      \field{title}{A pessimistic view of optimistic belief updating}
+      \field{volume}{90}
+      \field{year}{2016}
+      \field{pages}{71\bibrangedash 127}
+      \range{pages}{57}
+    \endentry
+    \entry{sharot2011unrealistic}{article}{}
+      \name{author}{3}{}{%
+        {{hash=a131d2d07d1ed9ee86ebe787fd9cc4a8}{%
+           family={Sharot},
+           family_i={S\bibinitperiod},
+           given={Tali},
+           given_i={T\bibinitperiod}}}%
+        {{hash=4af7548cb4df3debe10426e58a33dd2a}{%
+           family={Korn},
+           family_i={K\bibinitperiod},
+           given={Christoph\bibnamedelima W},
+           given_i={C\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+        {{hash=5badf7e719d8f6e58f74485440abe745}{%
+           family={Dolan},
+           family_i={D\bibinitperiod},
+           given={Raymond\bibnamedelima J},
+           given_i={R\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Nature Publishing Group}%
+      }
+      \strng{namehash}{7c3b6256a459f648c6282bb908731390}
+      \strng{fullhash}{7c3b6256a459f648c6282bb908731390}
+      \field{sortinit}{S}
+      \field{sortinithash}{fd1e7c5ab79596b13dbbb67f8d70fb5a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature neuroscience}
+      \field{number}{11}
+      \field{title}{How unrealistic optimism is maintained in the face of reality}
+      \field{volume}{14}
+      \field{year}{2011}
+      \field{pages}{1475}
+      \range{pages}{1}
+    \endentry
+    \entry{sutton1998introduction}{book}{}
+      \name{author}{2}{}{%
+        {{hash=2b25ab354ac9b3006192cd52bd9af626}{%
+           family={Sutton},
+           family_i={S\bibinitperiod},
+           given={Richard\bibnamedelima S},
+           given_i={R\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=4f104417cfd96b2a360b62d8cf110a96}{%
+           family={Barto},
+           family_i={B\bibinitperiod},
+           given={Andrew\bibnamedelima G},
+           given_i={A\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {MIT Press Cambridge}%
+      }
+      \strng{namehash}{9767c22ff969d07f27ccd9229b1671a5}
+      \strng{fullhash}{9767c22ff969d07f27ccd9229b1671a5}
+      \field{sortinit}{S}
+      \field{sortinithash}{fd1e7c5ab79596b13dbbb67f8d70fb5a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Introduction to reinforcement learning}
+      \field{volume}{135}
+      \field{year}{1998}
+    \endentry
+  \endsortlist
+\endrefsection
+\endinput
+

@@ -219,6 +219,7 @@ title('C', weight='bold')
 
 subplot(1, 5, 4)
 plot(results_masq['win_x'], results_masq['win_masq'], marker='x', color='g', linestyle='-', label='orig rerun')
+plot(array([-100, -200]), array([-5, -10]), marker='x', color='g', linestyle='--', label='orig paper')
 xlim([0.25, 0.5]), ylim([-5, 105])
 xlabel('Initial weight')
 yticks(array([0, 50, 100]))

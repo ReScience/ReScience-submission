@@ -21,7 +21,7 @@ def fig_6_saved():
     plt.rcParams['axes.titlesize'] = 17
     plt.rcParams['font.size'] = 17
     plt.rcParams['lines.linewidth'] = 2.0
-    plt.rcParams['lines.markersize'] = 3
+    plt.rcParams['lines.markersize'] = 5
     plt.rcParams['legend.fontsize'] = 16
 
     resolutions = [10**(-4), 10**(-5), 10**(-6)]
@@ -46,6 +46,7 @@ def fig_6_saved():
     fig = figure(figsize=(6, 5))
     title('Figure 6 saved results')
     errorbar(resolutions, [mean(find_time_e4), mean(find_time_e5), mean(find_time_e6)], [std(find_time_e4), std(find_time_e5), std(find_time_e6)], color='k')
+    plot(resolutions, [mean(find_time_e4), mean(find_time_e5), mean(find_time_e6)], 'ko')
     ylabel('pattern finding time [s]')
     xlabel('simulation time step [s]')
     semilogx(10**(-4), 10**(-6), 'k-')
@@ -92,6 +93,7 @@ def fig_6_new(reps_per_resolution):
     fig = figure(figsize=(6, 5))
     title('Figure 6')
     errorbar(resolutions, mean_find_t, std_find_t, color='k')
+    plot(resolutions, mean_find_t, 'ko')
     ylabel('pattern finding time [s]')
     xlabel('simulation time step [s]')
     semilogx(10**(-4), 10**(-6), 'k-')

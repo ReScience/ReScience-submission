@@ -32,7 +32,7 @@ jitter_sd = para[pararow, 2]
 number_pat = int(para[pararow, 3])
 pattern_freq = para[pararow, 4]
 spike_del = para[pararow, 5]
-T = para[pararow, 6]  # 0.5*(1-spike_del)*number_pat
+T = para[pararow, 6]  #  0.5*(1-spike_del)*number_pat
 K2 = 3  # 4
 A = - K2 * T  # 4 * T  # 1500
 refract = 1
@@ -64,8 +64,9 @@ with open('%s/result_seed%s_%s.pickle' % (savedir, runid, name_run), 'wb') as ha
     pickle.dump(result_onerun, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 
-@jit(nopython=True) # numba decorator compiles this function into low level code to run faster
-def make_single_train(min_rate, max_rate, max_time_wo_spike, max_change_speed, runduration, number_neurons, dt_createpattern):
+@jit(nopython=True)  # numba decorator compiles this function into low level code to run faster
+def make_single_train(min_rate, max_rate, max_time_wo_spike, max_change_speed, runduration, number_neurons,
+                      dt_createpattern):
     runduration1 = min(runduration, 150)  # input will be tripled later, only need 150s
     st = []
     virtual_pre_sim_spike = - numpy.random.rand() * max_time_wo_spike
@@ -74,8 +75,8 @@ def make_single_train(min_rate, max_rate, max_time_wo_spike, max_change_speed, r
     mtws = max_time_wo_spike
     for t in numpy.arange(dt_createpattern, runduration1, dt_createpattern):
         if numpy.random.rand() < dt_createpattern * firing_rate or \
-            (len(st) < 1 and t - virtual_pre_sim_spike > mtws) or \
-            (len(st) > 0 and t - st[-1] > mtws):
+                (len(st) < 1 and t - virtual_pre_sim_spike > mtws) or \
+                (len(st) > 0 and t - st[-1] > mtws):
             tmp = t - dt_createpattern * numpy.random.rand()
             tmp = max(0, tmp)
             tmp = min(runduration1, tmp)
@@ -94,9 +95,10 @@ def make_input(min_rate, max_rate, max_time_wo_spike, max_change_speed, rundurat
     afferents = []
     runduration1 = min(runduration, 150)  # input will be tripled later, only need 150s
     for n in range(number_neurons):
-        st = make_single_train(min_rate, max_rate, max_time_wo_spike, max_change_speed, runduration, number_neurons, dt_createpattern)
+        st = make_single_train(min_rate, max_rate, max_time_wo_spike, max_change_speed, runduration, number_neurons,
+                               dt_createpattern)
         spiketimes.append(st)
-        afferents.append(n*ones(len(st)))
+        afferents.append(n * ones(len(st)))
     spiketimes = hstack(spiketimes)
     afferents = hstack(afferents)
     sortarray = argsort(spiketimes)
@@ -121,19 +123,21 @@ def make_pattern_presentation_array(runduration, patternlength, pattern_freq):
                     position_copypaste[random_index] = 1
                 elif random_index == 0 and position_copypaste[random_index + 1] == 0:
                     position_copypaste[random_index] = 1
-                elif random_index == int(runduration1 / patternlength) - 1 and position_copypaste[random_index - 1] == 0:
+                elif random_index == int(runduration1 / patternlength) - 1 and position_copypaste[
+                    random_index - 1] == 0:
                     position_copypaste[random_index] = 1
     return position_copypaste
 
 
-def copy_and_paste_jittered_pattern(times, indices, position_copypaste, patternlength, jitter_sd, spike_del, number_pat):
+def copy_and_paste_jittered_pattern(times, indices, position_copypaste, patternlength, jitter_sd, spike_del,
+                                    number_pat):
     # choose first segment as pattern to be copy-pasted
     startCPindex = where(position_copypaste == 1)[0][0]
     # get times and indices in pattern window
     tim = times[
-        searchsorted(times, startCPindex * patternlength):searchsorted(times, (startCPindex + 1) * patternlength)]
+          searchsorted(times, startCPindex * patternlength):searchsorted(times, (startCPindex + 1) * patternlength)]
     ind = indices[
-        searchsorted(times, startCPindex * patternlength):searchsorted(times, (startCPindex + 1) * patternlength)]
+          searchsorted(times, startCPindex * patternlength):searchsorted(times, (startCPindex + 1) * patternlength)]
     tim = tim[ind < number_pat]
     ind = ind[ind < number_pat]
     tim -= startCPindex * patternlength
@@ -154,7 +158,7 @@ def copy_and_paste_jittered_pattern(times, indices, position_copypaste, patternl
                 tim1 = tim[keep_array]
                 # add random spikes to the same neurons to keep the spike density constant
                 ind1_add = ind[invert(keep_array)]
-                tim1_add = numpy.random.rand(sum(invert(keep_array)))*patternlength
+                tim1_add = numpy.random.rand(sum(invert(keep_array))) * patternlength
                 ind1 = concatenate((ind1, ind1_add))
                 tim1 = concatenate((tim1, tim1_add))
             indices1.append(ind1)
@@ -210,7 +214,7 @@ def triple_input_runtime(times, indices):
 @jit(nopython=True)
 def remove_close_spikes(times, indices, dt):
     # remove spikes that are too close in time, depends on time resolution chosen for simulation
-    last_spike = -2 * numpy.ones(int(numpy.amax(indices)+1))
+    last_spike = -2 * numpy.ones(int(numpy.amax(indices) + 1))
     keep_flag = numpy.ones(len(times), dtype=numpy.bool_)
     # calculations of spike distance
     for j, st in enumerate(times):
@@ -231,9 +235,9 @@ print('Name =                   ', name_run)
 print('dt =                     ', defaultclock.dt)
 print('initial weight =         ', win)
 print('jitter (SD) =            ', jitter_sd)
-print('% of neurons in pattern =', 100*number_pat/2000)
+print('% of neurons in pattern =', 100 * number_pat / 2000)
 print('pattern freq =           ', pattern_freq)
-print('% spikes deleted =       ', spike_del*100)
+print('% spikes deleted =       ', spike_del * 100)
 print('random seed =            ', seedy)
 print('runduration =            ', runduration)
 print('threshold =              ', T)
@@ -265,7 +269,7 @@ taum = 10 * ms
 taus = 2.5 * ms
 tausyn = 2.5 * ms
 u_rest = 0
-X = (taus/taum)**(taum/(taus - taum))
+X = (taus / taum) ** (taum / (taus - taum))
 # A = -1500
 deltax = 1
 deltaa = 1
@@ -278,7 +282,6 @@ aplus = 2.0 ** -5
 aminus = 0.85 * aplus
 wmin = 0
 wmax = 1
-
 
 # equations
 eqs = '''du/dt = (A*a)/taus + (X*x-u)/taum : 1
@@ -298,13 +301,13 @@ stdp_on_pre = (''' x_post += deltax*wi
                     wi = clip(wi + LTDtrace, wmin, wmax)
                     LTDtrace = 0''')
 
-# stdp_on_post = ('''LTDtrace = -aminus
-# 					wi = clip(wi + LTPtrace, wmin, wmax)
-# 					LTPtrace = 0''')
-
 stdp_on_post = ('''LTDtrace = -aminus
-               wi = clip(wi + LTPtrace + 0.5*(aminus-aplus)*(lastspike_pre==lastspike_post), wmin, wmax)
-               LTPtrace = 0''')
+					wi = clip(wi + LTPtrace, wmin, wmax)
+					LTPtrace = 0''')
+
+# stdp_on_post = ('''LTDtrace = -aminus
+#                wi = clip(wi + LTPtrace + 0.5*(aminus-aplus)*(lastspike_pre==lastspike_post), wmin, wmax)
+#                LTPtrace = 0''')
 
 # Make input
 seed(int(seedyy))
@@ -325,7 +328,8 @@ times = times * second
 
 # Make neuron layers N0(2000 input spikes) N1(2000 presynpatic neurons) N2(1 postsynaptic neuron)
 N0 = SpikeGeneratorGroup(number_neurons, indices, times)
-N1 = NeuronGroup(number_neurons, '''du/dt  = -u/taum : 1''', threshold='u > T', reset='u = u_rest', refractory=0*ms, method='linear')
+N1 = NeuronGroup(number_neurons, '''du/dt  = -u/taum : 1''', threshold='u > T', reset='u = u_rest', refractory=0 * ms,
+                 method='linear')
 N1spm = SpikeMonitor(N1)
 N2 = NeuronGroup(1, eqs, threshold='u > T', reset=eqs_reset, refractory=refract * ms, method='linear')
 N2spm = SpikeMonitor(N2)
@@ -355,13 +359,14 @@ print('N2 spikes                 = ', len(N2spm.t))
 result_onerun['N2_spikes'] = len(N2spm.t)
 
 # # Calculate latency
-eval_last_sec = min(runduration/3, 150)
+eval_last_sec = min(runduration / 3, 150)
 latency = empty(0)
 # if pattern is not present at start, add zeros (for each N2 spike) at beginning of latency array
 latency = concatenate((latency, zeros(len(where(N2spm.t / second < timing_pattern[0])[0]))))
 for i2 in range(len(timing_pattern)):
-    if i2 < len(timing_pattern)-1:
-        in_window = [p for indx, p in enumerate(N2spm.t / second) if p >= timing_pattern[i2] and p < timing_pattern[i2+1]]
+    if i2 < len(timing_pattern) - 1:
+        in_window = [p for indx, p in enumerate(N2spm.t / second) if
+                     p >= timing_pattern[i2] and p < timing_pattern[i2 + 1]]
     else:
         in_window = [p for indx, p in enumerate(N2spm.t / second) if p >= timing_pattern[i2]]
     latency = concatenate((latency, in_window - timing_pattern[i2]))
@@ -369,8 +374,8 @@ latency[where(latency > patternlength)] = 0
 
 # calculate average latency of last 150s
 lat_end = latency[where(N2spm.t / second > runduration - eval_last_sec)[0]]
-if len(lat_end) > sum(position_copypaste)*0.8/3:
-    avg_lat = 1000*mean(lat_end[lat_end > 0])
+if len(lat_end) > sum(position_copypaste) * 0.8 / 3:
+    avg_lat = 1000 * mean(lat_end[lat_end > 0])
     result_onerun['avg_lat'] = avg_lat
 else:
     print('only %s spikes in last 3rd of simulation' % len(lat_end))
@@ -380,7 +385,8 @@ print('Avg latency               = ', round(result_onerun['avg_lat'], 3))
 
 fa = sum(lat_end == 0)
 spikes50msbins, binns = histogram(N2spm.t / second, bins=arange(0, runduration + patternlength, patternlength))
-true_hits_end = spikes50msbins[int(eval_last_sec/patternlength):][position_copypaste[int(eval_last_sec/patternlength):] > 0]
+true_hits_end = spikes50msbins[int(eval_last_sec / patternlength):][
+    position_copypaste[int(eval_last_sec / patternlength):] > 0]
 hits = sum(true_hits_end > 0) / len(true_hits_end)
 result_onerun['hits'] = round(hits, 3)
 result_onerun['fa'] = fa

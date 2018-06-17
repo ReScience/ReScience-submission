@@ -124,7 +124,7 @@ def fig_5_saved():
     yticks(array([]))
     title('E', weight='bold')
 
-    tight_layout()
+    tight_layout(rect=[0, 0.03, 1, 0.95])
 
     savefig('../article/figures/figure_5_from_saved_created_%s.pdf' % datetime.datetime.now().strftime('%y%m%d'))
 
@@ -213,7 +213,7 @@ def fig_5_new(reps_per_combination):
     yticks(array([]))
     title('E', weight='bold')
 
-    tight_layout()
+    tight_layout(rect=[0, 0.03, 1, 0.95])
 
     savefig('../article/figures/figure_5_created_%s.pdf' % datetime.datetime.now().strftime('%y%m%d'))
 

@@ -19,7 +19,7 @@ Create most figures, but load data for Figure 5 and 6 to save time (requires the
 $ python main.py 
 ```
 
-Create all figures from scratch, but use less repetitions per parameter combination (10 instead of 100) than in the paper, which should take ca. 8 hours.  The figures are saved in article/figures for easy comparison with the figures in the text.
+Create all figures from scratch, but use less repetitions per parameter combination (10 instead of 100) than in the paper, which should take 8-24 hours depending on the node.  The figures are saved in article/figures for easy comparison with the figures in the text.
 
 ```bash
 $ python main.py --new True
@@ -148,7 +148,7 @@ row     win     jit     # pat neur      pat freq        % deleted
 
 #### Running on a cluster 
 
-The files that were used to run on the Imperial College HPC cx1 cluster with a PBS queue system are provided under code/cluster (main_cluster.py and run_main_cluster.sh). Please note that the paths in both files (line 9 in run_main_cluster.sh and lines 24-25 in main_cluster.py) need to be changed to the /data directory on the cluster, where you want the results to be saved. 
+The files that were used to run on the Imperial College HPC cx1 cluster with a PBS queue system are provided under code/cluster (main_cluster.py and run_main_cluster.sh). Please note that the paths in both files (line 9 in run_main_cluster.sh and lines 24-25 in main_cluster.py) need to be changed to the /code/cluster and the /data directories respectively on the cluster, where you want the results to be saved. 
 
 The runs are initiated with 
 

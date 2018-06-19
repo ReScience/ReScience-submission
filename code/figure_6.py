@@ -189,14 +189,14 @@ def run_find(res, rep):
     					wi = clip(wi + LTPtrace, wmin, wmax)
     					LTPtrace = 0''')
 
-    seed(int(random_seed))
+    numpy.random.seed(int(random_seed))
     indices, times = make_input(min_rate_pat, max_rate_pat, max_time_wo_spike_pat,
-                                max_change_speed_pat, runduration, number_neurons, dt_createpattern)
+                                max_change_speed_pat, runduration, number_neurons, dt_createpattern, random_seed)
     indices_add, times_add = make_input(min_rate_add, max_rate_add, max_time_wo_spike_add,
-                                        max_change_speed_add, runduration, number_neurons, dt_createpattern)
-    position_copypaste = make_pattern_presentation_array(runduration, patternlength, pattern_freq)
+                                        max_change_speed_add, runduration, number_neurons, dt_createpattern, random_seed)
+    position_copypaste = make_pattern_presentation_array(runduration, patternlength, pattern_freq, random_seed)
     times, indices = copy_and_paste_jittered_pattern(times, indices, position_copypaste,
-                                                     patternlength, jitter_sd, spike_del, number_pat)
+                                                     patternlength, jitter_sd, spike_del, number_pat, random_seed)
     times, indices = add_noise(times, indices, times_add, indices_add)
     if tripling and runduration > 300:
         times, indices = triple_input_runtime(times, indices)

@@ -12,7 +12,7 @@ import time as time
 
 
 def run_sim(run_idx, pararow=0, only_success=False):
-    from figure_3_4_7AB import fig_3, fig_4, fig_7AB
+    from figure_3_4_7AB import fig_3, fig_4, fig_7AB, fig_9, fig_10
     from create_input import make_input, make_pattern_presentation_array, \
         copy_and_paste_jittered_pattern, add_noise, triple_input_runtime, remove_close_spikes
 
@@ -96,6 +96,7 @@ def run_sim(run_idx, pararow=0, only_success=False):
 
     # plotting parameters
     record_wi_dt = 0.05
+    record_u_dt = 0.0001
 
     # equations
     eqs = '''du/dt = (A*a)/taus + (X*x-u)/taum : 1
@@ -112,38 +113,38 @@ def run_sim(run_idx, pararow=0, only_success=False):
 
     stdp_on_pre = (''' x_post += deltax*wi
                         LTPtrace = aplus
-						wi = clip(wi + LTDtrace, wmin, wmax)
-						LTDtrace = 0''')
+                        wi = clip(wi + LTDtrace, wmin, wmax)
+                        LTDtrace = 0''')
 
     stdp_on_post = ('''LTDtrace = -aminus
-						wi = clip(wi + LTPtrace, wmin, wmax)
-						LTPtrace = 0''')
+                        wi = clip(wi + LTPtrace, wmin, wmax)
+                        LTPtrace = 0''')
 
     stdp_on_pre_nn = (''' x_post += deltax*wi
-						LTPtrace = aplus
-						wi = clip(wi + LTDtrace, wmin, wmax)''')
+                        LTPtrace = aplus
+                        wi = clip(wi + LTDtrace, wmin, wmax)''')
 
     stdp_on_post_nn = ('''LTDtrace = -aminus
-						wi = clip(wi + LTPtrace, wmin, wmax)''')
+                        wi = clip(wi + LTPtrace, wmin, wmax)''')
 
     stdp_on_pre_ata = (''' x_post += deltax*wi
-						LTPtrace += aplus
-						wi = clip(wi + LTDtrace, wmin, wmax)''')
+                        LTPtrace += aplus
+                        wi = clip(wi + LTDtrace, wmin, wmax)''')
 
     stdp_on_post_ata = ('''LTDtrace -= aminus
-						wi = clip(wi + LTPtrace, wmin, wmax)''')
+                        wi = clip(wi + LTPtrace, wmin, wmax)''')
 
     if only_success == False:
         print('    #### Creating input')
-    start_time_input = time.time()
-    seed(int(random_seed))
+    numpy.random.seed(int(random_seed))
     indices, times = make_input(min_rate_pat, max_rate_pat, max_time_wo_spike_pat,
-                                max_change_speed_pat, runduration, number_neurons, dt_createpattern)
+                                max_change_speed_pat, runduration, number_neurons, dt_createpattern, random_seed)
     indices_add, times_add = make_input(min_rate_add, max_rate_add, max_time_wo_spike_add,
-                                        max_change_speed_add, runduration, number_neurons, dt_createpattern)
-    position_copypaste = make_pattern_presentation_array(runduration, patternlength, pattern_freq)
+                                        max_change_speed_add, runduration, number_neurons, dt_createpattern,
+                                        random_seed)
+    position_copypaste = make_pattern_presentation_array(runduration, patternlength, pattern_freq, random_seed)
     times, indices = copy_and_paste_jittered_pattern(times, indices, position_copypaste,
-                                                     patternlength, jitter_sd, spike_del, number_pat)
+                                                     patternlength, jitter_sd, spike_del, number_pat, random_seed)
     times, indices = add_noise(times, indices, times_add, indices_add)
     if tripling and runduration > 300:
         times, indices = triple_input_runtime(times, indices)
@@ -166,8 +167,8 @@ def run_sim(run_idx, pararow=0, only_success=False):
     # Output neuron using RNN STDP rule
     N2 = NeuronGroup(1, eqs, threshold='u > T', reset=eqs_reset, refractory=refract * ms, method='linear')
     N2spm = SpikeMonitor(N2)
-    # N2stm = StateMonitor(N2, ['u'], record=True)
     if only_success == False:
+        N2stm = StateMonitor(N2, ['u'], record=True, dt=record_u_dt * second)
         # Output neuron using NN STDP rule
         N2nn = NeuronGroup(1, eqs, threshold='u > T', reset=eqs_reset, refractory=refract * ms, method='linear')
         N2nnspm = SpikeMonitor(N2nn)
@@ -201,9 +202,9 @@ def run_sim(run_idx, pararow=0, only_success=False):
     N0._spikes_changed = False
 
     if only_success == False:
-        print('    #### Simulation (ca. 70s)')
+        print('    #### Simulation (ca. 150s)')
         net = Network(collect())
-        net.add(N0, N1, syn01, N2, N2spm, syn12, syn12stm,
+        net.add(N0, N1, syn01, N2, N2spm, N2stm, syn12, syn12stm,
                 N2nn, N2nnspm, syn12nn, syn12nnstm,
                 N2ata, N2ataspm, syn12ata, syn12atastm)
     else:
@@ -212,7 +213,6 @@ def run_sim(run_idx, pararow=0, only_success=False):
 
     net.run(runduration * second)
 
-    start_time_results = time.time()
     if only_success == False:
         print('    #### Results')
 
@@ -275,18 +275,19 @@ def run_sim(run_idx, pararow=0, only_success=False):
 
     if only_success == False:
         print('    #### Make figures')
-        fig3 = fig_3(N2spm, latency)  # plot the latency of all output neuron spikes
+        fig3 = fig_3(N2spm, latency, random_seed)  # plot the latency of all output neuron spikes
+        fig4 = fig_4(N1spm, syn12, timing_pattern, random_seed)  # plot the weights from the second to last pattern
+        fig7AB = fig_7AB(syn12stm, syn12nnstm, syn12atastm, record_wi_dt, random_seed)
+        fig9 = fig_9(N2stm, timing_pattern, find_t, record_u_dt, random_seed)  # plot voltage at different times
+        fig10 = fig_10(N1spm, timing_pattern, patternlength, random_seed)  # plot spike raster plot of input
 
-        fig4 = fig_4(N1spm, syn12, timing_pattern)  # plot the weights from the second to last pattern
-
-        fig7AB = fig_7AB(syn12stm, syn12nnstm, syn12atastm, record_wi_dt)
-
-        return fig3, fig4, fig7AB
+        return fig3, fig4, fig7AB, fig9, fig10
 
     else:
         return success
 
 
 if __name__ == '__main__':
-    run_sim(0)
+    random_seed = 1
+    run_sim(random_seed)
     show()

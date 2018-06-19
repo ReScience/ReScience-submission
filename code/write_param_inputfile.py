@@ -10,7 +10,6 @@
 
 from brian2 import *
 
-
 '''
 Parameter combinations as saved in param.npy
 
@@ -36,7 +35,7 @@ row     win     jit     # pat neur      pat freq        % deleted
 
 15      0.475   1       1000            0.05            0.0
 16      0.475   1       1000            0.10            0.0
-17      0.475   1       1000            0.20            0.0
+17      0.475   1       1000            0.15            0.0
 18      0.475   1       1000            0.50            0.0
 
 19      0.4275  1       1000            0.25            0.1
@@ -47,40 +46,40 @@ row     win     jit     # pat neur      pat freq        % deleted
 
 
 def write_para_file():
-	r_ = array([4])
-	w_ = array([0.275, 0.325, 0.375, 0.425])
-	j_ = array([0, 2, 3, 4, 5, 6])
-	n_ = array([400, 600, 800, 1200])
-	f_ = array([0.05, 0.10, 0.15, 0.50])
-	d_ = array([0.10, 0.20, 0.30])
-	combinations = len(r_) + len(w_) + len(j_) + len(n_) + len(f_) + len(d_)
-	stand = array([4, 0.475, 1, 1000, 0.25, 0, 500])
+    r_ = array([4])
+    w_ = array([0.275, 0.325, 0.375, 0.425])
+    j_ = array([0, 2, 3, 4, 5, 6])
+    n_ = array([400, 600, 800, 1200])
+    f_ = array([0.05, 0.10, 0.15, 0.50])
+    d_ = array([0.10, 0.20, 0.30])
+    combinations = len(r_) + len(w_) + len(j_) + len(n_) + len(f_) + len(d_)
+    stand = array([4, 0.475, 1, 1000, 0.25, 0, 500])
 
-	para = empty((combinations, 7))
-	for i in range(combinations):
-		para[i] = stand
-	count = 0
-	for x in r_:
-		para[count][0] = x
-		count += 1
-	for x in w_:
-		para[count][1] = x
-		count += 1
-	for x in j_:
-		para[count][2] = x
-		count += 1
-	for x in n_:
-		para[count][3] = x
-		para[count][6] = 0.5 * (1 - stand[5]) * x
-		para[count][1] = 1.9 * 0.5 * (1 - stand[5]) * x / 2000
-		count += 1
-	for x in f_:
-		para[count][4] = x
-		count += 1
-	for x in d_:
-		para[count][5] = x
-		para[count][6] = 0.5 * (1 - x) * stand[3]
-		para[count][1] = 1.9 * 0.5 * (1 - x) * stand[3] / 2000
-		count += 1
-	# print(para)
-	save('../data/para.npy', para)
+    para = empty((combinations, 7))
+    for i in range(combinations):
+        para[i] = stand
+    count = 0
+    for x in r_:
+        para[count][0] = x
+        count += 1
+    for x in w_:
+        para[count][1] = x
+        count += 1
+    for x in j_:
+        para[count][2] = x
+        count += 1
+    for x in n_:
+        para[count][3] = x
+        para[count][6] = 0.5 * (1 - stand[5]) * x
+        para[count][1] = 1.9 * 0.5 * (1 - stand[5]) * x / 2000
+        count += 1
+    for x in f_:
+        para[count][4] = x
+        count += 1
+    for x in d_:
+        para[count][5] = x
+        para[count][6] = 0.5 * (1 - x) * stand[3]
+        para[count][1] = 1.9 * 0.5 * (1 - x) * stand[3] / 2000
+        count += 1
+    # print(para)
+    save('../data/para.npy', para)

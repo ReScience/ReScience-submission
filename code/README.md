@@ -136,7 +136,7 @@ row     win     jit     # pat neur      pat freq        % deleted
 
 15      0.475   1       1000            0.05            0.0
 16      0.475   1       1000            0.10            0.0
-17      0.475   1       1000            0.20            0.0
+17      0.475   1       1000            0.15            0.0
 18      0.475   1       1000            0.50            0.0
 
 19      0.4275  1       1000            0.25            0.1
@@ -148,7 +148,7 @@ row     win     jit     # pat neur      pat freq        % deleted
 
 #### Running on a cluster 
 
-The files that were used to run on the Imperial College HPC cx1 cluster with a PBS queue system are provided under code/cluster (main_cluster.py and run_main_cluster.sh). Please note that the paths in both files (line 9 in run_main_cluster.sh and lines 24-25 in main_cluster.py) need to be changed to the /code/cluster and the /data directories respectively on the cluster, where you want the results to be saved. 
+The files that were used to run on the Imperial College HPC cx1 cluster with a PBS queue system are provided under code/cluster (main_cluster.py and run_main_cluster.sh) and  require a version of  `gcc` of 5.4.0 or higher. Please note that the paths in both files (line 9 in run_main_cluster.sh and lines 24-25 in main_cluster.py) need to be changed to the /code/cluster and the /data directories respectively on the cluster, where you want the results to be saved. 
 
 The runs are initiated with 
 
@@ -158,7 +158,7 @@ qsub -J 0-2199 run_main_cluster.sh
 
 which runs the parameter of para.npy 100 times with different random seeds and saves the results (one small file per run).
 
-It is worth running only a few runs with the option -J 0-1 to check if all packages are installed on the cluster (e.g. numba might be unavailable - in that case comment out lines 13, 67, 210).
+It is worth running only a few runs with the option -J 0-1 to check if all packages are installed on the cluster (e.g. numba might be unavailable - in that case comment out lines 13, 90, 230).
 
 The resulting files can then be analysed with analysis_main_cluster.py which then plots the results as in figure 5. This file can be run on the cluster (if the cluster can run matplotlib) or after copying the resulting files (2200 files, total ~ 1.25MB) into the /data folder on a local machine. 
 

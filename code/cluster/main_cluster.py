@@ -64,15 +64,45 @@ with open('%s/result_seed%s_%s.pickle' % (savedir, runid, name_run), 'wb') as ha
     pickle.dump(result_onerun, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 
+def make_input(min_rate, max_rate, max_time_wo_spike, max_change_speed, runduration, number_neurons, dt_createpattern, random_seed):
+    # this code was adapted from the original Matlab code
+    # this function creates input spikes one neuron at a time
+    spiketimes = []
+    afferents = []
+    runduration1 = min(runduration, 150)  # input will be tripled later, only need 150s
+    for n in range(number_neurons):
+        # call function to make a single spike train with a random seed for numba function
+        # (seed for this number is defined in run_simulation.py, so this is deterministic)
+        st = numpy.array(
+            make_single_train(min_rate, max_rate, max_time_wo_spike, max_change_speed, runduration, number_neurons,
+                              dt_createpattern, numpy.random.randint(2**30)))
+        spiketimes.append(st)
+        afferents.append(n * ones(len(st)))
+    # convert spike trains into array and sort by time
+    spiketimes = hstack(spiketimes)
+    afferents = hstack(afferents)
+    sortarray = argsort(spiketimes)
+    spiketimes = spiketimes[sortarray]
+    afferents = afferents[sortarray]
+    return afferents, spiketimes
+
+
 @jit(nopython=True)  # numba decorator compiles this function into low level code to run faster
 def make_single_train(min_rate, max_rate, max_time_wo_spike, max_change_speed, runduration, number_neurons,
-                      dt_createpattern):
+                      dt_createpattern, random_seed):
+    # this code was adapted from the original Matlab code
+    # get random seed from make_input() (changes for every neuron)
+    numpy.random.seed(int(random_seed))
     runduration1 = min(runduration, 150)  # input will be tripled later, only need 150s
     st = []
+    # add a virtual spike at beginning to avoid all neurons spiking at 0
     virtual_pre_sim_spike = - numpy.random.rand() * max_time_wo_spike
+    # firing rates change at each time step
     firing_rate = min_rate + numpy.random.rand() * (max_rate - min_rate)
     rate_change = 2 * (numpy.random.rand() - .5) * max_change_speed
     mtws = max_time_wo_spike
+    # create spike trains from changing firing rates: go through 150s 1ms at a time and
+    # add spikes according to current firing rate (changes every 1ms)
     for t in numpy.arange(dt_createpattern, runduration1, dt_createpattern):
         if numpy.random.rand() < dt_createpattern * firing_rate or \
                 (len(st) < 1 and t - virtual_pre_sim_spike > mtws) or \
@@ -82,38 +112,23 @@ def make_single_train(min_rate, max_rate, max_time_wo_spike, max_change_speed, r
             tmp = min(runduration1, tmp)
             st.append(tmp)
             mtws = max_time_wo_spike
+        # calculate firing rate change
         firing_rate = firing_rate + rate_change * dt_createpattern
         rate_change = rate_change + 1 / 5 * 2 * (numpy.random.rand() - .5) * max_change_speed
         rate_change = max(min(rate_change, max_change_speed), -max_change_speed)
         firing_rate = max(min(firing_rate, max_rate), min_rate)
-    return array(st)
+    return st
 
 
-def make_input(min_rate, max_rate, max_time_wo_spike, max_change_speed, runduration, number_neurons, dt_createpattern):
-    # make input spikes
-    spiketimes = []
-    afferents = []
-    runduration1 = min(runduration, 150)  # input will be tripled later, only need 150s
-    for n in range(number_neurons):
-        st = make_single_train(min_rate, max_rate, max_time_wo_spike, max_change_speed, runduration, number_neurons,
-                               dt_createpattern)
-        spiketimes.append(st)
-        afferents.append(n * ones(len(st)))
-    spiketimes = hstack(spiketimes)
-    afferents = hstack(afferents)
-    sortarray = argsort(spiketimes)
-    spiketimes = spiketimes[sortarray]
-    afferents = afferents[sortarray]
-    return afferents, spiketimes
-
-
-def make_pattern_presentation_array(runduration, patternlength, pattern_freq):
+def make_pattern_presentation_array(runduration, patternlength, pattern_freq, random_seed):
     # make array with a 1 (pattern) or 0 (not pattern) for each time window (window size = length of pattern (0.05s))
     runduration1 = min(runduration, 150)
     if pattern_freq == 0.5:
-        # if pattern frequency is 0.5, then this array s just alternating 0's and 1's
+        # if pattern frequency is 0.5, then this array is just alternating 0's and 1's
         position_copypaste = array([0, 1] * runduration1 * int(pattern_freq / patternlength))
     else:
+        # add a number of 1's (depends on frequency of pattern presentation)
+        # into a zeros array, but avoid consecutive 1's
         position_copypaste = zeros(int(runduration1 / patternlength))
         while sum(position_copypaste) < floor(int(runduration1 / patternlength) * pattern_freq):
             random_index = numpy.random.randint(0, len(position_copypaste))
@@ -129,9 +144,10 @@ def make_pattern_presentation_array(runduration, patternlength, pattern_freq):
     return position_copypaste
 
 
+
 def copy_and_paste_jittered_pattern(times, indices, position_copypaste, patternlength, jitter_sd, spike_del,
-                                    number_pat):
-    # choose first segment as pattern to be copy-pasted
+                                    number_pat, random_seed):
+    # choose first segment as pattern to be the pattern spikes that are copy-pasted at all other times
     startCPindex = where(position_copypaste == 1)[0][0]
     # get times and indices in pattern window
     tim = times[
@@ -310,14 +326,14 @@ stdp_on_post = ('''LTDtrace = -aminus
 #                LTPtrace = 0''')
 
 # Make input
-seed(int(seedyy))
+numpy.random.seed(int(seedyy))
 indices, times = make_input(min_rate_pat, max_rate_pat, max_time_wo_spike_pat,
-                            max_change_speed_pat, runduration, number_neurons, dt_createpattern)
+                            max_change_speed_pat, runduration, number_neurons, dt_createpattern, seedyy)
 indices_add, times_add = make_input(min_rate_add, max_rate_add, max_time_wo_spike_add,
-                                    max_change_speed_add, runduration, number_neurons, dt_createpattern)
-position_copypaste = make_pattern_presentation_array(runduration, patternlength, pattern_freq)
+                                    max_change_speed_add, runduration, number_neurons, dt_createpattern, seedyy)
+position_copypaste = make_pattern_presentation_array(runduration, patternlength, pattern_freq, seedyy)
 times, indices = copy_and_paste_jittered_pattern(times, indices, position_copypaste,
-                                                 patternlength, jitter_sd, spike_del, number_pat)
+                                                 patternlength, jitter_sd, spike_del, number_pat, seedyy)
 times, indices = add_noise(times, indices, times_add, indices_add)
 if tripling and runduration > 300:
     times, indices = triple_input_runtime(times, indices)

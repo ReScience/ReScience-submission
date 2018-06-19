@@ -423,8 +423,8 @@ synaptic weight change; the sign denotes a corresponding increase (+) or
 decrease (-) in weight at that spike. The synaptic weight in ATA
 (\textbf{A}) and NN (\textbf{B}) experience more weight changes and also
 a net decrease in weight after only a few spikes. Under the RNN rule
-(\textbf{C}), there are fewer changes and - in this example - no visible
-net weight change.}\label{fig:stdp}
+(\textbf{C}), there are fewer changes and --- in this example --- no
+visible net weight change.}\label{fig:stdp}
 \end{figure}
 
 \section{Results}\label{results}
@@ -478,15 +478,17 @@ causing the postsynaptic neuron to spike at a low latency.
 \begin{figure}
 \centering
 \includegraphics{figures/fig4_convergence.pdf}
-\caption{Weights at converged state. The weights in the converged state
-look very similar in the the original study (\textbf{A)}) and the
-replication implementation (\textbf{B)}). Weights from neurons not
-involved in the pattern are close to 0 (black, neurons 1000-1999),
-whereas weights from some neurons involved in the pattern (neurons
-0-999) are close to 1 (white, maximum value). The weights of neurons
-that spike at the beginning of the pattern are nearly all close to 1 and
-their added postsynaptic potentials cause a spike at the beginning of
-the pattern (blue rectangle).}\label{fig:conv}
+\caption{Weights at converged state. This figure shows a raster plot of
+the input spikes at the end of the simulation (converged state) with the
+color of the dots indicating the synaptic weight. The final weights in
+the converged state look very similar in the the original study
+(\textbf{A)}) and the replication implementation (\textbf{B)}). Weights
+from neurons not involved in the pattern are close to 0 (black, neurons
+1000-1999), whereas weights from some neurons involved in the pattern
+(neurons 0-999) are close to 1 (white, maximum value). The weights of
+neurons that spike at the beginning of the pattern are nearly all close
+to 1 and their added postsynaptic potentials cause a spike at the
+beginning of the pattern (blue rectangle).}\label{fig:conv}
 \end{figure}
 
 Both latency development and the potentiation of only synaptic weights
@@ -650,29 +652,30 @@ is automatically balanced and is not subject to this issue.
 \subsubsection{\texorpdfstring{Effect of learning rule at
 \(\Delta t=0\)}{Effect of learning rule at \textbackslash{}Delta t=0}}\label{effect-of-learning-rule-at-delta-t0}
 
-The timing of the output neuron spikes is slightly different in the
+The spike times of the output neuron are slightly different in the
 original study and the replication. In the original study spike times of
 the input and output neurons are not restricted to fixed multiples of
 the timestep, so it is extremely unlikely that two neurons will spike at
 the same time. In Brian, the output neuron spikes at the beginning of a
 time step and will therefore happen in the same time bin as some input
 neuron spikes leading to a time difference between the spikes of
-\(\Delta t=0\) where the STDP rule is undefined. Brian treats these
-input neuron spikes as if they happened just before the output neuron
-spike (\(\Delta t<0\), due to the scheduling of events in Brian) and
-will therefore increase all those weights instead of increasing some and
-decreasing others. This higher number of potentiations makes it more
-difficult for the system to systematically depress unimportant weights
-in order to become selective to the pattern. If the learning rule is
-modified so that the synaptic weight is increased as well as depressed
-when input neuron and output neuron spikes happen during the same time
-step (effectively causing a smaller weight increase), the pattern is
-found earlier, at around 17 s or 850 spikes (for a time step of
-\(10^{-4}s\)) which is close to the performance for smaller time steps
-(\(10^{-6}s\)) and the original paper (both 14 s or 700 spikes). We
-didn't use this modified learning rule in the rest of the paper because
-it differs from the implementation used in the majority of modelling
-papers.
+\(\Delta t=0\) where the STDP rule is undefined. Brian treats all of the
+input neuron spikes in this time bin as if they happened just before the
+output neuron spike (\(\Delta t<0\), due to the scheduling of events in
+Brian) and will therefore increase all those weights instead of
+increasing some and decreasing others. This higher number of
+potentiations makes it more difficult for the system to systematically
+depress unimportant weights in order to become selective to the pattern.
+
+If the learning rule is modified so that the change in synaptic weight
+reflects that on average half the input neurons spike before the output
+neuron and the other half afterwards (by adding the mean of LTP and LTD
+traces), the pattern is found earlier, at around 17 s or 850 spikes (for
+a time step of \(10^{-4}s\)) which is close to the performance for
+smaller time steps (\(10^{-6}s\)) and the original paper (both 14 s or
+700 spikes). This modified learning rule was only used to determine the
+time until finding (Fig.~\ref{fig:find}) because it differs from the
+implementation used in the majority of modelling papers.
 
 This difficulty to depress non-relevant input neurons is the reason for
 the lower success rate at a high pattern presentation frequency at large

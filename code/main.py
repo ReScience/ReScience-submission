@@ -35,7 +35,7 @@ fig1 = fig_1()
 fig2 = fig_2()
 
 print('%s Preparing Figures 3, 4, 7AB' % time.strftime('%H:%M'))
-fig3, fig4, fig7AB = run_sim(0)
+fig3, fig4, fig7AB, fig9, fig10 = run_sim(1)
 
 if args['new'] == 'False':
     fig5 = fig_5_saved()
@@ -55,7 +55,7 @@ elif args['new'] == 'True':
 else:
     'input for --new was not recognised. Please try again'
 
-fig7CD = fig_7CD(3)
+fig7CD = fig_7CD(28)
 
 fig8 = fig_8()
 

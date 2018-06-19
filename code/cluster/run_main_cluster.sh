@@ -5,6 +5,5 @@
 #PBS -N rescience
 
 module load anaconda3/personal
-module load gcc-5.4
 
 python /THIS/PATH/NEEDS/TO/BE/CHANGED/main_cluster.py runid=$PBS_ARRAY_INDEX

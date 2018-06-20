@@ -11,23 +11,23 @@ from ANNarchy import *
 ## Neuron Model for V1-Layer, after Clopath et al.(2010) ##
 # neuron parameters
 params = """
-gL = 30.0
-DeltaT = 2.0
-tauw = 144.0
-a = 4.0
-b = 0.0805
-EL = -70.6
-C = 281.0
-tauz = 40.0
-tauVT= 50.0
-Isp = 400.0
-VTMax = -30.4
-VTrest = -50.4
-taux = 15.0
-tauLTD = 10.0
-tauLTP= 7.0
-taumean = 2400.0
-tau_gExc = 1.0
+gL = 30.0       :population
+DeltaT = 2.0    :population
+tauw = 144.0    :population
+a = 4.0         :population
+b = 0.0805      :population
+EL = -70.6      :population
+C = 281.0       :population
+tauz = 40.0     :population
+tauVT= 50.0     :population
+Isp = 400.0     :population
+VTMax = -30.4   :population
+VTrest = -50.4  :population
+taux = 15.0     :population
+tauLTD = 10.0   :population    
+tauLTP= 7.0     :population
+taumean = 1200.0:population
+tau_gExc = 1.0  :population
 """
 
 # equations for the adaptive exponential integrate-and-fire neuron
@@ -49,14 +49,12 @@ dVT/dt =if state==1: +(VTMax - VT)-0.4 else:(VTrest - VT)/tauVT  : init=-50.4
 dg_Exc/dt = -g_Exc/tau_gExc
 state = if state > 0: state-1 else:0
 Spike = 0.0
-dresetvar / dt = 1/(1.0) * (-resetvar)
            """
 spkNeurV1 = Neuron(parameters = params,equations=neuron_eqs,spike="""(vm>VT) and (state==0)""",
                          reset="""vm = 29.0
                                   state = 2.0
                                   VT = VTMax
                                   Spike = 1.0
-                                  resetvar = 1.0
                                   xtrace+= 1/taux""")
 
 #----------------------------------synapse definitions----------------------
@@ -70,14 +68,13 @@ inputSynapse =  Synapse(
                 """
 )
 
-#--STDP Synapses after Clopath et. al(2008)for Input- to Exitatory- Layer--#
+#--STDP Synapses after Clopath et. al(2010)for Input- to Exitatory- Layer--#
 equatSTDP = """
     ltdTerm = if w>wMin : (aLTD*(vmean/urefsquare)*pre.Spike * pos(post.umeanLTD - thetaLTD)) else : 0.0
     ltpTerm = if w<wMax : (aLTP * pos(post.vm - thetaLTP) *(pre.xtrace)* pos(post.umeanLTP - thetaLTD)) else : 0.0
       deltaW = ( -ltdTerm + ltpTerm)
         dw/dt = deltaW :min=0.0,explicite"""
 
-# 100/urefsquare for rateCode
 parameterFF="""
 vmean = 60.0
 urefsquare = 60.0

@@ -219,29 +219,166 @@ triplet experiment   $\bar{\bar{u}}$ $120 mV^2$
 Table: Changed parameters for weight change experiments. {#tbl:table_FH}
 
 ## Reimplementation
+The reimplementation was done with Python 2.7 and the neural-simulator ANNarchy [@Vitay2015] (v.4.6.4).
+With ANNarchy, it is possible to implement the description of the learning and the neuronal behavior
+by define the mathematical equations and it cares about the temporal execution of the equations.
+This supports the implementation of more complex models and bigger neuronal networks.
+Therefore, ANNarchy supports rate based and spiking learning rules, and it provides a way to combine both kinds of neuronal networks.
+The definition of learning rules, the neurons and the network structure is done in the easy understanding Python language.
+To archive a good performance on the execution of the model, the Python code is compiled in C++.
+With that, ANNarchy make it easy to implement the a neuronal network model and show good performances [@Vitay2015].
 
-**What is missing is description of the reimplementation itself, i.e. present ANNarchy, which structures are used (I suppressed the references to PoissonPopulation and co in the previous part), what was hard, why ANNarchy and not pure Python?, etc**
+As mentioned in the original publication, to reproduce the voltage-clamp experiment, the pairing repetition task and the STDP learning window we set $\bar{bar{u}} = u_{ref}$. The implementation of the network for this tasks can be found in **net_fix.py**.
+For the connectivity experiments and for the emergent of stable weights, the homeostatic mechanism dynamic as described
+in the original publication [@Clopath2010]. The network with a dynamic homeostatic mechanism can be found in **net_net_homeostatic.py**.
+The following explanation of the network implementation is from the **net_net_homeostatic.py**.
 
-**You can put code in the article:**
-
-```python
+### Network implementation
+``` python
 params = """
-EL = -70.4      :population
-VTrest = -50.4  :population
-taux = 15.0     :population  """
-eqs = """
-dg_vm/dt = EL/1000 : min = EL, init=-70.4
-Spike = if state == 1: 1.0 else: 0.0
-dReset/dt = if state == 1: +1 else: -Reset
-dxtrace/dt = if state == 1: +1/taux else: -xtrace/taux : init = 0.0
-state = if state >0: -1 else: 0"""
-neuron = Neuron(parameters = params,
-                equations = eqs,
-                reset = """ g_vm = EL
-                            state = 1""",
-                spike = """g_vm > VTrest""")
+gL = 30.0
+DeltaT = 2.0
+tauw = 144.0
+a = 4.0
+b = 0.0805
+EL = -70.6
+C = 281.0
+tauz = 40.0
+tauVT= 50.0
+Isp = 400.0
+VTMax = -30.4
+VTrest = -50.4
+taux = 15.0
+tauLTD = 10.0
+tauLTP= 7.0
+taumean = 1200.0
+tau_gExc = 1.0
+"""
+
+neuron_eqs = """
+dvm/dt = if state>=2:+3.462 else: if state==1:-(vm+51.75)+1/C*(Isp - (wad+b))+g_Exc-g_Inh else:1/C * ( -gL * (vm - EL) + gL * DeltaT * exp((vm - VT) / DeltaT) - wad + z ) + g_Exc: init = -70.6
+dvmean/dt = (pos(vm - EL)**2 - vmean)/taumean    :init = 0.0
+dumeanLTD/dt = (vm - umeanLTD)/tauLTD : init=-70.0
+dumeanLTP/dt = (vm - umeanLTP)/tauLTP : init =-70.0
+dxtrace /dt = (- xtrace )/taux
+dwad/dt = if state ==2:0 else:if state==1:+b/tauw else: (a * (vm - EL) - wad)/tauw : init = 0.0
+dz/dt = if state==1:-z+Isp-10 else:-z/tauz  : init = 0.0
+dVT/dt =if state==1: +(VTMax - VT)-0.4 else:(VTrest - VT)/tauVT  : init=-50.4
+dg_Exc/dt = -g_Exc/tau_gExc
+state = if state > 0: state-1 else:0
+Spike = 0.0
+           """
+spkNeurV1 = Neuron(parameters = params,equations=neuron_eqs,spike="""(vm>VT) and (state==0)""",
+                         reset="""vm = 29.0
+                                  state = 2.0
+                                  VT = VTMax
+                                  Spike = 1.0
+                                  xtrace+= 1/taux""")
+```
+{#cd:neuron}
+
+The implementation of the neuron model is presented in @cd:neuron.
+To define a neuron model, ANNArchy provides the __Neuron__ object, what expects four
+string objects for the parameters ('parameters'), the equations that describes the neuronal behavior ('equations'),
+the condition of a spike ('spike') and the behavior after a spike ('reset').
+The different variables of the neuron model are described by there differential equation.
+The variable 'vm' describes the membrane potential $u$, 'vmean' the homeostatic variable $\bar{bar{u}}$,
+'umeanLTD' and 'umeanLTP' are the equations for $u_{-}$, respectively $u_{+}$.
+The variable 'xtrace' describes $\bar{x}$, 'wad' is $w_{ad}$, 'z' is $z$, 'g_Exc' is the input current and 'Spike' is the spike counter ($X$).
+To implement the 'resolution trick', we use a extra discrete variable 'state'.
+Notice that the integration step size in ANNarchy is initialized by $1ms$, so that the 'state' variable is set to $2$ and counts down to zero for every millisecond.
+All variables they have an influence on the membrane potential are updated after the spike, depending on the variable 'state'.
+With that, we reproduce the behavior of the neuron as described in the published Matlab source code.
+The neuron spikes only if the membrane potential exceeds the threshold and if the 'state' variable is equal to zero.
+With the keyword 'init', it is possible to set the initial value for the variable.
+
+``` python
+equatSTDP = """
+    ltdTerm = if w>wMin : (aLTD*(post.vmean/urefsquare)*pre.Spike * pos(post.umeanLTD - thetaLTD)) else : 0.0
+    ltpTerm = if w<wMax : (aLTP * pos(post.vm - thetaLTP) *(pre.xtrace)* pos(post.umeanLTP - thetaLTD)) else : 0.0
+      deltaW = ( -ltdTerm + ltpTerm)
+        dw/dt = deltaW :min=0.0"""
+```
+As for the neuron model, the equations for the spiking learning are defined by strings of the differential equations.
+The 'ltdTerm' describes the $LTD_{Term}$ and the 'ltpTerm' the $LTP_{Term}$.
+Variables of the pre- or post-synaptic neuron, they are define in the neuron model, can be addressed with the prefix 'pre.', respectively 'post.'.
+With the 'if w>wMin' statement in the 'ltdTerm', the weight only decreases if the weight is above the lower bound.
+In the 'ltpTerm' a analogous term is implement to avoid, that weights exceeds the upper bound.
+The parameters are defined in a string, analogous to the parameters of the neuron model.
+Therefore, the parameter 'urefsquare' is the homeostatic reference parameter $u^{2}_{ref}$.
+The learning rates $A_{LTD}$ and $A_{LTP}$ are 'aLTD', respectively 'aLTP'.
+And the threshold $\theta_{-}$ is defined by 'thetaLTD' and $\theta_{+}$ by 'thetaLTP'.
+The parameter 'transmit' is zero or one, dependent if the synaptic current for the experiment should transmit or not.
+
+``` python
+parameterFF="""
+urefsquare = 60.0
+thetaLTD = -70.6
+thetaLTP = -45.3
+aLTD = 0.00014
+aLTP = 0.00008
+wMin = 0.0
+wMax =3.0
+transmit = 0.0
+"""
+
+ffSyn = Synapse( parameters = parameterFF,
+    equations= equatSTDP,
+    pre_spike='''g_target += w*transmit''')
 ```
 
+ANNarchy provides a __Synapse__ object, what expects a 'parameters' argument,
+the 'equations' and a description if the pre-synaptic neuron spikes ('pre_spike').
+After a pre-synaptic spike, the input current of the post-synaptic neurons increases by the value of the synaptic weight.
+Therefore, 'g_target' is the target variable on the post-synaptic side what should be increased.
+The target variable is defined in the __Projection__ object (see below).
+Additionally, a description for a post-synaptic spike is possible.
+
+### Implementation of the Experiments
+
+The implementation of the different experiments are in the current python files.
+To perform an experiment, the network with the neuron populations and the weights between them must be
+initialized.
+To create a population, ANNarchy provides the __Population__ object.
+The 'geometry' argument expects a tuple or a integer and defines the spatial geometry, respectively the number of neurons in the population.
+The 'neuron' arguments expects a __Neuron__ object. It defines the used model for population neurons.
+The population can be give a unique name, optionally.
+Besides that, it exist a set of predefined __Population__ objects in ANNarchy,
+for example the __PoissonPopulation__.
+This object provides a population of spiking neurons, which spiking behavior follows a Poisson distribution.
+As for the __Population__ object with the 'geometry' argument is the size or the spatial geometry of the population.
+The argument 'rates' defines the mean firing rate of the population neurons.
+A name can be given, optionally.
+
+``` python
+poisPop = PoissonPopulation(geometry=10, rates=100.0)
+pop_Ten = Population(geometry=10, neuron=spkNeurV1, name="pop_Ten")
+```
+To connect two neuron populations and define the weight matrix between them, ANNarchy provides the __Projection__ object.
+The 'pre' argument define the pre-synaptic population and the 'post' argument the post-synaptic population.
+Both arguments expects a __Population__ object.
+The 'target' argument defines the target variable of the post-synaptic neuron, which is increased by the weight value after a pre-synaptic spike.
+
+``` python
+projInp_Ten = Projection(
+    pre = poisPop,
+    post= pop_Ten,
+    target='Exc'
+).connect_one_to_one(weights = 30.0)
+
+projTen_Ten = Projection(
+    pre= pop_Ten,
+    post= pop_Ten,
+    target= 'Exc',
+    synapse= ffSyn               
+).connect_all_to_all(weights = 0.1,allow_self_connections=True)
+```
+
+### Recording variables
+
+**What is missing is description of the reimplementation itself, i.e. present ANNarchy, which structures are used (I suppressed the references to PoissonPopulation and co in the previous part), what was hard, why ANNarchy and not pure Python?, etc**
+**zuerst am Modell als solches erklären, wie in ANNarchy Modelle implementiert werden, was für Objekte genutzt werden.
+Danach an einem oder zwei Beispiel Experimente die übrigen Objekte erklären --> Wie geplottet wird ist nicht wichtig**
 # Results
 
 **Perhaps structure more the results**

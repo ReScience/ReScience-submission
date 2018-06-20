@@ -36,7 +36,7 @@ projTen_Ten = Projection(
     pre= pop_Ten,
     post= pop_Ten,
     target= 'Exc',
-    synapse= ffSyn               #Uniform(0.0,0.01)
+    synapse= ffSyn               
 ).connect_all_to_all(weights = 0.1,allow_self_connections=True)
 # set network parameter
 projTen_Ten.wMax= 0.25
@@ -99,10 +99,6 @@ def run():
         img[i,i] = np.nan
 
     # plot the image like in Clopath 2010
-    # note! here we use an other color map:
-    # weak weights are yellow
-    # unidirectional are ligth green
-    # bidirectional are dark green
     plt.figure()
     plt.imshow(img.T,interpolation='none',cmap= myCmap(),vmin=0,vmax=2)
     plt.xticks(fontsize=15)

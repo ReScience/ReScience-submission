@@ -189,7 +189,7 @@ The firing rate of each Poisson neuron is increased from 2Hz to 20Hz, influencin
 
 
 Because the reimplementation of the model is mainly based on the Matlab source code from modelDB,
-the emergence of stable weights was achieved by presenting a Gaussian input over 500 presynaptic neurons and one postsynaptic neuron (**contrary to what in the original paper?**.
+the emergence of stable weights was achieved by presenting a Gaussian input over 500 presynaptic neurons and one postsynaptic neuron (**contrary to what in the original paper?**).
 For every trial ($125$ms) ten Gaussian patterns are created to determine the activity of the 500 input neurons.
 
 As in the Matlab source code, the learning rates ($A_{LTP}$ and $A_{LTD}$) are
@@ -230,8 +230,8 @@ With that, ANNarchy make it easy to implement the a neuronal network model and s
 
 As mentioned in the original publication, to reproduce the voltage-clamp experiment, the pairing repetition task and the STDP learning window we set $\bar{bar{u}} = u_{ref}$. The implementation of the network for this tasks can be found in **net_fix.py**.
 For the connectivity experiments and for the emergent of stable weights, the homeostatic mechanism dynamic as described
-in the original publication [@Clopath2010]. The network with a dynamic homeostatic mechanism can be found in **net_net_homeostatic.py**.
-The following explanation of the network implementation is from the **net_net_homeostatic.py**.
+in the original publication [@Clopath2010]. The network with a dynamic homeostatic mechanism can be found in **net_homeostatic.py**.
+The following explanation of the network implementation is from the **net_homeostatic.py**.
 
 ### Network implementation
 ``` python
@@ -376,6 +376,24 @@ projTen_Ten = Projection(
 
 ### Recording variables
 
+With the **Monitor** object provides ANNarchy a easy possibility to record variables from projections and populations.
+
+``` python
+projInp_Ten = Projection(
+    pre = poisPop,
+    post= pop_Ten,
+    target='Exc'
+).connect_one_to_one(weights = 30.0)
+
+projTen_Ten = Projection(
+    pre= pop_Ten,
+    post= pop_Ten,
+    target= 'Exc',
+    synapse= ffSyn               
+).connect_all_to_all(weights = 0.1,allow_self_connections=True)
+```
+
+
 **What is missing is description of the reimplementation itself, i.e. present ANNarchy, which structures are used (I suppressed the references to PoissonPopulation and co in the previous part), what was hard, why ANNarchy and not pure Python?, etc**
 **zuerst am Modell als solches erklären, wie in ANNarchy Modelle implementiert werden, was für Objekte genutzt werden.
 Danach an einem oder zwei Beispiel Experimente die übrigen Objekte erklären --> Wie geplottet wird ist nicht wichtig**
@@ -400,8 +418,14 @@ If the postsynaptic neuron spikes before the presynaptic one, LTD occurs (red li
 If the postsynaptic neuron spikes after the presynaptic one, LTP occurs (blue line).
 The x-axis represents the time difference between pre- and post-synaptic spikes, relative to the postsynaptic spike.
 The resulting graph is similar to the presented one in the original publication.
-A small difference can be seen in the higher positive and negative change (**From how much?**).
-This could be caused by a different internal processing of ANNarchy. (**Be more precise...**)
+A small difference can be seen in the higher positive and negative change.
+In the original publication is the normalized weight at a time difference of $-10ms$ around $70 \%$.
+In our result, the weight is around $80 \%$.
+This could have two reasons. First, we use
+Second, this could be caused by a different internal processing of ANNarchy. (**Be more precise...**)
+In the Matlab source code, the equations are calculated step by step for each integration step.
+In ANNArchy, the changes are calculated separately for the neurons and synapses variables, then the changes added, then
+it will be checked if a postsynaptic event appeared, and than the recording is happening.
 
 The analysis of the pairing repetition frequency task is shown on \textbf{Fig. \ref{Fig_exp} right}.
 With lower repetition frequency, post-pre pairs (red line) lead to LTD. At a repetition frequency around $30 Hz$,
@@ -441,14 +465,17 @@ As in the original paper, the connections from neurons which are firing a long t
 \begin{figure}
 \includegraphics[width=1\textwidth]{./figures/weights_stable.png}
 \caption{\textbf{Stable weights on Poisson distributed Input.}
-    Colors show the weight value at the end of the current epoch from the presynaptic neuron to a single postsynaptic neuron.
+    Colors show the weight value at the end of the current epoch from the presynaptic neuron to a single postsynaptic neuron. Blue are weight values around zero and red are weight values around the maximum weight value of $3$.
     On the y-Axis is the presynaptic index indicated and the x-axis shows the number of epoch.}
 \label{Fig_stab}
 \end{figure}
 
-The development of the weights over time, by presenting
-Gaussian shaped inputs, is presented in \textbf{Fig. \ref{Fig_stab}},
-After 500 epochs, stable weights begin to emerge, similar to the original matlab source code. **More details**
+In the published Matlab source code, they demonstrated the emergent of stable weights.
+Therefore, they presented a one dimensional input with 500 input values.
+At every time step, a subset of near to each other lying neurons are active.
+The emergent stable weights are shown in \textbf{Fig. \ref{Fig_stab}}.
+After 500 epochs, a spatial related subset of weights increased to the maximum and the other weight values decrease down to zero.
+This leads to a specific selectivity for the postsynaptic neuron.
 
 # Conclusion
 
@@ -458,9 +485,11 @@ proposed in the original paper.
 
 The description of the learning rule in the original publication comprises enough details
 to understand the different components and their interaction.
-However, two main components have not been described adequately to allow a direct reimplementation: the 'resolution trick' of the membrane potential after spike emission and the equation for the
+However, two main components have not been described adequately to allow a direct reimplementation:
+the 'resolution trick' of the membrane potential after spike emission and the equation for the
 homeostatic mechanism ($\bar{\bar{u}}$).  
-Stable learning is only possible with a working homeostasis mechanism, that regulates the amount of LTD. **Was it described in the paper, or did you have to guess it from the Matlab code?**
+The emergent of stable weights with high and low values depends on a functional homeostatic mechanism, as mentioned in the original publication [@Clopath2010].
+But the formula to calculate the homeostatic variabel $\bar{\bar{u}}$ is not described in the publication.
 The dependency of $\bar{\bar{u}}$ on the homeostatic mechanism is necessary to
 implement the right behavior of the membrane potential.
 The reimplementation has greatly benefited from the release of the source code on modelDB.

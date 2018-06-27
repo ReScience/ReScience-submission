@@ -98,28 +98,33 @@ def run_sim(run_idx, pararow=0, only_success=False):
     record_wi_dt = 0.05
     record_u_dt = 0.0001
 
-    # equations
+    # equations for the LIF enuron
     eqs = '''du/dt = (A*a)/taus + (X*x-u)/taum : 1
             dx/dt = -x/tausyn : 1
             da/dt = -a/taus : 1'''
 
+    # variable changes when a postsynaptic spike happens
     eqs_reset = '''x = 0
                     u = 2*T
                     a = deltaa'''
 
+    # equations for the STDP implementations: traces of presynaptic (LTDtrace) and postsynaptic (LTPtrace) activity
     stdp_model = ''' wi : 1
                     dLTPtrace/dt = -LTPtrace / tauplus  : 1 (event-driven)
                     dLTDtrace/dt = -LTDtrace / tauminus : 1 (event-driven)'''
 
+    # variable changes when a presynaptic spike happens
     stdp_on_pre = (''' x_post += deltax*wi
                         LTPtrace = aplus
                         wi = clip(wi + LTDtrace, wmin, wmax)
                         LTDtrace = 0''')
 
+    # variable changes when a postsynaptic spike happens
     stdp_on_post = ('''LTDtrace = -aminus
                         wi = clip(wi + LTPtrace, wmin, wmax)
                         LTPtrace = 0''')
-
+    
+    # different STDP equations for NN learning rule
     stdp_on_pre_nn = (''' x_post += deltax*wi
                         LTPtrace = aplus
                         wi = clip(wi + LTDtrace, wmin, wmax)''')
@@ -127,6 +132,7 @@ def run_sim(run_idx, pararow=0, only_success=False):
     stdp_on_post_nn = ('''LTDtrace = -aminus
                         wi = clip(wi + LTPtrace, wmin, wmax)''')
 
+    # different STDP equations for ATA learning rule
     stdp_on_pre_ata = (''' x_post += deltax*wi
                         LTPtrace += aplus
                         wi = clip(wi + LTDtrace, wmin, wmax)''')
@@ -134,6 +140,7 @@ def run_sim(run_idx, pararow=0, only_success=False):
     stdp_on_post_ata = ('''LTDtrace -= aminus
                         wi = clip(wi + LTPtrace, wmin, wmax)''')
 
+    # creating input spikes for presynaptic neurons
     if only_success == False:
         print('    #### Creating input')
     numpy.random.seed(int(random_seed))
@@ -154,6 +161,7 @@ def run_sim(run_idx, pararow=0, only_success=False):
     times = times * second
 
     start_time_simulation = time.time()
+
     # Make neuron layers N0(input spikes) N1(2000 input neurons) N2(1 output neuron)
     # Carry out the sort by hand because it's more efficient than the brian version
     I = lexsort((indices, times))
@@ -164,7 +172,7 @@ def run_sim(run_idx, pararow=0, only_success=False):
                      refractory=0 * ms, method='linear')
     N1spm = SpikeMonitor(N1)
 
-    # Output neuron using RNN STDP rule
+    # Create output neuron using RNN STDP rule
     N2 = NeuronGroup(1, eqs, threshold='u > T', reset=eqs_reset, refractory=refract * ms, method='linear')
     N2spm = SpikeMonitor(N2)
     if only_success == False:
@@ -259,7 +267,7 @@ def run_sim(run_idx, pararow=0, only_success=False):
         print('    Number false alarms (!=0) = ', fa)
         print('    Success                   = ', success)
 
-    # ###see when pattern was found
+    # see at what time pattern was found
     if hits > 0.9 and fa < 50:
         lat_begin = latency[where(N2spm.t / second < 50)[0]]
         find_spike = where(lat_begin == 0)[0][-1] + 1

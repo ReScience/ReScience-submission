@@ -43,8 +43,6 @@ Neurons communicate through repeated, specifically timed action potential sequen
 
 We replicated their findings using the spiking neural network simulator Brian [@Goodman2009; @Stimberg2014], whereas the the original study implemented the simulations in Matlab, with the main functions being computed in C/C++ through mex files. In addition, we examined some of the implementation details and parameters and investigated whether they were essential to the success of the algorithm.
 
-
-
 # Methods
 
 All simulations were performed using the spiking neural network simulator Brian (Brian2, version 2.0, http://briansimulator.org/). We attempted to stay as true as possible to the original study. Simulation parameters were taken from the text and we additionally obtained the source code for the standard parameter configuration from the authors to ensure equivalency of the implementations. The source code for deleting spikes within the pattern ([@Fig:para] E) was not provided. 
@@ -76,7 +74,7 @@ Brian on the other hand uses discrete time steps for its simulations and updates
 
 ## Leaky Integrate and Fire neuron
 
-The original study models the potential of the output neuron with the Gerstner's Spike Response model (SRM) [@Gerstner2002], which uses kernels to calculate the effect of incoming spikes on the postsynaptic voltage. Brian on the other hand uses differential equations to model the system parameters and evaluates those equations for each time step. We converted the kernels of the posystnaptic potential and the spike afterpotential into the following differential equations: 
+The original study models the potential of the output neuron with the Gerstner's Spike Response model (SRM) [@Gerstner2002], which uses kernels to calculate the effect of incoming spikes on the postsynaptic voltage. Brian on the other hand uses differential equations to model the system parameters and evaluates those equations for each time step. The SRM kernels can be modelled using alpha functions [@Brette2007], so we converted the kernels of the postsynaptic potential and the spike afterpotential into the following differential equations: 
 
 $$\frac{du}{dt} = \frac{Xx - u}{\tau_{m}} + \frac{Aa}{\tau_{s}} \label{eq:u} $$ {#eq:1}
 
@@ -84,7 +82,7 @@ $$\frac{dx}{dt} = -\frac{x}{\tau_{syn}}$$ {#eq:2}
 
 $$\frac{da}{dt} = -\frac{A}{\tau_{s}}$$ {#eq:3}
 
-The values for the parameters can be found in @Tbl:param. @Eq:1 describes the postsynaptic membrane potential, which is influenced by presynaptic excitatory postsynaptic potentials (EPSPs, first term) and a negative afterpotential after a spike (second term). In the event of a presynaptic spike, $x$ is increased by 1 ($x\leftarrow x+1$), which initiates the voltage increase in the postsynaptic neuron. When the postsynaptic voltage reaches the threshold, a spike occurs: the voltage $u$ is set to twice the threshold ($u\leftarrow 2T$), all EPSPs are flushed (all $x$ set to 0, $x\leftarrow 0$) and the negative afterpotential is set into motion ($a$ is set to 1, $a\leftarrow 1$). Presynaptic spikes had the same effect on the postsynaptic neuron potential as in the original publication as shown in @Fig:pot.
+The values for the parameters can be found in @Tbl:param. We chose the exact method for integrating the differential equations (called 'linear' in Brian). @Eq:1 describes the postsynaptic membrane potential, which is influenced by presynaptic excitatory postsynaptic potentials (EPSPs, first term) and a negative afterpotential after a spike (second term). In the event of a presynaptic spike at neuron $i$, $x$ is increased by the respecitve synaptic weight $w_{i}$ ($x\leftarrow x+w_{i}$), which initiates the voltage increase in the postsynaptic neuron. When the postsynaptic voltage reaches the threshold, a spike occurs: the voltage $u$ is set to twice the threshold ($u\leftarrow 2T$), all EPSPs are flushed (all $x$ set to 0, $x\leftarrow 0$) and the negative afterpotential is set into motion ($a$ is set to 1, $a\leftarrow 1$). Presynaptic spikes had the same effect on the postsynaptic neuron potential as in the original publication as shown in @Fig:pot.
 
 | LIF neuron | value | ...............    |   STDP  | value |
 | ---------- | --------: | ----------  | ---- | -----------: |
@@ -129,7 +127,7 @@ In order to assess the time of pattern finding, we used the same spike train (st
 
 At the end of the simulation, the synaptic weights that are maximally potentiated (close to w$_{max}$ = 1) belong exclusively to neurons involved in the pattern, whereas weights from neurons not involved in the pattern are depressed nearly completely (see @Fig:conv). Neurons that spike at the beginning of the pattern are potentiated, causing the postsynaptic neuron to spike at a low latency.
 
-![Weights at converged state. This figure shows a raster plot of the input spikes at the end of the simulation (converged state) with the color of the dots indicating the synaptic weight. The final weights in the converged state look very similar in the the original study (**A)**) and the replication implementation (**B)**). Weights from neurons not involved in the pattern are close to 0 (black, neurons 1000-1999), whereas weights from some neurons involved in the pattern (neurons 0-999) are close to 1 (white, maximum value). The weights of neurons that spike at the beginning of the pattern are nearly all close to 1 and their added postsynaptic potentials cause a spike at the beginning of the pattern (blue rectangle).](figures/fig4_convergence.pdf){#fig:conv}
+![Weights at converged state. This figure shows a raster plot of the input spikes at the end of the simulation (converged state) with the color of the dots indicating the synaptic weight (see colorbar). The final weights in the converged state look very similar in the the original study (**A)**) and the replication implementation (**B)**). Weights from neurons not involved in the pattern are close to 0 (black, neurons 1000-1999), whereas weights from some neurons involved in the pattern (neurons 0-999) are close to 1 (white, maximum value). The weights of neurons that spike at the beginning of the pattern are nearly all close to 1 and their added postsynaptic potentials cause a spike at the beginning of the pattern (blue rectangle).](figures/fig4_convergence.pdf){#fig:conv}
 
 
 
@@ -146,7 +144,6 @@ The replication implementation behaves the same as the original study when subje
 At a high pattern repetition frequency of 0.5 (@Fig:para **A**), when the pattern is presented every 100 ms for 50 ms, the performance of the replication differs from the original: at larger time steps of 10$^{-4}$ s the replication version does not perform as well as the original, but shows good results at smaller time steps (10$^{-6}$ s). 
 
 ![Time until finding pattern. Using larger simulation time steps leads to the pattern to be found later. The horizontal striped green line is the reported time when the pattern is found by @Masq2008. Errorbars represent standard deviation from 100 successful runs.](figures/fig6_findtime.pdf){#fig:find}
-
 
 ## Implementation details
 
@@ -174,33 +171,28 @@ Table: Implementation details {#tbl:impl}
 
 The choice of learning rule is crucial for the pattern finding abilities of the network. The RNN rule results in stable posystnaptic firing and reliable finding of the pattern. The use of other learning rules does not result in stable learning. 
 
-
 The spike trains used here involve neurons with a continuously high firing rate in the input neurons (on average 64 Hz, min 30 Hz, max 90 Hz) and a significantly lower firing rate in the output neuron (63 Hz initially, 5Hz after reaching specificity). This means that input neurons fire often in the time between output neuron spikes. Therefore, with any other than the reduced NN learning rule, the input neurons will experience a decrease in weight a lot more often (every time an input neuron spikes) than an increase in weight (every time the postsynaptic neuron spikes). This leads to a strong overall depression of the synaptic weights in the first few seconds of the simulation. With the parameters specified in @Masq2008 and an ATA or a conventional NN learning rule, the output neuron stops firing after a few seconds because the output neuron voltage does not reach the voltage threshold necessary to evoke an output neuron spike anymore (see @Fig:meanw). In the case of the standard parameters, the output neuron stops firing after less than one second. When no output neuron spikes occur, learning cannot take place and no specificity can emerge.
 
 
 ![Effect of learning rules on synaptic weights. **A)** Both the ATA and the NN rules lead to a very rapid depression of all synapses leading to silence in the output neuron. **B)** In contrast, the average weight of all neurons declines at a much slower rate for the RNN rule. **C)** and **D)** When tweaking the ATA rule (increasing $a_{+}$ substantially) it is possible to achieve a behaviour that resembles pattern finding. For a short amount of time the output neuron becomes specific to the pattern, but loses this ability again and does not regain it.](figures/fig7_ata.pdf){#fig:meanw}
 
-
 In the case of an ATA learning rule, a behaviour resembling pattern finding can be evoked under the right circumstances: reducing the learning rate by a factor of 5 and increasing the value of $a_{+}$ (the maximum weight increase) to double the value of $a_{-}$ (the maximum weight decrease). This setup works because the large amount of depression (on every input spike) is counteracted by large potentiation (due to the increased $a_{+}$). In such runs, the output neuron will correctly reach specificity and trace back through the latency, but then starts firing outside of the pattern again. This system is not stable since the ATA rule leads to "too much learning" as the synaptic weights change after every single spike. A further reduction in the learning rule will not result in pattern specificity at all.
 
 We were unable to find parameters for the standard NN learning rule that allowed for pattern finding, despite this rule exhibiting slower learning when compared to the ATA rule. In the case of both the ATA and NN learning rules, it seems likely that stable pattern finding relies on a precise balance of $a_{+}$ and $a_{-}$, with runaway potentiation or depression likely if the balance is wrong. By contrast, the RNN rule is automatically balanced and is not subject to this issue.
-
 
 ### Effect of learning rule at $\Delta t=0$
 
 The spike times of the output neuron are slightly different in the original study and the replication. In the original study spike times of the input and output neurons are not restricted to fixed multiples of the timestep, so it is extremely unlikely that two neurons will spike at the same time. In Brian, the output neuron spikes at the beginning of a time step and will therefore happen in the same time bin as some input neuron spikes leading to a time difference between the spikes of $\Delta t=0$ where the STDP rule is undefined. Brian treats all of the input neuron spikes in this time bin as if they happened just before the output neuron spike ($\Delta t<0$, due to the scheduling of events in Brian) and will therefore increase all those weights instead of increasing some and decreasing others. This higher number of potentiations makes it more difficult for the system to systematically depress unimportant weights in order to become selective to the pattern.
 
-If the learning rule is modified so that the change in synaptic weight reflects that on average half the input neurons spike before the output neuron and the other half afterwards (by adding the mean of LTP and LTD traces), the pattern is found earlier, at around 17 s or 850 spikes (for a time step of $10^{-4}s$) which is close to the performance for smaller time steps ($10^{-6}s$) and the original paper (both 14 s or 700 spikes). This modified learning rule was only used to determine the time until finding (@Fig:find) because it differs from the implementation used in the majority of modelling papers.
+If the learning rule is modified so that the change in synaptic weight reflects that on average half the input neurons spike before the output neuron and the other half afterwards (by adding the mean of LTP and LTD traces), the pattern is found earlier, at around 17 s or 850 spikes (for a time step of $10^{-4}s$) which is close to the performance for smaller time steps ($10^{-6}s$) and the original paper (both 14 s or 700 spikes). This modified learning rule was only used to determine the time until finding (@Fig:find).
 
 This difficulty to depress non-relevant input neurons is the reason for the lower success rate at a high pattern presentation frequency at large time steps ($10^{-4}$ s) as seen in @Fig:para **A**). The time until the pattern is found during this condition is notably longer (>30 s instead of 20 s) and points towards towards the difficulties of the system to properly depress the synaptic weights of the non-pattern neurons.
-
 
 ### EPSP shape
 
 The kernels used in the original study simulate a gradual increase of the postsynaptic neuron voltage as can be seen in @Fig:pot. Other studies sometimes also model the effect of the presynaptic spike as an immediate jump in postsynaptic voltage instead of that gradual increase. In this system, using an immediate increase in postsynaptic voltage does not lead to stable pattern finding. This might have to to with the fact that the kernel shape and the immediate increase exhibit slightly different spike times as seen in @Fig:epsps.
 
-![Choice of EPSP. For the same presynaptic spikes, the postsynaptic voltage behaves similarly, but the postsynaptic spike time is slightly different (green and black dots).](figures/fig8_kernel_vs_imm.pdf){#fig:epsps}
-
+![Choice of EPSP. For the same presynaptic spikes, the postsynaptic voltage behaves similarly, but the postsynaptic spike time is slightly different (/home/ph416/Documents/ReScience-submission/article/figures/fig8_kernel_vs_imm.pdf).](figures/fig8_kernel_vs_imm.pdf){#fig:epsps}
 
 When modelling the immediate voltage increase, one needs to set the magnitude of the voltage increase (for @Fig:epsps $\Delta u$ was set to 1.2). It is very difficult to find the $\Delta u$ that corresponds to the same amount of voltage increase from the kernel. If the value of $\Delta u$ is too small, then the output neuron stops firing after a short period of time without having gained specificity for the pattern. If the value for $\Delta u$ is too high all input neurons are potentiated and the output firing rate rockets. For the scope of this paper, no value for $\Delta u$ was found to induce a stable pattern finding behaviour.
 
@@ -210,13 +202,11 @@ When modelling the immediate voltage increase, one needs to set the magnitude of
 
 We could successfully replicate the results from @Masq2008 - a neuron with STDP synapses could reliably find a repeating spike pattern and afterwards spike only when the pattern is presented. The time when the pattern is found depends on the time step size chosen for the simulation, whereas the success of reliably finding the pattern requires the precise learning rule and the shape of the EPSPs. Reproducing the paper was made easy by the fact that simulation parameters were stated in the text and the source code was shared by the authors of the paper on request.
 
-
 **Introducing discrete time steps.** To run the simulations in Brian, we introduced discrete time steps. This did not affect pattern finding abilities (as long as the time steps are $10^{-4}$ s or smaller), but it did increase the time until a pattern was found for large time steps ($10^{-4}$ s), but not for small time steps ($10^{-6}$ s).
 
 We verified that the delay in pattern finding did not stem from either the deletion of some input spikes (to avoid input neurons spiking twice in one time step) or the spike timing being at the start of each 0.1 ms time bin. When we fed those modified input spikes to the original implementation, the timing of finding the pattern was not affected. The delay therefore stems from forcing the output neuron to spike at the beginning of a time step and the associated consequences for STDP learning.
 
 Running the simulations using discrete time steps does not negatively impact pattern finding abilities, but delays pattern finding for large time steps due to a larger number of potentiations.
-
 
 **Choice of learning rule.** The learning rule used is one specific version of a NN STDP rule, which was not clearly stated in the original article. The comparison with other learning rules shows that the use of this particular learning rule enables the pattern finding behaviour. 
 

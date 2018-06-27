@@ -49,6 +49,8 @@ The packages required to run this implementation and the versions on which they 
 - numpy=1.13.3
 - python=3.6.5
 
+The environment.yml file tries to load exactly these versions, but later versions will likely also work. 
+
 
 
 #### Installing packages

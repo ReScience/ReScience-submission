@@ -55,8 +55,9 @@ def fig_4(N1spm, syn12, timing_pattern, random_seed):
     ax.set_facecolor("k")
     sc = scatter(N1spm.t[figsta:figsto] / second, N1spm.i[figsta:figsto], c=greyness, s=3, lw=0, cmap='Greys')
     cbar = colorbar(sc)
-    cbar.set_ticks([round(1 - t, 1) for t in cbar.ax.get_yticks()])
-    cbar.set_ticklabels([round(1 - t, 1) for t in cbar.ax.get_yticks()])
+    cbar.ax.invert_yaxis()
+    cbar.set_ticks([0, 0.2, 0.4, 0.6, 0.8, 1])
+    cbar.set_ticklabels([1, 0.8, 0.6, 0.4, 0.2, 0])
     cbar.set_label('synaptic weight')
 
     title('Figure 4')

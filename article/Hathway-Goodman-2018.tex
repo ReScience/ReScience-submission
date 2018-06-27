@@ -28,7 +28,6 @@ in Continuous Spike Trains
 \usepackage{tcolorbox}
 \usepackage{ragged2e}
 \usepackage{fontspec}
-%\defaultfontfeatures{Path = /usr/local/texlive/2018/texmf-dist/fonts/opentype/public/fontawesome/}
 \usepackage{fontawesome}
 \usepackage{caption}
 \usepackage{listings}
@@ -325,9 +324,10 @@ Gerstner's Spike Response model (SRM) \autocite{Gerstner2002}, which
 uses kernels to calculate the effect of incoming spikes on the
 postsynaptic voltage. Brian on the other hand uses differential
 equations to model the system parameters and evaluates those equations
-for each time step. We converted the kernels of the posystnaptic
-potential and the spike afterpotential into the following differential
-equations:
+for each time step. The SRM kernels can be modelled using alpha
+functions \autocite{Brette2007}, so we converted the kernels of the
+postsynaptic potential and the spike afterpotential into the following
+differential equations:
 
 \begin{equation}\frac{du}{dt} = \frac{Xx - u}{\tau_{m}} + \frac{Aa}{\tau_{s}} \label{eq:u} \label{eq:1}\end{equation}
 
@@ -335,19 +335,21 @@ equations:
 
 \begin{equation}\frac{da}{dt} = -\frac{A}{\tau_{s}}\label{eq:3}\end{equation}
 
-The values for the parameters can be found in Tbl.~\ref{tbl:param}.
-Eq.~\ref{eq:1} describes the postsynaptic membrane potential, which is
-influenced by presynaptic excitatory postsynaptic potentials (EPSPs,
-first term) and a negative afterpotential after a spike (second term).
-In the event of a presynaptic spike, \(x\) is increased by 1
-(\(x\leftarrow x+1\)), which initiates the voltage increase in the
-postsynaptic neuron. When the postsynaptic voltage reaches the
-threshold, a spike occurs: the voltage \(u\) is set to twice the
-threshold (\(u\leftarrow 2T\)), all EPSPs are flushed (all \(x\) set to
-0, \(x\leftarrow 0\)) and the negative afterpotential is set into motion
-(\(a\) is set to 1, \(a\leftarrow 1\)). Presynaptic spikes had the same
-effect on the postsynaptic neuron potential as in the original
-publication as shown in Fig.~\ref{fig:pot}.
+The values for the parameters can be found in Tbl.~\ref{tbl:param}. We
+chose the exact method for integrating the differential equations
+(called `linear' in Brian). Eq.~\ref{eq:1} describes the postsynaptic
+membrane potential, which is influenced by presynaptic excitatory
+postsynaptic potentials (EPSPs, first term) and a negative
+afterpotential after a spike (second term). In the event of a
+presynaptic spike at neuron \(i\), \(x\) is increased by the respecitve
+synaptic weight \(w_{i}\) (\(x\leftarrow x+w_{i}\)), which initiates the
+voltage increase in the postsynaptic neuron. When the postsynaptic
+voltage reaches the threshold, a spike occurs: the voltage \(u\) is set
+to twice the threshold (\(u\leftarrow 2T\)), all EPSPs are flushed (all
+\(x\) set to 0, \(x\leftarrow 0\)) and the negative afterpotential is
+set into motion (\(a\) is set to 1, \(a\leftarrow 1\)). Presynaptic
+spikes had the same effect on the postsynaptic neuron potential as in
+the original publication as shown in Fig.~\ref{fig:pot}.
 
 \hypertarget{tbl:simt}{}
 \begin{longtable}[]{@{}lrllr@{}}
@@ -480,15 +482,16 @@ causing the postsynaptic neuron to spike at a low latency.
 \includegraphics{figures/fig4_convergence.pdf}
 \caption{Weights at converged state. This figure shows a raster plot of
 the input spikes at the end of the simulation (converged state) with the
-color of the dots indicating the synaptic weight. The final weights in
-the converged state look very similar in the the original study
-(\textbf{A)}) and the replication implementation (\textbf{B)}). Weights
-from neurons not involved in the pattern are close to 0 (black, neurons
-1000-1999), whereas weights from some neurons involved in the pattern
-(neurons 0-999) are close to 1 (white, maximum value). The weights of
-neurons that spike at the beginning of the pattern are nearly all close
-to 1 and their added postsynaptic potentials cause a spike at the
-beginning of the pattern (blue rectangle).}\label{fig:conv}
+color of the dots indicating the synaptic weight (see colorbar). The
+final weights in the converged state look very similar in the the
+original study (\textbf{A)}) and the replication implementation
+(\textbf{B)}). Weights from neurons not involved in the pattern are
+close to 0 (black, neurons 1000-1999), whereas weights from some neurons
+involved in the pattern (neurons 0-999) are close to 1 (white, maximum
+value). The weights of neurons that spike at the beginning of the
+pattern are nearly all close to 1 and their added postsynaptic
+potentials cause a spike at the beginning of the pattern (blue
+rectangle).}\label{fig:conv}
 \end{figure}
 
 Both latency development and the potentiation of only synaptic weights
@@ -674,8 +677,7 @@ traces), the pattern is found earlier, at around 17 s or 850 spikes (for
 a time step of \(10^{-4}s\)) which is close to the performance for
 smaller time steps (\(10^{-6}s\)) and the original paper (both 14 s or
 700 spikes). This modified learning rule was only used to determine the
-time until finding (Fig.~\ref{fig:find}) because it differs from the
-implementation used in the majority of modelling papers.
+time until finding (Fig.~\ref{fig:find}).
 
 This difficulty to depress non-relevant input neurons is the reason for
 the lower success rate at a high pattern presentation frequency at large
@@ -701,7 +703,8 @@ slightly different spike times as seen in Fig.~\ref{fig:epsps}.
 \includegraphics{figures/fig8_kernel_vs_imm.pdf}
 \caption{Choice of EPSP. For the same presynaptic spikes, the
 postsynaptic voltage behaves similarly, but the postsynaptic spike time
-is slightly different (green and black dots).}\label{fig:epsps}
+is slightly different
+(/home/ph416/Documents/ReScience-submission/article/figures/fig8\_kernel\_vs\_imm.pdf).}\label{fig:epsps}
 \end{figure}
 
 When modelling the immediate voltage increase, one needs to set the

@@ -145,24 +145,23 @@ A table with the different parameters for each task is presented in **Tab.** @tb
 In the original publication, the authors reproduce spike timing triplet experiments in the visual cortex of rats [@Sjoestroem2001].
 Furthermore, they investigate the emerged structure of the connectivity depending on the spiking behavior.
 
-To validate the reimplementation, we reproduce the classical spike timing-dependent
+To validate the reimplementation, we reproduce the voltage clamp experiment (**Fig.** 1h in [@Clopath2010]), the classical spike timing-dependent
 learning window (**Fig.** 2a in [@Clopath2010]), the frequency repetition task
-to reproduce a triplet experiment (**Fig.** 2b in [@Clopath2010]) and the influence of spiking order to connectivity
-(**Fig.** 4a, down and **Fig.** 4b, down in [@Clopath2010]).
+to reproduce a triplet experiment (**Fig.** 2b in [@Clopath2010]), the influence of spiking order to connectivity
+(**Fig.** 4a, down and **Fig.** 4b, down in [@Clopath2010]) and the emergent of receptive fields by presenting natural scenes. (**provide source code and description in the text on the necessary places**)
 In the available matlab source code, they investigate the stable learning of weights
 using 500 input neurons and one postsynaptic neuron.
 The firing rate of these neurons follow
-a Gaussian distribution and the spike timing a Poisson process
-(similar to **Fig.** 5a in [@Clopath2010]). This task is reimplemented as well.
+a Gaussian distribution and the spike timing a Poisson process.
+This task is reimplemented as well.
 With this analysis, the functionality of the reimplementation is shown on the
 main feature of this learning rule.
-We reproduced pair-based and triplet STDP data and analyzed the obtained connection patterns depending on the neuronal spiking behavior.
 
 **TODO: are there experiments you did not reproduce and why? It is important for the partial/full replication**
 
 The experiment protocols are based on the description on the publication of @Clopath2010.
 The implementation of the learning rule was mainly made according to the
-available matlab source code.
+available Matlab source code.
 Despite the effort to be as close as possible to
 the original implementation and description, the internal processing of the equations by ANNarchy
 can lead to a different execution order. Therefore, differing results occurred.
@@ -187,9 +186,9 @@ Every neuron receives input from one additional neuron, with Poisson-distributed
 spike patterns.
 The firing rate of each Poisson neuron is increased from 2Hz to 20Hz, influencing the firing rate of the 10 corresponding neurons in the network.
 
-
-Because the reimplementation of the model is mainly based on the Matlab source code from modelDB,
-the emergence of stable weights was achieved by presenting a Gaussian input over 500 presynaptic neurons and one postsynaptic neuron (**contrary to what in the original paper?**).
+The reimplementation of the model is mainly based on the Matlab source code from modelDB.
+Besides of experiments in the original publication, we reimplemented the experiment for the emergent of stable weights out of the Matlab source code.
+The emergence of stable weights was achieved by presenting a Gaussian input over 500 presynaptic neurons and one postsynaptic neuron.
 For every trial ($125$ms) ten Gaussian patterns are created to determine the activity of the 500 input neurons.
 
 As in the Matlab source code, the learning rates ($A_{LTP}$ and $A_{LTD}$) are
@@ -197,7 +196,6 @@ increased by a factor ten to speed up the learning.
 
 The experiments for stable weight learning, to show a specific connectivity pattern, require the original homeostatic mechanism.
 Changes to the default parameters for this tasks are shown in **Tab.** @tbl:table_VH.
-
 
 Task                            Parameter Value             
 ------------------------------- --------- -------------
@@ -457,7 +455,9 @@ Weak connections ( above $\frac{3}{4}$ of the maximum activity) are blue.
 Yellow represents strongly unidirectional connections while red represents strong bidirectional connections.
 Neurons with similarly high firing rates develop strong bidirectional connections, because they are often active at the same time.
 This suggests that learning is based on the correlation between the neuronal activities in a Hebbian manner.
-This is in line with the connection pattern presented in the original paper. (**be more quantitative there**)
+Weak connections are emerged to neurons with a low firing under $5 Hz$ rate.
+If the postsynaptic neuron firing with a rate above $5 Hz$, strong unidirectional weights emerge.
+This is in line with the connection pattern presented in the original paper (see **Fig. 4** in [@Clopath2010]).
 
 If the neurons fire in a specific temporal order, this sequence is reflected in the connection pattern (see \textbf{Fig. \ref{Fig_con} left}).
 As in the original paper, the connections from neurons which are firing a long time after or before the post-synaptic neuron are weak, while they are strong to neurons which fired a short time after the neurons.
@@ -476,6 +476,11 @@ At every time step, a subset of near to each other lying neurons are active.
 The emergent stable weights are shown in \textbf{Fig. \ref{Fig_stab}}.
 After 500 epochs, a spatial related subset of weights increased to the maximum and the other weight values decrease down to zero.
 This leads to a specific selectivity for the postsynaptic neuron.
+
+
+**Was war für die Implementierung des Modelles in ANNArchy wichtig ? Was für Probleme gab es ?
+Welche Schritte waren notewendig um es zu implementieren? Was für die implementierung relevantes
+stand im Paper und was musste selbst 'entschlüsselt' werden?**
 
 # Conclusion
 

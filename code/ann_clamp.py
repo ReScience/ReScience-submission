@@ -13,6 +13,7 @@ See Figure 1. h in Clopath et al. (2010)
 
 ###global parameter###
 duration = 50*1000 #ms
+initW = 0.0001
 #----------------------defint time points of spikes-----------------------------#
 # create a list of spiking time points. 2 Hz for 50 seconds :
 spike_times1 =np.asarray(range(0,duration,1000/4))
@@ -56,7 +57,7 @@ projC1_C2 = Projection(
     post=popN2,
     target='Exc',
     synapse=Syn_clamp
-).connect_one_to_one(weights = 0.0001)
+).connect_one_to_one(weights = initW)
 
 #---- parameter adjustments ----#
 projC1_C2.transmit = 1.0 # to activate the transmission over the synapse
@@ -82,13 +83,11 @@ def run():
     print('Start voltage clamp experiment.')
     for i in range(len(post_memb)):
         projC1_C2.u_clamp=post_memb[i]
-
         simulate(duration)
         reset()
         delta_w = m_d.get('deltaW')
         rec_dW_norm[i] = np.mean(delta_w)
         rec_W_norm[i] = np.mean(projC1_C2.w)+rec_dW_norm[i]
-
     # set parameters for the hippocampus test
     projC1_C2.thetaLTD = -41.0
     projC1_C2.thetaLTP =-38.0
@@ -99,17 +98,20 @@ def run():
     rec_W_hippo = np.zeros(len(post_memb))
     spike_times1 =np.asarray(range(0,duration,1000/10))
     inpPop1.spike_times = spike_times1.tolist()
-    print(len(spike_times1))
+
     for i in range(len(post_memb)):
         projC1_C2.u_clamp=post_memb[i]
 
         simulate(duration)
         reset()
         delta_w = m_d.get('deltaW')
-        rec_dW_hippo[i] = np.mean(delta_w)
+        rec_dW_hippo[i] = np.mean(delta_w)#
         rec_W_hippo[i] = np.mean(projC1_C2.w)+rec_dW_hippo[i]    
 
     rec_W_norm[rec_W_norm>np.max(rec_W_hippo)] = np.max(rec_W_hippo)
+
+    rec_W_norm = rec_W_norm/initW*100
+    rec_W_hippo = rec_W_hippo/initW*100
 
     fig,ax = plt.subplots()
     ax.spines['right'].set_visible(False)
@@ -120,8 +122,8 @@ def run():
     plt.plot(rec_W_norm,'--',color='steelblue',lw=3.0)
     plt.plot(rec_W_hippo,color='tomato',lw=3.0)
     plt.xlabel('Voltage (mv)')
-    plt.ylim(ymin=0.00005,ymax=0.0003)
-    plt.yticks(np.linspace(0.00005,0.0003,6),np.linspace(50,300,6))
+    #plt.ylim(ymin=0.00005,ymax=0.0003)
+    #plt.yticks(np.linspace(0.00005,0.0003,6),np.linspace(50,300,6))
     #plt.xlim(0,20)
     plt.ylabel('Normalized weight (%)')
     plt.xticks(np.linspace(0,len(post_memb)-1,5),np.linspace(-80,0,5))

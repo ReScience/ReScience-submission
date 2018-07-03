@@ -10,8 +10,8 @@ from matplotlib import cm
 from cmap import myCmap
 """
 Python script for reproduce the rate code task from the Clopath et al. 2010
-publication (Fig. 4 a). Netowrk consists of ten, recurrent connected neurons.
-Every neuron receives input from one neuron with a poisson distributed
+publication (Fig. 4 a). Network consists of ten, recurrent connected neurons.
+Every neuron receives input from one neuron with a Poisson distributed
 activity as stimulating input.
 Poisson neurons firing with different frequencies (2Hz, 4Hz, 6Hz, ..)
 as described in the original publication.
@@ -36,7 +36,7 @@ projTen_Ten = Projection(
     pre= pop_Ten,
     post= pop_Ten,
     target= 'Exc',
-    synapse= ffSyn               
+    synapse= ffSyn
 ).connect_all_to_all(weights = 0.1,allow_self_connections=True)
 # set network parameter
 projTen_Ten.wMax= 0.25

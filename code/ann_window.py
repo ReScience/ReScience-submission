@@ -9,7 +9,7 @@ from net_fix import *
 
 """
 Python script to reproduce the STDP window protocol.
-Record the change in the synaptic weight for different time intervalls
+Record the change in the synaptic weight for different time intervals
 between pre- and postsynaptic spike.
 """
 
@@ -70,7 +70,7 @@ def run():
     dW = np.zeros(n_pairs)
     for i in range(n_pairs):
         reset()
-        projV1_V1.w = initW       
+        projV1_V1.w = initW
         inpPop1.spike_times = [16] # presynaptic neuron always spikes at t=20 ms
         inpPop2.spike_times = [16+dt[i]] # add the time difference to estimate the postsynaptic spike time
         simulate(duration)
@@ -106,7 +106,7 @@ def run():
     plt.xlabel('T (ms)',fontsize=25)
 
     plt.savefig('windW.png',bbox_inches='tight', pad_inches = 0.1)
-   
+
 
 
     print("finish")

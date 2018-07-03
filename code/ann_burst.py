@@ -7,27 +7,43 @@ from ANNarchy import *
 import numpy as np
 from net_fix import *
 
-
-initW1 = 0.007
-initW2 = 0.0055
-initW3 = 0.008
-
 """
-Python script to reproduce the STDP window protocol.
-Record the change in the synaptic weight for different time intervalls
-between pre- and postsynaptic spike.
+Python script to reproduce the burst spiking experiments.
+
+1. Experiment -- Weight change depending on the number of postsynaptic spikes:
+ One presynaptic spike is paired with one,two or three postsynaptic spikes.
+ The first postsynaptic spike arrives +/-10 ms after/befor the presynaptic spike.
+ As mentioned in the original publication, the postsynaptic neuron have a firing rate of 50 Hz
+ (20 ms between every postsynaptic spike ). The time delay refers to the time point of the presynaptic spike
+ and the first postsynaptic spike.
+
+2. Experiment -- Weight change depending on postsynaptic spiking frequency:
+ One presynaptic spikes follows three postsynaptic spikes.
+ The frequency for the postsynaptic spikes changes from 20 to 100 Hz.
+ Between the presynaptic spike and the first postsynaptic spike is a time delay of +/- 10 ms.
+
+3. Experiment -- Weight change depending on time lag between pre- and postsynaptic spike:
+ Three postsynaptic spikes (with a frequency of 50 Hz) are paired with one presynaptic spike.
+ The time lag between the occurrence of the first of the three postsynaptic spike to the occurrence of the one
+ presynaptic spikes varies from -100 to 60 ms.
+ The time between the postsynaptic spikes are 20 ms.
 """
 
 ###global parameter###
 duration = 240 #ms
-d_t = 10
-t_1 = 110
-#----------------------defint time points of spikes-----------------------------#
-# create a list of the different spike times for the pre synaptic neuron
+d_t = 10 # time between pre- and first postsynaptic spike
+t_1 = 110 # time point of the presynaptic spike
+## -- initial weights for the three tasks -- ##
+initW1 = 0.007
+initW2 = 0.0055
+initW3 = 0.008
+#----------------------initialize time points of spikes-----------------------------#
+# create a list of the different spike times for the presynaptic neuron; only for initialization
 spike_times1 = [t_1]
 
-# create the list for the different spike times for the post synaptic neuron
+# create the list for the different spike times for the postsynaptic neuron; only for initialization
 spike_times2 = [t_1]
+
 #-----------------------population defintions-----------------------------------#
 # two SpikeSourceArray populations to determine the spike timings of the
 # pre and post neuron
@@ -69,15 +85,18 @@ def run():
     dendrite = projN1_N2.dendrite(0)
     m_d = Monitor(dendrite, ['w','deltaW'])
 
+################################################################
+####-- increase number of postsynaptic spikes from 1 to 3 --####
     dWSpk_pos = np.zeros(3)
     deltaWSpk_pos = np.zeros(3)
+
     for i in range(3):
         projN1_N2.w = initW1
         inpPop2.spike_times = np.linspace(t_1+d_t,t_1+d_t+20*(i),i+1).tolist()
         simulate(duration)
         d_w = m_d.get('w')
         dWSpk_pos[i] = d_w[-1]#np.mean(d_w)
-        delta_w = m_d.get('deltaW')        
+        delta_w = m_d.get('deltaW')
         deltaWSpk_pos[i] = delta_w[-1]#np.mean(delta_w)
         reset(populations=True,projections=True,synapses=True)
     print(dWSpk_pos/initW1*100)
@@ -92,9 +111,9 @@ def run():
         delta_w = m_d.get('deltaW')
         deltaWSpk_neg[i] = np.mean(delta_w)
         reset(populations=True,projections=True,synapses=True)
-  
 
-    ####################################################
+############################################################
+####-- increase the postsynaptic firing from 20 to 100--####
     n_freq = 10
     rates = np.linspace(20,100,n_freq)
     dWBurst_pos = np.zeros(len(rates))
@@ -106,7 +125,7 @@ def run():
         simulate(duration)
         d_w = m_d.get('w')
         dWBurst_pos[i] = d_w[-1] #np.mean(d_w)
-        delta_w = m_d.get('deltaW')        
+        delta_w = m_d.get('deltaW')
         deltaWBurst_pos[i] = delta_w[-1]#np.mean(delta_w)
         reset(populations=True,projections=True,synapses=True)
 
@@ -123,8 +142,9 @@ def run():
         delta_w = m_d.get('deltaW')
         deltaWBurst_neg[i] = np.mean(delta_w)
         reset(populations=True,projections=True,synapses=True)
-    
-    #########################################################
+
+#####################################################################################
+####-- change the delay between pre- and postsynaptic spikes from -100 to 60 ms--####
     lags = np.linspace(-100,60,33)
     print(lags)
     dWLag_pos = np.zeros(len(lags))
@@ -136,21 +156,26 @@ def run():
         simulate(duration)
         d_w = m_d.get('w')
         dWLag_pos[i] = d_w[-1]#np.mean(d_w)
-        delta_w = m_d.get('deltaW')        
+        delta_w = m_d.get('deltaW')
         deltaWLag_pos[i] = delta_w[-1] #np.mean(delta_w)
         reset(populations=True,projections=True,synapses=True)
 
+    #--# set the recorded weight values relative to the initial weight value --##
     dWSpk_pos = dWSpk_pos/initW1 * 100
+
     dWSpk_pos[dWSpk_pos>250] = 250
     dWSpk_neg = dWSpk_neg/initW1 * 100
 
     dWBurst_pos = dWBurst_pos/initW2 *100
+    # weight above 250% of the initial weight are clipped to 250% as mentioned in the original publication
     dWBurst_pos[dWBurst_pos>250] = 250
     dWBurst_neg = dWBurst_neg/initW2 *100
 
     dWLag_pos = dWLag_pos/initW3 *100
+    # weight above 250% of the initial weight are clipped to 250% as mentioned in the original publication
+    dWLag_pos[dWLag_pos>250] = 250
 
-    #---plot data-----#
+    #---plot data as in Fig.3 in Clopath et al. (2010)-----#
     fig = plt.figure(figsize=(12,10))
     gs=GridSpec(6,4)
     ax0= plt.subplot(gs[0:4,0:2])

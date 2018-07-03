@@ -8,7 +8,7 @@ from net_homeostatic import *
 from cmap import myCmap
 """
 Python script for reproduce the rate code task from the Clopath et al. 2010
-publication (Fig. 4 b). Netowrk consists of ten, recurrent connected neurons.
+publication (Fig. 4 b). Network consists of ten, recurrent connected neurons.
 Every neuron receives input from one extra neuron as input to force to spike.
 Use the SpikeSourceArray of ANNarchy to determine the spiking time points.
 Every extern neuron spikes at a other time point.

@@ -1,10 +1,10 @@
 """
 Definition of the model with the neuronal simulator ANNarchy.
-Original model by Clopath et al. 2010.
+Original model by Clopath et al. (2010).
 The implementation based on the matlab code, available on modeldb
 (https://senselab.med.yale.edu/modeldb/showModel.cshtml?model=144566).
 Note: The homeostatic mechanism are fixed, as it is needed for the
-plasticity experiments
+plasticity experiments.
 """
 
 from ANNarchy import *
@@ -24,7 +24,7 @@ Isp = 400.0     :population
 VTMax = -30.4   :population
 VTrest = -50.4  :population
 taux = 15.0     :population
-tauLTD = 10.0   :population    
+tauLTD = 10.0   :population
 tauLTP= 7.0     :population
 taumean = 1200.0:population
 tau_gExc = 1.0  :population
@@ -32,11 +32,11 @@ tau_gExc = 1.0  :population
 
 # equations for the adaptive exponential integrate-and-fire neuron
 # note: the changes in the membrane potential (vm) are based on the
-# modeldb sourcecode:
+# modeldb source code:
 # first step after a spike: vm is set 29.0+3.462 = 32.463 mV
 # second step after spike: vm is set to EL (vm - (32.463+70.6)) and then increased
 # with an value of [] (see matlab code for more information) + hyperpolarisation depending variables and inputs
-# after second step: normal behaviour
+# after second step: normal behavior
 neuron_eqs = """
 dvm/dt = if state>=2:+3.462 else: if state==1:-(vm+51.75)+1/C*(Isp - (wad+b))+g_Exc-g_Inh else:1/C * ( -gL * (vm - EL) + gL * DeltaT * exp((vm - VT) / DeltaT) - wad + z ) + g_Exc: init = -70.6
 dvmean/dt = (pos(vm - EL)**2 - vmean)/taumean    :init = 0.0
@@ -86,7 +86,7 @@ wMin = 0.0
 wMax =3.0
 transmit = 0.0
 """
-# notice the additional transmit variable (wich shoudl be 1 or 0)
+# notice the additional transmit variable (which should be 1 or 0)
 # to transmit or not an EPSP to the postsynaptic neuron
 
 #post.vmean

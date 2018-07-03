@@ -6,11 +6,11 @@ from ANNarchy import *
 import numpy as np
 from net_fix import *
 """
-Python code to reproduce the pairing repition task in Clopath et al. 2010.
-Pairs of pre-post and post-pre spikes for different pairing repition frequencies.
+Python code to reproduce the pairing repetition task in Clopath et al. 2010.
+Pairs of pre-post and post-pre spikes for different pairing repetition frequencies.
 The original experiment is from Sjoestroem et al. 2001.
 Between the spikes of each pair elapse 10 ms.
-For the correct timing, every neuron recive input from a extra neuron,
+For the correct timing, every neuron receive input from a extra neuron,
 which spikes to a certain time point.
 """
 
@@ -92,7 +92,7 @@ def run():
         #save records#
         dW_postPre.append(m_d.get('w'))
 
-    # estimate the total change per repition frequency
+    # estimate the total change per repetition frequency
     sumdW_prePost = np.zeros(max_freq)
     sumdW_postPre = np.zeros(max_freq)
     for f in range(len(dW_postPre)):

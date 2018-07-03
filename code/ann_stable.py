@@ -8,7 +8,7 @@ setup(dt=1.0)
 from net_homeostatic import *
 
 """
-Python script to reproduce the stable learning taks
+Python script to reproduce the stable learning task
 of the Clopath et al. 2010 publication.
 See Fig.5 a in original publication.
 Algorithm based on Matlab code of the Clopath et al. 2010 model.
@@ -18,7 +18,7 @@ https://senselab.med.yale.edu/modeldb/showModel.cshtml?model=144566
 #--------------- define the presynaptic neuron model --------------------------#
 """
 Because of the learning rule, we need a additional layer, that contains the
-neccessary variables for the learning. This population is one to one connected
+necessary variables for the learning. This population is one to one connected
 with the Poisson input layer and spiked for ever corresponding neuron in the
 Poisson layer.
 """

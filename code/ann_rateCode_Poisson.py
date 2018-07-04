@@ -22,16 +22,28 @@ In the original publication, the resulting weights are averaged over 100s.
 # duration of one presentation time
 duration = 1000 #ms
 
-#-----------------------population defintions----------------------------------#
+#-----------------------population definitions----------------------------------#
+"""
+The 'PoissonPopulation' object is used to create a population with a Poisson distributed
+activity with 10 neurons and a initial firing rate of 100 Hz.
+The population of the ten AdEx neurons with the neuron model is created with the
+'Population' object.
+"""
 poisPop = PoissonPopulation(geometry=10,rates=100.0)
-pop_Ten = Population(geometry=10,neuron=spkNeurV1, name="pop_Ten")
+pop_Ten = Population(geometry=10,neuron=AdExNeuron, name="pop_Ten")
 #-----------------------projection definitions---------------------------------#
+"""
+Every neuron in the 'PoissonPopulation' is with one neuron in the neuron
+population connected. Every spike of a Poisson neuron leads to a spike
+of the corresponding AdEx neuron.
+"""
 projInp_Ten = Projection(
     pre = poisPop,
     post= pop_Ten,
     target='Exc'
 ).connect_one_to_one(weights = 30.0)
 
+# create a Projection for the recurrent connections
 projTen_Ten = Projection(
     pre= pop_Ten,
     post= pop_Ten,
@@ -59,7 +71,7 @@ def run():
             # save the changes in the weights
             w[r,:,:] += projTen_Ten.w
             # reset the network for the next 1000 ms
-            reset(populations=True, projections=True, synapses=True)
+            reset()
         w[r,:,:] = w[r,:,:]/100
 
 
@@ -98,7 +110,7 @@ def run():
         w[i,i] = np.nan
         img[i,i] = np.nan
 
-    # plot the image like in Clopath 2010
+    ##--- start plotting ---##
     plt.figure()
     plt.imshow(img.T,interpolation='none',cmap= myCmap(),vmin=0,vmax=2)
     plt.xticks(fontsize=15)

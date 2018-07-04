@@ -11,7 +11,7 @@ Python script for reproduce the rate code task from the Clopath et al. 2010
 publication (Fig. 4 b). Network consists of ten, recurrent connected neurons.
 Every neuron receives input from one extra neuron as input to force to spike.
 Use the SpikeSourceArray of ANNarchy to determine the spiking time points.
-Every extern neuron spikes at a other time point.
+Every extern neuron spikes at an other time point.
 In the original publication, the resulting weights are averaged over 100s.
 """
 
@@ -20,15 +20,23 @@ duration = 200 #ms
 #----------------------defint time points of spikes----------------------------#
 spike_times =[[1],[2],[3],[4],[5],[6],[7],[8],[9],[10]]
 #-----------------------population defintions----------------------------------#
+"""
+Use the SpikeSourceArray of ANNarchy to control the spiking time points of
+the AdEx neurons."""
 inpPop = SpikeSourceArray(spike_times=spike_times)
-pop_Ten = Population(geometry=10,neuron=spkNeurV1, name="pop_Ten")
+pop_Ten = Population(geometry=10,neuron=AdExNeuron, name="pop_Ten")
 #-----------------------projection definitions---------------------------------#
+"""
+Create the one-to-one projections from the SpikeSourceArray population
+to the AdEx population. If one neuron in the SpikeSourceArray population spikes,
+1 ms later the corresponding AdEx neuron spikes.
+"""
 projInp_Ten = Projection(
     pre = inpPop,
     post=pop_Ten,
     target='Exc'
 ).connect_one_to_one(weights = 30.0)
-
+# create the projection for the recurrent connections
 projTen_Ten = Projection(
     pre=pop_Ten,
     post=pop_Ten,
@@ -91,6 +99,7 @@ def run():
         w[i][i] = np.nan
         img[i,i]= np.nan
 
+    ##--- start plotting ---##
     plt.figure()
     plt.imshow(img.T,interpolation='none',cmap=myCmap(),vmin=0,vmax=2)
     plt.xlabel('Neuron Post',fontsize=20)

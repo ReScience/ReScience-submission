@@ -6,7 +6,7 @@ from ANNarchy import *
 import numpy as np
 from net_fix import *
 """
-Python code to reproduce the pairing repetition task in Clopath et al. 2010.
+Python code to reproduce the pairing repetition task in Clopath et al. 2010 (Fig. 2 b).
 Pairs of pre-post and post-pre spikes for different pairing repetition frequencies.
 The original experiment is from Sjoestroem et al. 2001.
 Between the spikes of each pair elapse 10 ms.
@@ -20,11 +20,22 @@ duration = 1000 #ms == 1 s
 spike_times1 =[[0]]
 spike_times2 =[[10]]
 #-----------------------population defintions-----------------------------------#
+"""
+To control the spike timings of the AdEx neurons, two additional input populations
+are used. The spike timing of the SpikeSourceArray can be determined with a
+list of time points. """
 inpPop1 = SpikeSourceArray(spike_times=spike_times1)
 inpPop2 = SpikeSourceArray(spike_times=spike_times2)#PoissonPopulation(geometry=1,rates=20)
-popN1 = Population(geometry=1,neuron=spkNeurV1, name="N1")
-popN2 = Population(geometry=1,neuron=spkNeurV1, name="N2")
-#-----------------------projection definitions----------------------------------
+popN1 = Population(geometry=1,neuron=AdExNeuron, name="N1")
+popN2 = Population(geometry=1,neuron=AdExNeuron, name="N2")
+#-----------------------projection definitions----------------------------------#
+"""
+Define simple projection from the input SpikeSourceArray populations
+to the neuron populations.
+If the neuron in the input population spikes,
+1 ms later a spike in the connected AdEx neuron population is triggered.
+"""
+
 projST1_V1 = Projection(
     pre=inpPop1,
     post=popN1,
@@ -36,7 +47,7 @@ projST2_V1 = Projection(
     post=popN2,
     target='Exc'
 ).connect_one_to_one(weights = 30.0)
-
+# create the projection between the two AdEx neurons
 projV1_V1 = Projection(
     pre=popN1,
     post=popN2,
@@ -45,7 +56,7 @@ projV1_V1 = Projection(
 ).connect_one_to_one(weights = 0.1)
 projV1_V1.vmean = 120.0
 
-#------------------------------main function------------------------------------
+#------------------------------main function------------------------------------#
 def run():
 
     compile()
@@ -59,15 +70,15 @@ def run():
     max_freq = 50
     # time between a pre and a post spike (or post and pre spike)
     td = 10#ms
-
-    defW = 0.125
+    #inital weight value
+    initW = 0.125
 
     # save the weight change (dw) for pre post spike pairs
     dW_prePost =[]
     for f in np.arange(0.1,max_freq):
         #reset the network#
         reset()
-        projV1_V1.w = defW
+        projV1_V1.w = initW
         spike_times1 = np.linspace(0,duration,f+1)
         spike_times2 = np.linspace(0+td,duration+td,f+1)
         # set the spike times with the actual repetition frequency f
@@ -82,7 +93,7 @@ def run():
     for f in np.arange(0.1,max_freq):
         #reset the network#
         reset()
-        projV1_V1.w = defW
+        projV1_V1.w = initW
         spike_times1 = np.linspace(20,duration-30,f+1)
         spike_times2 = np.linspace(20-td,duration-td-30,f+1)
         # set the spike times with the actual repetition frequency f
@@ -99,7 +110,7 @@ def run():
         sumdW_prePost[f] = np.mean(dW_prePost[f])
         sumdW_postPre[f] = np.mean(dW_postPre[f])
 
-    # plot the figure 2b in Clopath et al. 2010
+    ##--- start plotting ---##
     fig,ax = plt.subplots()
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
@@ -109,8 +120,8 @@ def run():
     plt.plot(sumdW_prePost,color='steelblue',lw=6)
     plt.plot(sumdW_postPre,color='tomato',lw=6)
 
-    upB = defW/100.* 150.
-    loB = defW/100. * 50.0
+    upB = initW/100.* 150.
+    loB = initW/100. * 50.0
 
 
     plt.xlabel(r'$\rho$ [Hz]',fontsize=25)

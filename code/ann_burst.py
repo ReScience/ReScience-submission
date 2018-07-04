@@ -8,7 +8,7 @@ import numpy as np
 from net_fix import *
 
 """
-Python script to reproduce the burst spiking experiments.
+Python script to reproduce the burst spiking experiments (Fig.3 in Clopath et al. (2010)).
 
 1. Experiment -- Weight change depending on the number of postsynaptic spikes:
  One presynaptic spike is paired with one,two or three postsynaptic spikes.
@@ -45,25 +45,43 @@ spike_times1 = [t_1]
 spike_times2 = [t_1]
 
 #-----------------------population defintions-----------------------------------#
+"""
+To control the spike timings of the AdEx neurons, two additional input populations
+are used. The spike timing of the SpikeSourceArray can be determined with a
+list of time points. """
 # two SpikeSourceArray populations to determine the spike timings of the
 # pre and post neuron
 inpPop1 = SpikeSourceArray(spike_times=spike_times1)
 inpPop2 = SpikeSourceArray(spike_times=spike_times2)
-popN1 = Population(geometry=1,neuron=spkNeurV1, name="N1")
-popN2 = Population(geometry=1,neuron=spkNeurV1, name="N2")
-#-----------------------projection definitions----------------------------------
+# the populations for the neurons
+popN1 = Population(geometry=1,neuron=AdExNeuron, name="N1")
+popN2 = Population(geometry=1,neuron=AdExNeuron, name="N2")
+#-----------------------projection definitions----------------------------------#
+"""
+Define simple projection from the input SpikeSourceArray populations
+to the neuron populations.
+If the neuron in the input population spikes,
+1 ms later a spike in the connected AdEx neuron population is triggered.
+"""
+
+# simple projection to propagate the spike of the input to the
+# presynaptic neuron
 projST1_V1 = Projection(
     pre=inpPop1,
     post=popN1,
     target='Exc'
 ).connect_one_to_one(weights = 30.0)
 
+# simple projection to propagate the spike of the input to the
+# postsynaptic neuron
 projST2_V1 = Projection(
     pre=inpPop2,
     post=popN2,
     target='Exc'
 ).connect_one_to_one(weights = 30.0)
 
+# connection between the two neuron population to observe the
+# weight changes
 projN1_N2 = Projection(
     pre=popN1,
     post=popN2,
@@ -90,18 +108,24 @@ def run():
     dWSpk_pos = np.zeros(3)
     deltaWSpk_pos = np.zeros(3)
 
+    # loop to record weight change for one to three postsynaptic spikes after the presynaptic one
     for i in range(3):
-        projN1_N2.w = initW1
+        projN1_N2.w = initW1 # set the initial weight
+        # set the spike times for the second input neuron to
+        # determine the spike times of the postsynaptic neuron
         inpPop2.spike_times = np.linspace(t_1+d_t,t_1+d_t+20*(i),i+1).tolist()
         simulate(duration)
         d_w = m_d.get('w')
-        dWSpk_pos[i] = d_w[-1]#np.mean(d_w)
+        dWSpk_pos[i] = d_w[-1]
         delta_w = m_d.get('deltaW')
-        deltaWSpk_pos[i] = delta_w[-1]#np.mean(delta_w)
-        reset(populations=True,projections=True,synapses=True)
-    print(dWSpk_pos/initW1*100)
+        deltaWSpk_pos[i] = delta_w[-1]
+        # reset all variables
+        reset()
+
     dWSpk_neg = np.zeros(3)
     deltaWSpk_neg = np.zeros(3)
+
+    # loop to record weight change for one to three postsynaptic spikes before the presynaptic one
     for i in range(3):
         projN1_N2.w = initW1
         inpPop2.spike_times = np.linspace(t_1-d_t,t_1-(d_t+20*(i)),i+1).tolist()
@@ -110,7 +134,7 @@ def run():
         dWSpk_neg[i] = np.mean(d_w)
         delta_w = m_d.get('deltaW')
         deltaWSpk_neg[i] = np.mean(delta_w)
-        reset(populations=True,projections=True,synapses=True)
+        reset()
 
 ############################################################
 ####-- increase the postsynaptic firing from 20 to 100--####
@@ -118,6 +142,9 @@ def run():
     rates = np.linspace(20,100,n_freq)
     dWBurst_pos = np.zeros(len(rates))
     deltaWBurst_pos = np.zeros(len(rates))
+
+    # loop to record weight change by changing the postsynaptic firing rate and
+    # the first postsynaptic spike 10 ms after the presynaptic spike
     for i in range(n_freq):
         d_t2 = (1000./rates[i])
         projN1_N2.w = initW2
@@ -127,11 +154,13 @@ def run():
         dWBurst_pos[i] = d_w[-1] #np.mean(d_w)
         delta_w = m_d.get('deltaW')
         deltaWBurst_pos[i] = delta_w[-1]#np.mean(delta_w)
-        reset(populations=True,projections=True,synapses=True)
+        reset()
 
 
     dWBurst_neg = np.zeros(len(rates))
     deltaWBurst_neg = np.zeros(len(rates))
+    # loop to record weight change by changing the postsynaptic firing rate and
+    # the first postsynaptic spike 10 ms before the presynaptic spike
     for i in range(n_freq):
         d_t2 = (1000./rates[i])
         projN1_N2.w = initW2
@@ -141,7 +170,7 @@ def run():
         dWBurst_neg[i] = np.mean(d_w)
         delta_w = m_d.get('deltaW')
         deltaWBurst_neg[i] = np.mean(delta_w)
-        reset(populations=True,projections=True,synapses=True)
+        reset()
 
 #####################################################################################
 ####-- change the delay between pre- and postsynaptic spikes from -100 to 60 ms--####
@@ -149,6 +178,7 @@ def run():
     print(lags)
     dWLag_pos = np.zeros(len(lags))
     deltaWLag_pos = np.zeros(len(lags))
+    # loop over different delays between the presynaptic and the first postsynaptic spike
     for i in range(len(lags)):
         d_t2 = 20
         projN1_N2.w = initW3
@@ -158,11 +188,11 @@ def run():
         dWLag_pos[i] = d_w[-1]#np.mean(d_w)
         delta_w = m_d.get('deltaW')
         deltaWLag_pos[i] = delta_w[-1] #np.mean(delta_w)
-        reset(populations=True,projections=True,synapses=True)
+        reset()
 
     #--# set the recorded weight values relative to the initial weight value --##
     dWSpk_pos = dWSpk_pos/initW1 * 100
-
+    # weight above 250% of the initial weight are clipped to 250% as mentioned in the original publication
     dWSpk_pos[dWSpk_pos>250] = 250
     dWSpk_neg = dWSpk_neg/initW1 * 100
 

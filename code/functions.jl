@@ -22,7 +22,7 @@ end
 - `th`: Handling time (as a proportion of the total time)
 - `m`: Extent of clumping of the parasitoid attacks
 
-Return : `dynamics`: Matrix containing the host and parasite density for the initial populations and for every generation simulated
+Return : `dynamics`: Matrix containing the host and parasite density for the initial populations and for every generation simulated. Time is rows.
 """
 function simulation(N::Float64, P::Float64; t::Int64=50, f=specialist_dyn, F=4.0, D=0.5, c=1.0, a=0.5, h=10.0, b=25.0, th=0.0, m=0.2, D_sd=0.0, a_sd=0.0, h_sd=0.0, c_sd=0.0)
     # Matrix to store the output

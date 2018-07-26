@@ -2,7 +2,7 @@ include("seed.jl")
 
 sim1, params1 = simulation(50.0, 25.0; m=0.2)
 # Fig 3a)
-fig3a = plot(sim1[:,1],sim1[:,2], label="Hosts", frame=:origin, lw=3)
+fig3a = plot(sim1[:,1], sim1[:,2], label="Hosts", frame=:origin, lw=3)
 plot!(fig3a, sim1[:,1],sim1[:,3], label="Parasites", lw=3)
 xlabel!(fig3a, "Generation")
 ylabel!(fig3a, "Population size")

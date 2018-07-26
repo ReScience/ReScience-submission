@@ -1,9 +1,9 @@
 include("seed.jl")
 
 # Simulation with specialist natural enemies with stochasticity on D
-sim1, params1 = simulation(50.0, 25.0, m=0.5, F=4.0, D=0.5, h=10.0, b=25.0, a=0.5, th= 0.0, m=0.5, f=generalist_dyn, D_std=0.5)
+sim1, params1 = simulation(25.0, 8.0, m=0.5, F=4.0, D=0.5, h=10.0, b=25.0, a=0.5, th= 0.0, m=0.5, f=generalist_dyn, D_std=0.5)
 # Fig 5a)
-fig6a = plot(sim1[:,1],sim1[:,2], label="Hosts", frame=:origin, lw=3, leg=false, ylims=(0, 90))
+fig6a = plot(sim1[:,1], sim1[:,2], label="Hosts", frame=:origin, lw=3, leg=false, ylims=(0, 90))
 plot!(fig6a, sim1[:,1],sim1[:,3], label="Parasites", lw=3)
 ylabel!(fig6a, "Population size")
 annotate!(fig6a, 5, 85, text("(a)"))
@@ -15,7 +15,7 @@ fig6d = plot(log10.(sim1[:,2]), kval1,
    lc=:grey, lw=2,
    leg=false, frame=:origin,
    xlims=(-0.5, 2.0),
-   ylims=(0, 1.5))
+   ylims=(0, 0.6))
 ylabel!(fig6d, "k-value")
 annotate!(fig6d, -0.25, 1.35, text("(d)"))
 
@@ -23,7 +23,7 @@ sim1_R2 = cor(vec(log10.(sim1[:,2])), vec(kval1))^2
 sim1_a, sim1_b = linreg(vec(log10.(sim1[:,2])), vec(kval1))
 
 # Simulation with specialist natural enemies with stochasticity on c
-sim2, params2 = simulation(50.0, 25.0, m=0.5, F=4.0, D=0.5, h=10.0, b=25.0, a=0.5, th= 0.0, m=0.5, f=generalist_dyn, h_sd=5)
+sim2, params2 = simulation(25.0, 8.0, m=0.5, F=4.0, D=0.5, h=10.0, b=25.0, a=0.5, th= 0.0, m=0.5, f=generalist_dyn, h_sd=5)
 # Fig 5b)
 fig6b = plot(sim2[:,1], sim2[:,2], label="Hosts", frame=:origin, lw=3, leg=false, ylims=(0, 90))
 plot!(fig6b, sim2[:,1],sim2[:,3], label="Parasites", lw=3)
@@ -37,7 +37,7 @@ fig6e = plot(log10.(sim2[:,2]), kval2,
    lc=:grey, lw=2,
    leg=false, frame=:origin,
    xlims=(-0.5, 2.0),
-   ylims=(0, 1.5))
+   ylims=(0, 0.6))
 xlabel!(fig6e, "Host density (log 10)")
 annotate!(fig6e, -0.25, 1.35, text("(e)"))
 
@@ -45,7 +45,7 @@ sim2_R2 = cor(vec(log10.(sim2[:,2])), vec(kval2))^2
 sim2_a, sim2_b = linreg(vec(log10.(sim2[:,2])), vec(kval2))
 
 # Simulation with specialist natural enemies with stochasticity on a
-sim3, params3 = simulation(50.0, 25.0, m=0.5, F=4.0, D=0.5, h=10.0, b=25.0, a=0.5, th= 0.0, m=0.5, f=generalist_dyn, a_sd=0.5)
+sim3, params3 = simulation(25.0, 8.0, m=0.5, F=4.0, D=0.5, h=10.0, b=25.0, a=0.5, th= 0.0, m=0.5, f=generalist_dyn, a_sd=0.5)
 # Fig 5c)
 fig6c = plot(sim3[:,1],sim3[:,2], label="Hosts", frame=:origin, lw=3, ylims=(0, 90))
 plot!(fig6c, sim3[:,1],sim3[:,3], label="Parasites", lw=3)
@@ -58,7 +58,7 @@ fig6f = plot(log10.(sim3[:,2]), kval3,
    lc=:grey, lw=2,
    leg=false, frame=:origin,
    xlims=(-0.5, 2.0),
-   ylims=(0, 1.5))
+   ylims=(0, 0.6))
 annotate!(fig6f, -0.25, 1.35, text("(f)"))
 
 sim3_R2 = cor(vec(log10.(sim3[:,2])), vec(kval3))^2

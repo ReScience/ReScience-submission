@@ -1,7 +1,7 @@
 include("seed.jl")
 
 # Simulation with specialist natural enemies with m=0.2
-sim1, params1 = simulation(50.0, 25.0, m=0.2, F=4.0, D=0.5, c=1.0, a=0.5, th = 0.0)
+sim1, params1 = simulation(50.0, 25.0; m=0.2)
 # Fig 3a)
 fig3a = plot(sim1[:,1],sim1[:,2], label="Hosts", frame=:origin, lw=3)
 plot!(fig3a, sim1[:,1],sim1[:,3], label="Parasites", lw=3)
@@ -21,7 +21,7 @@ ylabel!(fig3c, "k-value")
 annotate!(fig3c, -0.25, 1.35, text("(c)"))
 
 # Simulation with specialist natural enemies with m=0.8
-sim2, params2 = simulation(50.0, 25.0, m=0.8, F=4.0, D=0.5, c=1.0, a=0.5, th = 0.0)
+sim2, params2 = simulation(50.0, 25.0; m=0.8)
 # Fig 3b)
 fig3b = plot(sim2[:,1],sim2[:,2], label="Hosts", frame=:origin, lw=3, leg=false)
 plot!(fig3b, sim2[:,1],sim2[:,3], label="Parasites", lw=3)

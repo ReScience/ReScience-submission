@@ -83,7 +83,7 @@ are given as
 
 $$N_{t+1} = F \times N_t \times f(N_t,P_t) \times D$$ {#eq:1}
 
-where $N(*t*)$ and $N(*t+1*)$ represent the host population at generation $t$
+where $N_t$ and $N_{t+1}$ represent the host population at generation $t$
 and at the next generation, $F$ is the rate of increase of the population and
 $D$ is the density independent probability of survival of the hosts (mortality).
 The specialist parasitoids population dynamics are represented by

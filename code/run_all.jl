@@ -6,6 +6,11 @@ using Distributions
 
 include("functions.jl")
 
+#= NOTE
+Figures are named as in the original manuscript -- figures 1 and 2 are not
+reproduced.
+=#
+
 include("figure3.jl")
 include("figure4.jl")
 include("figure5.jl")

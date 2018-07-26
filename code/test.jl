@@ -18,7 +18,7 @@ end
 
 for i in eachindex(cor_D)
     sd = i == 1 ? 0.0 : 0.5
-    sim, params = simulation(50.0, 25.0, m=0.2, F=4.0, D=0.5, c=1.0, a=0.5, th= 0.0, m=0.5, f=specialist_dyn, D_sd=sd)
+    sim, params = simulation(50.0, 25.0; m=0.5, f=specialist_dyn, D_sd=sd)
     kval = mapslices((r) -> kvalue_by_generation(r, params), sim, 2)
     cor_D[i] = first(\(vec(log10.(sim[:,2])), vec(kval))
 end

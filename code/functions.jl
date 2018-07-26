@@ -70,7 +70,7 @@ end
 - `b`: Rate of appoaching h
 - `N`: Initial host population size
 
-Return : `P`: Generalist parasitoids population size
+Return : `Pt`: Generalist parasitoids population size
 """
 function generalist_dyn(N::Float64, P::Float64, p)
     Pt = p.h*(1-exp(-N/p.b))

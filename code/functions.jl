@@ -3,7 +3,7 @@ TODO
 """
 function generate(x, σ)
     @assert σ >= 0.0
-    return σ > 0.0 ? rand(TruncatedNormal(x,σ, 0.0, 100.0)) : x
+    return σ > 0.0 ? rand(TruncatedNormal(x, σ, 0.0, 100.0)) : x
 end
 
 """
@@ -24,7 +24,7 @@ end
 
 Return : `dynamics`: Matrix containing the host and parasite density for the initial populations and for every generation simulated. Time is rows.
 """
-function simulation(N::Float64, P::Float64; t::Int64=50, f=specialist_dyn, F=4.0, D=0.5, c=1.0, a=0.5, h=10.0, b=25.0, th=0.0, m=0.2, D_sd=0.0, a_sd=0.0, h_sd=0.0, c_sd=0.0)
+function simulation(N::Float64, P::Float64; t::Int64=50, f=specialist_dyn, F=4.0, D=0.5, c=1.0, a=0.5, h=10.0, b=25.0, th=0.0, m=0.2, D_std=0.0, a_sd=0.0, h_sd=0.0, c_sd=0.0)
     # Matrix to store the output
     dynamics = zeros(Float64, (t+2,7))
     dynamics[1,2] = N
@@ -32,7 +32,7 @@ function simulation(N::Float64, P::Float64; t::Int64=50, f=specialist_dyn, F=4.0
     dynamics[1,4:7] = [D, a, h, c]
     # Iterations
     for current_time in 1:(t+1)
-        current_D=generate(D, D_sd)
+        current_D=generate(D, D_std)
         current_a=generate(a, a_sd)
         current_h=generate(h, h_sd)
         current_c=generate(c, c_sd)

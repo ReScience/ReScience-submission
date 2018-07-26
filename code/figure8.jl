@@ -8,7 +8,7 @@ cor_a = zeros(Float64, N)
 
 for i in eachindex(cor_D)
     sd = i == 1 ? 0.0 : 0.5
-    sim, params = simulation(50.0, 25.0, m=0.5, F=4.0, D=0.5, h=10.0, b=25.0, a=0.5, th= 0.0, m=0.5, f=generalist_dyn, D_sd=sd)
+    sim, params = simulation(50.0, 25.0, m=0.5, F=4.0, D=0.5, h=10.0, b=25.0, a=0.5, th= 0.0, m=0.5, f=generalist_dyn, D_std=sd)
     kval = mapslices((r) -> kvalue_by_generation(r, params), sim, 2)
     correlation = cor(vec(log10.(sim[:,2])), vec(kval))
     cor_D[i] = correlation

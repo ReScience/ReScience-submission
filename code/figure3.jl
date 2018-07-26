@@ -21,7 +21,7 @@ annotate!(fig3c, -0.25, 1.35, text("(c)"))
 
 sim2, params2 = simulation(50.0, 25.0; m=0.8)
 # Fig 3b)
-fig3b = plot(sim2[:,1],sim2[:,2], label="Hosts", frame=:origin, lw=3, leg=false)
+fig3b = plot(sim2[:,1], sim2[:,2], label="Hosts", frame=:origin, lw=3, leg=false)
 plot!(fig3b, sim2[:,1],sim2[:,3], label="Parasites", lw=3)
 xlabel!(fig3b, " ")
 ylabel!(fig3b, " ")

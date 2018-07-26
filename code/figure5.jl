@@ -1,7 +1,7 @@
 include("seed.jl")
 
 # Simulation with specialist natural enemies with stochasticity on D
-sim1, params1 = simulation(50.0, 25.0, m=0.2, F=4.0, D=0.5, c=1.0, a=0.5, th= 0.0, m=0.5, f=specialist_dyn, D_sd=0.5)
+sim1, params1 = simulation(50.0, 25.0, m=0.2, F=4.0, D=0.5, c=1.0, a=0.5, th= 0.0, m=0.5, f=specialist_dyn, D_std=0.5)
 # Fig 5a)
 fig5a = plot(sim1[:,1],sim1[:,2], label="Hosts", frame=:origin, lw=3, leg=false, ylims=(0, 90))
 plot!(fig5a, sim1[:,1],sim1[:,3], label="Parasites", lw=3)
@@ -25,7 +25,7 @@ sim1_a, sim1_b = linreg(vec(log10.(sim1[:,2])), vec(kval1))
 # Simulation with specialist natural enemies with stochasticity on c
 sim2, params2 = simulation(50.0, 25.0, m=0.2, F=4.0, D=0.5, c=1.0, a=0.5, th= 0.0, m=0.5, f=specialist_dyn, c_sd=0.5)
 # Fig 5b)
-fig5b = plot(sim2[:,1],sim2[:,2], label="Hosts", frame=:origin, lw=3, leg=false, ylims=(0, 90))
+fig5b = plot(sim2[:,1], sim2[:,2], label="Hosts", frame=:origin, lw=3, leg=false, ylims=(0, 90))
 plot!(fig5b, sim2[:,1],sim2[:,3], label="Parasites", lw=3)
 xlabel!(fig5b, "Generation")
 annotate!(fig5b, 5, 85, text("(b)"))

@@ -1,5 +1,6 @@
 """
-TODO
+This function (used internally by simulation) returns a random value of x, drawn
+from a truncated normal (between 0 and 100).
 """
 function generate(x, σ)
     @assert σ >= 0.0
@@ -54,7 +55,7 @@ function simulation(N::Float64, P::Float64; t::Int64=50, f=specialist_dyn, F=4.0
 end
 
 """
-TODO
+This function updates the population sizes internally during simulation.
 """
 function timestep(N::Float64, P::Float64, p; parasite_dyn=specialist_dyn)
     Nt = host_dyn(N, P, p)

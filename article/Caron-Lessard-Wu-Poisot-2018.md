@@ -130,7 +130,7 @@ schematic representation of an insect life cycle. Figure 2 and Figure 7
 represent relationship between parameters and population size/proportion of
 parasited host. Therefore, they are not necessary in order to show how difficult
 it is to detect the regulating effect of natural enemies on a host population.
-For every figure reproduced, we will use the exact same values that were used in
+For every figure reproduced, we used the exact same values that were used in
 the original paper for the different parameters.
 
 The software used to code and run the models and to generate the figures is

@@ -183,7 +183,7 @@ they are generally really close. Discrepancies in the coefficient of
 determination can be explained by different routines for pseudo random number
 generation.
 
-Moreover, the oscillations we obtained in @fig:figure6 (a) and (b) are not of the same range compared to the original paper. In @fig:figure6 (a), the oscillations for the host population in our implementation are of a greater extent. On the contrary, in @fig:figure6 (b) the the oscillations we obtained are smaller compared to the original paper.
+Moreover, the oscillations we obtained in @fig:figure6 (a) and (b) are not the same range compared to the original paper. In @fig:figure6 (a), the oscillations for the host population in our implementation are of a greater extent. On the contrary, the oscillations we obtained with $h$ stochastic are smaller compared to the original paper (@fig:figure6 (b)).
 
 Because the inclusion of stochastic parameters in the population dynamics causes
 variability in the outputs, the results from two successive simulations can be

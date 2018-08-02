@@ -167,16 +167,14 @@ conclusion when we observe the relation between the two populations in
 
 When the models include stochasticity, the resulting population dynamics between
 hosts and parasites are very different compared to the deterministic models.
-Overall, the results obtained in the replications are pretty similar to the
-original paper, except for @fig:figure6 (d), where the correlation between the
-mortality and the host density is not nearly as strong as in the original paper.
-Whether we look at the model for the specialist parasitoids or the one for the
+Overall, the results obtained in the replications are very similar to the
+original paper. Whether we look at the model for the specialist parasitoids or the one for the
 generalist parasitoids, both show irregular oscillations in the host-parasitoid
 population dynamics (@fig:figure5 and @fig:figure6, (a), (b) and (c)). The
 addition of stochastic parameters prevents the stabilization of host populations
 and makes it more difficult to identify parasitoids as a density-dependent
-control factor. The relationships between the $k-values$ and the host density
-are similar in Hassell's publication and in ours (except in @fig:figure6 (d)).
+control factor, except in @fig:figure6 (a). The relationships between the $k-values$ and the host density
+are similar in Hassell's publication and in ours.
 However, the regression for these relationships in our replication tend to have
 a determination coefficient ($R^2$) higher than the one found by Hassell, but
 they are generally really close. Discrepancies in the coefficient of
@@ -208,20 +206,16 @@ convenient comparison of the different results.
 
 As expected, we did not find the exact the same dynamic for the stochastic
 model. The figures we added (@fig:figure7 and @fig:figure8) showed how adding
-stochasticity into the model can cause great variability in the output. This
-could explain why @Hassell85 detected natural enemies as density dependent
-factor in the model with generalist parasitoid and a stochastic density
-independent probability of survival (Fig.6d from the original paper), unlike us
-(@fig:figure6 (d)). In fact, in this model, the correlation we found
-(@fig:figure8) was sometimes very strong ($r \approx 0.9$) and some other times
-very weak ($r \approx 0.4$). Also, the correlation between the mortality from
+stochasticity into the model can cause great variability in the output. For exemple, in the specialist parasitoid model with a stochastic model density-dependent survival ($D$), the correlation we found
+(@fig:figure7 (a)) was sometimes very weak ($r \approx 0.2$) and some other times
+almost as strong as the deterministic model ($r \approx 0.7$). Also, the correlation between the mortality from
 parasitism ($k$-value) and host density ($N$) found in the stochastic model was
 almost always weaker than in the deterministic model (@fig:figure7 and
 @fig:figure8). Therefore, the results we added strongly support the main
 argument from the original paper : adding stochasticity almost always obscures
 the density-dependent effect of natural enemies.
 
-The discrepancies we noted in the dynamics of the stochastic model with the generalist parasite (in @fig:figure6 (a) and (b) in particular) are difficult to explain. It seems unlikely that it is cause to the model implementation itself, since we successfully replicated the dynamic of the same system in the deterministic model, and in the system with a specialist parasitoid in the stochastic model.
+The discrepancies we noted in the dynamics of the stochastic model with the generalist parasite and a stochastic saturation numer of parasitoid ($h$; in @fig:figure6 (b)) are difficult to explain. It seems unlikely that it is cause to the model implementation itself or computational error since we successfully replicated results from all the other models. Without the original implementation, we can only speculate on the difference between the original implimentation and ours. This model is the only one with a stochastic parameter normally distributed with a mean not equal to the associated standard deviation. We tried with an $h$ normally distributed with a mean of 5 (@fig:figure9), and the results were a lot more similar to the one form @Hassell85 than in @fig:figure6 (b). Again, this is only an hypothesis on the kind of error that could explain the difference between the original paper and ours.
 
 The mathematical model from the original paper was well detailed, which allowed
 us to create our own implementation. The equation for the number of survivors

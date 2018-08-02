@@ -183,7 +183,7 @@ they are generally really close. Discrepancies in the coefficient of
 determination can be explained by different routines for pseudo random number
 generation.
 
-Moreover, the oscillations we obtained in @fig:figure6 (a) and (b) are not the same range compared to the original paper. In @fig:figure6 (a), the oscillations for the host population in our implementation are of a greater extent. On the contrary, the oscillations we obtained with $h$ stochastic are smaller compared to the original paper (@fig:figure6 (b)).
+Moreover, the oscillations we obtained in @fig:figure6 (b) are not the same range compared to the original paper. More precisely, the oscillations we obtained with $h$ stochastic are smaller compared to the original paper (@fig:figure6 (b)).
 
 Because the inclusion of stochastic parameters in the population dynamics causes
 variability in the outputs, the results from two successive simulations can be
@@ -201,7 +201,7 @@ dependence effect of the parasites, whether they are generalist or specialist.
 
 # Discussion
 
-Overall, we were able to replicate every result from @Hassell85. We found the
+Overall, we were able to replicate most results from @Hassell85. We found the
 exact same results for the deterministic model. We standardized the limits for
 the axes, which was not the case in the original paper. This allows a more
 convenient comparison of the different results.
@@ -220,6 +220,8 @@ almost always weaker than in the deterministic model (@fig:figure7 and
 @fig:figure8). Therefore, the results we added strongly support the main
 argument from the original paper : adding stochasticity almost always obscures
 the density-dependent effect of natural enemies.
+
+The discrepancies we noted in the dynamics of the stochastic model with the generalist parasite (in @fig:figure6 (a) and (b) in particular) are difficult to explain. It seems unlikely that it is cause to the model implementation itself, since we successfully replicated the dynamic of the same system in the deterministic model, and in the system with a specialist parasitoid in the stochastic model.
 
 The mathematical model from the original paper was well detailed, which allowed
 us to create our own implementation. The equation for the number of survivors

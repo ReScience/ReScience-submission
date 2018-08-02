@@ -96,10 +96,10 @@ host parasitized. In both @eq:1 and @eq:2, $f(N_t,P_t)$ represents the
 probability of escaping mortality from natural enemies (parasitoids) and is
 given by @eq:3.
 
-$$f(N_t,P_t) = [1 + (a \times P_t) / (m \times (1 + a \times T \times h \times N_t))]^{-m} $$ {#eq:3}
+$$f(N_t,P_t) = [1 + (a \times P_t) / (m \times (1 + a \times T_h \times N_t))]^{-m} $$ {#eq:3}
 
 where $a$ is the per capita searching efficiency of the parasitoids, $m$ is the
-extent of clumping of the parasitoids attacks and $T\times h$ is the handling
+extent of clumping of the parasitoids attacks and $T_h$ is the handling
 time as a proportion of the total time. This paper also explores the
 relationship between the hosts and a generalist parasitoid population.
 Generalist parasite dynamics follows the equation

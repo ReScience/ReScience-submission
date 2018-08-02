@@ -19,8 +19,8 @@ fig9b = plot(log10.(sim[:,2]), kval,
 xlabel!(fig9b, "Host density (log 10)")
 annotate!(fig9b, -0.25, 0.55, text("(b)"))
 
-sim_R2 = cor(vec(log10.(sim2[:,2])), vec(kval2))^2
-sim_a, sim_b = linreg(vec(log10.(sim2[:,2])), vec(kval2))
+sim_R2 = cor(vec(log10.(sim[:,2])), vec(kval))^2
+sim_a, sim_b = linreg(vec(log10.(sim[:,2])), vec(kval))
 
-plot(fig3a, fig9b, layout=(2,1), size=(500,900), margin=5mm)
+plot(fig9a, fig9b, layout=(2,1), size=(500,900), margin=5mm)
 savefig("article/figures/figure9.pdf")

@@ -200,12 +200,8 @@ LaTeX Font Warning: Font shape `EU1/FontAwesome(0)/bx/n' undefined
 Package hyperref Warning: The anchor of a bookmark and its parent's must not
 (hyperref)                be the same. Added a new anchor on input line 313.
 
-<use  "rescience-logo.pdf" > [2]
-Overfull \hbox (2.62979pt too wide) in paragraph at lines 441--456
-[]\EU1/lmr/m/n/10 To validate the reimplementation, we reproduce the classical 
-spike timing-dependent
-<use  "rescience-logo.pdf" > [3]
-Overfull \hbox (0.80777pt too wide) in paragraph at lines 460--467
+<use  "rescience-logo.pdf" > [2] <use  "rescience-logo.pdf" > [3]
+Overfull \hbox (0.80777pt too wide) in paragraph at lines 459--466
 []\EU1/lmr/m/n/10 The experiment protocols are based on the description on the 
 publication of Clopath
 
@@ -233,29 +229,32 @@ Underfull \hbox (badness 10000) in alignment at lines 541--545
 Underfull \hbox (badness 10000) in alignment at lines 545--550
 [] [] []
 (/usr/share/texlive/texmf-dist/tex/latex/euenc/eu1lmtt.fd)
+<use  "rescience-logo.pdf" > [5] <use  "rescience-logo.pdf" > [6]
+Overfull \hbox (0.24777pt too wide) in paragraph at lines 715--722
+\EU1/lmr/m/n/10 ANNarchy provides the \EU1/lmr/bx/n/10 Projection \EU1/lmr/m/n/
+10 object. The ‘pre’ argument define the pre-synaptic
+<use  "rescience-logo.pdf" > [7] <use  "./figures/W_hippo.png" >
 <use  "./figures/deltaW.png" > <use  "./figures/pairing.png" >
-Overfull \hbox (2.21999pt too wide) in paragraph at lines 589--594
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 771--776
 [][] [] 
-<use  "rescience-logo.pdf" > [5] <use  "./figures/rate_Code_Weights.png" >
+<use  "rescience-logo.pdf" > [8] <use  "./figures/rate_Code_Weights.png" >
 <use  "./figures/temporal_Code.png" >
-Overfull \hbox (2.21999pt too wide) in paragraph at lines 619--627
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 808--816
 [][] [] 
-<use  "./figures/weights_stable.png" > <use  "rescience-logo.pdf" > [6]
-<use  "rescience-logo.pdf" > [7]
+<use  "./figures/weights_stable.png" > <use  "rescience-logo.pdf" > [9]
+<use  "rescience-logo.pdf" > [10]
 
 LaTeX Font Warning: Font shape `EU1/lmss/m/sc' in size <9> not available
-(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 694.
+(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 897.
 
-<use  "rescience-logo.pdf" > [8] (./Larisch-2018.aux)
+<use  "rescience-logo.pdf" > [11] <use  "rescience-logo.pdf" > [12]
+(./Larisch-2018.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
  )
 (see the transcript file for additional information)
-Output written on Larisch-2018.pdf (8 pages).
+Output written on Larisch-2018.pdf (12 pages).
 Transcript written on Larisch-2018.log.
 INFO - This is Biber 2.4
 INFO - Logfile is 'Larisch-2018.blg'
@@ -475,12 +474,8 @@ LaTeX Font Warning: Font shape `EU1/FontAwesome(0)/bx/n' undefined
 Package hyperref Warning: The anchor of a bookmark and its parent's must not
 (hyperref)                be the same. Added a new anchor on input line 313.
 
-<use  "rescience-logo.pdf" > [2]
-Overfull \hbox (2.62979pt too wide) in paragraph at lines 441--456
-[]\EU1/lmr/m/n/10 To validate the reimplementation, we reproduce the classical 
-spike timing-dependent
-<use  "rescience-logo.pdf" > [3]
-Overfull \hbox (0.80777pt too wide) in paragraph at lines 460--467
+<use  "rescience-logo.pdf" > [2] <use  "rescience-logo.pdf" > [3]
+Overfull \hbox (0.80777pt too wide) in paragraph at lines 459--466
 []\EU1/lmr/m/n/10 The experiment protocols are based on the description on the 
 publication of Clopath
 
@@ -508,26 +503,32 @@ Underfull \hbox (badness 10000) in alignment at lines 541--545
 Underfull \hbox (badness 10000) in alignment at lines 545--550
 [] [] []
 (/usr/share/texlive/texmf-dist/tex/latex/euenc/eu1lmtt.fd)
+<use  "rescience-logo.pdf" > [5] <use  "rescience-logo.pdf" > [6]
+Overfull \hbox (0.24777pt too wide) in paragraph at lines 715--722
+\EU1/lmr/m/n/10 ANNarchy provides the \EU1/lmr/bx/n/10 Projection \EU1/lmr/m/n/
+10 object. The ‘pre’ argument define the pre-synaptic
+<use  "rescience-logo.pdf" > [7] <use  "./figures/W_hippo.png" >
 <use  "./figures/deltaW.png" > <use  "./figures/pairing.png" >
-Overfull \hbox (2.21999pt too wide) in paragraph at lines 589--594
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 771--776
 [][] [] 
-<use  "rescience-logo.pdf" > [5] <use  "./figures/rate_Code_Weights.png" >
+<use  "rescience-logo.pdf" > [8] <use  "./figures/rate_Code_Weights.png" >
 <use  "./figures/temporal_Code.png" >
-Overfull \hbox (2.21999pt too wide) in paragraph at lines 619--627
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 808--816
 [][] [] 
-<use  "./figures/weights_stable.png" > <use  "rescience-logo.pdf" > [6]
-<use  "rescience-logo.pdf" > [7]
+<use  "./figures/weights_stable.png" > <use  "rescience-logo.pdf" > [9]
+<use  "rescience-logo.pdf" > [10]
 
 LaTeX Font Warning: Font shape `EU1/lmss/m/sc' in size <9> not available
-(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 694.
+(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 897.
 
-<use  "rescience-logo.pdf" > [8] (./Larisch-2018.aux)
+<use  "rescience-logo.pdf" > [11] <use  "rescience-logo.pdf" > [12]
+(./Larisch-2018.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  )
 (see the transcript file for additional information)
-Output written on Larisch-2018.pdf (8 pages).
+Output written on Larisch-2018.pdf (12 pages).
 Transcript written on Larisch-2018.log.
 This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex)
  restricted \write18 enabled.
@@ -731,12 +732,8 @@ LaTeX Font Warning: Font shape `EU1/FontAwesome(0)/bx/n' undefined
 Package hyperref Warning: The anchor of a bookmark and its parent's must not
 (hyperref)                be the same. Added a new anchor on input line 313.
 
-<use  "rescience-logo.pdf" > [2]
-Overfull \hbox (2.62979pt too wide) in paragraph at lines 441--456
-[]\EU1/lmr/m/n/10 To validate the reimplementation, we reproduce the classical 
-spike timing-dependent
-<use  "rescience-logo.pdf" > [3]
-Overfull \hbox (0.80777pt too wide) in paragraph at lines 460--467
+<use  "rescience-logo.pdf" > [2] <use  "rescience-logo.pdf" > [3]
+Overfull \hbox (0.80777pt too wide) in paragraph at lines 459--466
 []\EU1/lmr/m/n/10 The experiment protocols are based on the description on the 
 publication of Clopath
 
@@ -764,24 +761,30 @@ Underfull \hbox (badness 10000) in alignment at lines 541--545
 Underfull \hbox (badness 10000) in alignment at lines 545--550
 [] [] []
 (/usr/share/texlive/texmf-dist/tex/latex/euenc/eu1lmtt.fd)
+<use  "rescience-logo.pdf" > [5] <use  "rescience-logo.pdf" > [6]
+Overfull \hbox (0.24777pt too wide) in paragraph at lines 715--722
+\EU1/lmr/m/n/10 ANNarchy provides the \EU1/lmr/bx/n/10 Projection \EU1/lmr/m/n/
+10 object. The ‘pre’ argument define the pre-synaptic
+<use  "rescience-logo.pdf" > [7] <use  "./figures/W_hippo.png" >
 <use  "./figures/deltaW.png" > <use  "./figures/pairing.png" >
-Overfull \hbox (2.21999pt too wide) in paragraph at lines 589--594
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 771--776
 [][] [] 
-<use  "rescience-logo.pdf" > [5] <use  "./figures/rate_Code_Weights.png" >
+<use  "rescience-logo.pdf" > [8] <use  "./figures/rate_Code_Weights.png" >
 <use  "./figures/temporal_Code.png" >
-Overfull \hbox (2.21999pt too wide) in paragraph at lines 619--627
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 808--816
 [][] [] 
-<use  "./figures/weights_stable.png" > <use  "rescience-logo.pdf" > [6]
-<use  "rescience-logo.pdf" > [7]
+<use  "./figures/weights_stable.png" > <use  "rescience-logo.pdf" > [9]
+<use  "rescience-logo.pdf" > [10]
 
 LaTeX Font Warning: Font shape `EU1/lmss/m/sc' in size <9> not available
-(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 694.
+(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 897.
 
-<use  "rescience-logo.pdf" > [8] (./Larisch-2018.aux)
+<use  "rescience-logo.pdf" > [11] <use  "rescience-logo.pdf" > [12]
+(./Larisch-2018.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  )
 (see the transcript file for additional information)
-Output written on Larisch-2018.pdf (8 pages).
+Output written on Larisch-2018.pdf (12 pages).
 Transcript written on Larisch-2018.log.

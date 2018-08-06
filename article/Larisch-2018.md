@@ -148,7 +148,7 @@ Furthermore, they investigate the emerged structure of the connectivity dependin
 To validate the reimplementation, we reproduce the voltage clamp experiment (**Fig.** 1h in [@Clopath2010]), the classical spike timing-dependent
 learning window (**Fig.** 2a in [@Clopath2010]), the frequency repetition task
 to reproduce a triplet experiment (**Fig.** 2b in [@Clopath2010]), the influence of spiking order to connectivity
-(**Fig.** 4a, down and **Fig.** 4b, down in [@Clopath2010]) and the emergent of receptive fields by presenting natural scenes. (**provide source code and description in the text on the necessary places**)
+(**Fig.** 4a, down and **Fig.** 4b, down in [@Clopath2010]) and the emergent of receptive fields by presenting natural scenes.
 In the available matlab source code, they investigate the stable learning of weights
 using 500 input neurons and one postsynaptic neuron.
 The firing rate of these neurons follow
@@ -233,70 +233,66 @@ The following explanation of the network implementation is from the **net_homeos
 
 ### Network implementation
 ``` python
-params = """
-gL = 30.0
-DeltaT = 2.0
-tauw = 144.0
-a = 4.0
-b = 0.0805
-EL = -70.6
-C = 281.0
-tauz = 40.0
-tauVT= 50.0
-Isp = 400.0
-VTMax = -30.4
-VTrest = -50.4
-taux = 15.0
-tauLTD = 10.0
-tauLTP= 7.0
-taumean = 1200.0
-tau_gExc = 1.0
-"""
-
 neuron_eqs = """
-dvm/dt = if state>=2:+3.462 else: if state==1:-(vm+51.75)+1/C*(Isp - (wad+b))+g_Exc-g_Inh else:1/C * ( -gL * (vm - EL) + gL * DeltaT * exp((vm - VT) / DeltaT) - wad + z ) + g_Exc: init = -70.6
+dvm/dt  = if state>=2:+3.462 else:
+          if state==1: -(vm+51.75)+
+          1/C*(Isp - (wad+b))+ g_Exc else:
+          1/C * ( -gL * (vm - EL) + gL * DeltaT *
+          exp((vm - VT) / DeltaT) - wad + z )+
+          g_Exc: init = -70.6
 dvmean/dt = (pos(vm - EL)**2 - vmean)/taumean    :init = 0.0
 dumeanLTD/dt = (vm - umeanLTD)/tauLTD : init=-70.0
 dumeanLTP/dt = (vm - umeanLTP)/tauLTP : init =-70.0
 dxtrace /dt = (- xtrace )/taux
-dwad/dt = if state ==2:0 else:if state==1:+b/tauw else: (a * (vm - EL) - wad)/tauw : init = 0.0
-dz/dt = if state==1:-z+Isp-10 else:-z/tauz  : init = 0.0
-dVT/dt =if state==1: +(VTMax - VT)-0.4 else:(VTrest - VT)/tauVT  : init=-50.4
+dwad/dt = if state ==2:0 else:
+          if state==1:+b/tauw else:
+          (a * (vm - EL) - wad)/tauw : init = 0.0
+dz/dt = if state==1: -z+Isp-10 else:
+        -z/tauz  : init = 0.0
+dVT/dt = if state==1: +(VTMax - VT)-0.4 else:
+         (VTrest - VT)/tauVT  : init=-50.4
 dg_Exc/dt = -g_Exc/tau_gExc
 state = if state > 0: state-1 else:0
-Spike = 0.0
-           """
-spkNeurV1 = Neuron(parameters = params,equations=neuron_eqs,spike="""(vm>VT) and (state==0)""",
-                         reset="""vm = 29.0
-                                  state = 2.0
-                                  VT = VTMax
-                                  Spike = 1.0
-                                  xtrace+= 1/taux""")
+Spike = 0.0  """
 ```
-{#cd:neuron}
 
-The implementation of the neuron model is presented in @cd:neuron.
-To define a neuron model, ANNArchy provides the __Neuron__ object, what expects four
-string objects for the parameters ('parameters'), the equations that describes the neuronal behavior ('equations'),
-the condition of a spike ('spike') and the behavior after a spike ('reset').
-The different variables of the neuron model are described by there differential equation.
+The code above shows the definition of neuron model equations in ANNarchy.
+All necessary equations are typed in one string variable ('neuron_eqs').
 The variable 'vm' describes the membrane potential $u$, 'vmean' the homeostatic variable $\bar{bar{u}}$,
 'umeanLTD' and 'umeanLTP' are the equations for $u_{-}$, respectively $u_{+}$.
 The variable 'xtrace' describes $\bar{x}$, 'wad' is $w_{ad}$, 'z' is $z$, 'g_Exc' is the input current and 'Spike' is the spike counter ($X$).
 To implement the 'resolution trick', we use a extra discrete variable 'state'.
-Notice that the integration step size in ANNarchy is initialized by $1ms$, so that the 'state' variable is set to $2$ and counts down to zero for every millisecond.
-All variables they have an influence on the membrane potential are updated after the spike, depending on the variable 'state'.
-With that, we reproduce the behavior of the neuron as described in the published Matlab source code.
+With that, we control the behavior of the different variables after a spikes to recreate the behavior of the variables as in the Matlab source file.
 The neuron spikes only if the membrane potential exceeds the threshold and if the 'state' variable is equal to zero.
-With the keyword 'init', it is possible to set the initial value for the variable.
+
+``` python
+spkNeurV1 = Neuron( parameters = params,
+                    equations=neuron_eqs,
+                    spike="""(vm>VT) and (state==0)""",
+                    spike="""(vm>VT) and (state==0)""",
+                    reset="""vm = 29.0
+                          state = 2.0
+                          VT = VTMax
+                          Spike = 1.0
+                          xtrace+= 1/taux""")
+```
+
+To define a neuron model, ANNArchy provides the __Neuron__ object, what expects a
+string object for the parameters ('parameters'), the equations that describes the neuronal behavior ('equations'),
+a string that define the conditions to release a spike ('spike') and a string that defines the changes in the variables after a spike ('reset').
+With that, we reproduce the behavior of the neuron as described in the published Matlab source code.
+
 
 ``` python
 equatSTDP = """
-    ltdTerm = if w>wMin : (aLTD*(post.vmean/urefsquare)*pre.Spike * pos(post.umeanLTD - thetaLTD)) else : 0.0
-    ltpTerm = if w<wMax : (aLTP * pos(post.vm - thetaLTP) *(pre.xtrace)* pos(post.umeanLTP - thetaLTD)) else : 0.0
+    ltdTerm = if w>wMin : (aLTD*(post.vmean/urefsquare)*
+              pre.Spike * pos(post.umeanLTD - thetaLTD)) else : 0.0
+    ltpTerm = if w<wMax : (aLTP * pos(post.vm - thetaLTP)*
+              (pre.xtrace)* pos(post.umeanLTP - thetaLTD)) else : 0.0
       deltaW = ( -ltdTerm + ltpTerm)
         dw/dt = deltaW :min=0.0"""
 ```
+
 As for the neuron model, the equations for the spiking learning are defined by strings of the differential equations.
 The 'ltdTerm' describes the $LTD_{Term}$ and the 'ltpTerm' the $LTP_{Term}$.
 Variables of the pre- or post-synaptic neuron, they are define in the neuron model, can be addressed with the prefix 'pre.', respectively 'post.'.
@@ -309,16 +305,6 @@ And the threshold $\theta_{-}$ is defined by 'thetaLTD' and $\theta_{+}$ by 'the
 The parameter 'transmit' is zero or one, dependent if the synaptic current for the experiment should transmit or not.
 
 ``` python
-parameterFF="""
-urefsquare = 60.0
-thetaLTD = -70.6
-thetaLTP = -45.3
-aLTD = 0.00014
-aLTP = 0.00008
-wMin = 0.0
-wMax =3.0
-transmit = 0.0
-"""
 
 ffSyn = Synapse( parameters = parameterFF,
     equations= equatSTDP,
@@ -372,32 +358,28 @@ projTen_Ten = Projection(
 ).connect_all_to_all(weights = 0.1,allow_self_connections=True)
 ```
 
+A further description of the experiment implementations can be found in the corresponding python files.
+
 ### Recording variables
 
 With the **Monitor** object provides ANNarchy a easy possibility to record variables from projections and populations.
 
 ``` python
-projInp_Ten = Projection(
-    pre = poisPop,
-    post= pop_Ten,
-    target='Exc'
-).connect_one_to_one(weights = 30.0)
-
-projTen_Ten = Projection(
-    pre= pop_Ten,
-    post= pop_Ten,
-    target= 'Exc',
-    synapse= ffSyn               
-).connect_all_to_all(weights = 0.1,allow_self_connections=True)
+    dendrite = projV1_V1.dendrite(0)
+    m_d = Monitor(dendrite, ['w','deltaW','ltdTerm','ltpTerm'])
 ```
 
-
-**What is missing is description of the reimplementation itself, i.e. present ANNarchy, which structures are used (I suppressed the references to PoissonPopulation and co in the previous part), what was hard, why ANNarchy and not pure Python?, etc**
-**zuerst am Modell als solches erklären, wie in ANNarchy Modelle implementiert werden, was für Objekte genutzt werden.
-Danach an einem oder zwei Beispiel Experimente die übrigen Objekte erklären --> Wie geplottet wird ist nicht wichtig**
 # Results
 
 **Perhaps structure more the results**
+## Voltage-Clamp experiment
+
+\begin{figure}
+\centering
+\includegraphics[width=0.5\textwidth]{./figures/W_hippo.png}
+\caption{TestCapture}
+\label{Fig_hipo}
+\end{figure}
 
 ## Pair-based and triplet STDP experiments
 
@@ -502,6 +484,4 @@ The reimplementation has greatly benefited from the release of the source code o
 ## Acknowledgment
 
 This work was supported by the European Social Fund (ESF) and the Freistaat Sachsen.
-
-
 # References

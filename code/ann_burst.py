@@ -34,9 +34,9 @@ duration = 240 #ms
 d_t = 10 # time between pre- and first postsynaptic spike
 t_1 = 110 # time point of the presynaptic spike
 ## -- initial weights for the three tasks -- ##
-initW1 = 0.007
-initW2 = 0.0055
-initW3 = 0.008
+initW1 = 0.007#0.007
+initW2 = 0.007#0.0055
+initW3 = 0.01#0.008
 #----------------------initialize time points of spikes-----------------------------#
 # create a list of the different spike times for the presynaptic neuron; only for initialization
 spike_times1 = [t_1]
@@ -92,7 +92,7 @@ projN1_N2 = Projection(
 #---- parameter adjustments ----#
 #projN1_N2.thetaLTP = -50.3
 projN1_N2.vmean = 80.0
-#projN1_N2.transmit = 1.0 # to activate the transmission over the synapse
+#projN1_N2.transmit = 3.0 # to activate the transmission over the synapse
 #------------------------------main function------------------------------------
 def run():
 
@@ -120,7 +120,7 @@ def run():
         delta_w = m_d.get('deltaW')
         deltaWSpk_pos[i] = delta_w[-1]
         # reset all variables
-        reset()
+        reset()#reset(populations=True,projections=True,synapses=True)
 
     dWSpk_neg = np.zeros(3)
     deltaWSpk_neg = np.zeros(3)
@@ -134,7 +134,7 @@ def run():
         dWSpk_neg[i] = np.mean(d_w)
         delta_w = m_d.get('deltaW')
         deltaWSpk_neg[i] = np.mean(delta_w)
-        reset()
+        reset()#reset(populations=True,projections=True,synapses=True)
 
 ############################################################
 ####-- increase the postsynaptic firing from 20 to 100--####
@@ -154,7 +154,7 @@ def run():
         dWBurst_pos[i] = d_w[-1] #np.mean(d_w)
         delta_w = m_d.get('deltaW')
         deltaWBurst_pos[i] = delta_w[-1]#np.mean(delta_w)
-        reset()
+        reset()#reset(populations=True,projections=True,synapses=True)
 
 
     dWBurst_neg = np.zeros(len(rates))
@@ -170,7 +170,7 @@ def run():
         dWBurst_neg[i] = np.mean(d_w)
         delta_w = m_d.get('deltaW')
         deltaWBurst_neg[i] = np.mean(delta_w)
-        reset()
+        reset()#reset(populations=True,projections=True,synapses=True)
 
 #####################################################################################
 ####-- change the delay between pre- and postsynaptic spikes from -100 to 60 ms--####
@@ -188,7 +188,7 @@ def run():
         dWLag_pos[i] = d_w[-1]#np.mean(d_w)
         delta_w = m_d.get('deltaW')
         deltaWLag_pos[i] = delta_w[-1] #np.mean(delta_w)
-        reset()
+        reset()#reset(populations=True,projections=True,synapses=True)
 
     #--# set the recorded weight values relative to the initial weight value --##
     dWSpk_pos = dWSpk_pos/initW1 * 100
@@ -242,6 +242,7 @@ def run():
     ax2.xaxis.set_ticks_position('bottom')
     ax2.yaxis.set_ticks_position('left')
     plt.ylim(0.0,300)
+    plt.xlabel('Time lag (ms)')
     fig.savefig('burst.png',bbox_inches='tight')
     print("finish")
 #------------------------------------------------------------------------------------

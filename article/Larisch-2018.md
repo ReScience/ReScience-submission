@@ -147,9 +147,11 @@ Furthermore, they investigate the emerged structure of the connectivity dependin
 
 To validate the reimplementation, we reproduce the voltage clamp experiment (**Fig.** 1h in [@Clopath2010]), the classical spike timing-dependent
 learning window (**Fig.** 2a in [@Clopath2010]), the frequency repetition task
-to reproduce a triplet experiment (**Fig.** 2b in [@Clopath2010]), the influence of spiking order to connectivity
-(**Fig.** 4a, down and **Fig.** 4b, down in [@Clopath2010]) and the emergent of receptive fields by presenting natural scenes.
-In the available matlab source code, they investigate the stable learning of weights
+to reproduce a triplet experiment (**Fig.** 2b in [@Clopath2010]),
+the burst timing-dependent plasticity experiment (**Fig.** 3 in [@Clopath2010]),
+the influence of spiking order to connectivity (**Fig.** 4a, down and **Fig.** 4b, down in [@Clopath2010])
+and the emergent of receptive fields by presenting natural scenes (**Fig.** 7 in [@Clopath2010]).
+In the available Matlab source code, they investigate the stable learning of weights
 using 500 input neurons and one postsynaptic neuron.
 The firing rate of these neurons follow
 a Gaussian distribution and the spike timing a Poisson process.
@@ -157,16 +159,24 @@ This task is reimplemented as well.
 With this analysis, the functionality of the reimplementation is shown on the
 main feature of this learning rule.
 
-**TODO: are there experiments you did not reproduce and why? It is important for the partial/full replication**
+One experiment what is not reproduce, is the experiment with ten excitatory and three inhibitory and stochastic Poisson input (**Fig.** 5 in [@Clopath2010]).
+In the original publication, they presented the emergent of a stable receptive fields and that the strength of synapses depends on the input firing rate.
+Here, both features are presented with two different tasks.
+The second experiments what is not reproduce, is the experiment with the same network structure but with moving input patterns  (**Fig.** 6 in [@Clopath2010]).
+@Clopath2010 demonstrated with this experiment that the strength of synapses can depend on the temporal order of emergent spikes and that the receptive field moves over the time, if the input is moving.
+The synapse weight development is reproduced by another task.
+The moving receptive field are not reproduced here, but by reproducing of receptive fields generally we assume that moving receptive fields would be emerge with the here proposed reimplementation.
 
 The experiment protocols are based on the description on the publication of @Clopath2010.
 The implementation of the learning rule was mainly made according to the
 available Matlab source code.
-Despite the effort to be as close as possible to
-the original implementation and description, the internal processing of the equations by ANNarchy
-can lead to a different execution order. Therefore, differing results occurred.
-
-**Be more specific: what is different? why?**
+The development of the synapses depends on the behavior of the postsynaptic membrane potential.
+Especially for the first two milliseconds after a postsynaptic spike.
+Despite ANNarchy make it easy to write down the model equations to build up networks,
+the processing order of the equations is strictly given by ANNarchy [@Vitay2015].
+Because of this, the execution order for differential equations and non-differential equations,
+or for equations of the synapses or neurons are different from the order mentioned in the published Matlab source code.
+Therefore, differing results occurred.
 
 Further, the chosen integration time step can have an influence of the computation result.
 In the original publication, no integration time step is mentioned. In the published Matlab source code is
@@ -220,6 +230,7 @@ Table: Changed parameters for weight change experiments. {#tbl:table_FH}
 The reimplementation was done with Python 2.7 and the neural-simulator ANNarchy [@Vitay2015] (v.4.6.4).
 With ANNarchy, it is possible to implement the description of the learning and the neuronal behavior
 by define the mathematical equations and it cares about the temporal execution of the equations.
+Therefore, variables are mostly written as first-order ordinary differential equations, which are solved by ANNArchy.
 This supports the implementation of more complex models and bigger neuronal networks.
 Therefore, ANNarchy supports rate based and spiking learning rules, and it provides a way to combine both kinds of neuronal networks.
 The definition of learning rules, the neurons and the network structure is done in the easy understanding Python language.
@@ -232,10 +243,54 @@ in the original publication [@Clopath2010]. The network with a dynamic homeostat
 The following explanation of the network implementation is from the **net_homeostatic.py**.
 
 ### Network implementation
+To achieve a correct behavior of the learning rule, the correct implementation of the membrane potential behavior, specially after a spike, is necessary.
+Therefore, the here presented reimplementation orientates on the original
+source code written in Matlab. The usage of ANNarchy make it easy to define the behavior of synapses and neurons to create larger networks.
+But the internal execution order of the equations are under the control of ANNarchy and make it difficult to ensure an equal execution order.
+In the original Matlab source code exist a counter variable to implement the right behavior of the membrane potential as shown in the code passage below.
+The presented code passage is from the **aEIF.m** file, which is contained in the source code published on modeldb.
+After the neuron spikes, the counter is set to one.
+In the next calculation step, the changes in the membrane voltage is set to $32.863 mV$.
+One step later, the membrane potential is set to $-49.5 mV$ Additionally the differential equation for one time step.
+Please note, $dt = 1ms$ in the Matlab source code.
+
+``` matlab
+if counter ==2          % trick to force the spike to be 2ms long
+    u = E_L+15+6.0984;  % resolution trick (simulation of the spike at a fine resolution - see below)
+    w = w+b;
+    w_tail = w_jump;
+    counter = 0;
+    V_T = VT_jump+VT_rest;
+end
+
+% Updates of the variables for the aEIF
+udot = 1/C*(-g_L*(u-E_L) + g_L*Delta_T*exp((u-V_T)/Delta_T) - w +w_tail+ I);
+wdot = 1/tau_w*(a*(u-E_L) - w);
+u= u + udot;
+w = w + wdot;
+w_tail = w_tail-w_tail/tau_wtail;
+V_T = VT_rest/tau_VT+(1-1/tau_VT)*V_T;
+
+if counter == 1
+    counter = 2;
+    u = 29.4+3.462; % resolution trick (simulation of the spike at a fine resolution - see below)
+    w = w-wdot;
+end
+
+if (u>th && counter ==0) % threshold condition for the spike
+    u = 29.4;
+    counter = 1;
+end
+```
+The code below shows the definition of neuron model equations in ANNarchy.
+As in the Matlab source code, we use a counter variable to control the behavior of the membrane potential for time steps after a spike together with the ANNarchy own 'if' statement.
+With that we can add the necessary $3.462$ on the membrane potential one step after the spike,
+and set to $-49.5 mV$ after the second time step with the additionally changes.
+
 ``` python
 neuron_eqs = """
 dvm/dt  = if state>=2:+3.462 else:
-          if state==1: -(vm+51.75)+
+          if state==1: -(vm + 49.5)+
           1/C*(Isp - (wad+b))+ g_Exc else:
           1/C * ( -gL * (vm - EL) + gL * DeltaT *
           exp((vm - VT) / DeltaT) - wad + z )+
@@ -255,9 +310,7 @@ dg_Exc/dt = -g_Exc/tau_gExc
 state = if state > 0: state-1 else:0
 Spike = 0.0  """
 ```
-
-The code above shows the definition of neuron model equations in ANNarchy.
-All necessary equations are typed in one string variable ('neuron_eqs').
+To implement the necessary equations, they are typed in one string variable ('neuron_eqs').
 The variable 'vm' describes the membrane potential $u$, 'vmean' the homeostatic variable $\bar{bar{u}}$,
 'umeanLTD' and 'umeanLTP' are the equations for $u_{-}$, respectively $u_{+}$.
 The variable 'xtrace' describes $\bar{x}$, 'wad' is $w_{ad}$, 'z' is $z$, 'g_Exc' is the input current and 'Spike' is the spike counter ($X$).
@@ -371,8 +424,8 @@ With the **Monitor** object provides ANNarchy a easy possibility to record varia
 
 # Results
 
-**Perhaps structure more the results**
-## Voltage-Clamp experiment
+## Fully reproduced experiments
+### Voltage-Clamp experiment
 
 \begin{figure}
 \centering
@@ -381,7 +434,7 @@ With the **Monitor** object provides ANNarchy a easy possibility to record varia
 \label{Fig_hipo}
 \end{figure}
 
-## Pair-based and triplet STDP experiments
+### Pair-based and triplet STDP experiments
 
 \begin{figure}
 \includegraphics[width=0.5\textwidth]{./figures/deltaW.png}
@@ -426,7 +479,7 @@ in pre-post pairs. These results are similar to the original paper.
 \label{Fig_con}
 \end{figure}
 
-## Connectivity analysis
+### Connectivity analysis
 
 In addition to the replication of experimental findings of pair-based and triplet STDP experiments,
 @Clopath2010 presented how the synaptic connectivity, emerging from the proposed learning rule,
@@ -459,10 +512,16 @@ The emergent stable weights are shown in \textbf{Fig. \ref{Fig_stab}}.
 After 500 epochs, a spatial related subset of weights increased to the maximum and the other weight values decrease down to zero.
 This leads to a specific selectivity for the postsynaptic neuron.
 
+### Receptive fields of V1 simple cells
 
 **Was war für die Implementierung des Modelles in ANNArchy wichtig ? Was für Probleme gab es ?
 Welche Schritte waren notewendig um es zu implementieren? Was für die implementierung relevantes
 stand im Paper und was musste selbst 'entschlüsselt' werden?**
+
+**Kopie des Matlab Codes-> verleich mit meiner Implementierung**
+**Zusätzlicher Abschnitt über Plots die nicht gleich sind --> erklären warum**
+
+## partial reproduced experiments
 
 # Conclusion
 

@@ -176,7 +176,8 @@ Despite ANNarchy make it easy to write down the model equations to build up netw
 the processing order of the equations is strictly given by ANNarchy [@Vitay2015].
 Because of this, the execution order for differential equations and non-differential equations,
 or for equations of the synapses or neurons are different from the order mentioned in the published Matlab source code.
-Therefore, differing results occurred.
+Further, the changes are calculated separately for the neurons and synapses variables. After that,changes are added and
+then it will be checked if a postsynaptic event appeared. At the end of every simulation step is the recording happening [@Vitay2015].
 
 Further, the chosen integration time step can have an influence of the computation result.
 In the original publication, no integration time step is mentioned. In the published Matlab source code is
@@ -282,7 +283,8 @@ if (u>th && counter ==0) % threshold condition for the spike
     counter = 1;
 end
 ```
-The code below shows the definition of neuron model equations in ANNarchy.
+
+The code above shows the definition of neuron model equations in ANNarchy.
 As in the Matlab source code, we use a counter variable to control the behavior of the membrane potential for time steps after a spike together with the ANNarchy own 'if' statement.
 With that we can add the necessary $3.462$ on the membrane potential one step after the spike,
 and set to $-49.5 mV$ after the second time step with the additionally changes.
@@ -423,7 +425,8 @@ With the **Monitor** object provides ANNarchy a easy possibility to record varia
 ```
 
 # Results
-
+To prove the correctness of the here proposed reimplementation, different experiments of the original paper are reproduced.
+Although most results are reproduced successfully, the burst experiments could not be absolutely reproduced.
 ## Fully reproduced experiments
 ### Voltage-Clamp experiment
 
@@ -433,6 +436,12 @@ With the **Monitor** object provides ANNarchy a easy possibility to record varia
 \caption{TestCapture}
 \label{Fig_hipo}
 \end{figure}
+
+To reproduce the voltage clamp experiment, the postsynaptic membrane potential is set to a fix values of $–80 mV$.
+Resulting changes in the learning rule are implemented as mentioned in the original publication.
+Further details can be found in the **ann_clamp.py** file.
+The blue line presents the weight change with the standard parameter set for the visual cortex.
+The red line presents the weight change with the standard parameter set for the hippocampus.
 
 ### Pair-based and triplet STDP experiments
 
@@ -454,11 +463,7 @@ The resulting graph is similar to the presented one in the original publication.
 A small difference can be seen in the higher positive and negative change.
 In the original publication is the normalized weight at a time difference of $-10ms$ around $70 \%$.
 In our result, the weight is around $80 \%$.
-This could have two reasons. First, we use
-Second, this could be caused by a different internal processing of ANNarchy. (**Be more precise...**)
-In the Matlab source code, the equations are calculated step by step for each integration step.
-In ANNArchy, the changes are calculated separately for the neurons and synapses variables, then the changes added, then
-it will be checked if a postsynaptic event appeared, and than the recording is happening.
+This could be caused by a different internal processing of ANNarchy, as mentioned above.
 
 The analysis of the pairing repetition frequency task is shown on \textbf{Fig. \ref{Fig_exp} right}.
 With lower repetition frequency, post-pre pairs (red line) lead to LTD. At a repetition frequency around $30 Hz$,
@@ -518,7 +523,6 @@ This leads to a specific selectivity for the postsynaptic neuron.
 Welche Schritte waren notewendig um es zu implementieren? Was für die implementierung relevantes
 stand im Paper und was musste selbst 'entschlüsselt' werden?**
 
-**Kopie des Matlab Codes-> verleich mit meiner Implementierung**
 **Zusätzlicher Abschnitt über Plots die nicht gleich sind --> erklären warum**
 
 ## partial reproduced experiments

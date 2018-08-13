@@ -41,7 +41,7 @@ tau_gExc = 1.0  :population
 # with an value of [] (see Matlab code for more information) + hyperpolarisation depending variables and inputs
 # after second step: normal behavior
 neuron_eqs = """
-dvm/dt = if state>=2:+3.462 else: if state==1:-(vm+51.75)+1/C*(Isp - (wad+b))+g_Exc-g_Inh else:1/C * ( -gL * (vm - EL) + gL * DeltaT * exp((vm - VT) / DeltaT) - wad + z ) + g_Exc: init = -70.6
+dvm/dt = if state>=2:+3.462 else: if state==1:-(vm+49.5)+1/C*(Isp - (wad+b))+g_Exc else:1/C * ( -gL * (vm - EL) + gL * DeltaT * exp((vm - VT) / DeltaT) - wad + z ) + g_Exc: init = -70.6
 dvmean/dt = (pos(vm - EL)**2 - vmean)/taumean    :init = 0.0
 dumeanLTD/dt = (vm - umeanLTD)/tauLTD : init=-70.0
 dumeanLTP/dt = (vm - umeanLTP)/tauLTP : init =-70.0
@@ -52,6 +52,7 @@ dVT/dt =if state==1: +(VTMax - VT)-0.4 else:(VTrest - VT)/tauVT  : init=-50.4
 dg_Exc/dt = -g_Exc/tau_gExc
 state = if state > 0: state-1 else:0
 Spike = 0.0
+dresetvar / dt = 1/(1.0) * (-resetvar)
            """
 # Create the 'Neuron' object with the parameters and equations for the
 # adaptive exponential integrate-and-fire (AdEx) neuron model.

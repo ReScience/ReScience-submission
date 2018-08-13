@@ -103,8 +103,7 @@ def run():
 
 
     """
-    Voltage clamp experiment with the parameter set for the visual cortex
-    (standard parameter set).
+    Voltage clamp experiment with the parameter set for the hippocampal
     """
     projC1_C2.thetaLTD = -41.0
     projC1_C2.thetaLTP =-38.0

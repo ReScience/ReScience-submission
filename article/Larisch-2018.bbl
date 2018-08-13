@@ -185,6 +185,36 @@
       \verb http://www.jneurosci.org/content/20/7/2451
       \endverb
     \endentry
+    \entry{Olshausen1996}{article}{}
+      \name{author}{2}{}{%
+        {{hash=6bc5fab1e74fd5cf1cca90be2fdef7bf}{%
+           family={Olshausen},
+           family_i={O\bibinitperiod},
+           given={Bruno\bibnamedelima A.},
+           given_i={B\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=153e199239ced8f600f901d5a80901d6}{%
+           family={Field},
+           family_i={F\bibinitperiod},
+           given={David\bibnamedelima J.},
+           given_i={D\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \strng{namehash}{8140416508a1bff4077fb6407c84b444}
+      \strng{fullhash}{8140416508a1bff4077fb6407c84b444}
+      \field{sortinit}{O}
+      \field{sortinithash}{7803d2715d5e795e70382b084ab8d00e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature}
+      \field{number}{6}
+      \field{title}{Emergence of simple-cell receptive field properties by learning a sparse code for natural images}
+      \field{volume}{381}
+      \field{year}{1996}
+      \field{pages}{607\bibrangedash 609}
+      \range{pages}{3}
+      \verb{doi}
+      \verb 10.1038/381607a0
+      \endverb
+    \endentry
     \entry{Pfister2006}{article}{}
       \name{author}{2}{}{%
         {{hash=087012de035696b9d26ae98571c645cc}{%

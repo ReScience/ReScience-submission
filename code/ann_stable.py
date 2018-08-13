@@ -112,7 +112,7 @@ def run():
     plt.imshow(np.squeeze(w).T)
     plt.xlabel('Number of epoch')
     plt.ylabel('Synapse index')
-    plt.savefig('weights_stable.png')
+    plt.savefig('weights_stable.png',bbox_inches='tight')
 
     print('Finish with simulation!')
 #------------------------------------------------------------------------------#

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2018.1.29)  6 AUG 2018 17:24
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2018.1.29)  13 AUG 2018 16:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1182,7 +1182,11 @@ File: english.lbx 2016/03/03 v3.3 biblatex localization (PK/JW/AB)
 \@quotelevel=\count363
 \@quotereset=\count364
 
-(./Larisch-2018.aux)
+(./Larisch-2018.aux
+
+LaTeX Warning: Label `Fig_stab' multiply defined.
+
+)
 \openout1 = `Larisch-2018.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 208.
@@ -1391,69 +1395,75 @@ File: rescience-logo.pdf Graphic file (type QTm)
 <use  "rescience-logo.pdf" > [2]
 File: rescience-logo.pdf Graphic file (type QTm)
  <use  "rescience-logo.pdf" > [3]
-Overfull \hbox (0.80777pt too wide) in paragraph at lines 459--466
+Overfull \hbox (0.80777pt too wide) in paragraph at lines 475--490
 []\EU1/lmr/m/n/10 The experiment protocols are based on the description on the 
 publication of Clopath
  []
 
-
-Overfull \hbox (373.11223pt too wide) detected at line 514
+File: rescience-logo.pdf Graphic file (type QTm)
+<use  "rescience-logo.pdf" > [4]
+Overfull \hbox (373.11223pt too wide) detected at line 536
  [] 
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 512--518
+Underfull \hbox (badness 10000) in alignment at lines 534--540
 [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 518--522
+Underfull \hbox (badness 10000) in alignment at lines 540--544
 [] [] []
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 522--532
+Underfull \hbox (badness 10000) in alignment at lines 544--554
+[] [] []
+ []
+
+
+Overfull \hbox (373.11223pt too wide) detected at line 559
+ [] 
+ []
+
+
+Underfull \hbox (badness 10000) in alignment at lines 557--563
+[] [] []
+ []
+
+
+Underfull \hbox (badness 10000) in alignment at lines 563--567
+[] [] []
+ []
+
+
+Underfull \hbox (badness 10000) in alignment at lines 567--572
 [] [] []
  []
 
 File: rescience-logo.pdf Graphic file (type QTm)
-<use  "rescience-logo.pdf" > [4]
-Overfull \hbox (373.11223pt too wide) detected at line 537
- [] 
- []
-
-
-Underfull \hbox (badness 10000) in alignment at lines 535--541
-[] [] []
- []
-
-
-Underfull \hbox (badness 10000) in alignment at lines 541--545
-[] [] []
- []
-
-
-Underfull \hbox (badness 10000) in alignment at lines 545--550
-[] [] []
- []
-
-LaTeX Font Info:    Try loading font information for EU1+lmtt on input line 581
+<use  "rescience-logo.pdf" > [5]
+LaTeX Font Info:    Try loading font information for EU1+lmtt on input line 622
 .
+
 (/usr/share/texlive/texmf-dist/tex/latex/euenc/eu1lmtt.fd
 File: eu1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 File: rescience-logo.pdf Graphic file (type QTm)
 
-<use  "rescience-logo.pdf" > [5]
+<use  "rescience-logo.pdf" > [6]
 File: rescience-logo.pdf Graphic file (type QTm)
- <use  "rescience-logo.pdf" > [6]
-Overfull \hbox (0.24777pt too wide) in paragraph at lines 715--722
+ <use  "rescience-logo.pdf" > [7]
+File: rescience-logo.pdf Graphic file (type QTm)
+
+<use  "rescience-logo.pdf" > [8]
+Overfull \hbox (0.24777pt too wide) in paragraph at lines 796--803
 \EU1/lmr/m/n/10 ANNarchy provides the \EU1/lmr/bx/n/10 Projection \EU1/lmr/m/n/
 10 object. The ‘pre’ argument define the pre-synaptic
  []
 
 File: rescience-logo.pdf Graphic file (type QTm)
-<use  "rescience-logo.pdf" > [7]
+<use  "rescience-logo.pdf" > [9]
 File: ./figures/W_hippo.png Graphic file (type QTm)
  <use  "./figures/W_hippo.png" >
 File: ./figures/deltaW.png Graphic file (type QTm)
@@ -1461,61 +1471,65 @@ File: ./figures/deltaW.png Graphic file (type QTm)
 <use  "./figures/deltaW.png" >
 File: ./figures/pairing.png Graphic file (type QTm)
  <use  "./figures/pairing.png" >
-Overfull \hbox (2.21999pt too wide) in paragraph at lines 771--776
-[][] [] 
- []
-
-File: rescience-logo.pdf Graphic file (type QTm)
-<use  "rescience-logo.pdf" > [8]
 File: ./figures/rate_Code_Weights.png Graphic file (type QTm)
- <use  "./figures/rate_Code_Weights.png" >
+
+<use  "./figures/rate_Code_Weights.png" >
 File: ./figures/temporal_Code.png Graphic file (type QTm)
 
 <use  "./figures/temporal_Code.png" >
-Overfull \hbox (2.21999pt too wide) in paragraph at lines 808--816
-[][] [] 
- []
-
+File: rescience-logo.pdf Graphic file (type QTm)
+ <use  "rescience-logo.pdf" > [10]
 File: ./figures/weights_stable.png Graphic file (type QTm)
+
 <use  "./figures/weights_stable.png" >
-File: rescience-logo.pdf Graphic file (type QTm)
- <use  "rescience-logo.pdf" > [9]
-File: rescience-logo.pdf Graphic file (type QTm)
-
-<use  "rescience-logo.pdf" > [10]
-LaTeX Font Info:    Font shape `EU1/lmss/m/it' in size <9> not available
-(Font)              Font shape `EU1/lmss/m/sl' tried instead on input line 897.
-
-
-
-LaTeX Font Warning: Font shape `EU1/lmss/m/sc' in size <9> not available
-(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 897.
+File: ./figures/RF.png Graphic file (type QTm)
+ <use  "./figures/RF.png" >
+Overfull \hbox (0.79979pt too wide) in paragraph at lines 956--964
+\EU1/lmr/m/n/10 In the published Matlab source code, they demonstrated the emer
+gent of stable weights.
+ []
 
 File: rescience-logo.pdf Graphic file (type QTm)
 <use  "rescience-logo.pdf" > [11]
+File: ./figures/burst.png Graphic file (type QTm)
+ <use  "./figures/burst.png" >
 File: rescience-logo.pdf Graphic file (type QTm)
- <use  "rescience-logo.pdf" > [12]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 899.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 899.
 
-(./Larisch-2018.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 899.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 899.
+<use  "rescience-logo.pdf" > [12]
+LaTeX Font Info:    Font shape `EU1/lmss/m/it' in size <9> not available
+(Font)              Font shape `EU1/lmss/m/sl' tried instead on input line 1024
+.
+
+
+LaTeX Font Warning: Font shape `EU1/lmss/m/sc' in size <9> not available
+(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 1024.
+
+
+File: rescience-logo.pdf Graphic file (type QTm)
+<use  "rescience-logo.pdf" > [13]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1026.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1026.
+ (./Larisch-2018.aux)
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 1026.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1026.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+
+LaTeX Warning: There were multiply-defined labels.
 
 Package logreq Info: Writing requests to 'Larisch-2018.run.xml'.
 \openout1 = `Larisch-2018.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 40087 strings out of 495579
- 740869 string characters out of 6187322
- 1073887 words of memory out of 5000000
- 42917 multiletter control sequences out of 15000+600000
- 7856 words of font info for 53 fonts, out of 8000000 for 9000
+ 40099 strings out of 495579
+ 741116 string characters out of 6187322
+ 1074423 words of memory out of 5000000
+ 42925 multiletter control sequences out of 15000+600000
+ 7864 words of font info for 54 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 54i,16n,73p,10376b,1111s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 54i,16n,73p,10376b,1046s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on Larisch-2018.pdf (12 pages).
+Output written on Larisch-2018.pdf (13 pages).

@@ -1,17 +1,19 @@
 [0] Config.pm:340> INFO - This is Biber 2.4
 [0] Config.pm:343> INFO - Logfile is 'Larisch-2018.blg'
-[42] biber:287> INFO - === Mo Aug  6, 2018, 17:24:56
-[147] Biber.pm:348> INFO - Reading 'Larisch-2018.bcf'
-[302] Biber.pm:742> INFO - Found 7 citekeys in bib section 0
-[308] Biber.pm:3151> INFO - Processing section 0
-[337] Biber.pm:3308> INFO - Looking for bibtex format file 'bibliography.bib' for section 0
-[370] bibtex.pm:1113> INFO - Decoding LaTeX character macros into UTF-8
-[399] bibtex.pm:974> INFO - Found BibTeX data source 'bibliography.bib'
-[448] Utils.pm:147> WARN - ISBN '1546-1726 (Electronic){\$}\backslash{\$}n1097-6256 (Linking)' in entry 'Clopath2010' is invalid - run biber with '--validate_datamodel' for details.
-[555] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[555] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[555] Biber.pm:3028> INFO - Sorting list 'nty/global' of type 'entry' with scheme 'nty' and locale 'en-US'
-[555] Biber.pm:3032> INFO - No sort tailoring available for locale 'en-US'
-[567] bbl.pm:519> INFO - Writing 'Larisch-2018.bbl' with encoding 'UTF-8'
-[615] bbl.pm:615> INFO - Output to Larisch-2018.bbl
-[615] Biber.pm:109> INFO - WARNINGS: 1
+[42] biber:287> INFO - === Mo Aug 13, 2018, 16:43:32
+[142] Biber.pm:348> INFO - Reading 'Larisch-2018.bcf'
+[296] Biber.pm:742> INFO - Found 8 citekeys in bib section 0
+[302] Biber.pm:3151> INFO - Processing section 0
+[332] Biber.pm:3308> INFO - Looking for bibtex format file 'bibliography.bib' for section 0
+[368] bibtex.pm:1113> INFO - Decoding LaTeX character macros into UTF-8
+[398] bibtex.pm:974> INFO - Found BibTeX data source 'bibliography.bib'
+[445] Utils.pm:147> WARN - ISBN '1546-1726 (Electronic){\$}\backslash{\$}n1097-6256 (Linking)' in entry 'Clopath2010' is invalid - run biber with '--validate_datamodel' for details.
+[488] Utils.pm:147> WARN - BibTeX subsystem: warning: comma(s) at end of name (removing)
+[488] Utils.pm:147> WARN - BibTeX subsystem: author, warning: comma(s) at end of name (removing)
+[566] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[566] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[566] Biber.pm:3028> INFO - Sorting list 'nty/global' of type 'entry' with scheme 'nty' and locale 'en-US'
+[566] Biber.pm:3032> INFO - No sort tailoring available for locale 'en-US'
+[579] bbl.pm:519> INFO - Writing 'Larisch-2018.bbl' with encoding 'UTF-8'
+[631] bbl.pm:615> INFO - Output to Larisch-2018.bbl
+[631] Biber.pm:109> INFO - WARNINGS: 3

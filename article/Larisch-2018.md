@@ -44,7 +44,7 @@ for example triplet or quadruplets experiments [@Pfister2006].
 They propose a biologically-motivated model with a voltage-based learning rule, where the occurrence of long term depression (LTD) or long term potentiation (LTP) depends on the postsynaptic membrane voltage.
 Clopath and colleagues could reproduce how the occurrence of LTD and LTP depends
 on the depolarizing of the postsynaptic membrane potential, as observed in voltage-clamp [@Ngezahayo2000] and stationary-depolarization experiments [@Artola1990].  
-Further, they could reproduce experimental finding from spike pair repetition and triplet experiments [@Sjoestroem2001].
+Further, they could reproduce experimental finding from spike pair repetition and triplet experiments [@Sjoestroem2001], as from spike bursting experiments [@Nevian2006].
 They were able to show that their learning rule
 can develop stable weights, as needed for learning the receptive fields of V1 simple cells.
 Therefore, they implemented a homeostatic mechanism to
@@ -427,13 +427,11 @@ With the **Monitor** object provides ANNarchy a easy possibility to record varia
 
 # Results
 To prove the correctness of the here proposed reimplementation, different experiments of the original paper are reproduced.
-Although most results are reproduced successfully, the burst experiments could not be absolutely reproduced.
+Although most results are reproduced successfully, the some experiments could not be absolutely reproduced or show small differences.
 All weight changes are shown relatively to the initial weight value, which are not shown in the original publication.
 Because of that, initial values are mainly found experimentally and are shown in the corresponding tables of parameters.
 
-## Fully reproduced experiments
-
-### Voltage-Clamp experiment
+## Voltage-Clamp experiment
 
 To reproduce the voltage clamp experiment, the postsynaptic membrane potential changes from a fix values of $–80 mV$ to $0 mV$.
 Resulting changes in the learning rule are implemented as mentioned in the original publication.
@@ -443,11 +441,11 @@ The results are shwon in \textbf{Fig. \ref{Fig_exp} left}.
 The blue line represents the weight change with the standard parameter set for the visual cortex and
 the red line represents the weight change with the parameter set for the hippocampus, as mentioned in the original publication.
 
-### Pair-based and triplet STDP experiments
+## Pair-based and triplet STDP experiments
 
 \begin{figure}
 \includegraphics[width=0.325\textwidth]{./figures/W_hippo.png}
-\includegraphics[width=0.325\textwidth]{./figures/deltaW.png}
+\includegraphics[width=0.325\textwidth]{./figures/windW.png}
 \includegraphics[width=0.325\textwidth]{./figures/pairing.png}
 \caption{ \textbf{Replication of experimental findings.}
          \textbf{Left}, weight change in the Voltage clamp experiment. The blue line presents the weight change with the parameter set for the visual cortex.
@@ -461,7 +459,7 @@ the red line represents the weight change with the parameter set for the hippoca
 The classic-pair based spike timing learning window is presented in \textbf{Fig. \ref{Fig_exp} middle}.
 If the postsynaptic neuron spikes before the presynaptic one, LTD occurs (red line).
 If the postsynaptic neuron spikes after the presynaptic one, LTP occurs (blue line).
-The x-axis represents the time difference between pre- and post-synaptic spikes, relative to the postsynaptic spike.
+The x-axis represents the time difference between pre- and postsynaptic spikes, relative to the postsynaptic spike.
 The resulting graph is similar to the presented one in the original publication.
 A small difference can be seen in the higher positive and negative change.
 In the original publication is the normalized weight at a time difference of $-10ms$ around $70 \%$.
@@ -473,6 +471,39 @@ With lower repetition frequency, post-pre pairs (red line) lead to LTD. At a rep
 the post-pre pairs are under the influence of the next post-pre pair and the post-pre-post triplets
 lead to LTP. If the repetition frequency of post-pre pairs is around $50 Hz$, the same amount of LTP emerges as
 in pre-post pairs. These results are similar to the original paper.
+
+## Spike bursts
+
+\begin{figure}
+\centering
+\includegraphics[width=0.6\textwidth]{./figures/burst_dW.png}
+\caption{\textbf{Burst experiments}
+\textbf{Upper left}, weight change as a function of the numbers of postsynaptic spikes.
+\textbf{Upper right}, weight change as a function of the frequency between three postsynaptic spikes.
+\textbf{Down}, weight change as a function of the time between the first of three postsynaptic spikes and one presynaptic spike.
+}
+\label{Fig_burst}
+\end{figure}
+
+In the original publication, @Clopath2010 study nonlinearity of STDP by using protocols
+of spike bursts.
+In the first task, they changed the number of postsynaptic spikes from one up to three,
+with $+10 ms$ and with $-10 ms$ between the presynaptic and the first postsynaptic spike.
+The postsynaptic neuron fires with $50Hz$.
+The results from the reimplementation is shown in \textbf{Fig. \ref{Fig_burst} upper left}.
+The upper marks represents for the weight change with $+10 ms$, the lower marks the weight change with $-10 ms$ between the presynaptic and postsynaptic spikes.
+As in the original publication from @Clopath2010 and the experimental paper of @Nevian2006, one postsynaptic spike, independently of the spiking order, leads only to a small change in the weight.
+A second spike leads to bigger change, especially when the postsynaptic neurons spikes after the presynaptic one.
+
+The second task is the weight change, depending on the frequency between three postsynaptic spikes (\textbf{Fig. \ref{Fig_burst} upper right}).
+As shown in @Clopath2010, a higher frequency leads to a higher change of the synaptic weight.
+
+The third task, the change of the weight as a function of the time between the one presynaptic spike and the first of three postsynaptic spikes, is presented in \textbf{Fig. \ref{Fig_burst} down}.
+Here, the curve is very similar to the one presented in @Clopath2010.
+
+Despite of the label, what is orientated on the publication from @Clopath2010, the graphs show the weight changes as mentioned in the original experimental paper by @Nevian2006.
+
+## Connectivity analysis
 
 \begin{figure}
 \centering
@@ -488,7 +519,6 @@ in pre-post pairs. These results are similar to the original paper.
 \label{Fig_con}
 \end{figure}
 
-### Connectivity analysis
 
 In addition to the replication of experimental findings of pair-based and triplet STDP experiments,
 @Clopath2010 presented how the synaptic connectivity, emerging from the proposed learning rule,
@@ -506,7 +536,7 @@ This is in line with the connection pattern presented in the original paper (see
 If the neurons fire in a specific temporal order, this sequence is reflected in the connection pattern (see \textbf{Fig. \ref{Fig_con} left}).
 As in the original paper, the connections from neurons which are firing a long time after or before the post-synaptic neuron are weak, while they are strong to neurons which fired a short time after the neurons.
 
-### Receptive fields
+## Receptive fields
 
 \begin{figure}
 \centering
@@ -534,39 +564,40 @@ Every presynaptic neuron corresponds to one pixel of the $16 \times 16$ pixel in
 The $200000$ presented patches are cut out randomly of ten natural scenes [@Olshausen1996], and each patch presented for $200 ms$.
 The emergent receptive fields are shown in \textbf{Fig. \ref{Fig_stab}, left}.
 
+
+
+
 **Was war für die Implementierung des Modelles in ANNArchy wichtig ? Was für Probleme gab es ?
 Welche Schritte waren notewendig um es zu implementieren? Was für die implementierung relevantes
 stand im Paper und was musste selbst 'entschlüsselt' werden?**
 
-**Zusätzlicher Abschnitt über Plots die nicht gleich sind --> erklären warum**
 
-## partial reproduced experiments
-
-\begin{figure}
-\centering
-\includegraphics[width=0.55\textwidth]{./figures/burst.png}
-\caption{\textbf{Burst experiments}
-}
-\label{Fig_stab}
-\end{figure}
-
-If we change the presynaptic spike frequency or the time between the presynaptic and postsynaptic spike..
 # Conclusion
 
 Our reimplementation of voltage based STDP learning rule from @Clopath2010
-is able to reproduce the experimental data and the emergent connectivity structures
-proposed in the original paper.
+is able to reproduce most of the experimental data and the emergent connectivity structures
+proposed in the original paper as well as the emergent of orientation selective receptive fields, like them in the primary visual cortex.
+In comparison to the  graphs in the original publication, the here presented reimplementation shows some little differences in the curve shapes in the
+STDP window (\textbf{Fig. \ref{Fig_exp}, middle}), the weight change as a function of the pair-repetition frequency (\textbf{Fig. \ref{Fig_exp}, left})
+and for the weight change as a function of the burst frequency of the postsynaptic neuron (\textbf{Fig. \ref{Fig_burst}, upper right}).
+However, the curves show the same tendency as in the original publication.
 
 The description of the learning rule in the original publication comprises enough details
 to understand the different components and their interaction.
-However, two main components have not been described adequately to allow a direct reimplementation:
+However, two main components of the learning rule have not been described adequately to allow a direct reimplementation:
 the 'resolution trick' of the membrane potential after spike emission and the equation for the
 homeostatic mechanism ($\bar{\bar{u}}$).  
 The emergent of stable weights with high and low values depends on a functional homeostatic mechanism, as mentioned in the original publication [@Clopath2010].
 But the formula to calculate the homeostatic variable $\bar{\bar{u}}$ is not described in the publication.
 The dependency of $\bar{\bar{u}}$ on the homeostatic mechanism is necessary to
 implement the right behavior of the membrane potential.
-The reimplementation has greatly benefited from the release of the source code on modelDB.
+Because of this, the reimplementation has greatly benefited from the release of the source code on modelDB, where the correct behavior of the neuron and the homeostatic mechanism is written.
+Further, initial weight values are not given in the original publication, this complicates the reproduction of the experiments.
+Initial weight are here given in the corresponding tables. Please note, the weights can change from task to task to achieve the proportional values for the figures.
+
+ANNarchy as a framework make it easy to define a neuron model and learning rule to set up a network.
+Despite of this advance, the calculation order of the equations is controlled by ANNarchy and can lead to a slightly different behavior and to little differences in the results.
+Further, the change of some parameters for the most tasks was necessary. But this seems to be a regular problem by reimplementing models [@Brette2007].
 
 ## Acknowledgment
 

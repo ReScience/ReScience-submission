@@ -94,6 +94,141 @@
       \verb http://www.jneurosci.org/content/18/24/10464
       \endverb
     \endentry
+    \entry{Brette2007}{article}{}
+      \name{author}{22}{}{%
+        {{hash=44ee245ab46012abbf3bfd5493ac4d59}{%
+           family={Brette},
+           family_i={B\bibinitperiod},
+           given={Romain},
+           given_i={R\bibinitperiod}}}%
+        {{hash=a804c6211453fe133b8ada52f37fafc3}{%
+           family={Rudolph},
+           family_i={R\bibinitperiod},
+           given={Michelle},
+           given_i={M\bibinitperiod}}}%
+        {{hash=dee98f49c413d860b64e0f3b18d805e9}{%
+           family={Carnevale},
+           family_i={C\bibinitperiod},
+           given={Ted},
+           given_i={T\bibinitperiod}}}%
+        {{hash=937b8a42160384353ea5b4d770fcd419}{%
+           family={Hines},
+           family_i={H\bibinitperiod},
+           given={Michael},
+           given_i={M\bibinitperiod}}}%
+        {{hash=699c2faea0f162ac7146fe2ddf26e5c4}{%
+           family={Beeman},
+           family_i={B\bibinitperiod},
+           given={David},
+           given_i={D\bibinitperiod}}}%
+        {{hash=674b9fa89296906b2eff19040755b04d}{%
+           family={Bower},
+           family_i={B\bibinitperiod},
+           given={James\bibnamedelima M.},
+           given_i={J\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=a6e9c8b3b1dc422f6d4f5f42ab3051bc}{%
+           family={Diesmann},
+           family_i={D\bibinitperiod},
+           given={Markus},
+           given_i={M\bibinitperiod}}}%
+        {{hash=ea4ec7db46c8894525a4b0c34b8c3cd2}{%
+           family={Morrison},
+           family_i={M\bibinitperiod},
+           given={Abigail},
+           given_i={A\bibinitperiod}}}%
+        {{hash=51e135a5b15660965364fabdcd5bd05f}{%
+           family={Goodman},
+           family_i={G\bibinitperiod},
+           given={Philip\bibnamedelima H.},
+           given_i={P\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=3eeb83ca7c98de9b16281ffb8ce6b4a0}{%
+           family={Harris},
+           family_i={H\bibinitperiod},
+           given={Frederick\bibnamedelima C.},
+           given_i={F\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=8cdbb3e36b95ca84630155ad186dc55a}{%
+           family={Zirpe},
+           family_i={Z\bibinitperiod},
+           given={Milind},
+           given_i={M\bibinitperiod}}}%
+        {{hash=a06dae178295aa0645821889e3834a3d}{%
+           family={Natschläger},
+           family_i={N\bibinitperiod},
+           given={Thomas},
+           given_i={T\bibinitperiod}}}%
+        {{hash=fb50c0833a61d88454710cd3fe15e280}{%
+           family={Pecevski},
+           family_i={P\bibinitperiod},
+           given={Dejan},
+           given_i={D\bibinitperiod}}}%
+        {{hash=f9adf2cc0b5a42c1fed0d9751eecf1e7}{%
+           family={Ermentrout},
+           family_i={E\bibinitperiod},
+           given={Bard},
+           given_i={B\bibinitperiod}}}%
+        {{hash=973350c097f17a6002d4d7f35445e0cb}{%
+           family={Djurfeldt},
+           family_i={D\bibinitperiod},
+           given={Mikael},
+           given_i={M\bibinitperiod}}}%
+        {{hash=595bee76a1ca6ba85d4e196eb14b25e6}{%
+           family={Lansner},
+           family_i={L\bibinitperiod},
+           given={Anders},
+           given_i={A\bibinitperiod}}}%
+        {{hash=e77eb9f4805256ab3933c61a200330ca}{%
+           family={Rochel},
+           family_i={R\bibinitperiod},
+           given={Olivier},
+           given_i={O\bibinitperiod}}}%
+        {{hash=fff1cc68dff709e71093d9f2ef92883d}{%
+           family={Vieville},
+           family_i={V\bibinitperiod},
+           given={Thierry},
+           given_i={T\bibinitperiod}}}%
+        {{hash=81de766df0616d467f81f4cdcf3dde4e}{%
+           family={Muller},
+           family_i={M\bibinitperiod},
+           given={Eilif},
+           given_i={E\bibinitperiod}}}%
+        {{hash=c3542b53d72d4caf35ba22b1fa37bda7}{%
+           family={Davison},
+           family_i={D\bibinitperiod},
+           given={Andrew\bibnamedelima P.},
+           given_i={A\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=09f51b06f4277b48a891d587d2f15c40}{%
+           family={El\bibnamedelima Boustani},
+           family_i={E\bibinitperiod\bibinitdelim B\bibinitperiod},
+           given={Sami},
+           given_i={S\bibinitperiod}}}%
+        {{hash=bb75b070b774ddeb8d2843d3509c662c}{%
+           family={Destexhe},
+           family_i={D\bibinitperiod},
+           given={Alain},
+           given_i={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{cfc410c18379306567811b94c0d0af1b}
+      \strng{fullhash}{f3b86397e090d86991b9f7ebdad1b0a3}
+      \field{sortinit}{B}
+      \field{sortinithash}{4ecbea03efd0532989d3836d1a048c32}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1573-6873}
+      \field{journaltitle}{Journal of Computational Neuroscience}
+      \field{month}{12}
+      \field{number}{3}
+      \field{title}{Simulation of networks of spiking neurons: A review of tools and strategies}
+      \field{volume}{23}
+      \field{year}{2007}
+      \field{pages}{349\bibrangedash 398}
+      \range{pages}{50}
+      \verb{doi}
+      \verb 10.1007/s10827-007-0038-6
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1007/s10827-007-0038-6
+      \endverb
+    \endentry
     \entry{Clopath2010}{article}{}
       \name{author}{4}{}{%
         {{hash=326600b0ad340d8e0cd5df377b62e046}{%
@@ -137,6 +272,39 @@
       \endverb
       \verb{url}
       \verb http://www.nature.com/doifinder/10.1038/nn.2479
+      \endverb
+    \endentry
+    \entry{Nevian2006}{article}{}
+      \name{author}{2}{}{%
+        {{hash=6a786a179637fe64bca70eda6d92521f}{%
+           family={Nevian},
+           family_i={N\bibinitperiod},
+           given={Thomas},
+           given_i={T\bibinitperiod}}}%
+        {{hash=cd976ef2a692f54af47155e3ea294a66}{%
+           family={Sakmann},
+           family_i={S\bibinitperiod},
+           given={Bert},
+           given_i={B\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Society for Neuroscience}%
+      }
+      \strng{namehash}{99c3a5d56f14dab86f9bb41007ffc8cb}
+      \strng{fullhash}{99c3a5d56f14dab86f9bb41007ffc8cb}
+      \field{sortinit}{N}
+      \field{sortinithash}{925374ca63e7594de7fafdb83e64d41d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Neuroscience}
+      \field{number}{43}
+      \field{title}{Spine Ca2+ Signaling in Spike-Timing-Dependent Plasticity}
+      \field{volume}{26}
+      \field{year}{2006}
+      \field{pages}{11001\bibrangedash 11013}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1523/JNEUROSCI.1749-06.2006
       \endverb
     \endentry
     \entry{Ngezahayo2000}{article}{}

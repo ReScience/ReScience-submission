@@ -92,7 +92,7 @@ def run():
     ltd_w = m_d.get('ltdTerm')
     ltp_w = m_d.get('ltpTerm')
 
-    w = w/initW *100.
+    w = (initW+dW)/initW*100.#w/initW *100.
 
     ##--- start plotting ---##
     fig,ax = plt.subplots(figsize=(13,9))

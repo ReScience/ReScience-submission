@@ -34,8 +34,8 @@ duration = 240 #ms
 d_t = 10 # time between pre- and first postsynaptic spike
 t_1 = 110 # time point of the presynaptic spike
 ## -- initial weights for the three tasks -- ##
-initW1 = 0.007#0.007
-initW2 = 0.007#0.0055
+initW1 = 0.0025#0.007
+initW2 = 0.0025#0.0055
 initW3 = 0.01#0.008
 #----------------------initialize time points of spikes-----------------------------#
 # create a list of the different spike times for the presynaptic neuron; only for initialization
@@ -91,7 +91,7 @@ projN1_N2 = Projection(
 
 #---- parameter adjustments ----#
 #projN1_N2.thetaLTP = -50.3
-projN1_N2.vmean = 80.0
+projN1_N2.vmean = 60.0
 #projN1_N2.transmit = 3.0 # to activate the transmission over the synapse
 #------------------------------main function------------------------------------
 def run():
@@ -118,7 +118,7 @@ def run():
         d_w = m_d.get('w')
         dWSpk_pos[i] = d_w[-1]
         delta_w = m_d.get('deltaW')
-        deltaWSpk_pos[i] = delta_w[-1]
+        deltaWSpk_pos[i] = np.sum(delta_w)
         # reset all variables
         reset()#reset(populations=True,projections=True,synapses=True)
 
@@ -131,11 +131,11 @@ def run():
         inpPop2.spike_times = np.linspace(t_1-d_t,t_1-(d_t+20*(i)),i+1).tolist()
         simulate(duration)
         d_w = m_d.get('w')
-        dWSpk_neg[i] = np.mean(d_w)
+        dWSpk_neg[i] = d_w[-1]
         delta_w = m_d.get('deltaW')
-        deltaWSpk_neg[i] = np.mean(delta_w)
+        deltaWSpk_neg[i] = np.sum(delta_w)
         reset()#reset(populations=True,projections=True,synapses=True)
-
+    print(deltaWSpk_neg )
 ############################################################
 ####-- increase the postsynaptic firing from 20 to 100--####
     n_freq = 10
@@ -153,7 +153,7 @@ def run():
         d_w = m_d.get('w')
         dWBurst_pos[i] = d_w[-1] #np.mean(d_w)
         delta_w = m_d.get('deltaW')
-        deltaWBurst_pos[i] = delta_w[-1]#np.mean(delta_w)
+        deltaWBurst_pos[i] = np.sum(delta_w)
         reset()#reset(populations=True,projections=True,synapses=True)
 
 
@@ -167,9 +167,9 @@ def run():
         inpPop2.spike_times = np.linspace(t_1-d_t,t_1-(d_t+d_t2*2),3).tolist()
         simulate(duration)
         d_w = m_d.get('w')
-        dWBurst_neg[i] = np.mean(d_w)
+        dWBurst_neg[i] = d_w[-1]
         delta_w = m_d.get('deltaW')
-        deltaWBurst_neg[i] = np.mean(delta_w)
+        deltaWBurst_neg[i] = np.sum(delta_w)
         reset()#reset(populations=True,projections=True,synapses=True)
 
 #####################################################################################
@@ -187,30 +187,15 @@ def run():
         d_w = m_d.get('w')
         dWLag_pos[i] = d_w[-1]#np.mean(d_w)
         delta_w = m_d.get('deltaW')
-        deltaWLag_pos[i] = delta_w[-1] #np.mean(delta_w)
+        deltaWLag_pos[i] = np.sum(delta_w)
         reset()#reset(populations=True,projections=True,synapses=True)
-
-    #--# set the recorded weight values relative to the initial weight value --##
-    dWSpk_pos = dWSpk_pos/initW1 * 100
-    # weight above 250% of the initial weight are clipped to 250% as mentioned in the original publication
-    dWSpk_pos[dWSpk_pos>250] = 250
-    dWSpk_neg = dWSpk_neg/initW1 * 100
-
-    dWBurst_pos = dWBurst_pos/initW2 *100
-    # weight above 250% of the initial weight are clipped to 250% as mentioned in the original publication
-    dWBurst_pos[dWBurst_pos>250] = 250
-    dWBurst_neg = dWBurst_neg/initW2 *100
-
-    dWLag_pos = dWLag_pos/initW3 *100
-    # weight above 250% of the initial weight are clipped to 250% as mentioned in the original publication
-    dWLag_pos[dWLag_pos>250] = 250
 
     #---plot data as in Fig.3 in Clopath et al. (2010)-----#
     fig = plt.figure(figsize=(12,10))
     gs=GridSpec(6,4)
     ax0= plt.subplot(gs[0:4,0:2])
-    ax0.plot(dWSpk_pos,'x',color='black',lw=3,ms=15)
-    ax0.plot(dWSpk_neg,'x',color='black',lw=3,ms=15)
+    ax0.plot(np.clip(deltaWSpk_pos/initW1*100,0,250),'x',color='black',lw=3,ms=15)
+    ax0.plot( (2*initW1 +deltaWSpk_neg)/initW1*100,'x',color='black',lw=3,ms=15)
     ax0.hlines(100,-0.2,3,colors='k')
     ax0.spines['right'].set_visible(False)
     ax0.spines['top'].set_visible(False)
@@ -223,8 +208,8 @@ def run():
     plt.ylim(0.0,250)
 
     ax1= plt.subplot(gs[0:4,2:4])
-    ax1.plot(dWBurst_pos,'--',color='black',lw=3,ms=15)
-    ax1.plot(dWBurst_neg,'--',color='black',lw=3,ms=15)
+    ax1.plot(np.clip(deltaWBurst_pos/initW2*100,0,250),'--',color='black',lw=3,ms=15)
+    ax1.plot((2*initW2+deltaWBurst_neg)/initW2*100,'--',color='black',lw=3,ms=15)
     ax1.hlines(100,0,n_freq,colors='k')
     ax1.spines['right'].set_visible(False)
     ax1.spines['top'].set_visible(False)
@@ -235,7 +220,7 @@ def run():
     plt.xlabel('Frequency (Hz)')
 
     ax2 = plt.subplot(gs[5:6,:])
-    ax2.plot(dWLag_pos,'-',color='black',lw=3)
+    ax2.plot((initW3+deltaWLag_pos)/initW3*100,'-',color='black',lw=3)
     ax2.hlines(100,0,33,colors='k')
     ax2.spines['right'].set_visible(False)
     ax2.spines['top'].set_visible(False)
@@ -243,7 +228,9 @@ def run():
     ax2.yaxis.set_ticks_position('left')
     plt.ylim(0.0,300)
     plt.xlabel('Time lag (ms)')
-    fig.savefig('burst.png',bbox_inches='tight')
+    fig.savefig('burst_dW.png',bbox_inches='tight')
+
+
     print("finish")
 #------------------------------------------------------------------------------------
 run()

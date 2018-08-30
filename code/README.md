@@ -1,7 +1,9 @@
-### Code repository
+### Platform and software version information
 
-Don't forget to choose a license. You're free to use one from a set of
-well-understood licenses including BSD, GPL or Apache.
-
-See [the Debian Free Software Guidelines](https://www.debian.org/social_contract#guidelines)
-for a [list of licenses](https://www.debian.org/legal/licenses/).
+Platform: win32
+Python: 3.6.4 |Anaconda custom (64-bit)| (default, Jan 16 2018, 10:22:32) [MSC v.1900 64 bit (AMD64)]
+Machine and architecture AMD64 64bit WindowsPE
+NumPy: 1.14.2
+pandas: 0.22.0
+Scikit-learn: 0.19.1
+matplotlib: 2.1.2

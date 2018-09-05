@@ -1,19 +1,19 @@
 [0] Config.pm:340> INFO - This is Biber 2.4
 [0] Config.pm:343> INFO - Logfile is 'Larisch-2018.blg'
-[42] biber:287> INFO - === Di Aug 14, 2018, 18:00:27
-[149] Biber.pm:348> INFO - Reading 'Larisch-2018.bcf'
-[313] Biber.pm:742> INFO - Found 10 citekeys in bib section 0
-[322] Biber.pm:3151> INFO - Processing section 0
-[353] Biber.pm:3308> INFO - Looking for bibtex format file 'bibliography.bib' for section 0
-[396] bibtex.pm:1113> INFO - Decoding LaTeX character macros into UTF-8
-[434] bibtex.pm:974> INFO - Found BibTeX data source 'bibliography.bib'
-[484] Utils.pm:147> WARN - ISBN '1546-1726 (Electronic){\$}\backslash{\$}n1097-6256 (Linking)' in entry 'Clopath2010' is invalid - run biber with '--validate_datamodel' for details.
-[554] Utils.pm:147> WARN - BibTeX subsystem: warning: comma(s) at end of name (removing)
-[554] Utils.pm:147> WARN - BibTeX subsystem: author, warning: comma(s) at end of name (removing)
-[663] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[663] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[663] Biber.pm:3028> INFO - Sorting list 'nty/global' of type 'entry' with scheme 'nty' and locale 'en-US'
-[663] Biber.pm:3032> INFO - No sort tailoring available for locale 'en-US'
-[683] bbl.pm:519> INFO - Writing 'Larisch-2018.bbl' with encoding 'UTF-8'
-[758] bbl.pm:615> INFO - Output to Larisch-2018.bbl
-[758] Biber.pm:109> INFO - WARNINGS: 3
+[49] biber:287> INFO - === Mi Sep  5, 2018, 15:05:49
+[163] Biber.pm:348> INFO - Reading 'Larisch-2018.bcf'
+[328] Biber.pm:742> INFO - Found 10 citekeys in bib section 0
+[336] Biber.pm:3151> INFO - Processing section 0
+[368] Biber.pm:3308> INFO - Looking for bibtex format file 'bibliography.bib' for section 0
+[411] bibtex.pm:1113> INFO - Decoding LaTeX character macros into UTF-8
+[449] bibtex.pm:974> INFO - Found BibTeX data source 'bibliography.bib'
+[501] Utils.pm:147> WARN - ISBN '1546-1726 (Electronic){\$}\backslash{\$}n1097-6256 (Linking)' in entry 'Clopath2010' is invalid - run biber with '--validate_datamodel' for details.
+[571] Utils.pm:147> WARN - BibTeX subsystem: warning: comma(s) at end of name (removing)
+[571] Utils.pm:147> WARN - BibTeX subsystem: author, warning: comma(s) at end of name (removing)
+[687] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[687] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[687] Biber.pm:3028> INFO - Sorting list 'nty/global' of type 'entry' with scheme 'nty' and locale 'en-US'
+[687] Biber.pm:3032> INFO - No sort tailoring available for locale 'en-US'
+[711] bbl.pm:519> INFO - Writing 'Larisch-2018.bbl' with encoding 'UTF-8'
+[789] bbl.pm:615> INFO - Output to Larisch-2018.bbl
+[789] Biber.pm:109> INFO - WARNINGS: 3

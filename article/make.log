@@ -173,11 +173,7 @@ Style option: `fancyvrb' v2.7a, with DG/SPQR fixes, and firstline=lastline fix
 (/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/biblatex/lbx/english.lbx)
-(./Larisch-2018.aux
-
-LaTeX Warning: Label `Fig_stab' multiply defined.
-
-) (/usr/share/texmf/tex/latex/tipa/t3cmr.fd)
+(./Larisch-2018.aux) (/usr/share/texmf/tex/latex/tipa/t3cmr.fd)
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty))
 (./Larisch-2018.out) (./Larisch-2018.out)
@@ -205,90 +201,91 @@ Package hyperref Warning: The anchor of a bookmark and its parent's must not
 (hyperref)                be the same. Added a new anchor on input line 314.
 
 <use  "rescience-logo.pdf" > [2] <use  "rescience-logo.pdf" > [3]
-Overfull \hbox (0.80777pt too wide) in paragraph at lines 476--491
-[]\EU1/lmr/m/n/10 The experiment protocols are based on the description on the 
-publication of Clopath
+Underfull \hbox (badness 10000) in paragraph at lines 470--481
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 482--491
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 492--502
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 503--522
+
 <use  "rescience-logo.pdf" > [4]
-Overfull \hbox (373.11223pt too wide) detected at line 537
+Underfull \hbox (badness 10000) in paragraph at lines 523--530
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 531--547
+
+
+Overfull \hbox (373.11223pt too wide) detected at line 584
  [] 
 
-Underfull \hbox (badness 10000) in alignment at lines 535--541
+Underfull \hbox (badness 10000) in alignment at lines 582--588
 [] [] []
 
-Underfull \hbox (badness 10000) in alignment at lines 541--545
+Underfull \hbox (badness 10000) in alignment at lines 588--592
 [] [] []
 
-Underfull \hbox (badness 10000) in alignment at lines 545--555
-[] [] []
-
-Overfull \hbox (373.11223pt too wide) detected at line 560
- [] 
-
-Underfull \hbox (badness 10000) in alignment at lines 558--564
-[] [] []
-
-Underfull \hbox (badness 10000) in alignment at lines 564--568
-[] [] []
-
-Underfull \hbox (badness 10000) in alignment at lines 568--573
+Underfull \hbox (badness 10000) in alignment at lines 592--604
 [] [] []
 <use  "rescience-logo.pdf" > [5]
+Overfull \hbox (373.11223pt too wide) detected at line 609
+ [] 
+
+Underfull \hbox (badness 10000) in alignment at lines 607--613
+[] [] []
+
+Underfull \hbox (badness 10000) in alignment at lines 613--617
+[] [] []
+
+Underfull \hbox (badness 10000) in alignment at lines 617--622
+[] [] []
+
+Underfull \hbox (badness 10000) in paragraph at lines 626--641
+
+<use  "rescience-logo.pdf" > [6]
+Overfull \hbox (4.72334pt too wide) in paragraph at lines 670--674
+[]\EU1/lmr/m/n/10 In the next calculation step, the changes in the membrane vol
+tage is set to $\OT1/cmr/m/n/10 32\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 863\OML/cmm
+/m/it/10 mV$\EU1/lmr/m/n/10 .
 (/usr/share/texlive/texmf-dist/tex/latex/euenc/eu1lmtt.fd)
-<use  "rescience-logo.pdf" > [6] <use  "rescience-logo.pdf" > [7]
-<use  "rescience-logo.pdf" > [8]
-Overfull \hbox (0.24777pt too wide) in paragraph at lines 797--804
+<use  "rescience-logo.pdf" > [7] <use  "rescience-logo.pdf" > [8]
+Overfull \hbox (0.24777pt too wide) in paragraph at lines 851--858
 \EU1/lmr/m/n/10 ANNarchy provides the \EU1/lmr/bx/n/10 Projection \EU1/lmr/m/n/
 10 object. The ‘pre’ argument define the pre-synaptic
 <use  "rescience-logo.pdf" > [9] <use  "./figures/W_hippo.png" >
 <use  "./figures/windW.png" > <use  "./figures/pairing.png" >
-<use  "./figures/burst_dW.png" >
+Underfull \hbox (badness 10000) in paragraph at lines 931--943
 
-LaTeX Warning: Reference `Fig_burst' on page 10 undefined on input line 918.
-
-
-LaTeX Warning: Reference `Fig_burst' on page 10 undefined on input line 928.
-
-<use  "rescience-logo.pdf" > [10]
-
-LaTeX Warning: Reference `Fig_burst' on page 11 undefined on input line 934.
-
-<use  "./figures/rate_Code_Weights.png" >
-<use  "./figures/temporal_Code.png" > <use  "./figures/weights_stable.png" >
-<use  "./figures/RF.png" >
-Overfull \hbox (0.79979pt too wide) in paragraph at lines 997--1005
+<use  "rescience-logo.pdf" > [10] <use  "./figures/burst_dW.png" >
+<use  "rescience-logo.pdf" > [11] <use  "./figures/rate_Code_Weights.png" >
+<use  "./figures/temporal_Code.png" > <use  "rescience-logo.pdf" > [12]
+<use  "./figures/weights_stable.png" > <use  "./figures/RF.png" >
+Overfull \hbox (0.79979pt too wide) in paragraph at lines 1053--1061
 \EU1/lmr/m/n/10 In the published Matlab source code, they demonstrated the emer
 gent of stable weights.
-<use  "rescience-logo.pdf" > [11] <use  "rescience-logo.pdf" > [12]
 
-LaTeX Warning: Reference `Fig_burst' on page 13 undefined on input line 1036.
+Underfull \hbox (badness 10000) in paragraph at lines 1077--1090
 
 
-LaTeX Warning: Citation 'Brette2007' on page 13 undefined on input line 1067.
+Underfull \hbox (badness 10000) in paragraph at lines 1091--1111
 
 <use  "rescience-logo.pdf" > [13]
 
 LaTeX Font Warning: Font shape `EU1/lmss/m/sc' in size <9> not available
-(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 1075.
+(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 1126.
 
 
-<use  "rescience-logo.pdf" > [14] (./Larisch-2018.aux)
+<use  "rescience-logo.pdf" > [14] <use  "rescience-logo.pdf" > [15]
+(./Larisch-2018.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: There were multiply-defined labels.
-
-
-Package biblatex Warning: Please (re)run Biber on the file:
-(biblatex)                Larisch-2018
-(biblatex)                and rerun LaTeX afterwards.
-
  )
 (see the transcript file for additional information)
-Output written on Larisch-2018.pdf (14 pages).
+Output written on Larisch-2018.pdf (15 pages).
 Transcript written on Larisch-2018.log.
 INFO - This is Biber 2.4
 INFO - Logfile is 'Larisch-2018.blg'
@@ -301,8 +298,8 @@ INFO - Found BibTeX data source 'bibliography.bib'
 WARN - ISBN '1546-1726 (Electronic){\$}\backslash{\$}n1097-6256 (Linking)' in entry 'Clopath2010' is invalid - run biber with '--validate_datamodel' for details.
 WARN - BibTeX subsystem: warning: comma(s) at end of name (removing)
 WARN - BibTeX subsystem: author, warning: comma(s) at end of name (removing)
-INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
 INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
 INFO - Sorting list 'nty/global' of type 'entry' with scheme 'nty' and locale 'en-US'
 INFO - No sort tailoring available for locale 'en-US'
 INFO - Writing 'Larisch-2018.bbl' with encoding 'UTF-8'
@@ -511,66 +508,91 @@ Package hyperref Warning: The anchor of a bookmark and its parent's must not
 (hyperref)                be the same. Added a new anchor on input line 314.
 
 <use  "rescience-logo.pdf" > [2] <use  "rescience-logo.pdf" > [3]
-Overfull \hbox (0.80777pt too wide) in paragraph at lines 476--491
-[]\EU1/lmr/m/n/10 The experiment protocols are based on the description on the 
-publication of Clopath
+Underfull \hbox (badness 10000) in paragraph at lines 470--481
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 482--491
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 492--502
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 503--522
+
 <use  "rescience-logo.pdf" > [4]
-Overfull \hbox (373.11223pt too wide) detected at line 537
+Underfull \hbox (badness 10000) in paragraph at lines 523--530
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 531--547
+
+
+Overfull \hbox (373.11223pt too wide) detected at line 584
  [] 
 
-Underfull \hbox (badness 10000) in alignment at lines 535--541
+Underfull \hbox (badness 10000) in alignment at lines 582--588
 [] [] []
 
-Underfull \hbox (badness 10000) in alignment at lines 541--545
+Underfull \hbox (badness 10000) in alignment at lines 588--592
 [] [] []
 
-Underfull \hbox (badness 10000) in alignment at lines 545--555
-[] [] []
-
-Overfull \hbox (373.11223pt too wide) detected at line 560
- [] 
-
-Underfull \hbox (badness 10000) in alignment at lines 558--564
-[] [] []
-
-Underfull \hbox (badness 10000) in alignment at lines 564--568
-[] [] []
-
-Underfull \hbox (badness 10000) in alignment at lines 568--573
+Underfull \hbox (badness 10000) in alignment at lines 592--604
 [] [] []
 <use  "rescience-logo.pdf" > [5]
+Overfull \hbox (373.11223pt too wide) detected at line 609
+ [] 
+
+Underfull \hbox (badness 10000) in alignment at lines 607--613
+[] [] []
+
+Underfull \hbox (badness 10000) in alignment at lines 613--617
+[] [] []
+
+Underfull \hbox (badness 10000) in alignment at lines 617--622
+[] [] []
+
+Underfull \hbox (badness 10000) in paragraph at lines 626--641
+
+<use  "rescience-logo.pdf" > [6]
+Overfull \hbox (4.72334pt too wide) in paragraph at lines 670--674
+[]\EU1/lmr/m/n/10 In the next calculation step, the changes in the membrane vol
+tage is set to $\OT1/cmr/m/n/10 32\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 863\OML/cmm
+/m/it/10 mV$\EU1/lmr/m/n/10 .
 (/usr/share/texlive/texmf-dist/tex/latex/euenc/eu1lmtt.fd)
-<use  "rescience-logo.pdf" > [6] <use  "rescience-logo.pdf" > [7]
-<use  "rescience-logo.pdf" > [8]
-Overfull \hbox (0.24777pt too wide) in paragraph at lines 797--804
+<use  "rescience-logo.pdf" > [7] <use  "rescience-logo.pdf" > [8]
+Overfull \hbox (0.24777pt too wide) in paragraph at lines 851--858
 \EU1/lmr/m/n/10 ANNarchy provides the \EU1/lmr/bx/n/10 Projection \EU1/lmr/m/n/
 10 object. The ‘pre’ argument define the pre-synaptic
 <use  "rescience-logo.pdf" > [9] <use  "./figures/W_hippo.png" >
 <use  "./figures/windW.png" > <use  "./figures/pairing.png" >
-<use  "./figures/burst_dW.png" > <use  "rescience-logo.pdf" > [10]
-<use  "./figures/rate_Code_Weights.png" >
-<use  "./figures/temporal_Code.png" > <use  "./figures/weights_stable.png" >
-<use  "./figures/RF.png" >
-Overfull \hbox (0.79979pt too wide) in paragraph at lines 997--1005
+Underfull \hbox (badness 10000) in paragraph at lines 931--943
+
+<use  "rescience-logo.pdf" > [10] <use  "./figures/burst_dW.png" >
+<use  "rescience-logo.pdf" > [11] <use  "./figures/rate_Code_Weights.png" >
+<use  "./figures/temporal_Code.png" > <use  "rescience-logo.pdf" > [12]
+<use  "./figures/weights_stable.png" > <use  "./figures/RF.png" >
+Overfull \hbox (0.79979pt too wide) in paragraph at lines 1053--1061
 \EU1/lmr/m/n/10 In the published Matlab source code, they demonstrated the emer
 gent of stable weights.
-<use  "rescience-logo.pdf" > [11] <use  "rescience-logo.pdf" > [12]
+
+Underfull \hbox (badness 10000) in paragraph at lines 1077--1090
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1091--1111
+
+<use  "rescience-logo.pdf" > [13]
 
 LaTeX Font Warning: Font shape `EU1/lmss/m/sc' in size <9> not available
-(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 1075.
+(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 1126.
 
 
-<use  "rescience-logo.pdf" > [13] <use  "rescience-logo.pdf" > [14]
+<use  "rescience-logo.pdf" > [14] <use  "rescience-logo.pdf" > [15]
 (./Larisch-2018.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
  )
 (see the transcript file for additional information)
-Output written on Larisch-2018.pdf (14 pages).
+Output written on Larisch-2018.pdf (15 pages).
 Transcript written on Larisch-2018.log.
 This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex)
  restricted \write18 enabled.
@@ -775,61 +797,89 @@ Package hyperref Warning: The anchor of a bookmark and its parent's must not
 (hyperref)                be the same. Added a new anchor on input line 314.
 
 <use  "rescience-logo.pdf" > [2] <use  "rescience-logo.pdf" > [3]
-Overfull \hbox (0.80777pt too wide) in paragraph at lines 476--491
-[]\EU1/lmr/m/n/10 The experiment protocols are based on the description on the 
-publication of Clopath
+Underfull \hbox (badness 10000) in paragraph at lines 470--481
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 482--491
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 492--502
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 503--522
+
 <use  "rescience-logo.pdf" > [4]
-Overfull \hbox (373.11223pt too wide) detected at line 537
+Underfull \hbox (badness 10000) in paragraph at lines 523--530
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 531--547
+
+
+Overfull \hbox (373.11223pt too wide) detected at line 584
  [] 
 
-Underfull \hbox (badness 10000) in alignment at lines 535--541
+Underfull \hbox (badness 10000) in alignment at lines 582--588
 [] [] []
 
-Underfull \hbox (badness 10000) in alignment at lines 541--545
+Underfull \hbox (badness 10000) in alignment at lines 588--592
 [] [] []
 
-Underfull \hbox (badness 10000) in alignment at lines 545--555
-[] [] []
-
-Overfull \hbox (373.11223pt too wide) detected at line 560
- [] 
-
-Underfull \hbox (badness 10000) in alignment at lines 558--564
-[] [] []
-
-Underfull \hbox (badness 10000) in alignment at lines 564--568
-[] [] []
-
-Underfull \hbox (badness 10000) in alignment at lines 568--573
+Underfull \hbox (badness 10000) in alignment at lines 592--604
 [] [] []
 <use  "rescience-logo.pdf" > [5]
+Overfull \hbox (373.11223pt too wide) detected at line 609
+ [] 
+
+Underfull \hbox (badness 10000) in alignment at lines 607--613
+[] [] []
+
+Underfull \hbox (badness 10000) in alignment at lines 613--617
+[] [] []
+
+Underfull \hbox (badness 10000) in alignment at lines 617--622
+[] [] []
+
+Underfull \hbox (badness 10000) in paragraph at lines 626--641
+
+<use  "rescience-logo.pdf" > [6]
+Overfull \hbox (4.72334pt too wide) in paragraph at lines 670--674
+[]\EU1/lmr/m/n/10 In the next calculation step, the changes in the membrane vol
+tage is set to $\OT1/cmr/m/n/10 32\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 863\OML/cmm
+/m/it/10 mV$\EU1/lmr/m/n/10 .
 (/usr/share/texlive/texmf-dist/tex/latex/euenc/eu1lmtt.fd)
-<use  "rescience-logo.pdf" > [6] <use  "rescience-logo.pdf" > [7]
-<use  "rescience-logo.pdf" > [8]
-Overfull \hbox (0.24777pt too wide) in paragraph at lines 797--804
+<use  "rescience-logo.pdf" > [7] <use  "rescience-logo.pdf" > [8]
+Overfull \hbox (0.24777pt too wide) in paragraph at lines 851--858
 \EU1/lmr/m/n/10 ANNarchy provides the \EU1/lmr/bx/n/10 Projection \EU1/lmr/m/n/
 10 object. The ‘pre’ argument define the pre-synaptic
 <use  "rescience-logo.pdf" > [9] <use  "./figures/W_hippo.png" >
 <use  "./figures/windW.png" > <use  "./figures/pairing.png" >
-<use  "./figures/burst_dW.png" > <use  "rescience-logo.pdf" > [10]
-<use  "./figures/rate_Code_Weights.png" >
-<use  "./figures/temporal_Code.png" > <use  "./figures/weights_stable.png" >
-<use  "./figures/RF.png" >
-Overfull \hbox (0.79979pt too wide) in paragraph at lines 997--1005
+Underfull \hbox (badness 10000) in paragraph at lines 931--943
+
+<use  "rescience-logo.pdf" > [10] <use  "./figures/burst_dW.png" >
+<use  "rescience-logo.pdf" > [11] <use  "./figures/rate_Code_Weights.png" >
+<use  "./figures/temporal_Code.png" > <use  "rescience-logo.pdf" > [12]
+<use  "./figures/weights_stable.png" > <use  "./figures/RF.png" >
+Overfull \hbox (0.79979pt too wide) in paragraph at lines 1053--1061
 \EU1/lmr/m/n/10 In the published Matlab source code, they demonstrated the emer
 gent of stable weights.
-<use  "rescience-logo.pdf" > [11] <use  "rescience-logo.pdf" > [12]
+
+Underfull \hbox (badness 10000) in paragraph at lines 1077--1090
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1091--1111
+
+<use  "rescience-logo.pdf" > [13]
 
 LaTeX Font Warning: Font shape `EU1/lmss/m/sc' in size <9> not available
-(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 1075.
+(Font)              Font shape `EU1/lmr/m/sc' tried instead on input line 1126.
 
 
-<use  "rescience-logo.pdf" > [13] <use  "rescience-logo.pdf" > [14]
+<use  "rescience-logo.pdf" > [14] <use  "rescience-logo.pdf" > [15]
 (./Larisch-2018.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  )
 (see the transcript file for additional information)
-Output written on Larisch-2018.pdf (14 pages).
+Output written on Larisch-2018.pdf (15 pages).
 Transcript written on Larisch-2018.log.

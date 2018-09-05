@@ -89,10 +89,6 @@ projN1_N2 = Projection(
     synapse=ffSyn
 ).connect_one_to_one(weights = 0.01)
 
-#---- parameter adjustments ----#
-#projN1_N2.thetaLTP = -50.3
-projN1_N2.vmean = 60.0
-#projN1_N2.transmit = 3.0 # to activate the transmission over the synapse
 #------------------------------main function------------------------------------
 def run():
 

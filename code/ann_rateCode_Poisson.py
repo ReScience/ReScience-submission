@@ -52,7 +52,6 @@ projTen_Ten = Projection(
 ).connect_all_to_all(weights = 0.1,allow_self_connections=True)
 # set network parameter
 projTen_Ten.wMax= 0.25
-projTen_Ten.uref= 60.0
 #------------------------------main function-----------------------------------#
 def run():
     # compile the network with ANNarchy

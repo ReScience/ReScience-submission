@@ -59,7 +59,7 @@ depending on the spiking behavior of the neurons: if the neurons fire strongly a
 
 The original model was implemented in Matlab (<http://modeldb.yale.edu/144566>) to demonstrate the
 stable learning of weights.
-This model reimplementation is written in Python (v2.7) with the help of the neuro-simulator ANNarchy [@Vitay2015], numpy (v1.11.0) and matplotlib (v1.5.1).
+This model reimplementation is written in Python (v2.7) with the help of the neuro-simulator ANNarchy [@Vitay2015] (v4.6.4), numpy (v1.11.0) and matplotlib (v1.5.1).
 The reimplementation is mainly based on the description of neuron model and learning rule in the original publication [@Clopath2010].
 Because of the lack of further description of the homeostatic mechanism and the neural behavior after a emitted spike,
 the Matlab code is used as the second reference for this reimplementation.
@@ -142,6 +142,26 @@ A table with the different parameters for each task is presented in **Tab.** @tb
 
 ## Reproduction of experiments
 
+### Parameter setup
+The experiment protocols are based on the description on the publication of @Clopath2010.
+The implementation of the learning rule was mainly made according to the
+available Matlab source code.
+The development of the synapses depends on the behavior of the postsynaptic membrane potential.
+Especially for the first two milliseconds after a postsynaptic spike.
+Despite ANNarchy make it easy to write down the model equations to build up networks,
+the processing order of the equations is strictly given by ANNarchy [@Vitay2015].
+The changes are calculated separately for the neurons and synapses variables. After that,changes are added and
+then it will be checked if a postsynaptic event appeared. At the end of every simulation step is the recording happening [@Vitay2015].
+Because of this, the execution order for differential equations and non-differential equations of the synapses and neurons are different from the order mentioned in the published Matlab source code.
+This makes it necessary to change some parameters for some of the simulations.
+The changed parameters for the certain experiments can be found in the associated python files and in the tables below.
+
+The chosen integration time step can have an influence of the computation result, as well.
+In the original publication, no integration time step is mentioned. In the published Matlab source code is
+a time step of $dt= 1ms$ chosen, which we chose too.
+
+### Experiment descriptions
+
 In the original publication, the authors reproduce spike timing triplet experiments in the visual cortex of rats [@Sjoestroem2001].
 Furthermore, they investigate the emerged structure of the connectivity depending on the spiking behavior.
 
@@ -150,63 +170,62 @@ learning window (**Fig.** 2a in [@Clopath2010]), the frequency repetition task
 to reproduce a triplet experiment (**Fig.** 2b in [@Clopath2010]),
 the burst timing-dependent plasticity experiment (**Fig.** 3 in [@Clopath2010]),
 the influence of spiking order to connectivity (**Fig.** 4a, down and **Fig.** 4b, down in [@Clopath2010])
-and the emergent of receptive fields by presenting natural scenes (**Fig.** 7 in [@Clopath2010]).
-In the available Matlab source code, they investigate the stable learning of weights
-using 500 input neurons and one postsynaptic neuron.
-The firing rate of these neurons follow
-a Gaussian distribution and the spike timing a Poisson process.
-This task is reimplemented as well.
-With this analysis, the functionality of the reimplementation is shown on the
-main feature of this learning rule.
-
-One experiment what is not reproduce, is the experiment with ten excitatory and three inhibitory and stochastic Poisson input (**Fig.** 5 in [@Clopath2010]).
-In the original publication, they presented the emergent of a stable receptive fields and that the strength of synapses depends on the input firing rate.
-Here, both features are presented with two different tasks.
-The second experiments what is not reproduce, is the experiment with the same network structure but with moving input patterns  (**Fig.** 6 in [@Clopath2010]).
-@Clopath2010 demonstrated with this experiment that the strength of synapses can depend on the temporal order of emergent spikes and that the receptive field moves over the time, if the input is moving.
-The synapse weight development is reproduced by another task.
-The moving receptive field are not reproduced here, but by reproducing of receptive fields generally we assume that moving receptive fields would be emerge with the here proposed reimplementation.
-
-The experiment protocols are based on the description on the publication of @Clopath2010.
-The implementation of the learning rule was mainly made according to the
-available Matlab source code.
-The development of the synapses depends on the behavior of the postsynaptic membrane potential.
-Especially for the first two milliseconds after a postsynaptic spike.
-Despite ANNarchy make it easy to write down the model equations to build up networks,
-the processing order of the equations is strictly given by ANNarchy [@Vitay2015].
-Because of this, the execution order for differential equations and non-differential equations,
-or for equations of the synapses or neurons are different from the order mentioned in the published Matlab source code.
-Further, the changes are calculated separately for the neurons and synapses variables. After that,changes are added and
-then it will be checked if a postsynaptic event appeared. At the end of every simulation step is the recording happening [@Vitay2015].
-
-Further, the chosen integration time step can have an influence of the computation result.
-In the original publication, no integration time step is mentioned. In the published Matlab source code is
-a time step of $dt= 1ms$ chosen, which we chose too.
+and the emergent of receptive fields by presenting natural scenes (**Fig.** 7d in [@Clopath2010]).
 
 To reproduce the STDP learning window (see \textbf{Fig. \ref{Fig_exp}} left), we create a list of discrete time points where the pre- or postsynaptic neurons should emit spikes. The presynaptic neuron spikes every $50 ms$. The postsynaptic neurons spikes in a range from $1 ms$ to $15 ms$ before
 or after the presynaptic neuron.
+As mentioned in the original publication the variable of the homeostatic mechanism ($\bar{\bar{u}}$) is set to a fix value of $1 mV^2$.
+
 For the repetition frequency experiment or the triplet experiment (see \textbf{Fig. \ref{Fig_exp}} right),
 the number of pre- and postsynaptic spike pairs increases from a pair frequency of
 $0.1 Hz$ to $50 Hz$. The time between a pre- and postsynaptic spike of a pair is
-$10 ms$. To reproduce this experiments, it was necessary to set $\bar{\bar{u}}$ to a fixed value as mentioned in the original publication [@Clopath2010].
+$10 ms$.
+To reproduce this experiments, it was necessary to set $\bar{\bar{u}}$ to a fixed value as mentioned in the original publication [@Clopath2010].
 The parameter changes are shown in **Tab.** @tbl:table_FH.
+
+Clopath and colleagues demonstrated three burst timing-dependent plasticity experiments.
+In the first task, they changed the number of postsynaptic spikes from one up to three,
+with $+10 ms$ and with $-10 ms$ between the presynaptic and the first postsynaptic spike.
+The postsynaptic neuron fires with $50Hz$.
+In the second experiment, they recorded the weight change if one presynaptic spike is followed by three postsynaptic spikes with varying postsynaptic firing rate (from $20 Hz$ to 100 $Hz$).
+As in the first experiment, they observe the weight change for the cases, if the first postsynaptic spikes appears $+10 ms$ after or $+10 ms$ before the presynaptic neuron spikes.
+The variation of the time lag between the one presynaptic spike and three postsynaptic spikes is the third experiment.
+Therefore, the postsynaptic neuron fires with constant $50 Hz$. The time lag varies from $-100 ms$ to $+60 ms$.
+To implement these experiments, we define discrete time points for the one presynaptic spike and the various time points of postsynaptic spikes.
+For all three burst spiking experiments, the normal parameter set is used, and $\bar{\bar{u}}$ is set to a fix value, as mentioned in the original publication.
 
 To analyze the connectivity depending the number of spikes, a small network with ten neurons
 connected with each other is build.
 Every neuron receives input from one additional neuron, with Poisson-distributed
 spike patterns.
 The firing rate of each Poisson neuron is increased from 2Hz to 20Hz, influencing the firing rate of the 10 corresponding neurons in the network.
+To establish stable weights, the normal homeostatic mechanism is used.
 
-The reimplementation of the model is mainly based on the Matlab source code from modelDB.
+For the emergent of V1 simple cells like receptive fields, a network with one postsynaptic neuron and $16 \times 16 \times 2$ presynaptic neurons is used.
+As mentioned in the original publication [@Clopath2010], the activity of the presynaptic population depends on the pixel values of a $16 \times 16$ pixel sized patch,
+cut out of pre-whitened natural scenes [@Olshausen1996].
+The maximum input firing rate in the original publication are set to $37.5 Hz$.
+In the here presented reimplementation, the maximum firing rate is set to $80 Hz$. Further, the learning rates for the LTP term ($A_{LTP}$) and the LTD term ($A_{LTD}$) are reduced (see **Tab.** @tbl:table_VH).
+The pixel values of the patch are normalized with the maximum pixel value of the current image and divided into an ON (only positive pixel values) and an OFF (only negative pixel values) image.
+The presynaptic population spikes are generated with a Poisson process.
+To establish stable weights, the normal homeostatic mechanism is used.
+
 Besides of experiments in the original publication, we reimplemented the experiment for the emergent of stable weights out of the Matlab source code.
 The emergence of stable weights was achieved by presenting a Gaussian input over 500 presynaptic neurons and one postsynaptic neuron.
 For every trial ($125$ms) ten Gaussian patterns are created to determine the activity of the 500 input neurons.
-
 As in the Matlab source code, the learning rates ($A_{LTP}$ and $A_{LTD}$) are
 increased by a factor ten to speed up the learning.
-
 The experiments for stable weight learning, to show a specific connectivity pattern, require the original homeostatic mechanism.
 Changes to the default parameters for this tasks are shown in **Tab.** @tbl:table_VH.
+
+### Non-reproduced experiments
+One experiment what is not reproduce, is the experiment with ten excitatory and three inhibitory and stochastic Poisson input (**Fig.** 5 in [@Clopath2010]).
+In the original publication, they presented the emergent of a stable receptive fields and that the strength of synapses depends on the input firing rate.
+Here, both features are presented with two different tasks.
+The second experiment what is not reproduce, is the experiment with the same network structure but with moving input patterns  (**Fig.** 6 in [@Clopath2010]).
+@Clopath2010 demonstrated with this experiment that the strength of synapses can depend on the temporal order of emergent spikes and that the receptive field moves over the time, if the input is moving.
+The synapse weight development, depending on the temporal order of spikes, is reproduced by another task.
+The moving receptive field are not reproduced here, but by reproducing of receptive fields generally we assume that moving receptive fields would be emerge with the here proposed reimplementation.
 
 Task                            Parameter Value             
 ------------------------------- --------- -------------
@@ -215,6 +234,8 @@ Temporal based connectivity     $w_{max}$ $0.30 nA$
 Stable weight by Gaussian input $w_{max}$ $3.0 nA$
 Stable weight by Gaussian input $A_{LTD}$ $1.4*10^{-3}$
 Stable weight by Gaussian input $A_{LTP}$ $0.8*10^{-3}$
+receptive fields     $A_{LTP}$       $8.8*10^{-3}$
+receptive fields     $A_{LTD}$       $7.7*10^{-3}$
 ------------------------------- --------- --------------
 Table: Changed parameters for connectivity experiments. {#tbl:table_VH}
 
@@ -238,8 +259,8 @@ The definition of learning rules, the neurons and the network structure is done 
 To archive a good performance on the execution of the model, the Python code is compiled in C++.
 With that, ANNarchy make it easy to implement the a neuronal network model and show good performances [@Vitay2015].
 
-As mentioned in the original publication, to reproduce the voltage-clamp experiment, the pairing repetition task and the STDP learning window we set $\bar{bar{u}} = u_{ref}$. The implementation of the network for this tasks can be found in **net_fix.py**.
-For the connectivity experiments and for the emergent of stable weights, the homeostatic mechanism dynamic as described
+As mentioned in the original publication, to reproduce the voltage-clamp experiment, the pairing repetition task, the STDP learning window and the burst spiking experiments we set $\bar{bar{u}} = u_{ref}$. The implementation of the network for this tasks can be found in **net_fix.py**.
+For the connectivity experiments, the emergent of V1 simple cells like receptive fields and for the emergent of stable weights, the homeostatic mechanism dynamic as described
 in the original publication [@Clopath2010]. The network with a dynamic homeostatic mechanism can be found in **net_homeostatic.py**.
 The following explanation of the network implementation is from the **net_homeostatic.py**.
 
@@ -487,11 +508,8 @@ in pre-post pairs. These results are similar to the original paper.
 
 In the original publication, @Clopath2010 study nonlinearity of STDP by using protocols
 of spike bursts.
-In the first task, they changed the number of postsynaptic spikes from one up to three,
-with $+10 ms$ and with $-10 ms$ between the presynaptic and the first postsynaptic spike.
-The postsynaptic neuron fires with $50Hz$.
-The results from the reimplementation is shown in \textbf{Fig. \ref{Fig_burst} upper left}.
-The upper marks represents for the weight change with $+10 ms$, the lower marks the weight change with $-10 ms$ between the presynaptic and postsynaptic spikes.
+The result from the reimplementation of the first spiking burst experiment is shown in \textbf{Fig. \ref{Fig_burst} upper left}.
+The upper marks represents for the weight change with $+10 ms$, the lower marks the weight change with $-10 ms$ between the presynaptic and the first postsynaptic spikes.
 As in the original publication from @Clopath2010 and the experimental paper of @Nevian2006, one postsynaptic spike, independently of the spiking order, leads only to a small change in the weight.
 A second spike leads to bigger change, especially when the postsynaptic neurons spikes after the presynaptic one.
 
@@ -500,7 +518,6 @@ As shown in @Clopath2010, a higher frequency leads to a higher change of the syn
 
 The third task, the change of the weight as a function of the time between the one presynaptic spike and the first of three postsynaptic spikes, is presented in \textbf{Fig. \ref{Fig_burst} down}.
 Here, the curve is very similar to the one presented in @Clopath2010.
-
 Despite of the label, what is orientated on the publication from @Clopath2010, the graphs show the weight changes as mentioned in the original experimental paper by @Nevian2006.
 
 ## Connectivity analysis

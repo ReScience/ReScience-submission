@@ -68,7 +68,6 @@ projInp_N = Projection(
 compile()
 #projInp_Ten.vmean =postN.vmean
 projInp_N.transmit = 1.0
-projInp_N.urefsquare = 60.0
 projInp_N.aLTP = 0.00016*0.55
 projInp_N.aLTD = 0.00014*0.55
 

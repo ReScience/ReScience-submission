@@ -46,7 +46,7 @@ Clopath and colleagues could reproduce how the occurrence of LTD and LTP depends
 on the depolarizing of the postsynaptic membrane potential, as observed in voltage-clamp [@Ngezahayo2000] and stationary-depolarization experiments [@Artola1990].  
 Further, they could reproduce experimental finding, from spike pair repetition and triplet experiments [@Sjoestroem2001], as well as spike bursting experiments [@Nevian2006].
 They were able to show that their learning rule
-can develop stable weights, as needed for learning the receptive fields of V1 simple cells.
+can develop stable weights, as needed for learning the receptive fields of simple cells in the primary visual cortex (V1).
 Therefore, they implemented a homeostatic mechanism to
 control the amount of generated LTD, based on the relationship between the average postsynaptic
 membrane potential and a reference value.
@@ -382,7 +382,7 @@ equatSTDP = """
 
 As for the neuron model, the equations for the STDP learning are defined by strings of the differential equations.
 The 'ltdTerm' describes the $LTD_{Term}$ and the 'ltpTerm' the $LTP_{Term}$.
-Variables of the pre- or post-synaptic neuron, defined in the neuron model, can be addressed with the prefixes 'pre.' and 'post.', respectively.
+Variables of the pre- or postsynaptic neuron, defined in the neuron model, can be addressed with the prefixes 'pre.' and 'post.', respectively.
 With the 'if w>wMin' statement in the 'ltdTerm', the weight only decreases if the weight is above the lower bound.
 In the 'ltpTerm' a analogous term is implemented to avoid, that weights exceed the upper bound.
 The parameters are defined in a string, analogous to the parameters of the neuron model.
@@ -400,10 +400,10 @@ ffSyn = Synapse( parameters = parameterFF,
 
 ANNarchy provides a __Synapse__ object, that expects a 'parameters' argument,
 the 'equations' and a description if the pre-synaptic neuron spikes ('pre_spike').
-After a pre-synaptic spike, the input current of the post-synaptic neurons increases by the value of the synaptic weight.
-Therefore, 'g_target' is the target variable on the post-synaptic side that should be increased.
+After a pre-synaptic spike, the input current of the postsynaptic neurons increases by the value of the synaptic weight.
+Therefore, 'g_target' is the target variable on the postsynaptic side that should be increased.
 The target variable is defined in the __Projection__ object (see below).
-Additionally, the description of a post-synaptic spike is possible.
+Additionally, the description of a postsynaptic spike is possible.
 
 ### Implementation of the Experiments
 
@@ -427,9 +427,9 @@ poisPop = PoissonPopulation(geometry=10, rates=100.0)
 pop_Ten = Population(geometry=10, neuron=spkNeurV1, name="pop_Ten")
 ```
 To connect two neuron populations and define the weight matrix between them, ANNarchy provides the __Projection__ object.
-The 'pre' argument defines the pre-synaptic population and the 'post' argument the post-synaptic population.
+The 'pre' argument defines the pre-synaptic population and the 'post' argument the postsynaptic population.
 Both arguments expect a __Population__ object.
-The 'target' argument defines the target variable of the post-synaptic neuron, which is increased by the weight value after a pre-synaptic spike.
+The 'target' argument defines the target variable of the postsynaptic neuron, which is increased by the weight value after a pre-synaptic spike.
 
 ``` python
 projInp_Ten = Projection(
@@ -566,7 +566,7 @@ If the postsynaptic neuron is firing with a rate above $5 Hz$, strong unidirecti
 This is in line with the connection pattern presented in the original paper (see **Fig. 4** in [@Clopath2010]).
 
 If the neurons fire in a specific temporal order, this sequence is reflected in the connection pattern (see \textbf{Fig. \ref{Fig_con} left}).
-As in the original paper, the connections from neurons which are firing a long time after or before the post-synaptic neuron are weak, while they are strong to neurons which fired a short time after the neurons.
+As in the original paper, the connections from neurons which are firing a long time after or before the postsynaptic neuron are weak, while they are strong to neurons which fired a short time after the neurons.
 
 ## Receptive fields
 
@@ -600,7 +600,7 @@ The emergent receptive fields are shown in \textbf{Fig. \ref{Fig_stab}, left}.
 
 Our reimplementation of voltage based STDP learning rule from @Clopath2010
 is able to reproduce the experimental data and the emergence connectivity structures
-proposed in the original paper as well as the emergent of orientation selective receptive fields, like those in the primary visual cortex.
+proposed in the original paper as well as the emergent of orientation selective receptive fields, like those in the primary visual cortex (V1).
 In comparison to the graphs in the original publication, the here presented reimplementation shows little differences in the curve shapes in the
 STDP window (\textbf{Fig. \ref{Fig_exp}, middle}), the weight change as a function of the pair-repetition frequency (\textbf{Fig. \ref{Fig_exp}, left})
 and for the weight change as a function of the burst frequency of the postsynaptic neuron (\textbf{Fig. \ref{Fig_burst}, upper right}).

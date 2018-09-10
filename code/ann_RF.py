@@ -18,6 +18,8 @@ The size of the input layer is determine by the input. As mentioned in the
 original publication, the input is a 16x16 pixel size patch, cutted out
 randomly of the input dataset. Devided in an ON- and OFF- part.
 So the input layer contains 16x16x2 =  512 neurons.
+
+See Fig. 7d in Cloath et al. (2010)
 """
 
 ###global parameter###
@@ -65,7 +67,9 @@ projInp_N = Projection(
     synapse = ffSyn
 ).connect_all_to_all(weights = Uniform(0.0,3.0))
 
+# compile command to create the ANNarchy network
 compile()
+
 #projInp_Ten.vmean =postN.vmean
 projInp_N.transmit = 1.0
 projInp_N.aLTP = 0.00016*0.55
@@ -101,23 +105,13 @@ for p in range(n_patches):
         patch = np.fliplr(patch)
     if np.random.rand() < 0.5:
         patch = np.flipud(patch)
-    # devide in an ON and OFF patch
-#    i_patch = np.zeros((s_Patch,s_Patch,2))
-#    i_patch[patch>0,0] = patch[patch>0]
-#    i_patch[patch<0,1] = patch[patch<0]*-1
     # set the rates for the Poission input population
     inputPop.rates = (patch/maxV)*maxFR
     simulate(duration)
 print('Finish!')
 
-print(np.max(projInp_N.w))
 
 w = monW.get('w')
-print(np.shape(w))
-
-plt.figure()
-plt.plot(np.squeeze(w))
-plt.savefig('weights.png')
 
 # create the resulting RF out of the input weights
 ff_W = projInp_N.w
@@ -127,8 +121,3 @@ plt.figure()
 plt.imshow(rf,interpolation='none',cmap=plt.get_cmap('gray'))
 #plt.colorbar()
 plt.savefig('RF.png')
-
-a = np.reshape(rf,(s_Patch*s_Patch))
-plt.figure()
-plt.hist(a)
-plt.savefig('histW.png')

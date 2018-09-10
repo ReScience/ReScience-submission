@@ -73,8 +73,9 @@ projC1_C2 = Projection(
 projC1_C2.transmit = 1.0 # to activate the transmission over the synapse
 #------------------------------main function------------------------------------
 def run():
-
+    # compile command to create the ANNarchy network
     compile()
+
     # create a list of 100 values from -80 mV to 0 mV for the postsynaptic
     # membrane potential
     post_memb = np.linspace(-80,0,100)
@@ -94,7 +95,7 @@ def run():
     """
     for i in range(len(post_memb)):
         projC1_C2.u_clamp=post_memb[i]
-        projC1_C2.w = initW
+        projC1_C2.w = initW # weight must be set manually to the initial value
         simulate(duration)
         delta_w = m_d.get('deltaW')
         rec_dW_norm[i] = np.mean(delta_w)
@@ -110,6 +111,7 @@ def run():
     projC1_C2.aLTD = 0.00038
     projC1_C2.aLTP = 0.00002
 
+    # variable to save the recorded data
     rec_dW_hippo = np.zeros(len(post_memb))
     rec_W_hippo = np.zeros(len(post_memb))
     spike_times1 =np.asarray(range(0,duration,1000/10))
@@ -117,12 +119,12 @@ def run():
 
     for i in range(len(post_memb)):
         projC1_C2.u_clamp=post_memb[i]
-        projC1_C2.w = initW
+        projC1_C2.w = initW # weight must be set manually to the initial value
         simulate(duration)
         delta_w = m_d.get('deltaW')
         rec_dW_hippo[i] = np.mean(delta_w)#
         rec_W_hippo[i] = np.mean(projC1_C2.w)+rec_dW_hippo[i]
-        reset()
+        reset() # reset the network to the initial values
 
     rec_W_norm[rec_W_norm>np.max(rec_W_hippo)] = np.max(rec_W_hippo)
 

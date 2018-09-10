@@ -59,6 +59,7 @@ projV1_V1.vmean = 120.0
 #------------------------------main function------------------------------------#
 def run():
 
+    # compile command to create the ANNarchy network
     compile()
 
     #------- neuron Monitors --------#
@@ -68,8 +69,10 @@ def run():
 
     # set max repetition frequency
     max_freq = 50
+
     # time between a pre and a post spike (or post and pre spike)
     td = 10#ms
+
     #inital weight value
     initW = 0.125
 

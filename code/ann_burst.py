@@ -27,6 +27,8 @@ Python script to reproduce the burst spiking experiments (Fig.3 in Clopath et al
  The time lag between the occurrence of the first of the three postsynaptic spike to the occurrence of the one
  presynaptic spikes varies from -100 to 60 ms.
  The time between the postsynaptic spikes are 20 ms.
+
+See Fig. 3 in Clopath et al. (2010)
 """
 
 ###global parameter###
@@ -91,7 +93,7 @@ projN1_N2 = Projection(
 
 #------------------------------main function------------------------------------
 def run():
-
+    # compile command to create the ANNarchy network
     compile()
 
     #------- neuron Monitors --------#

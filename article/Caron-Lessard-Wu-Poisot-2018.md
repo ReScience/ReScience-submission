@@ -96,10 +96,10 @@ host parasitized. In both @eq:1 and @eq:2, $f(N_t,P_t)$ represents the
 probability of escaping mortality from natural enemies (parasitoids) and is
 given by @eq:3.
 
-$$f(N_t,P_t) = [1 + (a \times P_t) / (m \times (1 + a \times T \times h \times N_t))]^{-m} $$ {#eq:3}
+$$f(N_t,P_t) = [1 + (a \times P_t) / (m \times (1 + a \times T_h \times N_t))]^{-m} $$ {#eq:3}
 
 where $a$ is the per capita searching efficiency of the parasitoids, $m$ is the
-extent of clumping of the parasitoids attacks and $T\times h$ is the handling
+extent of clumping of the parasitoids attacks and $T_h$ is the handling
 time as a proportion of the total time. This paper also explores the
 relationship between the hosts and a generalist parasitoid population.
 Generalist parasite dynamics follows the equation
@@ -130,7 +130,7 @@ schematic representation of an insect life cycle. Figure 2 and Figure 7
 represent relationship between parameters and population size/proportion of
 parasited host. Therefore, they are not necessary in order to show how difficult
 it is to detect the regulating effect of natural enemies on a host population.
-For every figure reproduced, we will use the exact same values that were used in
+For every figure reproduced, we used the exact same values that were used in
 the original paper for the different parameters.
 
 The software used to code and run the models and to generate the figures is
@@ -150,7 +150,7 @@ When the extent of clumping is lower, both populations show decreasing
 oscillations during the 50 simulated generations. The difference between this
 article and the original publication resides in the @fig:figure3 (c) and (d),
 where we standardized the axes of the graphs. At first sight, in Hassell's
-paper, the $k-values$ in Figure 3c seem almost as high as in Figure 3d. However,
+paper, the $k-values$ in @fig:figure3 (c) seem almost as high as in @fig:figure3 (d). However,
 when using the same scale for the two graphs, we can see that the $k-values$ in
 the case of high level of clumping show a lot less variation than with a lower
 level of clumping.
@@ -167,21 +167,21 @@ conclusion when we observe the relation between the two populations in
 
 When the models include stochasticity, the resulting population dynamics between
 hosts and parasites are very different compared to the deterministic models.
-Overall, the results obtained in the replications are pretty similar to the
-original paper, except for @fig:figure6 (d), where the correlation between the
-mortality and the host density is not nearly as strong as in the original paper.
-Whether we look at the model for the specialist parasitoids or the one for the
+Overall, the results obtained in the replications are very similar to the
+original paper. Whether we look at the model for the specialist parasitoids or the one for the
 generalist parasitoids, both show irregular oscillations in the host-parasitoid
 population dynamics (@fig:figure5 and @fig:figure6, (a), (b) and (c)). The
 addition of stochastic parameters prevents the stabilization of host populations
 and makes it more difficult to identify parasitoids as a density-dependent
-control factor. The relationships between the $k-values$ and the host density
-are similar in Hassell's publication and in ours (except in @fig:figure6 (d)).
+control factor, except in @fig:figure6 (a). The relationships between the $k-values$ and the host density
+are similar in Hassell's publication and in ours.
 However, the regression for these relationships in our replication tend to have
 a determination coefficient ($R^2$) higher than the one found by Hassell, but
 they are generally really close. Discrepancies in the coefficient of
 determination can be explained by different routines for pseudo random number
 generation.
+
+Moreover, the oscillations we obtained in @fig:figure6 (b) are not the same range compared to the original paper. More precisely, the oscillations we obtained with $h$ stochastic are smaller compared to the original paper (@fig:figure6 (b)).
 
 Because the inclusion of stochastic parameters in the population dynamics causes
 variability in the outputs, the results from two successive simulations can be
@@ -199,25 +199,23 @@ dependence effect of the parasites, whether they are generalist or specialist.
 
 # Discussion
 
-Overall, we were able to replicate every result from @Hassell85. We found the
+Overall, we were able to replicate most results from @Hassell85. We found the
 exact same results for the deterministic model. We standardized the limits for
 the axes, which was not the case in the original paper. This allows a more
 convenient comparison of the different results.
 
-As expected, we did not find the exact the same dynamic for the stochastic
+As expected, we did not find the exact same dynamic for the stochastic
 model. The figures we added (@fig:figure7 and @fig:figure8) showed how adding
-stochasticity into the model can cause great variability in the output. This
-could explain why @Hassell85 detected natural enemies as density dependent
-factor in the model with generalist parasitoid and a stochastic density
-independent probability of survival (Fig.6d from the original paper), unlike us
-(@fig:figure6 (d)). In fact, in this model, the correlation we found
-(@fig:figure8) was sometimes very strong ($r \approx 0.9$) and some other times
-very weak ($r \approx 0.4$). Also, the correlation between the mortality from
+stochasticity into the model can cause great variability in the output. For exemple, in the specialist parasitoid model with a stochastic density-dependent host survival ($D$), the correlation we found
+(@fig:figure7 (a)) was sometimes very weak ($r \approx 0.2$) and some other times
+almost as strong as the deterministic model ($r \approx 0.7$). Also, the correlation between the mortality from
 parasitism ($k$-value) and host density ($N$) found in the stochastic model was
 almost always weaker than in the deterministic model (@fig:figure7 and
 @fig:figure8). Therefore, the results we added strongly support the main
 argument from the original paper : adding stochasticity almost always obscures
 the density-dependent effect of natural enemies.
+
+The discrepancies we noted in the dynamics of the stochastic model with the generalist parasite and a stochastic saturation numer of parasitoid ($h$; in @fig:figure6 (b)) are difficult to explain. It seems unlikely that it is cause to the model implementation itself or computational errors since we successfully replicated results from all the other models. Without the original implementation, we can only speculate on the difference between the original implimentation and ours. This model is the only one with a stochastic parameter normally distributed with a mean not equal to its associated standard deviation. We tried with an $h$ normally distributed with a mean and a standard deviation of 5 (@fig:figure9), and the results were a lot more similar to the one from @Hassell85 than what we originally had (@fig:figure6 (b)). Again, this is only an hypothesis on the kind of error that could explain the differences between the original paper and ours.
 
 The mathematical model from the original paper was well detailed, which allowed
 us to create our own implementation. The equation for the number of survivors
@@ -249,12 +247,14 @@ of population dynamics.
 ![(a) Deterministic simulations of the host and generalist parasite population dynamics (Eq.1, Eq.3, Eq.4) with the following parameters: F = 4, D = 0.5, h = 10, b = 25, a = 0.5 and T*h* = 0 and m = 0.5. (b) The relationship between the mortality caused each generation by parasitism (k-values) and the log10 host density for the fifty first generations of the population dynamics in (a).](figures/figure4.pdf){#fig:figure4}
 
 
-![(a) - (c) Deterministic simulations of the host and specialist parasite population dynamics (same as in Figure 3a) except for one parameter that is treated as a normally distributed stochastic variable: (a) D = 0.5 ± 0.5, (b) c = 0.5 ± 0.5 and (c) a = 0.5 ± 0.5. The other parameters are the same as in Figure 3a. (d) - (f) The relationship between the mortality caused each generation by parasitism (k-values) and the log10 host density for the fifty first generations, linked to (a), (b) and (c) respectively. The regression statistics for each relationship go as follows: (d) *y* = 0.184 + 0.211*x*; *r^2* = 0.171. (e) *y* = 0.329 + 0.054*x*; *r^2* = 0.254. (f) *y* = 0.190 + 0.158*x*; *r^2* = 0.120.](figures/figure5.pdf){#fig:figure5}
+![(a) - (c) Deterministic simulations of the host and specialist parasite population dynamics (same as in Figure 3a) except for one parameter that is treated as a normally distributed stochastic variable: (a) D = 0.5 ± 0.5, (b) c = 0.5 ± 0.5 and (c) a = 0.5 ± 0.5. The other parameters are the same as in Figure 3a. (d) - (f) The relationship between the mortality caused each generation by parasitism (k-values) and the log10 host density for the fifty first generations, linked to (a), (b) and (c) respectively. The regression statistics for each relationship go as follows: (d) *y* = 0.145 + 0.203*x*; *r^2* = 0.312. (e) *y* = 0.044 + 0.204*x*; *r^2* = 0.106. (f) *y* = 0.069 + 0.331*x*; *r^2* = 0.223.](figures/figure5.pdf){#fig:figure5}
 
-![(a) - (c) Deterministic simulations of the host and generalist parasite population dynamics (same as in Figure 4a) except for one parameter that is treated as a normally distributed stochastic variable: (a) D = 0.5 ± 0.5, (b) h = 10 ± 5 and (c) a = 0.5 ± 0.5. The other parameters are the same as in Figure 3a. (d) - (f) The relationship between the mortality caused each generation by parasitism (k-values) and the log10 host density for the fifty first generations, linked to (a), (b) and (c) respectively. The regression statistics for each relationship go as follows: (d) *y* = 0.146 + 0.192*x*; *r^2* = 0.243. (e) *y* = 0.306 + 0.015*x*; *r^2* = 0.214. (f) *y* = 0.149 + 0.160*x*; *r^2* = 0.107.](figures/figure6.pdf){#fig:figure6}
+![(a) - (c) Deterministic simulations of the host and generalist parasite population dynamics (same as in Figure 4a) except for one parameter that is treated as a normally distributed stochastic variable: (a) D = 0.5 ± 0.5, (b) h = 10 ± 5 and (c) a = 0.5 ± 0.5. The other parameters are the same as in Figure 3a. (d) - (f) The relationship between the mortality caused each generation by parasitism (k-values) and the log10 host density for the fifty first generations, linked to (a), (b) and (c) respectively. The regression statistics for each relationship go as follows: (d) *y* = 0.070 + 0.249*x*; *r^2* = 0.967. (e) *y* = 0.018 + 0.302*x*; *r^2* = 0.223. (f) *y* = 0.062 + 0.272*x*; *r^2* = 0.178.](figures/figure6.pdf){#fig:figure6}
 
 ![(a) - (c) Distribution of the values of correlation coefficient ($r$) obtained for the 5000 simulations done in Figure 5(d) to Figure 5(f) respectively. The dotted line represents the value of $r$ obtained in the deterministic model.](figures/figure7.pdf){#fig:figure7}
 
 ![(a) - (c) Distribution of the values of correlation coefficient ($r$) obtained for the 5000 simulations done in Figure 6(d) to Figure 6(f), respectively. The dotted line represents the value of $r$ obtained in the deterministic model.](figures/figure8.pdf){#fig:figure8}
+
+![(a) Deterministic simulations of the host and generalist parasite population dynamics (same as in Figure 6b) except that we used *h* = 5 ± 5. (b) The relationship between the mortality caused each generation by parasitism (k-values) and the log10 host density for the fifty first generations, linked to (a). The regression statistics go as follows: *y* = -0.169 + 0.395*x*; *r^2* = 0.181.](figures/figure9.pdf){#fig:figure9}
 
 # References

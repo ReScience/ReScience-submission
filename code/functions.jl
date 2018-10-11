@@ -1,10 +1,10 @@
 """
 This function (used internally by simulation) returns a random value of x, drawn
-from a truncated normal (between 0 and 100).
+from a truncated normal.
 """
-function generate(x, σ)
+function generate(x, σ; max=10000.0)
     @assert σ >= 0.0
-    return σ > 0.0 ? rand(TruncatedNormal(x, σ, 0.0, 100.0)) : x
+    return σ > 0.0 ? rand(TruncatedNormal(x, σ, 0.0, max)) : x
 end
 
 """
@@ -33,10 +33,10 @@ function simulation(N::Float64, P::Float64; t::Int64=50, f=specialist_dyn, F=4.0
     dynamics[1,4:7] = [D, a, h, c]
     # Iterations
     for current_time in 1:(t+1)
-        current_D=generate(D, D_std)
+        current_D=generate(D, D_std, max=1.0)
         current_a=generate(a, a_sd)
         current_h=generate(h, h_sd)
-        current_c=generate(c, c_sd)
+        current_c=generate(c, c_sd, max=1.0)
         current_p = @NT(F=F, D=current_D, c=current_c, a=current_a, h=current_h, b=b, th=th, m=m)
         N_next, P_next = timestep(dynamics[current_time,2], dynamics[current_time,3], current_p; parasite_dyn=f)
         # Population sizes
@@ -59,7 +59,7 @@ This function updates the population sizes internally during simulation.
 """
 function timestep(N::Float64, P::Float64, p; parasite_dyn=specialist_dyn)
     Nt = host_dyn(N, P, p)
-    Pt = parasite_dyn(N, P, p)
+    Pt = parasite_dyn(N, Nt, P, p)
     return (Nt, Pt)
 end
 
@@ -73,8 +73,8 @@ end
 
 Return : `Pt`: Generalist parasitoids population size
 """
-function generalist_dyn(N::Float64, P::Float64, p)
-    Pt = p.h*(1-exp(-N/p.b))
+function generalist_dyn(N::Float64, Nt::Float64, P::Float64, p)
+    Pt = p.h*(1-exp(-Nt/p.b))
     return Pt
 end
 
@@ -87,7 +87,7 @@ end
 
 Return : `Pt`: Specialist parasitoids population size
 """
-function specialist_dyn(N::Float64, P::Float64, p)
+function specialist_dyn(N::Float64, Nt::Float64, P::Float64, p)
     pescape = escape_probability(N,P,p)
     Pt = p.c*N*(1-pescape)
     return Pt

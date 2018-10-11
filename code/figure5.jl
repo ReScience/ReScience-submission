@@ -23,7 +23,7 @@ sim1_R2 = cor(vec(log10.(sim1[:,2])), vec(kval1))^2
 sim1_a, sim1_b = linreg(vec(log10.(sim1[:,2])), vec(kval1))
 
 # Simulation with specialist natural enemies with stochasticity on c
-sim2, params2 = simulation(50.0, 25.0, m=0.2, F=4.0, D=0.5, c=1.0, a=0.5, th= 0.0, m=0.5, f=specialist_dyn, c_sd=0.5)
+sim2, params2 = simulation(50.0, 25.0, m=0.2, F=4.0, D=0.5, c=0.5, a=0.5, th= 0.0, m=0.5, f=specialist_dyn, c_sd=0.5)
 # Fig 5b)
 fig5b = plot(sim2[:,1], sim2[:,2], label="Hosts", frame=:origin, lw=3, leg=false, ylims=(0, 90))
 plot!(fig5b, sim2[:,1],sim2[:,3], label="Parasites", lw=3)

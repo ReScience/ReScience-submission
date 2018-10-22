@@ -92,7 +92,8 @@ class Agent(object):
 
         #### Start main loop
 
-        env.seed(seed)
+        if seed:
+            env.seed(seed)
         t=0
         new_episode=True
         t1= time.time()  

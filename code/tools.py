@@ -182,13 +182,9 @@ def learn_states(   training_data,
     """
         - Loads data if training_data is a file path
         - Learns states for observations with model object
-        - Saves states in recordto
         - Displays results if asked
         - Returns learned states and loaded training_data
     """
-
-    if recordto:
-        assert_npz(recordto)
 
     # Loads data if training_data is a file path
     if isinstance(training_data, str):

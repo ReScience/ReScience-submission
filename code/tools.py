@@ -204,11 +204,11 @@ def learn_states(   training_data,
                 rewards=training_data['rewards'], episode_starts=training_data['episode_starts'],
                 batch_size=batch_size, num_epochs=num_epochs, verbose=True)
 
+    # predict learned states
+    training_states = model.phi(training_data['observations'])
+    
     # Plot / Record learnt states
-    if recordto or display:
-        # predict learned states
-        training_states = model.phi(training_data['observations'])
-      
+    if recordto or display:      
         # Plot / Record state representation
         plot_representation(training_states[1:],
                             # offset reward of 1 to match observations, and don't show previous rewards for episode_start steps

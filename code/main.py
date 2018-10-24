@@ -23,7 +23,7 @@ import numpy as np
 
 # repo
 import tools
-import qfiteration as qfi
+import fqiteration as fqi
 import gym_env.agent as agent
 import gym_env.policy as policy
 import gym_env.run_round_bot as run_round_bot
@@ -44,7 +44,7 @@ required.add_argument('-trd','--training_data', default='', help='Select trainin
 parser.add_argument('-ted','--test_data', default='', help='Select testing data file to load')
 parser.add_argument('-ql','--qlearning',  action='store_true', default=False, help='Perform Q-learning state evaluation')
 parser.add_argument('-r','--recordto', default='', help='Select a file for recording computed states')
-parser.add_argument('-ne','--num_epochs', type=int, default=10, help='Number of training epochs')
+parser.add_argument('-ne','--num_epochs', type=int, default=25, help='Number of training epochs')
 parser.add_argument('-lr','--learning_rate', type=float, default=1e-4, help='Number of training epochs')
 parser.add_argument('-reg','--l1_reg', type=float, default=1e-3, help='l1 regularizer')
 parser.add_argument('-sd','--state_dim', type=int, default=2, help='State dimensions')
@@ -182,9 +182,9 @@ else:
         states = tools.learn_states(
                         training_data=training_data,
                         model = jp_model,                                      
-                        num_epochs=30,
+                        num_epochs=1,
                         batch_size = args.batch_size,
-                        recordto=args.recordto,
+                        recordto='',
                         display=args.display,
                     ) 
 
@@ -206,52 +206,11 @@ else:
         for q_learning in range(n_qlearnings):
 
             # Perform fitted Q iterations and get states policy
-            qit = qfi.Fitted_QIteration(n_rbf=n_rbf, n_actions=n_actions)
+            qit = fqi.Fitted_QIteration(n_rbf=n_rbf, n_actions=n_actions)
             # train a policy with q fitted iteration using an integer representation of the actions 'actions_int'
-            state_policy = qit.fit_sk( states, actions_int, training_data['rewards'], 0.9, 30, recompute_mapping=True)
+            state_policy = qit.fit_sk( states, actions_int, training_data['rewards'], 0.9, 5, recompute_mapping=True)
             # plug this policy into our policy class module
             state_policy = policy.Plug_policy(state_policy, env.controller.action_space_int)
-
-            ###### DEBUG ############# DEBUG ############# DEBUG ############# DEBUG ############# DEBUG ############# DEBUG #######
-
-            pred_actions = np.zeros(len(states)-1,dtype='int32')
-            for i in range(len(states)-1):
-                pred_actions[i] = state_policy(states[i+1])
-            #action_colors = np.random.randint(0,255, (n_actions,3))/255.0
-            action_colors = np.array([[1.0,0.0,0.0],
-                                      [1.0,0.5,0.0],
-                                      [1.0,1.0,0.0],
-                                      [0.0,1.0,0.0],
-                                      [0.0,1.0,1.0],
-                                      [0.0,0.0,1.0],
-                                      [1.0,0.0,1.0],
-                                      [0.5,0.5,0.5],
-                                      [0.5,0.25,0.0],
-                                     ])
-
-            tools.plot_representation(
-                states[1:],
-                training_data['rewards'][:-1]*(training_data['episode_starts'][1:]==False),
-                name='learnt policy ',
-                state_dim=min(jp_model.state_dim,3),
-                plot_name='policy',
-                #add_colorbar=True,
-                colors = action_colors[pred_actions,:],
-                recordto='',
-                display=True,
-                )
-
-            input('pass')
-
-            # while True:
-
-            #     stats = rb_agent.run_in_env(env, 1, seed=None)
-            #     ep_states = obs2states()
-
-
-
-            ###### DEBUG ############# DEBUG ############# DEBUG ############# DEBUG ############# DEBUG ############# DEBUG #######
-
             # create an agent with this policy
             rb_agent = agent.RoundBotAgent(state_policy)
             # test the agent in the env

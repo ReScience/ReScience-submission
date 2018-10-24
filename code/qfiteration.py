@@ -55,12 +55,12 @@ class Fitted_QIteration:
 		self.state_rbf_out = np.zeros((states.shape[0], self.n_rbf))
 		self.input_features = np.zeros((states.shape[0], self.fspacesize))
 		for i in range(states.shape[0]):
-			self.state_rbf_out[i] = rbf_function(states[i],self.mapping[0],self.mapping[1])
+			self.state_rbf_out[i] = f_rbf(states[i], self.mapping)
 			self.input_features[i] = self.compute_istate_action_feature(i,actions[i])
 		self.input_features = self.input_features[:-1] # Remove last one to make fit work
 
 
-	def fit_sk(self, states, actions, rewards, gamma=0.9, max_epochs=10, recompute_mapping=False, alpha_l2=1.0, conv_threshold=1.0):
+	def fit_sk(self, states, actions, rewards, gamma=0.9, max_epochs=10, recompute_mapping=False, alpha_l2=1.0, conv_threshold=0.0):
 		"""
 		Computes K-means and fitted Q iteration
 		Return learnt policy
@@ -100,8 +100,6 @@ class Fitted_QIteration:
 		ndata = len(actions)
 		self.q_estimates = np.zeros(ndata-1)			
 		divide = (ndata-1)/10 # for printing iterations
-		# self.losses = list()
-		# self.betas = list()
 				
 		print('Beginning fitting iterations with max_epochs :' + str(max_epochs))
 
@@ -157,10 +155,8 @@ class Fitted_QIteration:
 		""" Qmax(s) """
 		# compute f_rbf activations
 		activations = f_rbf(s,self.mapping)
-		# element-wise multiplication of self.beta and activations repeated n_actions times
-		mult_beta = np.multiply( np.tile(activations, self.n_actions), self.beta )
-		# split array into n_actions sub arrays, compute their sums and return argmax
-		return np.argmax( [ np.sum(e) for e in np.split( mult_beta , self.n_actions) ] )
+		# multiply activations by corresponding parts of Beta, sum and take argmax
+		return np.argmax( [ np.sum( np.multiply(activations, b) ) for b in np.split( self.beta , self.n_actions) ] )
 
 
 	def compute_error(self,states, actions, rewards, gamma=0.9):
@@ -198,15 +194,16 @@ def compute_mean_intercenter_distance(centers):
 
 def rbf_function(x,mu,sigma):
 	""" RBF function """
-	squared_dist = np.sum((x-mu)**2, axis=1)
-	return np.exp(-squared_dist/(2*(sigma**2)))
+	return np.exp(  -np.sum((x-mu)**2, axis=1) / (2*(sigma**2))  )
 
 
 def gen_rbf_mapping(states,n_rbf=100):
 	""" Get the centers and sigma of a clusterization of the state space """
 	centers = stateKMeansClusterization(states, n_clusters=n_rbf)
 	sigma = compute_mean_intercenter_distance(centers)
-	return centers, sigma
+	# As in the paper, "We set the standard deviation of the radial ba- sis functions to be half of the
+	#  average distance from a center to the closest next center "
+	return centers, sigma/2.0
 
 def f_rbf(s, mapping):
 	""" RBF activations associated to one S-A pair """

@@ -23,7 +23,7 @@ import numpy as np
 
 # repo
 import tools
-import qlearning as ql
+import qfiteration as qfi
 import gym_env.agent as agent
 import gym_env.policy as policy
 import gym_env.run_round_bot as run_round_bot
@@ -147,7 +147,7 @@ else:
     # create a function for computing states form the observations given by the env
     mean_obs = np.mean(training_data['observations'], axis=0, keepdims=True)
     std_obs = np.std(training_data['observations'], ddof=1)
-    obs2states = lambda X: jp_model.phi( (X-mean_obs) / std_obs )
+    obs2states = lambda X: jp_model.phi(X) # centering and scaling are done inside phi
 
     # also retrieve global point of view parameter
     if env_args['auto_global_pov']:
@@ -163,7 +163,7 @@ else:
             world={'name':env_args['world_name'], 'size':env_args['world_size']},
             texture=env_args['texture'],
             obssize=env_args['obssize'],
-            winsize=env_args['winsize'],
+            winsize=[200,200] if args.visible_train else None,
             controller=controller,
             global_pov=global_pov,
             visible=args.visible_train,
@@ -176,14 +176,13 @@ else:
             observation_transformation = obs2states,
             )
 
-
     # learning iteration loop
     for learning_epoch in range(args.num_epochs):
 
         states = tools.learn_states(
                         training_data=training_data,
                         model = jp_model,                                      
-                        num_epochs=1,
+                        num_epochs=30,
                         batch_size = args.batch_size,
                         recordto=args.recordto,
                         display=args.display,
@@ -207,11 +206,52 @@ else:
         for q_learning in range(n_qlearnings):
 
             # Perform fitted Q iterations and get states policy
-            qit = ql.Fitted_QIteration(n_rbf=n_rbf, n_actions=n_actions)
+            qit = qfi.Fitted_QIteration(n_rbf=n_rbf, n_actions=n_actions)
             # train a policy with q fitted iteration using an integer representation of the actions 'actions_int'
-            state_policy = qit.fit_sk( states, actions_int, training_data['rewards'], 0.9, 40, recompute_mapping=True)
-            # plug the learned state to actions policy into our own policy class module
+            state_policy = qit.fit_sk( states, actions_int, training_data['rewards'], 0.9, 30, recompute_mapping=True)
+            # plug this policy into our policy class module
             state_policy = policy.Plug_policy(state_policy, env.controller.action_space_int)
+
+            ###### DEBUG ############# DEBUG ############# DEBUG ############# DEBUG ############# DEBUG ############# DEBUG #######
+
+            pred_actions = np.zeros(len(states)-1,dtype='int32')
+            for i in range(len(states)-1):
+                pred_actions[i] = state_policy(states[i+1])
+            #action_colors = np.random.randint(0,255, (n_actions,3))/255.0
+            action_colors = np.array([[1.0,0.0,0.0],
+                                      [1.0,0.5,0.0],
+                                      [1.0,1.0,0.0],
+                                      [0.0,1.0,0.0],
+                                      [0.0,1.0,1.0],
+                                      [0.0,0.0,1.0],
+                                      [1.0,0.0,1.0],
+                                      [0.5,0.5,0.5],
+                                      [0.5,0.25,0.0],
+                                     ])
+
+            tools.plot_representation(
+                states[1:],
+                training_data['rewards'][:-1]*(training_data['episode_starts'][1:]==False),
+                name='learnt policy ',
+                state_dim=min(jp_model.state_dim,3),
+                plot_name='policy',
+                #add_colorbar=True,
+                colors = action_colors[pred_actions,:],
+                recordto='',
+                display=True,
+                )
+
+            input('pass')
+
+            # while True:
+
+            #     stats = rb_agent.run_in_env(env, 1, seed=None)
+            #     ep_states = obs2states()
+
+
+
+            ###### DEBUG ############# DEBUG ############# DEBUG ############# DEBUG ############# DEBUG ############# DEBUG #######
+
             # create an agent with this policy
             rb_agent = agent.RoundBotAgent(state_policy)
             # test the agent in the env

@@ -16,21 +16,15 @@
 
 # System
 import os, warnings, argparse
-import random, datetime
+import random, time
 
 # maths
 import numpy as np
 
 # repo
 import tools
-import fqiteration as fqi
-import gym_env.agent as agent
-import gym_env.policy as policy
-import gym_env.run_round_bot as run_round_bot
-# import jonschkowski_priors2015 later to set the random seed before any keras module importation
+import jonschkowski_priors2015
 
-# gym round bot
-from gym_round_bot.envs import round_bot_controller
 
 warnings.filterwarnings('ignore') # ignore warnings
 
@@ -70,9 +64,10 @@ if not (args.recordto or args.display) :
 if args.qlearning and not args.recordto :
     raise Exception('\nPlease give a record folder (-r) for saving results of qlearning \n') 
 
-# init seed before importing anything from keras
-random.seed(args.seed if args.seed else datetime.datetime.now())
-import jonschkowski_priors2015
+# init seed (with np.random, not random) before creating anything with keras, this allows to debug with deterministic seed in args.seed
+np.random.seed(args.seed if args.seed else int(time.time()) )
+
+
 
 # load data
 training_data = tools.load_data(args.training_data)      
@@ -111,6 +106,16 @@ if not args.qlearning:
 #       for each q learning, we test it on 20 episodes of 25 steps and average the sum of rewards
 #   plot representations every 5 learnings and average reward over each 20
 else:
+
+    import fqiteration as fqi
+    import gym_env.agent as agent
+    import gym_env.policy as policy
+    import gym_env.run_round_bot as run_round_bot
+
+    # gym round bot
+    from gym_round_bot.envs import round_bot_controller
+    # plotting
+    import matplotlib.pyplot as plt
 
     # those are the argument parameters used for setting the gym environment where we got the training data
     # we can use these arguments to test a learned policy in this same environment
@@ -176,19 +181,28 @@ else:
             observation_transformation = obs2states,
             )
 
-    # learning iteration loop
+
+    ### learning iteration loop
+
+    #    record loss for plotting
+    loss_record = np.zeros(args.num_epochs)
+
     for learning_epoch in range(args.num_epochs):
 
-        states = tools.learn_states(
-                        training_data=training_data,
-                        model = jp_model,                                      
-                        num_epochs=1,
-                        batch_size = args.batch_size,
-                        recordto='',
-                        display=args.display,
-                    ) 
+        states, history = tools.learn_states(
+                            training_data=training_data,
+                            model = jp_model,                                      
+                            num_epochs=1,
+                            batch_size = args.batch_size,
+                            recordto='',
+                            display=args.display,
+                        ) 
 
-        # plot representations every 5 learnings
+        # record the loss history
+        loss_record[learning_epoch] = history.history['loss'][0]
+        print('loss hist : ', history.history['loss'])
+
+        # plot representations every learning
         if learning_epoch%5 == 0:
             tools.plot_representation(
                 states[1:],
@@ -202,27 +216,39 @@ else:
                 display=False,
                 )
 
-        # qlearning loop
-        for q_learning in range(n_qlearnings):
 
-            # Perform fitted Q iterations and get states policy
-            qit = fqi.Fitted_QIteration(n_rbf=n_rbf, n_actions=n_actions)
-            # train a policy with q fitted iteration using an integer representation of the actions 'actions_int'
-            state_policy = qit.fit_sk( states, actions_int, training_data['rewards'], 0.9, 5, recompute_mapping=True)
-            # plug this policy into our policy class module
-            state_policy = policy.Plug_policy(state_policy, env.controller.action_space_int)
-            # create an agent with this policy
-            rb_agent = agent.RoundBotAgent(state_policy)
-            # test the agent in the env
-            stats = rb_agent.run_in_env(env, n_test_episodes, seed=None) # 20 episodes as in the paper
-            # record all episodes rewards for this evaluation run and this model and this learning
-            test_performance[learning_epoch, q_learning, :,:] = np.reshape(np.array(stats['rewards']),[n_test_episodes, n_test_steps])            
+        # ### qlearning loop
+        # for q_learning in range(n_qlearnings):
 
-            if args.verbose:
-                print( 'Q fitted iteration test number : '+ str(q_learning) +'. Mean reward over'+ str(n_test_episodes)+' episodes : ' +\
-                    str( np.mean( stats['reward_ep'].flatten() ) )+' \n' )
+        #     # Perform fitted Q iterations and get states policy
+        #     qit = fqi.Fitted_QIteration(n_rbf=n_rbf, n_actions=n_actions)
+        #     # train a policy with q fitted iteration using an integer representation of the actions 'actions_int'
+        #     state_policy = qit.fit_sk( states, actions_int, training_data['rewards'], 0.9, 5, recompute_mapping=True)
+        #     # plug this policy into our policy class module
+        #     state_policy = policy.Plug_policy(state_policy, env.controller.action_space_int)
+        #     # create an agent with this policy
+        #     rb_agent = agent.RoundBotAgent(state_policy)
+        #     # test the agent in the env
+        #     stats = rb_agent.run_in_env(env, n_test_episodes, seed=None) # 20 episodes as in the paper
+        #     # record all episodes rewards for this evaluation run and this model and this learning
+        #     test_performance[learning_epoch, q_learning, :,:] = np.reshape(np.array(stats['rewards']),[n_test_episodes, n_test_steps])            
 
+        #     if args.verbose:
+        #         print( 'Q fitted iteration test number : '+ str(q_learning) +'. Mean reward over'+ str(n_test_episodes)+' episodes : ' +\
+        #             str( np.mean( stats['reward_ep'].flatten() ) )+' \n' )
 
+    ### plotting 
+
+    # plot the loss history
+    fig=plt.figure('Loss')
+    plt.plot(loss_record)
+    plt.title('Model loss')
+    plt.ylabel('Loss')
+    plt.xlabel('Epoch')
+    plt.legend(['Train'], loc='upper left')
+    plt.show()
+
+    input('Press any key to exit plotting')
 
 
 

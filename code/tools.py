@@ -200,7 +200,7 @@ def learn_states(   training_data,
 
     print('\nLearning a state representation ... \n')
 
-    model.learn(observations=training_data['observations'], actions=training_data['actions'],
+    history = model.learn(observations=training_data['observations'], actions=training_data['actions'],
                 rewards=training_data['rewards'], episode_starts=training_data['episode_starts'],
                 batch_size=batch_size, num_epochs=num_epochs, verbose=True)
 
@@ -224,7 +224,8 @@ def learn_states(   training_data,
     if display:
         input('\nPress any key to exit plotting and continuing\n')
 
-    return training_states
+    # return learnt states along with traing history
+    return training_states, history
 
 
 

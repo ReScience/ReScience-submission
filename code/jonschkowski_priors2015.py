@@ -76,59 +76,132 @@ class Priors_model():
         s_t2= self.linear_model(obs_input_t2)
         s_t2_next = self.linear_model(obs_input_t2_next)        
 
+        delta_st1 = Subtract()([ s_t1_next, s_t1 ])
+        delta_st2 = Subtract()([ s_t2_next, s_t2 ])
+
+        self.norm2 = lambda x : K.sum(x**2, axis=1)
+
+        # don't forget to squeeze these vectors to make them 1-dimensional
+        #same_action_input = K.squeeze(same_action_input, axis=1)
+        #same_a_diff_r_input = K.squeeze(same_a_diff_r_input, axis=1)
+
         # the output loss layer
-        loss_out = Lambda(self.composite_loss, output_shape=(1,), name='loss_out')([s_t1, s_t1_next, s_t2, s_t2_next, same_action_input, same_a_diff_r_input ])
+        #loss_out = Lambda(self.composite_loss, output_shape=(4,), name='loss_out')([s_t1, s_t1_next, s_t2, s_t2_next, same_action_input, same_a_diff_r_input ])
+        temporalcoherence_loss = Lambda( self.temporalcoherence_loss, output_shape=(1,), name='temporalcoherence_loss')([delta_st1, delta_st2])
+        proportionality_loss = Lambda( self.proportionality_loss, output_shape=(1,), name='proportionality_loss')([delta_st1, delta_st2, same_action_input])
+        causality_loss = Lambda( self.causality_loss, output_shape=(1,), name='causality_loss')([s_t1, s_t2, same_a_diff_r_input])
+        repeatability_loss = Lambda( self.repeatability_loss, output_shape=(1,), name='repeatability_loss')([s_t1, s_t2, delta_st1, delta_st2, same_action_input])
+
+        # scalar_multiplication = lambda scalar : Lambda(lambda x : x*scalar, output_shape=(1,) )
+
+        # weighted_losses = [ scalar_multiplication(self.loss_weights[0])([temporalcoherence_loss]),
+        #                     scalar_multiplication(self.loss_weights[1])([proportionality_loss]),
+        #                     scalar_multiplication(self.loss_weights[2])([causality_loss]),
+        #                     scalar_multiplication(self.loss_weights[3])([repeatability_loss ]) ]
+
+        weighted_losses = [ temporalcoherence_loss,
+                            proportionality_loss,
+                            causality_loss,
+                            repeatability_loss ]
+
+        print(weighted_losses)
 
         ## COMPILE MODEL
         # build a model with the six inputs and the output loss layer, and compile it
-        self.model = Model(inputs=all_inputs, outputs=loss_out)
+        #self.model = Model(inputs=all_inputs, outputs=loss_out)
+        self.model = Model(inputs=all_inputs, outputs=weighted_losses)
+        #self.model = Model(inputs=all_inputs, outputs=proportionality_loss)
+
         #   Keras needs a final loss function with (y_true, y_pred) parameters
         #   As the method requires an expectation over the batch lossess, we return the mean of the loss in y_pred
         #   y_true is unused here as this is unsupervised learning
         def mean_loss(y_true, y_pred):
             return K.mean(y_pred, axis=0)
+        
         self.model.compile(loss=mean_loss, optimizer=Adam(learning_rate))
 
 
-    def composite_loss(self, args):
 
-        s_t1, s_t1_next, s_t2, s_t2_next, same_action_input, same_a_diff_r_input  = args
-
-        delta_st1 = Subtract()([ s_t1_next, s_t1 ])
-        delta_st2 = Subtract()([ s_t2_next, s_t2 ])
-
-        norm2 = lambda x : K.sum(x**2, axis=1)
-
-        # don't forget to squeeze these vectors to make them 1-dimensional
-        same_action_input = K.squeeze(same_action_input, axis=1)
-        same_a_diff_r_input = K.squeeze(same_a_diff_r_input, axis=1)
-        
+    def temporalcoherence_loss(self, args):
+        delta_st1, delta_st2 = args
         # temporalcoherence_loss
-        temporalcoherence_loss = (norm2(delta_st1) + norm2(delta_st2))/2.0
+        #return self.loss_weights[0]* (self.norm2(delta_st1) + self.norm2(delta_st2))/2.0
+        return self.loss_weights[0]* (self.norm2(delta_st1) + self.norm2(delta_st2))/2.0
 
+
+    def proportionality_loss(self, args):
+        delta_st1, delta_st2, same_action_input = args
+        # don't forget to squeeze these vectors to make them 1-dimensional (need to make that inside loss function and not outside for keras history issues)
+        same_action = K.squeeze(same_action_input, axis=1)
         # proportionality_loss
-        #   Note the K.mean(same_action_input, axis=0) normalization, because this is a conditional expectation on same_action_input
-        proportionality_loss = Multiply()( [ ( K.sqrt(K.epsilon()+norm2(delta_st1)) - K.sqrt(K.epsilon()+norm2(delta_st2)) )**2,
-                                               same_action_input ])/K.mean(same_action_input, axis=0)
-
+        #   Note the K.mean(same_action, axis=0) normalization, because this is a conditional expectation on same_action
+        #return self.loss_weights[1]*  Multiply()( [ ( K.sqrt(K.epsilon()+self.norm2(delta_st1)) - K.sqrt(K.epsilon()+self.norm2(delta_st2)) )**2,
+        return self.loss_weights[1]*  K.switch( same_action,
+                                                ( K.sqrt(K.epsilon()+self.norm2(delta_st1)) - K.sqrt(K.epsilon()+self.norm2(delta_st2)) )**2,
+                                                K.zeros_like(same_action)
+                                               )/K.mean(same_action, axis=0)
+        #return self.loss_weights[1]*( K.sqrt(K.epsilon()+self.norm2(delta_st1)) - K.sqrt(K.epsilon()+self.norm2(delta_st2)) )**2
+    
+    def causality_loss(self, args):
+        s_t1, s_t2, same_a_diff_r_input = args
+        # don't forget to squeeze these vectors to make them 1-dimensional (need to make that inside loss function and not outside for keras history issues)
+        same_a_diff_r = K.squeeze(same_a_diff_r_input, axis=1)
         # causality_loss
-        #   Note the K.mean(same_a_diff_r_input, axis=0) normalization, because this is a conditional expectation on same_a_diff_r_input
-        causality_loss = Multiply()( [ K.exp( -norm2(s_t2-s_t1) ), same_a_diff_r_input ])/K.mean(same_a_diff_r_input, axis=0)
+        #   Note the K.mean(same_a_diff_r, axis=0) normalization, because this is a conditional expectation on same_a_diff_r
+        #return self.loss_weights[2]* Multiply()( [ K.exp( -self.norm2(s_t2-s_t1) ), same_a_diff_r ])/K.mean(same_a_diff_r, axis=0)
+        return self.loss_weights[2]* K.switch( same_a_diff_r, K.exp( -self.norm2(s_t2-s_t1) ), K.zeros_like(same_a_diff_r) )/K.mean(same_a_diff_r, axis=0)
 
+    def repeatability_loss(self, args):
+        s_t1, s_t2, delta_st1, delta_st2, same_action_input = args
+        # don't forget to squeeze these vectors to make them 1-dimensional (need to make that inside loss function and not outside for keras history issues)
+        same_action = K.squeeze(same_action_input, axis=1)
         # repeatability_loss
-        #   Note the K.mean(same_action_input, axis=0) normalization, because this is a conditional expectation on same_action_input
-        repeatability_loss = Multiply()([ K.exp(-norm2( s_t2-s_t1)),
-                                          norm2(delta_st1-delta_st2),
-                                          same_action_input
-                                        ])/K.mean(same_action_input, axis=0)
+        #   Note the K.mean(same_action, axis=0) normalization, because this is a conditional expectation on same_action
+        #return self.loss_weights[3]* Multiply()([ K.exp(-self.norm2( s_t2-s_t1)), self.norm2(delta_st1-delta_st2), same_action ])/K.mean(same_action, axis=0)
+        return self.loss_weights[3]* K.switch( same_action, Multiply()([K.exp(-self.norm2( s_t2-s_t1)), self.norm2(delta_st1-delta_st2)]), K.zeros_like(same_action)
+                                             )/K.mean(same_action, axis=0)
 
-        # return a vector (needed by keras) which will then be sumed up 
-        composite_loss =  self.loss_weights[0]*temporalcoherence_loss +\
-                          self.loss_weights[1]*proportionality_loss +\
-                          self.loss_weights[2]*causality_loss +\
-                          self.loss_weights[3]*repeatability_loss
+   
 
-        return composite_loss
+    # def composite_loss(self, args):
+
+    #     s_t1, s_t1_next, s_t2, s_t2_next, same_action_input, same_a_diff_r_input  = args
+
+    #     delta_st1 = Subtract()([ s_t1_next, s_t1 ])
+    #     delta_st2 = Subtract()([ s_t2_next, s_t2 ])
+
+    #     norm2 = lambda x : K.sum(x**2, axis=1)
+
+    #     # don't forget to squeeze these vectors to make them 1-dimensional
+    #     same_action_input = K.squeeze(same_action_input, axis=1)
+    #     same_a_diff_r_input = K.squeeze(same_a_diff_r_input, axis=1)
+        
+    #     # temporalcoherence_loss
+    #     temporalcoherence_loss = (norm2(delta_st1) + norm2(delta_st2))/2.0
+
+    #     # proportionality_loss
+    #     #   Note the K.mean(same_action_input, axis=0) normalization, because this is a conditional expectation on same_action_input
+    #     proportionality_loss = Multiply()( [ ( K.sqrt(K.epsilon()+norm2(delta_st1)) - K.sqrt(K.epsilon()+norm2(delta_st2)) )**2,
+    #                                            same_action_input ])/K.mean(same_action_input, axis=0)
+
+    #     # causality_loss
+    #     #   Note the K.mean(same_a_diff_r_input, axis=0) normalization, because this is a conditional expectation on same_a_diff_r_input
+    #     causality_loss = Multiply()( [ K.exp( -norm2(s_t2-s_t1) ), same_a_diff_r_input ])/K.mean(same_a_diff_r_input, axis=0)
+
+    #     # repeatability_loss
+    #     #   Note the K.mean(same_action_input, axis=0) normalization, because this is a conditional expectation on same_action_input
+    #     repeatability_loss = Multiply()([ K.exp(-norm2( s_t2-s_t1)),
+    #                                       norm2(delta_st1-delta_st2),
+    #                                       same_action_input
+    #                                     ])/K.mean(same_action_input, axis=0)
+
+    #     # return a vector (needed by keras) which will then be sumed up 
+    #     composite_loss =  self.loss_weights[0]*temporalcoherence_loss +\
+    #                       self.loss_weights[1]*proportionality_loss +\
+    #                       self.loss_weights[2]*causality_loss +\
+    #                       self.loss_weights[3]*repeatability_loss
+
+    #     return composite_loss
         
 
     def training_generator(observations, actions, rewards, episode_starts, batch_size):
@@ -168,7 +241,7 @@ class Priors_model():
 
             X = [ observations[indices_1], observations[indices_1+1], observations[indices_2], observations[indices_2+1],
                   same_action, same_action_diff_reward ]
-            Y = np.zeros([batch_size,1]) # unused here because this is unsupervised learning, yet it is needed
+            Y = [np.zeros([batch_size,1]) for i in range(4)] # unused here because this is unsupervised learning, yet it is needed
             yield X,Y
 
     def training_generator2(observations, actions, rewards, episode_starts, batch_size, steps_per_epoch):
@@ -227,7 +300,7 @@ class Priors_model():
                 # finally, yield the batch
                 X = [ observations[batches_1[inds]], observations[batches_1[inds]+1], observations[batches_2[inds]], observations[batches_2[inds]+1],
                       same_action[inds], same_a_diff_r[inds] ]
-                Y = np.zeros([batch_size,1]) # unused here because this is unsupervised learning, yet it is needed
+                Y = [np.zeros([batch_size,1]) for i in range(4)] # unused here because this is unsupervised learning, yet it is needed
                 yield X,Y
 
 
@@ -250,7 +323,8 @@ class Priors_model():
 
         # fit model using batches generated by the training generator. No need to shuffle since it is already done by the generator
         # Note : it seems to be way faster with use_multiprocessing=False
-        self.model.fit_generator(generator=train_gen, steps_per_epoch=steps_per_epoch, epochs=num_epochs,
+        # returns the training History object
+        return self.model.fit_generator(generator=train_gen, steps_per_epoch=steps_per_epoch, epochs=num_epochs,
                                  use_multiprocessing=False, shuffle=False, verbose=verbose )
 
         ## DEBUG

@@ -221,8 +221,6 @@ def learn_states(   training_data,
                             recordto=recordto,
                             display=display,
                             )
-    if display:
-        input('\nPress any key to exit plotting and continuing\n')
 
     # return learnt states along with traing history
     return training_states, history
@@ -271,8 +269,6 @@ def compute_states( test_data,
                         plot_name='_test',
                         display=display,
                         )
-    if display:
-        input('\nPress any key to exit plotting and continuing\n')
 
     if recordto:
         assert_npz(recordto)

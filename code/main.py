@@ -20,6 +20,8 @@ import random, time
 
 # maths
 import numpy as np
+# plotting
+import matplotlib.pyplot as plt
 
 # repo
 import tools
@@ -67,7 +69,11 @@ if args.qlearning and not args.recordto :
 # init seed (with np.random, not random) before creating anything with keras, this allows to debug with deterministic seed in args.seed
 np.random.seed(args.seed if args.seed else int(time.time()) )
 
-
+total_loss_record = None
+temporalcoherence_loss_record = None
+proportionality_loss_record = None
+causality_loss_record = None
+repeatability_loss_record = None
 
 # load data
 training_data = tools.load_data(args.training_data)      
@@ -86,13 +92,19 @@ jp_model = jonschkowski_priors2015.Priors_model(
 #      you can also specify a test dataset to test the learnt representation afterward
 if not args.qlearning:
     # learn the model directly for every iterations
-    tools.learn_states( training_data=training_data,
-                        model = jp_model,                                      
-                        num_epochs=args.num_epochs,
-                        batch_size = args.batch_size,
-                        recordto=args.recordto,
-                        display=args.display,
-                    )    
+    _ ,history = tools.learn_states(training_data=training_data,
+                                    model = jp_model,                                      
+                                    num_epochs=args.num_epochs,
+                                    batch_size = args.batch_size,
+                                    recordto=args.recordto,
+                                    display=args.display,
+                                    )
+
+    total_loss_record = history.history['loss']
+    temporalcoherence_loss_record = history.history['weighted_temporalcoherence_loss']
+    proportionality_loss_record = history.history['weighted_proportionality_loss']
+    causality_loss_record = history.history['weighted_causality_loss']
+    repeatability_loss_record = history.history['weighted_repeatability_loss']
 
     if args.test_data:
         tools.compute_states( test_data=args.test_data,
@@ -114,8 +126,6 @@ else:
 
     # gym round bot
     from gym_round_bot.envs import round_bot_controller
-    # plotting
-    import matplotlib.pyplot as plt
 
     # those are the argument parameters used for setting the gym environment where we got the training data
     # we can use these arguments to test a learned policy in this same environment
@@ -185,7 +195,11 @@ else:
     ### learning iteration loop
 
     #    record loss for plotting
-    loss_record = np.zeros(args.num_epochs)
+    total_loss_record = np.zeros(args.num_epochs)
+    temporalcoherence_loss_record = np.zeros(args.num_epochs)
+    proportionality_loss_record = np.zeros(args.num_epochs)
+    causality_loss_record = np.zeros(args.num_epochs)
+    repeatability_loss_record = np.zeros(args.num_epochs)
 
     for learning_epoch in range(args.num_epochs):
 
@@ -199,8 +213,11 @@ else:
                         ) 
 
         # record the loss history
-        loss_record[learning_epoch] = history.history['loss'][0]
-        print('loss hist : ', history.history['loss'])
+        total_loss_record[learning_epoch] = history.history['loss'][0]
+        temporalcoherence_loss_record[learning_epoch] = history.history['weighted_temporalcoherence_loss'][0]
+        proportionality_loss_record[learning_epoch] = history.history['weighted_proportionality_loss'][0]
+        causality_loss_record[learning_epoch] = history.history['weighted_causality_loss'][0]
+        repeatability_loss_record[learning_epoch] = history.history['weighted_repeatability_loss'][0]
 
         # plot representations every learning
         if learning_epoch%5 == 0:
@@ -237,15 +254,27 @@ else:
         #         print( 'Q fitted iteration test number : '+ str(q_learning) +'. Mean reward over'+ str(n_test_episodes)+' episodes : ' +\
         #             str( np.mean( stats['reward_ep'].flatten() ) )+' \n' )
 
+
+if args.display :
     ### plotting 
 
-    # plot the loss history
+    causality_loss_record = np.array(causality_loss_record)
+    repeatability_loss_record = np.array(repeatability_loss_record)
+    proportionality_loss_record = np.array(proportionality_loss_record)
+    temporalcoherence_loss_record = np.array(temporalcoherence_loss_record)
+
+    # plot the stacked losses' histories
     fig=plt.figure('Loss')
-    plt.plot(loss_record)
+    #plt.plot(np.array(total_loss_record)/4.0)    
+    plt.plot(causality_loss_record)
+    plt.plot(repeatability_loss_record + causality_loss_record)
+    plt.plot(proportionality_loss_record + repeatability_loss_record + causality_loss_record)
+    plt.plot(temporalcoherence_loss_record + proportionality_loss_record + repeatability_loss_record + causality_loss_record)
+    #plt.plot(temporalcoherence_loss_record + proportionality_loss_record + repeatability_loss_record + causality_loss_record)
     plt.title('Model loss')
     plt.ylabel('Loss')
     plt.xlabel('Epoch')
-    plt.legend(['Train'], loc='upper left')
+    plt.legend(['causality_loss','repeatability_loss','proportionality_loss','temporalcoherence_loss','total_loss',], loc='upper left')
     plt.show()
 
     input('Press any key to exit plotting')

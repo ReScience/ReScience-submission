@@ -25,7 +25,8 @@ import matplotlib.pyplot as plt
 
 # repo
 import tools
-import jonschkowski_priors2015
+#import jonschkowski_priors2015
+import jonschkowski_priors
 
 
 warnings.filterwarnings('ignore') # ignore warnings
@@ -78,7 +79,7 @@ repeatability_loss_record = None
 # load data
 training_data = tools.load_data(args.training_data)      
 # create a model implementing the paper method
-jp_model = jonschkowski_priors2015.Priors_model(
+jp_model = jonschkowski_priors.Priors_model(
                         obs_shape = list(training_data['observations'][0].shape), 
                         state_dim = args.state_dim,
                         learning_rate=args.learning_rate, 
@@ -266,15 +267,15 @@ if args.display :
     # plot the stacked losses' histories
     fig=plt.figure('Loss')
     #plt.plot(np.array(total_loss_record)/4.0)    
-    plt.plot(causality_loss_record)
-    plt.plot(repeatability_loss_record + causality_loss_record)
-    plt.plot(proportionality_loss_record + repeatability_loss_record + causality_loss_record)
     plt.plot(temporalcoherence_loss_record + proportionality_loss_record + repeatability_loss_record + causality_loss_record)
-    #plt.plot(temporalcoherence_loss_record + proportionality_loss_record + repeatability_loss_record + causality_loss_record)
-    plt.title('Model loss')
+    plt.plot(proportionality_loss_record + repeatability_loss_record + causality_loss_record)
+    plt.plot(repeatability_loss_record + causality_loss_record)
+    plt.plot(causality_loss_record)
+    
+    plt.title('Model loss')    
     plt.ylabel('Loss')
     plt.xlabel('Epoch')
-    plt.legend(['causality_loss','repeatability_loss','proportionality_loss','temporalcoherence_loss','total_loss',], loc='upper left')
+    plt.legend(['temporalcoherence_loss','proportionality_loss','repeatability_loss','causality_loss'], loc='upper left')
     plt.show()
 
     input('Press any key to exit plotting')

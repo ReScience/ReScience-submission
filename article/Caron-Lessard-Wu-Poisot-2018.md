@@ -194,7 +194,7 @@ represent the value of the correlation coefficient ($r$) that came out of the
 deterministic models. The values of $r$ vary greatly for every stochastic
 parameter. In every case, the mean value of $r$ is lower in the stochastic
 models than in the deterministic models. This is in agreement with Hassell's
-results, and shows that stochasticity makes it harder to see the density
+results, and shows that stochasticity makes it harder to detect the density
 dependence effect of the parasites, whether they are generalist or specialist.
 
 # Discussion
@@ -207,8 +207,8 @@ convenient comparison of the different results.
 As expected, we did not find the exact same dynamic for the stochastic
 model. The figures we added (@fig:figure7 and @fig:figure8) showed how adding
 stochasticity into the model can cause great variability in the output. For exemple, in the specialist parasitoid model with a stochastic density-dependent host survival ($D$), the correlation we found
-(@fig:figure7 (a)) was sometimes very weak ($r \approx 0.2$) and some other times
-almost as strong as the deterministic model ($r \approx 0.7$). Also, the correlation between the mortality from
+(@fig:figure7 (a)) was sometimes very weak ($r \approx 0.4$) and some other times
+almost as strong as the deterministic model ($r \approx 0.9$). Also, the correlation between the mortality from
 parasitism ($k$-value) and host density ($N$) found in the stochastic model was
 almost always weaker than in the deterministic model (@fig:figure7 and
 @fig:figure8). Therefore, the results we added strongly support the main

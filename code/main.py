@@ -25,7 +25,6 @@ import matplotlib.pyplot as plt
 
 # repo
 import tools
-#import jonschkowski_priors2015
 import jonschkowski_priors
 
 
@@ -45,6 +44,7 @@ parser.add_argument('-ne','--num_epochs', type=int, default=25, help='Number of 
 parser.add_argument('-lr','--learning_rate', type=float, default=1e-4, help='Number of training epochs')
 parser.add_argument('-reg','--l1_reg', type=float, default=1e-3, help='l1 regularizer')
 parser.add_argument('-sd','--state_dim', type=int, default=2, help='State dimensions')
+parser.add_argument('-vr','--validation_ratio', type=float, default=0.1, help='Ratio of validation data split from training data')
 parser.add_argument('-bs','--batch_size', type=int, default=256, help='Batch size')
 parser.add_argument('-rs','--seed', type=int, default=None, help='Seed for random')
 parser.add_argument('-tu','--tanh_units', type=int, default=None, help='hidden tanh units, default is None (linear model)')
@@ -65,16 +65,14 @@ if not (args.recordto or args.display) :
     raise Exception('\nPlease either record (-r) or display (-dis) results ! (or both) \n') 
 
 if args.qlearning and not args.recordto :
-    raise Exception('\nPlease give a record folder (-r) for saving results of qlearning \n') 
+    raise Exception('\nPlease give a record folder (-r) for saving results of qlearning \n')
+
+if args.validation_ratio <= 0.0 or args.validation_ratio >= 1.0:
+    raise ValueError('Wrong validation_ratio parameter, must be in range ]0,1[ ') 
 
 # init seed (with np.random, not random) before creating anything with keras, this allows to debug with deterministic seed in args.seed
 np.random.seed(args.seed if args.seed else int(time.time()) )
 
-total_loss_record = None
-temporalcoherence_loss_record = None
-proportionality_loss_record = None
-causality_loss_record = None
-repeatability_loss_record = None
 
 # load data
 training_data = tools.load_data(args.training_data)      
@@ -99,13 +97,14 @@ if not args.qlearning:
                                     batch_size = args.batch_size,
                                     recordto=args.recordto,
                                     display=args.display,
+                                    validation_ratio = args.validation_ratio,
                                     )
 
-    total_loss_record = history.history['loss']
-    temporalcoherence_loss_record = history.history['weighted_temporalcoherence_loss']
-    proportionality_loss_record = history.history['weighted_proportionality_loss']
-    causality_loss_record = history.history['weighted_causality_loss']
-    repeatability_loss_record = history.history['weighted_repeatability_loss']
+    # record the vaildation loss history
+    temporalcoherence_loss_record = history.history['val_t_loss']
+    proportionality_loss_record = history.history['val_p_loss']
+    causality_loss_record = history.history['val_c_loss']
+    repeatability_loss_record = history.history['val_r_loss']
 
     if args.test_data:
         tools.compute_states( test_data=args.test_data,
@@ -161,8 +160,6 @@ else:
                                 int_actions=True)
 
     # create a function for computing states form the observations given by the env
-    mean_obs = np.mean(training_data['observations'], axis=0, keepdims=True)
-    std_obs = np.std(training_data['observations'], ddof=1)
     obs2states = lambda X: jp_model.phi(X) # centering and scaling are done inside phi
 
     # also retrieve global point of view parameter
@@ -195,8 +192,7 @@ else:
 
     ### learning iteration loop
 
-    #    record loss for plotting
-    total_loss_record = np.zeros(args.num_epochs)
+    # record loss for plotting
     temporalcoherence_loss_record = np.zeros(args.num_epochs)
     proportionality_loss_record = np.zeros(args.num_epochs)
     causality_loss_record = np.zeros(args.num_epochs)
@@ -211,14 +207,14 @@ else:
                             batch_size = args.batch_size,
                             recordto='',
                             display=args.display,
+                            validation_ratio = args.validation_ratio,
                         ) 
 
-        # record the loss history
-        total_loss_record[learning_epoch] = history.history['loss'][0]
-        temporalcoherence_loss_record[learning_epoch] = history.history['weighted_temporalcoherence_loss'][0]
-        proportionality_loss_record[learning_epoch] = history.history['weighted_proportionality_loss'][0]
-        causality_loss_record[learning_epoch] = history.history['weighted_causality_loss'][0]
-        repeatability_loss_record[learning_epoch] = history.history['weighted_repeatability_loss'][0]
+        # record the validation loss history
+        temporalcoherence_loss_record[learning_epoch] = history.history['val_t_loss'][0]
+        proportionality_loss_record[learning_epoch] = history.history['val_p_loss'][0]
+        causality_loss_record[learning_epoch] = history.history['val_c_loss'][0]
+        repeatability_loss_record[learning_epoch] = history.history['val_r_loss'][0]
 
         # plot representations every learning
         if learning_epoch%5 == 0:
@@ -259,24 +255,32 @@ else:
 if args.display :
     ### plotting 
 
-    causality_loss_record = np.array(causality_loss_record)
-    repeatability_loss_record = np.array(repeatability_loss_record)
-    proportionality_loss_record = np.array(proportionality_loss_record)
-    temporalcoherence_loss_record = np.array(temporalcoherence_loss_record)
+    # concatenate first learning loss and the validation losses and divide by the weight to have the unweighted loss value
+    causality_loss_record = np.array( causality_loss_record )/args.weights[2]
+    repeatability_loss_record = np.array( repeatability_loss_record )/args.weights[3]
+    proportionality_loss_record = np.array( proportionality_loss_record )/args.weights[1]
+    temporalcoherence_loss_record = np.array( temporalcoherence_loss_record )/args.weights[0]
 
     # plot the stacked losses' histories
     fig=plt.figure('Loss')
-    #plt.plot(np.array(total_loss_record)/4.0)    
+
+    axes = plt.gca()
+    axes.set_ylim([0,None])
+
     plt.plot(temporalcoherence_loss_record + proportionality_loss_record + repeatability_loss_record + causality_loss_record)
     plt.plot(proportionality_loss_record + repeatability_loss_record + causality_loss_record)
     plt.plot(repeatability_loss_record + causality_loss_record)
     plt.plot(causality_loss_record)
-    
+
     plt.title('Model loss')    
     plt.ylabel('Loss')
     plt.xlabel('Epoch')
-    plt.legend(['temporalcoherence_loss','proportionality_loss','repeatability_loss','causality_loss'], loc='upper left')
+    plt.legend(['temporalcoherence_loss','proportionality_loss','repeatability_loss','causality_loss'], loc='upper right')
     plt.show()
+
+    if args.recordto:
+        plot_name = 'loss_history' if not args.qlearning else 'loss_history_ql'
+        fig.savefig(args.recordto+plot_name+'.png')# save the figure to file   
 
     input('Press any key to exit plotting')
 

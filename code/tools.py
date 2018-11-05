@@ -178,6 +178,7 @@ def learn_states(   training_data,
                     recordto='',
                     plot_dims=None,
                     display=True,
+                    validation_ratio=0.1,
                     ):
     """
         - Loads data if training_data is a file path
@@ -202,7 +203,7 @@ def learn_states(   training_data,
 
     history = model.learn(observations=training_data['observations'], actions=training_data['actions'],
                 rewards=training_data['rewards'], episode_starts=training_data['episode_starts'],
-                batch_size=batch_size, num_epochs=num_epochs, verbose=True)
+                batch_size=batch_size, num_epochs=num_epochs, verbose=True, validation_ratio=validation_ratio)
 
     # predict learned states
     training_states = model.phi(training_data['observations'])

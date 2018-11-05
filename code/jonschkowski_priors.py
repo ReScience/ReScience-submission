@@ -13,7 +13,7 @@
 
 import os, sys
 
-import numpy as np 
+import numpy as np
 
 import keras
 from keras.models import Model, Sequential
@@ -84,23 +84,23 @@ class Priors_model():
         scalar_multiplication = lambda scalar, name : Lambda(lambda x : x*scalar, output_shape=(1,) , name=name)
 
         # create a list of the four weigthed loss which will be optimized jointly
-        weighted_losses = [ scalar_multiplication(self.loss_weights[0],'weighted_temporalcoherence')([temporalcoherence_loss]),
-                            scalar_multiplication(self.loss_weights[1],'weighted_proportionality')([proportionality_loss]),
-                            scalar_multiplication(self.loss_weights[2],'weighted_causality')([causality_loss]),
-                            scalar_multiplication(self.loss_weights[3],'weighted_repeatability')([repeatability_loss ]) ]
+        weighted_losses = [ scalar_multiplication(self.loss_weights[0],'t')([temporalcoherence_loss]),
+                            scalar_multiplication(self.loss_weights[1],'p')([proportionality_loss]),
+                            scalar_multiplication(self.loss_weights[2],'c')([causality_loss]),
+                            scalar_multiplication(self.loss_weights[3],'r')([repeatability_loss ]) ]
 
-        ## COMPILE MODEL
-        # build a model with the six inputs and the list of outputs loss layers, and compile it
-        #self.model = Model(inputs=[obs_input, same_action_input, same_a_diff_r_input], outputs=weighted_losses)
+        ## CREATE AND COMPILE MODEL
+        # build a model with the four inputs and the list of outputs weighted loss layers, and compile it
         self.model = Model(inputs=[obs_input, next_obs_input, same_action_input, same_a_diff_r_input], outputs=weighted_losses)
 
         #   Keras needs a final loss function with (y_true, y_pred) parameters
         #   As the method requires an expectation over the batch lossess, we return the mean of the loss in y_pred
         #   y_true is not used as labels here but only for regularizing the conditional expectations in proportionality, causality and repeatability losses
-        def mean_loss(y_true, y_pred):
-            return K.mean(y_pred*y_true, axis=0)#/K.sum(K.switch())
+        def condexp_loss(y_true, y_pred):
+            # compute conditional expectation of the batch losses (average only where values are non zero)
+            return K.sum(y_pred*y_true, axis=0) / K.sum( K.cast(y_true>0,'float32'), axis=0)
         
-        self.model.compile(loss=mean_loss, optimizer=Adam(learning_rate))
+        self.model.compile(loss=condexp_loss, optimizer=Adam(learning_rate))
 
 
     def temporalcoherence_loss(self, delta_states):
@@ -111,6 +111,10 @@ class Priors_model():
     def proportionality_loss(self, args):
         delta_states_row, same_action_input = args
 
+        # To compute pairwise operations between all time pairs t1 and t2 with same actions, we compute a square matrix
+        #   with indices i,j being times t1,t2 of batch with this line : (delta_states_sqrt_row - delta_states_sqrt_col)**2
+        # The conditional expectation is then computed by summing all values in the matrix and dividing by the number of non zero values, which
+        #   is the number of pairs with same actions. This number is stored in the Y label tensor (unused as labels here because of unsupervised learning)
         delta_states_sqrt_row = K.sqrt(K.epsilon() + K.sum(delta_states_row**2, axis=1))
         delta_states_sqrt_row = K.tf.reshape(delta_states_sqrt_row, [-1,1])
         delta_states_sqrt_col = K.tf.transpose(delta_states_sqrt_row)
@@ -121,6 +125,11 @@ class Priors_model():
 
     def causality_loss(self, args):
         states_row, same_a_diff_r_input = args
+
+        # To compute pairwise operations between all time pairs t1 and t2 with same actions and different rewards, we compute a square matrix
+        #   with indices i,j being times t1,t2 of batch with this line : K.exp( -((states_row1-states_col1)**2 + (states_row2-states_col2)**2)
+        # The conditional expectation is then computed by summing all values in the matrix and dividing by the number of non zero values, which is the number
+        #   of pairs with same actions and different rewards. This number is stored in the Y label tensor (unused as labels here because of unsupervised learning)
         states_row1, states_row2 = K.tf.split(states_row, 2, axis=1)
         states_col1 = K.tf.transpose(states_row1)
         states_col2 = K.tf.transpose(states_row2)
@@ -131,6 +140,12 @@ class Priors_model():
 
     def repeatability_loss(self, args):
         states_row, delta_states_row, same_action_input = args
+
+        # To compute pairwise operations between all time pairs t1 and t2 with same actions, we compute a square matrix
+        #   with indices i,j being times t1,t2 of batch with these lines : (delta_states_row1 - delta_states_col1)**2 + (delta_states_row2 - delta_states_col2)**2
+        #   and : K.exp(-((states_row1 - states_col1)**2 + (states_row2 - states_col2)**2))
+        # The conditional expectation is then computed by summing all values in the matrix and dividing by the number of non zero values, which is the number
+        #   of pairs with same actions. This number is stored in the Y label tensor (unused as labels here because of unsupervised learning)
         
         states_row1, states_row2 = K.tf.split(states_row, 2, axis=1)
         states_col1 = K.tf.transpose(states_row1)
@@ -141,17 +156,16 @@ class Priors_model():
         delta_states_col2 = K.tf.transpose(delta_states_row2)
 
         pairwise_delta_diff_sq = K.switch(same_action_input, (delta_states_row1 - delta_states_col1)**2 + (delta_states_row2 - delta_states_col2)**2, K.zeros_like(same_action_input,dtype='float32'))
-        pairwise_diff_sq = K.switch(same_action_input, K.exp(-((states_row1 - states_col1)**2 + (states_row2 - states_col2)**2)), K.zeros_like(same_action_input,dtype='float32') )
+        pairwise_exp_diff_sq = K.switch(same_action_input, K.exp(-((states_row1 - states_col1)**2 + (states_row2 - states_col2)**2)), K.zeros_like(same_action_input,dtype='float32') )
 
-        return pairwise_delta_diff_sq*pairwise_diff_sq
+        return K.sum( K.tf.multiply(pairwise_delta_diff_sq, pairwise_exp_diff_sq), axis=1)
 
 
 
-    def training_generator(observations, actions, rewards, episode_starts, batch_size):
+    def batch_generator(observations, actions, rewards, episode_starts, batch_size):
         """
         data generator for training the model batch by batch, each batch being indepently sampled
-            this means that with this generator, the same data can be sampled several times within the same epoch
-        yields : (X, Y) tuple for training, with null Y yielded only for keras to work
+        yields : (X, Y) tuple for training, with Y used for correctly weighting conditional expectations 
         """
         n_obs = observations.shape[0]
 
@@ -176,9 +190,6 @@ class Priors_model():
                                                                      (rewards[batch + 1] != rewards[batch[index] + 1]) *\
                                                                      (np.arange(batch.shape[0])>index)
 
-        # take a 2D np array and add the line index to every value (gives 3D array with (line index, value) pairs )
-        #add_line_index = lambda array2D : np.array([[ [i,array2D[i,j]] for j in range(array2D.shape[1])  ] for i in range(array2D.shape[0]) ]  )
-
         while True:
             # randomly sample a batch of indices :
             rand_indices = np.random.choice(all_indices, batch_size, replace=False)
@@ -187,27 +198,32 @@ class Priors_model():
             same_actions = np.array([ find_same_actions(i, rand_indices) for i in range(batch_size)], dtype='bool')
             same_actions_diff_rewards = np.array([ find_same_actions_diff_rewards(i, rand_indices) for i in range(batch_size)], dtype='bool')
             
-            ### TODO : matrix of smae_actions and diif
-
             X = [ observations[rand_indices], observations[rand_indices+1], same_actions, same_actions_diff_rewards ]
 
             # Y are not labels here because this is unsupervised learning.
             # We use Y to store a constant ratio corresponding to the samples ratio for computing conditional expectations
             # Indeed in keras we have to pass vectors of size batchsize, but when there are zeros we have to normalize the mean to have a right conditional mean
             # This is usefull for proportionality, causality and repeatability losses which have conditional expectations
-            ratio_same_action = np.mean(same_actions.flatten()>0)*batch_size
-            ratio_same_action_diff_reward = np.mean(same_actions_diff_rewards.flatten()>0)*batch_size
-            Y = [np.ones(batch_size),
-                 np.ones(batch_size)*ratio_same_action,
-                 np.ones(batch_size)*ratio_same_action_diff_reward,
-                 np.ones(batch_size)*ratio_same_action ]
-            #Y = np.ones(batch_size)
+            ratio_same_action = np.sum( np.array(same_actions*1==1,dtype='float32'), axis=1)
+            ratio_same_action[ratio_same_action>0] = 1.0/ratio_same_action[ratio_same_action>0]
+
+            ratio_same_action_diff_reward = np.sum( np.array(same_actions_diff_rewards*1==1,dtype='float32'),axis=1)
+            ratio_same_action_diff_reward[ratio_same_action_diff_reward>0] = 1.0/ratio_same_action_diff_reward[ratio_same_action_diff_reward>0]
+
+            Y = [np.ones(batch_size,dtype='float32'),
+                 ratio_same_action,
+                 ratio_same_action_diff_reward,
+                 ratio_same_action ]
+
             yield X,Y
 
 
-    def learn(self, observations, actions, rewards, episode_starts, batch_size= 256, num_epochs=100, verbose=True):
+    def learn(self, observations, actions, rewards, episode_starts, batch_size= 256, num_epochs=20, verbose=True, validation_ratio=0.1):
         """
         Learn model on data
+
+        Note : validation data are not randomly sampled but rather taken from the end part of the data
+               taking random samples would destroy relations between states and next states (t and t+1)
         """
         verbose = 2 if verbose else 0
 
@@ -215,19 +231,29 @@ class Priors_model():
         self.mean_obs = np.mean(observations, axis=0, keepdims=True)
         self.std_obs = np.std(observations, ddof=1)
         observations = (observations - self.mean_obs) / self.std_obs
-        
-        num_samples = observations.shape[0]
-        steps_per_epoch = int(num_samples/batch_size)
 
-        train_gen = Priors_model.training_generator(observations, actions, rewards, episode_starts, batch_size)
+        # split train / val data
+        num_val_samples = int(observations.shape[0]*validation_ratio)
+        validation_observations = observations[-num_val_samples:]
+        validation_actions = actions[-num_val_samples:]
+        validation_rewards = rewards[-num_val_samples:]
+        validation_episode_starts = episode_starts[-num_val_samples:]
+        
+        observations = observations[:-num_val_samples]
+        actions = actions[:-num_val_samples]
+        rewards = rewards[:-num_val_samples]
+        episode_starts = episode_starts[:-num_val_samples]
+        
+        train_gen = Priors_model.batch_generator(observations, actions, rewards, episode_starts, batch_size)
+        val_gen = Priors_model.batch_generator(validation_observations, validation_actions, validation_rewards, validation_episode_starts, batch_size)
 
         # fit model using batches generated by the training generator. No need to shuffle since it is already done by the generator
         # Note : it seems to be way faster with use_multiprocessing=False
         # returns the training History object
-        return self.model.fit_generator(generator=train_gen, steps_per_epoch=steps_per_epoch, epochs=num_epochs,
-                                 use_multiprocessing=False, shuffle=False, verbose=verbose )
+        return self.model.fit_generator(generator=train_gen, steps_per_epoch=int(observations.shape[0]/batch_size),
+                                        epochs=num_epochs, use_multiprocessing=False, shuffle=False, verbose=verbose,
+                                        validation_data=val_gen, validation_steps=int(validation_observations.shape[0]/batch_size) )
 
-        ## DEBUG
 
 
     def phi(self, observations, batch_size=256):

@@ -119,6 +119,7 @@ class Priors_model():
         delta_states_sqrt_row = K.tf.reshape(delta_states_sqrt_row, [-1,1])
         delta_states_sqrt_col = K.tf.transpose(delta_states_sqrt_row)
 
+        # compute pairwise computations between the states as row and column and avoid unused computations with a switch
         pairwise_diff_sq = K.switch(same_action_input, (delta_states_sqrt_row - delta_states_sqrt_col)**2, K.zeros_like(same_action_input,dtype='float32') )
 
         return K.sum(pairwise_diff_sq, axis=1)
@@ -127,14 +128,22 @@ class Priors_model():
         states_row, same_a_diff_r_input = args
 
         # To compute pairwise operations between all time pairs t1 and t2 with same actions and different rewards, we compute a square matrix
-        #   with indices i,j being times t1,t2 of batch with this line : K.exp( -((states_row1-states_col1)**2 + (states_row2-states_col2)**2)
+        #   with indices i,j being times t1,t2 of batch with this line : K.exp( -( states_row2 - 2*K.tf.matmul(states_row2, states_col2) + states_col2 )  )
         # The conditional expectation is then computed by summing all values in the matrix and dividing by the number of non zero values, which is the number
         #   of pairs with same actions and different rewards. This number is stored in the Y label tensor (unused as labels here because of unsupervised learning)
-        states_row1, states_row2 = K.tf.split(states_row, 2, axis=1)
-        states_col1 = K.tf.transpose(states_row1)
-        states_col2 = K.tf.transpose(states_row2)
 
-        pairwise_exp = K.switch( same_a_diff_r_input, K.exp( -((states_row1-states_col1)**2 + (states_row2-states_col2)**2) ), K.zeros_like(same_a_diff_r_input,dtype='float32') )
+        states_col = K.tf.transpose(states_row)
+
+        # squared norms of states put in a row and a column for pairwise computations
+        states_row2 = K.sum(states_row**2, axis=1)
+        states_row2 = K.tf.reshape(states_row2, [-1,1])
+        states_col2 = K.tf.transpose(states_row2)                
+
+        # compute pairwise computations between the states as row and column
+        exp_diff = K.exp( -( states_row2 - 2*K.tf.matmul(states_row, states_col) + states_col2 )  )
+
+        # avoid unused computations with a switch
+        pairwise_exp = K.switch( same_a_diff_r_input, exp_diff , K.zeros_like(same_a_diff_r_input,dtype='float32') )
         
         return K.sum(pairwise_exp,axis=1)
 
@@ -147,18 +156,29 @@ class Priors_model():
         # The conditional expectation is then computed by summing all values in the matrix and dividing by the number of non zero values, which is the number
         #   of pairs with same actions. This number is stored in the Y label tensor (unused as labels here because of unsupervised learning)
         
-        states_row1, states_row2 = K.tf.split(states_row, 2, axis=1)
-        states_col1 = K.tf.transpose(states_row1)
-        states_col2 = K.tf.transpose(states_row2)
+        states_col = K.tf.transpose(states_row)
+        delta_states_col = K.tf.transpose(delta_states_row)
 
-        delta_states_row1, delta_states_row2 = K.tf.split(delta_states_row, 2, axis=1)
-        delta_states_col1 = K.tf.transpose(delta_states_row1)
-        delta_states_col2 = K.tf.transpose(delta_states_row2)
+        # squared norms of states put in a row and a column for pairwise computations
+        states_row2 = K.sum(states_row**2, axis=1)
+        states_row2 = K.tf.reshape(states_row2, [-1,1])
+        states_col2 = K.tf.transpose(states_row2) 
 
-        pairwise_delta_diff_sq = K.switch(same_action_input, (delta_states_row1 - delta_states_col1)**2 + (delta_states_row2 - delta_states_col2)**2, K.zeros_like(same_action_input,dtype='float32'))
-        pairwise_exp_diff_sq = K.switch(same_action_input, K.exp(-((states_row1 - states_col1)**2 + (states_row2 - states_col2)**2)), K.zeros_like(same_action_input,dtype='float32') )
+        # squared norms of states put in a row and a column for pairwise computations
+        delta_states_row2 = K.sum(delta_states_row**2, axis=1)
+        delta_states_row2 = K.tf.reshape(delta_states_row2, [-1,1])
+        delta_states_col2 = K.tf.transpose(delta_states_row2)                
 
-        return K.sum( K.tf.multiply(pairwise_delta_diff_sq, pairwise_exp_diff_sq), axis=1)
+        # compute pairwise computations between the states as row and column
+        exp_diff_states = K.exp( -( states_row2 - 2*K.tf.matmul(states_row, states_col) + states_col2 )  )
+        # compute pairwise computations between the delta_states as row and column (note the use of maximum(.,0) to avoid sign errors with small numbers)
+        diff_delta_states = K.tf.maximum(delta_states_row2 - 2*K.tf.matmul(delta_states_row, delta_states_col) + delta_states_col2, 0.0)
+
+        # multiply both 
+        mult = K.tf.multiply(exp_diff_states, diff_delta_states)
+
+        # avoid unused computations with a switch and return the sum over rows
+        return K.sum( K.switch( same_action_input, mult , K.zeros_like(same_action_input,dtype='float32')), axis=1)
 
 
 

@@ -134,12 +134,7 @@ else:
     actions_int = training_data['actions_int'].item(0)
     n_actions = training_data['num_actions'] # number of actions
 
-    # n_qlearnings = 10 # as in the paper, the number of different q iteration learnings
-    # n_test_episodes = 20 # as in the paper, the number of episodes to test the learnt policy
-    # n_test_steps = 25 # as in the paper, the number of steps per env policy test iteration
-    # n_rbf = 100 # as in the paper, the number of rbf kernels used in q fitted iteration
-
-    n_qlearnings = 1 # as in the paper, the number of different q iteration learnings
+    n_qlearnings = 10 # as in the paper, the number of different q iteration learnings
     n_test_episodes = 20 # as in the paper, the number of episodes to test the learnt policy
     n_test_steps = 25 # as in the paper, the number of steps per env policy test iteration
     n_rbf = 100 # as in the paper, the number of rbf kernels used in q fitted iteration
@@ -217,7 +212,7 @@ else:
         repeatability_loss_record[learning_epoch] = history.history['val_r_loss'][0]
 
         # plot representations every learning
-        if learning_epoch%5 == 0:
+        if learning_epoch==0 or (learning_epoch+1)%5 == 0:
             tools.plot_representation(
                 states[1:],
                 # offset reward of 1 to match observations, and don't show previous rewards for episode_start steps
@@ -231,61 +226,74 @@ else:
                 )
 
 
-        # ### qlearning loop
-        # for q_learning in range(n_qlearnings):
+        ### qlearning loop
+        for q_learning in range(n_qlearnings):
 
-        #     # Perform fitted Q iterations and get states policy
-        #     qit = fqi.Fitted_QIteration(n_rbf=n_rbf, n_actions=n_actions)
-        #     # train a policy with q fitted iteration using an integer representation of the actions 'actions_int'
-        #     state_policy = qit.fit_sk( states, actions_int, training_data['rewards'], 0.9, 5, recompute_mapping=True)
-        #     # plug this policy into our policy class module
-        #     state_policy = policy.Plug_policy(state_policy, env.controller.action_space_int)
-        #     # create an agent with this policy
-        #     rb_agent = agent.RoundBotAgent(state_policy)
-        #     # test the agent in the env
-        #     stats = rb_agent.run_in_env(env, n_test_episodes, seed=None) # 20 episodes as in the paper
-        #     # record all episodes rewards for this evaluation run and this model and this learning
-        #     test_performance[learning_epoch, q_learning, :,:] = np.reshape(np.array(stats['rewards']),[n_test_episodes, n_test_steps])            
+            # Perform fitted Q iterations and get states policy
+            qit = fqi.Fitted_QIteration(n_rbf=n_rbf, n_actions=n_actions)
+            # train a policy with q fitted iteration using an integer representation of the actions 'actions_int'
+            state_policy = qit.fit_sk( states, actions_int, training_data['rewards'], 0.9, 10, recompute_mapping=True)
+            # plug this policy into our policy class module
+            state_policy = policy.Plug_policy(state_policy, env.controller.action_space_int)
+            # create an agent with this policy
+            rb_agent = agent.RoundBotAgent(state_policy)
+            # test the agent in the env
+            stats = rb_agent.run_in_env(env, n_test_episodes, seed=None) # 20 episodes as in the paper
+            # record all episodes rewards for this evaluation run and this model and this learning
+            test_performance[learning_epoch, q_learning, :,:] = np.reshape(np.array(stats['rewards']),[n_test_episodes, n_test_steps])            
 
-        #     if args.verbose:
-        #         print( 'Q fitted iteration test number : '+ str(q_learning) +'. Mean reward over'+ str(n_test_episodes)+' episodes : ' +\
-        #             str( np.mean( stats['reward_ep'].flatten() ) )+' \n' )
+            if args.verbose:
+                print( 'Q fitted iteration test number : '+ str(q_learning) +'. Mean reward over'+ str(n_test_episodes)+' episodes : ' +\
+                    str( np.mean( stats['reward_ep'].flatten() ) )+' \n' )
 
 
-if args.display :
-    ### plotting 
+### plotting 
 
-    # concatenate first learning loss and the validation losses and divide by the weight to have the unweighted loss value
-    causality_loss_record = np.array( causality_loss_record )/args.weights[2]
-    repeatability_loss_record = np.array( repeatability_loss_record )/args.weights[3]
-    proportionality_loss_record = np.array( proportionality_loss_record )/args.weights[1]
-    temporalcoherence_loss_record = np.array( temporalcoherence_loss_record )/args.weights[0]
+# divide by the weight to have the unweighted loss value
+causality_loss_record = np.array( causality_loss_record )/args.weights[2]
+repeatability_loss_record = np.array( repeatability_loss_record )/args.weights[3]
+proportionality_loss_record = np.array( proportionality_loss_record )/args.weights[1]
+temporalcoherence_loss_record = np.array( temporalcoherence_loss_record )/args.weights[0]
 
-    # plot the stacked losses' histories
-    fig=plt.figure('Loss')
+# plot the stacked losses' histories
+figloss=plt.figure('Loss')
 
-    axes = plt.gca()
-    axes.set_ylim([0,None])
+axes = plt.gca()
+axes.set_ylim([0,None])
 
-    plt.plot(temporalcoherence_loss_record + proportionality_loss_record + repeatability_loss_record + causality_loss_record)
-    plt.plot(proportionality_loss_record + repeatability_loss_record + causality_loss_record)
-    plt.plot(repeatability_loss_record + causality_loss_record)
-    plt.plot(causality_loss_record)
+plt.plot(np.arange(1,args.num_epochs+1), temporalcoherence_loss_record + proportionality_loss_record + repeatability_loss_record + causality_loss_record)
+plt.plot(np.arange(1,args.num_epochs+1), proportionality_loss_record + repeatability_loss_record + causality_loss_record)
+plt.plot(np.arange(1,args.num_epochs+1), repeatability_loss_record + causality_loss_record)
+plt.plot(np.arange(1,args.num_epochs+1), causality_loss_record)
 
-    plt.title('Model loss')    
-    plt.ylabel('Loss')
-    plt.xlabel('Epoch')
-    plt.legend(['temporalcoherence_loss','proportionality_loss','repeatability_loss','causality_loss'], loc='upper right')
+plt.title('Model loss')    
+plt.ylabel('Loss')
+plt.xlabel('Epoch')
+plt.legend(['temporalcoherence_loss','proportionality_loss','repeatability_loss','causality_loss'], loc='upper right')
+
+if args.display: 
     plt.show()
+
+
+if args.qlearning :
+    # plot the average sum of rewards
+    figrewards=plt.figure('rewards')
+    axes.set_ylim([0,None])
+    plt.scatter( np.repeat(np.arange(1,args.num_epochs+1), n_qlearnings), np.mean( np.sum( test_performance[:,], axis=3), axis=2).flatten()  )
+
+    plt.title('Q fitted iteration performance')    
+    plt.ylabel('Average sum of rewards')
+    plt.xlabel('Epoch')
+
+    if args.display : 
+        plt.show()
 
     if args.recordto:
         plot_name = 'loss_history' if not args.qlearning else 'loss_history_ql'
-        fig.savefig(args.recordto+plot_name+'.png')# save the figure to file   
+        figloss.savefig(args.recordto+plot_name+'.png')# save the figure to file   
+        figrewards.savefig(args.recordto+'ql_rewards.png')# save the figure to file   
 
+if args.display :
     input('Press any key to exit plotting')
-
-
-
-
 
 

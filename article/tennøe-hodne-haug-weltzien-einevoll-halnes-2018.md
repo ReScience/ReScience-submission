@@ -20,7 +20,7 @@ Address:
   - code:    2
     address: Department of Informatics, University of Oslo, Oslo, Norway
   - code:    3
-    address: Department of Basic Sciences and Aquatic Medicine, Norwegian University of Life Sciences, Adamstuen, Norway
+    address: Department of Basic Sciences and Aquatic Medicine, Norwegian University of Life Sciences, Campus Adamstuen, Norway
   - code:    4
     address: Institute of Oral Biology, University of Oslo, Oslo, Norway
   - code:    5

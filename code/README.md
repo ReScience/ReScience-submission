@@ -26,6 +26,7 @@ The required dependencies are:
 * `uncertainpy`
 * `chaospy`
 * `tqdm`
+* `NEURON`
 
 These can be installed with:
 

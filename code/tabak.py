@@ -1,3 +1,9 @@
+# Reimplementation of the model by:
+# Fast-Activating Voltage- and Calcium-Dependent Potassium (BK) Conductance
+# Promotes Bursting in Pituitary Cells: A Dynamic Clamp Study,
+# J. Tabak, M. Tomaiuolo, A. Gonzalez-Iglesias,  L. Milescu and R. Bertram,
+# Journal of Neuroscience 31.46 (2011), 10.1523/JNEUROSCI.3235-11.2011
+
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import numpy as np
@@ -83,9 +89,9 @@ def create_soma(g_l=g_l_scaled,
     """
     nrn('forall delete_section()')
     soma = nrn.Section('soma')
-    soma.L = 10                            # um; stored as a float number
+    soma.L = 10                            # um
     soma.diam = 10                         # um
-    soma.nseg = 1                          # stored as an integer
+    soma.nseg = 1
 
     for sec in nrn.allsec():
         sec.insert('pas')

@@ -13,7 +13,7 @@ Journal of Neuroscience 31.46 (2011), 10.1523/JNEUROSCI.3235-11.2011"
 We have created a [Docker](https://www.docker.com/) environment
 with all dependencies installed.
 This Docker environment can be started, and the `code` and `article` directory mounted
-by running the bash script `run_docker.sh` from within the this directory.
+by running the bash script `run_docker.sh` from within this directory.
 All results have been created in this Docker environment.
 
 

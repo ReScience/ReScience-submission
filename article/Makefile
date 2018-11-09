@@ -1,4 +1,4 @@
-SOURCE   = tennøe-einevoll-halnes-2018
+SOURCE   = tennøe-hodne-haug-weltzien-einevoll-halnes-2018
 MDFILE   = $(SOURCE).md
 BIBFILE  = bibliography.bib
 TEXFILE  = $(SOURCE).tex

@@ -1,6 +1,172 @@
-@misc{markdown,
-    author    = "John Gruber and Aaron Swartz",
-    title     = "The Markdown format",
-    year      = "2004",
-    url       = "http://daringfireball.net/projects/markdown/syntax"
+@article{tabak2011,
+	author = {Tabak, Jo{\"e}l and Tomaiuolo, Maurizio and Gonzalez-Iglesias, Arturo E. and Milescu, Lorin S. and Bertram, Richard},
+	title = {Fast-Activating Voltage- and Calcium-Dependent Potassium (BK) Conductance Promotes Bursting in Pituitary Cells: A Dynamic Clamp Study},
+	volume = {31},
+	number = {46},
+	pages = {16855--16863},
+	year = {2011},
+	doi = {10.1523/JNEUROSCI.3235-11.2011},
+	publisher = {Society for Neuroscience},
+	abstract = {The electrical activity pattern of endocrine pituitary cells regulates their basal secretion level. Rat somatotrophs and lactotrophs exhibit spontaneous bursting and have high basal levels of hormone secretion, while gonadotrophs exhibit spontaneous spiking and have low basal hormone secretion. It has been proposed that the difference in electrical activity between bursting somatotrophs and spiking gonadotrophs is due to the presence of large conductance potassium (BK) channels on somatotrophs but not on gonadotrophs. This is one example where the role of an ion channel type may be clearly established. We demonstrate here that BK channels indeed promote bursting activity in pituitary cells. Blocking BK channels in bursting lacto-somatotroph GH4C1 cells changes their firing activity to spiking, while further adding an artificial BK conductance via dynamic clamp restores bursting. Importantly, this burst-promoting effect requires a relatively fast BK activation/deactivation, as predicted by computational models. We also show that adding a fast-activating BK conductance to spiking gonadotrophs converts the activity of these cells to bursting. Together, our results suggest that differences in BK channel expression may underlie the differences in electrical activity and basal hormone secretion levels among pituitary cell types and that the rapid rate of BK channel activation is key to its role in burst promotion.},
+	issn = {0270-6474},
+	URL = {http://www.jneurosci.org/content/31/46/16855},
+	eprint = {http://www.jneurosci.org/content/31/46/16855.full.pdf},
+	journal = {Journal of Neuroscience}
+}
+
+
+
+
+@ARTICLE{uncertainpy,
+  AUTHOR={Tennøe, Simen and Halnes, Geir and Einevoll, Gaute T.},
+  TITLE={Uncertainpy: A Python Toolbox for Uncertainty Quantification and Sensitivity Analysis in Computational Neuroscience},
+    JOURNAL={Frontiers in Neuroinformatics},
+    VOLUME={12},
+    PAGES={49},
+    YEAR={2018},
+    URL={https://www.frontiersin.org/article/10.3389/fninf.2018.00049},
+    DOI={10.3389/fninf.2018.00049},
+    ISSN={1662-5196},
+    ABSTRACT={Computational models in neuroscience typically contain many parameters
+    that are poorly constrained by experimental data.
+    Uncertainty quantification and sensitivity analysis provide rigorous procedures
+    to quantify how the model output depends on this parameter uncertainty.
+    Unfortunately, the application of such methods is not yet standard within the
+    field of neuroscience.
+
+    Here we present Uncertainpy, an open-source Python toolbox,
+    tailored to perform uncertainty quantification and
+    sensitivity analysis of neuroscience models.
+    Uncertainpy aims to make it quick and easy to get started with
+    uncertainty analysis,
+    without any need for detailed prior knowledge.
+    The toolbox allows uncertainty quantification and sensitivity analysis
+    to be performed on already existing models without needing to modify the model
+    equations or model implementation.
+    Uncertainpy bases its analysis on polynomial chaos expansions,
+    which are more efficient than the more standard Monte-Carlo based
+    approaches.
+
+    Uncertainpy is tailored for neuroscience applications by its built-in
+    capability for calculating characteristic features in the model output.
+    The toolbox does not merely perform a point-to-point comparison of the ``raw''
+    model output (e.g., membrane voltage traces),
+    but can also calculate the uncertainty and sensitivity of salient model response
+    features such as spike timing, action potential width,
+    average interspike interval,
+    and other features relevant for various neural and neural network models.
+    Uncertainpy comes with several common models and features built in,
+    and including custom models and new features is easy.
+
+    The aim of the current paper is to present Uncertainpy to the neuroscience
+    community in a user-oriented manner.
+    To demonstrate its broad applicability,
+    we perform an uncertainty quantification and sensitivity analysis of
+    three case studies relevant for neuroscience:
+    the original Hodgkin-Huxley point-neuron model for action potential generation,
+    a multi-compartmental model of a thalamic interneuron implemented in the
+    NEURON simulator,
+    and a sparsely connected recurrent network model implemented in the
+    NEST simulator.}
+}
+
+
+@article{hines1997,
+    abstract = {The moment-to-moment processing of information by the nervous system involves the propagation and interaction of electrical and chemical signals that are distributed in space and time. Biologically realistic modeling is needed to test hypotheses about the mechanisms that govern these signals and how nervous system function emerges from the operation of these mechanisms. The NEURON simulation program provides a powerful and flexible environment for implementing such models of individual neurons and small networks of neurons. It is particularly useful when membrane potential is nonuniform and membrane currents are complex. We present the basic ideas that would help informed users make the most efficient use of NEURON.},
+    archivePrefix = {arXiv},
+    arxivId = {1501.01854},
+    author = {Hines, M. L. and Carnevale, N. T.},
+    doi = {10.1162/neco.1997.9.6.1179},
+    eprint = {1501.01854},
+    issn = {0899-7667},
+    journal = {Neural Computation},
+    number = {6},
+    pages = {1179--1209},
+    pmid = {9248061},
+    title = {{The NEURON Simulation Environment}},
+    url = {http://www.mitpressjournals.org/doi/10.1162/neco.1997.9.6.1179},
+    volume = {9},
+    year = {1997}
+}
+
+
+@book{ermentrout2002,
+    author = {Ermentrout, B.},
+    title = {Simulating, Analyzing, and Animating Dynamical Systems},
+    publisher = {Society for Industrial and Applied Mathematics},
+    year = {2002},
+    doi = {10.1137/1.9780898718195},
+    address = {},
+    edition   = {},
+    URL = {https://epubs.siam.org/doi/abs/10.1137/1.9780898718195},
+    eprint = {https://epubs.siam.org/doi/pdf/10.1137/1.9780898718195}
+}
+
+
+@article{homma1996,
+    abstract = {The present paper deals with a new method of global sensitivity analysis of nonlinear models. This is based on a measure of importance to calculate the fractional contribution of the input parameters to the variance of the model prediction. Measures of importance in sensitivity analysis have been suggested by several authors, whose work is reviewed in this article. More emphasis is given to the developments of sensitivity indices by the Russian mathematician I.M. Sobol'. Given that Sobol' treatment of the measure of importance is the most general, his formalism is employed throughout this paper where conceptual and computational improvements of the method are presented. The computational novelty of this study is the introduction of the ‘total effect' parameter index. This index provides a measure of the total effect of a given parameter, including all the possible synergetic terms between that parameter and all the others. Rank transformation of the data is also introduced in order to increase the reproducibility of the method. These methods are tested on a few analytical and computer models. The main conclusion of this work is the identification of a sensitivity analysis methodology which is both flexible, accurate and informative, and which can be achieved at reasonable computational cost.},
+    author = {Homma, Toshimitsu and Saltelli, Andrea},
+    doi = {10.1016/0951-8320(96)00002-6},
+    isbn = {0951-8320},
+    issn = {09518320},
+    journal = {Reliability Engineering {\&} System Safety},
+    number = {1},
+    pages = {1--17},
+    title = {{Importance measures in global sensitivity analysis of nonlinear models}},
+    url = {http://www.sciencedirect.com/science/article/pii/0951832096000026},
+    volume = {52},
+    year = {1996}
+}
+
+
+@article{vangoor2001,
+	author = {Van Goor, Fredrick and Li, Yue-Xian and Stojilkovic, Stanko S.},
+	title = {Paradoxical Role of Large-Conductance Calcium-Activated K+ (BK) Channels in Controlling Action Potential-Driven Ca2+ Entry in Anterior Pituitary Cells},
+	volume = {21},
+	number = {16},
+	pages = {5902--5915},
+	year = {2001},
+	doi = {10.1523/JNEUROSCI.21-16-05902.2001},
+	publisher = {Society for Neuroscience},
+	abstract = {Activation of high-conductance Ca2+-activated K+ (BK) channels normally limits action potential duration and the associated voltage-gated Ca2+ entry by facilitating membrane repolarization. Here we report that BK channel activation in rat pituitary somatotrophs prolongs membrane depolarization, leading to the generation of plateau-bursting activity and facilitated Ca2+ entry. Such a paradoxical role of BK channels is determined by their rapid activation by domain Ca2+, which truncates the action potential amplitude and thereby limits the participation of delayed rectifying K+ channels during membrane repolarization. Conversely, pituitary gonadotrophs express relatively few BK channels and fire single spikes with a low capacity to promote Ca2+ entry, whereas an elevation in BK current expression in a gonadotroph model system leads to the generation of plateau-bursting activity and high-amplitude Ca2+transients.},
+	issn = {0270-6474},
+	URL = {http://www.jneurosci.org/content/21/16/5902},
+	eprint = {http://www.jneurosci.org/content/21/16/5902.full.pdf},
+	journal = {Journal of Neuroscience}
+}
+
+
+
+@article{guan2013,
+    author = {Guan, Dongxu and Armstrong, William E. and Foehring, Robert C.},
+    title = {Kv2 channels regulate firing rate in pyramidal neurons from rat sensorimotor cortex},
+    journal = {The Journal of Physiology},
+    volume = {591},
+    number = {19},
+    year = {2013},
+    pages = {4807-4825},
+    doi = {10.1113/jphysiol.2013.257253},
+    url = {https://physoc.onlinelibrary.wiley.com/doi/abs/10.1113/jphysiol.2013.257253},
+    eprint = {https://physoc.onlinelibrary.wiley.com/doi/pdf/10.1113/jphysiol.2013.257253},
+    abstract = {Neurons express many types of potassium channels that are activated by voltage but relatively little is known concerning the division of labour between different channel types in a given cell. •  Our understanding of the functional roles of Kv2 channels has been hindered by the lack of selective pharmacological agents for these channels. •  We manipulated Kv2 channel expression by transfecting pyramidal neurons with wild-type and pore mutant channels. •  We found that reduction in functional Kv2 channels led to slower firing rates, reduced gain of firing and increased spike frequency adaptation. •  We hypothesize that Kv2 channels regulate firing by controlling membrane potential during the inter-spike interval, which in turn regulates availability of voltage-gated sodium channels. Abstract  The largest outward potassium current in the soma of neocortical pyramidal neurons is due to channels containing Kv2.1 α subunits. These channels have been implicated in cellular responses to seizures and ischaemia, mechanisms for intrinsic plasticity and cell death, and responsiveness to anaesthetic agents. Despite their abundance, knowledge of the function of these delayed rectifier channels has been limited by the lack of specific pharmacological agents. To test for functional roles of Kv2 channels in pyramidal cells from somatosensory or motor cortex of rats (layers 2/3 or 5), we transfected cortical neurons with DNA for a Kv2.1 pore mutant (Kv2.1W365C/Y380T: Kv2.1 DN) in an organotypic culture model to manipulate channel expression. Slices were obtained from rats at postnatal days (P7-P14) and maintained in organotypic culture. We used biolistic methods to transfect neurons with gold ‘bullets’ coated with DNA for the Kv2.1 DN and green fluorescent protein (GFP), GFP alone, or wild type (WT) Kv2.1 plus GFP. Cells that fluoresced green, contained a bullet and responded to positive or negative pressure from the recording pipette were considered to be transfected cells. In each slice, we recorded from a transfected cell and a control non-transfected cell from the same layer and area. Whole-cell voltage-clamp recordings obtained after 3–7 days in culture showed that cells transfected with the Kv2.1 DN had a significant reduction in outward current (∼45\% decrease in the total current density measured 200 ms after onset of a voltage step from –78 to –2 mV). Transfection with GFP alone did not affect current amplitude and overexpression of the Kv2.1 WT resulted in greatly increased currents. Current-clamp experiments were used to assess the functional consequences of manipulation of Kv2.1 expression. The results suggest roles for Kv2 channels in controlling membrane potential during the interspike interval (ISI), firing rate, spike frequency adaptation (SFA) and the steady-state gain of firing. Specifically, firing rate and gain were reduced in the Kv2.1 DN cells. The most parsimonious explanation for the effects on firing is that in the absence of Kv2 channels, the membrane remains depolarized during the ISIs, preventing recovery of Na+ channels from inactivation. Depolarization and the number of inactivated Na+ channels would build with successive spikes, resulting in slower firing and enhanced spike frequency adaptation in the Kv2.1 DN cells.}
+}
+
+@article{eck2016,
+    abstract = {In this paper, a highly parallel coupled electromechanical model of the heart is presented and assessed. The parallel-coupled model is thoroughly discussed, with scalability proven up to hundreds of cores. This work focuses on the mechanical part, including the constitutive model (proposing some modifications to pre-existent models), the numerical scheme and the coupling strategy. The model is next assessed through two examples. First, the simulation of a small piece of cardiac tissue is used to introduce the main features of the coupled model and calibrate its parameters against experimental evidence. Then, a more realistic prob- lem is solved using those parameters, with a mesh of the Oxford ventricular rabbit model. The results of both examples demonstrate the capability of the model to run efficiently in hundreds of processors and to reproduce some basic characteristic of cardiac deformation.},
+    archivePrefix = {arXiv},
+    arxivId = {NIHMS150003},
+    author = {Eck, Vinzenz Gregor and Donders, Wouter Paulus and Sturdy, Jacob and Feinberg, Jonathan and Delhaas, Tammo and Hellevik, Leif Rune and Huberts, Wouter},
+    doi = {10.1002/cnm.2755},
+    eprint = {NIHMS150003},
+    isbn = {2040-7947},
+    issn = {20407947},
+    journal = {International Journal for Numerical Methods in Biomedical Engineering},
+    keywords = {Monte Carlo,arterial compliance,cardiovascular modeling,fractional flow reserve,polynomial chaos,sensitivity analysis,uncertainty quantification},
+    number = {8},
+    pages = {e02755--n/a},
+    pmid = {24459034},
+    title = {{A guide to uncertainty quantification and sensitivity analysis for cardiovascular applications}},
+    url = {http://dx.doi.org/10.1002/cnm.2755},
+    volume = {32},
+    year = {2016}
 }

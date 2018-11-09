@@ -1,7 +1,8 @@
-### Important
-
-Don't forget to change the name of the Name-YEAR file to reflect all the
-authors name and the current year.
+A reference implementation of
+"*Fast-Activating Voltage- and Calcium-Dependent Potassium (BK) Conductance
+Promotes Bursting in Pituitary Cells: A Dynamic Clamp Study*,
+J. Tabak, M. Tomaiuolo, A. Gonzalez-Iglesias,  L. Milescu and R. Bertram,
+Journal of Neuroscience 31.46 (2011), 10.1523/JNEUROSCI.3235-11.2011"
 
 ### Required tools for producing the pdf
 
@@ -17,16 +18,16 @@ $ cabal update
 $ cabal install pandoc-crossref
 ```
 
-### How to build the PDF ?
+### How to build the PDF?
 
 In a console, type:
 
 ```
-pandoc --standalone --filter ~/.cabal/bin/pandoc-crossref --template=rescience-template.tex --latex-engine=xelatex --biblatex --bibliography=bibliography.bib -M "crossrefYaml=crossref.yaml" --output Name-YEAR.tex Name-YEAR.md
-xelatex Name-YEAR
-biber Name-YEAR
-xelatex Name-YEAR
-xelatex Name-YEAR
+pandoc --standalone --filter ~/.cabal/bin/pandoc-crossref --template=rescience-template.tex --latex-engine=xelatex --biblatex --bibliography=bibliography.bib -M "crossrefYaml=crossref.yaml" --output tennøe-hodne-haug-weltzien-einevoll-halnes-2018.tex tennøe-hodne-haug-weltzien-einevoll-halnes-2018.md
+xelatex tennøe-hodne-haug-weltzien-einevoll-halnes-2018
+biber tennøe-hodne-haug-weltzien-einevoll-halnes-2018
+xelatex tennøe-hodne-haug-weltzien-einevoll-halnes-2018
+xelatex tennøe-hodne-haug-weltzien-einevoll-halnes-2018
 ```
 
-Alternativaley, you can also type `make` after having edited the Makefile.
+Alternatively, you can also type `make`.

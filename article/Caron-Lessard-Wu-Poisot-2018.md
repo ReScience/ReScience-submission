@@ -194,7 +194,7 @@ represent the value of the correlation coefficient ($r$) that came out of the
 deterministic models. The values of $r$ vary greatly for every stochastic
 parameter. In every case, the mean value of $r$ is lower in the stochastic
 models than in the deterministic models. This is in agreement with Hassell's
-results, and shows that stochasticity makes it harder to see the density
+results, and shows that stochasticity makes it harder to detect the density
 dependence effect of the parasites, whether they are generalist or specialist.
 
 # Discussion
@@ -231,6 +231,7 @@ one from @Hassell85 than what we originally had (@fig:figure6 (b)). Again, this
 is only an hypothesis on the kind of error that could explain the differences
 between the original paper and ours.
 
+
 The mathematical model from the original paper was well detailed, which allowed
 us to create our own implementation. The equation for the number of survivors
 from parasitism ($S$) was the only one we needed to deduce from our own
@@ -261,14 +262,17 @@ dynamics.
 ![(a) Deterministic simulations of the host and generalist parasite population dynamics (Eq.1, Eq.3, Eq.4) with the following parameters: F = 4, D = 0.5, h = 10, b = 25, a = 0.5 and T*h* = 0 and m = 0.5. (b) The relationship between the mortality caused each generation by parasitism (k-values) and the log10 host density for the fifty first generations of the population dynamics in (a).](figures/figure4.pdf){#fig:figure4}
 
 
-![(a) - (c) Deterministic simulations of the host and specialist parasite population dynamics (same as in Figure 3a) except for one parameter that is treated as a normally distributed stochastic variable: (a) D = 0.5 ± 0.5, (b) c = 0.5 ± 0.5 and (c) a = 0.5 ± 0.5. The other parameters are the same as in Figure 3a. (d) - (f) The relationship between the mortality caused each generation by parasitism (k-values) and the log10 host density for the fifty first generations, linked to (a), (b) and (c) respectively. The regression statistics for each relationship go as follows: (d) *y* = 0.145 + 0.203*x*; *r^2* = 0.312. (e) *y* = 0.044 + 0.204*x*; *r^2* = 0.106. (f) *y* = 0.069 + 0.331*x*; *r^2* = 0.223.](figures/figure5.pdf){#fig:figure5}
+![(a) - (c) Deterministic simulations of the host and specialist parasite population dynamics (same as in Figure 3a) except for one parameter that is treated as a normally distributed stochastic variable: (a) D = 0.5 ± 0.5, (b) c = 0.5 ± 0.5 and (c) a = 0.5 ± 0.5. The other parameters are the same as in Figure 3a. (d) - (f) The relationship between the mortality caused each generation by parasitism (k-values) and the log10 host density for the fifty first generations, linked to (a), (b) and (c) respectively. The regression statistics for each relationship go as follows: (d) *y* = 0.049 + 0.148*x*; *r^2* = 0.564. (e) *y* = 0.082 + 0.113*x*; *r^2* = 0.034. (f) *y* = 0.083 + 0.158*x*; *r^2* = 0.082.](figures/figure5.pdf){#fig:figure5}
 
-![(a) - (c) Deterministic simulations of the host and generalist parasite population dynamics (same as in Figure 4a) except for one parameter that is treated as a normally distributed stochastic variable: (a) D = 0.5 ± 0.5, (b) h = 10 ± 5 and (c) a = 0.5 ± 0.5. The other parameters are the same as in Figure 3a. (d) - (f) The relationship between the mortality caused each generation by parasitism (k-values) and the log10 host density for the fifty first generations, linked to (a), (b) and (c) respectively. The regression statistics for each relationship go as follows: (d) $y = 0.070 + 0.249\times x$; $r^2 = 0.967$. (e) *y* = 0.018 + 0.302*x*; $r^2 = 0.223$. (f) *y* = 0.062 + 0.272*x*; $r^2 = 0.178$.](figures/figure6.pdf){#fig:figure6}
+
+![(a) - (c) Deterministic simulations of the host and generalist parasite population dynamics (same as in Figure 4a) except for one parameter that is treated as a normally distributed stochastic variable: (a) D = 0.5 ± 0.5, (b) h = 10 ± 5 and (c) a = 0.5 ± 0.5. The other parameters are the same as in Figure 3a. (d) - (f) The relationship between the mortality caused each generation by parasitism (k-values) and the log10 host density for the fifty first generations, linked to (a), (b) and (c) respectively. The regression statistics for each relationship go as follows: (d) *y* = 0.111 + 0.174*x*; *r^2* = 0.843. (e) *y* = -0.010 + 0.307*x*; *r^2* = 0.187. (f) *y* = -0.106 + 0.444*x*; *r^2* = 0.262.](figures/figure6.pdf){#fig:figure6}
+
 
 ![(a) - (c) Distribution of the values of correlation coefficient ($r$) obtained for the 5000 simulations done in Figure 5(d) to Figure 5(f) respectively. The dotted line represents the value of $r$ obtained in the deterministic model.](figures/figure7.pdf){#fig:figure7}
 
 ![(a) - (c) Distribution of the values of correlation coefficient ($r$) obtained for the 5000 simulations done in Figure 6(d) to Figure 6(f), respectively. The dotted line represents the value of $r$ obtained in the deterministic model.](figures/figure8.pdf){#fig:figure8}
 
-![(a) Deterministic simulations of the host and generalist parasite population dynamics (same as in Figure 6b) except that we used $h = 5 \pm 5$. (b) The relationship between the mortality caused each generation by parasitism (k-values) and the log10 host density for the fifty first generations, linked to (a). The regression statistics go as follows: *y* = -0.169 + 0.395*x*; $r^2 = 0.181$.](figures/figure9.pdf){#fig:figure9}
+
+![(a) Deterministic simulations of the host and generalist parasite population dynamics (same as in Figure 6b) except that we used *h* = 5 ± 5. (b) The relationship between the mortality caused each generation by parasitism (k-values) and the log10 host density for the fifty first generations, linked to (a). The regression statistics go as follows: *y* = 0.030 + 0.192*x*; *r^2* = 0.095.](figures/figure9.pdf){#fig:figure9}
 
 # References

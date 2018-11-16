@@ -1,7 +1,3 @@
-using NamedTuples
-using Plots
-using Distributions
-include("functions.jl")
 include("seed.jl")
 
 N = 5000

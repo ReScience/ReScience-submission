@@ -1,8 +1,9 @@
-using NamedTuples
 using Plots
 using StatPlots
 using Measures
 using Distributions
+
+using Random
 
 include("functions.jl")
 

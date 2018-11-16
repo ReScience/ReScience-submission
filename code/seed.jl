@@ -1,1 +1,1 @@
-srand(1234)
+Random.seed!(1234)

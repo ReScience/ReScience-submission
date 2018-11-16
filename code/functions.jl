@@ -1,3 +1,5 @@
+linreg(x, y) = hcat(fill!(similar(x), 1), x) \ y
+
 """
 This function (used internally by simulation) returns a random value of x, drawn
 from a truncated normal.
@@ -37,7 +39,7 @@ function simulation(N::Float64, P::Float64; t::Int64=50, f=specialist_dyn, F=4.0
         current_a=generate(a, a_sd)
         current_h=generate(h, h_sd)
         current_c=generate(c, c_sd, max=1.0)
-        current_p = @NT(F=F, D=current_D, c=current_c, a=current_a, h=current_h, b=b, th=th, m=m)
+        current_p = (F=F, D=current_D, c=current_c, a=current_a, h=current_h, b=b, th=th, m=m)
         N_next, P_next = timestep(dynamics[current_time,2], dynamics[current_time,3], current_p; parasite_dyn=f)
         # Population sizes
         dynamics[current_time+1,1] = current_time
@@ -49,7 +51,7 @@ function simulation(N::Float64, P::Float64; t::Int64=50, f=specialist_dyn, F=4.0
         dynamics[current_time,6] = current_h
         dynamics[current_time,7] = current_c
     end
-    p = @NT(F=F, D=D, c=c, a=a, h=h, b=b, th=th, m=m)
+    p = (F=F, D=D, c=c, a=a, h=h, b=b, th=th, m=m)
     # Return
     return dynamics[1:(end-1),:], p
 end
@@ -162,6 +164,6 @@ end
 
 function kvalue_by_generation(x, p)
    t, N, P, D, a, h, c = x
-   current_p = @NT(F=p.F, D=D, c=c, a=a, h=h, b=p.b, th=p.th, m=p.m)
+   current_p = (F=p.F, D=D, c=c, a=a, h=h, b=p.b, th=p.th, m=p.m)
    return mortality(N, P, current_p)
 end

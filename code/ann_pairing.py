@@ -1,10 +1,3 @@
-#----------------------imports and environment---------------------------------
-import matplotlib as mp
-mp.use('Agg')
-import matplotlib.pyplot as plt
-from ANNarchy import *
-import numpy as np
-from net_fix import *
 """
 Python code to reproduce the pairing repetition task in Clopath et al. 2010 (Fig. 2 b).
 Pairs of pre-post and post-pre spikes for different pairing repetition frequencies.
@@ -13,6 +6,13 @@ Between the spikes of each pair elapse 10 ms.
 For the correct timing, every neuron receive input from a extra neuron,
 which spikes to a certain time point.
 """
+from __future__ import print_function
+import numpy as np
+import matplotlib.pyplot as plt
+from ANNarchy import *
+
+from net_fix import *
+
 
 ###global parameter###
 duration = 1000 #ms == 1 s
@@ -82,8 +82,8 @@ def run():
         #reset the network#
         reset()
         projV1_V1.w = initW
-        spike_times1 = np.linspace(0,duration,f+1)
-        spike_times2 = np.linspace(0+td,duration+td,f+1)
+        spike_times1 = np.linspace(0, int(duration), int(f+1))
+        spike_times2 = np.linspace(int(0+td), int(duration+td), int(f+1))
         # set the spike times with the actual repetition frequency f
         inpPop1.spike_times = spike_times1.tolist()
         inpPop2.spike_times = spike_times2.tolist()
@@ -97,8 +97,8 @@ def run():
         #reset the network#
         reset()
         projV1_V1.w = initW
-        spike_times1 = np.linspace(20,duration-30,f+1)
-        spike_times2 = np.linspace(20-td,duration-td-30,f+1)
+        spike_times1 = np.linspace(20, int(duration-30), int(f+1))
+        spike_times2 = np.linspace(int(20-td), int(duration-td-30), int(f+1))
         # set the spike times with the actual repetition frequency f
         inpPop1.spike_times = spike_times1.tolist()
         inpPop2.spike_times = spike_times2.tolist()
@@ -133,7 +133,8 @@ def run():
     plt.yticks(np.linspace(loB,upB,3),range(50,200,50),fontsize=20 )
     plt.xticks(fontsize=20)
     plt.savefig('pairing.png',bbox_inches='tight', pad_inches = 0.1)
+    plt.show()
+    print("done")
 
-    print("finish")
-#------------------------------------------------------------------------------------
-run()
+if __name__ == "__main__":
+    run()

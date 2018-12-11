@@ -1,26 +1,25 @@
-#----------------------imports and environment---------------------------------
-import matplotlib as mp
-mp.use('Agg')
-import matplotlib.pyplot as plt
-from ANNarchy import *
-setup(dt=1)
-import numpy as np
-from net_fix import *
-
 """
 Python script to reproduce the STDP window protocol.
 Record the change in the synaptic weight for different time intervals
 between pre- and postsynaptic spike. See Fig. 2 a in Clopath et al. (2010).
 """
+from __future__ import print_function
+import numpy as np
+import matplotlib.pyplot as plt
+from ANNarchy import *
+setup(dt=1)
 
-###global parameter###
+from net_fix import *
+
+# Global parameters
 duration = 40 # duration time of 40 ms
-# define initial weight
-initW = 0.012
-#----------------------defint time points of spikes-----------------------------#
+initW = 0.012 # initial weight
+
+# Spike times
 spike_times1 =[[0]]
 spike_times2 =[[10]]
-#-----------------------population defintions-----------------------------------#
+
+# Population definitions
 """
 To control the spike timings of the AdEx neurons, two additional input populations
 are used. The spike timing of the SpikeSourceArray can be determined with a
@@ -29,7 +28,8 @@ inpPop1 = SpikeSourceArray(spike_times=spike_times1)
 inpPop2 = SpikeSourceArray(spike_times=spike_times2)
 popN1 = Population(geometry=1,neuron=AdExNeuron, name="N1")
 popN2 = Population(geometry=1,neuron=AdExNeuron, name="N2")
-#-----------------------projection definitions----------------------------------
+
+# Projection definitions
 """
 Define simple projection from the input SpikeSourceArray populations
 to the neuron populations.
@@ -56,18 +56,18 @@ projV1_V1 = Projection(
     synapse=ffSyn
 ).connect_one_to_one(weights = initW)
 
-#---- parameter adjustments ----#
+# Parameter adjustments
 #projV1_V1.thetaLTD = -65.6
 projV1_V1.vmean = 70.0
 #projV1_V1.transmit = 1.0 # to activate the transmission over the synapse
-#------------------------------main function------------------------------------
+
 def run():
+    "Runs the STDP window protocol"
     # 31 spiking pairs for a time difference dt between a pre and post synaptic spike from -15 to 15 ms
     dt = np.linspace(-15,15,31)
     compile()
 
-    #------- neuron Monitors --------#
-    # monitor to save changes in the synapse
+    # Monitor to save changes in the synapse
     dendrite = projV1_V1.dendrite(0)
     m_d = Monitor(dendrite, ['w','deltaW','ltdTerm','ltpTerm'])
     n_pairs = 31
@@ -87,14 +87,13 @@ def run():
         w[i] = d_w[-1]#np.mean(d_w)
         dW[i] = np.sum(delta_w)
 
-    #---get the recorded data-----#
-
+    # Get the recorded data
     ltd_w = m_d.get('ltdTerm')
     ltp_w = m_d.get('ltpTerm')
 
     w = (initW+dW)/initW*100.#w/initW *100.
 
-    ##--- start plotting ---##
+    # Start plotting
     fig,ax = plt.subplots(figsize=(13,9))
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
@@ -115,9 +114,8 @@ def run():
     plt.xlabel('T (ms)',fontsize=25)
 
     plt.savefig('windW.png',bbox_inches='tight', pad_inches = 0.1)
+    plt.show()
+    print("done")
 
-
-
-    print("finish")
-#------------------------------------------------------------------------------------
-run()
+if __name__ == "__main__":
+    run()

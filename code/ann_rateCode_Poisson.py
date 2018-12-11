@@ -1,13 +1,3 @@
-#----------------------imports and environment---------------------------------#
-import matplotlib as mp
-mp.use('Agg')
-import matplotlib.pyplot as plt
-from ANNarchy import *
-import numpy as np
-#from net_fix import *
-from net_homeostatic import *
-from matplotlib import cm
-from cmap import myCmap
 """
 Python script for reproduce the rate code task from the Clopath et al. 2010
 publication (Fig. 4 a). Network consists of ten, recurrent connected neurons.
@@ -17,6 +7,15 @@ Poisson neurons firing with different frequencies (2Hz, 4Hz, 6Hz, ..)
 as described in the original publication.
 In the original publication, the resulting weights are averaged over 100s.
 """
+from __future__ import print_function
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import cm
+from ANNarchy import *
+
+from net_homeostatic import *
+from cmap import myCmap
+
 
 ###global parameter###
 # duration of one presentation time
@@ -60,9 +59,9 @@ def run():
     repeats = 20
     w = np.zeros((repeats,10,10)) #
     print('Start rate code experiment')
-    for r in xrange(repeats):
+    for r in range(repeats):
         # repeat in 100 times to get the 100s as in Clopath et al. 2010
-        for i in xrange(100):
+        for i in range(100):
             # set the different firint rates
             poisPop.rates = np.linspace(20,2,10)
             # simulate the network for 1000 ms
@@ -105,7 +104,7 @@ def run():
     # Strong unidirectional connections (> 2/3 of maximum weight) are every else
 
     # set the main diagonal to nan
-    for i in xrange(10):
+    for i in range(10):
         w[i,i] = np.nan
         img[i,i] = np.nan
 
@@ -117,8 +116,8 @@ def run():
     plt.xlabel('Neuron Post',fontsize=20)
     plt.ylabel('Neuron Pre',fontsize=20)
     plt.savefig('rate_Code_Weights.png',bbox_inches='tight')
+    plt.show()
+    print("done")
 
-    print("finish")
-#------------------------------------------------------------------------------#
 if __name__ == "__main__":
     run()

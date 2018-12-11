@@ -1,12 +1,3 @@
-import matplotlib as mp
-mp.use('TKAgg')
-import matplotlib.pyplot as plt
-import numpy as np
-from ANNarchy import *
-setup(dt=1.0)
-# import of the model and learning rule, defined in net.py
-from net_homeostatic import *
-
 """
 Python script to reproduce the stable learning task
 of the Clopath et al. 2010 publication.
@@ -15,6 +6,15 @@ Algorithm based on Matlab code of the Clopath et al. 2010 model.
 Available on modelDB:
 https://senselab.med.yale.edu/modeldb/showModel.cshtml?model=144566
 """
+from __future__ import print_function
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import cm
+from ANNarchy import *
+setup(dt=1.0)
+
+from net_homeostatic import *
+
 #--------------- define the presynaptic neuron model --------------------------#
 """
 Because of the learning rule, we need an additional layer, that contains the
@@ -84,7 +84,7 @@ def run():
     input_patterns = np.zeros((nb_pattern,nb_pre))
     for i in range(nb_pattern):
         mup = 1+(i)*nb_pre/nb_pattern;
-        input_patterns[i,:] = gau[mup:mup+nb_pre]
+        input_patterns[i,:] = gau[int(mup):int(mup+nb_pre)]
 
 
     compile()# Compile the network
@@ -113,7 +113,8 @@ def run():
     plt.xlabel('Number of epoch')
     plt.ylabel('Synapse index')
     plt.savefig('weights_stable.png',bbox_inches='tight')
+    plt.show()
+    print("done")
 
-    print('Finish with simulation!')
-#------------------------------------------------------------------------------#
-run()
+if __name__ == "__main__":
+    run()

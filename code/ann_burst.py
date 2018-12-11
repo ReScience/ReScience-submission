@@ -1,12 +1,3 @@
-#----------------------imports and environment---------------------------------
-import matplotlib as mp
-mp.use('Agg')
-import matplotlib.pyplot as plt
-from matplotlib.gridspec import GridSpec
-from ANNarchy import *
-import numpy as np
-from net_fix import *
-
 """
 Python script to reproduce the burst spiking experiments (Fig.3 in Clopath et al. (2010)).
 
@@ -30,6 +21,13 @@ Python script to reproduce the burst spiking experiments (Fig.3 in Clopath et al
 
 See Fig. 3 in Clopath et al. (2010)
 """
+from __future__ import print_function
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.gridspec import GridSpec
+from ANNarchy import *
+
+from net_fix import *
 
 ###global parameter###
 duration = 240 #ms
@@ -227,8 +225,8 @@ def run():
     plt.ylim(0.0,300)
     plt.xlabel('Time lag (ms)')
     fig.savefig('burst_dW.png',bbox_inches='tight')
+    plt.show()
+    print("done")
 
-
-    print("finish")
-#------------------------------------------------------------------------------------
-run()
+if __name__ == "__main__":
+    run()

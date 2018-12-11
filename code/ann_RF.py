@@ -1,13 +1,3 @@
-#----------------------imports and environment---------------------------------
-import matplotlib as mp
-mp.use('Agg')
-import matplotlib.pyplot as plt
-from ANNarchy import *
-setup(num_threads=1)
-import numpy as np
-import scipy.io as sio
-from net_homeostatic import *
-
 """
 Python script to reproduce the stable receptive field
 learning as in Clopath et al. 2010.
@@ -21,6 +11,14 @@ So the input layer contains 16x16x2 =  512 neurons.
 
 See Fig. 7d in Cloath et al. (2010)
 """
+from __future__ import print_function
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import cm
+from ANNarchy import *
+import scipy.io as sio
+
+from net_homeostatic import *
 
 ###global parameter###
 duration = 200#200 #ms presentation time per input patch
@@ -67,57 +65,61 @@ projInp_N = Projection(
     synapse = ffSyn
 ).connect_all_to_all(weights = Uniform(0.0,3.0))
 
-# compile command to create the ANNarchy network
-compile()
+def run():
+    # compile command to create the ANNarchy network
+    compile()
 
-#projInp_Ten.vmean =postN.vmean
-projInp_N.transmit = 1.0
-projInp_N.aLTP = 0.00016*0.55
-projInp_N.aLTD = 0.00014*0.55
+    #projInp_Ten.vmean =postN.vmean
+    projInp_N.transmit = 1.0
+    projInp_N.aLTP = 0.00016*0.55
+    projInp_N.aLTD = 0.00014*0.55
 
-# load input data set
-matData = sio.loadmat('image_div.mat')
-images = matData['IMAGES_div']
+    # load input data set
+    matData = sio.loadmat('image_div.mat')
+    images = matData['IMAGES_div']
 
-w,h,d,n_img = np.shape(images)
+    w,h,d,n_img = np.shape(images)
 
-monW = Monitor(projInp_N,'w',period=5000)
+    monW = Monitor(projInp_N,'w',period=5000)
 
-print('Start simulation')
-for p in range(n_patches):
-    # ever 20 s make a normalization
-    if ((p*duration)%20000)==0:
-        wFF = projInp_N.w
-        onoff = np.reshape(wFF,(s_Patch,s_Patch,2))
-        onNorm = np.sqrt(np.sum(onoff[:,:,0]**2))
-        offNorm= np.sqrt(np.sum(onoff[:,:,1]**2))
-        onoff[:,:,0] *= offNorm/onNorm
-        wFF = np.reshape(onoff,(1,s_Patch*s_Patch*2))
-        projInp_N.w = wFF
-    # choose randomly an image and position to cout out the patch
-    r_img = np.random.randint(n_img)
-    xPos = np.random.randint(w-s_Patch)
-    yPos = np.random.randint(h-s_Patch)
-    maxV = np.max(images[:,:,:,r_img])
-    patch = images[xPos:xPos+s_Patch,yPos:yPos+s_Patch,:,r_img]
-    # make random vertical and horizontal flip
-    if np.random.rand() < 0.5:
-        patch = np.fliplr(patch)
-    if np.random.rand() < 0.5:
-        patch = np.flipud(patch)
-    # set the rates for the Poission input population
-    inputPop.rates = (patch/maxV)*maxFR
-    simulate(duration)
-print('Finish!')
+    print('Start simulation')
+    for p in range(n_patches):
+        # ever 20 s make a normalization
+        if ((p*duration)%20000)==0:
+            wFF = projInp_N.w
+            onoff = np.reshape(wFF,(s_Patch,s_Patch,2))
+            onNorm = np.sqrt(np.sum(onoff[:,:,0]**2))
+            offNorm= np.sqrt(np.sum(onoff[:,:,1]**2))
+            onoff[:,:,0] *= offNorm/onNorm
+            wFF = np.reshape(onoff,(1,s_Patch*s_Patch*2))
+            projInp_N.w = wFF
+        # choose randomly an image and position to cout out the patch
+        r_img = np.random.randint(n_img)
+        xPos = np.random.randint(w-s_Patch)
+        yPos = np.random.randint(h-s_Patch)
+        maxV = np.max(images[:,:,:,r_img])
+        patch = images[xPos:xPos+s_Patch,yPos:yPos+s_Patch,:,r_img]
+        # make random vertical and horizontal flip
+        if np.random.rand() < 0.5:
+            patch = np.fliplr(patch)
+        if np.random.rand() < 0.5:
+            patch = np.flipud(patch)
+        # set the rates for the Poission input population
+        inputPop.rates = (patch/maxV)*maxFR
+        simulate(duration)
 
+    w = monW.get('w')
 
-w = monW.get('w')
+    # create the resulting RF out of the input weights
+    ff_W = projInp_N.w
+    rf = np.reshape(ff_W,(s_Patch,s_Patch,2))
+    rf = rf[:,:,0] - rf[:,:,1]
+    plt.figure()
+    plt.imshow(rf,interpolation='none',cmap=plt.get_cmap('gray'))
+    #plt.colorbar()
+    plt.savefig('RF.png')
+    plt.show()
+    print("done")
 
-# create the resulting RF out of the input weights
-ff_W = projInp_N.w
-rf = np.reshape(ff_W,(s_Patch,s_Patch,2))
-rf = rf[:,:,0] - rf[:,:,1]
-plt.figure()
-plt.imshow(rf,interpolation='none',cmap=plt.get_cmap('gray'))
-#plt.colorbar()
-plt.savefig('RF.png')
+if __name__ == "__main__":
+    run()

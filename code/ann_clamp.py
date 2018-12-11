@@ -1,11 +1,3 @@
-#----------------------imports and environment---------------------------------
-import matplotlib as mp
-mp.use('Agg')
-import matplotlib.pyplot as plt
-from ANNarchy import *
-import numpy as np
-from net_fix import *
-
 """
 Python script to reproduce the voltage clamp experiment.
 The membrane potential is fixed to values between -80 mV and 0 mV
@@ -14,23 +6,34 @@ As in the original publication, the experiment is done to fit
 data in the visual cortex and the hippocampus.
 See Figure 1. h in Clopath et al. (2010).
 """
+from __future__ import print_function
+import numpy as np
+import matplotlib.pyplot as plt
+from ANNarchy import *
 
-###global parameter###
-duration = 50*1000 #ms
+from net_fix import *
+
+# Global parameters
+duration = 50*1000 # ms
 initW = 0.0001
-#----------------------defint time points of spikes-----------------------------#
-# create a list of spiking time points. 25 Hz for 50 seconds :
-spike_times1 =np.asarray(range(0,duration,1000/4))
-print(len(spike_times1))
-#-----------------------population defintions-----------------------------------#
+
+# Spike times
+"""
+Creates a list of spiking time points. 25 Hz for 50 seconds
+"""
+spike_times1 = np.asarray(range(0, duration, int(1000/4)))
+print("Number of spikes:", len(spike_times1))
+
+# Populations
 """
 To control the spike timings of the AdEx neurons, an additional input population
 is used. The spike timing of the SpikeSourceArray can be determined with a
-list of time points. """
+list of time points.
+"""
 inpPop1 = SpikeSourceArray(spike_times=spike_times1.tolist())
 popN1 = Population(geometry=1,neuron=AdExNeuron, name="N1")
 popN2 = Population(geometry=1,neuron=AdExNeuron, name="N2")
-#------------------------------------------------------------------------------#
+
 """
 Create a own equation for the learning as mentioned by Clopath et. al. (2010).
 For more information about define the learning rule and synapses see
@@ -55,7 +58,8 @@ u_clamp= -80.0
 Syn_clamp = Synapse( parameters = parameter_clamp,
     equations= equatSTDP_clamp,
     pre_spike='''g_target += w''')
-#-----------------------projection definitions----------------------------------
+
+# Projections
 projST1_C1 = Projection(
     pre=inpPop1,
     post=popN1,
@@ -69,10 +73,11 @@ projC1_C2 = Projection(
     synapse=Syn_clamp
 ).connect_one_to_one(weights = initW)
 
-#---- parameter adjustments ----#
+# Parameter adjustments
 projC1_C2.transmit = 1.0 # to activate the transmission over the synapse
-#------------------------------main function------------------------------------
+
 def run():
+    "Runs voltage clamp experiment."
     # compile command to create the ANNarchy network
     compile()
 
@@ -80,7 +85,6 @@ def run():
     # membrane potential
     post_memb = np.linspace(-80,0,100)
 
-    #------- neuron Monitors --------#
     # monitor to save changes in the synapse
     dendrite = projC1_C2.dendrite(0)
     m_d = Monitor(dendrite, ['deltaW'])#,period=duration)
@@ -102,7 +106,6 @@ def run():
         rec_W_norm[i] = np.mean(projC1_C2.w)+rec_dW_norm[i]
         reset()
 
-
     """
     Voltage clamp experiment with the parameter set for the hippocampal
     """
@@ -114,7 +117,7 @@ def run():
     # variable to save the recorded data
     rec_dW_hippo = np.zeros(len(post_memb))
     rec_W_hippo = np.zeros(len(post_memb))
-    spike_times1 =np.asarray(range(0,duration,1000/10))
+    spike_times1 =np.asarray(range(0, duration, int(1000/10)))
     inpPop1.spike_times = spike_times1.tolist()
 
     for i in range(len(post_memb)):
@@ -131,8 +134,7 @@ def run():
     rec_W_norm = rec_W_norm/initW*100.
     rec_W_hippo = rec_W_hippo/initW*100.
 
-    ##--- start plotting ---##
-
+    # Start plotting
     # get the index of the theta values to draw the lines in the final plot
     theta_m = -70.6
     theta_pl= -45.3
@@ -160,6 +162,8 @@ def run():
     plt.axvline(ixPL,color='k', linestyle='--')
     plt.text(ixPL,np.max(rec_W_hippo),r'$\theta_{+}$',fontsize=20)
     plt.savefig('W_hippo',bbox_inches='tight')
-    print("finish")
-#------------------------------------------------------------------------------------
-run()
+    plt.show()
+    print("done")
+
+if __name__ == "__main__":
+    run()

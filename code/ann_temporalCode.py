@@ -1,11 +1,3 @@
-#----------------------imports and environment---------------------------------
-import matplotlib as mp
-mp.use('Agg')
-import matplotlib.pyplot as plt
-from ANNarchy import *
-import numpy as np
-from net_homeostatic import *
-from cmap import myCmap
 """
 Python script for reproduce the rate code task from the Clopath et al. 2010
 publication (Fig. 4 b). Network consists of ten, recurrent connected neurons.
@@ -14,6 +6,14 @@ Use the SpikeSourceArray of ANNarchy to determine the spiking time points.
 Every extern neuron spikes at an other time point.
 In the original publication, the resulting weights are averaged over 100s.
 """
+from __future__ import print_function
+import numpy as np
+import matplotlib.pyplot as plt
+from ANNarchy import *
+
+from net_homeostatic import *
+from cmap import myCmap
+
 
 ###global parameter###
 duration = 200 #ms
@@ -50,7 +50,7 @@ def run():
 
     compile()
     # repeat the experiments 1000 times, that the weights can be stable
-    for i in xrange(1000):
+    for i in range(1000):
         # define the time points for spikes
         spkT_N1 = [0+(i*duration)]
         spkT_N2 = [20+(i*duration)]
@@ -95,7 +95,7 @@ def run():
                 img[ix[0],ix[1]] = 2.0
                 img[ix[1],ix[0]] = 2.0
     # set selfconnection weights to nan, because they not exist
-    for i in xrange(10):
+    for i in range(10):
         w[i][i] = np.nan
         img[i,i]= np.nan
 
@@ -107,6 +107,8 @@ def run():
     plt.xticks(fontsize=15)
     plt.yticks(fontsize=15)
     plt.savefig('temporal_Code.png',bbox_inches='tight')
-    print("finish")
-#------------------------------------------------------------------------------------
-run()
+    plt.show()
+    print("done")
+
+if __name__ == "__main__":
+    run()

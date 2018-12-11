@@ -11,9 +11,10 @@ np.random.seed(1) # for reproducable results
 # Define a function to calculate prediction errors from LDA model
 def peLDA(trainPA, trainEV, testPA, testEV):
     # Create and fit model
-    LDA.fit(trainEV, trainPA)
+    LDA_model = LDA()
+    LDA_model.fit(trainEV, trainPA)
     # Predict against test data
-    predicts = LDA.predict(testEV)
+    predicts = LDA_model.predict(testEV)
     # Calculate and return the prediction errors
     return(np.abs(testPA - predicts))
 
@@ -176,8 +177,10 @@ for ce in range(1000):
 
 # Plot smooted prediction errors
 import matplotlib.pyplot as plt
-
-plt.rc('text', usetex=True)
+# Check if LaTeX is installed to plot with consistent math font
+from distutils.spawn import find_executable
+if find_executable('latex'):
+    plt.rc('text', usetex=True)
 plt.rc('font', family='serif', size=12)
 
 from scipy import stats

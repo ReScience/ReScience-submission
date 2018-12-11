@@ -19,3 +19,5 @@ following packages:
  * Scikit-learn 0.19.1
  * Matplotlib 2.1.2
  * pandas 0.22.0
+
+An installation of LaTeX is required to reproduce the figure annontations exactly, but is not required by the replication.

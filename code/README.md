@@ -68,7 +68,7 @@ python3 main.py -ql --help
 
 ## Experiment reproduction
 
-Here we present the command line parameters we used to produce the experiment of the article, both for the training set generation and the state representation learning.
+Here we present the command line parameters we used to produce the experiment of the article, both for the training set generation and the state representation learning. Note that we already generated the three training sets which are available in the data directory, but you can regenerate them or change the generation options to generate more sets.
 
 ### Simple navigation task 
 

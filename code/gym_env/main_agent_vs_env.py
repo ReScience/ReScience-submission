@@ -208,6 +208,6 @@ if __name__ == '__main__':
             # if stats['discrete_actions'] is True, then actions are discrete and stats['actions_int'] exists
                 stats['actions_int']=np.reshape(stats['actions_int'],(-1,1))
         # save stats and also command line args to be able to recreate a controler and an environnement
-        np.savez( args.recordto+ data_name+'.npz', **stats, args=vars(args) )
+        np.savez( args.recordto+ data_name+'.npz', args=vars(args), **stats )
 
         print('Done.')

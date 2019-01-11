@@ -7,7 +7,7 @@
 """ 
 
 """
-    main : main script for computing states from observations and learn policies with q fitted iteration
+    main : main script for computing states from observations and learn policies with fitted q iteration
 
     This script trains and computes states representations from image observations, rewards and actions,
     using the Jonschkowski and Brock method from 2015 paper 'Learning State Representations with Robotic Priors'
@@ -20,6 +20,8 @@ import random, time
 
 # maths
 import numpy as np
+from sklearn.decomposition import PCA
+
 # plotting
 import matplotlib.pyplot as plt
 
@@ -88,10 +90,10 @@ jp_model = jonschkowski_priors.Priors_model(
                        )
 
 # if args.qlearning is False, then run a simple learning and plotting of the representations
-#      you can also specify a test dataset to test the learnt representation afterward
+#      you can also specify a test dataset to test the learned representation afterward
 if not args.qlearning:
     # learn the model directly for every iterations
-    _ ,history = tools.learn_states(training_data=training_data,
+    states ,history = tools.learn_states(training_data=training_data,
                                     model = jp_model,                                      
                                     num_epochs=args.num_epochs,
                                     batch_size = args.batch_size,
@@ -135,7 +137,7 @@ else:
     n_actions = training_data['num_actions'] # number of actions
 
     n_qlearnings = 10 # as in the paper, the number of different q iteration learnings
-    n_test_episodes = 20 # as in the paper, the number of episodes to test the learnt policy
+    n_test_episodes = 20 # as in the paper, the number of episodes to test the learned policy
     n_test_steps = 25 # as in the paper, the number of steps per env policy test iteration
     n_rbf = 100 # as in the paper, the number of rbf kernels used in q fitted iteration
 
@@ -143,7 +145,7 @@ else:
     #   array size : args.num_epochs learning steps X 10 q learnings X 20 test episodes X 25 steps per episode
     test_performance = np.zeros([args.num_epochs, n_qlearnings, n_test_episodes, n_test_steps])
 
-    ### create the gym environment for testing the learnt policies (the same as the training_data env)
+    ### create the gym environment for testing the learned policies (the same as the training_data env)
     # the controller
     controller=round_bot_controller.make(name=env_args['controller'],
                                 speed=env_args['speed'],
@@ -247,7 +249,9 @@ else:
                     str( np.mean( stats['reward_ep'].flatten() ) )+' \n' )
 
 
-### plotting 
+### PLOTTING 
+
+## LOSSES
 
 # divide by the weight to have the unweighted loss value
 causality_loss_record = np.array( causality_loss_record )/args.weights[2]
@@ -267,13 +271,39 @@ plt.plot(np.arange(1,args.num_epochs+1), repeatability_loss_record + causality_l
 plt.plot(np.arange(1,args.num_epochs+1), causality_loss_record)
 
 plt.title('Model loss')    
-plt.ylabel('Loss')
+plt.ylabel('Loss (stacked)')
 plt.xlabel('Epoch')
 plt.legend(['temporalcoherence_loss','proportionality_loss','repeatability_loss','causality_loss'], loc='upper right')
 
 if args.display: 
     plt.show()
 
+if args.recordto:
+    plot_name = 'loss_history' if not args.qlearning else 'loss_history_ql'
+    figloss.savefig(args.recordto+plot_name+'.png')# save the figure to file   
+
+
+
+## PCA VARIANCE RATIO 
+
+pca = PCA(n_components=states.shape[1])
+pca.fit_transform(states)
+
+figpca = plt.figure('PCA')
+plt.bar( np.arange(1,states.shape[1]+1), pca.explained_variance_ratio_ )
+plt.title('PCA variance')    
+plt.ylabel('Normalized eigenvalue')
+plt.xlabel('Principal component')
+
+if args.display: 
+    plt.show()
+
+if args.recordto:
+    figpca.savefig(args.recordto+'PCA_variance.png')# save the figure to file   
+
+
+
+## Q LEARNING
 
 if args.qlearning :
     # plot the average sum of rewards
@@ -289,9 +319,8 @@ if args.qlearning :
         plt.show()
 
     if args.recordto:
-        plot_name = 'loss_history' if not args.qlearning else 'loss_history_ql'
-        figloss.savefig(args.recordto+plot_name+'.png')# save the figure to file   
         figrewards.savefig(args.recordto+'ql_rewards.png')# save the figure to file   
+
 
 if args.display :
     input('Press any key to exit plotting')

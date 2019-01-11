@@ -63,7 +63,7 @@ class Fitted_QIteration:
 	def fit_sk(self, states, actions, rewards, gamma=0.9, max_epochs=10, recompute_mapping=False, alpha_l2=1.0, conv_threshold=0.0):
 		"""
 		Computes K-means and fitted Q iteration
-		Return learnt policy
+		Return learned policy
 
 		Params :
 		conv_threshold indicates a beta convergence treshold (>=0) for stopping learning 
@@ -143,7 +143,7 @@ class Fitted_QIteration:
 				break
 
 		print('\nFitting done.\n')
-		# return learnt policy
+		# return learned policy
 		return self.compute_Qmax
 			
 	# ### Functions for use in policy ###

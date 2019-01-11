@@ -148,7 +148,7 @@ def run_round_bot(  policy,
     #     policy=policy.Plug_policy(policy)    
 
     # create an agent with this policy and transformation
-    #   recall policy is learnt from states, whereas transformation is learnt from observation
+    #   recall policy is learned from states, whereas transformation is learned from observation
     #   so they are two different things
     rb_agent = agent.RoundBotAgent(policy, transformation)
     # train the agent in the env

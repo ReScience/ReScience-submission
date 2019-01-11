@@ -31,7 +31,7 @@ class ActionWrapper(TimeLimit):
         self._max_episode_steps = env._max_episode_steps 
         self._elapsed_steps = env._elapsed_steps 
         self._episode_started_at = env._episode_started_at
-        self._warn_double_wrap()
+        #self._warn_double_wrap()
     
     @property
     def num_actions(self):

@@ -208,7 +208,7 @@ def learn_states(   training_data,
     # predict learned states
     training_states = model.phi(training_data['observations'])
     
-    # Plot / Record learnt states
+    # Plot / Record learned states
     if recordto or display:      
         # Plot / Record state representation
         plot_representation(training_states[1:],
@@ -223,7 +223,7 @@ def learn_states(   training_data,
                             display=display,
                             )
 
-    # return learnt states along with traing history
+    # return learned states along with traing history
     return training_states, history
 
 

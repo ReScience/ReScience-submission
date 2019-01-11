@@ -1,0 +1,422 @@
+\documentclass[10pt,a4paper,onecolumn]{article}
+% \usepackage[utf8]{inputenc}
+\usepackage{fontspec}
+\usepackage{marginnote}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{caption}
+\captionsetup[figure]{name=Fig.,labelfont={sf,bf},textfont=sl,labelsep=quad}
+\usepackage{xcolor}
+\usepackage{authblk,etoolbox}
+\usepackage{titlesec}
+\usepackage{calc}
+\usepackage{hyperref}
+\hypersetup{breaklinks=true,
+            pdfauthor=
+{
+        Loic Cressot
+            Alexandre Coninx
+            Astrid Merckling
+            Nicolas Perrin
+            Stéphane Doncieux
+  },
+            pdftitle=
+{
+[Re] Learning state representations with robotic priors
+},
+            colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=blue,
+            pdfborder={0 0 0}}
+\urlstyle{same}
+\usepackage{tcolorbox}
+\usepackage{ragged2e}
+\usepackage{fontawesome}
+\usepackage{caption}
+\usepackage{listings}
+\usepackage{siunitx}
+\newcommand{\blau}[1]{{\color{blue} #1}}
+\newcommand{\rot}[1]{{\color{red} #1}}
+
+\usepackage{ulem}
+\definecolor{myred}{rgb}{0.8,0,0}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{myblue}{rgb}{0,0,0.7}
+\newcommand{\np}[1]{\textcolor{myred}{\fbox{\bf NP}{\em #1}}}
+
+\lstnewenvironment{code}{\lstset{language=Python,basicstyle=\small\ttfamily,showstringspaces=false,stringstyle=\color{blue},commentstyle=\color{blue},columns=spaceflexible}}{}
+
+
+
+%\usepackage{fancyvrb}
+%\VerbatimFootnotes
+%\usepackage{graphicx}
+%\usepackage{mdframed}
+%\newmdenv[backgroundcolor=lightgray]{Shaded}
+
+
+\usepackage{longtable,booktabs}
+
+\usepackage[
+  backend=biber,
+%  style=alphabetic,
+%  citestyle=numeric
+]{biblatex}
+\bibliography{bibliography.bib}
+
+% --- Macros ------------------------------------------------------------------
+\renewcommand*{\bibfont}{\small \sffamily}
+
+\definecolor{red}{HTML}{CF232B}
+\newcommand{\ReScience}{Re{\bfseries \textcolor{red}{Science}}}
+
+\newtcolorbox{rebox}
+   {colback=blue!5!white, colframe=blue!40!white,
+     boxrule=0.5pt, arc=2pt, fonttitle=\sffamily\scshape\bfseries,
+     left=6pt, right=20pt, top=6pt, bottom=6pt}
+
+\newtcolorbox{repobox}
+   {colback=red, colframe=red!75!black,
+     boxrule=0.5pt, arc=2pt, left=6pt, right=6pt, top=3pt, bottom=3pt}
+     
+\newtcolorbox{repobox2}
+   {colback=black, colframe=black!75!black,
+     boxrule=0.5pt, arc=2pt, left=6pt, right=6pt, top=3pt, bottom=3pt}
+
+% fix for pandoc 1.14
+\newcommand{\tightlist}{%
+  \setlength{\itemsep}{1pt}\setlength{\parskip}{0pt}\setlength{\parsep}{0pt}}
+
+% --- Style -------------------------------------------------------------------
+\renewcommand*{\bibfont}{\small \sffamily}
+\renewcommand{\captionfont}{\small\sffamily}
+\renewcommand{\captionlabelfont}{\bfseries}
+
+\makeatletter
+\renewcommand\@biblabel[1]{{\bf #1.}}
+\makeatother
+
+% --- Page layout -------------------------------------------------------------
+\usepackage[top=3.5cm, bottom=3cm, right=1.5cm, left=1.5cm,
+            headheight=2.2cm, reversemp, includemp, marginparwidth=4.5cm]{geometry}
+
+% --- Section/SubSection/SubSubSection ----------------------------------------
+\titleformat{\section}
+  {\normalfont\sffamily\Large\bfseries}
+  {}{0pt}{}
+\titleformat{\subsection}
+  {\normalfont\sffamily\large\bfseries}
+  {}{0pt}{}
+\titleformat{\subsubsection}
+  {\normalfont\sffamily\bfseries}
+  {}{0pt}{}
+\titleformat*{\paragraph}
+  {\sffamily\normalsize}
+
+
+% --- Header / Footer ---------------------------------------------------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\renewcommand{\headrulewidth}{0.50pt}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[L]{\hspace{-1cm}\includegraphics[width=4.0cm]{rescience-logo.pdf}}
+\fancyhead[C]{}
+\fancyhead[R]{}
+\renewcommand{\footrulewidth}{0.25pt}
+
+\fancyfoot[L]{\hypersetup{urlcolor=red}
+              \sffamily \ReScience~$\vert$
+              \href{http://rescience.github.io}{rescience.github.io}
+              \hypersetup{urlcolor=blue}}
+\fancyfoot[C]{\sffamily 1 - \thepage}
+\fancyfoot[R]{\sffamily Jan 2018 $\vert$
+                        Volume \textbf{1} $\vert$
+                        Issue \textbf{1}}
+\pagestyle{fancy}
+\makeatletter
+\let\ps@plain\ps@fancy
+\fancyheadoffset[L]{4.5cm}
+\fancyfootoffset[L]{4.5cm}
+
+% --- Title / Authors ---------------------------------------------------------
+% patch \maketitle so that it doesn't center
+\patchcmd{\@maketitle}{center}{flushleft}{}{}
+\patchcmd{\@maketitle}{center}{flushleft}{}{}
+% patch \maketitle so that the font size for the title is normal
+\patchcmd{\@maketitle}{\LARGE}{\LARGE\sffamily}{}{}
+% patch the patch by authblk so that the author block is flush left
+\def\maketitle{{%
+  \renewenvironment{tabular}[2][]
+    {\begin{flushleft}}
+    {\end{flushleft}}
+  \AB@maketitle}}
+\makeatletter
+\renewcommand\AB@affilsepx{ \protect\Affilfont}
+%\renewcommand\AB@affilnote[1]{{\bfseries #1}\hspace{2pt}}
+\renewcommand\AB@affilnote[1]{{\bfseries #1}\hspace{3pt}}
+\makeatother
+\renewcommand\Authfont{\sffamily\bfseries}
+\renewcommand\Affilfont{\sffamily\small\mdseries}
+\setlength{\affilsep}{1em}
+
+\LetLtxMacro{\OldIncludegraphics}{\includegraphics}
+\renewcommand{\includegraphics}[2][]{\OldIncludegraphics[width=12cm, #1]{#2}}
+
+
+% --- Document ----------------------------------------------------------------
+\title{[Re] Learning state representations with robotic priors}
+
+\usepackage{authblk}
+                \author[1]{Loic Cressot}
+                \author[1]{Alexandre Coninx}
+                \author[1]{Astrid Merckling}
+                \author[1]{Nicolas Perrin}
+                \author[1]{Stéphane Doncieux}
+                \affil[1]{Sorbonne Université, CNRS, Institut des Systèmes Intelligents et de Robotique, ISIR, F-75005 Paris, France}
+
+\date{\vspace{-5mm}
+      \sffamily \small \href{mailto:Lcressot@gmail.com}{Lcressot@gmail.com}}
+
+
+\setlength\LTleft{0pt}
+\setlength\LTright{0pt}
+
+% --- Additional packages ----
+% Package for subfigures
+%\usepackage[position=top,labelformat=simple,labelfont=bf]{subcaption}
+%\renewcommand*{\thesubfigure}{\Alph{subfigure}} % Upper case letters for subfigures
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage[colorinlistoftodos]{todonotes}
+
+\begin{document}
+\maketitle
+
+\marginpar{
+  %\hrule
+  \sffamily\small
+  %\vspace{2mm}
+  {\bfseries Editor}\\
+  Name Surname\\
+
+  {\bfseries Reviewers}\\
+        Name Surname\\
+        Name Surname\\
+
+  {\bfseries Received}  Month, day, year\\
+  {\bfseries Accepted}  Month, day, year\\
+  {\bfseries Published} Month, day, year\\
+
+  {\bfseries Licence}   \href{http://creativecommons.org/licenses/by/4.0/}{CC-BY}
+
+  \begin{flushleft}
+  {\bfseries Competing Interests:}\\
+  The authors have declared that no competing interests exist.
+  \end{flushleft}
+
+  \hrule
+  \vspace{3mm}
+
+  \hypersetup{urlcolor=white}
+
+    \vspace{-1mm}
+  \begin{repobox}
+    \bfseries\normalsize
+      \href{http://github.com/rescience/rescience-submission/article}{\faGithubAlt~Article repository}
+  \end{repobox}
+  
+    \vspace{-1mm}
+  \begin{repobox}
+    \bfseries\normalsize
+      \href{http://github.com/rescience/rescience-submission/code}{\faGithubAlt~Code repository}
+  \end{repobox}
+  
+    \hypersetup{urlcolor=blue}
+}
+
+\begin{rebox}
+\sffamily {\bfseries A reference implementation of}
+\small
+\begin{flushleft}
+\begin{itemize}
+    \item[→] Learning state representations with robotic priors, Jonschkowski, R. and Brock, O., 2015.  Autonomous Robots, 39(3), pp.407-428
+\end{itemize}\par
+\end{flushleft}
+\end{rebox}
+
+%------------------------------------------------------------------------
+\section*{Introduction}
+%------------------------------------------------------------------------
+Under Markovian assumptions, an agent interacting with an environment only needs its current observation in this environment to be able to optimally choose its next action. In this scenario, which we consider in this paper, state representation learning aims at learning to compress observations of an agent  into compact and task oriented representations.
+ By means of a dimensionality reduction and the removal of irrelevant information from observations, these compact representations should simplify the task of algorithms exploiting them, such as reinforcement learning algorithms. Jonschkowski and Brock \cite{jonschkowski2015learning} proposed a method for learning such a transformation by minimizing a loss with gradient descent. The loss implements priors that enforce the representations to be coherent with a physically plausible description of the robot state. 
+The utility of the learned representations was evaluated using the fitted Q iteration reinforcement learning algorithm \cite{ernst2005tree}.
+
+In this paper, we propose novel implementations of the state representation learning introduced in \cite{jonschkowski2015learning} and the fitted Q iteration algorithm, along with open-source code for the generation of new learning datasets \cite{RoundBotRepo}\cite{RoundBotArchive}. We used these implementations to reproduce the main results of the original manuscript on a mobile robot navigation task in simulation. We did not reproduce the sections of \cite{jonschkowski2015learning} corresponding to a slot car racing task and a navigation task with a real robot.\\
+
+
+%------------------------------------------------------------------------
+\section*{Methods}
+%------------------------------------------------------------------------
+
+We didn't contact the authors of \cite{jonschkowski2015learning}, and as they did not provide code for the data generation and the fitted Q iteration algorithm, we reimplemented those two. This enabled us to generate our own training data and make our own testing of the trained policies using the learned representations as states for these policies.
+In addition, in order to maximize the independence of our results from those of the original paper, we also recoded the core algorithm with a different library: we used Keras with a Tensorflow backend instead of Sonnet and Tensforflow in the original code.\\
+
+\subsubsection*{Data generation}
+\label{sec:DataGeneration}
+
+Our simulator is an OpenAI gym environment \cite{openAIgymref} that can be easily installed with pip, the python package installer, and can be found on a public git repository \cite{RoundBotRepo} and a public archive \cite{RoundBotArchive}. 
+Figures \ref{subfig:obsSimple} and \ref{subfig:obsdistractors} display observations received in the simulator with an egocentric view, and Fig.~\ref{subfig:obsTopDown} displays observations with an exocentric view (from above). In addition, Fig.~\ref{fig:simpleVSdistrators} presents the environment with and without visual distractors.
+
+
+\subsubsection*{Fitted Q iteration}
+\label{sec:FittedQIteration}
+
+We reimplemented the fitted Q iteration algorithm in Python, using exactly the same method and hyper-parameters as the one described in the original paper.
+
+\subsubsection*{Representation learning}
+\label{sec:RepresentationLearning}
+
+We implemented our own new version of the state representation algorithm in Python with the Keras library using a Tensorflow back end, and used the same hyper-parameters as in the original paper, except for the regularization parameter $\lambda$ in the experiment with a view from above and distractors (see sections \textsf{\textbf{Invariance to Perspective}} and \textsf{\textbf{Ignoring distractors}}).
+
+In three of the losses, conditional expectation are computed considering states, actions and rewards at two different time steps. In our opinion, the original paper has a minor ambiguity concerning the choice of the set of these time pairs $t_1$ and $t_2$. The original code shared by the authors of \cite{jonschkowski2015learning} allowed us to understand that for a given batch containing observations at different times $t_i$, all the possible pairs inside the batch are taken, provided that they satisfy some constraints present in the loss formulation (e.g. all the pairs $(t_1,t_2)$ for which the actions are identical: $a_{t_1}=a_{t_2}$,
+or all the pairs with identical actions and different subsequent rewards: $a_{t_1}=a_{t_2} \wedge r_{t_1+1} \neq r_{t_2+1}$).
+
+
+%------------------------------------------------------------------------
+\section*{Results}
+%------------------------------------------------------------------------
+
+\subsection*{Simple navigation task}
+%----------------------------------
+
+In this section we reproduce the first experiment presented in \cite{jonschkowski2015learning}: \textit{the learning process on the simple navigation task}. As shown in figure \ref{subfig:obsSimple}, we choose the parameters of our data generator that produce observations resembling to those chosen by the authors in this first experiment : one-colored walls with 300° field of view. Then we run our implementation of the state representation learning algorithm with the same hyper-parameters as in the article and found qualitatively similar learned 2D states, as shown in Fig.~\ref{subfig:repSimple}.\\
+
+We also run the same learning with 5 dimensional states and performed a principal component analysis (PCA) to show that the learned representation predominantly lies on only two principal dimensions (see Fig.~\ref{fig:pca}), as observed in \cite{jonschkowski2015learning}.\\
+
+Afterwards, keeping the same training set, we run a 25 steps gradient descent training, and evaluate the learned representations at each step, as presented on figure \ref{fig:qleval}. As in the article, we perform 10 fitted Q iteration trainings for each step of the representation learning, and for each of the policies learned with fitted Q iteration, we perform 20 evaluations in the same environment as the one used for generating the training data. We sum the rewards over each evaluation and average them for each fitted Q learning, and gather the points on the plot shown on figure \ref{fig:qleval}. This experience shows that our results are not only qualitatively similar to those in the paper but also quantitatively. We observe that the losses, stacked on figure \ref{fig:qleval}, are less smooth than those in the article, particularly the causality loss. We also use a smaller gradient descent step than in the article because it seems that the representations are converging too fast for a proper step by step analysis.
+
+\begin{figure}[ht]
+\centering
+  \begin{tabular}{cc}
+  \centering
+  \subfloat[]{
+  \includegraphics[width=.39\linewidth,]{pictures/observations_simple_crop.png}
+  \label{subfig:obsSimple}
+  }
+  & 
+  \subfloat[]{
+    \includegraphics[width=0.56\linewidth]{pictures/representation_simple.png}
+  \label{subfig:repSimple}
+  }
+  \end{tabular}
+\caption[Simple navigation task]{Simple navigation task experiment : 
+\protect\subref{subfig:obsSimple} \textnormal{Observations}
+\protect\subref{subfig:repSimple} \textnormal{2D state representation learned.}
+\label{fig:simpleNavTask}
+} 
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.6\linewidth]{pictures/PCA.png}
+\caption[]{Eigenvalues on a 5D representation learned with the same data and parameters as in Fig.~\ref{fig:simpleNavTask}.}
+\label{fig:pca}
+\end{figure}
+
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{pictures/ql_eval.png}
+\caption[]{Fitted Q iteration evaluation }
+\label{fig:qleval}
+\end{figure}
+
+
+\subsection*{Invariance to perspective}
+\label{sec:inv2pers}
+%--------------------------------------
+In this section we reproduce the second experiment of the article: \textit{The invariance to perspective on the navigation task}. Again we use our own gym environment as a data generator to produce top-down perspective observations, as shown on figure \ref{subfig:obsTopDown}, where we artificially set a bigger radius to the robot, as in the article, so as to make it more visible. Then we run the state representation learning algorithm with the same hyper-parameters as the authors, except for the $L_1$ regularization parameter $\lambda$, see figure \ref{subfig:repTopDown}.\\
+
+Indeed, when setting the regularization parameter $\lambda$ to a strong value such as $1e-1$ like in the paper, our implementation cannot learn any relevant representation, but converges instead to a blurry and mixed point cloud. However, for a low value of regularization, the learned representation is qualitatively similar to the one in the paper: a blurry version of the egocentric version. We should mention that we tried the initial code of the authors with the strong regularization value and it worked as presented in their paper.
+
+\begin{figure}[ht]
+\centering
+  \begin{tabular}{cc}
+  \centering
+  \subfloat[]{
+    \includegraphics[width=.39\linewidth]{pictures/observations_topdown_crop.png}
+    \label{subfig:obsTopDown}
+  }
+  & 
+  \subfloat[]{
+    \includegraphics[width=.56\linewidth]{pictures/representation_topdown.png}
+    \label{subfig:repTopDown}
+  }
+  \end{tabular}
+\caption[Invariance to perspective]{Invariance to perspective experiment : \protect\subref{subfig:obsTopDown} \textnormal{Observations from a global point of view}
+\protect\subref{subfig:repTopDown} \textnormal{2D state representation with $\lambda=1e-4$} \label{fig:invarianceToPerspective}} 
+\end{figure}
+
+
+\subsection*{Ignoring distractors}
+%---------------------------------
+In this section we reproduce the experiment on the navigation task with visual distractors. As shown on figure \ref{fig:simpleVSdistrators}, we implemented an option in our simulator to produce visual distractors with colored rectangles moving randomly on the surface of the walls and ground at a lower speed than the speed of the robot.\\
+
+The obtained training observations, presented on figure \ref{subfig:obsdistractors} are used to train a state representation with the same hyper-parameters as in the paper, except again for the $\lambda$ parameter which is set to the slightly lower value $0.1$ instead of $0.3$, simply because it seems to give a qualitatively more similar result. The learned representation, presented on figure \ref{subfig:repdistractors}, is again coherent with the results presented in the paper.
+
+\begin{figure}[ht]
+\begin{minipage}[c]{.5\textwidth}
+\centering
+\subfloat[]{
+  \includegraphics[width=0.90\linewidth]{pictures/simpleNav.png}
+  \label{subfig:simpleNav}
+}
+\end{minipage}
+\begin{minipage}[c]{.5\textwidth}
+\subfloat[]{
+  \includegraphics[width=0.80\linewidth]{pictures/distractors.png}
+  \label{subfig:distractors}
+}
+\end{minipage}
+\caption[]{Adding visual distractors in the setup : 
+\protect\subref{subfig:simpleNav} \textnormal{Original setup}
+\protect\subref{subfig:distractors} \textnormal{Setup with visual distractors}
+\label{fig:simpleVSdistrators}
+} 
+\end{figure}
+
+
+\begin{figure}
+\centering
+  \begin{tabular}{cc}
+  \centering
+  \subfloat[]{
+    \includegraphics[width=0.39\linewidth]{pictures/observations_distractors_crop.png}
+  \label{subfig:obsdistractors}
+  }
+  & 
+  \subfloat[]{
+    \includegraphics[width=0.56\linewidth]{pictures/representation_distractors.png}
+  \label{subfig:repdistractors}
+  }
+  \end{tabular}
+\caption[Ignoring distractors]{Ignoring distractors experiment : 
+\protect\subref{subfig:obsdistractors} \textnormal{Observations with visual distractors}
+\protect\subref{subfig:repdistractors} \textnormal{2D state representation with $\lambda=0.1$}
+\label{fig:ignoringDistrators}
+} 
+\end{figure}
+
+
+%------------------------------------------------------------------------
+\section*{Conclusion}
+ Our implementation produces results that seems faithful to those of the original paper. However, its computational speed is lower than the code provided by the authors, probably because we had to use some tricks to force the Keras library to deal with unsupervised learning and conditional expectations on pairwise operations.
+%------------------------------------------------------------------------
+
+
+\sffamily \small
+\printbibliography[title=References]
+
+\end{document}

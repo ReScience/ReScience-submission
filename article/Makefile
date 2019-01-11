@@ -1,22 +1,24 @@
-SOURCE   = Name-YEAR
-MDFILE   = $(SOURCE).md
+# makefile modified to compile .tex only and not markdown
+
+SOURCE   = CRESSOT-CONINX-MERCKLING-PERRIN-DONCIEUX-2019
+#MDFILE   = $(SOURCE).md
 BIBFILE  = bibliography.bib
 TEXFILE  = $(SOURCE).tex
 PDFFILE  = $(SOURCE).pdf
-TEMPLATE = rescience-template.tex
+#TEMPLATE = rescience-template.tex
 
 %.tex: $(MDFILE)
         # @echo "Processing $<"
 	@pandoc --standalone                          \
-                --filter ~/.cabal/bin/pandoc-crossref \
-                --template=$(TEMPLATE)                \
+                --filter /usr/local/bin/pandoc-crossref\
                 --latex-engine=xelatex                \
                 --biblatex                            \
                 --bibliography=$(BIBFILE)             \
                 -M "crossrefYaml=crossref.yaml"       \
-                --output $(TEXFILE) $(MDFILE)
+                --output $(TEXFILE)
 
-%.pdf: $(TEXFILE) $(BIBFILE) $(TEMPLATE)
+#%.pdf: $(TEXFILE) $(BIBFILE) $(TEMPLATE)
+%.pdf: $(TEXFILE) $(BIBFILE)
 	@echo " [1/4] Processing $(TEXFILE) (pass 1)"
 	@xelatex $(TEXFILE) > make.log
 
@@ -50,6 +52,6 @@ clean:
 	@rm -f $(SOURCE).blg
 	@rm -f $(SOURCE).log
 	@rm -f $(SOURCE).out
-        # @rm -f $(SOURCE).pdf
-	@rm -f $(SOURCE).tex
+#   @rm -f $(SOURCE).pdf
+#	@rm -f $(SOURCE).tex
 	@rm -f $(SOURCE).run.xml

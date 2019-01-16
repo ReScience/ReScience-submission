@@ -7,6 +7,7 @@ Poisson neurons firing with different frequencies (2Hz, 4Hz, 6Hz, ..)
 as described in the original publication.
 In the original publication, the resulting weights are averaged over 100s.
 """
+
 from __future__ import print_function
 import numpy as np
 import matplotlib.pyplot as plt
@@ -17,11 +18,10 @@ from net_homeostatic import *
 from cmap import myCmap
 
 
-###global parameter###
-# duration of one presentation time
+# Global parameters
 duration = 1000 #ms
 
-#-----------------------population definitions----------------------------------#
+# Populations
 """
 The 'PoissonPopulation' object is used to create a population with a Poisson distributed
 activity with 10 neurons and a initial firing rate of 100 Hz.
@@ -30,7 +30,8 @@ The population of the ten AdEx neurons with the neuron model is created with the
 """
 poisPop = PoissonPopulation(geometry=10,rates=100.0)
 pop_Ten = Population(geometry=10,neuron=AdExNeuron, name="pop_Ten")
-#-----------------------projection definitions---------------------------------#
+
+# Projections
 """
 Every neuron in the 'PoissonPopulation' is with one neuron in the neuron
 population connected. Every spike of a Poisson neuron leads to a spike
@@ -42,33 +43,33 @@ projInp_Ten = Projection(
     target='Exc'
 ).connect_one_to_one(weights = 30.0)
 
-# create a Projection for the recurrent connections
+# Create a Projection for the recurrent connections
 projTen_Ten = Projection(
     pre= pop_Ten,
     post= pop_Ten,
     target= 'Exc',
     synapse= ffSyn
 ).connect_all_to_all(weights = 0.1,allow_self_connections=True)
-# set network parameter
+# Set network parameter
 projTen_Ten.wMax= 0.25
-#------------------------------main function-----------------------------------#
+
 def run():
-    # compile the network with ANNarchy
+    # Compile the network with ANNarchy
     compile()
-    # number of experiment repetitions
+    # Number of repetitions
     repeats = 20
     w = np.zeros((repeats,10,10)) #
     print('Start rate code experiment')
     for r in range(repeats):
-        # repeat in 100 times to get the 100s as in Clopath et al. 2010
+        # Repeat in 100 times to get the 100s as in Clopath et al. 2010
         for i in range(100):
-            # set the different firint rates
+            # Set the different firint rates
             poisPop.rates = np.linspace(20,2,10)
-            # simulate the network for 1000 ms
+            # Simulate the network for 1000 ms
             simulate(duration)
-            # save the changes in the weights
+            # Save the changes in the weights
             w[r,:,:] += projTen_Ten.w
-            # reset the network for the next 1000 ms
+            # Reset the network for the next 1000 ms
             reset()
         w[r,:,:] = w[r,:,:]/100
 
@@ -86,6 +87,7 @@ def run():
     strong unidirectional (> (2/3 of max. weight)) connections == 1.0
     strong bidirectional (> (2/3 of max. weight)) connections == 2.0
     """
+
     # Weak connection (under 2/3 of maximum weight) have the value = 0.0
     maxima = (np.nanmax(w)*2./3.)
     idx_b = np.where(w < maxima)
@@ -103,19 +105,19 @@ def run():
 
     # Strong unidirectional connections (> 2/3 of maximum weight) are every else
 
-    # set the main diagonal to nan
+    # Set the main diagonal to nan
     for i in range(10):
         w[i,i] = np.nan
         img[i,i] = np.nan
 
-    ##--- start plotting ---##
+    # Start plotting
     plt.figure()
     plt.imshow(img.T,interpolation='none',cmap= myCmap(),vmin=0,vmax=2)
     plt.xticks(fontsize=15)
     plt.yticks(fontsize=15)
     plt.xlabel('Neuron Post',fontsize=20)
     plt.ylabel('Neuron Pre',fontsize=20)
-    plt.savefig('rate_Code_Weights.png',bbox_inches='tight')
+    plt.savefig('Fig3_rateCode.png',bbox_inches='tight')
     plt.show()
     print("done")
 

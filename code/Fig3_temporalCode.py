@@ -6,6 +6,7 @@ Use the SpikeSourceArray of ANNarchy to determine the spiking time points.
 Every extern neuron spikes at an other time point.
 In the original publication, the resulting weights are averaged over 100s.
 """
+
 from __future__ import print_function
 import numpy as np
 import matplotlib.pyplot as plt
@@ -15,17 +16,19 @@ from net_homeostatic import *
 from cmap import myCmap
 
 
-###global parameter###
+# Global parameters
 duration = 200 #ms
-#----------------------defint time points of spikes----------------------------#
+# Time points for spikes
 spike_times =[[1],[2],[3],[4],[5],[6],[7],[8],[9],[10]]
-#-----------------------population defintions----------------------------------#
+
+# Populations
 """
 Use the SpikeSourceArray of ANNarchy to control the spiking time points of
 the AdEx neurons."""
 inpPop = SpikeSourceArray(spike_times=spike_times)
 pop_Ten = Population(geometry=10,neuron=AdExNeuron, name="pop_Ten")
-#-----------------------projection definitions---------------------------------#
+
+# Projections
 """
 Create the one-to-one projections from the SpikeSourceArray population
 to the AdEx population. If one neuron in the SpikeSourceArray population spikes,
@@ -36,7 +39,8 @@ projInp_Ten = Projection(
     post=pop_Ten,
     target='Exc'
 ).connect_one_to_one(weights = 30.0)
-# create the projection for the recurrent connections
+
+# Create the projection for the recurrent connections
 projTen_Ten = Projection(
     pre=pop_Ten,
     post=pop_Ten,
@@ -45,13 +49,12 @@ projTen_Ten = Projection(
 ).connect_all_to_all(weights = 0.5,allow_self_connections=True)
 projTen_Ten.wMax= 0.3
 
-#------------------------------main function------------------------------------
 def run():
 
     compile()
-    # repeat the experiments 1000 times, that the weights can be stable
+    # Repeat the experiments 1000 times, that the weights can be stable
     for i in range(1000):
-        # define the time points for spikes
+        # Define the time points for spikes
         spkT_N1 = [0+(i*duration)]
         spkT_N2 = [20+(i*duration)]
         spkT_N3 = [40+(i*duration)]
@@ -94,19 +97,19 @@ def run():
             if ix2 == (ix[1],ix[0]):
                 img[ix[0],ix[1]] = 2.0
                 img[ix[1],ix[0]] = 2.0
-    # set selfconnection weights to nan, because they not exist
+    # Set selfconnection weights to nan, because they not exist
     for i in range(10):
         w[i][i] = np.nan
         img[i,i]= np.nan
 
-    ##--- start plotting ---##
+    # Start plotting
     plt.figure()
     plt.imshow(img.T,interpolation='none',cmap=myCmap(),vmin=0,vmax=2)
     plt.xlabel('Neuron Post',fontsize=20)
     plt.ylabel('Neuron Pre',fontsize=20)
     plt.xticks(fontsize=15)
     plt.yticks(fontsize=15)
-    plt.savefig('temporal_Code.png',bbox_inches='tight')
+    plt.savefig('Fig3_temporalCode.png',bbox_inches='tight')
     plt.show()
     print("done")
 

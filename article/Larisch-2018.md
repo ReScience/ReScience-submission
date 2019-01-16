@@ -107,9 +107,9 @@ $${#eq:LTP}
 
 $A_{LTP}$ is the learning rate for LTP.
 The parameters $\theta_{+}$ and $\theta_{-}$ are plasticity thresholds for the membrane potential ($u$) and its temporal average ($\bar{u}_+$, Eq. @eq:barU), respectively. The original paper does not mention the meaning of these thresholds.
-The chosen value $\theta_{+} = -45.3$ mV is above the spiking threshold. **TODO: not sure of that part. Are there two possible value for theta+? Or is the second one theta-?**
+The chosen value $\theta_{+} = -45.3$ mV is above the spiking threshold.
 This suggests that this threshold prevents the occurrence of LTP if the postsynaptic neuron has not spiked already.
-With $\theta_{+} = E_{L}$, LTP only occurs if the membrane potential is above the resting potential.
+With $\theta_{-} = E_{L}$, LTP only occurs if the membrane potential is above the resting potential.
 
 $$ \tau_{+} \frac{d\bar{u}_+}{dt} = -\bar{u}_{+} + u $$ {#eq:barU}
 
@@ -255,11 +255,12 @@ Changes to the default parameters for this tasks are shown in Table @tbl:table_V
 
 One experiment that is not reproduced is the experiment with ten excitatory and three inhibitory neurons, using stochastic Poisson input (Fig. 5 in [@Clopath2010]).
 In the original publication, they presented the emergence of a stable receptive fields and showed that the strength of synapses depends on the input firing rate.
-Here, both features are presented with two different tasks. **TODO: describe the tasks**
+Here, we reproduce the emergence of receptive fields by presenting natural scenes and reproduce how the strength of the neuron activity influences the connectivity order.
 
-The second experiment not reproduced is the experiment using the same network structure but with moving input patterns  (Fig. 6 in [@Clopath2010]).
+
+The second experiment not reproduced is the experiment using the same network structure but with moving input patterns (Fig. 6 in [@Clopath2010]).
 @Clopath2010 demonstrated with this experiment that the strength of synapses can depend on the temporal order of emergent spikes and that the receptive field moves over the time, if the input is moving.
-The synapse weight development, depending on the temporal order of spikes, is reproduced by another task.
+We reproduce the synapse weight development, depending on the temporal order of spikes.
 The moving receptive fields are not reproduced here, but by reproducing receptive fields generally, we assume that moving receptive fields would emerge with the here proposed reimplementation.
 
 ## Reimplementation
@@ -457,9 +458,9 @@ the red line represents the weight change with the parameter set for the hippoca
 ## Pair-based and triplet STDP experiments
 
 \begin{figure}
-\includegraphics[width=0.325\textwidth]{./figures/W_hippo.png}
-\includegraphics[width=0.325\textwidth]{./figures/windW.png}
-\includegraphics[width=0.325\textwidth]{./figures/pairing.png}
+\includegraphics[width=0.325\textwidth]{./figures/Fig1_clamp.png}
+\includegraphics[width=0.325\textwidth]{./figures/Fig1_window.png}
+\includegraphics[width=0.325\textwidth]{./figures/Fig1_pairing.png}
 \caption{ \textbf{Replication of experimental findings.}
          \textbf{Left}, weight change in the Voltage clamp experiment. The blue line presents the weight change with the parameter set for the visual cortex.
          The red line presents the weight change with the parameter set for the hippocampus.
@@ -488,7 +489,7 @@ in pre-post pairs. These results are similar to the original paper.
 
 \begin{figure}
 \centering
-\includegraphics[width=0.6\textwidth]{./figures/burst_dW.png}
+\includegraphics[width=0.6\textwidth]{./figures/Fig2_burst.png}
 \caption{\textbf{Burst experiments}
 \textbf{Upper left}, weight change as a function of the numbers of postsynaptic spikes.
 \textbf{Upper right}, weight change as a function of the frequency between three postsynaptic spikes.
@@ -517,8 +518,8 @@ But, as mentioned in the original experimental paper by @Nevian2006, the graphs 
 
 \begin{figure}
 \centering
-\includegraphics[width=0.4\textwidth]{./figures/rate_Code_Weights.png}
-\includegraphics[width=0.4\textwidth]{./figures/temporal_Code.png}
+\includegraphics[width=0.4\textwidth]{./figures/Fig3_rateCode.png}
+\includegraphics[width=0.4\textwidth]{./figures/Fig3_temporalCode.png}
 \caption{ \textbf{Different connectivity patterns.}
          Depending on the spiking activity, different connectivity patterns emerge between the neurons.
          The color scheme is similar to that in the original publication.
@@ -548,8 +549,8 @@ As in the original paper, the connections from neurons which are firing a long t
 
 \begin{figure}
 \centering
-\includegraphics[width=0.625\textwidth]{./figures/weights_stable.png}
-\includegraphics[width=0.325\textwidth]{./figures/RF.png}
+\includegraphics[width=0.625\textwidth]{./figures/Fig4_stable.png}
+\includegraphics[width=0.325\textwidth]{./figures/Fig4_RF.png}
 \caption{\textbf{Stable weights on Poisson distributed inputs.}
     \textbf{Left}
     Colors show the weight value at the end of the current epoch from the presynaptic neuron to a single postsynaptic neuron. Weight values around zero are blue and weight values around the maximum weight value of $3$ are red.

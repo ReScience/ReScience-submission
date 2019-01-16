@@ -22,7 +22,7 @@ initW = 0.0001
 Creates a list of spiking time points. 25 Hz for 50 seconds
 """
 spike_times1 = np.asarray(range(0, duration, int(1000/4)))
-print("Number of spikes:", len(spike_times1))
+#print("Number of spikes:", len(spike_times1))
 
 # Populations
 """
@@ -77,7 +77,9 @@ projC1_C2 = Projection(
 projC1_C2.transmit = 1.0 # to activate the transmission over the synapse
 
 def run():
+
     "Runs voltage clamp experiment."
+    print('Start experiment to reproduce voltage clamp data.')
     # compile command to create the ANNarchy network
     compile()
 
@@ -92,7 +94,6 @@ def run():
     rec_dW_norm = np.zeros(len(post_memb))
     rec_W_norm = np.zeros(len(post_memb))
 
-    print('Start voltage clamp experiment.')
     """
     Voltage clamp experiment with the parameter set for the visual cortex
     (standard parameter set).
@@ -161,9 +162,9 @@ def run():
     plt.text(ixM,np.max(rec_W_hippo),r'$\theta_{-}$',fontsize=20)
     plt.axvline(ixPL,color='k', linestyle='--')
     plt.text(ixPL,np.max(rec_W_hippo),r'$\theta_{+}$',fontsize=20)
-    plt.savefig('W_hippo',bbox_inches='tight')
+    plt.savefig('Fig1_clamp.png',bbox_inches='tight')
     plt.show()
-    print("done")
+    print("Done with the experiment.")
 
 if __name__ == "__main__":
     run()

@@ -6,6 +6,7 @@ Algorithm based on Matlab code of the Clopath et al. 2010 model.
 Available on modelDB:
 https://senselab.med.yale.edu/modeldb/showModel.cshtml?model=144566
 """
+
 from __future__ import print_function
 import numpy as np
 import matplotlib.pyplot as plt
@@ -15,7 +16,7 @@ setup(dt=1.0)
 
 from net_homeostatic import *
 
-#--------------- define the presynaptic neuron model --------------------------#
+# Presynaptic neuron model
 """
 Because of the learning rule, we need an additional layer, that contains the
 necessary variables for the learning. This population is one to one connected
@@ -41,19 +42,21 @@ neuron = Neuron(parameters = params,
                 reset = """ g_vm = EL
                             state = 1""",
                 spike = """g_vm > VTrest""")
-#-----------------------global variables---------------------------------------#
+
+# Global parameters
 nb_pre = 500 # number of input neurons
 nb_post= 1 # number of post synaptic neuron
 duration = 100 #ms # number of time steps per epoch in ms
 nb_epochs = 1000 # number of epochs per input pattern
-#-----------------------population defintions----------------------------------#
+
+# Population defintions
 """
 Create the populations of presynaptic neurons and the population
 of postsynaptic AdEx neurons.
 """
 pre_pop = Population(geometry=nb_pre,neuron=neuron)
 post_pop= Population(geometry=nb_post,neuron=AdExNeuron)
-#-----------------------projection definitions---------------------------------#
+# Projection definitions
 
 # Projection object to initialise the synapse with the learning rule
 projInp_N = Projection(
@@ -62,22 +65,22 @@ projInp_N = Projection(
     target='Exc',
     synapse = ffSyn
 ).connect_all_to_all(weights = Uniform(0.0,2.0))
-#----------------------------define input--------------------------------------#
-# input parameters as in Matlab source code
+
+# Define the input parameters as in Matlab source code
 sigma = 10
 in_max = 0.015
 in_min = 0.0001
 nb_pattern = 10
-#---------------------------main function--------------------------------------#
+
 def run():
-    # the input generating is taken from the original Matlab source code
+    # The input generating is taken from the original Matlab source code
 
     patterns = np.zeros((nb_epochs,duration))
     for i in range(nb_epochs):
         patterns[i,:] = np.floor(np.random.rand()*nb_pattern)
     patterns = np.reshape(patterns,nb_epochs*duration)
 
-    # initialise the gaussian input
+    # Initialise the gaussian input
     ind=np.linspace(0,nb_pre-1,nb_pre)
     gau= in_min + in_max*np.exp( - ( ind - nb_pre/2.)**2 / (2*sigma**2))
     gau = np.append(gau,gau)
@@ -88,31 +91,33 @@ def run():
 
 
     compile()# Compile the network
-    # set parameters analoug to the parameters in the Matlab source code
+    # Set parameters analoug to the parameters in the Matlab source code
     projInp_N.transmit = 4.0
     projInp_N.aLTP = 10*0.00008
     projInp_N.aLTD = 10*0.00014
     projInp_N.wMax = 3.0
 
-    # monitor object to save the weight, after each epoch to save memory
+    # Monitor object to save the weight, after each epoch to save memory
     monW = Monitor(projInp_N,'w',period=duration)
 
-    # start the simulation
+    # Start the simulation
     for t in range(1,duration*nb_epochs):
         inp = ((np.random.rand(nb_pre))< input_patterns[int(patterns[t])])*1
-        # set the membrane potential (vm) of the presynaptic neuron to emit a spike
-        # depending on the input pattern
+
+        # Set the membrane potential (vm) of the presynaptic neuron to emit a
+        # spike depending on the input pattern 
         pre_pop.g_vm = -60+(inp*30)
         simulate(1)
 
-    # get the weights from monitor
+    # Get the weights from monitor
     w = monW.get('w')
-    ##--- start plotting ---##
+
+    # Start plotting
     plt.figure()
     plt.imshow(np.squeeze(w).T)
     plt.xlabel('Number of epoch')
     plt.ylabel('Synapse index')
-    plt.savefig('weights_stable.png',bbox_inches='tight')
+    plt.savefig('Fig_4_stableW.png',bbox_inches='tight')
     plt.show()
     print("done")
 

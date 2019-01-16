@@ -48,7 +48,9 @@ projST2_V1 = Projection(
     target='Exc'
 ).connect_one_to_one(weights = 30.0)
 
-# create the projection between the two AdEx neurons
+"""
+Create the projection between the two AdEx neurons
+"""
 projV1_V1 = Projection(
     pre=popN1,
     post=popN2,
@@ -57,13 +59,13 @@ projV1_V1 = Projection(
 ).connect_one_to_one(weights = initW)
 
 # Parameter adjustments
-#projV1_V1.thetaLTD = -65.6
 projV1_V1.vmean = 70.0
-#projV1_V1.transmit = 1.0 # to activate the transmission over the synapse
 
 def run():
     "Runs the STDP window protocol"
-    # 31 spiking pairs for a time difference dt between a pre and post synaptic spike from -15 to 15 ms
+    print('Start the experiment to reproduce the STDP window')
+    # 31 spiking pairs for a time difference dt between a pre and post
+    # synaptic spike from -15 to 15 ms
     dt = np.linspace(-15,15,31)
     compile()
 
@@ -80,7 +82,9 @@ def run():
         projV1_V1.w = initW # set weight back to initial weight value
 
         inpPop1.spike_times = [16] # presynaptic neuron always spikes at t=16 ms
-        inpPop2.spike_times = [16+dt[i]] # add the time difference to estimate the postsynaptic spike time
+
+        # add the time difference to estimate the postsynaptic spike time
+        inpPop2.spike_times = [16+dt[i]]
         simulate(duration)
         d_w = m_d.get('w')
         delta_w = m_d.get('deltaW')
@@ -113,9 +117,9 @@ def run():
     plt.xticks(np.linspace(5,25,3),np.linspace(-10,10,3),fontsize=20)
     plt.xlabel('T (ms)',fontsize=25)
 
-    plt.savefig('windW.png',bbox_inches='tight', pad_inches = 0.1)
+    plt.savefig('Fig1_window.png',bbox_inches='tight', pad_inches = 0.1)
     plt.show()
-    print("done")
+    print("Done with the experiment.")
 
 if __name__ == "__main__":
     run()

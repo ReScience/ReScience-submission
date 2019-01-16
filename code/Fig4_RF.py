@@ -2,7 +2,7 @@
 Python script to reproduce the stable receptive field
 learning as in Clopath et al. 2010.
 The inputs are from the Olshausen (1996) image data set.
-Recive it from http://www.rctn.org/bruno/sparsenet/IMAGE.mat .
+Recive it from https://www.rctn.org/bruno/sparsenet/IMAGES.mat .
 The network consists of a Poisson input layer and one post synaptic neuron.
 The size of the input layer is determine by the input. As mentioned in the
 original publication, the input is a 16x16 pixel size patch, cutted out
@@ -20,11 +20,11 @@ import scipy.io as sio
 
 from net_homeostatic import *
 
-###global parameter###
+# Global parameters
 duration = 200#200 #ms presentation time per input patch
 s_Patch = 16 # patchsize in pixel
-n_patches = 200000 # number of patches to train
-maxFR = 80.0 # maximum firering rate
+n_patches = 300000 # number of patches to train
+maxFR = 50.0 # maximum firering rate
 #--------------- define the presynaptic neuron model --------------------------#
 """
 Because of the learning rule, we need a additional layer, that contains the
@@ -64,25 +64,34 @@ projInp_N = Projection(
     target='Exc',
     synapse = ffSyn
 ).connect_all_to_all(weights = Uniform(0.0,3.0))
+#------------------------------------------------------------------------------#
+def preprocessData(matData):
+    # function to split the prewhitened images into on and off counterparts
+    images = matData['IMAGES']
+    w,h,n_images = np.shape(images)
+    new_images = np.zeros((w,h,2,n_images))
+    for i in range(n_images):
+        new_images[images[:,:,i] > 0, 0, i] = images[images[:,:,i] > 0, i]
+        new_images[images[:,:,i] < 0, 1, i] = images[images[:,:,i] < 0, i]*-1
 
+    return(new_images)
+#------------------------------------------------------------------------------#
 def run():
+    print('Presenting natural scenes to learn V1 simple cell receptive fields')
     # compile command to create the ANNarchy network
     compile()
 
-    #projInp_Ten.vmean =postN.vmean
     projInp_N.transmit = 1.0
-    projInp_N.aLTP = 0.00016*0.55
-    projInp_N.aLTD = 0.00014*0.55
+    projInp_N.aLTP = 0.00016*0.60
+    projInp_N.aLTD = 0.00014*0.60
 
     # load input data set
-    matData = sio.loadmat('image_div.mat')
-    images = matData['IMAGES_div']
-
+    matData = sio.loadmat('IMAGES.mat')
+    images = preprocessData(matData)
     w,h,d,n_img = np.shape(images)
 
     monW = Monitor(projInp_N,'w',period=5000)
 
-    print('Start simulation')
     for p in range(n_patches):
         # ever 20 s make a normalization
         if ((p*duration)%20000)==0:
@@ -117,9 +126,9 @@ def run():
     plt.figure()
     plt.imshow(rf,interpolation='none',cmap=plt.get_cmap('gray'))
     #plt.colorbar()
-    plt.savefig('RF.png')
+    plt.savefig('Fig4_RF.png')
     plt.show()
-    print("done")
+    print("Done with the experiment.")
 
 if __name__ == "__main__":
     run()

@@ -202,7 +202,15 @@ the influence of spiking order to connectivity (Fig. 4a, down and Fig. 4b, down 
 and the emergence of receptive fields by presenting natural scenes (Fig. 7d in [@Clopath2010]).
 
 
-To reproduce the STDP learning window (see Fig. \ref{Fig_exp}-left), we create a list of discrete time points where the pre- or postsynaptic neurons should emit spikes. The presynaptic neuron spikes every $50$ ms. The postsynaptic neuron spikes in a range from $1$ ms to $15$ ms before
+To reproduce the voltage clamp experiment(see Fig. \ref{Fig_exp}-left),
+the presynaptic neuron spikes with a constant firing rate of $25 Hz$ for $50 ms$.
+The postsynaptic membrane potential is changed from a fixed value of
+$–80 mV$ to $0 mV$. We recorded for different values of the postsynaptic
+membrane potential the weight change.
+Resulting changes in the learning rule are implemented as mentioned in the original publication. (What changes ??)
+
+
+To reproduce the STDP learning window (see Fig. \ref{Fig_exp}-middle), we create a list of discrete time points where the pre- or postsynaptic neurons should emit spikes. The presynaptic neuron spikes every $50$ ms. The postsynaptic neuron spikes in a range from $1$ ms to $15$ ms before
 or after the presynaptic neuron. Both neurons are AdEx neurons and connected to one input neuron each to control the spiking behavior.
 As mentioned in the original publication the variable of the homeostatic mechanism is set to ($\bar{\bar{u}} = u_{ref}$).
 
@@ -446,12 +454,11 @@ Although most results are reproduced successfully, some experiments could not be
 All weight changes are shown relatively to the initial weight values, which are not shown in the original publication.
 Because of that, initial values are mainly found experimentally and are shown in the corresponding tables of parameters.
 
+**discuss the results as they are ***
+
 ## Voltage-Clamp experiment
 
-To reproduce the voltage clamp experiment, the postsynaptic membrane potential is changed from a fixed value of $–80$ mV to $0$ mV.
-Resulting changes in the learning rule are implemented as mentioned in the original publication.
-Furthermore, the presynaptic neuron spikes with a firing rate of $25$ Hz for $50$ ms.
-The results are shwon in Fig. \ref{Fig_exp}-left.
+The results are shown in Fig. \ref{Fig_exp}-left.
 The blue line represents the weight change with the standard parameter set for the visual cortex and
 the red line represents the weight change with the parameter set for the hippocampus, as mentioned in the original publication.
 
@@ -535,7 +542,7 @@ But, as mentioned in the original experimental paper by @Nevian2006, the graphs 
 In addition to the replication of experimental findings of pair-based and triplet STDP experiments,
 @Clopath2010 presented how the synaptic connectivity (emerging from the proposed learning rule) is influenced by the spiking behavior of the neurons.
 Fig. \ref{Fig_con}-left shows the obtained connectivity structure if neurons fire at different frequencies.
-The color scheme is similar to the original publication: weak connections (above $\frac{3}{4}$ of the maximum activity) are blue, trongly unidirectional connections are yellow while strong bidirectional connections are red.
+The color scheme is similar to the original publication: weak connections (above $\frac{3}{4}$ of the maximum activity) are blue, strongly unidirectional connections are yellow while strong bidirectional connections are red.
 Neurons with similarly high firing rates develop strong bidirectional connections, because they are often active at the same time.
 This suggests that learning is based on the correlation between the neuronal activities in a Hebbian manner.
 Weak connections are assigned to neurons with a low firing rate below $5$ Hz.

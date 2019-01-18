@@ -114,7 +114,7 @@ def run():
 
     # Start plotting
     plt.figure()
-    plt.imshow(np.squeeze(w).T)
+    plt.imshow(np.squeeze(w).T, cmap='jet')
     plt.xlabel('Number of epoch')
     plt.ylabel('Synapse index')
     plt.savefig('Fig_4_stableW.png',bbox_inches='tight')

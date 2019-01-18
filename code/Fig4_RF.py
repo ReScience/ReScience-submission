@@ -17,6 +17,7 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 from ANNarchy import *
 import scipy.io as sio
+import os
 
 from net_homeostatic import *
 
@@ -25,7 +26,8 @@ duration = 200#200 #ms presentation time per input patch
 s_Patch = 16 # patchsize in pixel
 n_patches = 300000 # number of patches to train
 maxFR = 50.0 # maximum firering rate
-#--------------- define the presynaptic neuron model --------------------------#
+
+# Presynaptic neuron model
 """
 Because of the learning rule, we need a additional layer, that contains the
 neccessary variables for the learning. This population is one to one connected
@@ -47,11 +49,13 @@ neuron = Neuron(parameters = params,
                 reset = """ g_vm = EL
                             state = 1""",
                 spike = """g_vm > VTrest""")
-#-----------------------population defintions----------------------------------#
+
+#Populations 
 inputPop = PoissonPopulation(geometry=(s_Patch,s_Patch,2),rates=maxFR)
 prePop = Population(geometry=(s_Patch,s_Patch,2),neuron=neuron)
 postN = Population(geometry=1,neuron=AdExNeuron)
-#-----------------------projection definitions---------------------------------#
+
+# Projections
 projInpt_Pre = Projection(
     pre = inputPop,
     post = prePop,
@@ -64,7 +68,7 @@ projInp_N = Projection(
     target='Exc',
     synapse = ffSyn
 ).connect_all_to_all(weights = Uniform(0.0,3.0))
-#------------------------------------------------------------------------------#
+
 def preprocessData(matData):
     # function to split the prewhitened images into on and off counterparts
     images = matData['IMAGES']
@@ -75,9 +79,10 @@ def preprocessData(matData):
         new_images[images[:,:,i] < 0, 1, i] = images[images[:,:,i] < 0, i]*-1
 
     return(new_images)
-#------------------------------------------------------------------------------#
+
 def run():
     print('Presenting natural scenes to learn V1 simple cell receptive fields')
+    
     # compile command to create the ANNarchy network
     compile()
 
@@ -131,4 +136,8 @@ def run():
     print("Done with the experiment.")
 
 if __name__ == "__main__":
-    run()
+    if os.path.isfile('IMAGES.mat'):
+        run()
+    else:
+        print('No IMAGES.mat found, please download the file from: https://www.rctn.org/bruno/sparsenet/IMAGES.mat')
+    

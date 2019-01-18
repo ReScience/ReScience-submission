@@ -53,14 +53,14 @@ The developers provide an extensive documentation with different examples (https
 
 **Individual experiments**
 
-* **ann_clamp.py:** Protocol for the voltage clamp experiment.
-* **ann_window.py:** Protocol for the classical STDP learning window.
-* **ann_pairing.py:** Protocol pairing repetition experiment.
-* **ann_burst.py:** Protocols for the burst spiking experiments.
-* **ann_temporalCode.py:** Protocol for the connection patterns, depending on spiking order.
-* **ann_rateCode_Poisson.py:**: Protocol for the connection patterns, depending on firing rate.
-* **ann_stable.py:** Protocol for emergence of stable weights by presenting random input.
-* **ann_RF.py:** Protocol for emergence of receptive fields, similar to them of simple cells in the primary visual cortex, by presenting natural scenes. Please not, that the image data set from Olshausen and Fields (1996) is required for this experiment. The Matlab file with the images must be in the same directory as this python script.
+* **Fig1_clamp.py:** Protocol for the voltage clamp experiment.
+* **Fig1_window.py:** Protocol for the classical STDP learning window.
+* **Fig1_pairing.py:** Protocol pairing repetition experiment.
+* **Fig2_burst.py:** Protocols for the burst spiking experiments.
+* **Fig3_temporalCode.py:** Protocol for the connection patterns, depending on spiking order.
+* **Fig3_rateCode_Poisson.py:**: Protocol for the connection patterns, depending on firing rate.
+* **Fig4_stableW.py:** Protocol for emergence of stable weights by presenting random input.
+* **Fig4_RF.py:** Protocol for emergence of receptive fields, similar to them of simple cells in the primary visual cortex, by presenting natural scenes. Please not, that the image data set from Olshausen and Fields (1996) is required for this experiment (can be found here: https://www.rctn.org/bruno/sparsenet/IMAGES.mat). The Matlab file with the images must be in the same directory as this python script.
 
 **Utilities**
 

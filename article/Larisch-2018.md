@@ -202,20 +202,20 @@ the influence of spiking order to connectivity (Fig. 4a, down and Fig. 4b, down 
 and the emergence of receptive fields by presenting natural scenes (Fig. 7d in [@Clopath2010]).
 
 
-To reproduce the voltage clamp experiment(see Fig. \ref{Fig_exp}-left),
+To reproduce the voltage clamp experiment,
 the presynaptic neuron spikes with a constant firing rate of $25 Hz$ for $50 ms$.
 The postsynaptic membrane potential is changed from a fixed value of
 $–80 mV$ to $0 mV$. We recorded for different values of the postsynaptic
 membrane potential the weight change.
-Resulting changes in the learning rule are implemented as mentioned in the original publication. (What changes ??)
+Resulting changes in the learning rule are implemented as mentioned in the original publication.
 
 
-To reproduce the STDP learning window (see Fig. \ref{Fig_exp}-middle), we create a list of discrete time points where the pre- or postsynaptic neurons should emit spikes. The presynaptic neuron spikes every $50$ ms. The postsynaptic neuron spikes in a range from $1$ ms to $15$ ms before
+To reproduce the STDP learning window, we create a list of discrete time points where the pre- or postsynaptic neurons should emit spikes. The presynaptic neuron spikes every $50$ ms. The postsynaptic neuron spikes in a range from $1$ ms to $15$ ms before
 or after the presynaptic neuron. Both neurons are AdEx neurons and connected to one input neuron each to control the spiking behavior.
 As mentioned in the original publication the variable of the homeostatic mechanism is set to ($\bar{\bar{u}} = u_{ref}$).
 
 
-For the repetition frequency experiment and the triplet experiment (see Fig. \ref{Fig_exp}-right),
+For the repetition frequency experiment and the triplet experiment,
 the number of pre- and postsynaptic spike pairs increases from a pair frequency of
 $0.1$ Hz to $50$ Hz. The time between a pre- and postsynaptic spike of a pair is
 $10$ ms.
@@ -239,7 +239,11 @@ For all three burst spiking experiments, the normal parameter set is used, and $
 To analyze the connectivity dependence on the number of spikes, a small network with ten interconnected AdEx neurons is built.
 Each neuron receives an input from one additional neuron, with Poisson-distributed spike patterns.
 The firing rate of each Poisson neuron is increased from $2$ Hz to $20$ Hz, influencing the firing rate of the 10 corresponding neurons in the network.
+To analyze how the temporal order of spiking influences the connectivity,
+the recurrent connected neurons receives input from neurons, they spiking $20 ms$
+one after another to realize a temporal spiking order of the ten recurrent neurons.
 To establish stable weights, the normal homeostatic mechanism is used.
+
 
 For the emergence of V1 simple-cell-like receptive fields, a network with one postsynaptic AdEx neuron and $16 \times 16 \times 2$ presynaptic neurons is used.
 As mentioned in the original publication [@Clopath2010], the activity of the presynaptic population depends on the pixel values of a $16 \times 16$ pixel sized patch,
@@ -454,15 +458,7 @@ Although most results are reproduced successfully, some experiments could not be
 All weight changes are shown relatively to the initial weight values, which are not shown in the original publication.
 Because of that, initial values are mainly found experimentally and are shown in the corresponding tables of parameters.
 
-**discuss the results as they are ***
-
-## Voltage-Clamp experiment
-
-The results are shown in Fig. \ref{Fig_exp}-left.
-The blue line represents the weight change with the standard parameter set for the visual cortex and
-the red line represents the weight change with the parameter set for the hippocampus, as mentioned in the original publication.
-
-## Pair-based and triplet STDP experiments
+**discuss the results as they are**
 
 \begin{figure}
 \includegraphics[width=0.325\textwidth]{./figures/Fig1_clamp.png}
@@ -476,6 +472,21 @@ the red line represents the weight change with the parameter set for the hippoca
          Pre-post pairs are the blue line and post-pre pairs the red line.}
 \label{Fig_exp}
 \end{figure}
+
+## Voltage-Clamp experiment
+
+The results are shown in Fig. \ref{Fig_exp}-left.
+The blue line represents the weight change with the standard parameter set for the visual cortex and
+the red line represents the weight change with the parameter set for the hippocampus, as mentioned in the original publication [@Clopath2010].
+The both dotted lines mark the $\theta_{-}$ and $\theta_{+}$ from the learning rule, with the standard data set.
+With the visual cortex data set (blue line), what is equal to the standard data set,
+the weight decreases slightly if the membrane potential
+exceeds the $\theta_{-}$ threshold and increases after it exceeds $\theta_{+}$.
+With the hippocampus data set (red line)
+($theta_{-} = -41.0 mV$, $theta_{+} = -38.0 mV$, $A_{LTD} =3.8*10^{-4}$,$A_{LTP} =0.2*10^{-4}$ ), the weight decreases at a postsynaptic membrane voltage value of $-41.0 mV$ and increases around $-20 mV$.
+This matches with the results in the @Clopath2010 publication.
+
+## Pair-based and triplet STDP experiments
 
 The classic pair-based spike timing learning window is presented in Fig. \ref{Fig_exp}-middle.
 If the postsynaptic neuron spikes before the presynaptic one, LTD occurs (red line).

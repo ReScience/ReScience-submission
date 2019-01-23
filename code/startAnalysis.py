@@ -14,10 +14,8 @@ def start():
     os.system('python Fig3_rateCode.py --clean')
     os.system('python Fig3_temporalCode.py --clean')
     os.system('python Fig4_stableW.py --clean')
-    if os.path.isfile('IMAGES.mat'):
-        os.system('python Fig4_RF.py --clean')
-    else:
-        print('No IMAGES.mat found, please download the file from: https://www.rctn.org/bruno/sparsenet/IMAGES.mat')
+    os.system('python Fig4_RF.py --clean')
+
     print('Done with running all the scripts.')
 if __name__ == "__main__":
     start()

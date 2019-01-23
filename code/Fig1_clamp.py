@@ -7,6 +7,7 @@ data in the visual cortex and the hippocampus.
 See Figure 1. h in Clopath et al. (2010).
 """
 from __future__ import print_function
+
 import numpy as np
 import matplotlib.pyplot as plt
 from ANNarchy import *
@@ -77,7 +78,6 @@ projC1_C2 = Projection(
 projC1_C2.transmit = 1.0 # to activate the transmission over the synapse
 
 def run():
-
     "Runs voltage clamp experiment."
     print('Start experiment to reproduce voltage clamp data.')
     # compile command to create the ANNarchy network
@@ -163,8 +163,10 @@ def run():
     plt.axvline(ixPL,color='k', linestyle='--')
     plt.text(ixPL,np.max(rec_W_hippo),r'$\theta_{+}$',fontsize=20)
     plt.savefig('Fig1_clamp.png',bbox_inches='tight')
+
     plt.show()
     print("Done with the experiment.")
 
 if __name__ == "__main__":
+
     run()

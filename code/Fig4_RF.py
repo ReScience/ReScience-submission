@@ -50,7 +50,7 @@ neuron = Neuron(parameters = params,
                             state = 1""",
                 spike = """g_vm > VTrest""")
 
-#Populations 
+#Populations
 inputPop = PoissonPopulation(geometry=(s_Patch,s_Patch,2),rates=maxFR)
 prePop = Population(geometry=(s_Patch,s_Patch,2),neuron=neuron)
 postN = Population(geometry=1,neuron=AdExNeuron)
@@ -82,7 +82,7 @@ def preprocessData(matData):
 
 def run():
     print('Presenting natural scenes to learn V1 simple cell receptive fields')
-    
+
     # compile command to create the ANNarchy network
     compile()
 
@@ -139,5 +139,6 @@ if __name__ == "__main__":
     if os.path.isfile('IMAGES.mat'):
         run()
     else:
-        print('No IMAGES.mat found, please download the file from: https://www.rctn.org/bruno/sparsenet/IMAGES.mat')
-    
+        print("""No IMAGES.mat found, please download the file from:
+        https://www.rctn.org/bruno/sparsenet/IMAGES.mat
+        and put in the code directory""")

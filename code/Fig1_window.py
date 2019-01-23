@@ -7,7 +7,6 @@ from __future__ import print_function
 import numpy as np
 import matplotlib.pyplot as plt
 from ANNarchy import *
-setup(dt=1)
 
 from net_fix import *
 

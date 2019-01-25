@@ -61,6 +61,9 @@ The developers provide an extensive documentation with different examples (https
 * **Fig3_rateCode_Poisson.py:**: Protocol for the connection patterns, depending on firing rate.
 * **Fig4_stableW.py:** Protocol for emergence of stable weights by presenting random input.
 * **Fig4_RF.py:** Protocol for emergence of receptive fields, similar to them of simple cells in the primary visual cortex, by presenting natural scenes. Please not, that the image data set from Olshausen and Fields (1996) is required for this experiment (can be found here: https://www.rctn.org/bruno/sparsenet/IMAGES.mat). The Matlab file with the images must be in the same directory as this python script.
+* **startAnalysis.py:** Script to call all the protocol-scripts after each other.
+Please note, at the end of each python script, a image is showing.
+Close the image to terminate the script and to start the next one.
 
 **Utilities**
 

@@ -81,7 +81,9 @@ def preprocessData(matData):
     return(new_images)
 
 def run():
-    print('Presenting natural scenes to learn V1 simple cell receptive fields')
+    print("""Presenting natural scenes to learn V1 simple cell receptive fields.
+Be aware: the calculation can took some time (up to 30 min).""")
+
 
     # compile command to create the ANNarchy network
     compile()
@@ -121,7 +123,8 @@ def run():
         # set the rates for the Poission input population
         inputPop.rates = (patch/maxV)*maxFR
         simulate(duration)
-
+        if (p%5000 == 0):
+            print(p, ' of ', n_patches,' presented')
     w = monW.get('w')
 
     # create the resulting RF out of the input weights

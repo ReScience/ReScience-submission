@@ -534,7 +534,7 @@ to produce the characteristic response features of the model.
 Overall,
 the reproduction effort went smooth, with a little help from the original authors
 in describing the threshold-detection algorithm used in the analysis of the model.
-The model now exists as a model using the Python interface for NEURON,
+The original model now exists as a model using the Python interface for NEURON,
 which hopefully makes it accessible to a wider audience.
 
 # References

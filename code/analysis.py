@@ -29,9 +29,11 @@ output_file = "robustness.txt"
 
 # Plotting parameters
 figure_width = 7.08
-titlesize = 12
-labelsize = 10
+titlesize = 13
+labelsize = 11
 fontsize = 8
+fontweight = "medium"
+plot_label_weight = "bold"
 figure_format = ".eps"
 label_x = -0.08
 label_y = 1.08
@@ -44,8 +46,6 @@ np.random.seed(10)
 
 # Set default options for plotting
 params = {
-    "text.usetex": True,
-    "text.latex.preamble": "\\usepackage{amsmath}, \\usepackage{amssymb}",
     "xtick.color": axis_grey,
     "ytick.color": axis_grey,
     "axes.edgecolor": axis_grey,
@@ -56,7 +56,8 @@ params = {
     "axes.spines.top": False,
     "axes.spines.right": False,
     "axes.linewidth": 1,
-    "axes.labelsize": labelsize
+    "axes.labelsize": labelsize,
+    "font.family": "serif",
 }
 
 
@@ -333,27 +334,37 @@ def figure_1():
     burst_axes = [ax4, ax5, ax6]
 
     ax1.plot(time_0, V_0)
-    title = r"$G_{\mathrm{BK}} = 0 \;\mathrm{nS} $"
-    ax1.set_title(title)
-    ax1.text(label_x, label_y, r"\textbf{A}", transform=ax1.transAxes, fontsize=titlesize)
+    title = r"$G_{\mathrm{BK}} = 0 $ nS"
+    ax1.set_title(title,  fontweight=fontweight)
+    ax1.text(label_x,
+             label_y,
+             "A",
+             transform=ax1.transAxes,
+             fontsize=titlesize,
+             fontweight=plot_label_weight)
 
     ax2.plot(time_05, V_05)
-    title = r"$G_{\mathrm{BK}} = 0.5 \;\mathrm{nS} $"
-    ax2.set_title(title)
-    ax2.text(label_x, label_y, r"\textbf{B}", transform=ax2.transAxes, fontsize=titlesize)
+    title = r"$G_{\mathrm{BK}} = 0.5 $ nS"
+    ax2.set_title(title, fontweight=fontweight)
+    ax2.text(label_x,
+             label_y,
+             "B",
+             transform=ax2.transAxes,
+             fontsize=titlesize,
+             fontweight=plot_label_weight)
 
     ax3.plot(time_1, V_1)
-    title = r"$G_{\mathrm{BK}} = 1 \;\mathrm{nS} $"
-    ax3.set_title(title)
-    ax3.set_xlabel("Time (s)", fontsize=labelsize)
-    ax3.text(label_x, label_y, r"\textbf{C}", transform=ax3.transAxes, fontsize=titlesize)
+    title = r"$G_{\mathrm{BK}} = 1$ nS"
+    ax3.set_title(title, fontweight=fontweight)
+    ax3.set_xlabel("Time (s)", fontsize=labelsize, fontweight=fontweight)
+    ax3.text(label_x, label_y, "C", transform=ax3.transAxes, fontsize=titlesize, fontweight=plot_label_weight)
 
 
     yticks = [-60, -40, -20, 0]
     xticks = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]
 
     for ax in voltage_axes:
-        ax.set_ylabel("V (mV)")
+        ax.set_ylabel("V (mV)", fontweight=fontweight)
         ax.set_ylim([-70, 10])
         ax.set_xlim([0, simulation_time_plot_scaled - discard_scaled])
         ax.set_yticks(yticks)
@@ -362,15 +373,15 @@ def figure_1():
 
 
     ax4.bar(bins_0[:-1], frequency_0, width=(bins_0[1] - bins_0[0]), align="edge")
-    ax4.text(0.1, 0.8, "BF = {}".format(burstiness_factor_0))
+    ax4.text(0.1, 0.8, "BF = {}".format(burstiness_factor_0), fontsize=labelsize)
 
     ax5.bar(bins_05[:-1], frequency_05, width=(bins_05[1] - bins_05[0]), align="edge")
-    ax5.text(0.1, 0.8, "BF = {:.2f}".format(burstiness_factor_05))
-    ax5.text(0.002, 0.4, "Spikes", color="tab:grey")
-    ax5.text(0.1, 0.4, "Bursts", color="tab:grey")
+    ax5.text(0.1, 0.8, "BF = {:.2f}".format(burstiness_factor_05), fontsize=labelsize)
+    ax5.text(0.002, 0.4, "Spikes", fontsize=8)
+    ax5.text(0.1, 0.4, "Bursts", fontsize=8)
 
     ax6.bar(bins_1[:-1], frequency_1, width=(bins_1[1] - bins_1[0]), align="edge")
-    ax6.text(0.1, 0.8, "BF = {:.2f}".format(burstiness_factor_1))
+    ax6.text(0.1, 0.8, "BF = {:.2f}".format(burstiness_factor_1), fontsize=labelsize)
 
     yticks = [0, 0.2, 0.4, 0.6, 0.8, 1]
     xticks = [0, 0.05, 0.1, 0.15, 0.2]
@@ -382,30 +393,40 @@ def figure_1():
         ax.set_xlim([0, .23])
         ax.set_yticks(yticks)
         ax.set_xticks(xticks)
-        ax.set_ylabel("Frequency")
+        ax.set_ylabel("Frequency", fontweight=fontweight)
         ax.tick_params(axis="both", which="major", labelsize=fontsize, labelcolor="black")
 
-    ax6.set_xlabel("Event duration (s)")
+    ax6.set_xlabel("Event duration (s)", fontweight=fontweight)
 
 
     ax7.plot(scaled_g_BKs, burstiness_factors_g_BK, marker=".")
-    ax7.set_xlabel(r"$G_{\mathrm{BK}}$ (nS)")
-    ax7.set_ylabel("Burstiness")
+    ax7.set_xlabel(r"$G_{\mathrm{BK}}$ (nS)", fontweight=fontweight)
+    ax7.set_ylabel("Burstiness", fontweight=fontweight)
     ax7.tick_params(axis="both", which="major", labelsize=fontsize, labelcolor="black")
     ax7.set_yticks(yticks)
     ax7.set_ylim([-0.05, 1.05])
 
 
     ax8.plot(scaled_tau_BK, burstiness_factors_tau_BK, marker=".")
-    ax8.set_xlabel(r"$\tau_{\mathrm{BK}}$ (ms)")
-    ax8.set_ylabel("Burstiness")
+    ax8.set_xlabel(r"$\tau_{\mathrm{BK}}$ (ms)", fontweight=fontweight)
+    ax8.set_ylabel("Burstiness", fontweight=fontweight)
     ax8.set_yticks(yticks)
     ax8.tick_params(axis="both", which="major", labelsize=fontsize, labelcolor="black")
     ax8.set_ylim([-0.05, 1.05])
     ax8.set_xlim([2, 10])
 
-    ax7.text(label_x, label_y, r"\textbf{D}", transform=ax7.transAxes, fontsize=titlesize)
-    ax8.text(label_x, label_y, r"\textbf{E}", transform=ax8.transAxes, fontsize=titlesize)
+    ax7.text(label_x,
+             label_y,
+             "D",
+             transform=ax7.transAxes,
+             fontsize=titlesize,
+             fontweight=plot_label_weight)
+    ax8.text(label_x,
+             label_y,
+             "E",
+             transform=ax8.transAxes,
+             fontsize=titlesize,
+             fontweight=plot_label_weight)
 
     plt.tight_layout()
 
@@ -543,30 +564,31 @@ def plot_figure_2(bins_0,
     ax2 = axes[1]
     ax3 = axes[2]
 
-    ax1.text(label_x, label_y, r"\textbf{A}", transform=ax1.transAxes, fontsize=titlesize)
-    ax2.text(label_x, label_y, r"\textbf{B}", transform=ax2.transAxes, fontsize=titlesize)
-    ax3.text(label_x, label_y, r"\textbf{C}", transform=ax3.transAxes, fontsize=titlesize)
+    increased_titlesize = titlesize + 2
+    ax1.text(label_x, label_y, "A", transform=ax1.transAxes, fontsize=increased_titlesize, fontweight="bold")
+    ax2.text(label_x, label_y, "B", transform=ax2.transAxes, fontsize=increased_titlesize, fontweight="bold")
+    ax3.text(label_x, label_y, "C", transform=ax3.transAxes, fontsize=increased_titlesize, fontweight="bold")
 
     ax1.bar(bins_0[:-1], binned_burstiness_factors_0, width=(bins_0[1] - bins_0[0]), align="edge")
-    title = r"$G_{\mathrm{BK}} = 0 \;\mathrm{nS} $"
-    ax1.set_title(title, fontsize=titlesize)
+    title = r"$G_{\mathrm{BK}} = 0$ nS"
+    ax1.set_title(title, fontsize=increased_titlesize, fontweight=fontweight)
 
     ax2.bar(bins_05[:-1], binned_burstiness_factors_05, width=(bins_05[1] - bins_05[0]), align="edge")
-    title = r"$G_{\mathrm{BK}} = 0.5 \;\mathrm{nS} $"
-    ax2.set_title(title, fontsize=titlesize)
+    title = r"$G_{\mathrm{BK}} = 0.5$ nS"
+    ax2.set_title(title, fontsize=increased_titlesize, fontweight=fontweight)
 
     ax3.bar(bins_1[:-1], binned_burstiness_factors_1, width=(bins_1[1] - bins_1[0]), align="edge")
-    title = r"$G_{\mathrm{BK}} =  1 \;\mathrm{nS} $"
-    ax3.set_title(title, fontsize=titlesize)
+    title = r"$G_{\mathrm{BK}} =  1$ nS"
+    ax3.set_title(title, fontsize=increased_titlesize, fontweight=fontweight)
 
     xticks = np.arange(0, 1.1, 0.2)
 
     for ax in [ax1, ax2, ax3]:
         ax.set_ylim([0, 450])
         ax.set_xticks(xticks)
-        ax.set_ylabel("Number of models")
-        ax.set_xlabel("Burstiness")
-        ax.tick_params(axis="both", which="major", labelsize=fontsize, labelcolor="black")
+        ax.set_ylabel("Number of models", fontweight=fontweight, fontsize=titlesize)
+        ax.set_xlabel("Burstiness", fontweight=fontweight, fontsize=titlesize)
+        ax.tick_params(axis="both", which="major", labelsize=labelsize, labelcolor="black")
 
 
     plt.tight_layout()
@@ -593,4 +615,4 @@ def figure_2():
 
 if __name__ == "__main__":
     figure_1()
-    # figure_2()
+    figure_2()

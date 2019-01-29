@@ -24,7 +24,9 @@ figure_width = 7.08
 titlesize = 12
 labelsize = 10
 fontsize = 8
-label_x = -0.08
+fontweight = "medium"
+plot_label_weight = "bold"
+label_x = -0.16
 label_y = 1.08
 figure_format = ".eps"
 
@@ -72,13 +74,11 @@ def plot_sobol(data, filename):
 
     set_style(style)
 
-    set_latex_font()
-    plt.rcParams.update({"axes.titlepad": 8})
+    plt.rcParams.update({"axes.titlepad": 8,
+                         "font.family": "serif"})
     fig, axes = plt.subplots(nrows=grid_y_size,
                              ncols=grid_x_size,
                              squeeze=False,
-                             sharex="col",
-                             sharey="row",
                              figsize=(figure_width, figure_width*0.8))
 
 
@@ -87,9 +87,9 @@ def plot_sobol(data, filename):
     ax = fig.add_subplot(111, zorder=-10)
     spines_color(ax, edges={"top": "None", "bottom": "None",
                             "right": "None", "left": "None"})
-    ax.tick_params(top=False, bottom=False, left=False, right=False, labelsize=fontsize,
+    ax.tick_params(top=False, bottom=False, left=False, right=False, labelsize=labelsize,
                    labelbottom=False, labelleft=False)
-    ax.set_ylabel("Total-order Sobol indices", labelpad=30, fontsize=labelsize)
+    ax.set_ylabel("Total-order Sobol indices", labelpad=35, fontsize=titlesize, fontweight=fontweight)
 
 
     width = 0.2
@@ -138,6 +138,7 @@ def plot_sobol(data, filename):
                       xlabels=xlabels,
                       nr_colors=len(data.uncertain_parameters),
                       index=index,
+                      palette="colorblind",
                       ax=ax,
                       style=style)
 
@@ -146,29 +147,31 @@ def plot_sobol(data, filename):
 
             ax.set_ylim([0, 1.15])
             ax.set_title(title, fontsize=titlesize)
-            ax.text(-0.08,
-                    1.08,
-                    "\\textbf{{{}}}".format(string.ascii_uppercase[i]),
+            ax.text(label_x,
+                    label_y,
+                    string.ascii_uppercase[i],
                     transform=ax.transAxes,
-                    fontsize=titlesize)
+                    fontsize=titlesize,
+                    fontweight=plot_label_weight)
 
-            ax.text(0.2,
+            ax.text(0.1,
                     0.9,
                     "Mean = {mean:.2{c}} {unit}".format(mean=mean,
                                                         c="e" if abs(mean) < 1e-2 else "f",
                                                         unit=unit),
                     transform=ax.transAxes,
-                    fontsize=labelsize)
+                    fontsize=labelsize,
+                    fontweight=fontweight)
 
-            ax.text(0.2,
+            ax.text(0.1,
                     0.8,
                     "Std. = {std:.2{c}} {unit}".format(std=std,
                                                        c="e" if abs(mean) < 1e-2 else "f",
                                                        unit=unit),
                     transform=ax.transAxes,
-                    fontsize=labelsize)
+                    fontsize=labelsize,
+                    fontweight=fontweight)
 
-            ax.tick_params(labelsize=fontsize)
         else:
             ax.axis("off")
 
@@ -346,15 +349,25 @@ def plot_exploration(original_g_BKs,
         The event durations when g_K and g_BK is changed.
     """
     set_style("seaborn-white")
-    set_latex_font()
+
+    plt.rcParams.update({"font.family": "serif", "axes.titlepad": 10})
 
     label_x = 0.05
     label_y = 0.95
 
+    increased_titlesize = titlesize + 4
+    increased_labelsize = labelsize + 2
+    increased_fontsize = fontsize + 1
+
     fig = plt.figure(figsize=(figure_width, 1.3*figure_width))
     ax1 = fig.add_subplot(2, 1, 1, projection='3d')
     ax2 = fig.add_subplot(2, 1, 2, projection='3d')
-    cmap = colors.ListedColormap(["tab:grey", "tab:blue", "tab:red"])
+
+    colorblind = [(0.00392156862745098, 0.45098039215686275, 0.6980392156862745),
+                  (0.8705882352941177, 0.5607843137254902, 0.0196078431372549),
+                  (0.00784313725490196, 0.6196078431372549, 0.45098039215686275)]
+
+    cmap = colors.ListedColormap(colorblind)
 
    # Plotting K
     x, y = np.meshgrid(original_g_Ks, original_g_BKs)
@@ -369,15 +382,34 @@ def plot_exploration(original_g_BKs,
                           ccount=nr_points_exploration)
 
 
-    ax1.set_xlabel(r"$G_\mathrm{K}$ (nS)", fontsize=labelsize)
-    ax1.set_ylabel(r"$G_\mathrm{BK}$ (nS)", fontsize=labelsize)
-    ax1.set_zlabel(r"Event duration (ms)", fontsize=labelsize)
-    ax1.set_title(r"$G_\mathrm{K}$", fontsize=titlesize)
-    ax1.text2D(label_x, label_y, r"\textbf{A}", transform=ax1.transAxes, fontsize=titlesize)
+    ax1.set_xlabel(r"$G_\mathrm{K}$ (nS)",
+                   fontsize=increased_labelsize,
+                   fontweight=fontweight,
+                   labelpad=10)
+    ax1.set_ylabel(r"$G_\mathrm{BK}$ (nS)",
+                   fontsize=increased_labelsize,
+                   fontweight=fontweight,
+                   labelpad=10)
+    ax1.set_zlabel("Event duration (ms)",
+                   fontsize=increased_labelsize,
+                   fontweight=fontweight,
+                  labelpad=10)
+    ax1.set_title("$G_\mathrm{K}$",
+                  fontsize=increased_titlesize,
+                  fontweight=fontweight)
+    ax1.text2D(label_x,
+               label_y,
+               "A",
+               transform=ax1.transAxes,
+               fontsize=increased_titlesize,
+               fontweight=plot_label_weight)
 
     ax1.set_xlim3d(min(original_g_Ks), max(original_g_Ks))
     ax1.set_ylim3d(min(original_g_BKs), max(original_g_BKs))
 
+    ax1.tick_params(axis="both",
+                    labelcolor="black",
+                    labelsize=increased_fontsize)
 
     # Plotting SK
     x, y = np.meshgrid(original_g_SKs, original_g_BKs)
@@ -391,14 +423,30 @@ def plot_exploration(original_g_BKs,
                           rcount=nr_points_exploration,
                           ccount=nr_points_exploration)
 
-    ax2.set_xlabel(r"$G_\mathrm{SK}$ (nS)", fontsize=labelsize)
-    ax2.set_ylabel(r"$G_\mathrm{BK}$ (nS)", fontsize=labelsize)
-    ax2.set_zlabel(r"Event duration (ms)", fontsize=labelsize)
-    ax2.set_title(r"$G_\mathrm{SK}$", fontsize=titlesize)
-    ax2.text2D(label_x, label_y, r"\textbf{B}", transform=ax2.transAxes, fontsize=titlesize)
+    ax2.set_xlabel(r"$G_\mathrm{SK}$ (nS)",
+                   fontsize=increased_labelsize,
+                   fontweight=fontweight,
+                   labelpad=10)
+    ax2.set_ylabel(r"$G_\mathrm{BK}$ (nS)",
+                   fontsize=increased_labelsize,
+                   fontweight=fontweight,
+                   labelpad=10)
+    ax2.set_zlabel("Event duration (ms)",
+                   fontsize=increased_labelsize,
+                   fontweight=fontweight,
+                   labelpad=10)
+    ax2.set_title(r"$G_\mathrm{SK}$", fontsize=increased_titlesize)
+    ax2.text2D(label_x,
+               label_y,
+               "B",
+               transform=ax2.transAxes,
+               fontsize=increased_titlesize,
+               fontweight=plot_label_weight)
 
     ax2.set_xlim3d(min(original_g_SKs), max(original_g_SKs))
     ax2.set_ylim3d(min(original_g_BKs), max(original_g_BKs))
+
+    ax2.tick_params(axis="both", labelcolor="black", labelsize=increased_fontsize)
 
     plt.tight_layout(pad=2.5)
     plt.savefig(os.path.join(figure_folder, "durations" + figure_format))

@@ -413,7 +413,7 @@ However, it also had a relatively high sensitivity to $G_{\mathrm{BK}}$,
 in line with what was found in the previous study [@tabak2011].
 
 The average afterhyperpolarization depth was in turn
-most most sensitive to $G_{\mathrm{Ca}}$ (Figure @fig:sensitivity\textbf{C}).
+most sensitive to $G_{\mathrm{Ca}}$ (Figure @fig:sensitivity\textbf{C}).
 This may seem counterintuitive,
 as $I_{\mathrm{Ca}}$ is not a hyperpolarizing current.
 However,
@@ -470,17 +470,17 @@ changing two parameters at the time,
 so the higher-order interactions included in the total-order Sobol
 sensitivity indices are absent.
 
-![The average duration of events while varying $G_\mathrm{BK}$ and either \textbf{A} $G_{\textrm{K}}$ or \textbf{B} $G_{\textrm{SK}}$. The areas in parameter space where the average duration of the events is longer than the burstiness factor threshold are in red, while the areas where the average duration is below this threshold are in blue. Areas in grey produce no events and the average duration is then set to -1 for visualization purposes.](figures/durations.eps){#fig:durations}
+![The average duration of events while varying $G_\mathrm{BK}$ and either \textbf{A} $G_{\textrm{K}}$ or \textbf{B} $G_{\textrm{SK}}$. The areas in parameter space where the average duration of the events is longer than the burstiness factor threshold are in green, while the areas where the average duration is below this threshold are in yellow. Areas in blue produce no events and the average duration is then set to -1 for visualization purposes.](figures/durations.eps){#fig:durations}
 
 Figure @fig:durations\textbf{A} shows the regions in the
 $G_{\mathrm{BK}}$/$G_{\mathrm{K}}$ parameter plane where the model produced
-regular spikes (blue) and bursts (red).
+regular spikes (yellow) and bursts (green).
 For low ($<$ 2 nS) values of $G_{\mathrm{K}}$,
 the cell was bursting regardless of the value of $G_{\mathrm{BK}}$.
 Hence, for low values of $G_{\mathrm{K}}$,
 the burstiness of the cell was insensitive to $G_{\mathrm{BK}}$.
 In comparison, a sufficiently large change in $G_{\mathrm{K}}$
-could switch the cell between a regular and bursty state for any (fixed) value of $G_{\mathrm{BK}}$,
+could switch the cell between a regular and bursty state for any (fixed) value of $G_{\mathrm{BK}}$.
 These results thus fit well with the sensitivity analysis in Figure @fig:sensitivity\textbf{D},
 which showed that the burstiness was more sensitive to $G_{\mathrm{K}}$ than to $G_{\mathrm{BK}}$.
 
@@ -535,6 +535,6 @@ Overall,
 the reproduction effort went smooth, with a little help from the original authors
 in describing the threshold-detection algorithm used in the analysis of the model.
 The model now exists as a model using the Python interface for NEURON,
-which hopefully makes the model accessible to a wider audience.
+which hopefully makes it accessible to a wider audience.
 
 # References

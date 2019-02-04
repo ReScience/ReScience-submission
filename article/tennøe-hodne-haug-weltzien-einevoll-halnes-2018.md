@@ -145,7 +145,7 @@ $I_{\mathrm{K}}$, $I_{\mathrm{BK}}$, and $I_{\mathrm{K}}$.
 The original implementation used the total membrane capacitance (units pF)
 and total membrane conductances (units nS),
 while the NEURON simulator requires these entities to be specified per membrane
-area with units $\mu \textrm{F/cm}^2$ and S/cm\textsuperscript{2},
+area with units $\mu \mathrm{F/cm}^2$ and S/cm\textsuperscript{2},
 respectively.
 NEURON also requires that the membrane area is defined.
 To get the parameters on the form required by NEURON we defined an arbitrary
@@ -197,31 +197,31 @@ as described by the original publication.
 Simulations with noise were run with a fixed time step of `dt = 0.01` ms,
 which is the same time step used in the original publication.
 When performing the sensitivity analysis,
-the noise amplitude was set to zero ($A_{\textrm{noise}} = 0$),
+the noise amplitude was set to zero ($A_{\mathrm{noise}} = 0$),
 and the simulations were run using adaptive time steps.
 
 We found one discrepancy between the parameters listed in the original
 publication and the values found in the original source code.
-The maximum conductance of K\textsuperscript{+} channels ($G_{\textrm{K}}$)
+The maximum conductance of K\textsuperscript{+} channels ($G_{\mathrm{K}}$)
 was listed as 3.2 nS in the original publication,
 while the value used in the original source code was 3 nS.
-Both values were tested and $G_{\textrm{K}} = 3$ nS gave results most similar
+Both values were tested and $G_{\mathrm{K}} = 3$ nS gave results most similar
 to the results in the original publication.
-We therefore decided to use $G_{\textrm{K}} = 3$ nS instead of the value listed
+We therefore decided to use $G_{\mathrm{K}} = 3$ nS instead of the value listed
 in the original publication.
 
 
 Tabak                 Value       Unit                     NEURON             Value                 Unit
 --------------------- ----------- -----------------------  ------------------ --------------------- -------------------------------------------------------------
                                                            `A`                $3.14 \cdot 10^{-6}$  cm\textsuperscript{2}
-C                     10          pF                       `c`                1.6                   $\mu \textrm{F/cm}^2$
-$G_{\textrm{Ca}}$     2           nS                       `g_Ca`             $6.37 \cdot 10^{-4}$  S/cm\textsuperscript{2}
-$G_{\textrm{K}}$      3           nS                       `g_K`              $9.55 \cdot 10^{-4}$  S/cm\textsuperscript{2}
-$G_{\textrm{BK}}$     2           nS                       `g_BK`             $0$                   S/cm\textsuperscript{2}
-$G_{\textrm{SK}}$     2           nS                       `g_SK`             $6.37 \cdot 10^{-4}$  S/cm\textsuperscript{2}
-$G_{\textrm{l}}$      0.2         nS                       `g_l`              $6.37 \cdot 10^{-5}$  S/cm\textsuperscript{2}
-$\alpha$              0.0015      $\mu \textrm{M/fC}^2$    `alpha`            $4.71 \cdot 10^{-3}$  $\textrm{mM} \cdot \textrm{cm}^2 \textrm{/} \mu \textrm{C}$
-$A_{\textrm{noise}}$  4           pA                       `noise_amplitude`  $0.004$               nA
+C                     10          pF                       `c`                1.6                   $\mu \mathrm{F/cm}^2$
+$G_{\mathrm{Ca}}$     2           nS                       `g_Ca`             $6.37 \cdot 10^{-4}$  S/cm\textsuperscript{2}
+$G_{\mathrm{K}}$      3           nS                       `g_K`              $9.55 \cdot 10^{-4}$  S/cm\textsuperscript{2}
+$G_{\mathrm{BK}}$     2           nS                       `g_BK`             $0$                   S/cm\textsuperscript{2}
+$G_{\mathrm{SK}}$     2           nS                       `g_SK`             $6.37 \cdot 10^{-4}$  S/cm\textsuperscript{2}
+$G_{\mathrm{l}}$      0.2         nS                       `g_l`              $6.37 \cdot 10^{-5}$  S/cm\textsuperscript{2}
+$\alpha$              0.0015      $\mu \mathrm{M/fC}^2$    `alpha`            $4.71 \cdot 10^{-3}$  $\mathrm{mM} \cdot \mathrm{cm}^2 \mathrm{/} \mu \mathrm{C}$
+$A_{\mathrm{noise}}$  4           pA                       `noise_amplitude`  $0.004$               nA
 --------------------- ----------- -----------------------  ------------------ --------------------- -------------------------------------------------------------
 
 Table: The parameter values in Tabak et al. [@tabak2011] that were converted from currents and capacitance to currents and capacitance per membrane area due to requirements by the NEURON simulator. The original model parameter values are denoted Tabak while the parameter values in the reimplemented model are denoted NEURON, with names as used in the model implementation. {#tbl:parameters}
@@ -257,8 +257,8 @@ ended, that event was discarded.
 Additionally,
 we required that events have an amplitude of at least 10 mV.
 This prevents the problem where the normalization step leads to detecting false
-events with an amplitude less than 1 mv in cases where the model does not generate
-any events and instead exhibits small (much less than 1 mv) fluctuations around
+events with an amplitude less than 1 mV in cases where the model does not generate
+any events and instead exhibits small (much less than 1 mV) fluctuations around
 a steady state.
 
 We used Uncertainpy to detect events, as the described threshold-detection
@@ -306,9 +306,9 @@ quantification and sensitivity analysis.
 This enabled us to quantify how sensitive salient response properties of the
 model is to changes in the various parameters.
 In the sensitivity analysis,
-the four conductances $G_{\textrm{Ca}}$, $G_{\textrm{K}}$, $G_{\textrm{SK}}$,
-and $G_{\textrm{l}}$ where assigned uniform distributions within $\pm 50\%$
-of their original values. $G_{\textrm{BK}}$,
+the four conductances $G_{\mathrm{Ca}}$, $G_{\mathrm{K}}$, $G_{\mathrm{SK}}$,
+and $G_{\mathrm{l}}$ were assigned uniform distributions within $\pm 50\%$
+of their original values. $G_{\mathrm{BK}}$,
 which had no default value in the original model,
 was given a uniform distribution between 0 and 1 nS as this was the parameter
 range explored in the original study.
@@ -317,7 +317,7 @@ We use polynomial chaos with the point collocation method
 In the sensitivity analysis,
 we wanted all the variance in the simulation
 outcome to reflect parameter variations,
-and the random noise was therefore turned off by setting $A_{\textrm{noise}} = 0$.
+and the random noise was therefore turned off by setting $A_{\mathrm{noise}} = 0$.
 
 We calculated the uncertainty and sensitivity of the five features of the model:
 
@@ -337,8 +337,8 @@ Some of the outcomes from the sensitivity analysis were unexpected
 and were explored further by varying selected parameters and documenting
 how these variations affected the average event duration and burstiness factor
 of the model.
-The parameters varied in this additional analysis were $G_{\textrm{BK}}$,
-$G_{\textrm{SK}}$, and $G_{\textrm{K}}$,
+The parameters varied in this additional analysis were $G_{\mathrm{BK}}$,
+$G_{\mathrm{SK}}$, and $G_{\mathrm{K}}$,
 all of which were varied within the range used in the uncertainty analysis.
 
 
@@ -349,7 +349,7 @@ in Tabak et al. [@tabak2011].
 The remaining results in the original publication were experimental results,
 and therefore outside the scope of this reproduction.
 
-The results shown in Figure @fig:figure1 corresponds well to those in
+The results shown in Figure @fig:figure1 correspond well to those in
 Figure 1 of the original publication.
 The original model and the reproduced version showed the same behavior when
 increasing $G_\mathrm{BK}$.
@@ -358,7 +358,7 @@ an exact replication could not be expected.
 
 ![Model predictions for the effect of various $G_\mathrm{BK}$ conductances on burstiness. \textbf{A}-\textbf{C} Left, membrane potential of the model. Right, distribution of event durations in the time interval from 1 to 5 s (of the 50 s simulated). The grey line indicates the threshold for what is considered a spike and what is considered a burst, and BF denotes the burstiness factor. \textbf{D} The burstiness factor increased with $G_\mathrm{BK}$. \textbf{E} The burstiness factor decreased with $\tau_\mathrm{BK}$.](figures/figure_1.eps){#fig:figure1}
 
-The results shown in Figure @fig:figure2 corresponds well to those in Figure 2
+The results shown in Figure @fig:figure2 correspond well to those in Figure 2
 of the original publication.
 The behavior we observe is similar to the behavior in the original publication.
 When increasing $G_\mathrm{BK}$ the model went from having a low burstiness factor
@@ -383,7 +383,7 @@ or due to underlying differences between the NEURON and XPP implementations
 while the XPP implementation uses forward Euler).
 
 
-![Robustness of the burstiness of the model for three values of $G_{\mathrm{BK}}$ when changing $G_{\textrm{Ca}}$, $G_{\textrm{K}}$, $G_{\textrm{SK}}$, and $G_{\textrm{l}}$ uniformly within $\pm 50\%$ of their original values. \textbf{A} For $G_{\mathrm{BK}} \rightarrow 0$ nS, $67.5\%$ of the active models were spikers (burstiness factor $< 0.3$). \textbf{B} For $G_{\mathrm{BK}} \rightarrow 0.5$ nS, $33.8\%$ were spikers. \textbf{C} For $G_{\mathrm{BK}} \rightarrow 1$ nS, only $4.4\%$ were spikers.](figures/figure_2.eps){#fig:figure2}
+![Robustness of the burstiness of the model for three values of $G_{\mathrm{BK}}$ when changing $G_{\mathrm{Ca}}$, $G_{\mathrm{K}}$, $G_{\mathrm{SK}}$, and $G_{\mathrm{l}}$ uniformly within $\pm 50\%$ of their original values. \textbf{A} For $G_{\mathrm{BK}} \rightarrow 0$ nS, $67.5\%$ of the active models were spikers (burstiness factor $< 0.3$). \textbf{B} For $G_{\mathrm{BK}} \rightarrow 0.5$ nS, $33.8\%$ were spikers. \textbf{C} For $G_{\mathrm{BK}} \rightarrow 1$ nS, only $4.4\%$ were spikers.](figures/figure_2.eps){#fig:figure2}
 
 
 
@@ -462,15 +462,15 @@ Figure @fig:sensitivity\textbf{D} and \textbf{E} is presented below.
 
 To explore the relationship between the results in
 Figure @fig:sensitivity\textbf{D} and \textbf{E},
-we examined the effects of varying $G_\mathrm{BK}$, $G_{\textrm{K}}$,
-and $G_{\textrm{SK}}$ on the burstiness
+we examined the effects of varying $G_\mathrm{BK}$, $G_{\mathrm{K}}$,
+and $G_{\mathrm{SK}}$ on the burstiness
 and the average duration of events (Figure @fig:durations).
 It should be noted that this figure only shows how the model responds when
 changing two parameters at the time,
 so the higher-order interactions included in the total-order Sobol
 sensitivity indices are absent.
 
-![The average duration of events while varying $G_\mathrm{BK}$ and either \textbf{A} $G_{\textrm{K}}$ or \textbf{B} $G_{\textrm{SK}}$. The areas in parameter space where the average duration of the events is longer than the burstiness factor threshold are in green, while the areas where the average duration is below this threshold are in yellow. Areas in blue produce no events and the average duration is then set to -1 for visualization purposes.](figures/durations.eps){#fig:durations}
+![The average duration of events while varying $G_\mathrm{BK}$ and either \textbf{A} $G_{\mathrm{K}}$ or \textbf{B} $G_{\mathrm{SK}}$. The areas in parameter space where the average duration of the events is longer than the burstiness factor threshold are in green, while the areas where the average duration is below this threshold are in yellow. Areas in blue produce no events and the average duration is then set to -1 for visualization purposes.](figures/durations.eps){#fig:durations}
 
 Figure @fig:durations\textbf{A} shows the regions in the
 $G_{\mathrm{BK}}$/$G_{\mathrm{K}}$ parameter plane where the model produced
@@ -532,7 +532,7 @@ different analysis methods, which provided additional insight into how different
 membrane mechanisms interact
 to produce the characteristic response features of the model.
 Overall,
-the reproduction effort went smooth, with a little help from the original authors
+the reproduction effort went smoothly, with a little help from the original authors
 in describing the threshold-detection algorithm used in the analysis of the model.
 The original model now exists as a model using the Python interface for NEURON,
 which hopefully makes it accessible to a wider audience.

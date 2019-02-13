@@ -11,14 +11,17 @@ import numpy as np
 import neuron
 nrn = neuron.h
 
-# time step
-# This can be changed to dt = 0.25 to speed up the model,
-# without large qualitative changes in the results
-dt = 0.01 # ms
+# Values used in the original publication
+G_BK = 0
+G_l = 0.2
+G_K = 3
+G_Ca = 2
+G_SK = 2
+C = 10
+Alpha = 0.0015
 
-A = 3.1415927e-6 # cm^2
 
-def scale_conductance(G_x):
+def scale_conductance(G_x, A=3.1415927e-6):
     """
     Rescale the conductances from from Tabak et. al. 2011 (nS) to the conductances
     required by neuron (S/cm^2).
@@ -27,29 +30,101 @@ def scale_conductance(G_x):
     ----------
     G_x : {float, int}
         Conductance from Tabak et. al. 2011 in nS.
+    A : float, optional
+        Area of the neuron cell, in cm^2. Default is 3.1415927e-6.
 
     Returns
     -------
     g_x_NEURON : {float, int}
-        Conductance scaled to what neuron requires (S/cm^2). The cell has an area
-        of 3.1415927e-6 cm^2.
-
-    Notes
-    -----
-    Area of neuron cell: 3.1415927e-6 cm^2
+        Conductance scaled to what neuron requires (S/cm^2).
     """
     g_x_NEURON = G_x*1e-9/A
 
     return g_x_NEURON
 
 
-c = 10*1e-6/A
-alpha = 0.0015*A*10**6
 
-g_l_scaled = scale_conductance(0.2)
-g_K_scaled = scale_conductance(3)
-g_Ca_scaled = scale_conductance(2)
-g_SK_scaled = scale_conductance(2)
+def scale_capacitance(C, A=3.1415927e-6):
+    """
+    Rescale the capacitance from from Tabak et. al. 2011 (pF) to the capacitance
+    required by neuron (micro F/cm^2).
+
+    Parameters
+    ----------
+    C : {float, int}
+        Capacitance from Tabak et. al. 2011 in pF.
+    A : float, optional
+        Area of the neuron cell, in cm^2. Default is 3.1415927e-6.
+
+    Returns
+    -------
+    c_NEURON : {float, int}
+        Conductance scaled to what neuron requires (micro F/cm^2).
+    """
+
+    c_NEURON = C*1e-6/A
+
+    return c_NEURON
+
+
+def scale_alpha(alpha, A=3.1415927e-6):
+    """
+    Rescale the conductances from from Tabak et. al. 2011 (micro M/(fC^2)) to the conductances
+    required by neuron (mM cm^2/(micro C)).
+
+    Parameters
+    ----------
+    alpha : {float, int}
+        alpha from Tabak et. al. 2011 in micro M/(fC^2).
+    A : float, optional
+        Area of the neuron cell, in cm^2. Default is 3.1415927e-6.
+
+    Returns
+    -------
+    alpha_NEURON : {float, int}
+        alpha scaled to what neuron requires (mM cm^2/(micro C)).
+    """
+
+    alpha_NEURON = alpha*A*10**6
+
+    return alpha_NEURON
+
+
+def scale_tabak(A=3.1415927e-6):
+    """
+    Rescale all values from Tabak et. al. 2011 to the values  required by neuron.
+
+    Parameters
+    ----------
+    A : float, optional
+        Area of the neuron cell, in cm^2. Default is 3.1415927e-6.
+
+    Returns
+    -------
+    parameters : dict
+        A dictionary with all parameters scaled to the correct area.
+    """
+    parameters = {
+        "g_BK": scale_conductance(G_BK, A),
+        "g_l": scale_conductance(G_l, A),
+        "g_K": scale_conductance(G_K, A),
+        "g_Ca": scale_conductance(G_Ca, A),
+        "g_SK": scale_conductance(G_SK, A),
+        "c": scale_capacitance(C, A),
+        "alpha": scale_alpha(Alpha, A)
+    }
+
+    return parameters
+
+
+# Default scaled values
+g_l_scaled = scale_conductance(G_l)
+g_K_scaled = scale_conductance(G_K)
+g_Ca_scaled = scale_conductance(G_Ca)
+g_SK_scaled = scale_conductance(G_SK)
+
+c_scaled = scale_capacitance(C)
+alpha_scaled = scale_alpha(Alpha)
 
 
 def create_soma(g_l=g_l_scaled,
@@ -58,7 +133,10 @@ def create_soma(g_l=g_l_scaled,
                 g_Ca=g_Ca_scaled,
                 g_SK=g_SK_scaled,
                 g_BK=0,
-                tau_BK=5):
+                tau_BK=5,
+                c=c_scaled,
+                alpha=alpha_scaled,
+                A=3.1415927e-6):
     """
     Create the soma of a neuron.
 
@@ -81,17 +159,28 @@ def create_soma(g_l=g_l_scaled,
         The maximal conductance of BK channels, in S/cm^2. Default is 0 S/cm^2.
     tau_BK : float, optional
         Time constant of the BK channel, in ms. Default is 5 ms.
+    alpha : {float, int}
+        alpha in mM cm^2/(micro C), converts incoming current to molar
+        concentration. Default is 4.71e-3.
+    C : {float, int}
+        Capacitance in (micro F/cm^2). Default is 1.6.
+    A : float, optional
+        Area of the neuron cell, in cm^2. Default is 3.1415927e-6.
 
     Returns
     -------
     soma : soma NEURON object
         The soma NEURON object.
     """
+    # New diameter and length, assuming both are equal
+    L = np.sqrt(A/3.1415927)*1e4
+
     nrn('forall delete_section()')
     soma = nrn.Section('soma')
-    soma.L = 10                            # um
-    soma.diam = 10                         # um
+    soma.L = L                            # um
+    soma.diam = L                         # um
     soma.nseg = 1
+
 
     for sec in nrn.allsec():
         sec.insert('pas')
@@ -149,7 +238,7 @@ def insert_current_clamp(input_site, duration=5000, delay=0, amplitude=0):
     return stim
 
 
-def run_simulation(soma, simulation_time=5000, noise_amplitude=0):
+def run_simulation(soma, simulation_time=5000, noise_amplitude=0, dt=0.01):
     """
     Runs the NEURON simulation.
 
@@ -165,6 +254,9 @@ def run_simulation(soma, simulation_time=5000, noise_amplitude=0):
         The amplitude of the noise added to the model, in nA. If 0, no noise is added.
         Note that the model uses adaptive timesteps if there is no noise,
         and fixed timesteps with dt=0.01 if there is noise. Default is 0.
+    dt : float, optional
+        Time step of the simulation. Only used when there is noise,
+        otherwise adaptive time steps is used. Default is 0.01.
 
     Returns
     -------
@@ -240,10 +332,14 @@ def tabak(g_l=g_l_scaled,
           g_SK=g_SK_scaled,
           g_BK=0,
           tau_BK=5,
+          c=c_scaled,
+          alpha=alpha_scaled,
           simulation_time=5000,
           noise_amplitude=0,
           discard=0,
-          stimulus_amplitude=0):
+          stimulus_amplitude=0,
+          dt=0.01,
+          A=3.1415927e-6):
     """
     Neuron reproduction of the model by Tabak et al. 2011.
 
@@ -266,6 +362,11 @@ def tabak(g_l=g_l_scaled,
         The maximal conductance of BK channels, in S/cm^2. Default is 0 S/cm^2.
     tau_BK : float, optional
         Time constant of the BK channel, in ms. Default is 5 ms.
+    alpha : {float, int}
+        alpha in mM cm^2/(micro C), converts incoming current to molar
+        concentration. Default is 4.71e-3.
+    C : {float, int}
+        Capacitance in (micro F/cm^2). Default is 1.6.
     discard : {float, int}, optional
         The first ms of the simulation to be discarded. Default is 0 ms.
     simulation_time : {float, int}, optional
@@ -277,6 +378,11 @@ def tabak(g_l=g_l_scaled,
         Original Tabak model has `noise_amplitude` = 0.004.
     stimulus_amplitude : float, optional
         The amplitude of the stimulus added to the model, in nA. Default is 0.
+    dt : float, optional
+        Time step of the simulation. Only used when there is noise,
+        otherwise adaptive time steps is used. Default is 0.01.
+    A : float, optional
+        Area of the neuron cell, in cm^2. Default is 3.1415927e-6.
 
     Returns
     -------
@@ -291,8 +397,10 @@ def tabak(g_l=g_l_scaled,
                        g_Ca=g_Ca,
                        g_SK=g_SK,
                        g_BK=g_BK,
-                       tau_BK=tau_BK)
-
+                       tau_BK=tau_BK,
+                       c=c,
+                       alpha=alpha,
+                       A=A)
 
     stim = insert_current_clamp(soma(0.5),
                                 duration=simulation_time,
@@ -300,7 +408,8 @@ def tabak(g_l=g_l_scaled,
 
     time, voltage = run_simulation(soma,
                                    simulation_time=simulation_time,
-                                   noise_amplitude=noise_amplitude)
+                                   noise_amplitude=noise_amplitude,
+                                   dt=dt)
 
     return time[time > discard], voltage[time > discard]
 

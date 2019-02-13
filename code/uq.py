@@ -14,6 +14,7 @@ from matplotlib import colors
 from tqdm import tqdm
 
 from tabak import scale_conductance
+from tabak import G_l, G_K, G_SK, G_Ca
 from burstiness import burstiness_factor, duration, min_spike_amplitude
 
 from uncertainpy.plotting.prettyplot.prettyplot import prettyBar, set_latex_font, set_style, spines_color
@@ -487,10 +488,10 @@ def perform_uncertainty_analysis():
     data : uncertainpy.Data object
         The results from the uncertainty quantification.
     """
-    parameters = {"g_K": scale_conductance(3),
-                  "g_Ca": scale_conductance(2),
-                  "g_SK": scale_conductance(2),
-                  "g_l": scale_conductance(0.2),
+    parameters = {"g_K": scale_conductance(G_K),
+                  "g_Ca": scale_conductance(G_Ca),
+                  "g_SK": scale_conductance(G_SK),
+                  "g_l": scale_conductance(G_l),
                   "g_BK": scale_conductance(0.67)} # Temporary value
 
     parameters = un.Parameters(parameters)

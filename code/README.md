@@ -65,6 +65,15 @@ python uq.py
 
 This takes around 20 minutes on a workstation computer.
 
+To examine the effect of different timestep and area run:
+
+```
+python difference.py
+```
+
+This takes around 60 hours on a workstation computer.
+
+
 # Content
 
 The content of this folder is:
@@ -74,6 +83,7 @@ The content of this folder is:
 * `burstines.py` - contains the functions for calculating the burstiness.
 * `analysis.py` - contains the original analysis of the model and recreates Figure 1 and 2 from the original publication.
 * `uq.py` - contains the uncertainty analysis and parameter exploration.
+* `difference.py` - contains the examination of the timestep and area.
 
 
 # Platform and package specifications

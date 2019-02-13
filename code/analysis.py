@@ -9,7 +9,8 @@ import matplotlib.pyplot as plt
 
 from tqdm import tqdm
 
-from tabak import scale_conductance, tabak
+from tabak import scale_conductance, tabak, scale_capacitance, scale_alpha, scale_tabak
+from tabak import G_l, G_K, G_SK, G_Ca, C, Alpha
 from burstiness import burstiness, duration, burst_threshold
 
 
@@ -21,6 +22,8 @@ simulation_time_plot = 15000   # ms
 
 robustness_reruns = 512        # From original article
 
+A = 3.1415927e-6
+dt = 0.01
 
 # Equivalent to ../article/figures
 figure_folder = os.path.join(os.pardir, "article", "figures")
@@ -115,12 +118,18 @@ def change_g_BK():
     """
     G_BKs = np.array([0, 0.2, 0.4, 0.5, 0.6, 0.8, 1])
 
-    g_BKs = scale_conductance(G_BKs)
+    g_BKs = scale_conductance(G_BKs, A)
+
+    parameters = scale_tabak(A)
+    del parameters["g_BK"]
 
     burstiness_factors = []
 
     for g_BK in g_BKs:
-        bins, frequency, burstiness_factor = calculate_frequency_bf(g_BK=g_BK)
+        bins, frequency, burstiness_factor = calculate_frequency_bf(g_BK=g_BK,
+                                                                    A=A,
+                                                                    dt=dt,
+                                                                    **parameters)
         burstiness_factors.append(burstiness_factor)
 
     return G_BKs, burstiness_factors
@@ -145,38 +154,57 @@ def change_tau_BK():
     tau_BKs = np.array([2, 4, 5, 6, 7, 8, 10])
 
     burstiness_factors = []
-    g_BK = scale_conductance(1)
+
+    # Original values (scaled to the new model)
+    parameters = scale_tabak(A)
+    parameters["g_BK"] = scale_conductance(1, A)
 
     for tau_BK in tau_BKs:
-        bins, frequency, burstiness_factor = calculate_frequency_bf(tau_BK=tau_BK, g_BK=g_BK)
+        bins, frequency, burstiness_factor = calculate_frequency_bf(tau_BK=tau_BK,
+                                                                    A=A,
+                                                                    dt=dt,
+                                                                    **parameters)
         burstiness_factors.append(burstiness_factor)
 
     return tau_BKs, burstiness_factors
 
 
-def tabak_parallel(conductances):
+def tabak_parallel(parameters):
     """
     Wrapper for the Tabak model, for use in parallel runs.
 
     Parameters
     ----------
-    conductances: array_like
-        The conductances grouped so each element is a list of all conductances
-        for the model, on the form [g_BK, g_K, g_Ca, g_SK, g_l].
+    parameters: array_like
+        The parameters grouped so each element is a list of all parameters
+        for the model, on the form [g_BK, g_K, g_Ca, g_SK, g_l, A, dt].
 
     Returns
     -------
     burstiness_factor : float
         The fraction of events that is above `burst_threshold`.
     """
+    A = parameters[5]
+
+    c_scaled = scale_capacitance(C, A)
+    alpha_scaled = scale_alpha(Alpha, A)
+
     time, voltage = tabak(noise_amplitude=noise_amplitude,
                           discard=discard,
                           simulation_time=simulation_time,
-                          g_BK=conductances[0],
-                          g_K=conductances[1],
-                          g_Ca=conductances[2],
-                          g_SK=conductances[3],
-                          g_l=conductances[4])
+                          g_BK=parameters[0],
+                          g_K=parameters[1],
+                          g_Ca=parameters[2],
+                          g_SK=parameters[3],
+                          g_l=parameters[4],
+                          c=c_scaled,
+                          alpha=alpha_scaled,
+                          A=A,
+                          dt=parameters[6])
+
+    # TODO remove this
+    # if voltage.max() - voltage.min() < 30:
+    #     return None
 
     event_durations = duration(time, voltage)
 
@@ -185,7 +213,7 @@ def tabak_parallel(conductances):
     return burstiness_factor
 
 
-def robustness(g_BK=0):
+def robustness(g_BK=0, A=3.1415927e-6, dt=0.01):
     """
     Calculate the number of occurrences for binned burstiness factor of several
     model runs with varying conductances (except g_BK).
@@ -194,6 +222,11 @@ def robustness(g_BK=0):
     ----------
     g_BKs : float
         The value of the g_BK conductance in S/cm^2.
+    A : float, optional
+        Area of the neuron cell, in cm^2. Default is 3.1415927e-6.
+    dt : float, optional
+        Time step of the simulation. Only used when there is noise,
+        otherwise adaptive time steps is used. Default is 0.01.
 
     Returns
     -------
@@ -213,10 +246,10 @@ def robustness(g_BK=0):
     hist_range = (0, 1)
 
     # Original values (scaled to the new model)
-    g_l_scaled = scale_conductance(0.2)
-    g_K_scaled = scale_conductance(3)
-    g_Ca_scaled = scale_conductance(2)
-    g_SK_scaled = scale_conductance(2)
+    g_l_scaled = scale_conductance(G_l, A)
+    g_K_scaled = scale_conductance(G_K, A)
+    g_Ca_scaled = scale_conductance(G_Ca, A)
+    g_SK_scaled = scale_conductance(G_SK, A)
 
     # Draw conductances from uniform distributions +/- 50% of their original values
     g_K = np.random.uniform(g_K_scaled*0.5, g_K_scaled*1.5, robustness_reruns)
@@ -225,14 +258,16 @@ def robustness(g_BK=0):
     g_l = np.random.uniform(g_l_scaled*0.5, g_l_scaled*1.5, robustness_reruns)
 
     g_BKs = np.ones(robustness_reruns)*g_BK
-    conductances = np.array([g_BKs, g_K, g_Ca, g_SK, g_l]).T
+    As = np.ones(robustness_reruns)*A
+    dts = np.ones(robustness_reruns)*dt
+    parameters = np.array([g_BKs, g_K, g_Ca, g_SK, g_l, As, dts]).T
 
     # Run the model for each of the selected conductances
     # and calculate the burstiness factor of each evaluation
-    pool = mp.Pool(processes=mp.cpu_count())
+    pool = mp.Pool(processes=mp.cpu_count() - 2)
 
     burstiness_factors = []
-    for burstiness_factor in tqdm(pool.imap(tabak_parallel, conductances),
+    for burstiness_factor in tqdm(pool.imap(tabak_parallel, parameters),
                                   desc="Running model",
                                   total=robustness_reruns):
 
@@ -261,33 +296,49 @@ def figure_1():
     """
     print("Reproducing figure 1 in Tabak et. al. 2011")
 
+    parameters = scale_tabak(A)
+
     # G_BK = 0
-    g_BK = scale_conductance(0)
+    parameters["g_BK"] = scale_conductance(0, A)
+
     time_0, V_0 = tabak(noise_amplitude=noise_amplitude,
                         discard=discard,
-                        g_BK=g_BK,
-                        simulation_time=simulation_time)
+                        simulation_time=simulation_time,
+                        A=A,
+                        dt=dt,
+                        **parameters)
 
-    bins_0, frequency_0, burstiness_factor_0 = calculate_frequency_bf(g_BK=g_BK)
+    bins_0, frequency_0, burstiness_factor_0 = calculate_frequency_bf(A=A,
+                                                                      dt=dt,
+                                                                      **parameters)
 
     # G_BK = 0.5
-    g_BK = scale_conductance(0.5)
+    parameters["g_BK"] = scale_conductance(0.5, A)
+
     time_05, V_05 = tabak(noise_amplitude=noise_amplitude,
                           discard=discard,
-                          g_BK=g_BK,
-                          simulation_time=simulation_time)
+                          simulation_time=simulation_time,
+                          A=A,
+                          dt=dt,
+                          **parameters)
 
-    bins_05, frequency_05, burstiness_factor_05 = calculate_frequency_bf(g_BK=g_BK)
+    bins_05, frequency_05, burstiness_factor_05 = calculate_frequency_bf(A=A,
+                                                                         dt=dt,
+                                                                         **parameters)
 
 
     # G_BK = 1
-    g_BK = scale_conductance(1)
+    parameters["g_BK"] = scale_conductance(1, A)
     time_1, V_1 = tabak(noise_amplitude=noise_amplitude,
                         discard=discard,
-                        g_BK=g_BK,
-                        simulation_time=simulation_time)
+                        simulation_time=simulation_time,
+                        A=A,
+                        dt=dt,
+                        **parameters)
 
-    bins_1, frequency_1, burstiness_factor_1 = calculate_frequency_bf(g_BK=g_BK)
+    bins_1, frequency_1, burstiness_factor_1 = calculate_frequency_bf(A=A,
+                                                                      dt=dt,
+                                                                      **parameters)
 
 
     # Calculate results for figure 1D
@@ -460,20 +511,20 @@ def generate_data_figure_2():
     # G_BK = 0
     print("Running for G_BK = 0")
 
-    g_BK = scale_conductance(0)
-    bins_0, binned_burstiness_factors_0, bursters_0, spikers_0 = robustness(g_BK=g_BK)
+    g_BK = scale_conductance(0, A)
+    bins_0, binned_burstiness_factors_0, bursters_0, spikers_0 = robustness(g_BK=g_BK, dt=dt)
 
     # G_BK = 0.5
     print("Running for G_BK = 0.5")
 
-    g_BK = scale_conductance(0.5)
-    bins_05, binned_burstiness_factors_05, bursters_05, spikers_05 = robustness(g_BK=g_BK)
+    g_BK = scale_conductance(0.5, A)
+    bins_05, binned_burstiness_factors_05, bursters_05, spikers_05 = robustness(g_BK=g_BK, dt=dt)
 
     # G_BK = 1
     print("Running for G_BK = 1")
 
-    g_BK = scale_conductance(1)
-    bins_1, binned_burstiness_factors_1, bursters_1, spikers_1 = robustness(g_BK=g_BK)
+    g_BK = scale_conductance(1, A)
+    bins_1, binned_burstiness_factors_1, bursters_1, spikers_1 = robustness(g_BK=g_BK, dt=dt)
 
 
     # Write percentage of events as spikers and bursters to file
@@ -610,7 +661,6 @@ def figure_2():
     # results = load_results_figure_2()
 
     plot_figure_2(*results)
-
 
 
 if __name__ == "__main__":

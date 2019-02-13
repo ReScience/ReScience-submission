@@ -348,44 +348,126 @@ We repeated all simulations and qualitatively reproduced Figure 1 and Figure 2
 in Tabak et al. [@tabak2011].
 The remaining results in the original publication were experimental results,
 and therefore outside the scope of this reproduction.
-
 The results shown in Figure @fig:figure1 correspond well to those in
 Figure 1 of the original publication.
 The original model and the reproduced version showed the same behavior when
 increasing $G_\mathrm{BK}$.
-As random noise was added to the simulations,
-an exact replication could not be expected.
 
 ![Model predictions for the effect of various $G_\mathrm{BK}$ conductances on burstiness. \textbf{A}-\textbf{C} Left, membrane potential of the model. Right, distribution of event durations in the time interval from 1 to 5 s (of the 50 s simulated). The grey line indicates the threshold for what is considered a spike and what is considered a burst, and BF denotes the burstiness factor. \textbf{D} The burstiness factor increased with $G_\mathrm{BK}$. \textbf{E} The burstiness factor decreased with $\tau_\mathrm{BK}$.](figures/figure_1.eps){#fig:figure1}
 
 The results shown in Figure @fig:figure2 correspond well to those in Figure 2
 of the original publication.
-The behavior we observe is similar to the behavior in the original publication.
-When increasing $G_\mathrm{BK}$ the model went from having a low burstiness factor
-(between 0 and 0.1) to having a high burstiness factor (between 0.9 and 1).
+In this figure,
+$G_\mathrm{BK}$ was fixed at a given value,
+while the remaining model parameters were sampled randomly (see Methods).
+When $G_\mathrm{BK}$ was set to zero (Figure @fig:figure2\textbf{A}),
+most model parameterizations had a low burstiness factor (between 0 and 0.1).
+Oppositely,
+when $G_\mathrm{BK}$ was fixed at the maximum value (Figure @fig:figure2\textbf{C}),
+most model parameterizations had a high burstiness factor (between 0.9 and 1).
 For any value of $G_\mathrm{BK}$,
-the model evaluations tended to be either predominantly bursting
-(i.e. most events were bursts) or predominantly spiking
-(few events were bursts),
+the model evaluations tended to be either predominantly bursting (i.e. most events were bursts)
+or predominantly spiking (few events were bursts),
 so that the number of model evaluations with an intermediate burstiness factor
 between 0.1 and 0.9 (events changed between being bursts or not)
 was always low (less than 20 evaluations).
 
-A small deviation was found between the current analysis and the original work.
-For the maximum value of $G_\mathrm{BK}$,
-we got fewer model evaluations with low burstiness
-than in the original work.
-We do not know the precise cause of this difference,
-though we can speculate that it may be due to smaller differences in the
-performed analysis (e.g., onset and termination threshold definitions or implementations),
-or due to underlying differences between the NEURON and XPP implementations
-(e.g., NEURON uses backward Euler as the numerical integration scheme
-while the XPP implementation uses forward Euler).
+Albeit qualitatively similar,
+the presented results were not strictly identical to those in the original publication.
+As random noise was added to the simulations,
+exact replications were unattainable,
+and some discrepancies between the current and the original study were expected.
+The largest deviations between the current analysis and the original work were
+seen in Figure @fig:figure1\textbf{B} (right panel),
+where the original work found a burstiness factor of 0.34,
+while our analysis found a burstiness factor of 0.42, and in Figure @fig:figure2\textbf{C},
+where the number of model evaluations with a low burstiness factor was much higher
+(approximately 75) in the original work compared to what we found in the current analysis (16).
+Below,
+we analyze whether the observed discrepancies can be ascribed to noise,
+or if they may reveal other differences in implementation details.
+We limit the analysis to only consider the above mentioned two cases.
+
 
 
 ![Robustness of the burstiness of the model for three values of $G_{\mathrm{BK}}$ when changing $G_{\mathrm{Ca}}$, $G_{\mathrm{K}}$, $G_{\mathrm{SK}}$, and $G_{\mathrm{l}}$ uniformly within $\pm 50\%$ of their original values. \textbf{A} For $G_{\mathrm{BK}} \rightarrow 0$ nS, $67.5\%$ of the active models were spikers (burstiness factor $< 0.3$). \textbf{B} For $G_{\mathrm{BK}} \rightarrow 0.5$ nS, $33.8\%$ were spikers. \textbf{C} For $G_{\mathrm{BK}} \rightarrow 1$ nS, only $4.4\%$ were spikers.](figures/figure_2.eps){#fig:figure2}
 
 
+## Examining the discrepancies between the replicated and original simulations
+
+Below, we examine whether the discrepancies between the current and original work,
+as reflected in Figure @fig:figure1\textbf{B} and Figure @fig:figure2\textbf{C},
+can be explained by
+(i) the random noise added in the simulations,
+(ii) differences in integration methods, as reflected by the simulation time step dt,
+(iii) numerical floating point errors introduced when converting from total
+conductances to conductance per-unit-area by choosing a membrane area A,
+or if (iv) the discrepancies may reflect unintended differences in the
+algorithms for the model analysis.
+
+
+We start by exploring the burstiness factor (BF) in Figure @fig:figure1\textbf{B},
+which reflects the fraction of events that were bursts in a single simulation.
+As the burstiness factor varies from simulation to simulation (due to noise),
+we calculated it for 100 reruns of the model,
+which allowed us to calculate its mean and standard deviation (Figure @fig:burstinessfactor).
+We calculated the mean and standard deviations for three different values of the area
+($A = \pi\cdot 10^{-9}; \pi \cdot 10^{-6}; \pi \cdot 10^{-3}$) ,
+and three values of the timestep ($\mathrm{dt} = 0.05; 0.005; 0.001$),
+and the obtained statistics did not vary much with these model choices.
+In all cases,
+the burstiness factor had a mean of about 0.4 and a standard deviation of about
+0.04.
+The burstiness factor of 0.34 found in the original work was thus roughly a
+standard deviation lower than the mean found here,
+and it is thus not too unlikely that the observed discrepancies could
+be due to random noise (i).
+
+
+![Mean and standard deviation of the burstiness factor of 100 reruns of the model for three
+values of the area (A), three values of the timestep (($\mathrm{dt}$),
+and three values of $G_{\mathrm{BK}}$.
+Panel \textbf{B} shows the results for model using the original parameters.](figures/burstiness_factor.eps){#fig:burstinessfactor}
+
+
+Next, we explored how the results presented in Figure @fig:figure2\textbf{C}
+depended on the choice of membrane area and simulation time step.
+Figure @fig:dtarea shows the burstiness of the model for three values
+of the area ($A = \pi\cdot 10^{-9}, \pi \cdot 10^{-3}, 1$)
+and three values of the timestep ($\mathrm{dt} = 0.05, 0.005, 0.001$),
+changing one of them at the time.
+When comparing Figure @fig:dtarea to Figure @fig:figure2\textbf{C} we see
+that changes in either the timestep or the area causes very little changes in
+the overall results.
+The small variations between the different panels in Figure @fig:dtarea are thus most
+likely due to the random noise.
+In this case, neither noise (i),
+integration method differences (ii),
+or floating point errors (iii) seem like a likely explanation of the
+discrepancies between the original simulation and the current results.
+
+
+![Burstiness of the model for three values of the area and three values of the timestep when changing $G_{\mathrm{Ca}}$, $G_{\mathrm{K}}$, $G_{\mathrm{SK}}$, and $G_{\mathrm{l}}$ uniformly within $\pm 50\%$ of their original values. When changing the area the timestep was kept unchanged at $\mathrm{dt} = 0.01$ and when changing the timestep the area was kept unchanged at $\pi \cdot 10^{-6}$. $G_{\mathrm{BK}} = 1$ as that
+is where we observed the difference.](figures/dt_area.eps){#fig:dtarea}
+
+
+The above indicates that there might be some small differences between the
+current and original implementation that are not due to noise or numerical issues (iv).
+We were not able to detect the precise cause of the observed difference.
+We believe that the model itself is identical in the two cases
+(we have compared our code with the XPP code from the original work [@tabak2011])
+and that the differences are more likely to reflect differences in the choices
+made in the analysis part.
+These could be choices regarding event detection
+(such as the definition of onset and termination thresholds and burst definition),
+or criteria for which simulations that were included in and discarded from the analyses.
+These choices were imprecisely described in the original work,
+and it is possible that we have made some minor misinterpretations,
+and that our criteria deviate slightly from the original ones.
+In the original work,
+the robustness results (Figure 2) in the original publication were calculated
+using custom developed software that used CUDA to run on GPUs,
+and the code for performing this analysis was not available.
 
 
 ## Uncertainty quantification and sensitivity analysis
@@ -536,5 +618,8 @@ the reproduction effort went smoothly, with a little help from the original auth
 in describing the threshold-detection algorithm used in the analysis of the model.
 The original model now exists as a model using the Python interface for NEURON,
 which hopefully makes it accessible to a wider audience.
+Our personal motivation for reproducing the model by Tabak et al.
+was that we needed it in a computational study where we compared the dynamical
+properties of pituitary cells in rats versus fish [@halnes2018].
 
 # References

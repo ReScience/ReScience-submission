@@ -33,7 +33,7 @@ Repository:
   data:      
   notebook:  
 Reproduction:
-  - "Original article (title, authors, journal, doi)"
+  - "Original article (Recurrent World Models Facilitate Policy Evolution, David Ha and Jürgen Schmidhuber, NeurIPS 2018 Conference, doi)"
 Bibliography:
   bibliography.bib
 

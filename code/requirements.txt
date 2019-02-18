@@ -1,0 +1,6 @@
+cma
+argparse
+gym[all]
+box2d
+tqdm
+numpy

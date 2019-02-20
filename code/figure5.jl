@@ -8,7 +8,7 @@ plot!(fig5a, sim1[:,1], sim1[:,3], label="Parasites", lw=3)
 ylabel!(fig5a, "Population size")
 
 kval1 = mapslices((r) -> kvalue_by_generation(r, params1), sim1; dims=2)
-fig5d = plot(log10.(sim1[:,2]), kval1,
+fig5d = scatter(log10.(sim1[:,2]), kval1,
    m=:circle, msc=:white, msw=2, ms=4, mc=:grey,
    lc=:grey, lw=2,
    leg=false, frame=:box,
@@ -26,7 +26,7 @@ plot!(fig5b, sim2[:,1],sim2[:,3], label="Parasites", lw=3)
 xlabel!(fig5b, "Generation")
 
 kval2 = mapslices((r) -> kvalue_by_generation(r, params2), sim2; dims=2)
-fig5e = plot(log10.(sim2[:,2]), kval2,
+fig5e = scatter(log10.(sim2[:,2]), kval2,
    m=:circle, msc=:white, msw=2, ms=4, mc=:grey,
    lc=:grey, lw=2,
    leg=false, frame=:box,
@@ -47,7 +47,7 @@ xlabel!(fig5a, " ")
 xlabel!(fig5c, " ")
 
 kval3 = mapslices((r) -> kvalue_by_generation(r, params3), sim3; dims=2)
-fig5f = plot(log10.(sim3[:,2]), kval3,
+fig5f = scatter(log10.(sim3[:,2]), kval3,
    m=:circle, msc=:white, msw=2, ms=4, mc=:grey,
    lc=:grey, lw=2,
    leg=false, frame=:box,

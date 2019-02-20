@@ -219,18 +219,21 @@ always obscures the density-dependent effect of natural enemies.
 
 The discrepancies we noted in the dynamics of the stochastic model with the
 generalist parasite and a stochastic saturation number of parasitoid ($h$; in
-@fig:figure6 (b)) are difficult to explain. It seems unlikely that it is cause
-to the model implementation itself or computational errors since we successfully
-replicated results from all the other numerical experiments. Without the
-original implementation, we can only speculate on the difference between the
-original implementation and ours. This model is the only one with a stochastic
-parameter normally distributed with a mean not equal to its associated standard
-deviation. We tried with an $h$ normally distributed with a mean and a standard
-deviation of 5 (@fig:figure9), and the results were a lot more similar to the
-one from @Hassell85 than what we originally had (@fig:figure6 (b)). Again, this
-is only an hypothesis on the kind of error that could explain the differences
-between the original paper and ours.
-
+@fig:figure6 (b)) are difficult to explain. It seems unlikely that it is caused
+by either our implementation of the model, or by errors during runtime, since we
+successfully replicated results from all the other numerical experiments.
+Without the original implementation, we can only speculate on the difference
+between the original implementation and ours. This combination of parameters is
+the only one with a stochastic parameter normally distributed with a mean not
+equal to its associated standard deviation. We tried with an $h$ normally
+distributed with a mean and a standard deviation of 5 (@fig:figure9), and the
+results were a lot more similar to the one from @Hassell85 than what we
+originally had (@fig:figure6 (b)). Again, this is only an hypothesis on the kind
+of error that could explain the differences between the original paper and ours.
+Other possible sources of error include the pseudo-random numbers generator
+used, errors in the original implementation, or errors in the parameter values
+reported in the original publication; sadly, these are virtually impossible to
+rule out.
 
 The mathematical model from the original paper was well detailed, which allowed
 us to create our own implementation. The equation for the number of survivors

@@ -58,4 +58,4 @@ sim3_R2 = cor(vec(log10.(sim3[:,2])), vec(kval3))^2
 sim3_a, sim3_b = linreg(vec(log10.(sim3[:,2])), vec(kval3))
 
 plot(fig5a, fig5b, fig5c, fig5d, fig5e, fig5f, ann = (:top_left, :auto), layout=(2,3), size=(1200,900), margin=5mm)
-savefig("article/figures/figure5.pdf")
+savefig("../article/figures/figure5.pdf")

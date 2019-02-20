@@ -8,7 +8,7 @@ cor_c = zeros(Float64, N)
 for i in eachindex(cor_a)
     sd = i == 1 ? 0.0 : 0.5
     sim, params = simulation(50.0, 25.0; f=specialist_dyn, a_sd=sd)
-    kval = mapslices((r) -> kvalue_by_generation(r, params), sim, 2)
+    kval = mapslices((r) -> kvalue_by_generation(r, params), sim; dims=2)
     correlation = cor(vec(log10.(sim[:,2])), vec(kval))
     cor_a[i] = correlation
 end
@@ -16,7 +16,7 @@ end
 for i in eachindex(cor_D)
     sd = i == 1 ? 0.0 : 0.5
     sim, params = simulation(50.0, 25.0; f=specialist_dyn, D_std=sd)
-    kval = mapslices((r) -> kvalue_by_generation(r, params), sim, 2)
+    kval = mapslices((r) -> kvalue_by_generation(r, params), sim; dims=2)
     correlation = cor(vec(log10.(sim[:,2])), vec(kval))
     cor_D[i] = correlation
 end
@@ -24,7 +24,7 @@ end
 for i in eachindex(cor_c)
     sd = i == 1 ? 0.0 : 0.5
     sim, params = simulation(50.0, 25.0; f=specialist_dyn, c_sd=sd)
-    kval = mapslices((r) -> kvalue_by_generation(r, params), sim, 2)
+    kval = mapslices((r) -> kvalue_by_generation(r, params), sim; dims=2)
     correlation = cor(vec(log10.(sim[:,2])), vec(kval))
     cor_c[i] = correlation
 end
@@ -47,4 +47,4 @@ annotate!(0.45, 9, text("c = 0.5 ± 0.5"))
 annotate!(pl_c, 0.05, 9.5, text("(b)"))
 
 plot(pl_D, pl_c, pl_a, layout=(1,3), size=(1200,400), margin=5mm)
-savefig("article/figures/figure7.pdf")
+savefig("../article/figures/figure7.pdf")

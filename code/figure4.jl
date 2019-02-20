@@ -19,4 +19,4 @@ xlabel!(fig4b, "Host density (log 10)")
 ylabel!(fig4b, "k-value")
 
 plot(fig4a, fig4b, ann = (:top_left, :auto), layout=(2,1), size=(500,900), margin=5mm)
-savefig("article/figures/figure4.pdf")
+savefig("../article/figures/figure4.pdf")

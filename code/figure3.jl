@@ -39,4 +39,4 @@ ylabel!(fig3d, " ")
 #annotate!(fig3d, -0.25, 1.35, text("(d)"))
 
 plot(fig3a, fig3b, fig3c, fig3d, ann = (:top_left, :auto), layout=(2,2), size=(900,900), margin=5mm)
-savefig("article/figures/figure3.pdf")
+savefig("../article/figures/figure3.pdf")

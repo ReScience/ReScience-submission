@@ -9,7 +9,7 @@ xlabel!(fig9a, "Generation")
 annotate!(fig9a, 5, 85, text("(a)"))
 annotate!(fig9a, 25, 80, text("h = 5 ± 5"))
 
-kval = mapslices((r) -> kvalue_by_generation(r, params), sim, 2)
+kval = mapslices((r) -> kvalue_by_generation(r, params), sim; dims=2)
 fig9b = plot(log10.(sim[:,2]), kval,
    m=:circle, msc=:white, msw=2, ms=4, mc=:grey,
    lc=:grey, lw=2,
@@ -23,4 +23,4 @@ sim_R2 = cor(vec(log10.(sim[:,2])), vec(kval))^2
 sim_a, sim_b = linreg(vec(log10.(sim[:,2])), vec(kval))
 
 plot(fig9a, fig9b, layout=(2,1), size=(500,900), margin=5mm)
-savefig("article/figures/figure9.pdf")
+savefig("../article/figures/figure9.pdf")

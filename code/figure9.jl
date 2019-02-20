@@ -1,7 +1,7 @@
 include("seed.jl")
 
 # Simulation with specialist natural enemies with stochasticity on h
-sim, params = simulation(25.0, 8.0, F=4.0, D=0.5, h=5.0, b=25.0, a=0.5, th= 0.0, m=0.5, f=generalist_dyn, h_sd=5)
+sim, params = simulation(25.0, 8.0; m=0.5, f=generalist_dyn, h_sd=5)
 # Fig 5b)
 fig9a = plot(sim[:,1], sim[:,2], label="Hosts", frame=:origin, lw=3, leg=false, ylims=(0, 90))
 plot!(fig9a, sim[:,1],sim[:,3], label="Parasites", lw=3)

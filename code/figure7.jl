@@ -7,7 +7,7 @@ cor_D = zeros(Float64, N)
 cor_c = zeros(Float64, N)
 for i in eachindex(cor_a)
     sd = i == 1 ? 0.0 : 0.5
-    sim, params = simulation(50.0, 25.0, m=0.2, F=4.0, D=0.5, a=0.5, th= 0.0, f=specialist_dyn, a_sd=sd)
+    sim, params = simulation(50.0, 25.0; f=specialist_dyn, a_sd=sd)
     kval = mapslices((r) -> kvalue_by_generation(r, params), sim, 2)
     correlation = cor(vec(log10.(sim[:,2])), vec(kval))
     cor_a[i] = correlation
@@ -15,7 +15,7 @@ end
 
 for i in eachindex(cor_D)
     sd = i == 1 ? 0.0 : 0.5
-    sim, params = simulation(50.0, 25.0, m=0.2, F=4.0, D=0.5, a=0.5, th= 0.0, f=specialist_dyn, D_std=sd)
+    sim, params = simulation(50.0, 25.0; f=specialist_dyn, D_std=sd)
     kval = mapslices((r) -> kvalue_by_generation(r, params), sim, 2)
     correlation = cor(vec(log10.(sim[:,2])), vec(kval))
     cor_D[i] = correlation
@@ -23,7 +23,7 @@ end
 
 for i in eachindex(cor_c)
     sd = i == 1 ? 0.0 : 0.5
-    sim, params = simulation(50.0, 25.0, m=0.2, F=4.0, D=0.5, c=0.5, a=0.5, th= 0.0, f=specialist_dyn, c_sd=sd)
+    sim, params = simulation(50.0, 25.0; f=specialist_dyn, c_sd=sd)
     kval = mapslices((r) -> kvalue_by_generation(r, params), sim, 2)
     correlation = cor(vec(log10.(sim[:,2])), vec(kval))
     cor_c[i] = correlation

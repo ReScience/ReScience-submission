@@ -8,7 +8,7 @@ cor_a = zeros(Float64, N)
 
 for i in eachindex(cor_D)
     sd = i == 1 ? 0.0 : 0.5
-    sim, params = simulation(25.0, 8.0, m=0.5, F=4.0, D=0.5, h=10.0, b=25.0, a=0.5, th= 0.0, m=0.5, f=generalist_dyn, D_std=sd)
+    sim, params = simulation(25.0, 8.0; m=0.5, f=generalist_dyn, D_std=sd)
     kval = mapslices((r) -> kvalue_by_generation(r, params), sim, 2)
     correlation = cor(vec(log10.(sim[:,2])), vec(kval))
     cor_D[i] = correlation
@@ -16,7 +16,7 @@ end
 
 for i in eachindex(cor_h)
     sd = i == 1 ? 0.0 : 5.0
-    sim, params = simulation(25.0, 8.0, m=0.5, F=4.0, D=0.5, h=10.0, b=25.0, a=0.5, th= 0.0, m=0.5, f=generalist_dyn, h_sd=sd)
+    sim, params = simulation(25.0, 8.0; m=0.5, f=generalist_dyn, h_sd=sd)
     kval = mapslices((r) -> kvalue_by_generation(r, params), sim, 2)
     correlation = cor(vec(log10.(sim[:,2])), vec(kval))
     cor_h[i] = correlation
@@ -24,7 +24,7 @@ end
 
 for i in eachindex(cor_a)
     sd = i == 1 ? 0.0 : 0.5
-    sim, params = simulation(25.0, 8.0, m=0.5, F=4.0, D=0.5, h=10.0, b=25.0, a=0.5, th= 0.0, m=0.5, f=generalist_dyn, a_sd=sd)
+    sim, params = simulation(25.0, 8.0; m=0.5, f=generalist_dyn, a_sd=sd)
     kval = mapslices((r) -> kvalue_by_generation(r, params), sim, 2)
     correlation = cor(vec(log10.(sim[:,2])), vec(kval))
     cor_a[i] = correlation

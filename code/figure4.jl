@@ -1,7 +1,7 @@
 include("seed.jl")
 
 # Simulation with generalist natural enemies
-sim, pars = simulation(25.0, 8.0; m=0.5, F=4.0, D=0.5, h=10.0, b=25.0, a=0.5, th= 0.0, f=generalist_dyn)
+sim, pars = simulation(25.0, 8.0; m=0.5, D=0.5, f=generalist_dyn)
 # Fig 4a)
 fig4a = plot(sim[:,1],sim[:,2], label="Hosts", frame=:origin, lw=3)
 plot!(fig4a, sim[:,1],sim[:,3], label="Parasites", lw=3)

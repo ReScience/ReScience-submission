@@ -167,3 +167,10 @@ function kvalue_by_generation(x, p)
    current_p = (F=p.F, D=D, c=c, a=a, h=h, b=p.b, th=p.th, m=p.m)
    return mortality(N, P, current_p)
 end
+
+
+function generate_legend_position(xr, yr; shift=0.1)
+    xp = (maximum(xr)-minimum(xr))*shift+minimum(xr)
+    yp = (maximum(yr)-minimum(yr))*0.9+minimum(yr)
+    return xp, yp
+end

@@ -14,7 +14,7 @@ kval1 = mapslices((r) -> kvalue_by_generation(r, params1), sim1; dims=2)
 fig6d = scatter(log10.(sim1[:,2]), kval1,
    m=:circle, msc=:white, msw=2, ms=4, mc=:grey,
    lc=:grey, lw=2,
-   leg=false,
+   leg=false, frame=:box,
    xlims=(-0.5, 1.5),
    ylims=(0, 0.5))
 ylabel!(fig6d, "k-value")
@@ -36,7 +36,7 @@ kval2 = mapslices((r) -> kvalue_by_generation(r, params2), sim2; dims=2)
 fig6e = scatter(log10.(sim2[:,2]), kval2,
    m=:circle, msc=:white, msw=2, ms=4, mc=:grey,
    lc=:grey, lw=2,
-   leg=false,
+   leg=false, frame=:box,
    xlims=(1, 1.8),
    ylims=(0, 0.5))
 xlabel!(fig6e, "Host density (log 10)")
@@ -57,10 +57,13 @@ kval3 = mapslices((r) -> kvalue_by_generation(r, params3), sim3; dims=2)
 fig6f = scatter(log10.(sim3[:,2]), kval3,
    m=:circle, msc=:white, msw=2, ms=4, mc=:grey,
    lc=:grey, lw=2,
-   leg=false,
+   leg=false, frame=:box,
    xlims=(0.5, 1.5),
    ylims=(0, 0.6))
 annotate!(fig6f, generate_legend_position((0.5,1.5),(0,0.6))..., text("(f)"))
+
+xlabel!(fig6a, " ")
+xlabel!(fig6c, " ")
 
 sim3_R2 = cor(vec(log10.(sim3[:,2])), vec(kval3))^2
 sim3_a, sim3_b = linreg(vec(log10.(sim3[:,2])), vec(kval3))

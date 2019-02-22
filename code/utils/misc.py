@@ -7,6 +7,7 @@ import numpy as np
 from models import MDRNNCell, VAE, Controller
 import gym
 import gym.envs.box2d
+from time import sleep
 
 # A bit dirty: manually change size of car racing env
 gym.envs.box2d.car_racing.STATE_W, gym.envs.box2d.car_racing.STATE_H = 64, 64
@@ -103,44 +104,41 @@ class RolloutGenerator(object):
     :attr device: device used to run VAE, MDRNN and Controller
     :attr time_limit: rollouts have a maximum of time_limit timesteps
     """
-    def __init__(self, mdir, device, time_limit):
+    def __init__(self, mdir, device, time_limit, logger):
         """ Build vae, rnn, controller and environment. """
         # Loading world model and vae
+
+        logger.info("init rollout")
+        self.vae = VAE(3, LSIZE).to(device)
+        self.mdrnn = MDRNNCell(LSIZE, ASIZE, RSIZE, 5).to(device)
+        self.controller = Controller(LSIZE, RSIZE, ASIZE).to(device)
+
         vae_file, rnn_file, ctrl_file = \
             [join(mdir, m, 'best.tar') for m in ['vae', 'mdrnn', 'ctrl']]
-
-        assert exists(vae_file) and exists(rnn_file),\
-            "Either vae or mdrnn is untrained."
-
-        vae_state, rnn_state = [
-            torch.load(fname, map_location={'cuda:0': str(device)})
-            for fname in (vae_file, rnn_file)]
-
-        for m, s in (('VAE', vae_state), ('MDRNN', rnn_state)):
-            print("Loading {} at epoch {} "
-                  "with test loss {}".format(
-                      m, s['epoch'], s['precision']))
-
-        self.vae = VAE(3, LSIZE).to(device)
+        
+        assert exists(vae_file)
+        vae_state = torch.load(vae_file, map_location=device)
+        logger.info(f"Loading VAE at epoch {vae_state['epoch']} with test loss {vae_state['precision']}")
         self.vae.load_state_dict(vae_state['state_dict'])
 
-        self.mdrnn = MDRNNCell(LSIZE, ASIZE, RSIZE, 5).to(device)
+        assert exists(rnn_file)
+
+        rnn_state = torch.load(rnn_file, map_location=device)
+        logger.info(f"Loading RNN at epoch {rnn_state['epoch']} with test loss {rnn_state['precision']}")
         self.mdrnn.load_state_dict(
             {k.strip('_l0'): v for k, v in rnn_state['state_dict'].items()})
-
-        self.controller = Controller(LSIZE, RSIZE, ASIZE).to(device)
 
         # load controller if it was previously saved
         if exists(ctrl_file):
             ctrl_state = torch.load(ctrl_file, map_location={'cuda:0': str(device)})
-            print("Loading Controller with reward {}".format(
-                ctrl_state['reward']))
+            logger.info(f"Loading Controller with reward {ctrl_state['reward']}")
             self.controller.load_state_dict(ctrl_state['state_dict'])
 
         self.env = gym.make('CarRacing-v0')
         self.device = device
-
+        self.logger = logger
         self.time_limit = time_limit
+        logger.info("End of init")
 
     def get_action_and_transition(self, obs, hidden):
         """ Get action and transition.
@@ -172,20 +170,26 @@ class RolloutGenerator(object):
         :returns: minus cumulative reward
         """
         # copy params into the controller
+        logger = self.logger
         if params is not None:
             load_parameters(params, self.controller)
 
+        logger.info("env reset")
+        logger.info(str(self.env))
         obs = self.env.reset()
 
         # This first render is required !
+        logger.info("env render")
         self.env.render()
 
+        logger.info("init hidden")
         hidden = [
             torch.zeros(1, RSIZE).to(self.device)
             for _ in range(2)]
 
         cumulative = 0
         i = 0
+        logger.info(f"Getting into the loop")
         while True:
             obs = transform(obs).unsqueeze(0).to(self.device)
             action, hidden = self.get_action_and_transition(obs, hidden)
@@ -198,3 +202,6 @@ class RolloutGenerator(object):
             if done or i > self.time_limit:
                 return - cumulative
             i += 1
+        logger.info("End loop")
+
+

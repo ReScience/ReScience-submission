@@ -6,7 +6,6 @@ from os import mkdir
 import torch
 import torch.utils.data
 from torch import optim
-from torch.nn import functional as F
 from torchvision import transforms
 from torchvision.utils import save_image
 
@@ -18,6 +17,8 @@ from utils.misc import LSIZE, RED_SIZE
 from utils.learning import EarlyStopping
 from utils.learning import ReduceLROnPlateau
 from data.loaders import RolloutObservationDataset
+
+
 
 parser = argparse.ArgumentParser(description='VAE Trainer')
 parser.add_argument('--batch-size', type=int, default=32, metavar='N',
@@ -35,12 +36,12 @@ args = parser.parse_args()
 cuda = torch.cuda.is_available()
 
 
-torch.manual_seed(123)
-# Fix numeric divergence due to bug in Cudnn
-torch.backends.cudnn.benchmark = True
+# torch.manual_seed(123)
+# torch.backends.cudnn.enabled = False               
+torch.backends.cudnn.benchmark=True
+
 
 device = torch.device("cuda" if cuda else "cpu")
-
 
 transform_train = transforms.Compose([
     transforms.ToPILImage(),
@@ -66,20 +67,30 @@ test_loader = torch.utils.data.DataLoader(
 
 
 model = VAE(3, LSIZE).to(device)
-optimizer = optim.Adam(model.parameters())
+optimizer = optim.Adam(model.parameters())#, lr=1e-4, betas=(0.5, 0.9))
+# optimizer = optim.SGD(model.parameters(), lr=1e-3)
 scheduler = ReduceLROnPlateau(optimizer, 'min', factor=0.5, patience=5)
 earlystopping = EarlyStopping('min', patience=30)
 
 # Reconstruction + KL divergence losses summed over all elements and batch
 def loss_function(recon_x, x, mu, logsigma):
     """ VAE loss function """
-    BCE = F.mse_loss(recon_x, x, size_average=False)
+    # BCE = F.mse_loss(recon_x, x, size_average=False)
+    # ipdb.set_trace()
+    recon_x = recon_x.cpu()
+    x = x.cpu()
+    mu = mu.cpu()
+    logsigma = logsigma.cpu()
+    BCE = .5 * (recon_x - x).pow(2).sum(dim=(1,2,3)).sum()
+    # BCE = (recon_x - x).pow(2).sum(dim=1).sum()
 
     # see Appendix B from VAE paper:
     # Kingma and Welling. Auto-Encoding Variational Bayes. ICLR, 2014
     # https://arxiv.org/abs/1312.6114
     # 0.5 * sum(1 + log(sigma^2) - mu^2 - sigma^2)
-    KLD = -0.5 * torch.sum(1 + 2 * logsigma - mu.pow(2) - (2 * logsigma).exp())
+    # print(logsigma.sum())
+    KLD = -0.5 * torch.sum(1 + logsigma - mu.pow(2) - logsigma.exp(), dim=1).sum()
+    # print(f"BCE:{BCE.item():.0e},KLD:{KLD.item():.0e}")
     return BCE + KLD
 
 
@@ -89,13 +100,15 @@ def train(epoch):
     dataset_train.load_next_buffer()
     train_loss = 0
     for batch_idx, data in enumerate(train_loader):
+
         data = data.to(device)
-        optimizer.zero_grad()
         recon_batch, mu, logvar = model(data)
         loss = loss_function(recon_batch, data, mu, logvar)
+        optimizer.zero_grad()
         loss.backward()
-        train_loss += loss.item()
         optimizer.step()
+        train_loss += loss.item()
+        
         if batch_idx % 20 == 0:
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
                 epoch, batch_idx * len(data), len(train_loader.dataset),

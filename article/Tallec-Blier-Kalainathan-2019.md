@@ -1,17 +1,19 @@
 ---
-Title: "Title"
+Title: "Recurrent World Models Facilitate Policy Evolution"
 Author:
   - name: Tallec Corentin
-    affiliation: 1
+    affiliation:  †, 1
   - name: Blier Léonard
-    affiliation: 1, 2
-  - name: Kalainathan,
+    affiliation: †, 1, 2
+  - name: Kalainathan Diviyan 
     affiliation: 1
 Address:
   - code:    1
     address: TAckling the Underspecified, Universite Paris Sud, Orsay, France
   - code:    2
     address: Facebook Artificial Intelligence Research, Paris
+  - code:    †
+    address: Equal contribution
 Contact:
   - corentin.tallec@u-psud.fr
 Editor:
@@ -41,34 +43,35 @@ Bibliography:
 # Introduction
 
 Recently, Deep Reinforcement Learning (DRL) has achieved impressive results in
-a variety of domains, such as video game playing @mnih zero-sum games @silver,
-and continuous control @ddpg.  Still, DRL approaches are often brittle,
+a variety of domains, such as video game playing (@mnih) zero-sum games (@silver),
+and continuous control (@ddpg).  Still, DRL approaches are often brittle,
 sensitive to small changes in hyperparameters, implementation details and minor
 environment perturbations. Besides, training performance can widely vary from
 run to run. Those factors often make reproduction of experimental results
-challenging @henderson, @rlblogpost.
+challenging (@henderson, @rlblogpost).
 
 In addition to its sensitivity, DRL is also known to be sample inefficient, in
 the sense that it requires huge amounts of environment interactions to obtain
 good results, even for simple tasks. Model-based reinforcement learning has
 gained interest to improve sample efficiency. With an accurate and
 computationally cheap model of the world, the burden of collecting new samples
-is considerably alleviated, since the model could, in principle,
-generate huge amounts of reliable samples. Besides, features provided by a
-predictive model of the world could constitue relevant inputs to a controller, and
-ease the optimization process.
+could be considerably alleviated, since the model could, in principle, generate
+huge amounts of reliable samples, and be used for planning without interacting
+with the environment. Besides, features provided by a predictive model of the
+world could constitue relevant inputs to a controller, and ease the
+optimization process.
 
 @NIPS2018_7512 provided a simple, yet successful model-based reinforcement learning
 approach. It revolves around a three part model, comprised of:
 
-  1. A Variational Auto-Encoder @kingma, a generative model, which learns both an encoder and a decoder. The encoder's task is to compress the input images into a compact latent representation. The decoder's task is to recover the original image from the latent representation.
-  2. A Mixture-Density Recurrent Network @graves, trained to predict the latent encoding of the next frame given past latent encodings and actions. The mixture-density network outputs a Gaussian mixture for predicting
-the distribution density of the next observation.
-  3. A simple linear Controller. It takes as inputs both the latent encoding of the current frame and the hidden state of the MDN-RNN given past latents and actions and outputs an action. It is trained to maximize the cumulated reward using the Covariance-Matrix Adaptation Evolution-Strategy @hansen, a generic black box optimization algorithm.
+  1. A Variational Auto-Encoder (@kingma), a generative model, which learns both an encoder and a decoder. The encoder's task is to compress the input images into a compact latent representation. The decoder's task is to recover the original image from the latent representation.
+  2. A Mixture-Density Recurrent Network (@graves), trained to predict the latent encoding of the next frame given past latent encodings and actions. The mixture-density network outputs a Gaussian mixture for predicting
+the distribution density of the next latent variable.
+  3. A simple linear Controller. It takes as inputs both the latent encoding of the current frame and the hidden state of the MDN-RNN given past latents and actions and outputs an action. It is trained to maximize the cumulated reward using the Covariance-Matrix Adaptation Evolution-Strategy (@hansen), a generic gradient-free black box optimization algorithm.
 
-Below is a figure from the original paper explaining the architecture.
+Fig.\ref{fig:archi} (from the original paper) explains the architecture.
 
-![Architecture](img/archfig.png)
+![Architecture\label{fig:archi}](img/archfig.png)
 
 On a given environment, the model is trained sequentially as follows:
   1. Sample randomly generated rollouts from a well suited *random policy*.

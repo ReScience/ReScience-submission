@@ -134,7 +134,7 @@ For every figure reproduced, we used the exact same values that were used in
 the original paper for the different parameters.
 
 The software used to code and run the models and to generate the figures is
-*Julia* version 0.6.2 (@Bezanson17) All the code used to replicate the original
+*Julia* version 0.6.2 (@Bezanson17). All the code used to replicate the original
 paper is available alongside the article.
 
 # Results

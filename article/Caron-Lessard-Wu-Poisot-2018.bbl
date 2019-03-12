@@ -1,0 +1,342 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.9 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global}
+    \entry{Anderson78}{article}{}
+      \name{author}{2}{}{%
+        {{hash=28837142c793cbfc7a87e4ca9b10267a}{%
+           family={Anderson},
+           familyi={A\bibinitperiod},
+           given={Roy\bibnamedelima M},
+           giveni={R\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=ff60baf137a2c4388aa2a525c8dc316e}{%
+           family={May},
+           familyi={M\bibinitperiod},
+           given={Robert\bibnamedelima M},
+           giveni={R\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Wiley Online Library}%
+      }
+      \strng{namehash}{16026086999d9b94cd7c42d1aeefba51}
+      \strng{fullhash}{16026086999d9b94cd7c42d1aeefba51}
+      \strng{bibnamehash}{16026086999d9b94cd7c42d1aeefba51}
+      \strng{authorbibnamehash}{16026086999d9b94cd7c42d1aeefba51}
+      \strng{authornamehash}{16026086999d9b94cd7c42d1aeefba51}
+      \strng{authorfullhash}{16026086999d9b94cd7c42d1aeefba51}
+      \field{sortinit}{A}
+      \field{sortinithash}{d77c7cdd82ff690d4c3ef13216f92f0b}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The Journal of Animal Ecology}
+      \field{title}{Regulation and stability of host-parasite population interactions: I. Regulatory processes}
+      \field{year}{1978}
+      \field{pages}{219\bibrangedash 247}
+      \range{pages}{29}
+      \verb{doi}
+      \verb 10.2307/3933
+      \endverb
+    \endentry
+    \entry{Bezanson17}{article}{}
+      \name{author}{4}{}{%
+        {{hash=17e68031e06f57a7e83caeb4e0aed827}{%
+           family={Bezanson},
+           familyi={B\bibinitperiod},
+           given={Jeff},
+           giveni={J\bibinitperiod}}}%
+        {{hash=01a6ca61fcd12a3a071ec49304df57f8}{%
+           family={Edelman},
+           familyi={E\bibinitperiod},
+           given={Alan},
+           giveni={A\bibinitperiod}}}%
+        {{hash=bca7c93f55e669f71c4ff95e68ac9538}{%
+           family={Karpinski},
+           familyi={K\bibinitperiod},
+           given={Stefan},
+           giveni={S\bibinitperiod}}}%
+        {{hash=062e695b23b111d2db54f4ec89d94a13}{%
+           family={Shah},
+           familyi={S\bibinitperiod},
+           given={Viral\bibnamedelima B.},
+           giveni={V\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+      }
+      \strng{namehash}{07e3452af3652a626dc1d02355fda942}
+      \strng{fullhash}{b95e7005e1ed8ac26e6722d4a1f23bdf}
+      \strng{bibnamehash}{07e3452af3652a626dc1d02355fda942}
+      \strng{authorbibnamehash}{07e3452af3652a626dc1d02355fda942}
+      \strng{authornamehash}{07e3452af3652a626dc1d02355fda942}
+      \strng{authorfullhash}{b95e7005e1ed8ac26e6722d4a1f23bdf}
+      \field{sortinit}{B}
+      \field{sortinithash}{276475738cc058478c1677046f857703}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{SIAM Review}
+      \field{number}{1}
+      \field{title}{Julia: A Fresh Approach to Numerical Computing}
+      \field{volume}{59}
+      \field{year}{2017}
+      \field{pages}{65\bibrangedash 98}
+      \range{pages}{34}
+      \verb{doi}
+      \verb 10.1137/141000671
+      \endverb
+      \verb{eprint}
+      \verb https://doi.org/10.1137/141000671
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1137/141000671
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1137/141000671
+      \endverb
+    \endentry
+    \entry{Dempster83}{article}{}
+      \name{author}{1}{}{%
+        {{hash=d072abd8d3d16acfe85bfe5a1cec1d1e}{%
+           family={Dempster},
+           familyi={D\bibinitperiod},
+           given={JP},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Wiley Online Library}%
+      }
+      \strng{namehash}{d072abd8d3d16acfe85bfe5a1cec1d1e}
+      \strng{fullhash}{d072abd8d3d16acfe85bfe5a1cec1d1e}
+      \strng{bibnamehash}{d072abd8d3d16acfe85bfe5a1cec1d1e}
+      \strng{authorbibnamehash}{d072abd8d3d16acfe85bfe5a1cec1d1e}
+      \strng{authornamehash}{d072abd8d3d16acfe85bfe5a1cec1d1e}
+      \strng{authorfullhash}{d072abd8d3d16acfe85bfe5a1cec1d1e}
+      \field{sortinit}{D}
+      \field{sortinithash}{2ef1bd9a78cc71eb74d7231c635177b8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Biological Reviews}
+      \field{number}{3}
+      \field{title}{The natural control of populations of butterflies and moths}
+      \field{volume}{58}
+      \field{year}{1983}
+      \field{pages}{461\bibrangedash 481}
+      \range{pages}{21}
+      \verb{doi}
+      \verb 10.1111/j.1469-185X.1983.tb00396.x
+      \endverb
+    \endentry
+    \entry{Hassell85}{article}{}
+      \name{author}{1}{}{%
+        {{hash=0ae707f6a69c32038da01415146bd75b}{%
+           family={Hassell},
+           familyi={H\bibinitperiod},
+           given={M.\bibnamedelimi P.},
+           giveni={M\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {[Wiley, British Ecological Society]}%
+      }
+      \strng{namehash}{0ae707f6a69c32038da01415146bd75b}
+      \strng{fullhash}{0ae707f6a69c32038da01415146bd75b}
+      \strng{bibnamehash}{0ae707f6a69c32038da01415146bd75b}
+      \strng{authorbibnamehash}{0ae707f6a69c32038da01415146bd75b}
+      \strng{authornamehash}{0ae707f6a69c32038da01415146bd75b}
+      \strng{authorfullhash}{0ae707f6a69c32038da01415146bd75b}
+      \field{sortinit}{H}
+      \field{sortinithash}{5f15a7bc777ad49ff15aa4d2831b1681}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{00218790, 13652656}
+      \field{journaltitle}{Journal of Animal Ecology}
+      \field{number}{1}
+      \field{title}{Insect Natural Enemies as Regulating Factors}
+      \field{volume}{54}
+      \field{year}{1985}
+      \field{pages}{323\bibrangedash 334}
+      \range{pages}{12}
+      \verb{doi}
+      \verb 10.2307/4641
+      \endverb
+      \verb{urlraw}
+      \verb https://www.jstor.org/stable/4641
+      \endverb
+      \verb{url}
+      \verb https://www.jstor.org/stable/4641
+      \endverb
+    \endentry
+    \entry{Hassell78}{book}{}
+      \name{author}{1}{}{%
+        {{hash=2301a18fc61032f071229a576a488da0}{%
+           family={Hassell},
+           familyi={H\bibinitperiod},
+           given={Michael\bibnamedelima P.},
+           giveni={M\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Princeton, N.J}%
+      }
+      \list{publisher}{1}{%
+        {Princeton University Press}%
+      }
+      \strng{namehash}{2301a18fc61032f071229a576a488da0}
+      \strng{fullhash}{2301a18fc61032f071229a576a488da0}
+      \strng{bibnamehash}{2301a18fc61032f071229a576a488da0}
+      \strng{authorbibnamehash}{2301a18fc61032f071229a576a488da0}
+      \strng{authornamehash}{2301a18fc61032f071229a576a488da0}
+      \strng{authorfullhash}{2301a18fc61032f071229a576a488da0}
+      \field{sortinit}{H}
+      \field{sortinithash}{5f15a7bc777ad49ff15aa4d2831b1681}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{978-0-691-08208-0 978-0-691-08215-8}
+      \field{number}{13}
+      \field{series}{Monographs in population biology}
+      \field{title}{The dynamics of arthropod predator-prey systems}
+      \field{year}{1978}
+    \endentry
+    \entry{Nicholson35}{article}{}
+      \name{author}{2}{}{%
+        {{hash=8f6d09fbc1df0da4ab2be29c3abc7a40}{%
+           family={Nicholson},
+           familyi={N\bibinitperiod},
+           given={Alexander\bibnamedelima J},
+           giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=00b81bf4212b3ccd62d6bc604b5b6034}{%
+           family={Bailey},
+           familyi={B\bibinitperiod},
+           given={Victor\bibnamedelima A},
+           giveni={V\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Wiley Online Library}%
+      }
+      \strng{namehash}{10c98783225cb9b1ac67e2627112e0b2}
+      \strng{fullhash}{10c98783225cb9b1ac67e2627112e0b2}
+      \strng{bibnamehash}{10c98783225cb9b1ac67e2627112e0b2}
+      \strng{authorbibnamehash}{10c98783225cb9b1ac67e2627112e0b2}
+      \strng{authornamehash}{10c98783225cb9b1ac67e2627112e0b2}
+      \strng{authorfullhash}{10c98783225cb9b1ac67e2627112e0b2}
+      \field{sortinit}{N}
+      \field{sortinithash}{f7242c3ed3dc50029fca1be76c497c7c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Zoology}
+      \field{number}{3}
+      \field{title}{The Balance of Animal Populations.—Part I.}
+      \field{volume}{105}
+      \field{year}{1935}
+      \field{pages}{551\bibrangedash 598}
+      \range{pages}{48}
+      \verb{doi}
+      \verb 10.1111/j.1096-3642.1935.tb01680.x
+      \endverb
+    \endentry
+    \entry{Rockwood15}{book}{}
+      \name{author}{2}{}{%
+        {{hash=45b6a5d124d65aa62c2f5851de0109ad}{%
+           family={Rockwood},
+           familyi={R\bibinitperiod},
+           given={Larry\bibnamedelima L.},
+           giveni={L\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=78405e82fe256e5eeff798897132f6fa}{%
+           family={Witt},
+           familyi={W\bibinitperiod},
+           given={Jonathan\bibnamedelima W.},
+           giveni={J\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Chichester, West Sussex, UK ; Hoboken, NJ, USA}%
+      }
+      \list{publisher}{1}{%
+        {Wiley Blackwell}%
+      }
+      \strng{namehash}{e3168bd7b7f221b00c2a3d360cac4cac}
+      \strng{fullhash}{e3168bd7b7f221b00c2a3d360cac4cac}
+      \strng{bibnamehash}{e3168bd7b7f221b00c2a3d360cac4cac}
+      \strng{authorbibnamehash}{e3168bd7b7f221b00c2a3d360cac4cac}
+      \strng{authornamehash}{e3168bd7b7f221b00c2a3d360cac4cac}
+      \strng{authorfullhash}{e3168bd7b7f221b00c2a3d360cac4cac}
+      \field{sortinit}{R}
+      \field{sortinithash}{da6b42bd3ab22fee61abed031ee405f7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{Second edition}
+      \field{isbn}{978-1-118-94758-6 978-1-118-94757-9}
+      \field{title}{Introduction to population ecology}
+      \field{year}{2015}
+    \endentry
+    \entry{Thompson24}{article}{}
+      \name{author}{1}{}{%
+        {{hash=38f1773854099bd94f2837004e3ea1e6}{%
+           family={Thompson},
+           familyi={T\bibinitperiod},
+           given={WR},
+           giveni={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{38f1773854099bd94f2837004e3ea1e6}
+      \strng{fullhash}{38f1773854099bd94f2837004e3ea1e6}
+      \strng{bibnamehash}{38f1773854099bd94f2837004e3ea1e6}
+      \strng{authorbibnamehash}{38f1773854099bd94f2837004e3ea1e6}
+      \strng{authornamehash}{38f1773854099bd94f2837004e3ea1e6}
+      \strng{authorfullhash}{38f1773854099bd94f2837004e3ea1e6}
+      \field{sortinit}{T}
+      \field{sortinithash}{6f7aff9db9dcfeb7f95fd5bbd2f78df9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Annu Fac Sci Mars}
+      \field{title}{La theorie mathematique de l'action des parasites entomophages et le facteur du hasard.}
+      \field{volume}{2}
+      \field{year}{1924}
+      \field{pages}{69\bibrangedash 89}
+      \range{pages}{21}
+    \endentry
+    \entry{Turchin90}{article}{}
+      \name{author}{1}{}{%
+        {{hash=775aba394cb4d028323d6fd47ca17427}{%
+           family={Turchin},
+           familyi={T\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Nature Publishing Group}%
+      }
+      \strng{namehash}{775aba394cb4d028323d6fd47ca17427}
+      \strng{fullhash}{775aba394cb4d028323d6fd47ca17427}
+      \strng{bibnamehash}{775aba394cb4d028323d6fd47ca17427}
+      \strng{authorbibnamehash}{775aba394cb4d028323d6fd47ca17427}
+      \strng{authornamehash}{775aba394cb4d028323d6fd47ca17427}
+      \strng{authorfullhash}{775aba394cb4d028323d6fd47ca17427}
+      \field{sortinit}{T}
+      \field{sortinithash}{6f7aff9db9dcfeb7f95fd5bbd2f78df9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature}
+      \field{number}{6267}
+      \field{title}{Rarity of density dependence or population regulation with lags?}
+      \field{volume}{344}
+      \field{year}{1990}
+      \field{pages}{660}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1038/344660a0
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

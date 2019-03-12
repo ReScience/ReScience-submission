@@ -1,0 +1,18 @@
+[0] Config.pm:302> INFO - This is Biber 2.11
+[1] Config.pm:305> INFO - Logfile is 'Caron-Lessard-Wu-Poisot-2018.blg'
+[29] biber:313> INFO - === mar mar 12, 2019, 10:35:19
+[56] Biber.pm:371> INFO - Reading 'Caron-Lessard-Wu-Poisot-2018.bcf'
+[138] Biber.pm:857> INFO - Found 9 citekeys in bib section 0
+[155] Biber.pm:3976> INFO - Processing section 0
+[166] Biber.pm:4136> INFO - Looking for bibtex format file 'bibliography.bib' for section 0
+[167] bibtex.pm:1489> INFO - LaTeX decoding ...
+[182] bibtex.pm:1305> INFO - Found BibTeX data source 'bibliography.bib'
+[221] Utils.pm:193> WARN - ISBN '978-0-691-08208-0 978-0-691-08215-8' in entry 'Hassell78' is invalid - run biber with '--validate_datamodel' for details.
+[225] Utils.pm:193> WARN - ISBN '978-1-118-94758-6 978-1-118-94757-9' in entry 'Rockwood15' is invalid - run biber with '--validate_datamodel' for details.
+[272] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[272] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[272] Biber.pm:3804> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'en-US'
+[272] Biber.pm:3810> INFO - No sort tailoring available for locale 'en-US'
+[289] bbl.pm:617> INFO - Writing 'Caron-Lessard-Wu-Poisot-2018.bbl' with encoding 'UTF-8'
+[293] bbl.pm:720> INFO - Output to Caron-Lessard-Wu-Poisot-2018.bbl
+[293] Biber.pm:110> INFO - WARNINGS: 2

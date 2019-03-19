@@ -7,7 +7,7 @@ This is a replication of the following article:
 Verbyla DL, Litvaitis JA (1989) Resampling methods for evaluating classification accuracy
 of wildlife habitat models. Environmental Management 13:783-787 https://doi.org/10.1007/BF01868317
 
-where the authors examined different resampling methods to test wildife habiat models.
+where the authors examined different resampling methods to test wildife habitat models.
 
 ## Pre-requisites
 

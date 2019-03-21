@@ -1,0 +1,16 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Prediction\040error}{}% 2
+\BOOKMARK [1][-]{section.3}{Resampling\040methods}{}% 3
+\BOOKMARK [2][-]{subsection.3.1}{Resubstitution}{section.3}% 4
+\BOOKMARK [2][-]{subsection.3.2}{Hold-out\040cross-validation}{section.3}% 5
+\BOOKMARK [2][-]{subsection.3.3}{K-fold\040cross-validation}{section.3}% 6
+\BOOKMARK [2][-]{subsection.3.4}{Bootstrap\040cross-validation}{section.3}% 7
+\BOOKMARK [1][-]{section.4}{Computational\040experiment\040replication}{}% 8
+\BOOKMARK [2][-]{subsection.4.1}{Random\040datasets}{section.4}% 9
+\BOOKMARK [2][-]{subsection.4.2}{Resubstitution}{section.4}% 10
+\BOOKMARK [2][-]{subsection.4.3}{K-fold\040cross-validation}{section.4}% 11
+\BOOKMARK [2][-]{subsection.4.4}{Bootstrap\040cross-validation}{section.4}% 12
+\BOOKMARK [2][-]{subsection.4.5}{Hold-out\040cross-validation}{section.4}% 13
+\BOOKMARK [1][-]{section.5}{Results}{}% 14
+\BOOKMARK [1][-]{section.6}{Conclusion}{}% 15
+\BOOKMARK [1][-]{section.7}{Acknowledgements}{}% 16

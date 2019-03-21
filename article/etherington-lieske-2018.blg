@@ -1,0 +1,15 @@
+[0] Config.pm:340> INFO - This is Biber 2.4
+[1] Config.pm:343> INFO - Logfile is 'etherington-lieske-2018.blg'
+[35] biber:287> INFO - === Thu Mar 21, 2019, 12:12:20
+[148] Biber.pm:348> INFO - Reading 'etherington-lieske-2018.bcf'
+[254] Biber.pm:742> INFO - Found 10 citekeys in bib section 0
+[266] Biber.pm:3151> INFO - Processing section 0
+[312] Biber.pm:3308> INFO - Looking for bibtex format file 'bibliography.bib' for section 0
+[328] bibtex.pm:1113> INFO - Decoding LaTeX character macros into UTF-8
+[341] bibtex.pm:974> INFO - Found BibTeX data source 'bibliography.bib'
+[566] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[566] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[566] Biber.pm:3028> INFO - Sorting list 'nty/global' of type 'entry' with scheme 'nty' and locale 'en-US'
+[567] Biber.pm:3032> INFO - No sort tailoring available for locale 'en-US'
+[578] bbl.pm:519> INFO - Writing 'etherington-lieske-2018.bbl' with encoding 'UTF-8'
+[605] bbl.pm:615> INFO - Output to etherington-lieske-2018.bbl

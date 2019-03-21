@@ -1,0 +1,359 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.6 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \sortlist[entry]{nty/global}
+    \entry{capen-1986}{inbook}{}
+      \name{author}{4}{}{%
+        {{hash=2bae38c2ebedb1b9834b8226e5522ba0}{%
+           family={Capen},
+           family_i={C\bibinitperiod},
+           given={D.\bibnamedelimi E.},
+           given_i={D\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=6be4a39cbcbe1adc741aaa894b76ccb3}{%
+           family={Fenwick},
+           family_i={F\bibinitperiod},
+           given={J.\bibnamedelimi W.},
+           given_i={J\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+        {{hash=0baacbf51ffb5849a1651a6ddc65d99f}{%
+           family={Inkley},
+           family_i={I\bibinitperiod},
+           given={D.\bibnamedelimi B.},
+           given_i={D\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+        {{hash=0d52bd98799648c48b657866907b2b3c}{%
+           family={Boynton},
+           family_i={B\bibinitperiod},
+           given={A.\bibnamedelimi C.},
+           given_i={A\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+      }
+      \name{editor}{3}{}{%
+        {{hash=cddd903d45ea9301ac4dc13d4c2e1487}{%
+           family={Verner},
+           family_i={V\bibinitperiod},
+           given={J.\bibnamedelimi A.},
+           given_i={J\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=def14abba4cd0ab3c4b3e4204ddca80f}{%
+           family={Morrison},
+           family_i={M\bibinitperiod},
+           given={M.\bibnamedelimi L.},
+           given_i={M\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=ac8cc41da48f46b58eead8b3fe1c5d43}{%
+           family={Ralph},
+           family_i={R\bibinitperiod},
+           given={C.\bibnamedelimi J.},
+           given_i={C\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Madison}%
+      }
+      \list{publisher}{1}{%
+        {University of Wisconsin Press}%
+      }
+      \strng{namehash}{8e7aa8f0c4fb419d6df964af9c75b533}
+      \strng{fullhash}{7aa20ec57e79ac1839e70d60e0672281}
+      \field{sortinit}{C}
+      \field{sortinithash}{59f25d509f3381b07695554a9f35ecb2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Wildlife 2000: modelling habitat relationships of terrestrial vertebrates}
+      \field{title}{Multivariate models of songbird habitat in New England forests}
+      \field{type}{Book Section}
+      \field{year}{1986}
+      \field{pages}{171\bibrangedash 175}
+      \range{pages}{5}
+    \endentry
+    \entry{diaconis-1983}{article}{}
+      \name{author}{2}{}{%
+        {{hash=94cac82030c96b37c89866a4f4a0a07e}{%
+           family={Diaconis},
+           family_i={D\bibinitperiod},
+           given={P.},
+           given_i={P\bibinitperiod}}}%
+        {{hash=e0260340f14be8eca6732082ab8cbaf4}{%
+           family={Efron},
+           family_i={E\bibinitperiod},
+           given={B.},
+           given_i={B\bibinitperiod}}}%
+      }
+      \strng{namehash}{c3a99e6d1dce405aa39af39be5065a3b}
+      \strng{fullhash}{c3a99e6d1dce405aa39af39be5065a3b}
+      \field{sortinit}{D}
+      \field{sortinithash}{78f7c4753a2004675f316a80bdb31742}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Scientific American}
+      \field{number}{5}
+      \field{title}{Computer-intensive methods in statistics}
+      \field{type}{Journal Article}
+      \field{volume}{248}
+      \field{year}{1983}
+      \field{pages}{116\bibrangedash 130}
+      \range{pages}{15}
+    \endentry
+    \entry{efron-1983}{article}{}
+      \name{author}{1}{}{%
+        {{hash=e0260340f14be8eca6732082ab8cbaf4}{%
+           family={Efron},
+           family_i={E\bibinitperiod},
+           given={B.},
+           given_i={B\bibinitperiod}}}%
+      }
+      \strng{namehash}{e0260340f14be8eca6732082ab8cbaf4}
+      \strng{fullhash}{e0260340f14be8eca6732082ab8cbaf4}
+      \field{sortinit}{E}
+      \field{sortinithash}{fefc5210ef4721525b2a478df41efcd4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of the American Statistical Association}
+      \field{number}{382}
+      \field{title}{Estimating the error rate of a prediction rule: improvement on cross-validation}
+      \field{type}{Journal Article}
+      \field{volume}{78}
+      \field{year}{1983}
+      \field{pages}{316\bibrangedash 331}
+      \range{pages}{16}
+      \verb{doi}
+      \verb 10.1080/01621459.1983.10477973
+      \endverb
+    \endentry
+    \entry{efron-1997}{article}{}
+      \name{author}{2}{}{%
+        {{hash=e0260340f14be8eca6732082ab8cbaf4}{%
+           family={Efron},
+           family_i={E\bibinitperiod},
+           given={B.},
+           given_i={B\bibinitperiod}}}%
+        {{hash=4117945339081933eb914268a132be74}{%
+           family={Tibshirani},
+           family_i={T\bibinitperiod},
+           given={R.},
+           given_i={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{f60b825b7d47acc9323cd863ec5dba33}
+      \strng{fullhash}{f60b825b7d47acc9323cd863ec5dba33}
+      \field{sortinit}{E}
+      \field{sortinithash}{fefc5210ef4721525b2a478df41efcd4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of the American Statistical Association}
+      \field{number}{438}
+      \field{title}{Improvements on cross-validation: the .632+ bootstrap method}
+      \field{type}{Journal Article}
+      \field{volume}{92}
+      \field{year}{1997}
+      \field{pages}{548\bibrangedash 560}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1080/01621459.1997.10474007
+      \endverb
+    \endentry
+    \entry{efron-1993}{book}{}
+      \name{author}{2}{}{%
+        {{hash=e0260340f14be8eca6732082ab8cbaf4}{%
+           family={Efron},
+           family_i={E\bibinitperiod},
+           given={B.},
+           given_i={B\bibinitperiod}}}%
+        {{hash=8111eda45194f12352a5fb00e1bf54da}{%
+           family={Tibshirani},
+           family_i={T\bibinitperiod},
+           given={R.\bibnamedelimi J.},
+           given_i={R\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York}%
+      }
+      \list{publisher}{1}{%
+        {Chapman \& Hall}%
+      }
+      \strng{namehash}{7f222f4b005f01f85972e93048b9dae9}
+      \strng{fullhash}{7f222f4b005f01f85972e93048b9dae9}
+      \field{sortinit}{E}
+      \field{sortinithash}{fefc5210ef4721525b2a478df41efcd4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{An Introduction to the Bootstrap}
+      \field{type}{Book}
+      \field{year}{1993}
+    \endentry
+    \entry{fielding-1997}{article}{}
+      \name{author}{2}{}{%
+        {{hash=b85602d42a6590f993e61aa51fbf1eae}{%
+           family={Fielding},
+           family_i={F\bibinitperiod},
+           given={A.\bibnamedelimi H.},
+           given_i={A\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=cbd2daeb5644a3a11382b705d7d52abc}{%
+           family={Bell},
+           family_i={B\bibinitperiod},
+           given={J.\bibnamedelimi F.},
+           given_i={J\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+      }
+      \strng{namehash}{5104018dd3a2b07ecdb5456bc193899f}
+      \strng{fullhash}{5104018dd3a2b07ecdb5456bc193899f}
+      \field{sortinit}{F}
+      \field{sortinithash}{c6a7d9913bbd7b20ea954441c0460b78}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Environmental Conservation}
+      \field{number}{1}
+      \field{title}{A review of methods for the assessment of prediction errors in conservation presence/absence models}
+      \field{type}{Journal Article}
+      \field{volume}{24}
+      \field{year}{1997}
+      \field{pages}{38\bibrangedash 49}
+      \range{pages}{12}
+    \endentry
+    \entry{hastie-2009}{book}{}
+      \name{author}{3}{}{%
+        {{hash=f62ba077cb7ab155bad8c8547d164b4e}{%
+           family={Hastie},
+           family_i={H\bibinitperiod},
+           given={T.},
+           given_i={T\bibinitperiod}}}%
+        {{hash=4117945339081933eb914268a132be74}{%
+           family={Tibshirani},
+           family_i={T\bibinitperiod},
+           given={R.},
+           given_i={R\bibinitperiod}}}%
+        {{hash=3e2bb395f960ae0f50ba4ab7a6906f2f}{%
+           family={Friedman},
+           family_i={F\bibinitperiod},
+           given={J.},
+           given_i={J\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York}%
+      }
+      \list{publisher}{1}{%
+        {Springer-Verlag New York}%
+      }
+      \strng{namehash}{759ae52e531bef39cedead67b16970b2}
+      \strng{fullhash}{759ae52e531bef39cedead67b16970b2}
+      \field{sortinit}{H}
+      \field{sortinithash}{82012198d5dfa657b8c4a168793268a6}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{2nd}
+      \field{title}{The Elements of Statistical Learning: data mining, inference, and prediction}
+      \field{type}{Book}
+      \field{year}{2009}
+    \endentry
+    \entry{jain-1987}{article}{}
+      \name{author}{3}{}{%
+        {{hash=9ee29fa046999b31c2634e59233a0eca}{%
+           family={Jain},
+           family_i={J\bibinitperiod},
+           given={A.\bibnamedelimi K.},
+           given_i={A\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+        {{hash=2f3cc226a10648ffde6a54b0438caf9e}{%
+           family={Dubes},
+           family_i={D\bibinitperiod},
+           given={R.\bibnamedelimi C.},
+           given_i={R\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=b056abfd7a086874d084d7f44eb7e16a}{%
+           family={Chen},
+           family_i={C\bibinitperiod},
+           given={C.\bibnamedelimi C.},
+           given_i={C\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+      }
+      \strng{namehash}{89f93bd7fe6e813799a08e1703410c7f}
+      \strng{fullhash}{89f93bd7fe6e813799a08e1703410c7f}
+      \field{sortinit}{J}
+      \field{sortinithash}{ec3950a647c092421b9fcca6d819504a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Transactions on Pattern Analysis and Machine Intelligence}
+      \field{number}{5}
+      \field{title}{Boostrap techniques for error estimation}
+      \field{type}{Journal Article}
+      \field{volume}{9}
+      \field{year}{1987}
+      \field{pages}{628\bibrangedash 633}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1109/tpami.1987.4767957
+      \endverb
+    \endentry
+    \entry{lachenbruch-1968}{article}{}
+      \name{author}{2}{}{%
+        {{hash=95b4dd4712bd78aa921d67a23be6d239}{%
+           family={Lachenbruch},
+           family_i={L\bibinitperiod},
+           given={P.\bibnamedelimi A.},
+           given_i={P\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=8ea60474990944dab253d28f81c723b1}{%
+           family={Mickey},
+           family_i={M\bibinitperiod},
+           given={M.\bibnamedelimi R.},
+           given_i={M\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+      }
+      \strng{namehash}{19a397eceb7d49f36ab95c25758dd7f4}
+      \strng{fullhash}{19a397eceb7d49f36ab95c25758dd7f4}
+      \field{sortinit}{L}
+      \field{sortinithash}{872351f18d0f736066eda0bf18bfa4f7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Technometrics}
+      \field{number}{1}
+      \field{title}{Estimation of error rates in discriminant analysis}
+      \field{type}{Journal Article}
+      \field{volume}{10}
+      \field{year}{1968}
+      \field{pages}{1\bibrangedash 11}
+      \range{pages}{11}
+      \verb{doi}
+      \verb 10.2307/1266219
+      \endverb
+    \endentry
+    \entry{verbyla-1989}{article}{}
+      \name{author}{2}{}{%
+        {{hash=08e7a235df3aa36acbb52969622160f4}{%
+           family={Verbyla},
+           family_i={V\bibinitperiod},
+           given={D.\bibnamedelimi L.},
+           given_i={D\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=5cbf8ef968c58e4e33be581547484bc4}{%
+           family={Litvaitis},
+           family_i={L\bibinitperiod},
+           given={J.\bibnamedelimi A.},
+           given_i={J\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \strng{namehash}{1bae958c3399e09353ab9a05f8ed25ad}
+      \strng{fullhash}{1bae958c3399e09353ab9a05f8ed25ad}
+      \field{sortinit}{V}
+      \field{sortinithash}{d18f5ce25ce0b5ca7f924e3f6c04870e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Environmental Management}
+      \field{number}{6}
+      \field{title}{Resampling methods for evaluating classification accuracy of wildlife habitat models}
+      \field{type}{Journal Article}
+      \field{volume}{13}
+      \field{year}{1989}
+      \field{pages}{783\bibrangedash 787}
+      \range{pages}{5}
+      \verb{doi}
+      \verb 10.1007/BF01868317
+      \endverb
+    \endentry
+  \endsortlist
+\endrefsection
+\endinput
+

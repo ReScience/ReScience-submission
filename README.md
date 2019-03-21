@@ -21,3 +21,5 @@ following packages:
  * pandas 0.22.0
 
 An installation of LaTeX is required to reproduce the figure annontations exactly, but is not required by the replication.
+
+Unix users have reported a requirement for an installation of ```dvipng``` for Matplotlib to successfully export the plot.

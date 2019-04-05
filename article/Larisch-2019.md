@@ -59,7 +59,7 @@ depending on the spiking behavior of the neurons: if the neurons fire strongly a
 
 The original model was implemented in Matlab (<http://modeldb.yale.edu/144566>) to demonstrate the
 stable learning of weights.
-This model reimplementation is written in Python (2.7, 3.4 or later) with the help of the neuro-simulator ANNarchy[^1] [@Vitay2015] (version 4.6.6), numpy (version 1.11.0) and matplotlib (version 1.5.1).
+This model reimplementation is written in Python ( 3.4 or later) with the help of the neuro-simulator ANNarchy[^1] [@Vitay2015] (version 4.6.6), numpy (version 1.11.0) and matplotlib (version 1.5.1).
 The reimplementation is mainly based on the description of neuron model and learning rule in the original publication [@Clopath2010].
 Because of the lack of further description of the homeostatic mechanism and the neural behavior after a emitted spike,
 the Matlab code is used as the second reference for this reimplementation.
@@ -95,7 +95,7 @@ The adaptive spiking threshold ($V_T$) is set to $V_{T_{max}}$ after a spike and
 
 $$ \tau_{V_{T}} \frac{dV_{T}}{dt} =- (V_T - V_{T_{rest}})  $$ {#eq:VT}
 
-The values for the parameters of the model are taken from the original paper.
+The values for the parameters of the model are taken from the original paper [@Clopath2010].
 
 ### Synaptic model {-}
 
@@ -134,7 +134,7 @@ The amplitude of the LTD term, and with that the balance between LTP and LTD, is
 $$ \tau_{\bar{\bar{u}}}\frac{d \bar{\bar{u}}}{dt} =  [(u-E_L)^2] - \bar{\bar{u}}$$ {#eq:homeo}
 
 The homeostatic variable $\bar{\bar{u}}$ is computed over the quadratic difference between the postsynaptic membrane potential and the resting potential ($E_L$).
-When the postsynaptic neuron fires frequently, $\bar{\bar{u}}$ increases, leading to a higher level of LTD and weight decreases.
+When the postsynaptic neuron fires frequently, $\bar{\bar{u}}$ increases, leading to a higher level of LTD and the weights decreases.
 In contrast, a lower postsynaptic activity decreases the level of LTD and the weights can increase.
 Through the ratio of $\bar{\bar{u}}$ with $u_{ref}^2$, this mechanism can enforce the connections to decrease down to the minimum weight bound or increase to the maximum weight bound.
 This requires a hard upper and lower bound for the weights and leads to a binomial distribution of the weights.
@@ -142,7 +142,7 @@ The weight change over time depends on both the positive LTP term and the negati
 
 $$ \frac{dw}{dt} = LTP - LTD$$ {#eq:STDP}
 
-All parameters of the neuron model and the basis set of parameters for the learning rule are taken from the original publication.
+All parameters of the neuron model and the basis set of parameters for the learning rule are taken from the original publication [@Clopath2010].
 Some parameters of the learning rule differ from experiment to experiment, in particular the reference value of the homeostatic mechanism ($u_{ref}^2$),
 the learning rates for the LTP and LTD terms ($A_{LTP}$ and $A_{LTD}$), $\theta_{-}$ and the maximum weight value ($w_{max}$).
 A table with the different parameters for each task is presented in Table @tbl:table_VH and Table @tbl:table_FH.
@@ -277,7 +277,7 @@ The moving receptive fields are not reproduced here, but by reproducing receptiv
 
 ## Reimplementation
 
-The reimplementation was done with Python 2.7 (Python > 3.4 also works) and the neurosimulator ANNarchy [@Vitay2015] (version 4.6.6 or later).
+The reimplementation was done with Python 3.4 (Python > 3.4 also works) and the neurosimulator ANNarchy [@Vitay2015] (version 4.6.6 or later).
 With ANNarchy, it is possible to implement neuronal and synaptic behavior
 by defining the corresponding mathematical equations in a text format, which are solved by ANNarchy using the desired numerical method.
 ANNarchy supports rate-based and spiking networks and provides a way to combine both kinds of neuronal networks.

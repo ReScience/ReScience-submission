@@ -14,12 +14,12 @@ Reviewer:
   - Name Surname
   - Name Surname
 Publication:
-  received:  Feb,  1, 2018
-  accepted:  Feb, 1, 2018
-  published: Feb, 1, 2018
+  received:  Feb,  1, 2019
+  accepted:  Feb, 1, 2019
+  published: Feb, 1, 2019
   volume:    "**1**"
   issue:     "**1**"
-  date:      Feb 2018
+  date:      Feb 2019
   number: 1
 Repository:
   article:   "http://github.com/rescience/rescience-submission/article"

@@ -458,8 +458,6 @@ Although most results are reproduced successfully, some experiments could not be
 All weight changes are shown relatively to the initial weight values, which are not shown in the original publication.
 Because of that, initial values are mainly found experimentally and are shown in the corresponding tables of parameters.
 
-**discuss the results as they are**
-
 \begin{figure}
 \includegraphics[width=0.325\textwidth]{./figures/Fig1_clamp.png}
 \includegraphics[width=0.325\textwidth]{./figures/Fig1_window.png}

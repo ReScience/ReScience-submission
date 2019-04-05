@@ -2,6 +2,10 @@
 Python script to reproduce the STDP window protocol.
 Record the change in the synaptic weight for different time intervals
 between pre- and postsynaptic spike. See Fig. 2 a in Clopath et al. (2010).
+The presynaptic neuron spikes to a fixed time point (t=16 ms) and the time point
+for the postsynaptic spike changes over different dt (time in ms between the
+spikes) from -15ms (postsynaptic neuron spikes 15 ms before the presynaptic one)
+up to +15ms (postsynaptic neuron spikes 15 ms after the presynaptic one).
 """
 from __future__ import print_function
 import numpy as np

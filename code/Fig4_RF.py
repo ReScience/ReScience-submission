@@ -82,7 +82,7 @@ def preprocessData(matData):
 
 def run():
     print("""Presenting natural scenes to learn V1 simple cell receptive fields.
-Be aware: the calculation can took some time (up to 30 min).""")
+Be aware: the calculation can took some time (up to 30 min; depending on your machine).""")
 
 
     # compile command to create the ANNarchy network

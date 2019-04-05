@@ -74,3 +74,7 @@ To test the reimplementation of the network, start one of the experiment protoco
 ```
 python ann_burst.py
 ```
+or run all experiment protocols after each other:
+```
+python startAnalysis.py
+```

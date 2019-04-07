@@ -36,14 +36,12 @@ Bibliography:
 # Introduction
 
 Since the first description of spike timing-dependent plasticity (STDP) [@Bi1998],
-different models of STDP have been published to reproduce different experimental findings.
+different STDP models have been published to reproduce various experimental findings.
 Early implementations such as pair-based STDP learning rules failed to reproduce some experimental observations,
-for example triplet or quadruplets experiments [@Pfister2006].
+such as triplet or quadruplets experiments [@Pfister2006].
 
 @Clopath2010 introduced a STDP model which is able to reproduce the experimental findings of triplet studies.
-They propose a biologically-motivated model with a voltage-based learning rule, where the occurrence of long term depression (LTD) or long term potentiation (LTP) depends on the postsynaptic membrane voltage.
-Clopath and colleagues could reproduce how the occurrence of LTD and LTP depends
-on the depolarizing of the postsynaptic membrane potential, as observed in voltage-clamp [@Ngezahayo2000] and stationary-depolarization experiments [@Artola1990].
+They propose a biologically-motivated model with a voltage-based learning rule where the occurrence of long term depression (LTD) or long term potentiation (LTP) depends on the depolarization of the postsynaptic membrane potential, as observed in voltage-clamp [@Ngezahayo2000] and stationary-depolarization experiments [@Artola1990].
 Further, they could reproduce experimental findings such as spike pair repetition and triplet experiments [@Sjoestroem2001], as well as spike bursting experiments [@Nevian2006].
 They were able to show that their learning rule
 can develop stable weights, as needed for learning the receptive fields of simple cells in the primary visual cortex (V1).
@@ -59,7 +57,7 @@ depending on the spiking behavior of the neurons: if the neurons fire strongly a
 
 The original model was implemented in Matlab (<http://modeldb.yale.edu/144566>) to demonstrate the
 stable learning of weights.
-This model reimplementation is written in Python ( 3.4 or later) with the help of the neuro-simulator ANNarchy[^1] [@Vitay2015] (version 4.6.6), numpy (version 1.11.0) and matplotlib (version 1.5.1).
+This model reimplementation is written in Python (3.4 or later) with the help of the neuro-simulator ANNarchy[^1] [@Vitay2015] (4.6.6), numpy (1.11.0) and matplotlib (1.5.1).
 The reimplementation is mainly based on the description of neuron model and learning rule in the original publication [@Clopath2010].
 Because of the lack of further description of the homeostatic mechanism and the neural behavior after a emitted spike,
 the Matlab code is used as the second reference for this reimplementation.
@@ -75,14 +73,14 @@ the Matlab code is used as the second reference for this reimplementation.
 $$ C\frac{du}{dt} = -g_L\, (u-E_L) + g_L \, \Delta_T \, e^{\frac{u-V_T}{\Delta_T}} - w_{ad} + z + I$$ {#eq:memb}
 
 where $u$ is the membrane potential, $C$ the membrane capacitance, $g_L$ the leak conductance and $E_L$ the resting potential.
-The slope factor ($\Delta_T$) and the spiking threshold ($V_T$) are describing the behavior of the exponential term.
+The slope factor ($\Delta_T$) and the spiking threshold ($V_T$) describe the behavior of the exponential term.
 
 If the membrane potential ($u$) is above $V_T$, the neuron spikes and the membrane potential increases exponentially.
 To simulate the spike upswing for $2$ ms after a spike was emitted, they used the so-called *resolution trick*: they simulate the complete process in the membrane potential through a spike once with high precision and integrated over the complete process to calculate the entire change in the membrane potential.
 For simulations, they used the integrated value and fixed the membrane potential for $2$ ms.
 This means that the membrane potential is set to $29.4$ mV after a spike, one millisecond later to $29.4$ mV $+ 3.462$ mV and another millisecond later to $E_{L} + 15$ mV $+ 6.0984$ mV.
 
-The depolarizing spike afterpotential is $z$ and it decays over time to zero (Eq. @eq:Z).
+The depolarizing spike afterpotential is $z$ and decays over time to zero (Eq. @eq:Z).
 
 $$ \tau_{z} \frac{dz}{dt} =-z  $$ {#eq:Z}
 
@@ -113,12 +111,12 @@ With $\theta_{-} = E_{L}$, LTP only occurs if the membrane potential is above th
 
 $$ \tau_{+} \frac{d\bar{u}_+}{dt} = -\bar{u}_{+} + u $$ {#eq:barU}
 
-After each presynaptic spike, the spike train $\bar{x}_i$ is increased by 1 and decays exponentially with a time constant $\tau_{x}$ (Eq. @eq:xbar).
+After each presynaptic spike, the spike trace $\bar{x}_i$ is increased by 1 and decays exponentially with a time constant $\tau_{x}$ (Eq. @eq:xbar).
 The spike counter $X_i$ is $1$ when the presynaptic neuron spikes at time $t$, otherwise $0$.
 
 $$ \tau_{x}\frac{d \bar{x}_i}{dt} = -\bar{x}_i + X_i $$ {#eq:xbar}
 
-With this term, LTP occurs when the presynaptic spike trace ($\bar{x}_i$) is above zero, the postsynaptic membrane potential $u$ is over the threshold $\theta_+$ and the membrane potential trace $\bar{u}_-$ is above $\theta_-$. This happens whenever the postsynaptic neuron spikes shortly after the presynaptic neuron or if the membrane potential is high long enough, i.e. when $\bar{u}_-$ exceeds $\theta_-$.
+With this term, LTP occurs when the presynaptic spike trace ($\bar{x}_i$) is above zero, the postsynaptic membrane potential $u$ is over the threshold $\theta_+$ and the membrane potential trace $\bar{u}_-$ is above $\theta_-$. This happens whenever the postsynaptic neuron spikes shortly after the presynaptic neuron or when the membrane potential is high long enough, i.e. when $\bar{u}_-$ exceeds $\theta_-$.
 
 
 The LTD term (Eq. @eq:LTD) governs the decrease of the synaptic efficiency:
@@ -181,12 +179,12 @@ especially for the first two milliseconds after a postsynaptic spike.
 Although ANNarchy makes it easy to write down the model equations to build up networks,
 the processing order of the equations is strictly defined by ANNarchy [@Vitay2015].
 
-At each simulation step, neural variables are first updated using spikes emitted at the previous time steps. Spikes are then emitted using the defined conditions. Synaptic variables are then updated (including weight changes if presynaptic or postsynaptic event have been detected). Finally, the value of all desired variables is recorded for that step.
+At each simulation step, neural variables are first updated using spikes emitted at the previous time steps. Spikes are then emitted using the defined conditions. Synaptic variables are then updated (including weight changes if presynaptic or postsynaptic events have been detected). Finally, the value of all desired variables is recorded for that step.
 Because of this design choice, the execution order for differential equations and non-differential equations of the synapses and neurons is different from the order mentioned in the published Matlab source code.
 This forced us to change the value of some parameters or some of the simulations.
 These changed values can be found in the associated Python files and in the tables below.
 
-The chosen integration time step can have an influence of the computation result, as well.
+The chosen integration time step can have an influence on the computation result as well.
 In the original publication, no integration time step is mentioned. In the published Matlab source code, a time step of $dt= 1$ ms is chosen, which we also use.
 
 ### Experiment descriptions
@@ -217,26 +215,26 @@ As mentioned in the original publication the variable of the homeostatic mechani
 
 For the repetition frequency experiment and the triplet experiment,
 the number of pre- and postsynaptic spike pairs increases from a pair frequency of
-$0.1$ Hz to $50$ Hz. The time between a pre- and postsynaptic spike of a pair is
+$0.1$ Hz to $50$ Hz. The time between the pre- and postsynaptic spikes of a pair is
 $10$ ms.
 As in the previous experiment, we implement a network with two AdEx neurons connected to each other in order to observe the weight change.
 To reproduce this experiment, it was necessary to set $\bar{\bar{u}}$ to a fixed value, as mentioned in the original publication [@Clopath2010].
 The parameter changes are shown in Table @tbl:table_FH.
 
 
-Clopath and colleagues used three burst timing-dependent plasticity experiments.
+Clopath and colleagues modeled three burst timing-dependent plasticity experiments.
 In the first task, they changed the number of postsynaptic spikes from one up to three,
 with either $+10$ ms or $-10$ ms between the presynaptic and the first postsynaptic spike.
 The postsynaptic neuron fires at $50$ Hz.
-In the second experiment, they recorded the weight change when one presynaptic spike is followed by three postsynaptic spikes with varying postsynaptic firing rates (from $20$ Hz to $100$ Hz).
-As in the first experiment, they observe the weight change for the case when the first postsynaptic spikes appears $10$ ms after or $10$ ms before the presynaptic spike.
+In the second experiment, they recorded the weight change when a presynaptic spike is followed by three postsynaptic spikes with varying postsynaptic firing rates (from $20$ Hz to $100$ Hz).
+As in the first experiment, they observe the weight change for the case where the first postsynaptic spike appears $10$ ms after or $10$ ms before the presynaptic spike.
 The variation of the time lag between one presynaptic spike and three postsynaptic spikes is the focus of the third experiment.
-For that, the postsynaptic neuron fires with constant $50$ Hz and the time lag varies from $-100$ to $+60$ ms.
-To implement these experiments, we implement a network with two of the AdEx neurons. Each of these neurons is connected to one input neuron to control the discrete time points of the spiking events.
+For that, the postsynaptic neuron fires with a constant rate of $50$ Hz and the time lag varies from $-100$ to $+60$ ms.
+To implement these experiments, we define a network with two of the AdEx neurons. Each of these neurons is connected to one input neuron to control the discrete time points of the spiking events.
 For all three burst spiking experiments, the normal parameter set is used, and $\bar{\bar{u}}$ is set to a fixed value, as mentioned in the original publication.
 
 
-To analyze the connectivity dependence on the number of spikes, a small network with ten interconnected AdEx neurons is built.
+To analyze the dependency between the connectivity and the number of spikes, a small network with ten interconnected AdEx neurons is built.
 Each neuron receives an input from one additional neuron, with Poisson-distributed spike patterns.
 The firing rate of each Poisson neuron is increased from $2$ Hz to $20$ Hz, influencing the firing rate of the 10 corresponding neurons in the network.
 To analyze how the temporal order of spiking influences the connectivity,
@@ -257,7 +255,7 @@ To establish stable weights, the normal homeostatic mechanism is used.
 
 Besides the experiments from the original publication, we reimplemented the experiment for the emergent of stable weights out of the Matlab source code.
 The emergence of stable weights was achieved by presenting a Gaussian input over 500 presynaptic neurons and one postsynaptic AdEx neuron.
-For every trial ($125$ ms) ten Gaussian patterns are created to determine the activity of the 500 input neurons.
+For every trial ($125$ ms), ten Gaussian patterns are created to determine the activity of the 500 input neurons.
 As in the Matlab source code, the learning rates ($A_{LTP}$ and $A_{LTD}$) are
 increased by a factor of ten to speed up the learning.
 The experiments for stable weight learning, to show a specific connectivity pattern, require the original homeostatic mechanism.
@@ -277,7 +275,7 @@ The moving receptive fields are not reproduced here, but by reproducing receptiv
 
 ## Reimplementation
 
-The reimplementation was done with Python 3.4 (Python > 3.4 also works) and the neurosimulator ANNarchy [@Vitay2015] (version 4.6.6 or later).
+The reimplementation was done with Python 3.4 (Python 2.7 also works) and the neuro-simulator ANNarchy [@Vitay2015] (version 4.6.6 or later).
 With ANNarchy, it is possible to implement neuronal and synaptic behavior
 by defining the corresponding mathematical equations in a text format, which are solved by ANNarchy using the desired numerical method.
 ANNarchy supports rate-based and spiking networks and provides a way to combine both kinds of neuronal networks.
@@ -289,10 +287,8 @@ The following explanation of the network is from the implementation in `net_home
 
 ### Network implementation
 
-To achieve a correct behavior of the learning rule, a correct implementation of the membrane potential behavior, specially after a spike, is necessary.
-The proposed reimplementation relies on the original source code written in Matlab.
-ANNarchy allows to define easily the equations governing neurons and synapses, but the internal execution order of the equations is fixed and different from the original implementation.
-In the original Matlab source code, there is a counter variable to implement the right behavior of the membrane potential as shown in the code passage below.
+To achieve a correct behavior of the learning rule, a correct implementation of the membrane potential dynamics, especially after a spike, is necessary.
+The proposed reimplementation relies on the original source code written in Matlab, which uses a counter variable to implement the correct behavior of the membrane potential as shown in the code passage below.
 The presented code passage is from the `aEIF.m` file, which is contained in the source code published on modeldb.
 After the neuron spikes, the counter is set to one.
 
@@ -392,12 +388,11 @@ deltaW = ( -ltdTerm + ltpTerm)
           dw/dt = deltaW :min=0.0"""
 ```
 
-As for the neuron model, the equations for the STDP learning are defined by strings of the differential equations.
+As for the neuron model, the equations for the STDP learning are defined by strings of differential equations.
 `ltdTerm` describes the $LTD$ term and `ltpTerm` the $LTP$ term.
-Variables of the pre- or postsynaptic neuron, defined in the neuron model, can be addressed with the prefixes `pre.` and `post.`, respectively.
+Variables of the pre- or postsynaptic neurons, defined in the neuron model, can be addressed with the prefixes `pre.` and `post.`, respectively.
 With the `if w>wMin` statement in `ltdTerm`, the weight only decreases if the weight is above the lower bound.
-In `ltpTerm` a analogous term is implemented to avoid that weights exceed the upper bound.
-The parameters are defined in a string, analogous to the parameters of the neuron model.
+In `ltpTerm`, an analogous term is implemented to avoid that weights exceed the upper bound.
 The parameter `urefsquare` is the homeostatic reference parameter $u^{2}_{ref}$.
 The learning rates $A_{LTD}$ and $A_{LTP}$ are defined by `aLTD` and `aLTP`, respectively.
 The threshold $\theta_{-}$ is defined by `thetaLTD` and $\theta_{+}$ by `thetaLTP`.
@@ -411,21 +406,20 @@ ffSyn = Synapse( parameters = parameterFF,
 
 ANNarchy provides a `Synapse` object, that expects a `parameters` argument,
 the `equations` and a description of what happens when the pre-synaptic neuron spikes (`pre_spike`).
-After a pre-synaptic spike, the input current of the postsynaptic neurons increases by the value of the synaptic weight.
+After a pre-synaptic spike, the input current of the postsynaptic neurons increases by the value of the synaptic weight, if `transmit` is one.
 `g_target` is an alias for the postsynaptic conductance that should be increased (`g_Exc` in the AdEx neurons).
 
 ### Implementation of the Experiments
 
-The implementation of the different experiments are in the corresponding python files.
-To perform an experiment, the network with the neuron populations and the weights between them must be
-initialized.
+The implementation of the different experiments are provided in different python files.
+To perform an experiment, a network with the neural populations and the weights between them must be initialized.
 
 To create a population, ANNarchy provides the `Population` object.
 The `geometry` argument expects a tuple or a integer and defines the spatial geometry, respectively the number of neurons in the population.
-The `neuron` arguments expects a `Neuron` object. It defines the used model for population neurons.
+The `neuron` arguments expects a `Neuron` object.
 There is also a set of predefined `Population` objects in ANNarchy,
 for example the `PoissonPopulation`.
-This object provides a population of spiking neurons, whose spiking behavior follows a Poisson distribution with a given rate.
+This object provides a population of spiking neurons, whose spiking behavior follows a Poisson distribution with a given rate:
 
 ``` python
 poisPop = PoissonPopulation(geometry=10, rates=100.0)
@@ -473,16 +467,16 @@ Because of that, initial values are mainly found experimentally and are shown in
 
 ## Voltage-Clamp experiment
 
-The results are shown in Fig. \ref{Fig_exp}-left.
+The results of the voltage-clamp experiment are shown in Fig. \ref{Fig_exp}-left.
 The blue line represents the weight change with the standard parameter set for the visual cortex and
 the red line represents the weight change with the parameter set for the hippocampus, as mentioned in the original publication [@Clopath2010].
-The both dotted lines mark the $\theta_{-}$ and $\theta_{+}$ from the learning rule, with the standard data set.
-With the visual cortex data set (blue line), what is equal to the standard data set,
+The two dotted lines mark the $\theta_{-}$ and $\theta_{+}$ thresholds from the learning rule, with the standard data set.
+With the visual cortex data set (blue line),
 the weight decreases slightly if the membrane potential
 exceeds the $\theta_{-}$ threshold and increases after it exceeds $\theta_{+}$.
 With the hippocampus data set (red line)
 ($theta_{-} = -41.0 mV$, $theta_{+} = -38.0 mV$, $A_{LTD} =3.8*10^{-4}$,$A_{LTP} =0.2*10^{-4}$ ), the weight decreases at a postsynaptic membrane voltage value of $-41.0 mV$ and increases around $-20 mV$.
-This matches with the results in the @Clopath2010 publication.
+This matches with the results of the @Clopath2010 publication.
 
 ## Pair-based and triplet STDP experiments
 
@@ -493,7 +487,6 @@ The x-axis represents the time difference between pre- and postsynaptic spikes, 
 The resulting graph is similar to the one presented in the original publication.
 A slight difference can be seen in the higher positive and negative changes: in the original publication the normalized weight at the time gap $-10$ ms is around $70 \%$, while it is around $80 \%$ in our simulation.
 This could be caused by a different internal processing of ANNarchy, but we coud not isolate the reason.
-
 
 The analysis of the pairing repetition frequency task is shown in Fig. \ref{Fig_exp}-right.
 With lower repetition frequencies, post-pre pairs (red line) lead to LTD. At a repetition frequency around $30$ Hz,
@@ -514,21 +507,20 @@ in pre-post pairs. These results are similar to the original paper.
 \label{Fig_burst}
 \end{figure}
 
-In the original publication, @Clopath2010 studied the nonlinearity of STDP by using protocols of spike bursts.
+@Clopath2010 studied the nonlinearity of STDP by using protocols of spike bursts.
 The result from the reimplementation of the first spiking burst experiment is shown in Fig. \ref{Fig_burst}-upper-left.
-The upper marks represent the weight change with $+10$ ms, the lower marks the weight change with $-10$ ms between the presynaptic and the first postsynaptic spikes.
-As in the original publication from @Clopath2010 and the experimental paper of @Nevian2006, one postsynaptic spike, independently of the spiking order, leads only to a small change in the weight.
-A second spike leads to bigger change, especially when the postsynaptic neurons spikes after the presynaptic one.
+The upper marks represent the weight change with $+10$ ms, the lower marks the weight change with $-10$ ms between the presynaptic spikes and the first postsynaptic one.
+As in @Clopath2010 and the experimental paper of @Nevian2006, one postsynaptic spike, independently of the spiking order, leads only to a small weight change.
+A second spike leads to a bigger change, especially when the postsynaptic neurons spikes after the presynaptic one.
 
-The second task is the weight change, depending on the frequency between three postsynaptic spikes (Fig. \ref{Fig_burst}-upper-right).
+The second task investigates the weight change depending on the frequency between three postsynaptic spikes (Fig. \ref{Fig_burst}-upper-right).
 As in the previous experiment, the upper line represents the weight changes when the first postsynaptic spike appears $10$ ms after the presynaptic spike; the lower line when the first postsynaptic spike appears $10$ ms before the presynaptic one.
-As shown in @Clopath2010, a higher frequency leads to a higher change of the synaptic weight.
+As shown in @Clopath2010, a higher frequency leads to a higher change in the synaptic efficiency.
 
-The third task, the weight change as a function of the time between the one presynaptic spike and the first of three postsynaptic spikes, is presented in Fig. \ref{Fig_burst}-down.
+The third task, investigating the weight change as a function of the time between one presynaptic spike and the first of three postsynaptic spikes, is presented in Fig. \ref{Fig_burst}-down.
 The curve is also very similar to the one presented in @Clopath2010.
 
-The label on the y-axes, as described in the original publication [@Clopath2010], suggested the weight value in percentage.
-But, as mentioned in the original experimental paper by @Nevian2006, the graphs should actually show the weight changes in percentage, relative to the initial weight value.
+The label on the y-axes is the weight value in percentage, but, as mentioned in the original experimental paper by @Nevian2006, the graphs should actually show the weight changes in percentage, relative to the initial weight value.
 
 ## Connectivity analysis
 
@@ -538,18 +530,18 @@ But, as mentioned in the original experimental paper by @Nevian2006, the graphs 
 \includegraphics[width=0.4\textwidth]{./figures/Fig3_temporalCode.png}
 \caption{ \textbf{Different connectivity patterns.}
          Depending on the spiking activity, different connectivity patterns emerge between the neurons.
-         The color scheme is similar to that in the original publication.
+         The color scheme is similar to the one used in the original publication.
          Weak connections are blue, strong unidirectional connections are yellow,
          and strong bidirectional connections are red.
          \textbf{Left}, Neurons with similarly high firing rates develop strong bidirectional connections.
-         \textbf{Right}, Connection patterns follows the temporal order of the occurred spikes.
-         The y-axis shows the index of the presynaptic neuron, the x-axis the index of the postsynaptic neurons}
+         \textbf{Right}, Connection patterns follow the temporal order of the occurred spikes.
+         The y-axis shows the index of the presynaptic neuron, the x-axis the index of the postsynaptic neurons.}
 \label{Fig_con}
 \end{figure}
 
 
 In addition to the replication of experimental findings of pair-based and triplet STDP experiments,
-@Clopath2010 presented how the synaptic connectivity (emerging from the proposed learning rule) is influenced by the spiking behavior of the neurons.
+@Clopath2010 presented how the synaptic connectivity (emerging from the proposed learning rule) is influenced by the spiking patterns of the neurons.
 Fig. \ref{Fig_con}-left shows the obtained connectivity structure if neurons fire at different frequencies.
 The color scheme is similar to the original publication: weak connections (above $\frac{3}{4}$ of the maximum activity) are blue, strongly unidirectional connections are yellow while strong bidirectional connections are red.
 Neurons with similarly high firing rates develop strong bidirectional connections, because they are often active at the same time.
@@ -575,15 +567,15 @@ As in the original paper, the connections from neurons which are firing a long t
 \label{Fig_stab}
 \end{figure}
 
-In the previously published Matlab source code, the emergence of stable weights was demonstrated using a one dimensional input with 500 input values.
-At every time step, a subset of close neurons are active.
+In the original Matlab source code, the emergence of stable weights was demonstrated using a one-dimensional input with 500 values.
+At each time step, a subset of close neurons are activated.
 The emergent stable weights are shown in Fig. \ref{Fig_stab}-right.
-After 500 epochs, a spatially related subset of weights increased to the maximum and the other weight values decrease down to zero.
+After 500 epochs, a spatially related subset of weights have increased to the maximum and the other weight values have decreased down to zero.
 This leads to a specific selectivity for the postsynaptic neuron.
 
 The emergence of a cluster of strong synaptic weights can be interpreted as the formation of a receptive field, which defines the selectivity of the neuron, similar to the receptive fields in the primary visual cortex (V1).
-To reproduce that, one postsynaptic neuron receives input from $512$ presynaptic neurons, as described in the original publication.
-Every presynaptic neuron corresponds to one pixel of the $16 \times 16$ pixel input, divided in an ON-part for the positive and an OFF-part for the negative values ($16 \times 16 \times 2 = 512$).
+To reproduce it, one postsynaptic neuron receives input from $512$ presynaptic neurons, as described in the original publication.
+Each presynaptic neuron corresponds to one pixel of the $16 \times 16$ input, divided into an ON-part for the positive and an OFF-part for the negative values ($16 \times 16 \times 2 = 512$).
 The $200000$ presented patches are randomly cut out of ten natural scenes [@Olshausen1996], and each patch is presented for $200$ ms.
 The emergent receptive fields are shown in Fig. \ref{Fig_stab}-left.
 
@@ -591,28 +583,26 @@ The emergent receptive fields are shown in Fig. \ref{Fig_stab}-left.
 
 Our reimplementation of voltage based STDP learning rule from @Clopath2010
 is able to reproduce the experimental data and the emergence connectivity structures
-proposed in the original paper as well as the emergent of orientation selective receptive fields, like those in the primary visual cortex (V1).
+proposed in the original paper as well as the emergence of orientation selective receptive fields, like those in the primary visual cortex (V1).
 In comparison to the graphs in the original publication, our reimplementation shows little differences in the curve shapes in the
 STDP window (Fig. \ref{Fig_exp}-middle), the weight change as a function of the pair-repetition frequency (Fig. \ref{Fig_exp}-left)
 and for the weight change as a function of the burst frequency of the postsynaptic neuron (Fig. \ref{Fig_burst}-upper-right).
 However, the curves show the same tendency as in the original publication.
 
 
-The description of the learning rule in the original publication comprises enough details to understand the different components and their interaction.
+The description of the learning rule in the original publication contained enough details to understand the different components and their interaction.
 However, two main components of the learning rule have not been described adequately to allow a direct reimplementation:
 the 'resolution trick' of the membrane potential after spike emission, and the equation for the homeostatic mechanism ($\bar{\bar{u}}$).
-The emergent of stable weights with high and low values depends on a functional homeostatic mechanism, as mentioned in the original publication [@Clopath2010].
-But the formula to calculate the homeostatic variable $\bar{\bar{u}}$ is not described in the publication.
-The dependency of $\bar{\bar{u}}$ on the homeostatic mechanism is necessary to implement the right behavior of the membrane potential.
+The emergence of stable weights with high and low values depends on a functional homeostatic mechanism, as mentioned in the original publication [@Clopath2010], but the formula to calculate the homeostatic variable $\bar{\bar{u}}$ is not described in the publication.
 Because of this, the reimplementation has greatly benefited from the release of the source code on modelDB, where the correct behavior of the neuron and the homeostatic mechanism is written.
-Furthermore, initial weight values are not given in the original publication, this complicates the reproduction of the experiments.
+Furthermore, initial weight values are not given in the original publication,  complicating the reproduction of the experiments.
 Initial weights for the experiments can be found in the corresponding python files.
-Please note that the weights can change from task to task to achieve the proportional values for the figures.
+Note that the weights can change from task to task to achieve the proportional values for the figures.
 
 
 ANNarchy as a framework makes it easy to define a neuron model and learning rule to set up a network.
-Despite of this advance, the calculation order of the equations is controlled by ANNarchy and can lead to a slightly different behavior and little differences in the results.
-Furthermore, the change of some parameters for most tasks was necessary. But this seems to be a regular problem in reimplementing models [@Brette2007].
+However, the calculation order of the equations is controlled by ANNarchy and can lead to a slightly different behavior and little differences in the results.
+Furthermore, the change of some parameters for most tasks was necessary, but this seems to be a common problem in reimplementing models [@Brette2007].
 
 ## Acknowledgment
 

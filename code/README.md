@@ -7,13 +7,13 @@ License: GNU GPL v2
 #### Dependencies
 
 * Python 2.7 or >= 3.4
-* Numpy 1.11.0
-* Matplotlib 1.5.1
+* Numpy >= 1.11.0
+* Matplotlib >= 1.5.1
 * ANNarchy >= 4.6.6
 
 ##### Install ANNarchy
 
-The model reimplementation requires the neuron simulator ANNarchy (Artificial Neural Networks architect).
+The model reimplementation requires the neuro-simulator ANNarchy (Artificial Neural Networks architect).
 The code is open source (GPLv2+) and can be found online (https://bitbucket.org/annarchy/annarchy).
 
 ANNarchy requires the following packages.

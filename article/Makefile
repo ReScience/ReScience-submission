@@ -8,7 +8,7 @@ TEMPLATE = rescience-template.tex
 %.tex: $(MDFILE)
         # @echo "Processing $<"
 	@pandoc --standalone                          \
-                --filter pandoc-crossref \
+                --filter ~/.cabal/bin/pandoc-crossref \
                 --template=$(TEMPLATE)                \
                 --pdf-engine=xelatex                \
                 --biblatex                            \
@@ -16,7 +16,6 @@ TEMPLATE = rescience-template.tex
                 -M "crossrefYaml=crossref.yaml"       \
                 --output $(TEXFILE) $(MDFILE)
 
-# --filter ~/.cabal/bin/pandoc-crossref \
 
 %.pdf: $(TEXFILE) $(BIBFILE) $(TEMPLATE)
 	@echo " [1/4] Processing $(TEXFILE) (pass 1)"

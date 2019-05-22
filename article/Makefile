@@ -1,4 +1,4 @@
-SOURCE   = Tallec-Blier-Kalainathan-2019
+SOURCE   = Name-YEAR
 MDFILE   = $(SOURCE).md
 BIBFILE  = bibliography.bib
 TEXFILE  = $(SOURCE).tex
@@ -8,7 +8,7 @@ TEMPLATE = rescience-template.tex
 %.tex: $(MDFILE)
         # @echo "Processing $<"
 	@pandoc --standalone                          \
-                --filter pandoc-crossref \
+                --filter ~/.cabal/bin/pandoc-crossref \
                 --template=$(TEMPLATE)                \
                 --pdf-engine=xelatex                  \
                 --biblatex                            \

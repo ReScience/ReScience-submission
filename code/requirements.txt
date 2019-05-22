@@ -1,6 +1,9 @@
 cma
 argparse
-gym[all]
-box2d
+gym
+gym[box2d]
+box2d-py
 tqdm
 numpy
+torch
+torchvision

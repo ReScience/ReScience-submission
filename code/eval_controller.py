@@ -19,8 +19,6 @@ from utils.misc import RolloutGenerator, ASIZE, RSIZE, LSIZE
 
 import logging
 
-
-import pdb
 ################################################################################
 #                           Thread routines                                    #
 ################################################################################

@@ -13,9 +13,8 @@ from models.vae import VAE
 
 from utils.misc import save_checkpoint
 from utils.misc import LSIZE, RED_SIZE
-## WARNING : THIS SHOULD BE REPLACE WITH PYTORCH 0.5
 from utils.learning import EarlyStopping
-from utils.learning import ReduceLROnPlateau
+from torch.optim.lr_scheduler import ReduceLROnPlateau
 from data.loaders import RolloutObservationDataset
 
 
@@ -37,8 +36,8 @@ cuda = torch.cuda.is_available()
 
 
 # torch.manual_seed(123)
-# torch.backends.cudnn.enabled = False               
-torch.backends.cudnn.benchmark=True
+# torch.backends.cudnn.enabled = False
+torch.backends.cudnn.benchmark = True
 
 
 device = torch.device("cuda" if cuda else "cpu")
@@ -67,7 +66,7 @@ test_loader = torch.utils.data.DataLoader(
 
 
 model = VAE(3, LSIZE).to(device)
-optimizer = optim.Adam(model.parameters())#, lr=1e-4, betas=(0.5, 0.9))
+optimizer = optim.Adam(model.parameters())  # , lr=1e-4, betas=(0.5, 0.9))
 # optimizer = optim.SGD(model.parameters(), lr=1e-3)
 scheduler = ReduceLROnPlateau(optimizer, 'min', factor=0.5, patience=5)
 earlystopping = EarlyStopping('min', patience=30)
@@ -81,7 +80,7 @@ def loss_function(recon_x, x, mu, logsigma):
     x = x.cpu()
     mu = mu.cpu()
     logsigma = logsigma.cpu()
-    BCE = .5 * (recon_x - x).pow(2).sum(dim=(1,2,3)).sum()
+    BCE = .5 * (recon_x - x).pow(2).sum(dim=(1, 2, 3)).sum()
     # BCE = (recon_x - x).pow(2).sum(dim=1).sum()
 
     # see Appendix B from VAE paper:
@@ -108,7 +107,7 @@ def train(epoch):
         loss.backward()
         optimizer.step()
         train_loss += loss.item()
-        
+
         if batch_idx % 20 == 0:
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
                 epoch, batch_idx * len(data), len(train_loader.dataset),
@@ -133,6 +132,7 @@ def test():
     test_loss /= len(test_loader.dataset)
     print('====> Test set loss: {:.4f}'.format(test_loss))
     return test_loss
+
 
 # check vae dir exists, if not, create it
 vae_dir = join(args.logdir, 'vae')

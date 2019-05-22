@@ -10,7 +10,7 @@ TEMPLATE = rescience-template.tex
 	@pandoc --standalone                          \
                 --filter pandoc-crossref \
                 --template=$(TEMPLATE)                \
-                --pdf-engine=xelatex                \
+                --pdf-engine=xelatex                  \
                 --biblatex                            \
                 --bibliography=$(BIBFILE)             \
                 -M "crossrefYaml=crossref.yaml"       \

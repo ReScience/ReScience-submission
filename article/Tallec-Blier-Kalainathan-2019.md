@@ -155,12 +155,11 @@ the first try, relatively to the usual reproducibility standards of deep
 reinforcement learning algorithms (@rlblogpost, @henderson). Our own
 implementation reached a best score of 895, below the 906 reported in the
 paper, but much better than the second best benchmark reported which is around
-780. Results are further detailled in the tables and fig.\ref{fig:curves}.
-Fig.\ref{fig:curves} displays the learning curves of CMAES in the three considered
+780. Results are further detailled in the tables and fig. @fig:curves.
+Fig. @fig:curves displays the learning curves of CMAES in the three considered
 setups. Solid lines represent the mean performance and standard deviation of
 the population, while dashed line represent the maximal performance. At test time,
 we select the best performing element of the CMAES population.
-
 
 ## Additional experiments
 
@@ -168,7 +167,6 @@ We wanted to test the impact of the MDN-RNN on the results. Indeed, we observed
 during training that the model was rapidly learning the easy part of the
 dynamic, but mostly failed to account for long term effects and multimodality. 
 
-![Learning curves of CMAES \label{fig:curves}](img/out.png)
 In the original paper, the authors performed an ablation study, and compared
 their results with a model without the MDN-RNN. They obtained the following
 scores:
@@ -201,6 +199,11 @@ velocity of the car is absent from individual frames, and consequently from
 latent codes. Therefore, strategies learnt without the MDN-RNN cannot use such
 information.  Even a random MDN-RNN still holds some useful temporal
 information, which is enough to learn a good strategy on this problem.
+This may relate to observations made in the field of *echo state networks* (ESN, @jaeger-tuto).
+ESNs consist in untrained but properly initialized reservoir recurrent networks, which, along with
+properly trained output weights, prove sufficient to solve problems with non trivial
+temporal dependencies. In our case, the untrained MDN-RNN seems to also behave like a
+reservoir for temporal information, necessary to solve the task at hand.
 
 # Conclusion
 
@@ -229,6 +232,7 @@ some additional experiments. Overall, our conclusions are twofold:
       difficulty. Is proper handling of multi modal behaviors key to leveraging
       the usefulness of a model of the world?
 
+![Learning curves of CMAES. This qualitatively replicates Fig. 4 left from @NIPS2018_7512. The number of generations is lower here, due to computational limitations.](img/out.png){#fig:curves}
 
 # References
 

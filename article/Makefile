@@ -8,7 +8,7 @@ TEMPLATE = rescience-template.tex
 %.tex: $(MDFILE)
         # @echo "Processing $<"
 	@pandoc --standalone                          \
-                --filter ~/Téléchargements/pandoc-crossref \
+                --filter pandoc-crossref \
                 --template=$(TEMPLATE)                \
                 --pdf-engine=xelatex                \
                 --biblatex                            \

@@ -9,26 +9,26 @@ I request a review for the following replication:
 
 ### Original article
 
-**Title:**  
-**Author(s):**  
-**Journal (or Conference):**  
-**Year:**  
+**Title:Recurrent World Models Facilitate Policy Evolution**  
+**Author(s):David Ha and Jürgen Schmidhuber**  
+**Journal (or Conference):Conference on Neural Information Processing Systems (NeurIPS)**  
+**Year:2018**  
 **DOI:**  
-**PDF:**   
+**PDF:http://papers.nips.cc/paper/7512-recurrent-world-models-facilitate-policy-evolution.pdf**   
 
 ### Replication
 
-**Author(s)**:   
+**Author(s)**: Corentin Tallec (*), Léonard Blier (*), Diviyan Kalainathan   
 **Repository**:  
 **PDF**:  
-**Keywords**:  
-**Language**:  
-**Domain**:  
+**Keywords**: Machine Learning, Reinforcement Learning, Model based RL
+**Language**: English  
+**Domain**: Machine Learning  
 
 ### Results
 
 * [ ] Article has been fully replicated
-* [ ] Article has been partially replicated
+* [x] Article has been partially replicated
 * [ ] Article has not been replicated
 
 

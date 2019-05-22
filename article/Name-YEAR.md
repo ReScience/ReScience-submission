@@ -1,43 +1,4 @@
----
-Title: "This is the title"
-Author:
-  - name: Name Surname
-    affiliation: 1
-  - name: Name Surname,
-    affiliation: 2, 3
-Address:
-  - code:    1
-    address: Affiliation Dept/Program/Center, Institution Name, City, State, Country
-  - code:    2
-    address: Affiliation Dept/Program/Center, Institution Name, City, State, Country
-  - code:    3
-    address: Affiliation Dept/Program/Center, Institution Name, City, State, Country
-Contact:
-  - corresponding-author@mail.com
-Editor:
-  - Name Surname
-Reviewer:
-  - Name Surname
-  - Name Surname
-Publication:
-  received:  Sep,  1, 2015
-  accepted:  Sep, 1, 2015
-  published: Sep, 1, 2015
-  volume:    "**1**"
-  issue:     "**1**"
-  date:      Sep 2015
-  number: 1
-Repository:
-  article:   "http://github.com/rescience/rescience-submission/article"
-  code:      "http://github.com/rescience/rescience-submission/code"
-  data:      
-  notebook:  
-Reproduction:
-  - "Original article (title, authors, journal, doi)"
-Bibliography:
-  bibliography.bib
 
----
 
 # Introduction
 

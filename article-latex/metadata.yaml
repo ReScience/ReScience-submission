@@ -40,8 +40,8 @@ keywords: ecology, wildlife, habitat, model
 # You can get a DOI for your code from Zenodo,
 #   see https://guides.github.com/activities/citable-code/
 code:
-  - url: https://github.com/rescience-c/template
-  - doi: 
+  - url: https://github.com/tretherington/ReScience-submission/tree/etherington-lieske
+  - doi: 10.5281/zenodo.3229408
 
 # Date URL and DOI (optional if no data)
 data:
@@ -50,10 +50,10 @@ data:
 
 # Information about the original article that has been replicated
 replication:
- - cite: # Full textual citation
- - bib:  # Bibtex key (if any) in your bibliography file
- - url:  # URL to the PDF, try to link to a non-paywall version
- - doi:  # Regular digital object identifier
+ - cite: Verbyla DL, Litvaitis JA (1989) Resampling methods for evaluating classification accuracy of wildlife habitat models. Environmental Management 13:783-787 # Full textual citation
+ - bib: verbyla-1989 # Bibtex key (if any) in your bibliography file
+ - url: https://link.springer.com/article/10.1007%2FBF01868317 # URL to the PDF, try to link to a non-paywall version
+ - doi: 10.1007/BF01868317 # Regular digital object identifier
 
 # Don't forget to surround abstract with double quotes
 abstract: "Three years have passed since ReScience published its first article
@@ -90,24 +90,24 @@ language: Python
 
 # For example, the URL of the GitHub issue where review actually occured
 review: 
-  - url: 
+  - url: https://github.com/ReScience/ReScience-submission/pull/52#issuecomment-495107533
 
 contributors:
-  - name:
-    orcid: 
+  - name: Timothée Poisot
+    orcid: 0000-0002-0735-5184
     role: editor
-  - name:
-    orcid:
+  - name: Justin Kitzes
+    orcid: 0000-0001-7839-3594
     role: reviewer
-  - name:
-    orcid:
+  - name: Laura J. Graham
+    orcid: 0000-0002-3611-7281
     role: reviewer
 
 # This information will be provided by the editor
 dates:
-  - received:  November 1, 2018
-  - accepted:
-  - published: 
+  - received:  August 31, 2018
+  - accepted: March 22, 2019
+  - published: May 28, 2019
 
 # This information will be provided by the editor
 article:
@@ -119,5 +119,5 @@ article:
 journal:
   - name:   "ReScience C"
   - issn:   2430-3658
-  - volume: 4
+  - volume: 5
   - issue:  1

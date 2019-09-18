@@ -27,8 +27,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 from ANNarchy import *
-
-from net_fix import *
+setup(dt=1)
+from network import *
 
 # Global parameters
 duration = 240 #ms
@@ -88,6 +88,8 @@ projN1_N2 = Projection(
     synapse=ffSyn
 ).connect_one_to_one(weights = 0.01)
 
+projN1_N2.set_fix = 1.0 # use a fix apmlitude for the LTD term
+
 def run():
     # compile command to create the ANNarchy network
     compile()
@@ -131,7 +133,6 @@ def run():
         delta_w = m_d.get('deltaW')
         deltaWSpk_neg[i] = np.sum(delta_w)
         reset()
-    print(deltaWSpk_neg )
 
     """
     Second experiment:
@@ -176,7 +177,6 @@ def run():
     Change the delay between pre- and postsynaptic spikes from -100 to 60 ms.
     """
     lags = np.linspace(-100,60,33)
-    print(lags)
     dWLag_pos = np.zeros(len(lags))
     deltaWLag_pos = np.zeros(len(lags))
     # Loop over different delays between the presynaptic and the first postsynaptic spike
@@ -195,41 +195,45 @@ def run():
     fig = plt.figure(figsize=(12,10))
     gs=GridSpec(6,4)
     ax0= plt.subplot(gs[0:4,0:2])
-    ax0.plot(np.clip(deltaWSpk_pos/initW1*100,0,250),'x',color='black',lw=3,ms=15)
-    ax0.plot( (2*initW1 +deltaWSpk_neg)/initW1*100,'x',color='black',lw=3,ms=15)
+    ax0.plot(np.clip(deltaWSpk_pos/initW1*100,0,250),'x',color='black',lw=5,ms=20)
+    ax0.plot( (2*initW1 +deltaWSpk_neg)/initW1*100,'x',color='black',lw=5,ms=20)
     ax0.hlines(100,-0.2,3,colors='k')
     ax0.spines['right'].set_visible(False)
     ax0.spines['top'].set_visible(False)
     ax0.xaxis.set_ticks_position('bottom')
     ax0.yaxis.set_ticks_position('left')
-    plt.xticks(np.linspace(0,2,3),np.linspace(1,3,3))
+    plt.xticks(np.linspace(0,2,3),np.linspace(1,3,3),fontsize=15)
+    plt.yticks(fontsize=15)
     plt.xlim(-0.2,2.2)
-    plt.xlabel('Number of Spikes')
-    plt.ylabel('Normalized weight (%)')
+    plt.xlabel('Number of Spikes',fontsize=25)
+    plt.ylabel('Normalized weight (%)',fontsize=25)
     plt.ylim(0.0,250)
 
     ax1= plt.subplot(gs[0:4,2:4])
-    ax1.plot(np.clip(deltaWBurst_pos/initW2*100,0,250),'--',color='black',lw=3,ms=15)
-    ax1.plot((2*initW2+deltaWBurst_neg)/initW2*100,'--',color='black',lw=3,ms=15)
+    ax1.plot(np.clip(deltaWBurst_pos/initW2*100,0,250),'--',color='black',lw=5,ms=15)
+    ax1.plot((2*initW2+deltaWBurst_neg)/initW2*100,'--',color='black',lw=5,ms=15)
     ax1.hlines(100,0,n_freq,colors='k')
     ax1.spines['right'].set_visible(False)
     ax1.spines['top'].set_visible(False)
     ax1.xaxis.set_ticks_position('bottom')
     ax1.yaxis.set_ticks_position('left')
-    plt.xticks(np.linspace(0,n_freq-1,5),np.linspace(20,100,5))
+    plt.xticks(np.linspace(0,n_freq-1,5),np.linspace(20,100,5),fontsize=15)
+    plt.yticks(fontsize=15)
     plt.ylim(0.0,250)
-    plt.xlabel('Frequency (Hz)')
+    plt.xlabel('Frequency (Hz)',fontsize=25)
 
     ax2 = plt.subplot(gs[5:6,:])
-    ax2.plot((initW3+deltaWLag_pos)/initW3*100,'-',color='black',lw=3)
+    ax2.plot((initW3+deltaWLag_pos)/initW3*100,'-',color='black',lw=5)
     ax2.hlines(100,0,33,colors='k')
     ax2.spines['right'].set_visible(False)
     ax2.spines['top'].set_visible(False)
     ax2.xaxis.set_ticks_position('bottom')
     ax2.yaxis.set_ticks_position('left')
     plt.ylim(0.0,300)
-    plt.xlabel('Time lag (ms)')
-    fig.savefig('burst_dW.png',bbox_inches='tight')
+    plt.xticks(fontsize=15)
+    plt.yticks(fontsize=15)
+    plt.xlabel('Time lag (ms)',fontsize=25)
+    fig.savefig('Fig2_burst.png',bbox_inches='tight')
     plt.show()
     print("done")
 

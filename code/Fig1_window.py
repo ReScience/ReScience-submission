@@ -2,17 +2,13 @@
 Python script to reproduce the STDP window protocol.
 Record the change in the synaptic weight for different time intervals
 between pre- and postsynaptic spike. See Fig. 2 a in Clopath et al. (2010).
-The presynaptic neuron spikes to a fixed time point (t=16 ms) and the time point
-for the postsynaptic spike changes over different dt (time in ms between the
-spikes) from -15ms (postsynaptic neuron spikes 15 ms before the presynaptic one)
-up to +15ms (postsynaptic neuron spikes 15 ms after the presynaptic one).
 """
 from __future__ import print_function
 import numpy as np
 import matplotlib.pyplot as plt
 from ANNarchy import *
-
-from net_fix import *
+setup(dt=1)
+from network import *
 
 # Global parameters
 duration = 40 # duration time of 40 ms
@@ -62,7 +58,8 @@ projV1_V1 = Projection(
 ).connect_one_to_one(weights = initW)
 
 # Parameter adjustments
-projV1_V1.vmean = 70.0
+projV1_V1.vmean_fix = 70.0
+projV1_V1.set_fix = 1.0 # use a fix apmlitude for the LTD term
 
 def run():
     "Runs the STDP window protocol"
@@ -91,14 +88,14 @@ def run():
         simulate(duration)
         d_w = m_d.get('w')
         delta_w = m_d.get('deltaW')
-        w[i] = d_w[-1]#np.mean(d_w)
+        w[i] = d_w[-1]
         dW[i] = np.sum(delta_w)
 
     # Get the recorded data
     ltd_w = m_d.get('ltdTerm')
     ltp_w = m_d.get('ltpTerm')
 
-    w = (initW+dW)/initW*100.#w/initW *100.
+    w = (initW+dW)/initW*100.
 
     # Start plotting
     fig,ax = plt.subplots(figsize=(13,9))
@@ -107,18 +104,17 @@ def run():
     ax.xaxis.set_ticks_position('bottom')
     ax.yaxis.set_ticks_position('left')
 
-    plt.plot(np.linspace(0,13,14),w[0:14],color='tomato',lw=4.0)
-    plt.plot(np.linspace(13,17,5),np.linspace(w[13],w[17],5),color='black')
-    plt.plot(np.linspace(17,30,14),w[17:31],color='steelblue',lw=4.0)
+    plt.plot(np.linspace(0,13,14),w[0:14],color='tomato',lw=10.0)
+    plt.plot(np.linspace(13,17,5),np.linspace(w[13],w[17],5),color='black',lw=2)
+    plt.plot(np.linspace(17,30,14),w[17:31],color='steelblue',lw=10.0)
 
     plt.axhline(y=100.0, color='k',linestyle='--')
     plt.axvline(x=15,color='k',linestyle='--')
     plt.ylim(ymin=55,ymax=145)
-#    plt.yticks(np.linspace(50,140,5),np.linspace(50,140,5),fontsize=20)
-    plt.ylabel('Normalized weight (%)',fontsize=25)
-    #plt.xlim(xmin=-3,xmax=33)
-    plt.xticks(np.linspace(5,25,3),np.linspace(-10,10,3),fontsize=20)
-    plt.xlabel('T (ms)',fontsize=25)
+    plt.ylabel('Normalized weight (%)',fontsize=30)
+    plt.xticks(np.linspace(5,25,3),np.linspace(-10,10,3),fontsize=25)
+    plt.yticks(fontsize=25)
+    plt.xlabel('T (ms)',fontsize=30)
 
     plt.savefig('Fig1_window.png',bbox_inches='tight', pad_inches = 0.1)
     plt.show()

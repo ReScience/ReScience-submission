@@ -16,16 +16,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from ANNarchy import *
+setup(dt=1,seed=1001)
 import scipy.io as sio
 import os
-
-from net_homeostatic import *
+from network import *
 
 # Global parameters
 duration = 200#200 #ms presentation time per input patch
 s_Patch = 16 # patchsize in pixel
-n_patches = 300000 # number of patches to train
-maxFR = 50.0 # maximum firering rate
+n_patches = 500000 # number of patches to train
+maxFR = 70.0 # maximum firering rate
 
 # Presynaptic neuron model
 """
@@ -67,7 +67,9 @@ projInp_N = Projection(
     post= postN,
     target='Exc',
     synapse = ffSyn
-).connect_all_to_all(weights = Uniform(0.0,3.0))
+).connect_all_to_all(weights = Uniform(0.0,2.0))
+
+projInp_N.set_fix = 0.0 # use the homeostatic mechanisms in the LTD term
 
 def preprocessData(matData):
     # function to split the prewhitened images into on and off counterparts
@@ -81,16 +83,14 @@ def preprocessData(matData):
     return(new_images)
 
 def run():
-    print("""Presenting natural scenes to learn V1 simple cell receptive fields.
-Be aware: the calculation can took some time (up to 30 min; depending on your machine).""")
-
+    print('Presenting natural scenes to learn V1 simple cell receptive fields')
 
     # compile command to create the ANNarchy network
     compile()
 
     projInp_N.transmit = 1.0
-    projInp_N.aLTP = 0.00016*0.60
-    projInp_N.aLTD = 0.00014*0.60
+    projInp_N.aLTP = 0.00016*0.3
+    projInp_N.aLTD = 0.00014*0.3
 
     # load input data set
     matData = sio.loadmat('IMAGES.mat')
@@ -123,8 +123,7 @@ Be aware: the calculation can took some time (up to 30 min; depending on your ma
         # set the rates for the Poission input population
         inputPop.rates = (patch/maxV)*maxFR
         simulate(duration)
-        if (p%5000 == 0):
-            print(p, ' of ', n_patches,' presented')
+
     w = monW.get('w')
 
     # create the resulting RF out of the input weights
@@ -142,6 +141,4 @@ if __name__ == "__main__":
     if os.path.isfile('IMAGES.mat'):
         run()
     else:
-        print("""No IMAGES.mat found, please download the file from:
-        https://www.rctn.org/bruno/sparsenet/IMAGES.mat
-        and put in the code directory""")
+        print('No IMAGES.mat found, please download the file from: https://www.rctn.org/bruno/sparsenet/IMAGES.mat')

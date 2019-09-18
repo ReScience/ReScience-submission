@@ -10,9 +10,8 @@ from __future__ import print_function
 import numpy as np
 import matplotlib.pyplot as plt
 from ANNarchy import *
-
-from net_fix import *
-
+setup(dt=1)
+from network import *
 
 # Global parameters
 duration = 1000 #ms == 1 s
@@ -61,15 +60,16 @@ projV1_V1 = Projection(
     target='Exc',
     synapse=ffSyn
 ).connect_one_to_one(weights = 0.1)
-projV1_V1.vmean = 120.0
 
+
+
+projV1_V1.vmean_fix = 100.0
+projV1_V1.set_fix = 1.0 # use a fix apmlitude for the LTD term
 
 def run():
     print('Start experiment to reproduce the pairing frequency data.')
     # Compile command to create the ANNarchy network
     compile()
-
-    # Monitor objects
 
     # Create a single dendrite object to record the weight of this dendrite
     dendrite = projV1_V1.dendrite(0)

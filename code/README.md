@@ -5,11 +5,12 @@ Author: René Larisch (rene.larisch@informatik.tu-chemnitz.de)
 License: GNU GPL v2
 
 #### Dependencies
+The reimplementation are tested on the following software packages:
 
-* Python 2.7 or >= 3.4
-* Numpy >= 1.11.0
-* Matplotlib >= 1.5.1
-* ANNarchy >= 4.6.6
+* Python v2.7 and Python v3.6
+* Numpy v1.11.0
+* Matplotlib v1.5.1
+* ANNarchy v4.6.8.1
 
 ##### Install ANNarchy
 
@@ -39,6 +40,13 @@ One can also download the source code from bitbucket and install it with:
 ```
 python setup.py install
 ```
+
+or
+
+```
+python setup.py install
+```
+to install it in the home directory
 
 ANNarchy is available for GNU/Linux distributions and MacOS X (with limitations).
 

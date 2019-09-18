@@ -11,7 +11,7 @@ Connectivity reflects coding: a model of voltage-based STDP with homeostasis,
 C. Clopath, L. Büsing, E. Vasilaki and W. Gerstner, In: Nature Neuroscience 13.3
 (2010), pp. 344–352, doi= 10.1038/nn.2479
 
-The reimplementation is written in Python (v2.7) with the help of hte neuro-simulator ANNarchy (v4.6.4),
+The reimplementation is written in Python (v2.7 and tested on v3.6) with the help of the neuro-simulator ANNarchy (v4.6.8.1),
 Numpy (v1.11.0) and Matplotlib (v1.5.1).
 
 #### Data

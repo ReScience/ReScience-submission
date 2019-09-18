@@ -13,8 +13,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from ANNarchy import *
-
-from net_homeostatic import *
+setup(dt=1.0,seed=23456)
+from network import *
 from cmap import myCmap
 
 
@@ -49,9 +49,10 @@ projTen_Ten = Projection(
     post= pop_Ten,
     target= 'Exc',
     synapse= ffSyn
-).connect_all_to_all(weights = 0.1,allow_self_connections=True)
+).connect_all_to_all(weights = 0.3,allow_self_connections=True)
 # Set network parameter
-projTen_Ten.wMax= 0.25
+projTen_Ten.wMax= 0.7#0.25
+projTen_Ten.set_fix = 0.0 # use the homeostatic mechanisms in the LTD term
 
 def run():
     # Compile the network with ANNarchy

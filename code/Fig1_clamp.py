@@ -7,12 +7,11 @@ data in the visual cortex and the hippocampus.
 See Figure 1. h in Clopath et al. (2010).
 """
 from __future__ import print_function
-
 import numpy as np
 import matplotlib.pyplot as plt
 from ANNarchy import *
-
-from net_fix import *
+setup(dt=1)
+from network import *
 
 # Global parameters
 duration = 50*1000 # ms
@@ -23,7 +22,6 @@ initW = 0.0001
 Creates a list of spiking time points. 25 Hz for 50 seconds
 """
 spike_times1 = np.asarray(range(0, duration, int(1000/4)))
-#print("Number of spikes:", len(spike_times1))
 
 # Populations
 """
@@ -74,14 +72,17 @@ projC1_C2 = Projection(
     synapse=Syn_clamp
 ).connect_one_to_one(weights = initW)
 
+
 # Parameter adjustments
 projC1_C2.transmit = 1.0 # to activate the transmission over the synapse
-
+projC1_C2.set_fix = 1.0 # use a fix apmlitude for the LTD term
 def run():
-    "Runs voltage clamp experiment."
-    print('Start experiment to reproduce voltage clamp data.')
+
     # compile command to create the ANNarchy network
     compile()
+
+    "Runs voltage clamp experiment."
+    print('Start experiment to reproduce voltage clamp data.')
 
     # create a list of 100 values from -80 mV to 0 mV for the postsynaptic
     # membrane potential
@@ -119,6 +120,7 @@ def run():
     rec_dW_hippo = np.zeros(len(post_memb))
     rec_W_hippo = np.zeros(len(post_memb))
     spike_times1 =np.asarray(range(0, duration, int(1000/10)))
+
     inpPop1.spike_times = spike_times1.tolist()
 
     for i in range(len(post_memb)):
@@ -150,23 +152,19 @@ def run():
     ax.xaxis.set_ticks_position('bottom')
     ax.yaxis.set_ticks_position('left')
 
-    plt.plot(rec_W_norm,'--',color='steelblue',lw=3.0)
-    plt.plot(rec_W_hippo,color='tomato',lw=3.0)
-    plt.xlabel('Voltage (mv)')
-    #plt.ylim(ymin=0.00005,ymax=0.0003)
-    #plt.yticks(np.linspace(0.00005,0.0003,6),np.linspace(50,300,6))
-    #plt.xlim(0,20)
-    plt.ylabel('Normalized weight (%)')
-    plt.xticks(np.linspace(0,len(post_memb)-1,5),np.linspace(-80,0,5))
+    plt.plot(rec_W_norm,'--',color='steelblue',lw=5.0)
+    plt.plot(rec_W_hippo,color='tomato',lw=5.0)
+    plt.xlabel('Voltage (mv)', fontsize=25)
+    plt.ylabel('Normalized weight (%)', fontsize=25)
+    plt.xticks(np.linspace(0,len(post_memb)-1,5),np.linspace(-80,0,5),fontsize=20)
+    plt.yticks(fontsize=20)
     plt.axvline(ixM,color='k', linestyle='--')
     plt.text(ixM,np.max(rec_W_hippo),r'$\theta_{-}$',fontsize=20)
     plt.axvline(ixPL,color='k', linestyle='--')
     plt.text(ixPL,np.max(rec_W_hippo),r'$\theta_{+}$',fontsize=20)
     plt.savefig('Fig1_clamp.png',bbox_inches='tight')
-
     plt.show()
     print("Done with the experiment.")
 
 if __name__ == "__main__":
-
     run()

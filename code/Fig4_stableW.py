@@ -12,9 +12,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from ANNarchy import *
-setup(dt=1.0)
+setup(dt=1.0,seed=23456)
 
-from net_homeostatic import *
+from network import *
 
 # Presynaptic neuron model
 """
@@ -66,6 +66,8 @@ projInp_N = Projection(
     synapse = ffSyn
 ).connect_all_to_all(weights = Uniform(0.0,2.0))
 
+projInp_N.set_fix = 0.0 # use the homeostatic mechanisms in the LTD term
+
 # Define the input parameters as in Matlab source code
 sigma = 10
 in_max = 0.015
@@ -105,7 +107,7 @@ def run():
         inp = ((np.random.rand(nb_pre))< input_patterns[int(patterns[t])])*1
 
         # Set the membrane potential (vm) of the presynaptic neuron to emit a
-        # spike depending on the input pattern 
+        # spike depending on the input pattern
         pre_pop.g_vm = -60+(inp*30)
         simulate(1)
 
@@ -117,7 +119,7 @@ def run():
     plt.imshow(np.squeeze(w).T, cmap='jet')
     plt.xlabel('Number of epoch')
     plt.ylabel('Synapse index')
-    plt.savefig('Fig_4_stableW.png',bbox_inches='tight')
+    plt.savefig('Fig4_stable.png',bbox_inches='tight')
     plt.show()
     print("done")
 

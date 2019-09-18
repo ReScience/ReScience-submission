@@ -11,8 +11,8 @@ from __future__ import print_function
 import numpy as np
 import matplotlib.pyplot as plt
 from ANNarchy import *
-
-from net_homeostatic import *
+setup(dt=1.0,seed=23456)
+from network import *
 from cmap import myCmap
 
 
@@ -47,7 +47,9 @@ projTen_Ten = Projection(
     target='Exc',
     synapse=ffSyn
 ).connect_all_to_all(weights = 0.5,allow_self_connections=True)
-projTen_Ten.wMax= 0.3
+projTen_Ten.wMax= 0.75
+
+projTen_Ten.set_fix = 0.0 # use the homeostatic mechanisms in the LTD term
 
 def run():
 

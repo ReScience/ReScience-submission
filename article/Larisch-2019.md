@@ -146,7 +146,7 @@ Some parameters of the learning rule differ from experiment to experiment, in pa
 the learning rates for the LTP and LTD terms ($A_{LTP}$ and $A_{LTD}$), $\theta_{-}$ and the maximum weight value ($w_{max}$).
 Notice that in the original publication [@Clopath2010] and in the supplementary material only a maximum weight is given for all experiments they analyze the dynamics in a network. To be more specific, it is given for the relation between spiking patterns
 and connectivity in the ten neuron toy model, in the bigger network with inhibitory neurons, and in the emergence of simple cell receptive fields.
-Additionally, in the method section of [@Clopath2010], they write that the ten neurons in the toy model are hard bounded between zero and three. For the bigger network, they use hard bounds between [$0$,$0.75$]. In the reimplementation, we use [$0$,$0.7$] as hard bounds, what is closer to the upper bound in the bigger network.
+Additionally, in the method section of [@Clopath2010], they write that the ten neurons in the toy model are hard bounded between zero and three. For the bigger network, they use hard bounds between [$0$,$0.75$]. In the reimplementation, we use [$0$,$0.55$] as hard bounds, what is closer to the upper bound in the bigger network.
 A table with the different parameters for each task is presented in Table @tbl:table_VH and Table @tbl:table_FH.
 The values for the changed parameters are found experimentally.
 
@@ -159,7 +159,7 @@ Receptive fields                $A_{LTP}$           $8 \times 10 ^{-6}$    $9,9 
 Receptive fields                $A_{LTD}$           $14 \times 10 ^{-6}$   $7.7 \times 10^{-5}$
 Receptive fields                $u^{2}_{ref}$       $50$ mV$^2$            $55$ mV$^2$
 Receptive fields                $w_{max}$           $3.0$ nA                $4.0$ nA
-Receptive fields                max firing rate     $50$ Hz                 $60$     
+Receptive fields                max firing rate     $50$ Hz                 $60$  Hz  
 ------------------------------- ---------------    --------------------  --------------------
 Table: Changed parameters for connectivity experiments. {#tbl:table_VH}
 
@@ -224,7 +224,7 @@ by defining the corresponding mathematical equations in a text format, which are
 ANNarchy supports rate-based and spiking networks and provides a way to combine both kinds of neuronal networks.
 The network description is done in Python and code generation is used to produce optimized C++ code allowing a good parallel performance.
 
-The implementation of the network for the voltage-clamp experiment, the pairing repetition task, the STDP learning window and the burst spiking experiments can be found in `net_fix.py`, where $\bar{\bar{u}} = u_{ref}$ as mentioned previously to switch off the homeostatic mechanism.
+The implementation of the network for the voltage-clamp experiment, the pairing repetition task, the STDP learning window and the burst spiking experiments can be found in `net_fix.py`, where $\bar{\bar{u}} = u^2_{ref}$ as mentioned previously to switch off the homeostatic mechanism.
 For the connectivity experiments, the emergence of V1 simple-cell-like receptive fields and for the emergence of stable weights, the homeostatic mechanism dynamic as described in the original publication [@Clopath2010] is used. The network with a dynamic homeostatic mechanism can be found in `net_homeostatic.py`.
 The following explanation of the network is from the implementation in `net_homeostatic.py`.
 
@@ -409,7 +409,7 @@ Because of that, initial values are mainly found experimentally and are shown in
 ## Voltage-Clamp experiment
 
 To reproduce the voltage clamp experiment,
-the presynaptic neuron spikes with a constant firing rate of $25$ Hz for $50$ ms.
+the presynaptic neuron spikes with a constant firing rate of $25$ Hz for $50$ s.
 The postsynaptic membrane potential is changed from a fixed value of
 $–80$ mV to $0$ mV. We recorded for different values of the postsynaptic
 membrane potential the weight change.
@@ -586,8 +586,10 @@ The emergence of a cluster of strong synaptic weights can be interpreted as the 
 To reproduce it, one postsynaptic neuron receives input from $512$ presynaptic neurons, as described in the original publication.
 Each presynaptic neuron corresponds to one pixel of the $16 \times 16$ input, divided into an ON-part for the positive and an OFF-part for the negative values ($16 \times 16 \times 2 = 512$).
 The $300.000$ presented patches are randomly cut out of ten natural scenes [@Olshausen1996], and each patch is presented for $200$ ms.
-Contrary to the original publication by @Clopath2010, we use a much higher firing rate of $100$ Hz to achieve the emergence of similar sized receptive fields.
-Fig. \ref{Fig_stab} c shows that a high firing rate of $100$ Hz (top) leads to the emergence of a smaller receptive field, and a lower firing rate of $60$ Hz to a much bigger one.
+Contrary to the original publication by @Clopath2010, we use a much higher firing rate of $60$ Hz to achieve the emergence of similar sized receptive fields.
+It is to mentioned, that the shaped of the receptive fields depends mainly on the input firing rate, the balance between the learning rates for LTP ($A_{LTP}$) and LTD ($A_{LTD}$), the reference value of the homeostatic mechanism ($u_{ref}^2$) and the maximum weight. So it is possible to show the emergence of receptive fields with a lower firing rate, but needs more changes on the other parameters. For the reimplementation, we changed different parameters just a bit to be as close as possible on the original parameter set.
+Fig. \ref{Fig_stab} c shows that a high firing rate of $75$ Hz (top) leads to the emergence of a smaller receptive field, and a lower firing rate of $60$ Hz to a much bigger one.
+The same influence of the input firing rate was presented in @Clopath2010.
 
 # Conclusion
 

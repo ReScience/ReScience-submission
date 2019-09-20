@@ -16,16 +16,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from ANNarchy import *
-setup(dt=1,seed=1001)
+setup(dt=1,seed=9751)
 import scipy.io as sio
 import os
+
 from network import *
 
 # Global parameters
 duration = 200#200 #ms presentation time per input patch
 s_Patch = 16 # patchsize in pixel
-n_patches = 500000 # number of patches to train
-maxFR = 70.0 # maximum firering rate
+n_patches = 300000 # number of patches to train
+maxFR = 60.0#37.5# maximum firering rate
 
 # Presynaptic neuron model
 """
@@ -69,8 +70,6 @@ projInp_N = Projection(
     synapse = ffSyn
 ).connect_all_to_all(weights = Uniform(0.0,2.0))
 
-projInp_N.set_fix = 0.0 # use the homeostatic mechanisms in the LTD term
-
 def preprocessData(matData):
     # function to split the prewhitened images into on and off counterparts
     images = matData['IMAGES']
@@ -83,14 +82,20 @@ def preprocessData(matData):
     return(new_images)
 
 def run():
-    print('Presenting natural scenes to learn V1 simple cell receptive fields')
+    print("""Presenting natural scenes to learn V1 simple cell receptive fields.
+Be aware: the calculation can took some time (up to 30 min; depending on your machine).""")
+
 
     # compile command to create the ANNarchy network
     compile()
 
     projInp_N.transmit = 1.0
-    projInp_N.aLTP = 0.00016*0.3
-    projInp_N.aLTD = 0.00014*0.3
+    projInp_N.set_fix = 0.0
+    projInp_N.urefsquare = 55.0
+    projInp_N.aLTP = 0.00017*0.55
+    projInp_N.aLTD = 0.00014*0.55
+    projInp_N.wMax = 4.0
+
 
     # load input data set
     matData = sio.loadmat('IMAGES.mat')
@@ -123,8 +128,15 @@ def run():
         # set the rates for the Poission input population
         inputPop.rates = (patch/maxV)*maxFR
         simulate(duration)
+        if (p%(n_patches/10) == 0):
+            print(p, ' of ', n_patches,' presented')
 
     w = monW.get('w')
+    w = np.squeeze(w)
+
+    plt.figure()
+    plt.plot(w)
+    plt.savefig('weightsRF')
 
     # create the resulting RF out of the input weights
     ff_W = projInp_N.w
@@ -132,7 +144,7 @@ def run():
     rf = rf[:,:,0] - rf[:,:,1]
     plt.figure()
     plt.imshow(rf,interpolation='none',cmap=plt.get_cmap('gray'))
-    #plt.colorbar()
+    plt.colorbar()
     plt.savefig('Fig4_RF.png')
     plt.show()
     print("Done with the experiment.")
@@ -141,4 +153,6 @@ if __name__ == "__main__":
     if os.path.isfile('IMAGES.mat'):
         run()
     else:
-        print('No IMAGES.mat found, please download the file from: https://www.rctn.org/bruno/sparsenet/IMAGES.mat')
+        print("""No IMAGES.mat found, please download the file from:
+        https://www.rctn.org/bruno/sparsenet/IMAGES.mat
+        and put in the code directory""")

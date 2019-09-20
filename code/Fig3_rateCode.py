@@ -49,9 +49,11 @@ projTen_Ten = Projection(
     post= pop_Ten,
     target= 'Exc',
     synapse= ffSyn
-).connect_all_to_all(weights = 0.3,allow_self_connections=True)
+).connect_all_to_all(weights = 0.25,allow_self_connections=True)
 # Set network parameter
-projTen_Ten.wMax= 0.7#0.25
+projTen_Ten.wMax= 0.55#0.25
+
+projTen_Ten.transmit=0.0
 projTen_Ten.set_fix = 0.0 # use the homeostatic mechanisms in the LTD term
 
 def run():

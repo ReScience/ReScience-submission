@@ -61,8 +61,8 @@ This model reimplementation is written in Python (2.7 and tested with v3.6) with
 The reimplementation is mainly based on the description of neuron model and learning rule in the original publication [@Clopath2010].
 Because of the lack of further description of the homeostatic mechanism and the neural behavior after a emitted spike,
 the Matlab code is used as the second reference for this reimplementation.
-Besides of the provided code on modelDB, the supplementary materials to the original article contains a Matlab code example.
-However, the supplementary code did not mentioned the homeostatic mechanism of the learning rule, what is a relevant mechanism for the learning.
+Besides of the provided code on modelDB, the supplementary material to the original article contains a Matlab code example.
+However, the supplementary code does not mention the homeostatic mechanism for the learning rule, what is a relevant mechanism.
 
 [^1]: <https://bitbucket.org/annarchy/annarchy>
 
@@ -95,7 +95,6 @@ The adaptive spiking threshold ($V_T$) is set to $V_{T_{max}}$ after a spike and
 
 $$ \tau_{V_{T}} \frac{dV_{T}}{dt} =- (V_T - V_{T_{rest}})  $$ {#eq:VT}
 
-The values for the parameters of the model are taken from the original paper [@Clopath2010].
 
 ### Synaptic model {-}
 
@@ -127,7 +126,7 @@ $$ LTD = A_{LTD} \, (\frac{\bar{\bar{u}}}{u_{ref}^2}) \, X_i \, (\bar{u}_{-} - \
 
 The presynaptic spike counter ($X_i$) is set to one after a spike and  zero otherwise.
 $\bar{u}_{-}$ is a second trace of the postsynaptic membrane potential similar to $\bar{u}_{+}$, but with $\tau_{-} > \tau_{+}$.
-If it exceeds the threshold $\theta_{-}$ and a presynaptic spike is emitted, LTD occurs. This happens when the presynaptic neurons spikes after the postsynaptic one.
+If it exceeds the threshold $\theta_{-}$ and a presynaptic spike is emitted, LTD occurs. This happens when the presynaptic neuron spikes after the postsynaptic one.
 
 The amplitude of the LTD term, and with that the balance between LTP and LTD, is adjusted with respect to the ratio between $\bar{\bar{u}}$ and a reference value ($u_{ref}^2$), hence implementing a homeostatic mechanism (Eq. @eq:homeo).
 
@@ -137,7 +136,7 @@ The homeostatic variable $\bar{\bar{u}}$ is computed over the quadratic differen
 When the postsynaptic neuron fires frequently, $\bar{\bar{u}}$ increases, leading to a higher level of LTD and the weights decreases.
 In contrast, a lower postsynaptic activity decreases the level of LTD and the weights can increase.
 Through the ratio of $\bar{\bar{u}}$ with $u_{ref}^2$, this mechanism can enforce the connections to decrease down to the minimum weight bound or increase to the maximum weight bound.
-This requires a hard upper and lower bound for the weights and leads to a binomial distribution of the weights.
+This requires hard upper and lower bounds for the weights and leads to a binomial distribution of the weights.
 The weight change over time depends on both the positive LTP term and the negative LTD term (Eq. @eq:STDP):
 
 $$ \frac{dw}{dt} = LTP - LTD$$ {#eq:STDP}
@@ -145,21 +144,22 @@ $$ \frac{dw}{dt} = LTP - LTD$$ {#eq:STDP}
 All parameters of the neuron model and the basis set of parameters for the learning rule are taken from the original publication [@Clopath2010].
 Some parameters of the learning rule differ from experiment to experiment, in particular the reference value of the homeostatic mechanism ($u_{ref}^2$),
 the learning rates for the LTP and LTD terms ($A_{LTP}$ and $A_{LTD}$), $\theta_{-}$ and the maximum weight value ($w_{max}$).
-Please notice, that in the original publication [@Clopath2010] and in the supplementary material only a maximum weight is given for all experiments they analyze the dynamics in a network. To be more specific, the relation between spiking patterns
-and connectivity in the ten neuron sized toy model and for the bigger network with inhibitory neurons, and for the emergence of simple cell receptive fields.
-Additionally, in the method section of [@Clopath2010] they write, that the ten neurons in the toy model are hard bounded between zero and three. For the bigger network, they use hard bounds between [$0$,$0.75$]. In the reimplementation, we use [$0$,$0.7$] as hard bounds.
+Notice that in the original publication [@Clopath2010] and in the supplementary material only a maximum weight is given for all experiments they analyze the dynamics in a network. To be more specific, it is given for the relation between spiking patterns
+and connectivity in the ten neuron toy model, in the bigger network with inhibitory neurons, and in the emergence of simple cell receptive fields.
+Additionally, in the method section of [@Clopath2010], they write that the ten neurons in the toy model are hard bounded between zero and three. For the bigger network, they use hard bounds between [$0$,$0.75$]. In the reimplementation, we use [$0$,$0.7$] as hard bounds, what is closer to the upper bound in the bigger network.
 A table with the different parameters for each task is presented in Table @tbl:table_VH and Table @tbl:table_FH.
 The values for the changed parameters are found experimentally.
 
 
 Task                            Parameter           original Value        changed Value
 ------------------------------- ---------------     --------------------  -------------------
-Rate based connectivity         $w_{max}$           $3.0$ nA                $0.7$ nA
+Rate based connectivity         $w_{max}$           $3.0$ nA                $0.55$ nA
 Temporal code connectivity      $w_{max}$           $3.0$ nA                $0.75$ nA  
-Receptive fields                $A_{LTP}$           $8 \times 10 ^{-6}$   $4.2 \times 10^{-5}$
-Receptive fields                $A_{LTD}$           $14 \times 10 ^{-6}$  $3.3 \times 10^{-5}$
-Receptive fields                $u^{2}_{ref}$       $50$ mV$^2$           $60$ mV$^2$
-Receptive fields                fire rate range     $25$ Hz - $75$ Hz     $60$ Hz - $100$ Hz    
+Receptive fields                $A_{LTP}$           $8 \times 10 ^{-6}$    $9,9 \times 10^{-5}$
+Receptive fields                $A_{LTD}$           $14 \times 10 ^{-6}$   $7.7 \times 10^{-5}$
+Receptive fields                $u^{2}_{ref}$       $50$ mV$^2$            $55$ mV$^2$
+Receptive fields                $w_{max}$           $3.0$ nA                $4.0$ nA
+Receptive fields                max firing rate     $50$ Hz                 $60$     
 ------------------------------- ---------------    --------------------  --------------------
 Table: Changed parameters for connectivity experiments. {#tbl:table_VH}
 
@@ -202,7 +202,7 @@ the burst timing-dependent plasticity experiment (Fig. 3 in [@Clopath2010]),
 the influence of spiking order to connectivity (Fig. 4a, down and Fig. 4b, down in [@Clopath2010])
 and the emergence of receptive fields by presenting natural scenes (Fig. 7d in [@Clopath2010]).
 
-For the sake of readability, a description about the single experiments is given at the results of the experiments.
+For the sake of readability, a description of the single experiments is given with the corresponding results.
 
 ### Non-reproduced experiments
 
@@ -218,7 +218,7 @@ The moving receptive fields are not reproduced here, but by reproducing receptiv
 
 ## Reimplementation
 
-The reimplementation was done with Python 3.4 (Python 2.7 also works) and the neuro-simulator ANNarchy [@Vitay2015] (version 4.6.6 or later).
+The reimplementation was done with Python 3.4 (Python 2.7 also works) and the neuro-simulator ANNarchy [@Vitay2015] (version 4.6.8.1 or later).
 With ANNarchy, it is possible to implement neuronal and synaptic behavior
 by defining the corresponding mathematical equations in a text format, which are solved by ANNarchy using the desired numerical method.
 ANNarchy supports rate-based and spiking networks and provides a way to combine both kinds of neuronal networks.
@@ -348,16 +348,14 @@ ffSyn = Synapse( parameters = parameterFF,
 ```
 
 ANNarchy provides a `Synapse` object, that expects a `parameters` argument,
-the `equations` and a description of what happens when the pre-synaptic neuron spikes (`pre_spike`).
-After a pre-synaptic spike, the input current of the postsynaptic neurons increases by the value of the synaptic weight, if `transmit` is one.
+the `equations` and a description of what happens when the presynaptic neuron spikes (`pre_spike`).
+After a presynaptic spike, the input current of the postsynaptic neurons increases by the value of the synaptic weight, if `transmit` is one.
 `g_target` is an alias for the postsynaptic conductance that should be increased (`g_Exc` in the AdEx neurons).
 
 ### Implementation of the Experiments
 
 The implementation of the different experiments are provided in different Python files.
-To perform an experiment, a network with the neural populations and the weights between them must be initialized.
-
-To create a population, ANNarchy provides the `Population` object.
+To perform an experiment, a network with the neural populations and the weights between them must be initialized. To create a population, ANNarchy provides the `Population` object.
 The `geometry` argument expects a tuple or a integer and defines the spatial geometry, respectively the number of neurons in the population.
 The `neuron` arguments expects a `Neuron` object.
 There is also a set of predefined `Population` objects in ANNarchy,
@@ -370,8 +368,8 @@ pop_Ten = Population(geometry=10, neuron=spkNeurV1, name="pop_Ten")
 ```
 
 To connect two neuron populations and define the weight matrix between them, ANNarchy provides the `Projection` object.
-The `pre` argument defines the pre-synaptic population and the `post` argument the postsynaptic population.
-The `target` argument defines the target variable of the postsynaptic neuron, which is increased by the weight value after a pre-synaptic spike.
+The `pre` argument defines the presynaptic population and the `post` argument the postsynaptic population.
+The `target` argument defines the target variable of the postsynaptic neuron, which is increased by the weight value after a presynaptic spike.
 
 ``` python
 projInp_Ten = Projection(
@@ -474,7 +472,7 @@ in pre-post pairs. These results are similar to the original paper.
 Clopath and colleagues modeled three burst timing-dependent plasticity experiments.
 In the first task, they changed the number of postsynaptic spikes from one up to three,
 with either $+10$ ms or $-10$ ms between the presynaptic and the first postsynaptic spike.
-The postsynaptic neuron fires with $50$ Hz. To be more precisely, between every of the one,two, or three spikes are $20$ ms.
+The postsynaptic neuron fires with $50$ Hz. More precisely, there is $20$ ms between each of the one, two or three spikes.
 In the second experiment, they recorded the weight change when a presynaptic spike is followed by three postsynaptic spikes with varying postsynaptic firing rates (from $20$ Hz to $100$ Hz).
 As in the first experiment, they observe the weight change for the case where the first postsynaptic spike appears $10$ ms after or $10$ ms before the presynaptic spike.
 The variation of the time lag between one presynaptic spike and three postsynaptic spikes is the focus of the third experiment.
@@ -524,7 +522,7 @@ The color scheme is similar to the original publication: weak connections (above
 To analyze the dependency between the connectivity and firing rate (or number of spikes) , a small network with ten interconnected AdEx neurons is built.
 Each neuron receives an input from one additional neuron, with Poisson-distributed spike patterns.
 The firing rate of each Poisson neuron is increased from $2$ Hz to $20$ Hz, influencing the firing rate of the 10 corresponding neurons in the network.
-We repeated the protocol with the pair-based STDP rule by @Song2001 to investigate, if the triplet STDP rule by @Clopath2010 led to a different connectivity structure,
+We repeated the protocol with the pair-based STDP rule by @Song2001 to investigate whether the triplet STDP rule by @Clopath2010 led to a different connectivity structure,
 as mentioned in the original publication [@Clopath2010].
 
 Neurons with similarly high firing rates develop strong bidirectional connections, because they are often active at the same time.
@@ -532,10 +530,10 @@ This suggests that learning is based on the correlation between the neuronal act
 Weak connections are assigned to neurons with a low firing rate below $5$ Hz.
 If the postsynaptic neuron is firing with a rate above $5$ Hz, strong unidirectional weights emerge.
 This is in line with the connection pattern presented in the original paper (Fig. 4 in [@Clopath2010]).
-As mentioned in the original article, we repeated the test with a pair based STDP rule [@Song2001]. As shown Fig. \ref{Fig_con} b, strong unidirectional connections are emerge if the pre- and the postsynaptic neurons firing relatively high. This is interesting, as in @Clopath2010 they observed a less specific pattern in the connectivity for the pair based STDP rule. Despite this, we did not observe the emergence of strong bidirectional connections between neurons with a high firing rate, as reported in @Clopath2010.
+As mentioned in the original article, we repeated the test with a pair based STDP rule [@Song2001]. As shown on Fig. \ref{Fig_con} b, strong unidirectional connections are emerge if the pre- and the postsynaptic neurons firing are relatively high. This is interesting, as @Clopath2010 observed a less specific pattern in the connectivity for the pair based STDP rule. Despite this, we did not observe the emergence of strong bidirectional connections between neurons with a high firing rate, as reported in @Clopath2010.
 
-To analyze how the temporal order of release spikes can influence the connectivity, we us again a small network with ten interconnected AdEx neurons.
-Each of this neurons receives an input from one addition neuron.
+To analyze how the temporal order of release spikes can influence the connectivity, we use again a small network with ten interconnected AdEx neurons.
+Each of these neurons receives an input from one addition neuron.
 These additional neurons spikes one after another with a time delay of $20$ ms.
 This realize a temporal spiking order of the ten recurrent connected neurons.
 To establish stable weights, the normal homeostatic mechanism is used.
@@ -543,7 +541,7 @@ As for the protocol with varying firing rates, we repeated this protocol with th
 
 If the neurons fire in a specific temporal order, this sequence is reflected in the connection pattern (Fig. \ref{Fig_con} c).
 As in the original paper, the connections from neurons which are firing a long time after or before the postsynaptic neuron are weak, while they are strong to neurons which fired a short time after the neurons.
-Fig. \ref{Fig_con} d shows a similar connectivity structure for the pair based STDP rule [@Song2001]. Similar is reported in @Clopath2010.
+Fig. \ref{Fig_con} d shows a similar connectivity structure for the pair based STDP rule [@Song2001]. A similar result is reported in @Clopath2010.
 
 ## Receptive fields
 
@@ -555,14 +553,14 @@ Fig. \ref{Fig_con} d shows a similar connectivity structure for the pair based S
     \textbf{a}
     Colors show the weight value at the end of the current epoch from the presynaptic neuron to a single postsynaptic neuron. Weight values around zero are blue and weight values around the maximum weight value of $3$ are red.
     The y-axis denotes the presynaptic index indicated and the x-axis shows the number of epochs.
-    \textbf{b} Four different V1 simple cells like receptive fields, generated by four simulation runs. The first one is done with $seed = 3223$.
-    \textbf{c} Size of the receptive fields depends on the input firing rate. A higher input rate (top with 100 Hz) leads to a smaller receptive field in contrast to a lower one (60 Hz below).}
+    \textbf{b} Four different V1 simple cells like receptive fields, generated by four simulation runs. The first one is done with $seed = 9751$.
+    \textbf{c} Size of the receptive fields depends on the input firing rate. A higher input rate (top with 75 Hz) leads to a smaller receptive field in contrast to a lower one (60 Hz below).}
 \label{Fig_stab}
 \end{figure}
 
-Besides the experiments from the original publication, we reimplemented the experiment for the emergent of stable weights out of the Matlab source code.
+Besides the experiments from the original publication, we reimplemented the experiment for the emergence of stable weights out of the Matlab source code.
 The emergence of stable weights was achieved by presenting a Gaussian input over 500 presynaptic neurons and one postsynaptic AdEx neuron.
-For every trial ($100$ ms), ten Gaussian patterns are created to determine the activity of the 500 input neurons.
+For each trial ($100$ ms), ten Gaussian patterns are created to determine the activity of the 500 input neurons.
 As in the Matlab source code, the learning rates ($A_{LTP}$ and $A_{LTD}$) are
 increased by a factor of ten to speed up the learning.
 
@@ -577,7 +575,7 @@ For the emergence of V1 simple-cell-like receptive fields, a network with one po
 As mentioned in the original publication [@Clopath2010], the activity of the presynaptic population depends on the pixel values of a $16 \times 16$ pixel sized patch,
 cut out of pre-whitened natural scenes [@Olshausen1996].
 The maximum input firing rates in the original publication are set to $50.0$ Hz.
-In the here presented reimplementation, the maximum firing rate is set to an higher $100$ Hz. Further, the learning rates for the LTP term ($A_{LTP}$) and the LTD term ($A_{LTD}$) are reduced (see Table @tbl:table_VH).
+In the here presented reimplementation, the maximum firing rate is set to a higher value of $100$ Hz. Further, the learning rates for the LTP term ($A_{LTP}$) and the LTD term ($A_{LTD}$) are reduced (see Table @tbl:table_VH).
 The pixel values of the patch are normalized with the maximum pixel value of the current image and divided into an ON (only positive pixel values) and an OFF (only negative pixel values) image.
 The presynaptic population spikes are generated by a Poisson process.
 To establish stable weights, the normal homeostatic mechanism is used.
@@ -588,8 +586,8 @@ The emergence of a cluster of strong synaptic weights can be interpreted as the 
 To reproduce it, one postsynaptic neuron receives input from $512$ presynaptic neurons, as described in the original publication.
 Each presynaptic neuron corresponds to one pixel of the $16 \times 16$ input, divided into an ON-part for the positive and an OFF-part for the negative values ($16 \times 16 \times 2 = 512$).
 The $300.000$ presented patches are randomly cut out of ten natural scenes [@Olshausen1996], and each patch is presented for $200$ ms.
-Be aware that in contrast to the original publication by @Clopath2010, we use much higher firing rate of $100$ Hz to achieve the emergence of similar sized receptive fields.
-Fig. \ref{Fig_stab} c shows that a high firing rate of $100$ Hz (top) lead to the emergence of a smaller receptive field, and a lower firing rate of $60$ Hz to a much bigger one.
+Contrary to the original publication by @Clopath2010, we use a much higher firing rate of $100$ Hz to achieve the emergence of similar sized receptive fields.
+Fig. \ref{Fig_stab} c shows that a high firing rate of $100$ Hz (top) leads to the emergence of a smaller receptive field, and a lower firing rate of $60$ Hz to a much bigger one.
 
 # Conclusion
 
@@ -601,9 +599,9 @@ STDP window (Fig. \ref{Fig_exp}-middle), the weight change as a function of the 
 and for the weight change as a function of the burst frequency of the postsynaptic neuron (Fig. \ref{Fig_burst}-upper-right).
 However, the curves show the same tendency as in the original publication.
 To show the emergence of a specific connectivity structure depending on the input fire rate and temporal code we had to reduce the hard upper bound of the weights.
-Interestingly, we observed for the pair based learning rule [@Song2001] at the rate based experiment a different connectivity structure as reported in @Clopath2010.
-We did here not a further investigation where this differences came from.
-We assume differences in the implementation about the learning rule, what makes further analysis necessary.
+Interestingly, we observed for the pair based learning rule [@Song2001] a different connectivity structure than reported in @Clopath2010.
+We did not investigate further where these differences came from.
+We assume that differences in the implementation of the learning rule are responsible, but further analysis is necessary.
 
 The description of the learning rule in the original publication contained enough details to understand the different components and their interaction.
 However, two main components of the learning rule have not been described adequately to allow a direct reimplementation:
@@ -615,17 +613,13 @@ Initial weights for the experiments can be found in the corresponding Python fil
 Note that the weights can change from task to task to achieve the proportional values for the figures.
 
 
-ANNarchy as a framework makes it easy to define a neuron model and learning rule to set up a network.
-However, the calculation order of the equations is controlled by ANNarchy and can lead to a slightly different behavior and little differences in the results.
-We have seen that the change of some parameters for most of the tasks was necessary to reproduce the results, but this seems to be a common problem in reimplementing models [@Brette2007].
-
-
-As shown in the \textbf{supplementary material}, the reimplementation was created to fit the Matlab code on modelDB as exact as possible.
+As shown in the \textbf{supplementary material}, the reimplementation was created to fit the Matlab code on modelDB as exactly as possible.
 Nonetheless, changing the parameters suggests that our reimplementation is not fully correct and can lead to differences in the execution and the result of the equations.
 One reason for that is the execution order of the equations in ANNarchy, what we can not control and what differs from the execution order in the provided Matlab code.
-Together with the post synaptic voltage dependency of the learning rule can this lead to a difference behavior.
-To be more precise, a small difference in the membrane potential can lead to a change in the weight development, what leads to a different development of the membrane potential and so on. In conclusion, a small difference in the behavior of the membrane potential can lead to a total different behavior and weight development.
-We assume that this is why for long running experiments our reimplementation needs different parameter values, as the input firing rate, than it is mentioned in @Clopath2010.
+We have observed that changing some parameters for most of the tasks was necessary to reproduce the results, but this seems to be a common problem in reimplementing models [@Brette2007].
+Together with the post synaptic voltage dependency of the learning rule,  this can lead to a different behavior.
+Small differences in the membrane potential can lead to a change in the weight development, what leads to a different development of the membrane potential and so on.
+We assume that this is why for long running experiments our reimplementation needs different parameter values, such as the input firing rate, than what is mentioned in @Clopath2010.
 
 
 ## Acknowledgment

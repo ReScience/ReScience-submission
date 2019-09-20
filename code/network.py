@@ -10,7 +10,7 @@ connectivity experiments
 from ANNarchy import *
 """ Neuron Model for V1-Layer, after Clopath et al.(2010) """
 
-# Neuron parameters from Clopath et al. (2010)
+# Neuron parameters
 params = """
 gL = 30.0       :population
 DeltaT = 2.0    :population
@@ -47,7 +47,7 @@ inter_vm = -49.5
  After second step: normal behavior."""
 
 neuron_eqs = """
-dvm/dt = if state>=2:+3.462 else: if state==1:-vm + inter_vm +1/C*(-gL * (inter_vm - EL) + gL * DeltaT * exp((inter_vm - VTMax) / DeltaT) - wad+b + z)+g_Exc else:1/C * ( -gL * (vm - EL) + gL * DeltaT * exp((vm - VT) / DeltaT) - wad + z ) + g_Exc : init = -70.6
+dvm/dt = if state>=2:+3.462 else: if state==1:-vm + inter_vm +1/C*( - wad+b + z)+g_Exc else:1/C * ( -gL * (vm - EL) + gL * DeltaT * exp((vm - VT) / DeltaT) - wad + z ) + g_Exc : init = -70.6
 dvmean/dt = (pos(vm - EL)**2 - vmean)/taumean    :init = 0.0
 dumeanLTD/dt = (vm - umeanLTD)/tauLTD : init=-70.0
 dumeanLTP/dt = (vm - umeanLTP)/tauLTP : init =-70.0
@@ -72,7 +72,7 @@ AdExNeuron = Neuron(parameters = params,equations=neuron_eqs,spike="""(vm>VT) an
                                   Spike = 1.0
                                   xtrace+= 1/taux""")
 
-
+# Synapses29.4
 inputSynapse =  Synapse(
     parameters = "",
     equations = "",
@@ -86,7 +86,7 @@ equatSTDP = """
     ltdTerm_fix = if w>wMin : (aLTD*(vmean_fix/urefsquare)*pre.Spike * pos(post.umeanLTD - thetaLTD)) else : 0.0
     ltdTerm = if w>wMin : (aLTD*(post.vmean/urefsquare)*pre.Spike * pos(post.umeanLTD - thetaLTD)) else : 0.0
     ltpTerm = if w<wMax : (aLTP * pos(post.vm - thetaLTP) *(pre.xtrace)* pos(post.umeanLTP - thetaLTD)) else : 0.0
-      deltaW = if set_fix==1: ltpTerm - ltdTerm_fix else: ltpTerm - ltdTerm
+      deltaW = if set_fix==1: ltpTerm - ltdTerm_fix else: ltpTerm - ltdTerm 
         dw/dt = deltaW :min=0.0, max=wMax,explicite"""
 #deltaW = if set_fix==1: ( -ltdTerm_fix + ltpTerm) else: ( -ltdTerm + ltpTerm)
 """
@@ -95,7 +95,7 @@ equatSTDP = """
  for all the synapses in the project object and do not create a set for every synapse
  to save memory.
 """
-# standard parameter set as mentioned in Clopath et al. (2010) for the visual cortex
+
 parameterFF="""
 vmean_fix = 60.0    :projection
 urefsquare = 60.0   :projection
@@ -110,10 +110,6 @@ set_fix = 0.0       :projection
 """
 # Notice the additional transmit variable (which should be 1 or 0)
 # to transmit or not an EPSP to the postsynaptic neuron
-# and the set_fix variable (which should be 1 or 0)
-# to switch between a LTD term with homeostatic mechanism (set_fix == 0)
-# and a fix values in LTD term instead of the homeostasis mechanism (set_fix == 1)
-
 
 """
  Create the synapse object with the parameters ('parameters'),

@@ -12,7 +12,7 @@ title: "[Re] Connectivity reflects coding a model of voltage-based STDP with
 # Affiliation "*" means contact author
 authors:
   - name: Rene Larisch
-    orcid: 
+    orcid:
     email: rene.larisch@informatik.tu-chemnitz.de
     affiliations: 1,*
 
@@ -49,16 +49,12 @@ replication:
  - doi:  10.1038/nn.2479 # Regular digital object identifier
 
 # Don't forget to surround abstract with double quotes
-abstract: "Three years have passed since ReScience published its first article
-           and since September 2015, things have been going steadily. We're
-           still alive, independent and without a budget. In the meantime, we
-           have published around 20 articles (mostly in computational
-           neuroscience & computational ecology) and the initial has grown
-           from around 10 to roughly 100 members (editors and reviewers), we
-           have advertised ReScience at several conferences worldwide, gave
-           some interviews and we published an article introducing ReScience in
-           PeerJ. Based on our experience at managing the journal during these
-           three years, we think the time is ripe for proposing some changes."
+abstract: "Since the first description of spike timing-dependent plasticity (STDP), different models
+            of STDP have been published to reproduce different experimental findings.
+            Clopath et al. (2010) introduced a STDP model which is able to reproduce the experimental findings of triplet studies.
+            They implemented a homeostatic mechanism to control the level of generated LTD, based on the relationship between the average postsynaptic membrane
+potential and a reference value. With this voltage-based STDP rule thei reproduce a wide range of physiological experiments.
+We here present a reimplementation of the Clopath et al . (2010) learning rule in Python with the help of the neuro-simulator ANNarchy."
 
 # Bibliography file (yours)
 bibliography: bibliography.bib

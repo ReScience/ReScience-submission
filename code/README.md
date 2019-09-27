@@ -1,7 +1,6 @@
 ### Code repository
 
-Don't forget to choose a license. You're free to use one from a set of
-well-understood licenses including BSD, GPL or Apache.
+To reproduce the figures and tables in `article/` run `make -f code/Makefile`
+in the cloned main repository.
 
-See [the Debian Free Software Guidelines](https://www.debian.org/social_contract#guidelines)
-for a [list of licenses](https://www.debian.org/legal/licenses/).
+This code is under GPL-3, see `LICENSE.md`.

@@ -134,10 +134,6 @@ Be aware: the calculation can took some time (up to 30 min; depending on your ma
     w = monW.get('w')
     w = np.squeeze(w)
 
-    plt.figure()
-    plt.plot(w)
-    plt.savefig('weightsRF')
-
     # create the resulting RF out of the input weights
     ff_W = projInp_N.w
     rf = np.reshape(ff_W,(s_Patch,s_Patch,2))

@@ -224,9 +224,11 @@ by defining the corresponding mathematical equations in a text format, which are
 ANNarchy supports rate-based and spiking networks and provides a way to combine both kinds of neuronal networks.
 The network description is done in Python and code generation is used to produce optimized C++ code allowing a good parallel performance.
 
-The implementation of the network for the voltage-clamp experiment, the pairing repetition task, the STDP learning window and the burst spiking experiments can be found in `net_fix.py`, where $\bar{\bar{u}} = u^2_{ref}$ as mentioned previously to switch off the homeostatic mechanism.
-For the connectivity experiments, the emergence of V1 simple-cell-like receptive fields and for the emergence of stable weights, the homeostatic mechanism dynamic as described in the original publication [@Clopath2010] is used. The network with a dynamic homeostatic mechanism can be found in `net_homeostatic.py`.
-The following explanation of the network is from the implementation in `net_homeostatic.py`.
+
+For the voltage-clamp experiment, the pairing repetition task, the STDP learning window and the burst spiking experiments $\bar{\bar{u}}$ must be $\bar{\bar{u}} = u_{ref}$ as mentioned previously to switch off the homeostatic mechanism.
+
+For the connectivity experiments, the emergence of V1 simple-cell-like receptive fields and for the emergence of stable weights, the homeostatic mechanism dynamic as described in the original publication [@Clopath2010] is used.
+The following explanation of the network is from the implementation in `network.py`.
 
 ### Network implementation
 
@@ -323,18 +325,22 @@ a string that define the conditions to release a spike (`spike`) and a string th
 
 ``` python
 equatSTDP = """
+ltdTerm_fix = if w>wMin : (aLTD*(vmean_fix/urefsquare)*
+          pre.Spike * pos(post.umeanLTD - thetaLTD)) else : 0.0
 ltdTerm = if w>wMin : (aLTD*(post.vmean/urefsquare)*
           pre.Spike * pos(post.umeanLTD - thetaLTD)) else : 0.0
 ltpTerm = if w<wMax : (aLTP * pos(post.vm - thetaLTP)*
         (pre.xtrace)* pos(post.umeanLTP - thetaLTD)) else : 0.0
-deltaW = ( -ltdTerm + ltpTerm)
-          dw/dt = deltaW :min=0.0"""
+deltaW = if set_fix==1: ltpTerm - ltdTerm_fix else:
+                        ltpTerm - ltdTerm        
+          dw/dt = deltaW :min=0.0, max=wMax"""
 ```
 
 As for the neuron model, the equations for the STDP learning are defined by strings of differential equations.
 `ltdTerm` describes the $LTD$ term and `ltpTerm` the $LTP$ term.
 Variables of the pre- or postsynaptic neurons, defined in the neuron model, can be addressed with the prefixes `pre.` and `post.`, respectively.
 With the `if w>wMin` statement in `ltdTerm`, the weight only decreases if the weight is above the lower bound.
+Notice the additional term `ltdTerm_fix` which contains a fix value for the homeostatic mechanism and the parameter `set_fix` to decide which term for the weight update is used.
 In `ltpTerm`, an analogous term is implemented to avoid that weights exceed the upper bound.
 The parameter `urefsquare` is the homeostatic reference parameter $u^{2}_{ref}$.
 The learning rates $A_{LTD}$ and $A_{LTP}$ are defined by `aLTD` and `aLTP`, respectively.

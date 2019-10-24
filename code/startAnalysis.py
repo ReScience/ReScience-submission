@@ -13,6 +13,8 @@ def start():
     os.system('python Fig2_burst.py --clean')
     os.system('python Fig3_rateCode.py --clean')
     os.system('python Fig3_temporalCode.py --clean')
+    os.system('python Fig3_rateCode_stand.py --clean')
+    os.system('python Fig3_temporalCode_stand.py --clean')
     os.system('python Fig4_stableW.py --clean')
     if os.path.isfile('IMAGES.mat'):
         os.system('python Fig4_RF.py --clean')

@@ -218,7 +218,7 @@ The moving receptive fields are not reproduced here, but by reproducing receptiv
 
 ## Reimplementation
 
-The reimplementation was done with Python 3.4 (Python 2.7 also works) and the neuro-simulator ANNarchy [@Vitay2015] (version 4.6.8.1 or later).
+The reimplementation was done with Python 3.6 (Python 2.7 also works) and the neuro-simulator ANNarchy [@Vitay2015] (version 4.6.8.1 or later).
 With ANNarchy, it is possible to implement neuronal and synaptic behavior
 by defining the corresponding mathematical equations in a text format, which are solved by ANNarchy using the desired numerical method.
 ANNarchy supports rate-based and spiking networks and provides a way to combine both kinds of neuronal networks.
@@ -429,7 +429,7 @@ With the visual cortex data set (blue line),
 the weight decreases slightly if the membrane potential
 exceeds the $\theta_{-}$ threshold and increases after it exceeds $\theta_{+}$.
 With the hippocampus data set (red line)
-($theta_{-} = -41.0$ mV, $theta_{+} = -38.0$ mV, $A_{LTD} =3.8 \times 10^{-4}$,$A_{LTP} =0.2 \times 10^{-4}$ ), the weight decreases at a postsynaptic membrane voltage value of $-41.0$ mV and increases around $-20$ mV.
+($\theta_{-} = -41.0$ mV, $\theta_{+} = -38.0$ mV, $A_{LTD} =3.8 \times 10^{-4}$,$A_{LTP} =0.2 \times 10^{-4}$ ), the weight decreases at a postsynaptic membrane voltage value of $-41.0$ mV and increases around $-20$ mV.
 This matches with the results of the @Clopath2010 publication.
 
 ## Pair-based and triplet STDP experiments

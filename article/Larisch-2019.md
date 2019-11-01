@@ -51,6 +51,9 @@ membrane potential and a reference value.
 Their model led to two different connectivity structures,
 depending on the spiking behavior of the neurons: if the neurons fire strongly at the same time, they build strong bidirectional connections (as in correlation-based Hebbian learning). If they fire in a specific temporal order, their connectivity structure follows that order (temporal coding).
 
+In this work, we present an implementation of the voltage-based triplet STDP rule from @Clopath2010 with the neuro-simulator ANNArchy.
+Due the need of parameter changing, we report here are partial replication of the STDP rule from @Clopath2010.
+
 # Methods
 
 ## Overview

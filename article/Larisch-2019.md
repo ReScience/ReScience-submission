@@ -9,21 +9,21 @@ Address:
 Contact:
   - rene.larisch@informatik.tu-chemnitz.de
 Editor:
-  - Name Surname
+  - Georgios Detorakis
 Reviewer:
-  - Name Surname
-  - Name Surname
+  - Christian Jarvers
+  - Andrew P. Davison
 Publication:
-  received:  Feb,  1, 2019
-  accepted:  Feb, 1, 2019
-  published: Feb, 1, 2019
-  volume:    "**1**"
-  issue:     "**1**"
-  date:      Feb 2019
-  number: 1
+  received:  November 1, 2018
+  accepted:  November 4, 2019
+  published: November 12, 2019
+  volume:    "**5**"
+  issue:     "**3**"
+  date:      Nov 2019
+  number: 2
 Repository:
-  article:   "http://github.com/rescience/rescience-submission/article"
-  code:      "http://github.com/rescience/rescience-submission/code"
+  article:   "https://github.com/rLarisch/ReScience-submission/tree/Larisch-2019/article"
+  code:      "https://github.com/rLarisch/ReScience-submission/tree/Larisch-2019/code"
   data:
   notebook:
 Reproduction:

@@ -96,13 +96,13 @@ contributors:
 dates:
   - received:  November 1, 2018
   - accepted:  November 4, 2019
-  - published: November 7, 2019
+  - published: November 12, 2019
 
 # This information will be provided by the editor
 article:
   - number: 2
-  - doi: 10.5072/zenodo.416858   
-  - url: https://sandbox.zenodo.org/record/416858/files/article.pdf
+  - doi: 10.5281/zenodo.3538217 
+  - url: https://zenodo.org/record/3538217/files/article.pdf
 
 # This information will be provided by the editor
 journal:

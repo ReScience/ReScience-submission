@@ -1,16 +1,19 @@
 #!/bin/bash
 
 
-all: article/figures/ecdf.png \
+all: log \
+	log/data-get.R.Rout \
+	log/target-run.R.Rout \
+	article/figures/ecdf.png \
 	article/figures/variations.png \
 	article/tables/heads.tex \
 	article/tables/cutoffs.tex \
 	article/tables/datasets.tex
 log: 
 	test ! -d log/ && mkdir log || exit 0
-data-get: code/data-get.R
+log/data-get.R.Rout: code/data-get.R
 	R CMD BATCH --vanilla $< log/$(<F).Rout
-target-run: code/target-run.R \
+log/target-run.R.Rout: code/target-run.R \
 	code/function-def.R \
 	data/beta_input/ESR1_diff_expr.xls \
 	data/beta_input/Tet1_diff_expr.xls \

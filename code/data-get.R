@@ -1,6 +1,5 @@
 # load required libraries ----
 library(tidyverse)
-#library(GEOquery)
 
 # create directories ----
 if(!dir.exists('data/')) dir.create('data/')

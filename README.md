@@ -1,10 +1,10 @@
 
 ### ReScience submission repository
 
-This is the submission repository for the [Re**Science** journal](https://rescience.github.io).
+This **was** the submission repository for the [Re**Science** journal](https://rescience.github.io).
+The new ReScience workflow uses [ReSciebce/submissions](https://github.com/ReScience/submissions).
 
 ### How to submit an article ?
-
 
 1. Create a [github](https://github.com) account
 

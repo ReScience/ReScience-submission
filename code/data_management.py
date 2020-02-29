@@ -6,6 +6,32 @@ from numpy import zeros, ones, concatenate, array
 
 
 def zip_with_unique(base, list_suffix):
+    """ Auxiliary function to generate a paired 
+    list considering a unique element.
+    
+    An adaptation of the convolution function (`zip`) 
+    to map a single value in a sequence tuple.  
+    This mapping is a surjective-only.
+
+    An adaptation of the "scalar product" 
+    to make a zip with vectors of different sizes. 
+    The first vector must have 1 item, 
+    while the second must-have n items.
+    
+    Parameters
+    ----------
+    base: array-like, shape (1, )
+        One (1) base prefix that will be paired with the suffixes.
+        
+    list_suffix : array-like, shape (n_suffix,)
+        A suffix list that will be paired with one prefix.
+    
+    Returns
+    -------
+    list: array-like, shape (n_suffix)
+        Base added with the suffix.
+    """
+    
     return list(base + suffix for suffix in list_suffix)
 
 
@@ -56,6 +82,23 @@ def download_bonn(path_data='data/boon/') -> [str]:
 
 
 def read_boon(path_child_fold) -> array:
+    """Fit Gaussian Naive Bayes according to X, y
+    Parameters
+    ----------
+    X : array-like, shape (n_samples, n_features)
+        Training vectors, where n_samples is the number of samples
+        and n_features is the number of features.
+    y : array-like, shape (n_samples,)
+        Target values.
+    sample_weight : array-like, shape (n_samples,), optional (default=None)
+        Weights applied to individual samples (1. for unweighted).
+        .. versionadded:: 0.17
+           Gaussian Naive Bayes supports fitting with *sample_weight*.
+    Returns
+    -------
+    self : object
+    """
+    
     data_segments = list()
     labels = list()
 

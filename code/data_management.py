@@ -82,21 +82,21 @@ def download_bonn(path_data='data/boon/') -> [str]:
 
 
 def read_boon(path_child_fold) -> array:
-    """Fit Gaussian Naive Bayes according to X, y
+    """Function for reading the boon database, and return X and y.
+    
     Parameters
     ----------
+
+    path_child_fold : TO-DO
+    
+    Returns
+    -------
     X : array-like, shape (n_samples, n_features)
         Training vectors, where n_samples is the number of samples
         and n_features is the number of features.
     y : array-like, shape (n_samples,)
         Target values.
-    sample_weight : array-like, shape (n_samples,), optional (default=None)
-        Weights applied to individual samples (1. for unweighted).
-        .. versionadded:: 0.17
-           Gaussian Naive Bayes supports fitting with *sample_weight*.
-    Returns
-    -------
-    self : object
+    
     """
     
     data_segments = list()

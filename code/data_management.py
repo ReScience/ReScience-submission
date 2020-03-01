@@ -2,9 +2,13 @@ from pathlib import Path
 from wget import download
 from zipfile import ZipFile
 from pandas import read_csv
-from numpy import zeros, ones, concatenate, array
+from numpy import zeros, ones, concatenate, array, reshape
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
+from os.path import join
+from pandas import DataFrame
+
+from autoenconder import *
 
 def zip_with_unique(base, list_suffix):
     """ Auxiliary function to generate a paired 
@@ -81,7 +85,7 @@ def download_bonn(path_data='data/boon/') -> [str]:
     return path_child_fold
 
 
-def read_boon(path_child_fold) -> array:
+def load_dataset_boon(path_child_fold) -> array:
     """Function for reading the boon database, and return X and y.
     Also adapted from:
     https://mne-tools.github.io/mne-features/auto_examples/plot_seizure_example.html
@@ -168,4 +172,61 @@ def preprocessing_split(X, y, test_size=.20, random_state=42):
     X_train = X_train[:, :4096]
     X_test = X_test[:, :4096]
 
+    X_train = reshape(X_train, (X_train.shape[0], X_train.shape[1],  1))
+    X_test = reshape(X_test, (X_test.shape[0],  X_test.shape[1], 1))
+    
     return X_train, X_test, Y_train, Y_test
+
+
+def build_featureDataSet(X_train, X_test,
+                         Y_train, Y_test,
+                         PATH_DATASET, EPOCHS,
+                         BATCH, type_loss,
+                         value_encoding_dim):
+
+    X_train_encode, X_test_encode, autoEncoder_ = feature_learning(epochs=EPOCHS, batch_size=BATCH,
+                                                                   name_dataset=PATH_DATASET,
+                                                                   X_train=X_train, X_test=X_test,
+                                                                   type_loss='l1',
+                                                                   value_encoding_dim=value_encoding_dim)
+    df_train = DataFrame(X_train_encode)
+    df_train.columns = df_train.columns.astype(str)
+    df_train['class'] = Y_train
+
+    df_test = DataFrame(X_test_encode)
+    df_test.columns = df_test.columns.astype(str)
+    df_test['class'] = Y_test
+
+    path_train, path_test = save_featureDataSet(df_train=df_train,
+                                      df_test=df_test,
+                                      value_encoding_dim=value_encoding_dim,
+                                      PATH_DATASET=PATH_DATASET, type_loss=type_loss)
+
+
+    return autoEncoder_, path_train, path_test
+
+
+def save_featureDataSet(df_train, df_test, value_encoding_dim,
+                        PATH_DATASET, type_loss):
+
+    path_save = join(PATH_DATASET, 'featureDataSet')
+
+    fold_save = Path(path_save)
+
+    prefix_name_train = 'train_' + \
+        str(value_encoding_dim)+'_'+type_loss+'.parquet'
+
+    prefix_name_test = 'test_' + \
+        str(value_encoding_dim)+'_'+type_loss+'.parquet'
+
+    save_train_name = join(path_save, prefix_name_train)
+    save_test_name = join(path_save, prefix_name_test)
+    
+    if(~fold_save.exists()):
+        fold_save.mkdir(parents=True, exist_ok=True)
+
+    df_train.to_parquet(save_train_name, engine='pyarrow')
+
+    df_test.to_parquet(save_test_name, engine='pyarrow')
+
+    return save_train_name, save_test_name

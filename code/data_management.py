@@ -3,7 +3,8 @@ from wget import download
 from zipfile import ZipFile
 from pandas import read_csv
 from numpy import zeros, ones, concatenate, array
-
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.model_selection import train_test_split
 
 def zip_with_unique(base, list_suffix):
     """ Auxiliary function to generate a paired 
@@ -54,7 +55,6 @@ def download_bonn(path_data='data/boon/') -> [str]:
         print("Folder already exists")
         check_child_folders = [Path(child).exists()
                                for child in path_child_fold]
-        print(check_child_folders)
 
         if all(check_child_folders):
             print("Subfolders already exist")
@@ -93,7 +93,7 @@ def read_boon(path_child_fold) -> array:
     Returns
     -------
     X : array-like, shape (n_samples, n_features)
-        Training vectors, where n_samples is the number of samples
+        Data vectors, where n_samples is the number of samples
         and n_features is the number of features.
     y : array-like, shape (n_samples,)
         Target values.
@@ -123,3 +123,49 @@ def read_boon(path_child_fold) -> array:
 
     return X, y
 
+
+def preprocessing_split(X, y, test_size=.20, random_state=42):
+    """Function to perform the train and test split 
+    and normalize the data set with Min-Max.
+    
+    Parameters
+    ----------
+        
+    X : array-like, shape (n_samples, n_features)
+        Training vectors, where n_samples is the number of samples
+        and n_features is the number of features.
+        
+    y : array-like, shape (n_samples,)
+        Target values.
+    
+    test_size : float
+        value between 0 and 1 to indicate the 
+        percentage that will be used in the test.
+    
+    random_state : int
+        seed to be able to replicate split
+        
+    Returns
+    -------
+    
+    TO-DO: Explanation that will be 
+    the separation between training and testing.
+
+
+    """
+
+    X_train, X_test, Y_train, Y_test = train_test_split(
+        X, y, test_size=test_size, random_state=random_state)
+
+    # MinMax Scaler
+
+    minMax = MinMaxScaler()
+    minMax = minMax.fit(X_train)
+
+    X_train = minMax.transform(X_train)
+    X_test = minMax.transform(X_test)
+
+    X_train = X_train[:, :4096]
+    X_test = X_test[:, :4096]
+
+    return X_train, X_test, Y_train, Y_test

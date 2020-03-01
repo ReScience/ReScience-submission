@@ -83,12 +83,13 @@ def download_bonn(path_data='data/boon/') -> [str]:
 
 def read_boon(path_child_fold) -> array:
     """Function for reading the boon database, and return X and y.
-    
+    Also adapted from:
+    https://mne-tools.github.io/mne-features/auto_examples/plot_seizure_example.html
     Parameters
     ----------
 
     path_child_fold : TO-DO
-    
+
     Returns
     -------
     X : array-like, shape (n_samples, n_features)
@@ -96,9 +97,9 @@ def read_boon(path_child_fold) -> array:
         and n_features is the number of features.
     y : array-like, shape (n_samples,)
         Target values.
-    
+
     """
-    
+
     data_segments = list()
     labels = list()
 
@@ -117,7 +118,7 @@ def read_boon(path_child_fold) -> array:
         else:
             labels.append(zeros((len(f_names),)))
 
-    X = concatenate(data_segments)
+    X = concatenate(data_segments).squeeze()
     y = concatenate(labels, axis=0)
 
     return X, y

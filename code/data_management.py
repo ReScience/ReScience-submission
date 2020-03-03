@@ -128,7 +128,7 @@ def load_dataset_boon(path_child_fold) -> array:
     return X, y
 
 
-def preprocessing_split(X, y, test_size=.20, random_state=42):
+def preprocessing_split(X, y, test_size=.20, random_state=42) -> [array]:
     """Function to perform the train and test split 
     and normalize the data set with Min-Max.
     
@@ -183,7 +183,26 @@ def build_featureDataSet(X_train, X_test,
                          PATH_DATASET, EPOCHS,
                          BATCH, type_loss,
                          value_encoding_dim):
+    """
 
+    Parameters
+    ----------
+    X_train
+    X_test
+    Y_train
+    Y_test
+    PATH_DATASET
+    EPOCHS
+    BATCH
+    type_loss
+    value_encoding_dim
+
+    Returns
+    -------
+
+    """
+
+    print("Convert and save with value enconding dimension: "+ str(value_encoding_dim))
     X_train_encode, X_test_encode, autoEncoder_ = feature_learning(epochs=EPOCHS, batch_size=BATCH,
                                                                    name_dataset=PATH_DATASET,
                                                                    X_train=X_train, X_test=X_test,
@@ -207,8 +226,21 @@ def build_featureDataSet(X_train, X_test,
 
 
 def save_featureDataSet(df_train, df_test, value_encoding_dim,
-                        PATH_DATASET, type_loss):
+                        PATH_DATASET, type_loss) -> [str]:
+    """
 
+    Parameters
+    ----------
+    df_train
+    df_test
+    value_encoding_dim
+    PATH_DATASET
+    type_loss
+
+    Returns
+    -------
+
+    """
     path_save = join(PATH_DATASET, 'featureDataSet')
 
     fold_save = Path(path_save)

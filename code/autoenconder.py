@@ -3,7 +3,11 @@ from tensorflow.keras.layers import Input, Dense, Flatten, Conv1D, MaxPooling1D,
 from tensorflow.keras.models import Model
 from tensorflow.keras import losses
 from sklearn.base import BaseEstimator
+import tensorflow.keras.backend as kb
 
+def loss2(y_actual,y_pred): 
+    custom_loss=kb.abs( (y_actual-y_pred)/kb.mean(y_actual))
+    return custom_loss
 
 class autoenconder(BaseEstimator):
     """ Template
@@ -64,7 +68,10 @@ class autoenconder(BaseEstimator):
         if(self.type_loss == 'l1'):
             fun_loss = losses.mean_absolute_error
         else:
-            raise ValueError("Loss function not yet implemented.")
+            if (self.type_loss == 'l2'):
+                fun_loss = loss2
+            else:
+                raise ValueError("Loss function not yet implemented.")
         
         
         original_signal = Input(shape=(4096, 1))

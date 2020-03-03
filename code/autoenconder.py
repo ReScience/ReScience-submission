@@ -178,3 +178,5 @@ def feature_learning(epochs, batch_size, name_dataset,
     X_test_encode = autoEncoder_.transform(X_test)
 
     return X_train_encode, X_test_encode, autoEncoder_
+
+

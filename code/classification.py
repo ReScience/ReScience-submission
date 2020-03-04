@@ -11,8 +11,7 @@ from pathlib import Path
 def methods_classification(n_neighbors=3,
                            kernel_a='linear', kernel_b='rbf', gamma='auto',
                            max_depth=5,
-                           n_estimators=10, random_state=42, max_features=1,
-                           max_iter=5000):
+                           n_estimators=10, random_state=42, max_features=1):
     """
 
     Parameters
@@ -48,18 +47,18 @@ def methods_classification(n_neighbors=3,
     DT = DecisionTreeClassifier(max_depth=max_depth)  # 4
     RF = RandomForestClassifier(
         n_estimators=n_estimators, random_state=random_state, max_features=max_features)  # 5
-    MLP = MLPClassifier(max_iter=max_iter)  # 6
+    MLP = MLPClassifier()  # 6
     ADB = AdaBoostClassifier(random_state=random_state)  # 7
     from sklearn.naive_bayes import GaussianNB
     GaussianNB = GaussianNB()  # 8
 
-    ensemble = VotingClassifier(estimators=[('KNN', knn), ('SVM1', SVM1), ('SVM2', SVM2),
-                                            ('dt', DT), ('RF', RF), ('MLP', MLP), 
+    ensemble = VotingClassifier(estimators=[('k-NN', knn), ('SVM1', SVM1), ('SVM2', SVM2),
+                                            ('DT', DT), ('RF', RF), ('MLP', MLP), 
                                             ('ADB', ADB),
-                                            ('GaussianNB', GaussianNB)], voting='hard')
+                                            ('GNB', GaussianNB)], voting='hard')
 
-    classifiers = [('KNN', knn), ('SV1', SVM1), ('SVM2', SVM2), ('DT', DT), ('RF', RF),
-                   ('MLP', MLP), ('ADB', ADB), ('GaussianNB', GaussianNB),
+    classifiers = [('k-NN', knn), ('SVM1', SVM1), ('SVM2', SVM2), ('DT', DT), ('RF', RF),
+                   ('MLP', MLP), ('ADB', ADB), ('GNB', GaussianNB),
                    ("Ensemble", ensemble)]
 
     return classifiers
@@ -85,9 +84,11 @@ def makeBF(merge):
         accumulator = accumulator.append(tmp_row)
 
     csv = (pd.concat([merge_1['m'], accumulator], axis=1))
-    csv = csv[['m', 'KNN', 'SV1', 'SVM2', 'DT', 'RF',
-               'MLP', 'ADB', 'GaussianNB', 'AVG', 'Ensemble']]
+    csv = csv[['m', 'k-NN','SVM1', 'SVM2', 'DT','RF',
+               'MLP', 'ADB','GNB','Ensemble']]
     return csv
+
+
 
 
 def save_metrics(classifiers, base_fold='../data/boon/featureDataSet',

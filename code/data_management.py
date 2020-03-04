@@ -2,11 +2,12 @@ from pathlib import Path
 from wget import download
 from zipfile import ZipFile
 from pandas import read_csv
-from numpy import zeros, ones, concatenate, array, reshape
+from numpy import zeros, ones, concatenate, array, reshape, isin
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 from os.path import join
 from pandas import DataFrame
+from bs4 import BeautifulSoup
 
 from autoenconder import *
 
@@ -84,7 +85,64 @@ def download_bonn(path_data='data/boon/') -> [str]:
 
     return path_child_fold
 
+def download_item(url_base, name_base, page=True):
+    download(url_base, name_base)
+    if (page):
+        base = open(name_base, "r").read()
+        soup = BeautifulSoup(base, 'html.parser')
+        return filter_list([link.get('href') for link in soup.find_all('a')])
+    
+def filter_list(folders_description):
+    listchb = ['chb'+str(i)+'/' for i in range(11,25)]
+    listchb.append('../')
+    
+    return [item for item in folders_description if ~isin(item, listchb)]
 
+def get_folders(folders_description):
+    
+    return [item for item in folders_description if item.find('/') != -1]
+
+def get_files(folders_description):
+    
+    return [item for item in folders_description if item.find('/') == -1]
+
+def download_chbmit(url_base, path_save):
+    """ 
+    
+    Parameters
+    ----------
+    url_base : 
+        
+    path_save : 
+    
+    Returns
+    -------
+    """
+    print("Downloading the folder information: "+path_save)
+    fold_save = Path(path_save)
+
+    if(~fold_save.exists()):
+        fold_save.mkdir(parents=True, exist_ok=True)
+        
+        folders_description = download_item(url_base, path_save+'base.html', page=True)
+
+        folders = get_folders(folders_description)
+        description = get_files(folders_description)
+
+        patient_url = zip_with_unique(url_base,folders)
+        patient_item = zip_with_unique(path_save,folders)
+        description_base = zip_with_unique(url_base,description)
+
+        print("Downloading the folder files: "+path_save)
+        for item, name in zip(description_base, description):
+            download_item(item, path_save+name, page=False)
+
+        for item, name in zip(patient_url, patient_item):
+            download_chbmit(item, name)
+    else:
+        print("Folder already exists\n Use load_dataset_chbmit")
+        
+    return patient_item
 def load_dataset_boon(path_child_fold) -> array:
     """Function for reading the boon database, and return X and y.
     Also adapted from:

@@ -5,9 +5,10 @@ from pandas import read_csv
 from numpy import zeros, ones, concatenate, array, reshape, isin
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
-from os.path import join
+from os.path import join,isdir
 from pandas import DataFrame
 from bs4 import BeautifulSoup
+from os import listdir
 
 from autoenconder import *
 
@@ -118,10 +119,11 @@ def download_chbmit(url_base, path_save):
     Returns
     -------
     """
-    print("Downloading the folder information: "+path_save)
+    
     fold_save = Path(path_save)
-
-    if(~fold_save.exists()):
+    
+    if(not(fold_save.exists())):
+        print("Downloading the folder information: "+path_save)
         fold_save.mkdir(parents=True, exist_ok=True)
         
         folders_description = download_item(url_base, path_save+'base.html', page=True)
@@ -142,7 +144,13 @@ def download_chbmit(url_base, path_save):
     else:
         print("Folder already exists\n Use load_dataset_chbmit")
         
+        patient_item = [path_save+f_fold for f_fold in listdir(path_save) if (isdir(path_save+f_fold) and 
+                                                                              f_fold.find('.') == -1)] 
+
     return patient_item
+
+
+
 def load_dataset_boon(path_child_fold) -> array:
     """Function for reading the boon database, and return X and y.
     Also adapted from:

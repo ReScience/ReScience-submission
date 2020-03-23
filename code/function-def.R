@@ -3,9 +3,12 @@
 #' Load the data from the text files. Extract and resize regions. Call the
 #' target package function direct_targets 
 #' 
-#' @param peak_file A string. The path to the peaks file. 
+#' @param peak_file A string. The path to the peaks file.
+#' @param peak_filter A logical vector to filter peak_file. Default TRUE 
 #' @param deg_file A string. The path to the differential expression file.
+#' @param deg_filter A logical vector to filter deg_file. Default TRUE 
 #' @param genome_file A string. The path to the genome file
+#' @param genome_filter A logical vector to filter genome_file. Default TRUE 
 #' @param base An integer. The length or the genomic region of interest in bp.
 #' @param regions_col A string. The name of the names column in deg_file.
 #' @param stats_col A string. The name of the statistics column in deg_file.
@@ -37,7 +40,11 @@
 #'     )
 #'     
 #' @export
-run_target <- function(peak_file, deg_file, genome_file, base, regions_col, stats_col) {
+run_target <- function(peak_file, peak_filter = TRUE,
+                       deg_file, deg_filter = TRUE, 
+                       genome_file, genome_filter = TRUE,
+                       base, regions_col, stats_col,
+                       n = NULL) {
     # read peaks file, and
     # transform to genomic ranges
     peaks <- readr::read_tsv(peak_file, 
@@ -62,7 +69,15 @@ run_target <- function(peak_file, deg_file, genome_file, base, regions_col, stat
     regions <- readr::read_tsv(deg_file,
                                col_names = c("refseq", "logFC", "AveExpr", "t", "P.Value", "adj.P.Val","B" ),
                                skip = 1) %>%
-        dplyr::mutate(refseq = str_split(refseq, '\\_at', simplify = TRUE)[, 1]) %>%
+        dplyr::mutate(refseq = str_split(refseq, '\\_at', simplify = TRUE)[, 1])
+    
+    if (is.numeric(deg_filter)) {
+        regions <- dplyr::bind_rows(
+            dplyr::top_n(regions, deg_filter, t),
+            dplyr::top_n(regions, -deg_filter, t)
+        )
+    }
+    regions <- regions %>%
         dplyr::inner_join(genome) %>%
         GenomicRanges::makeGRangesFromDataFrame(keep.extra.columns = TRUE)
     
@@ -71,7 +86,8 @@ run_target <- function(peak_file, deg_file, genome_file, base, regions_col, stat
                            regions = regions, 
                            regions_col = regions_col,
                            stats_col = stats_col,
-                           base = base)
+                           base = base,
+                           n = n)
 }
 
 #' Plot the ECDF of the direct targets in groups
@@ -81,6 +97,7 @@ run_target <- function(peak_file, deg_file, genome_file, base, regions_col, stat
 #'
 #' @param res_file A string. The path to the rds file produced by run_target.
 #' @param cut_quantiles A vector of numerics. The four quantiles to use in cut.
+#' @param cut_top An integer to select the top n genes in both directions.
 #'
 #' @return A ggplot object. The graph show the ECDF of the regulatory potential
 #' of three groups of regions based the logFC.
@@ -91,18 +108,28 @@ run_target <- function(peak_file, deg_file, genome_file, base, regions_col, stat
 #'             cut_quantiles = c(0, .1, .9, 1))
 #'             
 #' @export
-plot_target <- function(res_file, cut_quantiles) {
+plot_target <- function(res_file, cut_quantiles = NULL, cut_top = NULL) {
     # read results file
-    gr <- read_rds(res_file)
+    gr <- readr::read_rds(res_file)
+    df <- dplyr::as_tibble(gr)
     
     # transform into tbl, and
     # cut the logFC column by cut quantiles, and
     # make plot
-    dplyr::as_tibble(gr) %>%
-        dplyr::mutate(group = cut(logFC,
-                           breaks = stats::quantile(logFC, cut_quantiles),
-                           labels = c('Down', 'None', 'Up'))) %>%
-        stats::na.omit() %>%
+    if (is.null(cut_top)) {
+        df <- df %>%
+            dplyr::mutate(group = cut(logFC,
+                                      breaks = stats::quantile(logFC, cut_quantiles),
+                                      labels = c('Down', 'None', 'Up')))
+        
+    } else if (is.null(cut_quantiles)) {
+        top <- dplyr::top_n(df, cut_top, logFC) %>% dplyr::mutate(group = 'Up')
+        bot <- dplyr::top_n(df, -cut_top, logFC) %>% dplyr::mutate(group = 'Down')
+        df <- dplyr::full_join(df, top) %>%
+            dplyr::full_join(bot) %>%
+            dplyr::mutate(group = ifelse(is.na(group), 'None', group))
+    }
+    df %>%
         ggplot2::ggplot(aes(x = score_rank, color = group)) +
         ggplot2::stat_ecdf() +
         ggplot2::theme_bw() +
